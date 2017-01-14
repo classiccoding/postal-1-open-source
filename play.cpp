@@ -583,7 +583,7 @@ class CPlayInfo
 		const char*	pszRealmFile,							// In:  Realm file to play (ignored if sRealmNum >= 0)
 		const bool bJustOneRealm,							// In:  Play just this one realm (ignored if sRealmNum < 0)
 		const bool bGauntlet,								// In:  Play challenge levels gauntlet - as selected on menu
-		const bool bAddOn,									// In:  Play new single player Add On levels
+		const short bAddOn,									// In:  Play new single player Add On levels
 		const short sDifficulty,							// In:  Difficulty level
 		const bool bRejuvenate,								// In:  Whether to allow players to rejuvenate (MP only)
 		const short sTimeLimit,								// In:  Time limit for MP games (0 or negative if none)
@@ -613,7 +613,7 @@ class CPlayInfo
 		CGrip*			m_pgrip;
 
 		bool				m_bGauntlet;					// Play challenge levels gauntlet
-		bool				m_bAddOn;						// Play new Add On levels
+		short				m_bAddOn;						// Play new Add On levels
 		bool				m_bRejuvenate;					// Whether to allow players to rejuvenate (MP only)
 		short				m_sTimeLimit;					// Time limit for MP games (0 or negative if none)
 		short				m_sKillLimit;					// Kill limit for MP games (0 or negative if none)
@@ -667,7 +667,7 @@ class CPlayInfo
 			m_pgrip = new CGrip;
 			
 			m_bGauntlet = false;
-			m_bAddOn = false;
+			m_bAddOn = 0;
 			m_bRejuvenate = false;
 			m_sTimeLimit = 0;
 			m_sKillLimit = 0;
@@ -717,7 +717,7 @@ class CPlayInfo
 		CCamera*		Camera(void)					{ return m_pcamera; }
 		CGrip*		Grip(void)						{ return m_pgrip; }
 		bool			Gauntlet(void)					{ return m_bGauntlet; }
-		bool			AddOn(void)						{ return m_bAddOn; }
+		short			AddOn(void)						{ return m_bAddOn; }
 		bool			Rejuvenate(void)				{ return m_bRejuvenate; }
 		short			TimeLimit(void)				{ return m_sTimeLimit > 0 ? m_sTimeLimit : 0; }
 		short			KillLimit(void)				{ return m_sKillLimit > 0 ? m_sKillLimit : 0; }
@@ -4806,7 +4806,7 @@ extern short Play(										// Returns 0 if successfull, non-zero otherwise
 	const char*	pszRealmFile,							// In:  Realm file to play (ignored if sRealmNum >= 0)
 	const bool bJustOneRealm,							// In:  Play just this one realm (ignored if sRealmNum < 0)
 	const bool bGauntlet,								// In:  Play challenge levels gauntlet - as selected on menu
-	const bool bAddOn,									// In:  Play add on levels
+	const short bAddOn,									// In:  Play add on levels
 	const short sDifficulty,							// In:  Difficulty level
 	const bool bRejuvenate,								// In:  Whether to allow players to rejuvenate (MP only)
 	const short sTimeLimit,								// In:  Time limit for MP games (0 or negative if none)
@@ -5437,7 +5437,7 @@ extern short Play_GetRealmInfo(						// Returns 0 if successfull, 1 if no such r
 	bool	bNetwork,										// In:  true if network game, false otherwise
 	bool	bCoop,											// In:  true if coop net game, false otherwise -- no effect if bNetwork is false.
 	bool  bGauntlet,										// In:  true if playing challenge mode
-	bool  bAddOn,											// In:  true if playing the new add on levels
+	short  bAddOn,											// In:  true if playing the new add on levels
 	short sRealmNum,										// In:  Realm number
 	short	sDifficulty,									// In:  Realm difficulty.
 	char* pszFile,											// Out: Realm's file name
@@ -5521,7 +5521,7 @@ extern void Play_GetRealmSectionAndEntry(
 	bool	bNetwork,										// In:  true if network game, false otherwise
 	bool	bCoop,											// In:  true if coop net game, false otherwise -- no effect if bNetwork is false.
 	bool  bGauntlet,										// In:  true if playing challenge mode
-	bool  bAddOnLevels,									// In:  true if playing new add on levels
+	short  bAddOnLevels,									// In:  true if playing new add on levels
 	short sRealmNum,										// In:  Realm number
 	short	sDifficulty,									// In:  Realm difficulty.
 	RString* pstrSection,								// Out: Section is returned here
@@ -5563,10 +5563,14 @@ extern void Play_GetRealmSectionAndEntry(
 			{
 			// Single player sections are named "Realm1", "Realm2", etc.
 			// AddOn single player sections are named "AddOn1", "AddOn2", etc.
-			if (bAddOnLevels)
-				*pstrSection = "AddOn";
-			else
+			switch(bAddOnLevels) {
+			case 2:
+				*pstrSection = "JAddOn"; break;
+			case 1:
+				*pstrSection = "AddOn"; break;
+			default:
 				*pstrSection = "Realm";
+			}
 			*pstrSection += (short)(sRealmNum + 1);
 			// Single player entry depends on difficulty level
 			switch (sDifficulty)
