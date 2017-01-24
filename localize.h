@@ -285,6 +285,9 @@ extern char g_pszStartGameMenu_Demo[];
 extern char g_pszStartSinglePlayerMenu_Title[];
 extern char g_pszStartSinglePlayerMenu_New[];
 extern char g_pszStartSinglePlayerMenu_AddOn[];
+#if TARGET == POSTAL_2015
+extern char g_pszStartSinglePlayerMenu_AddOn2[];
+#endif
 extern char g_pszStartSinglePlayerMenu_LoadLevel[];
 extern char g_pszStartSinglePlayerMenu_LoadGame[];
 extern char g_pszStartSinglePlayerMenu_Challenge[];
