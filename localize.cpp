@@ -615,6 +615,7 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	#elif TARGET == POSTAL_2015
 		extern char g_pszStartSinglePlayerMenu_New[]		= "NEW GAME";
 		extern char g_pszStartSinglePlayerMenu_AddOn[]		= "SPECIAL DELIVERY";
+		extern char g_pszStartSinglePlayerMenu_AddOn2[]		= "SUPER POSTAL";
 	#else
 		#error Strings must be customized for current TARGET
 	#endif
@@ -758,6 +759,9 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszStartSinglePlayerMenu_Title[]			= "EINZELSPIELER";
 	extern char g_pszStartSinglePlayerMenu_New[]				= "ORIGINAL SPIEL";	// Mike's lame translation
 	extern char g_pszStartSinglePlayerMenu_AddOn[]			= "ADD-ON SPIEL"		// Mike's lame translation
+#if TARGET == POSTAL_2015
+	extern char g_pszStartSinglePlayerMenu_AddOn2[]			= "SUPER POSTAL";
+#endif
 	extern char g_pszStartSinglePlayerMenu_LoadLevel[]		= "EBENE LADEN";
 	extern char g_pszStartSinglePlayerMenu_LoadGame[]		= "SPIEL LADEN";
 	extern char g_pszStartSinglePlayerMenu_Challenge[]		= "HERAUSFORDERUNG";
@@ -889,6 +893,9 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszStartSinglePlayerMenu_Title[]			= "JOUEUR UNIQUE";
 	extern char g_pszStartSinglePlayerMenu_New[]				= "CHARGER ORIGINAL";	// Mike's lame translation
 	extern char g_pszStartSinglePlayerMenu_AddOn[]			= "CHARGER ADD-ON";		// Mike's lame translation
+#if TARGET == POSTAL_2015
+	extern char g_pszStartSinglePlayerMenu_AddOn2[]			= "SUPER POSTAL";
+#endif
 	extern char g_pszStartSinglePlayerMenu_LoadLevel[]		= "CHARGER LE NIVEAU";
 	extern char g_pszStartSinglePlayerMenu_LoadGame[]		= "CHARGER LE JEU";
 	extern char g_pszStartSinglePlayerMenu_Challenge[]		= "DEFI";

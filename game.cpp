@@ -687,7 +687,8 @@ typedef enum
 	ACTION_EDIT_INPUT_SETTINGS,
 	ACTION_POSTAL_ORGAN,
 	ACTION_LOAD_GAME,
-	ACTION_PLAY_ADDON
+	ACTION_PLAY_ADDON,
+	ACTION_PLAY_ADDON2
 #ifdef MOBILE
 	,ACTION_CONTINUE_GAME
 #endif
@@ -1520,7 +1521,7 @@ static short GameCore(void)		// Returns 0 on success.
 						m_szRealmFile,						// Realm file
 						m_bJustOneRealm,					// Whether to play just one realm or not
 						false,								// Not challenge mode
-						false,								// Not new single player Add on levels
+						0,								// Not new single player Add on levels
 						GetGameDifficulty(),				// Difficulty level
 						false,								// Rejunenate (MP only)
 						0,										// Time limit (MP only)
@@ -1598,7 +1599,7 @@ static short GameCore(void)		// Returns 0 on success.
 									msg.msg.startGame.acRealmFile,	// Realm file
 									msg.msg.startGame.sRealmNum >= 0 ? false : true, // Whether to play just one realm or not
 									false,									// Not challenge mode
-									false,									// Not new single player Add On leves
+									0,									// Not new single player Add On leves
 									msg.msg.startGame.sDifficulty,	// Difficulty
 									msg.msg.startGame.sRejuvenate,	// Rejunenate (MP only)
 									msg.msg.startGame.sTimeLimit,		// Time limit (MP only)
@@ -1680,7 +1681,7 @@ static short GameCore(void)		// Returns 0 on success.
 									msg.msg.startGame.acRealmFile,	// Realm file
 									msg.msg.startGame.sRealmNum >= 0 ? false : true, // Whether to play just one realm or not
 									false,									// Not challenge mode
-									false,									// Not new single player Add on levels
+									0,									// Not new single player Add on levels
 									msg.msg.startGame.sDifficulty,	// Difficulty
 									msg.msg.startGame.sRejuvenate,	// Rejunenate (MP only)
 									msg.msg.startGame.sTimeLimit,		// Time limit (MP only)
@@ -1738,7 +1739,7 @@ static short GameCore(void)		// Returns 0 on success.
 						m_szRealmFile,						// Realm file
 						m_bJustOneRealm,					// Whether to play just one realm or not
 						true,									// Play challenge levels
-						false,								// Not new single player Add On levels
+						0,								// Not new single player Add On levels
 						GetGameDifficulty(),				// Difficulty level
 						false,								// Rejunenate (MP only)
 						0,										// Time limit (MP only)
@@ -1781,7 +1782,7 @@ static short GameCore(void)		// Returns 0 on success.
 						m_szRealmFile,						// Realm file
 						m_bJustOneRealm,					// Whether to play just one realm or not
 						false,								// Don't play challenge levels
-						true,									// Play new single player Add on levels
+						1,									// Play new single player Add on levels
 						GetGameDifficulty(),				// Difficulty level
 						false,								// Rejunenate (MP only)
 						0,										// Time limit (MP only)
@@ -1793,6 +1794,47 @@ static short GameCore(void)		// Returns 0 on success.
 #ifdef MOBILE
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
 #endif
+#endif // SPAWN
+					break;
+#if TARGET == POSTAL_2015
+				case ACTION_PLAY_ADDON2:
+#ifndef SPAWN
+					// Remember menu to go back to.
+					pmenuStart	= GetCurrentMenu();
+					// End the menu.
+					StopMenu();
+					bMenuActive = false;
+					// Turn off paltran but remember to restore.
+					PalTranOff();
+					bPalTran		= true;
+					// Remember to show title, but no musak.
+					bTitleImage	= true;
+					bTitleMusak	= false;
+
+					// Note that m_sRealmNum, m_szRealmFile, and m_bJustOneRealm are
+					// set via the callback, Game_StartChallengeGame().
+					// ***ADD FLAG(S) TO THIS CALL INDICATING THIS IS A CHALLENGE GAME***
+					Play(
+						NULL,									// No client (not network game)
+						NULL,									// No server (not network game)
+						INPUT_MODE_LIVE,					// Input mode
+						m_sRealmNum,						// Realm number OR -1 to use realm file
+						m_szRealmFile,						// Realm file
+						m_bJustOneRealm,					// Whether to play just one realm or not
+						false,								// Don't play challenge levels
+						2,									// Play new single player Japan Add on levels
+						GetGameDifficulty(),				// Difficulty level
+						false,								// Rejunenate (MP only)
+						0,										// Time limit (MP only)
+						0,										// Kill limit (MP only)
+						0,										// Cooperative (MP only)
+						0,										// Use cooperative mode (MP only)
+						0,										// Frame time (MP only)
+						NULL);								// Demo mode file
+#ifdef MOBILE
+	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
+#endif
+#endif // POSTAL_2015
 #endif // SPAWN
 					break;
 
@@ -1867,7 +1909,7 @@ static short GameCore(void)		// Returns 0 on success.
 											szRealmFile,						// Realm file to be played
 											false,								// Don't play just one realm
 											false,								// Not challenge mode
-											false,								// Not new single player Add On levels
+											0,								// Not new single player Add On levels
 											GetGameDifficulty(),				// Difficulty level
 											false,								// Rejunenate (MP only)
 											0,										// Time limit (MP only)
@@ -1998,7 +2040,7 @@ static short GameCore(void)		// Returns 0 on success.
 										szRealmFile,						// Realm file to be played
 										false,								// Don't play just one realm
 										false,								// Not challenge mode
-										false,								// Not new single player Add on levels
+										0,								// Not new single player Add on levels
 										GetGameDifficulty(),				// Difficulty level
 										false,								// Rejunenate (MP only)
 										0,										// Time limit (MP only)
@@ -2730,7 +2772,6 @@ extern void Game_StartSinglePlayerGame(
 			m_bJustOneRealm = false;
 			break;
 		#if defined(START_MENU_ADDON_ITEM)
-			#define START_MENU_ID_OFFSET	0
 			// "ADD-ON LEVELS"
 			case 1:
 				m_action = ACTION_PLAY_ADDON;
@@ -2738,6 +2779,17 @@ extern void Game_StartSinglePlayerGame(
 				m_szRealmFile[0] = 0;
 				m_bJustOneRealm = false;
 				break;
+		#if TARGET == POSTAL_2015
+			case 2:
+				m_action = ACTION_PLAY_ADDON2;
+				m_sRealmNum = 0;
+				m_szRealmFile[0] = 0;
+				m_bJustOneRealm = false;
+				break;
+			#define START_MENU_ID_OFFSET	+1
+		#else
+			#define START_MENU_ID_OFFSET	0
+		#endif
 		#else
 			#define START_MENU_ID_OFFSET	-1
 		#endif
@@ -3336,7 +3388,7 @@ void GameEndingSequence(void)
 						szRealmFile,						// Realm file to be played
 						false,								// Don't play just one realm
 						false,								// Not challenge mode
-						false,								// Not new single player Add On levels
+						0,								// Not new single player Add On levels
 						GetGameDifficulty(),				// Difficulty level
 						false,								// Rejunenate (MP only)
 						0,										// Time limit (MP only)

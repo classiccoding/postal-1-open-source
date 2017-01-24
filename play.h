@@ -62,6 +62,8 @@
 //							Play_GetRealmSectionAndEntry() calls.  Added bAddOn
 //							flag to Play() call.  
 //
+//		01/14/17 SCHH	Made bAddOn a short Now
+//
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef PLAY_H
 #define PLAY_H
@@ -90,7 +92,7 @@ extern short Play(										// Returns 0 if successfull, non-zero otherwise
 	const char*	pszRealmFile,							// In:  Realm file to play (ignored if sRealmNum >= 0)
 	const bool bJustOneRealm,							// In:  Play just this one realm (ignored if sRealmNum < 0)
 	const bool bGauntlet,								// In:  Play challenge levels gauntlet - as selected on menu
-	const bool bAddOn,									// In:  Play Add On levels
+	const short bAddOn,									// In:  Play Add On levels
 	const short sDifficulty,							// In:  Difficulty level
 	const bool bRejuvenate,								// In:  Whether to allow players to rejuvenate (MP only)
 	const short sTimeLimit,								// In:  Time limit for MP games (0 or negative if none)
@@ -110,7 +112,7 @@ extern short Play_GetRealmInfo(						// Returns 0 if successfull, 1 if no such r
 	bool	bNetwork,										// In:  true if network game, false otherwise
 	bool	bCoop,											// In:  true if coop net game, false otherwise -- no effect if bNetwork is false.
 	bool  bGauntlet,										// In:  true if playing multiple challenge levels.
-	bool  bAddOn,											// In:  true if playing new Add on levels
+	short  bAddOn,											// In:  true if playing new Add on levels
 	short sRealmNum,										// In:  Realm number
 	short	sDifficulty,									// In:  Realm difficulty.
 	char* pszFile,											// Out: Realm's file name
@@ -129,7 +131,7 @@ extern void Play_GetRealmSectionAndEntry(
 	bool	bNetwork,										// In:  true if network game, false otherwise
 	bool	bCoop,											// In:  true if coop net game, false otherwise -- no effect if bNetwork is false.
 	bool  bGauntlet,										// In:  true if playing challenge mode
-	bool  bAddOn,											// In:  true if playing new add on levels
+	short  bAddOn,											// In:  true if playing new add on levels
 	short sRealmNum,										// In:  Realm number
 	short	sDifficulty,									// In:  Realm difficulty.
 	RString* pstrSection,								// Out: Section is returned here

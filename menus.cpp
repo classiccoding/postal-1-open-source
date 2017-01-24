@@ -2511,6 +2511,9 @@ extern Menu	menuStartSingle =
 			{ g_pszStartSinglePlayerMenu_New,			TRUE,			NULL,					NULL,	},
 #if defined(START_MENU_ADDON_ITEM)
 			{ g_pszStartSinglePlayerMenu_AddOn,			TRUE,			NULL,					NULL,	},	
+#if TARGET == POSTAL_2015
+			{ g_pszStartSinglePlayerMenu_AddOn2,		TRUE,			NULL,					NULL,	},	
+#endif
 #endif
             #ifndef LOADLEVEL_REMOVED
 			{ g_pszStartSinglePlayerMenu_LoadLevel,	TRUE,			NULL,					NULL,	},
