@@ -661,6 +661,13 @@ extern bool EnableSteamCloud;
 #define FLAG_CHALLENGE_OPEN_TITLE			"Choose Capture the Flag Challenge"
 #endif
 
+#if TARGET == POSTAL_2015
+#define XMAS_SAK_FILENAME				"res/xmas/newgame.sak"
+#define XMAS_SAK_SOUND					"res/xmas/new22050_16.sak"
+#define XMAS_SCRIPT_FILENAME			"res/xmas/newgame.script"
+#define XMAS_SCRIPT_SOUND				"res/xmas/newsound.script"
+#endif
+
 #define INVALID_DIFFICULTY						-7
 
 #define TIME_OUT_FOR_ABORT_SOUNDS		3000	// In ms.
@@ -2457,6 +2464,22 @@ inline void GetSoundPaths(		// Returns nothing.
 static short OpenSaks(void)
 	{
 	short	sResult	= 0;	// Assume success.
+#if TARGET == POSTAL_2015
+	short sXmasMode = 0;	// Assume no XMas mode
+	time_t lTime;
+	struct tm * timeinfo;
+	RFile file;
+	if (file.Open(FullPathSound(XMAS_SAK_FILENAME), "r", RFile::LittleEndian) == 0) 
+	{
+		// file is there, test if date is correct
+		file.Close();
+		time(&lTime);
+		timeinfo = localtime (&lTime);
+		// XMasMode between 17th and 31st of December
+		if(timeinfo->tm_mon==11 && (timeinfo->tm_mday>=17 && timeinfo->tm_mday<=31))
+			sXmasMode = 1;
+	}
+#endif	
 
 	// Set base paths.
 	g_resmgrShell.SetBasePath(g_GameSettings.m_szNoSakDir);
@@ -2467,6 +2490,14 @@ static short OpenSaks(void)
 	if (g_resmgrGame.OpenSak(FullPath(GAME_PATH_GAME, GAME_SAK_FILENAME) ) == 0)
 		{
 		}
+
+#if TARGET == POSTAL_2015
+	// is XMas mode activated ?
+	if (sXmasMode)
+	if (g_resmgrGame.OpenSakAlt(FullPath(GAME_PATH_GAME, XMAS_SAK_FILENAME), FullPath(GAME_PATH_GAME, XMAS_SCRIPT_FILENAME) ) == 0)
+		{
+		}
+#endif
 
 	// Attempt to load the Shell SAK . . .
 	if ((g_resmgrShell.OpenSak(FullPath(GAME_PATH_HD, SHELL_SAK_FILENAME) ) == 0) ||
@@ -2559,6 +2590,16 @@ static short OpenSaks(void)
 	if (g_resmgrSamples.OpenSak(FullPath(GAME_PATH_SOUND, szSamplesSakSubPath) ) == 0)
 		{
 		// Wahoo.  No worries.
+#if TARGET == POSTAL_2015
+			// is XMas mode activated ?
+			if (sXmasMode)
+			{
+				if(lSamplesPerSec==22050 && lSrcBitsPerSample==16)
+				if (g_resmgrSamples.OpenSakAlt(FullPath(GAME_PATH_GAME, XMAS_SAK_SOUND), FullPath(GAME_PATH_GAME, XMAS_SCRIPT_SOUND) ) == 0)
+					{
+					}
+			}
+#endif
 		}
 	// Otherwise, if there's a dir for files when there's no SAK . . .
 	else if (g_GameSettings.m_szNoSakDir[0] != '\0')
@@ -2621,6 +2662,16 @@ static short OpenSaks(void)
 					lSrcBitsPerSample	= amodes[sModeIndex].lBitsPerSample;
 					// Got one.
 					bSakFound	= true;
+#if TARGET == POSTAL_2015
+					// is XMas mode activated ?
+					if (sXmasMode)
+						{
+						if(lSamplesPerSec==22050 && lSrcBitsPerSample==16)
+						if (g_resmgrSamples.OpenSakAlt(FullPath(GAME_PATH_GAME, XMAS_SAK_SOUND), FullPath(GAME_PATH_GAME, XMAS_SCRIPT_SOUND) ) == 0)
+							{
+							}
+						}
+#endif
 					}
 				}
 

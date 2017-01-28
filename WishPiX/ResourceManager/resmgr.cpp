@@ -952,5 +952,154 @@ void RResMgr::SetBasePath(RString strBasepath)
 }
 
 //////////////////////////////////////////////////////////////////////
+//
+// OpenSakAlt
+//
+// Description:
+//		Open an Alternate SAK file and read in its directory from the header.  
+//		Also use an optionnal script file to overload name inside Alt SAK
+//		All file "FromSAK" are first tried against the Alt SAK then against regular one
+//
+// Parameters:
+//		strSakFile = filename of SAK file to be opened
+//		strScriptFile = filename of optionnal overload name for Alt SAK files
+//
+// Returns:
+//		SUCCESS if the SAK file was opened and the header was read
+//		FAILURE otherwise
+//
+//////////////////////////////////////////////////////////////////////
+
+short RResMgr::OpenSakAlt(RString strSakFile, RString strScriptFile)
+{
+	short sReturn = SUCCESS;
+	ULONG ulFileType;
+	ULONG ulFileVersion;
+	USHORT usNumPairs;
+	USHORT i;
+	char char_buffer[256];
+	long lOffset;
+	RString strFilename;
+	ifstream script;
+	dirMap altNames;
+	struct {
+		int cnt;
+		RString *names;
+	} altMap[1024];
+	int num = 0;
+
+	if (m_rfSakAlt.IsOpen())
+	{
+		TRACE("RResMgr::OpenSakAlt - The currently open Alt SAK file is being closed before loading the new Alt SAK file\n");
+		CloseSakAlt();
+	}
+	if(strScriptFile) 
+	{
+		script.open((char*) strScriptFile);
+		if (script.is_open())
+		{
+			// Load in all of the resource names to be added to SAK file
+			while (!script.eof())
+			{
+				script.getline(char_buffer, 256);
+				//clean the \r that can still be there
+				char* p;
+				if((p=strchr(char_buffer,'\r'))!=NULL)
+					*p = '\0';
+				strFilename = char_buffer;
+				if (strFilename[(long) 0] != ';' && strFilename[(long) 0] != ' ' && strFilename.GetLen() > 0)
+				{
+					num++;
+					altNames.insert(dirMap::value_type(strFilename, num));
+					// now get the number of substitutions
+					script.getline(char_buffer, 256);
+					//clean the \r that can still be there
+					char* p;
+					if((p=strchr(char_buffer,'\r'))!=NULL)
+						*p = '\0';
+					strFilename = char_buffer;
+					strFilename = char_buffer;
+					int cnt = atoi(char_buffer);
+					altMap[num].cnt = cnt;
+					altMap[num].names = new RString[cnt];					
+					for(int i=0; i<cnt;)
+					{
+						script.getline(char_buffer, 256);
+						//clean the \r that can still be there
+						char* p;
+						if((p=strchr(char_buffer,'\r'))!=NULL)
+							*p = '\0';
+						strFilename = char_buffer;
+						strFilename = char_buffer;
+						if (strFilename[(long) 0] != ';' && strFilename[(long) 0] != ' ' && strFilename.GetLen() > 0)
+						{
+							altMap[num].names[i] = strFilename;
+							i++;
+						}
+					}
+				}
+			}
+			script.close();
+		}
+	}
+
+	if (m_rfSakAlt.Open((char*) strSakFile, "rb", SAK_FILE_ENDIAN) == SUCCESS)
+	{
+		m_rfSakAlt.ClearError();
+		m_rfSakAlt.Read(&ulFileType);
+		if (ulFileType == SAK_COOKIE)
+		{
+			m_rfSakAlt.Read(&ulFileVersion);
+			if (ulFileVersion == SAK_CURRENT_VERSION)
+			{
+				m_rfSakAlt.Read(&usNumPairs);
+				for (i = 0; i < usNumPairs; i++)
+				{
+					// Read the filename
+					m_rfSakAlt.Read(char_buffer);
+					strFilename = char_buffer;
+					// Read the offset
+					m_rfSakAlt.Read(&lOffset);
+					int alt = altNames[strFilename];
+					if (alt>0)
+					{
+						for (int i=0; i<altMap[alt].cnt; i++)
+							m_SakAltDirectory.insert(dirMap::value_type (altMap[alt].names[i], lOffset));
+					}
+					else
+						m_SakAltDirectory.insert(dirMap::value_type (strFilename, lOffset));
+				}			
+			}
+			else
+			{
+				TRACE("RResMgr::OpenSak - Break Yo Self! This file is version %d and the current SAK version is %d\n", 
+				       ulFileVersion, SAK_CURRENT_VERSION);
+				sReturn = FAILURE;
+			}		
+		}
+		else
+		{
+			TRACE("RResMgr::OpenSak - Not a valid SAK file, cookie should be 'SAK ' - what's up with dat?\n");
+			sReturn = FAILURE;
+		}		
+	}
+	else
+	{
+		TRACE("RResMgr::OpenSak - Break Yo Self! Error opening sak file %s\n", 
+		      (char*) strSakFile);
+		sReturn = FAILURE;
+	}
+
+	if(num) 
+	{
+		// clean up the altMap...
+		for (int i=1; i<num; i++)
+			delete[] altMap[i].names;
+	}
+
+	return sReturn;
+}
+
+//////////////////////////////////////////////////////////////////////
 // EOF
 //////////////////////////////////////////////////////////////////////

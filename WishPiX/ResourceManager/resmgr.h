@@ -468,6 +468,21 @@ class RResMgr
 		// its individual disk file.
 		short OpenSak(RString strSakFile);
 
+		// Open an Alternate SAK file
+		// with an optionnal script file to overload name in Alternate SAK
+		// (used for XMas runtime patch)
+		short OpenSakAlt(RString strSakFile, RString strScriptFile);
+
+		// This function closes the Alt SAK file and all resource names
+		void CloseSakAlt()
+		  {
+			  if (m_rfSakAlt.IsOpen())
+			    {
+					m_rfSakAlt.Close();
+					m_SakAltDirectory.erase(m_SakAltDirectory.begin(), m_SakAltDirectory.end());
+			    }
+		  }
+
 		// This function closes the SAK file and all resource names
 		// are assumed to refer to individual disk files.
 		void CloseSak()
@@ -475,6 +490,7 @@ class RResMgr
 				{
 					m_rfSak.Close();
 					m_SakDirectory.erase(m_SakDirectory.begin(), m_SakDirectory.end());
+					CloseSakAlt();
 				}
 			}
 
@@ -494,6 +510,23 @@ class RResMgr
 		RFile* FromSak(RString strResourceName)
 		{
 			RFile* prf = NULL;
+			if (m_rfSakAlt.IsOpen()) 
+			  {
+				long	lResSeekPos	= m_SakAltDirectory[strResourceName];
+				if (lResSeekPos > 0)
+					{
+					if (m_rfSakAlt.Seek(lResSeekPos, SEEK_SET) == SUCCESS)
+						{
+						prf = &m_rfSakAlt;
+						return prf;
+						}
+					else
+						{
+						TRACE("RResMgr::FromSak - m_rfSakAlt.Seek(%ld, SEEK_SET) failed.\n", 
+							lResSeekPos);
+						}
+					}
+			  }
 			long	lResSeekPos	= m_SakDirectory[strResourceName];
 			if (lResSeekPos > 0)
 				{
@@ -604,6 +637,11 @@ class RResMgr
 
 		// This is the RFile that is used for SAK files
 		RFile m_rfSak;
+
+		// This store an alternate SAK files (XMas runtime patch)
+		RFile m_rfSakAlt;
+		// And this will store the name / offset mapping, name beeing the name as expected in FromSak function
+		dirMap		m_SakAltDirectory;
 
 		// This is the base pathname to prepend to the resource names
 		// when loading a file (not when loading from a SAK file)
