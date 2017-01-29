@@ -64,8 +64,8 @@ class CGameEditThing : public CThing
 		// Settings //////////////////////////////////////////////////////////////
 		
 		U16	m_u16CameraTrackId;	// ID of object for grip to track.
-		short	m_sViewPosX;			// View position.
-		short	m_sViewPosY;			// View position.
+		int16_t	m_sViewPosX;			// View position.
+		int16_t	m_sViewPosY;			// View position.
 		RListBox* m_plbNavNetList; // Pointer to Nav Net List Box
 
 	//---------------------------------------------------------------------------
@@ -93,11 +93,11 @@ class CGameEditThing : public CThing
 	//---------------------------------------------------------------------------
 	public:
 		// Construct object
-		static short Construct(									// Returns 0 if successfull, non-zero otherwise
+		static int16_t Construct(									// Returns 0 if successfull, non-zero otherwise
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			short sResult = 0;
+			int16_t sResult = 0;
 			*ppNew = new CGameEditThing(pRealm);
 			if (*ppNew == 0)
 				{
@@ -113,14 +113,14 @@ class CGameEditThing : public CThing
 	//---------------------------------------------------------------------------
 	public:
 		// Load object (should call base class version!)
-		short Load(													// Returns 0 if successfull, non-zero otherwise
+		int16_t Load(													// Returns 0 if successfull, non-zero otherwise
 			RFile* pFile,											// In:  File to load from
 			bool bEditMode,										// In:  True for edit mode, false otherwise
-			short sFileCount,										// In:  File count (unique per file, never 0)
+			int16_t sFileCount,										// In:  File count (unique per file, never 0)
 			ULONG	ulFileVersion)									// In:  Version of file format to load.
 			{
 			// Call base class.
-			short	sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
+			int16_t	sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 			if (sResult == 0)
 				{
 				// Read settings.
@@ -150,12 +150,12 @@ class CGameEditThing : public CThing
 			}
 
 		// Save object (should call base class version!)
-		short Save(													// Returns 0 if successfull, non-zero otherwise
+		int16_t Save(													// Returns 0 if successfull, non-zero otherwise
 			RFile* pFile,											// In:  File to save to
-			short sFileCount)										// In:  File count (unique per file, never 0)
+			int16_t sFileCount)										// In:  File count (unique per file, never 0)
 			{
 			// Call base class.
-			short	sResult	= CThing::Save(pFile, sFileCount);
+			int16_t	sResult	= CThing::Save(pFile, sFileCount);
 			if (sResult == 0)
 				{
 				// Write settings.

@@ -75,11 +75,11 @@ using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef BASETYPES
 #define BASETYPES
-typedef unsigned long ULONG;
+typedef uint32_t ULONG;
 typedef ULONG *PULONG;
-typedef unsigned short USHORT;
+typedef uint16_t USHORT;
 typedef USHORT *PUSHORT;
-typedef unsigned char UCHAR;
+typedef uint8_t UCHAR;
 typedef UCHAR *PUCHAR;
 typedef char *PSZ;
 #endif // !BASETYPES
@@ -93,14 +93,14 @@ typedef char *PSZ;
 
 	// The world's most specific types < S | U > < # >
 	// S == signed, U == unsigned, # == number of bits
-	typedef signed		char		S8;
-	typedef unsigned	char		U8;
-	typedef signed		short		S16;
-	typedef unsigned	short		U16;
-	typedef signed		long		S32;
-	typedef unsigned	long		U32;
-	typedef signed long long S64;
-	typedef unsigned long long U64;
+	typedef int8_t		S8;
+	typedef uint8_t		U8;
+	typedef int16_t		S16;
+	typedef uint16_t		U16;
+	typedef int32_t		S32;
+	typedef uint32_t		U32;
+	typedef int64_t S64;
+	typedef uint64_t U64;
 
 	// 128-bit got a little trickier...
 	#ifdef SYS_ENDIAN_LITTLE
@@ -258,7 +258,7 @@ inline bool rspObjCmp(const T* p1, const T* p2, size_t count)
 	}
 
 
-inline char *ltoa(long l, char *buf, size_t bufsize)
+inline char *ltoa(int32_t l, char *buf, size_t bufsize)
 {
     snprintf(buf, bufsize, "%ld", l);
     return(buf);
@@ -277,4 +277,3 @@ inline char *itoa(int l, char *buf, size_t bufsize)
 //////////////////////////////////////////////////////////////////////////////
 // EOF
 //////////////////////////////////////////////////////////////////////////////
-

@@ -90,8 +90,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 // Module specific prototypes.
 //////////////////////////////////////////////////////////////////////////////////
-static short ConvToFlx8_888(CImage* pImage);
-static short ConvFromFlx8_888(CImage* pImage);
+static int16_t ConvToFlx8_888(CImage* pImage);
+static int16_t ConvFromFlx8_888(CImage* pImage);
 
 //////////////////////////////////////////////////////////////////////////////////
 // Link conversion functions into CImage.
@@ -121,9 +121,9 @@ void CRamFlx::Restart(void)
 // Returns 0 if successfull, non-zero otherwise.
 //
 ///////////////////////////////////////////////////////////////////////////////
-short CRamFlx::DoReadFrame(CImage* pimageRead)
+int16_t CRamFlx::DoReadFrame(CImage* pimageRead)
 	{
-	short sError = DoReadFrame(pimageRead, &m_file, 
+	int16_t sError = DoReadFrame(pimageRead, &m_file, 
 										&m_sPixelsModified, &m_sColorsModified);
 
 	// If everything went fine, update the frame number.
@@ -169,10 +169,10 @@ short CRamFlx::DoReadFrame(CImage* pimageRead)
 // (static)
 //
 ///////////////////////////////////////////////////////////////////////////////
-short CRamFlx::DoReadFrame(CImage* pimageRead, CNFile* pfile,
-									short* psPixelsModified, short* psColorsModified)
+int16_t CRamFlx::DoReadFrame(CImage* pimageRead, CNFile* pfile,
+									int16_t* psPixelsModified, int16_t* psColorsModified)
 	{
-	short sError = 0;
+	int16_t sError = 0;
 
 	// Always clear modified flags to FALSE.  The lower-level functions will
 	// set the appropriate flag to TRUE as necessary.
@@ -184,7 +184,7 @@ short CRamFlx::DoReadFrame(CImage* pimageRead, CNFile* pfile,
 	// instead of relying on the amount of data that was read from the
 	// chunk because that amount may be less than the indicated chunk size!
 	// (This is not clearly documented, but was discovered the hard way!)
-	long lFramePos = pfile->Tell(); 
+	int32_t lFramePos = pfile->Tell(); 
 			
 	// Read frame chunk header
 	FLX_FRAME_HDR framehdr;
@@ -201,21 +201,21 @@ short CRamFlx::DoReadFrame(CImage* pimageRead, CNFile* pfile,
 		// Go through each of the sub-chunks.  If there are no sub-chunks, then
 		// frame is identical to the previous frame and there's nothing to do.
 		FLX_DATA_HDR datahdr;
-		for (short sSub = 0; sSub < framehdr.sNumSubChunks && sError == 0; sSub++)
+		for (int16_t sSub = 0; sSub < framehdr.sNumSubChunks && sError == 0; sSub++)
 			{
 			// Get current file position.  After each chunk, we add the chunk size
 			// to this position to get to the next chunk.  We must do that seek
 			// instead of relying on the amount of data that was read from the
 			// chunk because that amount may be less than the indicated chunk size!
 			// (This is not clearly documented, but was discovered the hard way!)
-			long lDataPos = pfile->Tell();	
+			int32_t lDataPos = pfile->Tell();	
 					
 			// Read data chunk header
 			pfile->Read(&datahdr.lChunkSize);	
 			pfile->Read(&datahdr.wType);			
 
 			// Size of actual data is chunk size minus header size (6)
-			long lDataSize = datahdr.lChunkSize - 6;
+			int32_t lDataSize = datahdr.lChunkSize - 6;
 					
 			// Call the appropriate function based on data type
 			switch(datahdr.wType)
@@ -323,44 +323,44 @@ short CRamFlx::DoReadFrame(CImage* pimageRead, CNFile* pfile,
 // (static)
 //
 ///////////////////////////////////////////////////////////////////////////////
-short CRamFlx::ReadDataColor(	CImage* pimageRead, short sDataType, 
-										CNFile* pfile, short* psColorsModified)
+int16_t CRamFlx::ReadDataColor(	CImage* pimageRead, int16_t sDataType, 
+										CNFile* pfile, int16_t* psColorsModified)
 	{
 	//assert(pimageRead->prgbColors != NULL);
 	// instead of assert, just return error
 	if (pimageRead->pPalette->pData == NULL)
 		return 1;
 
-	short sError = 0;
+	int16_t sError = 0;
 	
 	// Read number of packets
-	short sNumPackets;
+	int16_t sNumPackets;
 	pfile->Read(&sNumPackets);
 
 	// Start the color index at 0 and then process each of the packets
-	short sColorIndex = 0;
-	short sCnt;
-	short sColorDo;
+	int16_t sColorIndex = 0;
+	int16_t sCnt;
+	int16_t sColorDo;
 	UCHAR bColorSkip;
 	UCHAR bVal;
 
 	// Pointer for more easily dealing with the palette in RGB888 format.
 	PRGBT8	prgbt;
 
-	for (short sPack = 0; (sPack < sNumPackets) && (sError == 0); sPack++)
+	for (int16_t sPack = 0; (sPack < sNumPackets) && (sError == 0); sPack++)
 		{
 		// Read number of colors to skip and add to color index
 		pfile->Read(&bColorSkip);	
-		sColorIndex = sColorIndex + (short)bColorSkip;
+		sColorIndex = sColorIndex + (int16_t)bColorSkip;
 	
 		// Read number of colors to do.  This determines how many sets
 		// of r,g,b data (3 bytes) will follow.  If this count is 0, it
 		// must be interpreted as a count of 256!
 		pfile->Read(&bVal);	
 		if (bVal != 0)
-			sColorDo = (short)bVal;
+			sColorDo = (int16_t)bVal;
 		else
-			sColorDo = (short)256;
+			sColorDo = (int16_t)256;
 
 		// Make sure we won't index past end of palette!  This would only
 		// happen if we were getting bogus data from the file.
@@ -454,7 +454,7 @@ short CRamFlx::ReadDataColor(	CImage* pimageRead, short sDataType,
 // (static)
 //
 ///////////////////////////////////////////////////////////////////////////////
-short CRamFlx::ReadDataBlack(CImage* pimageRead, short* psPixelsModified)
+int16_t CRamFlx::ReadDataBlack(CImage* pimageRead, int16_t* psPixelsModified)
 	{
 	//assert(pimageRead->pbPixels != NULL);
 	//assert(pimageRead->sPitch > 0);
@@ -465,7 +465,7 @@ short CRamFlx::ReadDataBlack(CImage* pimageRead, short* psPixelsModified)
 	// Clear the image to 0 one row at a time.  Note that we use the pitch
 	// to move from the start of one row to the start of the next row.
 	UCHAR* pbMem = (UCHAR*)pimageRead->pData;
-	for (short y = 0; y < pimageRead->lHeight; y++)
+	for (int16_t y = 0; y < pimageRead->lHeight; y++)
 		{
 		memset(pbMem, 0, pimageRead->lWidth);
 		pbMem += (ULONG)pimageRead->lPitch;
@@ -492,8 +492,8 @@ short CRamFlx::ReadDataBlack(CImage* pimageRead, short* psPixelsModified)
 // (static)
 //
 ///////////////////////////////////////////////////////////////////////////////
-short CRamFlx::ReadDataCopy(	CImage* pimageRead, CNFile* pfile, 
-										short* psPixelsModified)
+int16_t CRamFlx::ReadDataCopy(	CImage* pimageRead, CNFile* pfile, 
+										int16_t* psPixelsModified)
 	{
 	//assert(pimageRead->pbPixels != NULL);
 	//assert(pimageRead->sPitch > 0);
@@ -501,12 +501,12 @@ short CRamFlx::ReadDataCopy(	CImage* pimageRead, CNFile* pfile,
 	if ((pimageRead->pData == NULL) || (pimageRead->lPitch <= 0))
 		return 1;
 
-	short sError = 0;
+	int16_t sError = 0;
 	
 	// Read in the image one row at a time.  Note that we use the pitch
 	// to move from the start of on row to the start of the next row.
 	UCHAR* pbMem = (UCHAR*)pimageRead->pData;
-	for (short y = 0; y < pimageRead->lHeight; y++)
+	for (int16_t y = 0; y < pimageRead->lHeight; y++)
 		{
 		// Copy pixels
 //		memcpy(pbMem,m_pCurFlxBuf,m_filehdr.sWidth); 
@@ -550,8 +550,8 @@ short CRamFlx::ReadDataCopy(	CImage* pimageRead, CNFile* pfile,
 // (static)
 //
 ///////////////////////////////////////////////////////////////////////////////
-short CRamFlx::ReadDataBRun(	CImage* pimageRead, CNFile* pfile, 
-										short* psPixelsModified)
+int16_t CRamFlx::ReadDataBRun(	CImage* pimageRead, CNFile* pfile, 
+										int16_t* psPixelsModified)
 	{
 	//assert(pimageRead->pbPixels != NULL);
 	//assert(pimageRead->sPitch > 0);
@@ -560,7 +560,7 @@ short CRamFlx::ReadDataBRun(	CImage* pimageRead, CNFile* pfile,
 		return 1;
 
 	// added 10/20/94 to trap errors and exit! instead of asserting
-	short sError = 0;
+	int16_t sError = 0;
 
 	UCHAR*	pbRow = (UCHAR*)pimageRead->pData;
 					
@@ -568,9 +568,9 @@ short CRamFlx::ReadDataBRun(	CImage* pimageRead, CNFile* pfile,
 
 		UCHAR bVal;
 		S8		cVal;
-		short sCount;
-		short x;
-		short y;
+		int16_t sCount;
+		int16_t x;
+		int16_t y;
 		UCHAR* pbPix;
 	
 		// Decompress image one row at a time.  Note that we use the pitch
@@ -596,7 +596,7 @@ short CRamFlx::ReadDataBRun(	CImage* pimageRead, CNFile* pfile,
 				//assert(cVal != 0);	// Not sure how to handle 0!
 				if (cVal != 0)
 					{
-					sCount = (short)cVal;
+					sCount = (int16_t)cVal;
 					if (sCount < 0)
 						{
 						sCount = -sCount;
@@ -627,10 +627,10 @@ short CRamFlx::ReadDataBRun(	CImage* pimageRead, CNFile* pfile,
 			}
 		#else
 			// Locals needed (b/c we can't use this->).
-			long		lPitch		= pimageRead->lPitch;
+			int32_t		lPitch		= pimageRead->lPitch;
 			MEM		pCurFlxBuf	= pfile->GetMemory() + pfile->Tell();
-			short		sHeight		= (short)pimageRead->lHeight;
-			short		sWidth		= (short)pimageRead->lWidth;
+			int16_t		sHeight		= (int16_t)pimageRead->lHeight;
+			int16_t		sWidth		= (int16_t)pimageRead->lWidth;
 				
 			__asm
 				{
@@ -661,7 +661,7 @@ short CRamFlx::ReadDataBRun(	CImage* pimageRead, CNFile* pfile,
 					// the number of times to replicate a single pixel.
 					AMEM_BYTE(cl, esi)		; cVal = MEM_BYTE(m_pCurFlxBuf);	
 					//assert(cVal != 0);	// Not sure how to handle 0!
-					; sCount = (short)cVal;
+					; sCount = (int16_t)cVal;
 					cmp	cl, 0					; if (sCount >= 0)
 					jge	BRunRepeat			; handle repeat pixel
 													; else handle uniques
@@ -708,7 +708,7 @@ short CRamFlx::ReadDataBRun(	CImage* pimageRead, CNFile* pfile,
 					mov	pCurFlxBuf, esi			; Restore file ptr.
 				}
 				
-				pfile->Seek((long)(pCurFlxBuf - pfile->GetMemory()), SEEK_SET);
+				pfile->Seek((int32_t)(pCurFlxBuf - pfile->GetMemory()), SEEK_SET);
 
 		#endif	// def WIN32
 		
@@ -766,8 +766,8 @@ short CRamFlx::ReadDataBRun(	CImage* pimageRead, CNFile* pfile,
 // (static)
 //
 ///////////////////////////////////////////////////////////////////////////////
-short CRamFlx::ReadDataLC(	CImage* pimageRead, CNFile* pfile, 
-									short* psPixelsModified)
+int16_t CRamFlx::ReadDataLC(	CImage* pimageRead, CNFile* pfile, 
+									int16_t* psPixelsModified)
 	{
 	//assert(pimageRead->pbPixels != NULL);
 	//assert(pimageRead->sPitch > 0);
@@ -775,8 +775,8 @@ short CRamFlx::ReadDataLC(	CImage* pimageRead, CNFile* pfile,
 	if ((pimageRead->pData == NULL) || (pimageRead->lPitch <= 0))
 		return 1;
 	
-	short y;
-	short lines;
+	int16_t y;
+	int16_t lines;
 	UCHAR* pbRow;
 
 	// The first word specifies the starting y (another way of looking at it
@@ -808,9 +808,9 @@ short CRamFlx::ReadDataLC(	CImage* pimageRead, CNFile* pfile,
 	#ifndef WIN32
 		UCHAR	bVal;
 		S8		cVal;
-		short sCount;
+		int16_t sCount;
 		UCHAR* pbPix;
-		short packets;
+		int16_t packets;
 
 		while (lines > 0)
 			{
@@ -829,7 +829,7 @@ short CRamFlx::ReadDataLC(	CImage* pimageRead, CNFile* pfile,
 			// This can be 0, which indicates no changes on that line.
 //			bVal = MEM_BYTE(m_pCurFlxBuf);	
 			pfile->Read(&bVal);
-			packets = (short)bVal;
+			packets = (int16_t)bVal;
 		
 			while (packets > 0)
 				{
@@ -848,7 +848,7 @@ short CRamFlx::ReadDataLC(	CImage* pimageRead, CNFile* pfile,
 				if (cVal == 0)
 					cVal = 0;
 				
-				sCount = (short)cVal;
+				sCount = (int16_t)cVal;
 				if (sCount > 0)
 					{
 //					memcpy(pbPix,m_pCurFlxBuf,sCount);	
@@ -877,7 +877,7 @@ short CRamFlx::ReadDataLC(	CImage* pimageRead, CNFile* pfile,
 			}
 	#else
 		// Locals needed (b/c we can't use this->).
-		long		lPitch		= pimageRead->lPitch;
+		int32_t		lPitch		= pimageRead->lPitch;
 		MEM		pCurFlxBuf	= pfile->GetMemory() + pfile->Tell();
 		
 		__asm
@@ -900,7 +900,7 @@ short CRamFlx::ReadDataLC(	CImage* pimageRead, CNFile* pfile,
 				cmp	ah, 0							; If packets <= 0
 				jle	LCPacketLoopDone			; done.
 		
-				; packets = (short)bVal;
+				; packets = (int16_t)bVal;
 
 			LCPacketLoop:							; while (packets > 0)
 				// The first byte of each packet is a column skip.
@@ -914,7 +914,7 @@ short CRamFlx::ReadDataLC(	CImage* pimageRead, CNFile* pfile,
 				AMEM_BYTE(cl, esi)				; cVal = MEM_BYTE(m_pCurFlxBuf);	
 	//				assert(cVal != 0);	// Not sure how to handle 0, so stop if it comes up!
 				
-				; sCount = (short)cVal;
+				; sCount = (int16_t)cVal;
 
 				cmp	cl, 0							; if (sCount < 0)
 				jl		LCRepeat						; handle repeat pixel
@@ -955,7 +955,7 @@ short CRamFlx::ReadDataLC(	CImage* pimageRead, CNFile* pfile,
 				mov	pCurFlxBuf, esi			; Restore file ptr.
 			}
 
-		pfile->Seek((long)(pCurFlxBuf - pfile->GetMemory()), SEEK_SET);
+		pfile->Seek((int32_t)(pCurFlxBuf - pfile->GetMemory()), SEEK_SET);
 		#endif // ndef WIN32
 
 	return 0;
@@ -979,8 +979,8 @@ short CRamFlx::ReadDataLC(	CImage* pimageRead, CNFile* pfile,
 // (static)
 //
 ///////////////////////////////////////////////////////////////////////////////
-short CRamFlx::ReadDataSS2(CImage* pimageRead, CNFile* pfile, 
-									short* psPixelsModified)
+int16_t CRamFlx::ReadDataSS2(CImage* pimageRead, CNFile* pfile, 
+									int16_t* psPixelsModified)
 	{
 	//assert(pimageRead->pbPixels != NULL);
 	//assert(pimageRead->sPitch > 0);
@@ -988,10 +988,10 @@ short CRamFlx::ReadDataSS2(CImage* pimageRead, CNFile* pfile,
 	if ((pimageRead->pData == NULL) || (pimageRead->lPitch <= 0))
 		return 1;
 	
-	short lines;
-	short packets;
+	int16_t lines;
+	int16_t packets;
 	UCHAR	byLastByte;
-	short	bLastByte = FALSE;
+	int16_t	bLastByte = FALSE;
 
 	// The first word specifies the starting y (another way of looking at it
 	// is the number of lines that are unchanged from the previous image).
@@ -1018,8 +1018,8 @@ short CRamFlx::ReadDataSS2(CImage* pimageRead, CNFile* pfile,
 	UCHAR bVal;
 	S8		cVal;
 	USHORT wVal;
-	short sCount;
-	short y;
+	int16_t sCount;
+	int16_t y;
 	UCHAR* pbPix;
 
 	// Start at line 0
@@ -1067,13 +1067,13 @@ short CRamFlx::ReadDataSS2(CImage* pimageRead, CNFile* pfile,
 				// This is NOT a signal to stop processing "optional words".
 				case 0xC000:
 					// Skip abs(wVal) lines
-					y += -((short)wVal);
+					y += -((int16_t)wVal);
 					break;
 				}
 			} while ((wVal & 0xC000) == 0xC000);
 
 		// The packet count should now be in wVal.
-		packets = (short)wVal;
+		packets = (int16_t)wVal;
 					
 		// Init pointer to point at start of specified row
 		pbPix = (UCHAR*)pimageRead->pData + ((ULONG)y * (ULONG)pimageRead->lPitch);
@@ -1092,7 +1092,7 @@ short CRamFlx::ReadDataSS2(CImage* pimageRead, CNFile* pfile,
 //			cVal = MEM_BYTE(m_pCurFlxBuf);	
 			pfile->Read(&cVal);
 				
-			sCount = (short)cVal;
+			sCount = (int16_t)cVal;
 			if (sCount > 0)
 				{
 				sCount *= sizeof(USHORT);
@@ -1103,12 +1103,12 @@ short CRamFlx::ReadDataSS2(CImage* pimageRead, CNFile* pfile,
 				}
 			else
 				{
-				sCount = (short)-sCount;
+				sCount = (int16_t)-sCount;
 //				wVal = MEM_WORD(m_pCurFlxBuf);	
 				pfile->Read(&wVal);
 //					memset(pbPix, (int)wVal, (size_t)sCount);
 				USHORT* pwPix = (USHORT*)pbPix;
-				for (short i = 0; i < sCount; i++)
+				for (int16_t i = 0; i < sCount; i++)
 					*pwPix++ = wVal;
 				pbPix = (UCHAR*)pwPix;
 				}
@@ -1137,8 +1137,8 @@ short CRamFlx::ReadDataSS2(CImage* pimageRead, CNFile* pfile,
 	// Need a local for this-> stuff.
 	MEM	pCurFlxBuf	= pfile->GetMemory() + pfile->Tell();
 	void*	pData			= pimageRead->pData;
-	long	lPitch		= pimageRead->lPitch;
-	long	lWidth		= pimageRead->lWidth;
+	int32_t	lPitch		= pimageRead->lPitch;
+	int32_t	lWidth		= pimageRead->lWidth;
 
 	__asm
 		{
@@ -1174,7 +1174,7 @@ short CRamFlx::ReadDataSS2(CImage* pimageRead, CNFile* pfile,
 	// This is NOT a signal to stop processing "optional words".
 		// Skip abs(wVal) lines
 		neg	ax								; Make positive.
-		add	bx, ax						; y += -((short)wVal);
+		add	bx, ax						; y += -((int16_t)wVal);
 
 		// Continue
 		jmp OptionalPacketsLoop
@@ -1191,7 +1191,7 @@ short CRamFlx::ReadDataSS2(CImage* pimageRead, CNFile* pfile,
 	OptionalPacketsDone:
 
 		// The packet count should now be in wVal (ax).
-		mov	packets, ax					; packets = (short)wVal;
+		mov	packets, ax					; packets = (int16_t)wVal;
 							
 		// Init pointer to point at start of specified row
 		;pbPix = (UCHAR*)pimageRead->pData + ((ULONG)y * (ULONG)pimageRead->lPitch);
@@ -1223,7 +1223,7 @@ short CRamFlx::ReadDataSS2(CImage* pimageRead, CNFile* pfile,
 		AMEM_BYTE(cl, esi)				; cVal = MEM_BYTE(pCurFlxBuf);	
 		
 		// cl contains cVal/sCount.		
-		; sCount = (short)cVal
+		; sCount = (int16_t)cVal
 		cmp	cl, 0							; if (sCount > 0)
 		jle	SS2Repeat					; handle repeat packets,
 												; else, uniques
@@ -1241,7 +1241,7 @@ short CRamFlx::ReadDataSS2(CImage* pimageRead, CNFile* pfile,
 		jmp	SS2RunDone
 	
 	SS2Repeat:
-		neg	cl								; sCount = (short)-sCount;
+		neg	cl								; sCount = (int16_t)-sCount;
 
 		// Setup memset.
 		// Get repeat pixel.
@@ -1256,7 +1256,7 @@ short CRamFlx::ReadDataSS2(CImage* pimageRead, CNFile* pfile,
 		shr	cx, 1							; by dwords.
 		
 		; USHORT* pwPix = (USHORT*)pbPix;
-		; for (short i = 0; i < sCount; i++)
+		; for (int16_t i = 0; i < sCount; i++)
 		; 	*pwPix++ = wVal;
 		; pbPix = (UCHAR*)pwPix;
 		rep stos	dword ptr [edi]		; Store.  If cx == 0, skipped.
@@ -1278,7 +1278,7 @@ short CRamFlx::ReadDataSS2(CImage* pimageRead, CNFile* pfile,
 
 		// Get pointer to end of this row.
 		; pbPix	= (UCHAR*)pimageRead->pData 
-		;				+ ((long)y * pimageRead->lPitch) 
+		;				+ ((int32_t)y * pimageRead->lPitch) 
 		;				+ pimageRead->lWidth - 1L;
 
 		mov	eax, lPitch					; pimageRead->lPitch
@@ -1308,7 +1308,7 @@ SS2MainLoopDone:
 		mov	pCurFlxBuf, esi			; Restore file ptr.
 		}
 
-	pfile->Seek((long)(pCurFlxBuf - pfile->GetMemory()), SEEK_SET);
+	pfile->Seek((int32_t)(pCurFlxBuf - pfile->GetMemory()), SEEK_SET);
 
 #endif // ndef WIN32
 
@@ -1322,7 +1322,7 @@ SS2MainLoopDone:
 // with file position at start of frame 1.
 //
 ///////////////////////////////////////////////////////////////////////////////
-short CRamFlx::ReadHeader(CNFile* pfile)
+int16_t CRamFlx::ReadHeader(CNFile* pfile)
 	{
 	// Seek to start of file
 	pfile->Seek(0, SEEK_SET);
@@ -1368,9 +1368,9 @@ short CRamFlx::ReadHeader(CNFile* pfile)
 		{
 		// Read the FLI's jiffies (a jiffy is 1/70th second) and convert to
 		// to FLC's milliseconds.
-		short sJiffies;
+		int16_t sJiffies;
 		pfile->Read(&sJiffies);
-		m_filehdr.lMilliPerFrame = (long)( (double)sJiffies * ((double)1000 / (double)70L) + (double)0.5 );
+		m_filehdr.lMilliPerFrame = (int32_t)( (double)sJiffies * ((double)1000 / (double)70L) + (double)0.5 );
 		
 		// Set times to 0 for lack of better value (some day, we could read the
 		// file's date and time stamp and put it here).  We use "FLIB" for the
@@ -1391,7 +1391,7 @@ short CRamFlx::ReadHeader(CNFile* pfile)
 		
 		// Get size of frame 1's chunk in order to calculate the starting
 		// position of frame 2.
-		long lSizeFrame1;
+		int32_t lSizeFrame1;
 		pfile->Read(&lSizeFrame1);
 		m_filehdr.lOffsetFrame2 = m_filehdr.lOffsetFrame1 + lSizeFrame1;
 		
@@ -1400,8 +1400,8 @@ short CRamFlx::ReadHeader(CNFile* pfile)
 		}
 
 	// Allocate space for RAM buffer
-	short sError=0;
- 	long lSizeFile = m_filehdr.lEntireFileSize - m_filehdr.lOffsetFrame1;
+	int16_t sError=0;
+ 	int32_t lSizeFile = m_filehdr.lEntireFileSize - m_filehdr.lOffsetFrame1;
 
 	if ((m_pucFlxBuf = (UCHAR*)malloc(lSizeFile)) != NULL)
 		{
@@ -1433,7 +1433,7 @@ short CRamFlx::ReadHeader(CNFile* pfile)
 void CRamFlx::ClearHeader(void)
 	{	
 	// Clear all fields in file header
-	short i;
+	int16_t i;
 	m_filehdr.lEntireFileSize	= 0;
 	m_filehdr.wMagic				= 0;
 	m_filehdr.sNumFrames			= 0;
@@ -1475,9 +1475,9 @@ void CRamFlx::InitBuf(CImage* pimage)
 	}
 	
 	
-short CRamFlx::AllocBuf(CImage* pimage, long lWidth, long lHeight, short sColors)
+int16_t CRamFlx::AllocBuf(CImage* pimage, int32_t lWidth, int32_t lHeight, int16_t sColors)
 	{
-	short sError=0;
+	int16_t sError=0;
 	
 	// Allocate image buffer for pixels & set pitch to width
 	pimage->ulType		= FLX8_888;
@@ -1542,7 +1542,7 @@ void CRamFlx::CopyBuf(CImage* pimageDst, CImage* pimageSrc)
 	UCHAR* pbSrc	= (UCHAR*)pimageSrc->pData;
 	UCHAR* pbDst	= (UCHAR*)pimageDst->pData;
 	
-	for (short y = 0; y < pimageSrc->lHeight; y++)
+	for (int16_t y = 0; y < pimageSrc->lHeight; y++)
 		{
 		memcpy(pbDst, pbSrc, pimageSrc->lWidth);
 		pbSrc += (ULONG)pimageSrc->lPitch;
@@ -1571,18 +1571,18 @@ void CRamFlx::CopyBuf(CImage* pimageDst, CImage* pimageSrc)
 //  
 //	These frame positions can only be used with a flic containing no delta compression
 /////////////////////////////////////////////////////////////////////////////////////
-short CRamFlx::CreateFramePointers(void)
+int16_t CRamFlx::CreateFramePointers(void)
 	{
-	short sError = 0;
-	long  lSizeFrame;
+	int16_t sError = 0;
+	int32_t  lSizeFrame;
 
 	// Allocate the space for the frame pointers
-	if ((m_plFrames = (long*)malloc((m_filehdr.sNumFrames+1) * sizeof(long))) == NULL)
+	if ((m_plFrames = (int32_t*)malloc((m_filehdr.sNumFrames+1) * sizeof(int32_t))) == NULL)
 		sError = -1;
 	else
 		{
 		// Assign all the frame pointers
-		for (short sFrame = 1; sFrame <= m_filehdr.sNumFrames; sFrame++)
+		for (int16_t sFrame = 1; sFrame <= m_filehdr.sNumFrames; sFrame++)
 			{
 			// Set pointer to frame
 			m_plFrames[sFrame]	= m_file.Tell();
@@ -1609,9 +1609,9 @@ short CRamFlx::CreateFramePointers(void)
 // Returns FLX8_888 on success; NOT_SUPPORTED otherwise.
 //
 /////////////////////////////////////////////////////////////////////////////////////
-static short ConvToFlx8_888(CImage* pImage)
+static int16_t ConvToFlx8_888(CImage* pImage)
 	{
-	short	sRes	= NOT_SUPPORTED;	// Assume error.
+	int16_t	sRes	= NOT_SUPPORTED;	// Assume error.
 
 	ASSERT(pImage	!= NULL);
 
@@ -1631,7 +1631,7 @@ static short ConvToFlx8_888(CImage* pImage)
 					if (ppal->CreateData((ppal->sStartIndex + ppal->sNumEntries) * CPal::GetPalEntrySize(PFLX)) == 0)
 						{
 						PRGBT8	prgbt		= (PRGBT8)ppal->pData;
-						for (short sIndex	= ppal->sStartIndex; sIndex < ppal->sStartIndex + ppal->sNumEntries; sIndex++)
+						for (int16_t sIndex	= ppal->sStartIndex; sIndex < ppal->sStartIndex + ppal->sNumEntries; sIndex++)
 							{
 							prgbt[sIndex].ucRed		= prgbq[sIndex].rgbRed;
 							prgbt[sIndex].ucGreen	= prgbq[sIndex].rgbGreen;
@@ -1686,9 +1686,9 @@ static short ConvToFlx8_888(CImage* pImage)
 // Returns new format on success; NOT_SUPPORTED otherwise.
 //
 /////////////////////////////////////////////////////////////////////////////////////
-static short ConvFromFlx8_888(CImage* pImage)
+static int16_t ConvFromFlx8_888(CImage* pImage)
 	{
-	short	sRes	= NOT_SUPPORTED;	// Assume error.
+	int16_t	sRes	= NOT_SUPPORTED;	// Assume error.
 
 	ASSERT(pImage != NULL);
 	ASSERT(pImage->ulType == FLX8_888);
@@ -1708,7 +1708,7 @@ static short ConvFromFlx8_888(CImage* pImage)
 			if (ppal->CreateData((ppal->sStartIndex + ppal->sNumEntries) * CPal::GetPalEntrySize(PDIB)) == 0)
 				{
 				IM_RGBQUAD* prgbq	= (IM_RGBQUAD*)ppal->pData;
-				for (short sIndex	= ppal->sStartIndex; sIndex < ppal->sStartIndex + ppal->sNumEntries; sIndex++)
+				for (int16_t sIndex	= ppal->sStartIndex; sIndex < ppal->sStartIndex + ppal->sNumEntries; sIndex++)
 					{
 					prgbq[sIndex].rgbRed  	= prgbt[sIndex].ucRed;
 					prgbq[sIndex].rgbGreen	= prgbt[sIndex].ucGreen;	

@@ -233,9 +233,9 @@ void RAttributeMap::FreeMap()
 //
 //////////////////////////////////////////////////////////////////////
 
-short RAttributeMap::AllocateMap(ULONG ulSize, ULONG ulDetailMapSize)
+int16_t RAttributeMap::AllocateMap(ULONG ulSize, ULONG ulDetailMapSize)
 {
-	short sReturn = SUCCESS;
+	int16_t sReturn = SUCCESS;
 
 	if (m_pusMap == NULL)
 		m_pusMap = new USHORT[ulSize];
@@ -279,7 +279,7 @@ USHORT RAttributeMap::GetAttribute(long lX, long lY)
 }
 */
 
-USHORT RAttributeMap::GetAttribute(long lX, long lY)
+USHORT RAttributeMap::GetAttribute(int32_t lX, int32_t lY)
 {
 	USHORT usBlockData;
 
@@ -393,13 +393,13 @@ USHORT RAttributeMap::GetAttribute(long lTopCoord, long lBottomCoord,
 }
 */
 
-USHORT RAttributeMap::GetAttribute(long lTopCoord, long lBottomCoord,
-											 long lLeftCoord, long lRightCoord)
+USHORT RAttributeMap::GetAttribute(int32_t lTopCoord, int32_t lBottomCoord,
+											 int32_t lLeftCoord, int32_t lRightCoord)
 {
-	long lTop = lTopCoord;// / m_sScaleY;
-	long lBottom = lBottomCoord;// / m_sScaleY;
-	long lLeft = lLeftCoord;// / m_sScaleX;
-	long lRight = lRightCoord;// / m_sScaleX;
+	int32_t lTop = lTopCoord;// / m_sScaleY;
+	int32_t lBottom = lBottomCoord;// / m_sScaleY;
+	int32_t lLeft = lLeftCoord;// / m_sScaleX;
+	int32_t lRight = lRightCoord;// / m_sScaleX;
 
 	// Clip the box to the map size if necessary
 	if (lTop >= m_lWorldHeight)
@@ -419,8 +419,8 @@ USHORT RAttributeMap::GetAttribute(long lTopCoord, long lBottomCoord,
 	if (lRight < 0)
 		lRight = 0;
 
-	long lRow;
-	long lCol;
+	int32_t lRow;
+	int32_t lCol;
 	USHORT usResult = 0;
 	USHORT usAttrib = 0;
 	USHORT usFlags = 0;
@@ -481,10 +481,10 @@ USHORT RAttributeMap::GetAttribute(long lTopCoord, long lBottomCoord,
 //
 //////////////////////////////////////////////////////////////////////
 
-short RAttributeMap::Load(char* pszFilename)
+int16_t RAttributeMap::Load(char* pszFilename)
 {
 	RFile cf;
-	short sReturn = SUCCESS;
+	int16_t sReturn = SUCCESS;
 
 	if (cf.Open(pszFilename, "rb", RFile::LittleEndian) != SUCCESS)
 	{
@@ -499,9 +499,9 @@ short RAttributeMap::Load(char* pszFilename)
 	return sReturn;
 }
 
-short RAttributeMap::Load(RFile* prf)
+int16_t RAttributeMap::Load(RFile* prf)
 {
-	short sReturn = SUCCESS;
+	int16_t sReturn = SUCCESS;
 	ULONG ulFileType;
 	ULONG ulVersion;
 
@@ -527,7 +527,7 @@ short RAttributeMap::Load(RFile* prf)
 										{
 											if (AllocateMap(m_lWidth * m_lHeight, m_sNumDetailMaps * m_sScaleX * m_sScaleY) == SUCCESS)
 											{
-												if (prf->Read(m_pusMap, m_lWidth*m_lHeight) == (long) (m_lWidth*m_lHeight))
+												if (prf->Read(m_pusMap, m_lWidth*m_lHeight) == (int32_t) (m_lWidth*m_lHeight))
 												{
 													if (prf->Read(m_pusDetailMap, m_sNumDetailMaps*m_sScaleX*m_sScaleY) == m_sNumDetailMaps*m_sScaleX*m_sScaleY)
 													{

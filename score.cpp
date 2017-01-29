@@ -245,7 +245,7 @@
 CScoreboard g_scoreboard;
 RPrint		ms_print;
 
-static long	ms_lScoreMaxTimeOut;		// Optional score timeout (max time spent
+static int32_t	ms_lScoreMaxTimeOut;		// Optional score timeout (max time spent
 												// on score screen).
 
 //////////////////////////////////////////////////////////////////////////////
@@ -256,12 +256,12 @@ static long	ms_lScoreMaxTimeOut;		// Optional score timeout (max time spent
 // Helper to make a time value.
 //////////////////////////////////////////////////////////////////////////////
 inline char* CreateTimeString(	// Returns time string.  No failures.
-	long	lTimeVal)					// In:  Time value in milliseconds.
+	int32_t	lTimeVal)					// In:  Time value in milliseconds.
 	{
 	static char	szTime[100];
 
-	short sMinutes = lTimeVal / 60000;
-	short	sSeconds = (lTimeVal / 1000) % 60;
+	int16_t sMinutes = lTimeVal / 60000;
+	int16_t	sSeconds = (lTimeVal / 1000) % 60;
 	sprintf(szTime, "%2.2d:%2.2d", sMinutes, sSeconds);
 
 	return szTime;
@@ -284,10 +284,10 @@ static void GuiReleaseRes(	// Returns nothing.
 // background or state image.
 //////////////////////////////////////////////////////////////////////////////
 
-static short GuiGetRes(		// Returns 0 on success; non-zero on failure.
+static int16_t GuiGetRes(		// Returns 0 on success; non-zero on failure.
 	RGuiItem* pgui)			// In:  Requesting GUI.
 	{
-	short sResult = 0;
+	int16_t sResult = 0;
 
 	// Release resources first (just in case)
 	GuiReleaseRes(pgui);
@@ -341,11 +341,11 @@ static void EditInputUserFeedback(	// Called when a user input notification
 // Callback from RProcessGui for system update.
 //
 ////////////////////////////////////////////////////////////////////////////////
-static long SysUpdate(			// Returns a non-zero ID to abort or zero
+static int32_t SysUpdate(			// Returns a non-zero ID to abort or zero
 										// to continue.                          
 	RInputEvent*	pie)			// Out: Next input event to process.     
 	{
-	long	lIdRes	= 0;	// Assume no GUI ID pressed (i.e., continue).
+	int32_t	lIdRes	= 0;	// Assume no GUI ID pressed (i.e., continue).
 
 	UpdateSystem();
 	rspGetNextInputEvent(pie);
@@ -425,7 +425,7 @@ void ScoreRegisterKill(CRealm* pRealm, U16 u16DeadGuy, U16 u16Killer)
 //////////////////////////////////////////////////////////////////////////////
 
 bool ScoreUpdateDisplay(RImage* pim, RRect* prc, CRealm* pRealm, CNetClient* pclient,
-								short sDstX,short sDstY,CHood* pHood)
+								int16_t sDstX,int16_t sDstY,CHood* pHood)
 {
 	RRect rcBox;
 	RRect	rcDst;
@@ -433,11 +433,11 @@ bool ScoreUpdateDisplay(RImage* pim, RRect* prc, CRealm* pRealm, CNetClient* pcl
 	rcDst.sY = prc->sY + STATUS_PRINT_Y;
 	rcDst.sW = prc->sW - 2 * STATUS_PRINT_X;
 	rcDst.sH	= prc->sH - STATUS_PRINT_Y;
-	short sMinutes = pRealm->m_lScoreTimeDisplay / 60000;
-	short sSeconds = (pRealm->m_lScoreTimeDisplay / 1000) % 60;
+	int16_t sMinutes = pRealm->m_lScoreTimeDisplay / 60000;
+	int16_t sSeconds = (pRealm->m_lScoreTimeDisplay / 1000) % 60;
 	bool	bDrew	= false;	// Assume we do not draw.
 
-	long	lCurTime	= pRealm->m_time.GetGameTime();
+	int32_t	lCurTime	= pRealm->m_time.GetGameTime();
 	if (lCurTime > g_scoreboard.m_lLastScoreDrawTime + SCORE_UPDATE_INTERVAL)
 	{
 		ms_print.SetColor(	// set current color
@@ -452,8 +452,8 @@ bool ScoreUpdateDisplay(RImage* pim, RRect* prc, CRealm* pRealm, CNetClient* pcl
 		if (pHood) rspBlit(pHood->m_pimTopBar,pim,0,0,sDstX,sDstY,
 			pHood->m_pimTopBar->m_sWidth,pHood->m_pimTopBar->m_sHeight);
 		
-		short sNumDudes = pRealm->m_asClassNumThings[CThing::CDudeID];	
-		short i;
+		int16_t sNumDudes = pRealm->m_asClassNumThings[CThing::CDudeID];	
+		int16_t i;
 
 		switch (pRealm->m_ScoringMode)
 		{
@@ -598,7 +598,7 @@ bool ScoreUpdateDisplay(RImage* pim, RRect* prc, CRealm* pRealm, CNetClient* pcl
 					pRealm->m_sHostiles,
 					pRealm->m_sHostileKills,
 					pRealm->m_sHostileKills * 100 / ((pRealm->m_sHostileBirths != 0) ? pRealm->m_sHostileBirths : 1),
-					(short) pRealm->m_dKillsPercentGoal
+					(int16_t) pRealm->m_dKillsPercentGoal
 					);
 				break;
 
@@ -762,7 +762,7 @@ bool ScoreUpdateDisplay(RImage* pim, RRect* prc, CRealm* pRealm, CNetClient* pcl
 						rcDst.sY,
 //						"      You must kill %d%% of the hostiles.",
 						g_apszScoreGoalText[pRealm->m_ScoringMode],
-						(short) pRealm->m_dKillsPercentGoal
+						(int16_t) pRealm->m_dKillsPercentGoal
 						);
 					break;
 
@@ -874,15 +874,15 @@ void ScoreSetMode(CScoreboard::ScoringMode Mode)
 void ScoreDisplayHighScores(	// Returns nothing.
 	CRealm* pRealm,				// In:  Realm won.
 	CNetClient* pclient,			// In:  Client ptr for MP mode, or NULL in SP mode.
-	long lMaxTimeOut)				// In:  Max time on score screen (quits after this
+	int32_t lMaxTimeOut)				// In:  Max time on score screen (quits after this
 										// duration, if not -1).
 {
 	RGuiItem* pguiRoot;
 	RGuiItem::ms_print.SetFont(15, &g_fontPostal);
 	RProcessGui guiDialog;
-	short sResult;
+	int16_t sResult;
 	char szScoringExplanation[512]	= "";
-	long alScores[MAX_HIGH_SCORES];
+	int32_t alScores[MAX_HIGH_SCORES];
 	char astrNames[MAX_HIGH_SCORES][MAX_PLAYER_NAME_LEN + 1];
 	char szKeyName[256];
 	RPrefs scores;
@@ -901,7 +901,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 	{
 		// Determine player's score and note how we determined it in a string
 		// for the user.
-		long	lPlayerScore	= 0;
+		int32_t	lPlayerScore	= 0;
 		switch (pRealm->m_ScoringMode)
 			{
 			case CRealm::Standard:
@@ -1009,7 +1009,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 		// Temporarily I will base the section name on the scoring method
 		// until the realm description function is available.
 
-		short	sPlayersScorePosition	= -1;	// Valid score index once/if we find a slot
+		int16_t	sPlayersScorePosition	= -1;	// Valid score index once/if we find a slot
 														// for this player's score.
 
 		// If not a multiplayer scoring . . .
@@ -1017,11 +1017,11 @@ void ScoreDisplayHighScores(	// Returns nothing.
 			{
 			// Try to open the file, but if it doesn't exist, then we simply won't be
 			// getting any values from it.
-			short sOpenRes = scores.Open(FullPathHD(HIGHSCORE_SCORES_FILE), "r");
+			int16_t sOpenRes = scores.Open(FullPathHD(HIGHSCORE_SCORES_FILE), "r");
 			
 			// Read in the scores file
-			short	sSrcIndex;
-			short	sDstIndex;
+			int16_t	sSrcIndex;
+			int16_t	sDstIndex;
 			for (sSrcIndex = 0, sDstIndex = 0; sDstIndex < MAX_HIGH_SCORES; sDstIndex++)
 				{
 				sprintf(szKeyName, "Player%d", sSrcIndex);
@@ -1038,7 +1038,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 				if (vtScoringUnit == Value)
 					{
 					if (sOpenRes == 0)
-						scores.GetVal((char*) pRealm->m_rsRealmString, szKeyName, (long) 0, &(alScores[sDstIndex]));
+						scores.GetVal((char*) pRealm->m_rsRealmString, szKeyName, (int32_t) 0, &(alScores[sDstIndex]));
 					else
 						alScores[sDstIndex] = 0;
 						
@@ -1051,9 +1051,9 @@ void ScoreDisplayHighScores(	// Returns nothing.
 				else
 					{
 					if (sOpenRes == 0)
-						scores.GetVal((char*) pRealm->m_rsRealmString, szKeyName, (long) 3600000, &(alScores[sDstIndex]));
+						scores.GetVal((char*) pRealm->m_rsRealmString, szKeyName, (int32_t) 3600000, &(alScores[sDstIndex]));
 					else
-						alScores[sDstIndex] = (long) 3600000;
+						alScores[sDstIndex] = (int32_t) 3600000;
 			
 					// Did we get a better time than read in score?
 					if (lPlayerScore < alScores[sDstIndex] )
@@ -1086,10 +1086,10 @@ void ScoreDisplayHighScores(	// Returns nothing.
 			{
 			ASSERT(pclient);
 
-			long	alTempScores[MAX_HIGH_SCORES];
+			int32_t	alTempScores[MAX_HIGH_SCORES];
 			char	astrTempNames[MAX_HIGH_SCORES][MAX_PLAYER_NAME_LEN + 1];
 
-			short	sIndex;
+			int16_t	sIndex;
 			for (sIndex = 0; sIndex < MAX_HIGH_SCORES ; sIndex++)
 				{
 				if (sIndex < pRealm->m_asClassNumThings[CThing::CDudeID])
@@ -1110,10 +1110,10 @@ void ScoreDisplayHighScores(	// Returns nothing.
 
 			// Find the largest score (most frags in all modes) and put it at the
 			// next position.
-			short	sDstIndex;
-			short	sSrcIndex;
-			short	sHighestScoreIndex;
-			long	lHighestScore;
+			int16_t	sDstIndex;
+			int16_t	sSrcIndex;
+			int16_t	sHighestScoreIndex;
+			int32_t	lHighestScore;
 			
 			// This declaration relies on false being zero!!
 			ASSERT(false == 0);
@@ -1164,7 +1164,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 			}
 
 
-		short i;
+		int16_t i;
 
 		if (rspGetResource(&g_resmgrShell, HIGHSCORE_DIALOG_FILE, (RDlg**)&pguiRoot) == 0)
 		{
@@ -1179,7 +1179,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 			RGuiItem*	pguiPlayersName	= NULL;
 
 			// Create and add all score items.
-			short	sScoreIndex;
+			int16_t	sScoreIndex;
 			bool	bGotAllScoreItems	= true;
 
 			if (plbScores)
@@ -1327,7 +1327,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 				ptextExplain2->Compose();
 
 				// Store current mouse show level so we can restore it.
-				short	sOrigShowLevel	= rspGetMouseCursorShowLevel();
+				int16_t	sOrigShowLevel	= rspGetMouseCursorShowLevel();
 				// Make sure it's visible.
 // Let's not do this and instead try to insinuate keyboard use.
 //				rspSetMouseCursorShowLevel(1);
@@ -1444,11 +1444,11 @@ void ScoreDisplayHighScores(	// Returns nothing.
 //
 //////////////////////////////////////////////////////////////////////////////
 
-short ScoreHighestKills(CRealm* pRealm)
+int16_t ScoreHighestKills(CRealm* pRealm)
 {
-	short sHighest = 0;
-	short sNumDudes = pRealm->m_asClassNumThings[CThing::CDudeID];	
-	short i;
+	int16_t sHighest = 0;
+	int16_t sNumDudes = pRealm->m_asClassNumThings[CThing::CDudeID];	
+	int16_t i;
 
 	for (i = 0; i < sNumDudes; i++)
 	{
@@ -1463,4 +1463,3 @@ short ScoreHighestKills(CRealm* pRealm)
 //////////////////////////////////////////////////////////////////////////////
 // EOF
 //////////////////////////////////////////////////////////////////////////////
-

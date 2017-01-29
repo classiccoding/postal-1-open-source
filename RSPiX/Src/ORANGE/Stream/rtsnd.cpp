@@ -116,7 +116,7 @@ void CRtSnd::Set(void)
 	{
 	m_pdispatch		= NULL;
 
-	for (short i = 0; i < MAX_SND_CHANNELS; i++)
+	for (int16_t i = 0; i < MAX_SND_CHANNELS; i++)
 		{
 		m_asndhdrs[i].usStatus	= 0;
 		}
@@ -137,11 +137,11 @@ void CRtSnd::Reset(void)
 // Returns RET_FREE if done with data on return, RET_DONTFREE otherwise.
 //
 //////////////////////////////////////////////////////////////////////////////
-short CRtSnd::Use(UCHAR* puc, long lSize, USHORT usType, UCHAR ucFlags,
-						long lTime)
+int16_t CRtSnd::Use(UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags,
+						int32_t lTime)
 	{
-	short	sRes		= RET_FREE;	// Always free.
-	short	sError	= 0;
+	int16_t	sRes		= RET_FREE;	// Always free.
+	int16_t	sError	= 0;
 
 	ASSERT(usType	== RT_TYPE_SND);
 	ASSERT(puc		!= NULL);
@@ -184,7 +184,7 @@ short CRtSnd::Use(UCHAR* puc, long lSize, USHORT usType, UCHAR ucFlags,
 			{
 			// Successfully opened mixer channel.
 			psndhdr->usStatus	|= STATUS_OPENED;
-			short	sWasEmpty	= ms_listSndhdrs.IsEmpty();
+			int16_t	sWasEmpty	= ms_listSndhdrs.IsEmpty();
 			// Add to criticial list.
 			if (ms_listSndhdrs.Add(psndhdr) == 0)
 				{
@@ -305,7 +305,7 @@ void* CRtSnd::MixCall(	USHORT usMsg, void* pData, ULONG* pulBufSize,
 	{
 	PSND_RT_HDR	psndhdr	= (PSND_RT_HDR)ul_psndhdr;
 	PSNDBUF		psb;
-	short			sLast		= FALSE;
+	int16_t			sLast		= FALSE;
 	switch (usMsg)
 		{
 		case BLU_SNDMSG_PREPLAYERR:
@@ -416,9 +416,9 @@ void CRtSnd::CritiCall(ULONG)
 
 	while(psndhdr != NULL)
 		{
-		short	sError	= 0;
+		int16_t	sError	= 0;
 
-		long	lTime	= psndhdr->pdispatch->GetTime();
+		int32_t	lTime	= psndhdr->pdispatch->GetTime();
 
 		// If channel open . . .
 		if (psndhdr->usStatus & STATUS_OPENED)
@@ -464,8 +464,8 @@ void CRtSnd::CritiCall(ULONG)
 // (static)
 //
 //////////////////////////////////////////////////////////////////////////////
-short CRtSnd::UseStatic(	UCHAR* puc, long lSize, USHORT usType, 
-									UCHAR ucFlags, long lTime, long l_pRtSnd)
+int16_t CRtSnd::UseStatic(	UCHAR* puc, int32_t lSize, USHORT usType, 
+									UCHAR ucFlags, int32_t lTime, int32_t l_pRtSnd)
 	{
 	return ((CRtSnd*)l_pRtSnd)->Use(puc, lSize, usType, ucFlags, lTime);
 	}
@@ -492,7 +492,7 @@ void CRtSnd::SetDispatcher(CDispatch* pdispatch)
 	if (m_pdispatch != NULL)
 		{
 		m_pdispatch->SetDataHandler(RT_TYPE_SND, UseStatic);
-		m_pdispatch->SetUserVal(RT_TYPE_SND, (long)this);
+		m_pdispatch->SetUserVal(RT_TYPE_SND, (int32_t)this);
 		}
 	}
 

@@ -272,7 +272,7 @@ using namespace std;
 // to it because you can't overload functions based soley on return type.
 struct GenericCreateResFunc
 	{
-	virtual short operator()(void** ppT)
+	virtual int16_t operator()(void** ppT)
 		{
 		*ppT = 0;
 		return -1;	// generic version should never be called!
@@ -282,7 +282,7 @@ struct GenericCreateResFunc
 template<class T>
 struct CreateResFunc : GenericCreateResFunc
 	{
-	short operator()(void** ppT)
+	int16_t operator()(void** ppT)
 		{
 		*ppT = (void*)new T;
 		return *ppT ? 0 : -1;
@@ -310,14 +310,14 @@ struct DestroyResFunc : GenericDestroyResFunc
 // load a specific type of resource.  The function uses rspAnyLoad().
 struct GenericLoadResFunc
 	{
-	virtual short operator()(void* /*pT*/, RFile* /*pfile*/)
+	virtual int16_t operator()(void* /*pT*/, RFile* /*pfile*/)
 		{ return -1; }	// generic version should never be called!
 	};
 
 template<class T>
 struct LoadResFunc : GenericLoadResFunc
 	{
-	short operator()(void* pT, RFile* pfile)
+	int16_t operator()(void* pT, RFile* pfile)
 		{ return rspAnyLoad((T*)pT, pfile); }
 	};
 
@@ -331,8 +331,8 @@ class CResourceBlock
 {
 	public:
 
-		short  m_sRefCount;
-		short  m_sAccessCount;
+		int16_t  m_sRefCount;
+		int16_t  m_sAccessCount;
 		void*  m_vpRes;
 		RString m_strFilename;
 		GenericDestroyResFunc* m_pfnDestroy;
@@ -378,16 +378,16 @@ class CResourceBlock
 	typedef vector <RString, allocator<RString> > accessVector;
 	typedef set <RString, less<RString>, allocator<RString> > dupSet;
 	typedef vector <USHORT, allocator<USHORT> > typeVector;
-	typedef map <RString, long, less<RString>, allocator<long> > dirMap;
-	typedef set <long, less<long>, allocator<long> > dirOffsets;
+	typedef map <RString, int32_t, less<RString>, allocator<int32_t> > dirMap;
+	typedef set <int32_t, less<int32_t>, allocator<int32_t> > dirOffsets;
 #else
 	typedef map <RString, CResourceBlock, less<RString> > resclassMap;
 	typedef map <void*, RString, less<void*> > ptrLookupMap;
 	typedef vector <RString > accessVector;
 	typedef set <RString, less<RString> > dupSet;
 	typedef vector <USHORT > typeVector;
-	typedef map <RString, long, less<RString> > dirMap;
-	typedef set <long, less<long> > dirOffsets;
+	typedef map <RString, int32_t, less<RString> > dirMap;
+	typedef set <int32_t, less<int32_t> > dirOffsets;
 #endif
 
 
@@ -412,7 +412,7 @@ class RResMgr
 		~RResMgr();
 
 		// void load
-		short Get(												// Returns 0 on success.
+		int16_t Get(												// Returns 0 on success.
 			RString strFilename,								// In:  Resource name
 			void** hRes,										// Out: Pointer to resource returned here
 			RFile::Endian	endian,							// In:  Endian nature of resource file
@@ -420,7 +420,7 @@ class RResMgr
 			GenericDestroyResFunc* pfnDestroy,			// In:  Pointer to "destroy" function object
 			GenericLoadResFunc* pfnLoad);					// In:  Pointer to "load" function object
 
-		short GetInstance(									// Returns 0 on success.
+		int16_t GetInstance(									// Returns 0 on success.
 			RString strFilename,								// In:  Resource name
 			void** hRes,										// Out: Pointer to resource returned here
 			RFile::Endian	endian,							// In:  Endian nature of resource file
@@ -448,30 +448,30 @@ class RResMgr
 		// that can be used to make a SAK file.  This function takes
 		// a filename and produces a text file giving the list
 		// of files that were accessed and their statistics.
-		short Statistics(RString strStatFile);
+		int16_t Statistics(RString strStatFile);
 
 		// Just a more obvious function name for creating
 		// the batch files.
-		short CreateSakBatch(RString strBatchFile)
+		int16_t CreateSakBatch(RString strBatchFile)
 		{
 			return Statistics(strBatchFile);
 		}
 
 		// Read in one of the script files created by Statistics()
 		// and create a SAK file of the given name.  
-		short CreateSak(RString strScriptFile, RString strSakFile);
+		int16_t CreateSak(RString strScriptFile, RString strSakFile);
 
 		// Open a SAK file and until it is closed, assume that
 		//	all resource names refer to resources in this SAK file.
 		//	If a resource name is not in the SAK file, then it cannot
 		// be loaded.  It does not attempt to load the resource from
 		// its individual disk file.
-		short OpenSak(RString strSakFile);
+		int16_t OpenSak(RString strSakFile);
 
 		// Open an Alternate SAK file
 		// with an optionnal script file to overload name in Alternate SAK
 		// (used for XMas runtime patch)
-		short OpenSakAlt(RString strSakFile, RString strScriptFile);
+		int16_t OpenSakAlt(RString strSakFile, RString strScriptFile);
 
 		// This function closes the Alt SAK file and all resource names
 		void CloseSakAlt()
@@ -512,7 +512,7 @@ class RResMgr
 			RFile* prf = NULL;
 			if (m_rfSakAlt.IsOpen()) 
 			  {
-				long	lResSeekPos	= m_SakAltDirectory[strResourceName];
+				int32_t	lResSeekPos	= m_SakAltDirectory[strResourceName];
 				if (lResSeekPos > 0)
 					{
 					if (m_rfSakAlt.Seek(lResSeekPos, SEEK_SET) == SUCCESS)
@@ -527,7 +527,7 @@ class RResMgr
 						}
 					}
 			  }
-			long	lResSeekPos	= m_SakDirectory[strResourceName];
+			int32_t	lResSeekPos	= m_SakDirectory[strResourceName];
 			if (lResSeekPos > 0)
 				{
 				if (m_rfSak.Seek(lResSeekPos, SEEK_SET) == SUCCESS)
@@ -558,7 +558,7 @@ class RResMgr
 
 		void NormalizeResName(RString* pstrResourceName)
 		{
-			long i;
+			int32_t i;
 			for (i = 0; i < pstrResourceName->GetLen(); i++)
 			{
 				if (pstrResourceName->GetAt(i) == '\\')
@@ -655,7 +655,7 @@ class RResMgr
 
 		// Write the SAK file header to the current position in
 		// the given RFile.  
-		short WriteSakHeader(RFile* prf);
+		int16_t WriteSakHeader(RFile* prf);
 
 		// Helper function to combine the resource name and the base pathname
 		// to load your file.
@@ -684,7 +684,7 @@ class RResMgr
 //
 ///////////////////////////////////////////////////////////////////////////////
 template <class T>
-short rspGetResource(									// Returns 0 on success
+int16_t rspGetResource(									// Returns 0 on success
 	RResMgr*	presmgr,										// In:  Resource Manager to be used
 	const char*	pszResName,								// In:  Resource name
 	T**	pT,												// Out: Pointer to resource returned here
@@ -749,7 +749,7 @@ bool rspReleaseAndPurgeResource(	// Returns true if it was acutally purged,
 //
 ///////////////////////////////////////////////////////////////////////////////
 template <class T>
-short rspGetResourceInstance(							// Returns 0 on success
+int16_t rspGetResourceInstance(							// Returns 0 on success
 	RResMgr*	presmgr,										// In:  Resource Manager to be used
 	const char*	pszResName,								// In:  Resource name
 	T**	pT,												// Out: Pointer to resource returned here

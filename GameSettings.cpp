@@ -191,7 +191,7 @@ char*	CGameSettings::ms_apszPlayerColorDescriptions[CDude::MaxTextures + 1]	=
 	};
 
 // Number of color descriptions.
-const	short CGameSettings::ms_sNumPlayerColorDescriptions	= NUM_ELEMENTS(ms_apszPlayerColorDescriptions) - 1;
+const	int16_t CGameSettings::ms_sNumPlayerColorDescriptions	= NUM_ELEMENTS(ms_apszPlayerColorDescriptions) - 1;
 
 //////////////////////////////////////////////////////////////////////////////
 // Set settings to default values
@@ -275,7 +275,7 @@ CGameSettings::CGameSettings(void)
 	m_eCurSoundQuality			= SampleMaster::SQ_22050_8;
 
 	// Initialize all category volumes.
-	short i;
+	int16_t i;
 	for (i = 0; i < SampleMaster::MAX_NUM_SOUND_CATEGORIES; i++)
 		{
 		m_asCategoryVolumes[i] = SampleMaster::UserDefaultVolume;
@@ -294,10 +294,10 @@ CGameSettings::~CGameSettings()
 //////////////////////////////////////////////////////////////////////////////
 // Read settings that are stored in preference file
 //////////////////////////////////////////////////////////////////////////////
-short CGameSettings::LoadPrefs(
+int16_t CGameSettings::LoadPrefs(
 	RPrefs* pPrefs)
 	{
-	short sResult = 0;
+	int16_t sResult = 0;
 
 	pPrefs->GetVal("Paths", "CD", "", m_pszCDPath);
 #if defined(PANDORA) || defined(ODROID)
@@ -418,9 +418,9 @@ short CGameSettings::LoadPrefs(
 	pPrefs->GetVal("Multiplayer", "GetInputInterval", m_sNetGetInputInterval, &m_sNetGetInputInterval);
 	pPrefs->GetVal("Multiplayer", "SendInputInterval", m_sNetSendInputInterval, &m_sNetSendInputInterval);
 	pPrefs->GetVal("Multiplayer", "MaxFrameLag", m_sNetMaxFrameLag, &m_sNetMaxFrameLag);
-	m_sNetMaxFrameLag = CLAMP(m_sNetMaxFrameLag, (short)0, (short)Net::MaxAheadSeq);
+	m_sNetMaxFrameLag = CLAMP(m_sNetMaxFrameLag, (int16_t)0, (int16_t)Net::MaxAheadSeq);
 	pPrefs->GetVal("Multiplayer", "TimePerFrame", m_sNetTimePerFrame, &m_sNetTimePerFrame);
-	m_sNetTimePerFrame = CLAMP(m_sNetTimePerFrame, (short)Net::MinFrameTime, (short)200);
+	m_sNetTimePerFrame = CLAMP(m_sNetTimePerFrame, (int16_t)Net::MinFrameTime, (int16_t)200);
 	pPrefs->GetVal("Multiplayer", "MaxBlockingTime", m_lNetMaxBlockingTime, &m_lNetMaxBlockingTime);
 	pPrefs->GetVal("Multiplayer", "ForceAbortTime", m_lNetForceAbortTime, &m_lNetForceAbortTime);
 /*** 12/5/97 AJC ***/
@@ -446,7 +446,7 @@ short CGameSettings::LoadPrefs(
 	pPrefs->GetVal("Demo", "DemoDebugMovie", m_szDemoDebugMovie, m_szDemoDebugMovie);
 	pPrefs->GetVal("Demo", "NumAvailable", m_sNumAvailableDemos, &m_sNumAvailableDemos);
 
-	short i;
+	int16_t i;
 	char szDurationName[100];
 	for (i = 0; i < MAX_TITLE_SCREENS; i++)
 	{
@@ -500,7 +500,7 @@ short CGameSettings::LoadPrefs(
 //////////////////////////////////////////////////////////////////////////////
 // Write settings that are stored in preference file
 //////////////////////////////////////////////////////////////////////////////
-short CGameSettings::SavePrefs(
+int16_t CGameSettings::SavePrefs(
 	RPrefs* pPrefs)
 	{
 	pPrefs->SetVal("Game", "RecentDifficulty", m_sDifficulty);
@@ -512,8 +512,8 @@ short CGameSettings::SavePrefs(
 	pPrefs->SetVal("Multiplayer", "Protocol", m_usProtocol);
 	pPrefs->SetVal("Multiplayer", "Name", m_szPlayerName);
 	pPrefs->SetVal("Multiplayer", "Color", m_sPlayerColorIndex);
-	pPrefs->SetVal("Multiplayer", "Bandwidth", (long)m_sNetBandwidth);
-	pPrefs->SetVal("Multiplayer", "HostMinBandwidth", (long)m_sHostMinBandwidth);
+	pPrefs->SetVal("Multiplayer", "Bandwidth", (int32_t)m_sNetBandwidth);
+	pPrefs->SetVal("Multiplayer", "HostMinBandwidth", (int32_t)m_sHostMinBandwidth);
 	pPrefs->SetVal("Multiplayer", "HostMaxPlayers", m_sHostMaxPlayers);
 	pPrefs->SetVal("Multiplayer", "HostName", m_szHostName);
 	pPrefs->SetVal("Multiplayer", "HostResetScoresEachLevel", m_sHostResetScoresEachLevel);
@@ -535,7 +535,7 @@ short CGameSettings::SavePrefs(
 
 	pPrefs->SetVal("Debug", "DisplayInfo", m_sDisplayInfo);
 
-	short i;
+	int16_t i;
 	for (i = 0; i < SampleMaster::MAX_NUM_SOUND_CATEGORIES; i++)
 		{
 		// Save volume scaled to user mode.
@@ -549,7 +549,7 @@ short CGameSettings::SavePrefs(
 //////////////////////////////////////////////////////////////////////////////
 // Load settings that are stored in game file
 //////////////////////////////////////////////////////////////////////////////
-short CGameSettings::LoadGame(
+int16_t CGameSettings::LoadGame(
 	RFile* pFile)
 	{
 	pFile->Read(&m_sDifficulty);
@@ -561,7 +561,7 @@ short CGameSettings::LoadGame(
 //////////////////////////////////////////////////////////////////////////////
 // Save settings that are stored in game file
 //////////////////////////////////////////////////////////////////////////////
-short CGameSettings::SaveGame(
+int16_t CGameSettings::SaveGame(
 	RFile* pFile)
 	{
 	pFile->Write(&m_sDifficulty);
@@ -573,7 +573,7 @@ short CGameSettings::SaveGame(
 //////////////////////////////////////////////////////////////////////////////
 // Temporarily set settings for demo mode (file is for saving current settings)
 //////////////////////////////////////////////////////////////////////////////
-short CGameSettings::PreDemo(
+int16_t CGameSettings::PreDemo(
 	RFile* pFile)
 	{
 	pFile->Write(&m_sDifficulty);
@@ -587,7 +587,7 @@ short CGameSettings::PreDemo(
 //////////////////////////////////////////////////////////////////////////////
 // Restore settings to what they were prior to demo mode
 //////////////////////////////////////////////////////////////////////////////
-short CGameSettings::PostDemo(
+int16_t CGameSettings::PostDemo(
 	RFile* pFile)
 	{
 	pFile->Read(&m_sDifficulty);
