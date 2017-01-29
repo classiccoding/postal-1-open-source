@@ -249,7 +249,7 @@ class Net
 
 	// This should probably be unsigned, and may as well be as small as we can get
 	// it since we're inherently limited to 16 players anyway.
-	typedef unsigned char	ID;
+	typedef uint8_t	ID;
 
 	// This MUST be unsigned to work properly!!!
 	// See above for an explanation of why 16-bits is a good choice.
@@ -283,7 +283,7 @@ class Net
 	#endif
 
 	// Lookup tables associated with the NetBandwidth enums.
-	NETCRAPTHING long	lBandwidthValues[Net::NumBandwidths];
+	NETCRAPTHING int32_t	lBandwidthValues[Net::NumBandwidths];
 	NETCRAPTHING char* BandwidthText[Net::NumBandwidths];
 	};
 

@@ -548,7 +548,7 @@ typedef enum
 static MenuAction ms_menuaction	= MenuActionNone;
 
 // Number used in filename for snapshots
-static long ms_lCurPicture = 0;
+static int32_t ms_lCurPicture = 0;
 
 #ifdef SALES_DEMO
 	// When true, one can advance to the next level without meeting the goal.
@@ -575,22 +575,22 @@ extern bool demoCompat; //Try to make demos not go out of sync
 ////////////////////////////////////////////////////////////////////////////////
 class CPlayInfo
 	{
-	friend short Play(										// Returns 0 if successfull, non-zero otherwise
+	friend int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 		CNetClient*	pclient,									// In:  Client object or NULL if not network game
 		CNetServer*	pserver,									// In:  Server object or NULL if not server or not network game
 		INPUT_MODE inputMode,								// In:  Input mode
-		const short sRealmNum,								// In:  Realm number to start on or -1 to use specified realm file
+		const int16_t sRealmNum,								// In:  Realm number to start on or -1 to use specified realm file
 		const char*	pszRealmFile,							// In:  Realm file to play (ignored if sRealmNum >= 0)
 		const bool bJustOneRealm,							// In:  Play just this one realm (ignored if sRealmNum < 0)
 		const bool bGauntlet,								// In:  Play challenge levels gauntlet - as selected on menu
-		const short bAddOn,									// In:  Play new single player Add On levels
-		const short sDifficulty,							// In:  Difficulty level
+		const int16_t bAddOn,									// In:  Play new single player Add On levels
+		const int16_t sDifficulty,							// In:  Difficulty level
 		const bool bRejuvenate,								// In:  Whether to allow players to rejuvenate (MP only)
-		const short sTimeLimit,								// In:  Time limit for MP games (0 or negative if none)
-		const short sKillLimit,								// In:  Kill limit for MP games (0 or negative if none)
-		const	short	sCoopLevels,							// In:  Zero for deathmatch levels, non-zero for cooperative levels.
-		const	short	sCoopMode,								// In:  Zero for deathmatch mode, non-zero for cooperative mode.
-		const short sFrameTime,								// In:  Milliseconds per frame (MP only)
+		const int16_t sTimeLimit,								// In:  Time limit for MP games (0 or negative if none)
+		const int16_t sKillLimit,								// In:  Kill limit for MP games (0 or negative if none)
+		const	int16_t	sCoopLevels,							// In:  Zero for deathmatch levels, non-zero for cooperative levels.
+		const	int16_t	sCoopMode,								// In:  Zero for deathmatch mode, non-zero for cooperative mode.
+		const int16_t sFrameTime,								// In:  Milliseconds per frame (MP only)
 		RFile* pfileDemoModeDebugMovie);					// In:  File for loading/saving demo mode debug movie
 
 	//------------------------------------------------------------------------------
@@ -604,7 +604,7 @@ class CPlayInfo
 		CNetClient*		m_pclient;						// Client object or NULL if not network game
 		CNetServer*		m_pserver;						// Server object or NULL if not server or not network game
 
-		short				m_sRealmNum;					// Realm number
+		int16_t				m_sRealmNum;					// Realm number
 		char				m_szRealm[RSP_MAX_PATH+1];	// Realm file
 		bool				m_bJustOneRealm;				// Play just this one realm (ignored if sRealmNum < 0)
 
@@ -613,13 +613,13 @@ class CPlayInfo
 		CGrip*			m_pgrip;
 
 		bool				m_bGauntlet;					// Play challenge levels gauntlet
-		short				m_bAddOn;						// Play new Add On levels
+		int16_t				m_bAddOn;						// Play new Add On levels
 		bool				m_bRejuvenate;					// Whether to allow players to rejuvenate (MP only)
-		short				m_sTimeLimit;					// Time limit for MP games (0 or negative if none)
-		short				m_sKillLimit;					// Kill limit for MP games (0 or negative if none)
-		short				m_sCoopLevels;					// Zero for deathmatch levels, non-zero for cooperative levels.
+		int16_t				m_sTimeLimit;					// Time limit for MP games (0 or negative if none)
+		int16_t				m_sKillLimit;					// Kill limit for MP games (0 or negative if none)
+		int16_t				m_sCoopLevels;					// Zero for deathmatch levels, non-zero for cooperative levels.
 
-		short				m_sFrameTime;					// Milliseconds per frame (MP only)
+		int16_t				m_sFrameTime;					// Milliseconds per frame (MP only)
 
 		RFile*			m_pfileDemoModeDebugMovie;	// File for loading/saving demo mode debug movie
 
@@ -632,7 +632,7 @@ class CPlayInfo
 		U16				m_idLocalDude;					// Local dude's ID
 		U16				m_idGripTarget;				// Grip target's ID
 		bool				m_bDoRealmFrame;				// Whether to do a realm frame
-		long				m_lSumUpdateDisplayTimes;
+		int32_t				m_lSumUpdateDisplayTimes;
 		bool				m_bXRayAll;						// X Ray all status.
 		bool				m_bInMenu;						// Whether we're in the menu
 		bool				m_bUserQuitMP;					// Whether local user wants to quit MP game
@@ -710,19 +710,19 @@ class CPlayInfo
 		////////////////////////////////////////////////////////////////////////////////
 		CNetClient*	Client(void)					{ return m_pclient; }
 		CNetServer*	Server(void)					{ return m_pserver; }
-		short			RealmNum(void)					{ return m_sRealmNum; }
+		int16_t			RealmNum(void)					{ return m_sRealmNum; }
 		const char*	RealmName(void)				{ return m_szRealm; }
 		bool			JustOneRealm(void)			{ return m_bJustOneRealm; }
 		CRealm*		Realm(void)						{ return m_prealm; }
 		CCamera*		Camera(void)					{ return m_pcamera; }
 		CGrip*		Grip(void)						{ return m_pgrip; }
 		bool			Gauntlet(void)					{ return m_bGauntlet; }
-		short			AddOn(void)						{ return m_bAddOn; }
+		int16_t			AddOn(void)						{ return m_bAddOn; }
 		bool			Rejuvenate(void)				{ return m_bRejuvenate; }
-		short			TimeLimit(void)				{ return m_sTimeLimit > 0 ? m_sTimeLimit : 0; }
-		short			KillLimit(void)				{ return m_sKillLimit > 0 ? m_sKillLimit : 0; }
-		short			CoopLevels(void)				{ return m_sCoopLevels; }
-		short			FrameTime(void)				{ return m_sFrameTime; }
+		int16_t			TimeLimit(void)				{ return m_sTimeLimit > 0 ? m_sTimeLimit : 0; }
+		int16_t			KillLimit(void)				{ return m_sKillLimit > 0 ? m_sKillLimit : 0; }
+		int16_t			CoopLevels(void)				{ return m_sCoopLevels; }
+		int16_t			FrameTime(void)				{ return m_sFrameTime; }
 		RFile*		DemoModeDebugMovie(void)	{ return m_pfileDemoModeDebugMovie; }
 
 
@@ -730,7 +730,7 @@ class CPlayInfo
 		// Change the frame time (MP only)
 		////////////////////////////////////////////////////////////////////////////////
 		void SetFrameTime(
-			short sFrameTime)
+			int16_t sFrameTime)
 			{
 			m_sFrameTime = sFrameTime;
 			}
@@ -879,7 +879,7 @@ class CPlay
 		// Prepare game
 		////////////////////////////////////////////////////////////////////////////////
 		virtual
-		short PrepareGame(										// Returns 0 if successfull, non-zero otherwise
+		int16_t PrepareGame(										// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
 			return 0;
@@ -890,7 +890,7 @@ class CPlay
 		// Determine if game is ready
 		////////////////////////////////////////////////////////////////////////////////
 		virtual
-		short IsGameReady(										// Returns 0 if successfull, non-zero otherwise
+		int16_t IsGameReady(										// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo,										// I/O: Play info
 			bool* pbGameReady)									// Out: Whether game is ready
 			{
@@ -903,7 +903,7 @@ class CPlay
 		// Start game
 		////////////////////////////////////////////////////////////////////////////////
 		virtual
-		short StartGame(											// Returns 0 if successfull, non-zero otherwise
+		int16_t StartGame(											// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
 			return 0;
@@ -924,7 +924,7 @@ class CPlay
 		// Prepare realm
 		////////////////////////////////////////////////////////////////////////////////
 		virtual
-		short PrepareRealm(										// Returns 0 if successfull, non-zero otherwise
+		int16_t PrepareRealm(										// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
 			return 0;
@@ -935,7 +935,7 @@ class CPlay
 		// Determine if realm is ready
 		////////////////////////////////////////////////////////////////////////////////
 		virtual
-		short IsRealmReady(										// Returns 0 if successfull, non-zero otherwise
+		int16_t IsRealmReady(										// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo,										// I/O: Play info
 			bool* pbRealmReady)									// Out: Whether realm is ready
 			{
@@ -968,7 +968,7 @@ class CPlay
 		// Start realm
 		////////////////////////////////////////////////////////////////////////////////
 		virtual
-		short StartRealm(											// Returns 0 if successfull, non-zero otherwise
+		int16_t StartRealm(											// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
 			return 0;
@@ -1198,10 +1198,10 @@ class CPlayGroup
 		////////////////////////////////////////////////////////////////////////////////
 		// Prepare game
 		////////////////////////////////////////////////////////////////////////////////
-		short PrepareGame(										// Returns 0 if successfull, non-zero otherwise
+		int16_t PrepareGame(										// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			short sResult = 0;
+			int16_t sResult = 0;
 			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
 				sResult |= m_Plays.GetData(p)->PrepareGame(pinfo);
 			return sResult;
@@ -1211,11 +1211,11 @@ class CPlayGroup
 		////////////////////////////////////////////////////////////////////////////////
 		// Determine if game is ready
 		////////////////////////////////////////////////////////////////////////////////
-		short IsGameReady(										// Returns 0 if successfull, non-zero otherwise
+		int16_t IsGameReady(										// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo,										// I/O: Play info
 			bool* pbGameReady)									// Out: Whether game is ready
 			{
-			short sResult = 0;
+			int16_t sResult = 0;
 			*pbGameReady = true;
 			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
 				{
@@ -1230,10 +1230,10 @@ class CPlayGroup
 		////////////////////////////////////////////////////////////////////////////////
 		// Start game
 		////////////////////////////////////////////////////////////////////////////////
-		short StartGame(											// Returns 0 if successfull, non-zero otherwise
+		int16_t StartGame(											// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			short sResult = 0;
+			int16_t sResult = 0;
 			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
 				sResult |= m_Plays.GetData(p)->StartGame(pinfo);
 			return sResult;
@@ -1254,10 +1254,10 @@ class CPlayGroup
 		////////////////////////////////////////////////////////////////////////////////
 		// Prepare realm
 		////////////////////////////////////////////////////////////////////////////////
-		short PrepareRealm(										// Returns 0 if successfull, non-zero otherwise
+		int16_t PrepareRealm(										// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			short sResult = 0;
+			int16_t sResult = 0;
 			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
 				sResult |= m_Plays.GetData(p)->PrepareRealm(pinfo);
 			return sResult;
@@ -1267,11 +1267,11 @@ class CPlayGroup
 		////////////////////////////////////////////////////////////////////////////////
 		// Determine if realm is ready
 		////////////////////////////////////////////////////////////////////////////////
-		short IsRealmReady(										// Returns 0 if successfull, non-zero otherwise
+		int16_t IsRealmReady(										// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo,										// I/O: Play info
 			bool* pbRealmReady)									// Out: Whether realm is ready
 			{
-			short sResult = 0;
+			int16_t sResult = 0;
 			*pbRealmReady = true;
 			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
 				{
@@ -1308,10 +1308,10 @@ class CPlayGroup
 		////////////////////////////////////////////////////////////////////////////////
 		// Start realm
 		////////////////////////////////////////////////////////////////////////////////
-		short StartRealm(											// Returns 0 if successfull, non-zero otherwise
+		int16_t StartRealm(											// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			short sResult = 0;
+			int16_t sResult = 0;
 			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
 				sResult |= m_Plays.GetData(p)->StartRealm(pinfo);
 			return sResult;
@@ -1380,7 +1380,7 @@ class CPlayGroup
 			RDRect*	pdr	= pinfo->m_drl.GetHead();
 			while (pdr)
 				{
-				long lTime = rspGetMilliseconds();
+				int32_t lTime = rspGetMilliseconds();
 
 				// Update the portion of the display.
 				rspCacheDirtyRect(pdr->sX, pdr->sY, pdr->sW, pdr->sH);
@@ -1532,13 +1532,13 @@ class CPlayNet : public CPlay
 
 		bool				m_bCheckForAbortKey;				// Whether to check for user abort
 		bool				m_bTimeBombActive;				// Whether time bomb is active
-		long				m_lTimeBomb;						// Time when bomb explodes
+		int32_t				m_lTimeBomb;						// Time when bomb explodes
 
 		bool				m_bShowNetFeedback;				// Whether to show net feedback thingy
 
 		bool				m_bFirstCoreLoopUserInput;
 		REdit*			m_apeditChats[NUM_CHATS];		// Received chat edit fields.
-		long				m_lLastChatMoveTime;				// Last time chats were adjusted.
+		int32_t				m_lLastChatMoveTime;				// Last time chats were adjusted.
 
 	//------------------------------------------------------------------------------
 	// Functions
@@ -1550,7 +1550,7 @@ class CPlayNet : public CPlay
 		CPlayNet(void)
 			{
 			// Note that if any of this fails, we don't care (we just won't use them).
-			short	sIndex;
+			int16_t	sIndex;
 			for (sIndex = 0; sIndex < NUM_CHATS; sIndex++)
 				{
 				m_apeditChats[sIndex]	= (REdit*)RGuiItem::LoadInstantiate(FullPathHD(CHAT_GUI) );
@@ -1583,7 +1583,7 @@ class CPlayNet : public CPlay
 		/* virtual */
 		~CPlayNet()
 			{
-			short	sIndex;
+			int16_t	sIndex;
 			for (sIndex = 0; sIndex < NUM_CHATS; sIndex++)
 				{
 				delete m_apeditChats[sIndex];
@@ -1598,7 +1598,7 @@ class CPlayNet : public CPlay
 		void MoveChatsUp(
 			CPlayInfo*	pinfo)			// In:  Info object.
 			{
-			short	sIndex	= 0;
+			int16_t	sIndex	= 0;
 			// Goto last chat that is filled moving them up as we go.
 			while (sIndex < NUM_CHATS)
 				{
@@ -1654,7 +1654,7 @@ class CPlayNet : public CPlay
 		void DrawChats(
 			CPlayInfo*	pinfo)			// In:  Info object.
 			{
-			short	sIndex;
+			int16_t	sIndex;
 			for (sIndex = 0; sIndex < NUM_CHATS; sIndex++)
 				{
 				if (m_apeditChats[sIndex]->m_sVisible != FALSE)
@@ -1675,7 +1675,7 @@ class CPlayNet : public CPlay
 		// Prepare realm
 		////////////////////////////////////////////////////////////////////////////////
 		/* virtual */
-		short PrepareRealm(										// Returns 0 if successfull, non-zero otherwise
+		int16_t PrepareRealm(										// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
 			CNetClient* pclient = pinfo->Client();
@@ -1751,7 +1751,7 @@ class CPlayNet : public CPlay
 		// Start realm
 		////////////////////////////////////////////////////////////////////////////////
 		virtual
-		short StartRealm(											// Returns 0 if successfull, non-zero otherwise
+		int16_t StartRealm(											// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
 			if (pinfo->IsMP())
@@ -1915,7 +1915,7 @@ class CPlayNet : public CPlay
 					UINPUT aInputs[Net::MaxNumIDs];
 
 					/** SPA **/
-					short sFrameTime = 0;
+					int16_t sFrameTime = 0;
 					if (pclient->CanDoFrame(aInputs, &sFrameTime)) // Get frame time as well *SPA
 						{
 						pinfo->SetFrameTime(sFrameTime);
@@ -2050,7 +2050,7 @@ class CPlayNet : public CPlay
 									break;
 
 								default:
-									TRACE("CPlayNet::CoreLoopUpdate(): Unhandled message: %hd\n", (short)msg.msg.nothing.ucType);
+									TRACE("CPlayNet::CoreLoopUpdate(): Unhandled message: %hd\n", (int16_t)msg.msg.nothing.ucType);
 									break;
 								}
 							}
@@ -2106,7 +2106,7 @@ class CPlayNet : public CPlay
 
 								case NetMsg::CHAT:
 									{
-									short	sIndex	= 0;
+									int16_t	sIndex	= 0;
 
 									while (m_apeditChats[sIndex]->m_szText[0])
 										{
@@ -2176,7 +2176,7 @@ class CPlayNet : public CPlay
 								break;
 
 							default:
-								TRACE("CPlayNet::CoreLoopUpdate(): Unhandled message: %hd\n", (short)msg.msg.nothing.ucType);
+								TRACE("CPlayNet::CoreLoopUpdate(): Unhandled message: %hd\n", (int16_t)msg.msg.nothing.ucType);
 								break;
 							}
 						}
@@ -2288,18 +2288,18 @@ class CPlayStatus : public CPlay
 	// Variables
 	//------------------------------------------------------------------------------
 	private:
-		long				m_lLastFrameTime;
-		long				m_lSumFrameTimes;
-		long				m_lNumFrames;
-		long				m_lLastIterationTime;
+		int32_t				m_lLastFrameTime;
+		int32_t				m_lSumFrameTimes;
+		int32_t				m_lNumFrames;
+		int32_t				m_lLastIterationTime;
 		/* 12/3/97 AJC */
 		Net::SEQ			m_seqPrevFrameSeq;
 		Net::SEQ			m_seqCurrFrameSeq;
-		long				m_lFramePerSecond;
-		long				m_lPrevSeqTime;
+		int32_t				m_lFramePerSecond;
+		int32_t				m_lPrevSeqTime;
 		/* 12/3/97 AJC */
-		long				m_lSumIterationTimes;
-		long				m_lNumIterations;
+		int32_t				m_lSumIterationTimes;
+		int32_t				m_lNumIterations;
 		RRect				m_rectDude;
 		RRect				m_rectRealm;
 		RRect				m_rectInfo;
@@ -2335,7 +2335,7 @@ class CPlayStatus : public CPlay
 		// Start realm
 		////////////////////////////////////////////////////////////////////////////////
 		/* virtual */
-		short StartRealm(											// Returns 0 if successfull, non-zero otherwise
+		int16_t StartRealm(											// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
 			if (!pinfo->m_bBadRealmMP)
@@ -2452,7 +2452,7 @@ class CPlayStatus : public CPlay
 					// Check if it's the next frame, if it is, calculate frame per sec
 					if (m_seqCurrFrameSeq != m_seqPrevFrameSeq)
 						{
-						long lCurrSeqTime = rspGetMilliseconds();
+						int32_t lCurrSeqTime = rspGetMilliseconds();
 						m_lFramePerSecond = 1000.0 * (m_seqCurrFrameSeq - m_seqPrevFrameSeq) / (lCurrSeqTime - m_lPrevSeqTime);
 
 						m_seqPrevFrameSeq = m_seqCurrFrameSeq;
@@ -2649,7 +2649,7 @@ class CPlayInput : public CPlay
 	// Variables
 	//------------------------------------------------------------------------------
 	private:
-		long				m_lDemoDeadTime;				// Time dude has been dead for
+		int32_t				m_lDemoDeadTime;				// Time dude has been dead for
 		U8*				m_pau8KeyStatus;				// Key status array
 		REdit*			m_peditChatIn;					// Outgoing chat.
 
@@ -2707,7 +2707,7 @@ class CPlayInput : public CPlay
 		// Start realm
 		////////////////////////////////////////////////////////////////////////////////
 		virtual
-		short StartRealm(											// Returns 0 if successfull, non-zero otherwise
+		int16_t StartRealm(											// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
 			// Reset time he's been dead ('cause he isn't dead yet)
@@ -3220,7 +3220,7 @@ class CPlayInput : public CPlay
 		void PauseGame(
 			CRealm*	prealm,			// In:  Realm to pause or NULL.
 			char*		pszMsg,			// In:  Message to be displayed.
-			long		lKey)				// In:  Key to continue or 0 to wait for foreground status
+			int32_t		lKey)				// In:  Key to continue or 0 to wait for foreground status
 			{
 			// Suspend realm.
 			if (prealm)
@@ -3281,14 +3281,14 @@ class CPlayInput : public CPlay
 			print.SetDestination(g_pimScreenBuf);
 			print.SetJustifyCenter();
 
-			short	sTotalH	= PAUSED_FONT_HEIGHT + PAUSED_FONT_SHADOW_Y;
+			int16_t	sTotalH	= PAUSED_FONT_HEIGHT + PAUSED_FONT_SHADOW_Y;
 			if (pszMsg)
 				{
 				// Include message height as well.
 				sTotalH	+= PAUSED_MSG_FONT_HEIGHT + PAUSED_MSG_FONT_SHADOW_Y;
 				}
 
-			short	sPosY		= g_pimScreenBuf->m_sHeight / 2 - sTotalH; // / 2;
+			int16_t	sPosY		= g_pimScreenBuf->m_sHeight / 2 - sTotalH; // / 2;
 
 			print.print(
 				0,
@@ -3461,7 +3461,7 @@ class CPlayInput : public CPlay
 				// User save choice.
 				case MenuActionSaveGame:
 					{
-					short sResult;
+					int16_t sResult;
 					// Static so dialog will "remember" the previously-used name
 					static char	szFile[RSP_MAX_PATH]	= "";
 
@@ -3580,7 +3580,7 @@ class CPlayInput : public CPlay
 				{
 				CDude* pdudeLocal = pinfo->LocalDudePointer();
 				if (pdudeLocal)
-					pdudeLocal->m_sTextureIndex = MAX((short)0, MIN((short)(CDude::MaxTextures - 1), g_GameSettings.m_sPlayerColorIndex));
+					pdudeLocal->m_sTextureIndex = MAX((int16_t)0, MIN((int16_t)(CDude::MaxTextures - 1), g_GameSettings.m_sPlayerColorIndex));
 				}
 
 			// Re-enable 'Play Options' on 'Options' menu.
@@ -3640,8 +3640,8 @@ class CPlayRealm : public CPlay
 		LevelPersist	m_alevelpersist[Net::MaxNumIDs];	// Index by CDude::m_sDudeNum.
 		bool				m_bMakeDemoMovie_WaitForClick;	// Flag used when making demo movies
 		double			m_dCurrentFilmScale;
-		short				m_sCurrentGripZoneRadius;
-		long				m_lNumSeqSkippedFrames;
+		int16_t				m_sCurrentGripZoneRadius;
+		int32_t				m_lNumSeqSkippedFrames;
 
 
 	//------------------------------------------------------------------------------
@@ -3669,7 +3669,7 @@ class CPlayRealm : public CPlay
 		// Prepare game
 		////////////////////////////////////////////////////////////////////////////////
 		/* virtual */
-		short PrepareGame(										// Returns 0 if successfull, non-zero otherwise
+		int16_t PrepareGame(										// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
 			// Note whether multiplayer.
@@ -3683,7 +3683,7 @@ class CPlayRealm : public CPlay
 			// those respective classes in the destructor (e.g., his smash and his 
 			// sprite and, in some cases, a child object).
 			// Initialize to appropriate values.
-			short sDudeIndex;
+			int16_t sDudeIndex;
 			for (sDudeIndex = 0; sDudeIndex < Net::MaxNumIDs; sDudeIndex++)
 				{
 				// Clear stockpile.
@@ -3704,10 +3704,10 @@ class CPlayRealm : public CPlay
 		// Prepare realm
 		////////////////////////////////////////////////////////////////////////////////
 		/* virtual */
-		short PrepareRealm(										// Returns 0 if successfull, non-zero otherwise
+		int16_t PrepareRealm(										// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			short sResult = 0;
+			int16_t sResult = 0;
 
 			CRealm* prealm = pinfo->Realm();
 
@@ -3813,7 +3813,7 @@ class CPlayRealm : public CPlay
 		// Start realm
 		////////////////////////////////////////////////////////////////////////////////
 		/* virtual */
-		short StartRealm(											// Returns 0 if successfull, non-zero otherwise
+		int16_t StartRealm(											// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
 			if (!pinfo->m_bBadRealmMP)
@@ -3939,7 +3939,7 @@ class CPlayRealm : public CPlay
 					if (pdudeLocal != NULL)
 						{
 						// Update grip/camera
-						short	sX, sY;
+						int16_t	sX, sY;
 						prealm->Map3Dto2D(pdudeLocal->GetX(), pdudeLocal->GetY(), pdudeLocal->GetZ(), &sX, &sY);
 						pinfo->Grip()->TrackTarget(sX, sY, 30);
 
@@ -4064,7 +4064,7 @@ class CPlayRealm : public CPlay
 		////////////////////////////////////////////////////////////////////////////////
 		void SetupGeneralDude(
 			CDude* pdude,											// In:  Dude to setup
-			short sColor,											// In:  Player's color
+			int16_t sColor,											// In:  Player's color
 			LevelPersist*	palevelpersist)					// In:  Players' level persistent data.
 			{
 			// Union player's pre-existing stockpile with warped-in dude and give him his prior weapon
@@ -4093,11 +4093,11 @@ class CPlayRealm : public CPlay
 		// will exist (no more, no less).
 		//
 		////////////////////////////////////////////////////////////////////////////////
-		short SetupDudes(
+		int16_t SetupDudes(
 			CPlayInfo*		pinfo,								// I/O: Play info
 			LevelPersist*	palevelpersist)					// In:  Players' level persistent data.
 			{
-			short sResult = 0;
+			int16_t sResult = 0;
 
 			CRealm* prealm = pinfo->Realm();
 
@@ -4157,8 +4157,8 @@ class CPlayRealm : public CPlay
 					// Find a random starter.  Pick a number from 0 to n - 1 where n is the
 					// number of CWarps in the realm.  Next, iterate to that warp so we start
 					// creating dudes at a 'random' warp.
-					short	sStartWarpNum	= GetRand() % prealm->m_asClassNumThings[CThing::CWarpID];
-					short	i;
+					int16_t	sStartWarpNum	= GetRand() % prealm->m_asClassNumThings[CThing::CWarpID];
+					int16_t	i;
 					for (i = 0; i < sStartWarpNum; i++, plnWarp = plnWarp->m_pnNext)
 						;
 
@@ -4184,10 +4184,10 @@ class CPlayRealm : public CPlay
 								// corresponding network ID.  This isn't a great solution, but it
 								// was the best we could do given the little time we have left.
 								ASSERT(pdude != NULL);
-								pdude->m_sDudeNum = (short)id;
+								pdude->m_sDudeNum = (int16_t)id;
 
 								// Set general dude stuff
-								SetupGeneralDude(pdude, (short)pclient->GetPlayerColor(id), palevelpersist);
+								SetupGeneralDude(pdude, (int16_t)pclient->GetPlayerColor(id), palevelpersist);
 
 								// Set dude's instance ID (not to be confused with network ID)
 								pclient->SetPlayerDudeID(id, pdude->GetInstanceID());
@@ -4247,10 +4247,10 @@ class CPlayRealm : public CPlay
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		void BlankDisplay(				// Returns nothing.
-			short			sX,				// In:  X start position.
-			short			sY,				// In:  Y start position.
-			short			sW,				// In:  Width.
-			short			sH,				// In:  Height
+			int16_t			sX,				// In:  X start position.
+			int16_t			sY,				// In:  Y start position.
+			int16_t			sW,				// In:  Width.
+			int16_t			sH,				// In:  Height
 			CPlayInfo*	pinfo)			// Out: Dimensions to update to the display later.
 			{
 			if (sW > 0 && sH > 0)
@@ -4280,10 +4280,10 @@ class CPlayRealm : public CPlay
 			CGrip* pgrip = pinfo->Grip();
 
 			// Remember previous values so we know what portion of the screen needs to be cleared
-			short	sOldFilmX = pcamera->m_sFilmViewX;
-			short	sOldFilmY = pcamera->m_sFilmViewY;
-			short	sOldViewW = pcamera->m_sViewW;
-			short	sOldViewH = pcamera->m_sViewH;
+			int16_t	sOldFilmX = pcamera->m_sFilmViewX;
+			int16_t	sOldFilmY = pcamera->m_sFilmViewY;
+			int16_t	sOldViewW = pcamera->m_sViewW;
+			int16_t	sOldViewH = pcamera->m_sViewH;
 
 			// Clamp the scale to fit the valid range
 			if (g_GameSettings.m_dGameFilmScale > FILM_MAX_SCALE)
@@ -4292,10 +4292,10 @@ class CPlayRealm : public CPlay
 				g_GameSettings.m_dGameFilmScale	= FILM_MIN_SCALE;
 
 			// Scale the actual film.
-			short	sViewW = VIEW_W * g_GameSettings.m_dGameFilmScale;
-			short sViewH = VIEW_H * g_GameSettings.m_dGameFilmScale;
-			short	sFilmX = FILM_X + (VIEW_W - sViewW) / 2;
-			short	sFilmY = FILM_Y + (VIEW_H - sViewH) / 2;
+			int16_t	sViewW = VIEW_W * g_GameSettings.m_dGameFilmScale;
+			int16_t sViewH = VIEW_H * g_GameSettings.m_dGameFilmScale;
+			int16_t	sFilmX = FILM_X + (VIEW_W - sViewW) / 2;
+			int16_t	sFilmY = FILM_Y + (VIEW_H - sViewH) / 2;
 
 			// Update the camera to the new film size.
 			pcamera->m_sViewW	= sViewW;
@@ -4304,7 +4304,7 @@ class CPlayRealm : public CPlay
 
 			// Update the grip to the new film scaling.
 			pgrip->SetParms(
-				MAX(short(g_GameSettings.m_sGripZoneRadius * g_GameSettings.m_dGameFilmScale), short(MIN_GRIP_ZONE_RADIUS) ),
+				MAX(int16_t(g_GameSettings.m_sGripZoneRadius * g_GameSettings.m_dGameFilmScale), int16_t(MIN_GRIP_ZONE_RADIUS) ),
 				GRIP_MIN_MOVE_X,
 				GRIP_MIN_MOVE_Y,
 				GRIP_MAX_MOVE_X,
@@ -4437,8 +4437,8 @@ class CPlayRealm : public CPlay
 							bool bMatch = true;
 							int i;
 							U8* pSrcLine = im.m_pData;
-							U8* pDstLine = g_pimScreenBuf->m_pData + ((long)FILM_Y * g_pimScreenBuf->m_lPitch) + (long)FILM_X;
-							short sHeight = im.m_sHeight;
+							U8* pDstLine = g_pimScreenBuf->m_pData + ((int32_t)FILM_Y * g_pimScreenBuf->m_lPitch) + (int32_t)FILM_X;
+							int16_t sHeight = im.m_sHeight;
 							U8* pSrc;
 							U8* pDst;
 							while (sHeight--)
@@ -4460,8 +4460,8 @@ class CPlayRealm : public CPlay
 								{
 								int i;
 								U8* pSrcLine = im.m_pData;
-								U8* pDstLine = g_pimScreenBuf->m_pData + ((long)FILM_Y * g_pimScreenBuf->m_lPitch) + (long)FILM_X;
-								short sHeight = im.m_sHeight;
+								U8* pDstLine = g_pimScreenBuf->m_pData + ((int32_t)FILM_Y * g_pimScreenBuf->m_lPitch) + (int32_t)FILM_X;
+								int16_t sHeight = im.m_sHeight;
 								U8* pSrc;
 								U8* pDst;
 								while (sHeight--)
@@ -4492,7 +4492,7 @@ class CPlayRealm : public CPlay
 								// the user can disable the waiting by clicking the right mouse button.
 								if (m_bMakeDemoMovie_WaitForClick)
 									{
-									short sButtons;
+									int16_t sButtons;
 									do	{
 										rspGetMouse(NULL, NULL, &sButtons);
 										UpdateSystem();
@@ -4576,7 +4576,7 @@ class CPlayScore : public CPlay
 		// Prepare game
 		////////////////////////////////////////////////////////////////////////////////
 		/* virtual */
-		short PrepareGame(										// Returns 0 if successfull, non-zero otherwise
+		int16_t PrepareGame(										// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
 			// Init and reset score module
@@ -4590,7 +4590,7 @@ class CPlayScore : public CPlay
 		// Start realm
 		////////////////////////////////////////////////////////////////////////////////
 		/* virtual */
-		short StartRealm(											// Returns 0 if successfull, non-zero otherwise
+		int16_t StartRealm(											// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
 			if (!pinfo->m_bBadRealmMP)
@@ -4760,7 +4760,7 @@ class CPlayCutscene : public CPlay
 			rspUpdateDisplay();
 
 			// A quick delay while on the black screen looks better than no delay
-			long lBlackTime = rspGetMilliseconds();
+			int32_t lBlackTime = rspGetMilliseconds();
 			while (rspGetMilliseconds() - lBlackTime < BLACK_HOLD_TIME)
 				;
 			}
@@ -4782,7 +4782,7 @@ inline void SynchronousSampleAbortion(void)
 	// scenario where a shitty sound driver causes us to think a sound is always
 	// playing.
 	// Wait for all samples to finish.
-	long	lTimeOutTime	= rspGetMilliseconds() + TIME_OUT_FOR_ABORT_SOUNDS;
+	int32_t	lTimeOutTime	= rspGetMilliseconds() + TIME_OUT_FOR_ABORT_SOUNDS;
 	// Wait for them to stop.
 	while (IsSamplePlaying() == true && rspGetMilliseconds() < lTimeOutTime)
 		{
@@ -4798,25 +4798,25 @@ inline void SynchronousSampleAbortion(void)
 // Play game using specified settings.
 //
 ////////////////////////////////////////////////////////////////////////////////
-extern short Play(										// Returns 0 if successfull, non-zero otherwise
+extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 	CNetClient*	pclient,									// In:  Client object or NULL if not network game
 	CNetServer*	pserver,									// In:  Server object or NULL if not server or not network game
 	INPUT_MODE inputMode,								// In:  Input mode
-	const short sRealmNum,								// In:  Realm number to start on or -1 to use specified realm file
+	const int16_t sRealmNum,								// In:  Realm number to start on or -1 to use specified realm file
 	const char*	pszRealmFile,							// In:  Realm file to play (ignored if sRealmNum >= 0)
 	const bool bJustOneRealm,							// In:  Play just this one realm (ignored if sRealmNum < 0)
 	const bool bGauntlet,								// In:  Play challenge levels gauntlet - as selected on menu
-	const short bAddOn,									// In:  Play add on levels
-	const short sDifficulty,							// In:  Difficulty level
+	const int16_t bAddOn,									// In:  Play add on levels
+	const int16_t sDifficulty,							// In:  Difficulty level
 	const bool bRejuvenate,								// In:  Whether to allow players to rejuvenate (MP only)
-	const short sTimeLimit,								// In:  Time limit for MP games (0 or negative if none)
-	const short sKillLimit,								// In:  Kill limit for MP games (0 or negative if none)
-	const	short	sCoopLevels,							// In:  Zero for deathmatch levels, non-zero for cooperative levels.
-	const	short	sCoopMode,								// In:  Zero for deathmatch mode, non-zero for cooperative mode.
-	const short sFrameTime,								// In:  Milliseconds per frame (MP only)
+	const int16_t sTimeLimit,								// In:  Time limit for MP games (0 or negative if none)
+	const int16_t sKillLimit,								// In:  Kill limit for MP games (0 or negative if none)
+	const	int16_t	sCoopLevels,							// In:  Zero for deathmatch levels, non-zero for cooperative levels.
+	const	int16_t	sCoopMode,								// In:  Zero for deathmatch mode, non-zero for cooperative mode.
+	const int16_t sFrameTime,								// In:  Milliseconds per frame (MP only)
 	RFile* pfileDemoModeDebugMovie)					// In:  File for loading/saving demo mode debug movie
 	{
-	short sResult = 0;
+	int16_t sResult = 0;
 
 //#ifdef MOBILE
 	if (inputMode == INPUT_MODE_PLAYBACK)
@@ -4906,7 +4906,7 @@ extern short Play(										// Returns 0 if successfull, non-zero otherwise
 			// makes it more obvious.
 			info.m_szRealm[0] = 0;
 			sResult	= -1;
-			TRACE("Play(): Couldn't get info for realm #%hd!\n", (short)sRealmNum);
+			TRACE("Play(): Couldn't get info for realm #%hd!\n", (int16_t)sRealmNum);
 			}
 		}
 	info.m_pfileDemoModeDebugMovie = pfileDemoModeDebugMovie;
@@ -4925,7 +4925,7 @@ extern short Play(										// Returns 0 if successfull, non-zero otherwise
 		sResult = prefsRealm.Open(FullPathCD(g_GameSettings.m_pszRealmPrefsFile), "rt");
 	if (sResult == 0)
 		{
-		short	sNumLevels;
+		int16_t	sNumLevels;
 		prefsRealm.GetVal("Info", "NumSinglePlayerLevels", 16, &sNumLevels);
 		prefsRealm.Close();
 
@@ -4959,7 +4959,7 @@ extern short Play(										// Returns 0 if successfull, non-zero otherwise
 					/*** 12/5/97 AJC ***/
 					// Outer loop keeps playing one realm after another
 					do	{
-						long startRealmMS = -1;
+						int32_t startRealmMS = -1;
 
 						// Clear game status
 						info.SetGameState_Ok();
@@ -5006,7 +5006,7 @@ extern short Play(										// Returns 0 if successfull, non-zero otherwise
 								if (pclient)
 								{
 									info.Realm()->m_sKillsGoal = sKillLimit;
-									info.Realm()->m_lScoreInitialTime = info.Realm()->m_lScoreTimeDisplay = (long)sTimeLimit * (long)60000;
+									info.Realm()->m_lScoreInitialTime = info.Realm()->m_lScoreTimeDisplay = (int32_t)sTimeLimit * (int32_t)60000;
 									
 									// If Rejuvenate is allowed, then its not last man standing
 									if (bRejuvenate)
@@ -5191,9 +5191,9 @@ extern short Play(										// Returns 0 if successfull, non-zero otherwise
 						else
 							playgroup.PrepareRealmErr(&info);
 
-						const long endRealmMS = rspGetMilliseconds();
-						const long timePlayedMS = ((startRealmMS > 0) && (endRealmMS > 0) && (endRealmMS > startRealmMS)) ? endRealmMS - startRealmMS : -1;
-						const long newPlaythroughMS = playthroughMS + timePlayedMS;
+						const int32_t endRealmMS = rspGetMilliseconds();
+						const int32_t timePlayedMS = ((startRealmMS > 0) && (endRealmMS > 0) && (endRealmMS > startRealmMS)) ? endRealmMS - startRealmMS : -1;
+						const int32_t newPlaythroughMS = playthroughMS + timePlayedMS;
 						if (!g_bLastLevelDemo)  // don't charge the last level demo to playthroughMS.
 							playthroughMS = ((playthroughMS < 0) || (timePlayedMS < 0) || (newPlaythroughMS < 0)) ? -1 : newPlaythroughMS;
 
@@ -5254,7 +5254,7 @@ extern short Play(										// Returns 0 if successfull, non-zero otherwise
 												// 09/12/97 MJR - We don't want to exit the loop if this happens.  Instead,
 												// we set the bad realm flag and let the core loop handle the abort process.
 												info.m_bBadRealmMP = true;
-												TRACE("Play(): Couldn't get info for realm #%hd!\n", (short)info.m_sRealmNum);
+												TRACE("Play(): Couldn't get info for realm #%hd!\n", (int16_t)info.m_sRealmNum);
 												}
 											}
 										else
@@ -5281,7 +5281,7 @@ extern short Play(										// Returns 0 if successfull, non-zero otherwise
 											info.m_bBadRealmMP = true;
 										else
 											sResult	= -1;
-										TRACE("Play(): Couldn't get info for realm #%hd!\n", (short)info.m_sRealmNum);
+										TRACE("Play(): Couldn't get info for realm #%hd!\n", (int16_t)info.m_sRealmNum);
 										break;
 									}
 								}
@@ -5391,7 +5391,7 @@ extern void Play_SnapPicture(void)
 ////////////////////////////////////////////////////////////////////////////////
 extern bool Play_VerifyQuitMenuChoice(				// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,									// In:  Current menu.
-	short	sMenuItem)										// In:  Item chosen or -1 for change of focus.
+	int16_t	sMenuItem)										// In:  Item chosen or -1 for change of focus.
 	{
 	bool	bAcceptChoice	= true;	// Assume accepting choice.
 
@@ -5433,23 +5433,23 @@ extern bool Play_VerifyQuitMenuChoice(				// Returns true to accept, false to de
 // Get info about specified realm
 //
 ////////////////////////////////////////////////////////////////////////////////
-extern short Play_GetRealmInfo(						// Returns 0 if successfull, 1 if no such realm, negative on error
+extern int16_t Play_GetRealmInfo(						// Returns 0 if successfull, 1 if no such realm, negative on error
 	bool	bNetwork,										// In:  true if network game, false otherwise
 	bool	bCoop,											// In:  true if coop net game, false otherwise -- no effect if bNetwork is false.
 	bool  bGauntlet,										// In:  true if playing challenge mode
-	short  bAddOn,											// In:  true if playing the new add on levels
-	short sRealmNum,										// In:  Realm number
-	short	sDifficulty,									// In:  Realm difficulty.
+	int16_t  bAddOn,											// In:  true if playing the new add on levels
+	int16_t sRealmNum,										// In:  Realm number
+	int16_t	sDifficulty,									// In:  Realm difficulty.
 	char* pszFile,											// Out: Realm's file name
-	short sMaxFileLen,									// In:  Max length of returned file name, including terminating null
+	int16_t sMaxFileLen,									// In:  Max length of returned file name, including terminating null
 	char* pszTitle /*= 0*/,								// Out: Realm's title
-	short sMaxTitleLen /*= NULL*/)					// In:  Max length of returned title, including terminating null
+	int16_t sMaxTitleLen /*= NULL*/)					// In:  Max length of returned title, including terminating null
 	{
 	ASSERT(sRealmNum >= 0);
 	ASSERT(pszFile != NULL);
 	ASSERT(sMaxFileLen > 0);
 
-	short	sResult = 0;
+	int16_t	sResult = 0;
 
 	// Open the realm prefs file
 	RPrefs prefsRealm;
@@ -5521,9 +5521,9 @@ extern void Play_GetRealmSectionAndEntry(
 	bool	bNetwork,										// In:  true if network game, false otherwise
 	bool	bCoop,											// In:  true if coop net game, false otherwise -- no effect if bNetwork is false.
 	bool  bGauntlet,										// In:  true if playing challenge mode
-	short  bAddOnLevels,									// In:  true if playing new add on levels
-	short sRealmNum,										// In:  Realm number
-	short	sDifficulty,									// In:  Realm difficulty.
+	int16_t  bAddOnLevels,									// In:  true if playing new add on levels
+	int16_t sRealmNum,										// In:  Realm number
+	int16_t	sDifficulty,									// In:  Realm difficulty.
 	RString* pstrSection,								// Out: Section is returned here
 	RString* pstrEntry)									// Out: Entry is returned here
 	{
@@ -5540,7 +5540,7 @@ extern void Play_GetRealmSectionAndEntry(
 			*pstrSection = "RealmCoopNet";
 			}
 
-		*pstrSection += (short)(sRealmNum + 1);
+		*pstrSection += (int16_t)(sRealmNum + 1);
 		// Multiplayer realm entry is always "Realm"
 		*pstrEntry = "Realm";
 		}
@@ -5548,7 +5548,7 @@ extern void Play_GetRealmSectionAndEntry(
 		{
 		// Challenge sections are named "Challenge1", "Challenge2", etc.
 		*pstrSection = "Gauntlet";
-		*pstrSection += (short)(sRealmNum + 1);
+		*pstrSection += (int16_t)(sRealmNum + 1);
 		// Challen realm entry is always "Realm"
 		*pstrEntry = "Realm";
 		}
@@ -5563,15 +5563,17 @@ extern void Play_GetRealmSectionAndEntry(
 			{
 			// Single player sections are named "Realm1", "Realm2", etc.
 			// AddOn single player sections are named "AddOn1", "AddOn2", etc.
-			switch(bAddOnLevels) {
+			TRACE("bAddOnLevels = %d\n", bAddOnLevels);
+			switch(bAddOnLevels){
 			case 2:
 				*pstrSection = "JAddOn"; break;
-			case 1:
+			 case 1:
 				*pstrSection = "AddOn"; break;
 			default:
+				TRACE("HUH! CG! Coconut Gun!\n");
 				*pstrSection = "Realm";
 			}
-			*pstrSection += (short)(sRealmNum + 1);
+			*pstrSection += (int16_t)(sRealmNum + 1);
 			// Single player entry depends on difficulty level
 			switch (sDifficulty)
 				{
@@ -5611,7 +5613,7 @@ extern void Play_GetRealmSectionAndEntry(
 extern
 void Play_GetApplicationDescriptor(			// Returns nothing.
 	char* pszText,									// Out: Text descriptor.
-	short	sMaxBytes)								// In:  Amount of writable 
+	int16_t	sMaxBytes)								// In:  Amount of writable 
 														// memory pointed to by pszText.
 	{
 	// Set default in case there's an error

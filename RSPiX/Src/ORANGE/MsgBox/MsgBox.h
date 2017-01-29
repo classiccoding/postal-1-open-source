@@ -101,39 +101,39 @@ class RMsgBox : public RDlg
 									// Do NOT delete this item; it will be deleted
 									// by a RemoveAll() call.
 			char* pszText,		// Text for btn item.
-			short	sX,			// X position in RMsgBox dlg.
-			short	sY,			// Y position in RMsgBox dlg.
+			int16_t	sX,			// X position in RMsgBox dlg.
+			int16_t	sY,			// Y position in RMsgBox dlg.
 			ULONG	ulId,			// ID to return if this item is chosen.
 									// There will be no response to this item
 									// if lId is 0.
-			short	sAddW = 0,	// Additional width for guis that require more.
-			short	sAddH = 0);	// Additional height for guis that require more.
+			int16_t	sAddW = 0,	// Additional width for guis that require more.
+			int16_t	sAddH = 0);	// Additional height for guis that require more.
 
 		// Add a txt item with provided text at sX, sY in RMsgBox dlg.
 		RTxt* AddText(			// Returns allocated GUI item on success.
 									// Do NOT delete this item; it will be deleted
 									// by a RemoveAll() call.
 			char* pszText,		// Text for txt item.
-			short	sX,			// X position in RMsgBox dlg.
-			short	sY,			// Y position in RMsgBox dlg.
+			int16_t	sX,			// X position in RMsgBox dlg.
+			int16_t	sY,			// Y position in RMsgBox dlg.
 			ULONG	ulId,			// ID to return if this item is chosen.
 									// There will be no response to this item
 									// if lId is 0.
-			short	sAddW = 0,	// Additional width for guis that require more.
-			short	sAddH = 0);	// Additional height for guis that require more.
+			int16_t	sAddW = 0,	// Additional width for guis that require more.
+			int16_t	sAddH = 0);	// Additional height for guis that require more.
 
 		// Add an edit field with provided text at sX, sY in RMsgBox dlg.
 		REdit* AddEdit(	// Returns allocated GUI item on success.
 								// Do NOT delete this item; it will be deleted
 								// by a RemoveAll() call.
 			char* pszText,	// Text for edit item.
-			short	sX,		// X position in RMsgBox dlg.
-			short	sY,		// Y position in RMsgBox dlg.
+			int16_t	sX,		// X position in RMsgBox dlg.
+			int16_t	sY,		// Y position in RMsgBox dlg.
 			ULONG	ulId,			// ID to return if this item is chosen.
 									// There will be no response to this item
 									// if lId is 0.
-			short	sAddW = 0,	// Additional width for guis that require more.
-			short	sAddH = 0);	// Additional height for guis that require more.
+			int16_t	sAddW = 0,	// Additional width for guis that require more.
+			int16_t	sAddH = 0);	// Additional height for guis that require more.
 
 		// Add the RGuiItem of your choice.  pgui->m_ulUserData will be returned
 		// by DoModal() if this item is chosen.
@@ -189,16 +189,16 @@ class RMsgBox : public RDlg
 	protected:	// Internal functions.
 
 		// Add a GUI item already allocated by this RMsgBox.
-		short AddItem(			// Returns 0 on success.
+		int16_t AddItem(			// Returns 0 on success.
 			RGuiItem* pgui,	// Item to add.
 			char* pszText,		// Text for item.
-			short	sX,			// X position in RMsgBox dlg.
-			short	sY,			// Y position in RMsgBox dlg.
+			int16_t	sX,			// X position in RMsgBox dlg.
+			int16_t	sY,			// Y position in RMsgBox dlg.
 			ULONG	ulId,			// ID to return if this item is chosen.
 									// There will be no response to this item
 									// if lId is 0.
-			short	sAddW = 0,	// Additional width for guis that require more.
-			short	sAddH = 0);	// Additional height for guis that require more.
+			int16_t	sAddW = 0,	// Additional width for guis that require more.
+			int16_t	sAddH = 0);	// Additional height for guis that require more.
 
 		// Copies parameters from RMsgBox into *pgui.
 		void CopyParms(RGuiItem* pgui);

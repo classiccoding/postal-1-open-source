@@ -22,8 +22,8 @@
 //============================== INTERNAL STUFF  ==================================
 enum { BUF_MEMORY = 1,BUF_VRAM,BUF_VRAM2,BUF_WIN };
 
-extern short gsScreenLocked;
-extern short gsBufferLocked;
+extern int16_t gsScreenLocked;
+extern int16_t gsBufferLocked;
 
 // This list of Image types needs to always be kept as up to date as humanly possible:
 // It is only intended for use in debug mode.  It returns 0 if it is NOT the desired type,
@@ -34,9 +34,9 @@ extern short gsBufferLocked;
 // NOTE: These represent ONLY compressed types BLiT can access.  Use ImageIsUncompressed
 // otherwise.
 //
-inline short ImageIsCompressed(ULONG ulType) // an image type
+inline int16_t ImageIsCompressed(ULONG ulType) // an image type
 	{
-	short	sRet = 0; // 0 if it is NOT a supported compressed type, else 1!
+	int16_t	sRet = 0; // 0 if it is NOT a supported compressed type, else 1!
 	
 	switch(ulType)
 		{
@@ -51,9 +51,9 @@ inline short ImageIsCompressed(ULONG ulType) // an image type
 
 // NOTE: These represent ONLY uncompressed types BLiT can access.  
 //
-inline short ImageIsUncompressed(ULONG ulType) // an image type
+inline int16_t ImageIsUncompressed(ULONG ulType) // an image type
 	{
-	short	sRet = 0; // 0 if it is NOT a supported uncompressed type, else 1!
+	int16_t	sRet = 0; // 0 if it is NOT a supported uncompressed type, else 1!
 	
 	switch(ulType)
 		{
@@ -100,7 +100,7 @@ public:
 	*/
 
 extern	void _rspBLiT(UCHAR ucColor,RImage* pimSrc,RImage* pimDst,
-				  short sDstX,short sDstY);
+				  int16_t sDstX,int16_t sDstY);
 
 //=========================
 #endif

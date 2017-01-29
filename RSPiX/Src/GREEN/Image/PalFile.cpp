@@ -100,12 +100,12 @@
 // Loads an RPal with no file version into ppal from pfile.
 //
 //////////////////////////////////////////////////////////////////////////////
-short RPalFile::LoadNoVersion(	// Returns SUCCESS on success or FAILURE on
+int16_t RPalFile::LoadNoVersion(	// Returns SUCCESS on success or FAILURE on
 											// failure.
 	RPal*		ppal,						// Pal to load into.
 	RFile*	pfile)					// File to load from.
 	{
-	short	sRes	= SUCCESS;	// Assume success.
+	int16_t	sRes	= SUCCESS;	// Assume success.
 
 	// No RFile support for RPal::Type, so we used a U32.
 	U32	u32Temp	= 0;
@@ -140,12 +140,12 @@ short RPalFile::LoadNoVersion(	// Returns SUCCESS on success or FAILURE on
 // Loads an RPal with file version 1 into ppal from pfile.
 //
 //////////////////////////////////////////////////////////////////////////////
-short RPalFile::LoadVersion1(	// Returns SUCCESS on success or FAILURE on
+int16_t RPalFile::LoadVersion1(	// Returns SUCCESS on success or FAILURE on
 										// failure.
 	RPal*		/*ppal*/,			// Pal to load into.
 	RFile*	/*pfile*/)			// File to load from.
 	{
-	short	sRes	= SUCCESS;	// Assume success.
+	int16_t	sRes	= SUCCESS;	// Assume success.
 
 	TRACE("LoadVersion1(): No current support for version 1 RPal.\n");
 	sRes	= FAILURE;
@@ -158,12 +158,12 @@ short RPalFile::LoadVersion1(	// Returns SUCCESS on success or FAILURE on
 // Loads an RPal with file version 2 into ppal from pfile.
 //
 //////////////////////////////////////////////////////////////////////////////
-short RPalFile::LoadVersion2(	// Returns SUCCESS on success or FAILURE on
+int16_t RPalFile::LoadVersion2(	// Returns SUCCESS on success or FAILURE on
 										// failure.
 	RPal*		/*ppal*/,			// Pal to load into.
 	RFile*	/*pfile*/)			// File to load from.
 	{
-	short	sRes	= SUCCESS;	// Assume success.
+	int16_t	sRes	= SUCCESS;	// Assume success.
 
 	TRACE("LoadVersion2(): No current support for version 2 RPal.\n");
 	sRes	= FAILURE;
@@ -176,12 +176,12 @@ short RPalFile::LoadVersion2(	// Returns SUCCESS on success or FAILURE on
 // Loads an RPal with file version 3 into ppal from pfile.
 //
 //////////////////////////////////////////////////////////////////////////////
-short RPalFile::LoadVersion3(	// Returns SUCCESS on success or FAILURE on
+int16_t RPalFile::LoadVersion3(	// Returns SUCCESS on success or FAILURE on
 										// failure.
 	RPal*		ppal,					// Pal to load into.
 	RFile*	pfile)				// File to load from.
 	{
-	short	sRes	= SUCCESS;	// Assume success.
+	int16_t	sRes	= SUCCESS;	// Assume success.
 
 	// No RFile support for RPal::Type, so we used a U32.
 	U32	u32Temp	= 0;
@@ -225,11 +225,11 @@ short RPalFile::LoadVersion3(	// Returns SUCCESS on success or FAILURE on
 // Maps a particular file load onto the appropriate function, if available.
 //
 //////////////////////////////////////////////////////////////////////////////
-short RPalFile::Load(			// Returns SUCCESS on success or FAILURE on failure.
+int16_t RPalFile::Load(			// Returns SUCCESS on success or FAILURE on failure.
 	RPal*		ppal,					// Pal to load into.
 	RFile*	pfile)				// File to load from.
 	{
-	short	sRes	= SUCCESS;	// Assume success.
+	int16_t	sRes	= SUCCESS;	// Assume success.
 
 	// Get finger print . . .
 	ULONG	ulFinger;

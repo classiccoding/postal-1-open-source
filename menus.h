@@ -128,7 +128,7 @@ extern Menu	g_menuVerifyQuitGame;
 #define MAX_SAVE_SLOTS 9
 #endif
 
-short PickFile(const char *title, void (*enumer)(Menu *), char *buf, size_t bufsize);
+int16_t PickFile(const char *title, void (*enumer)(Menu *), char *buf, size_t bufsize);
 #endif
 
 #endif //MENUS_H

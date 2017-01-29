@@ -104,7 +104,7 @@ CRtVidc::~CRtVidc()
 void CRtVidc::Set(void)
 	{
 	m_pdispatch		= NULL;
-	for (short i = 0; i < MAX_VID_CHANNELS; i++)
+	for (int16_t i = 0; i < MAX_VID_CHANNELS; i++)
 		{
 		m_avidchdrs[i].sNumFrames		= 0;
 		m_avidchdrs[i].pImage			= NULL;
@@ -130,10 +130,10 @@ void CRtVidc::Reset(void)
 // Returns number of bytes read on success, negative on error.
 //
 //////////////////////////////////////////////////////////////////////////////
-long ReadBitmapInfo(	BITMAPINFO*	pbmi, CNFile* pfile)
+int32_t ReadBitmapInfo(	BITMAPINFO*	pbmi, CNFile* pfile)
 	{
 	// Remember current position.
-	long	lPos	= pfile->Tell();
+	int32_t	lPos	= pfile->Tell();
 
 	// Write BITMAPINFO.
 	pfile->Read(&pbmi->bmiHeader.biSize);
@@ -150,12 +150,12 @@ long ReadBitmapInfo(	BITMAPINFO*	pbmi, CNFile* pfile)
 
 	// pfile->Read color info, if any.
 	// Get number of bytes left.
-	long	lNumColors	= pbmi->bmiHeader.biSize - sizeof(pbmi->bmiHeader);
+	int32_t	lNumColors	= pbmi->bmiHeader.biSize - sizeof(pbmi->bmiHeader);
 	// Must be complete RGBQUADs.
 	ASSERT(lNumColors % 4 == 0);
 	// Convert to number of colors left.
 	lNumColors	/= 4L;
-	for (long l = 0; l < lNumColors; l++)
+	for (int32_t l = 0; l < lNumColors; l++)
 		{
 		pfile->Read(&pbmi->bmiColors[l].rgbBlue);
 		pfile->Read(&pbmi->bmiColors[l].rgbGreen);
@@ -172,11 +172,11 @@ long ReadBitmapInfo(	BITMAPINFO*	pbmi, CNFile* pfile)
 // Returns 0 on success.
 //
 //////////////////////////////////////////////////////////////////////////////
-short CRtVidc::DecompressFrame(	PVIDC_RT_HDR pvidchdr, CNFile* pfile, 
+int16_t CRtVidc::DecompressFrame(	PVIDC_RT_HDR pvidchdr, CNFile* pfile, 
 											ULONG ulFlags, PBMI pbmiIn, PBMI pbmiOut)
 
 	{
-	short	sRes	= 0;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	// Get data in compression native format.
 	BMI	bmiTempOut = *pbmiIn;
@@ -236,11 +236,11 @@ short CRtVidc::DecompressFrame(	PVIDC_RT_HDR pvidchdr, CNFile* pfile,
 // Returns RET_FREE if done with data on return, RET_DONTFREE otherwise.
 //
 //////////////////////////////////////////////////////////////////////////////
-short CRtVidc::Use(	UCHAR* puc, long lSize, USHORT usType, UCHAR ucFlags, 
-							long lTime)
+int16_t CRtVidc::Use(	UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags, 
+							int32_t lTime)
 	{
-	short	sRes		= RET_FREE;	// Always free.
-	short	sError	= 0;
+	int16_t	sRes		= RET_FREE;	// Always free.
+	int16_t	sError	= 0;
 
 	ASSERT(usType	== RT_TYPE_VIDC);
 	ASSERT(puc		!= NULL);
@@ -482,8 +482,8 @@ short CRtVidc::Use(	UCHAR* puc, long lSize, USHORT usType, UCHAR ucFlags,
 // (static)
 //
 //////////////////////////////////////////////////////////////////////////////
-short CRtVidc::UseStatic(	UCHAR* puc, long lSize, USHORT usType, 
-									UCHAR ucFlags, long lTime, long l_pRtVidc)
+int16_t CRtVidc::UseStatic(	UCHAR* puc, int32_t lSize, USHORT usType, 
+									UCHAR ucFlags, int32_t lTime, int32_t l_pRtVidc)
 	{
 	return ((CRtVidc*)l_pRtVidc)->Use(puc, lSize, usType, ucFlags, lTime);
 	}
@@ -510,7 +510,7 @@ void CRtVidc::SetDispatcher(CDispatch* pdispatch)
 	if (m_pdispatch != NULL)
 		{
 		m_pdispatch->SetDataHandler(RT_TYPE_VIDC, UseStatic);
-		m_pdispatch->SetUserVal(RT_TYPE_VIDC, (long)this);
+		m_pdispatch->SetUserVal(RT_TYPE_VIDC, (int32_t)this);
 		}
 	}
 
@@ -521,7 +521,7 @@ void CRtVidc::SetDispatcher(CDispatch* pdispatch)
 //////////////////////////////////////////////////////////////////////////////
 void CRtVidc::SetCallbackHeader(RTVIDC_CALL callback)
 	{
-	for (short i = 0; i < MAX_VID_CHANNELS; i++)
+	for (int16_t i = 0; i < MAX_VID_CHANNELS; i++)
 		{
 		SetCallbackHeader(callback, i);
 		}
@@ -532,7 +532,7 @@ void CRtVidc::SetCallbackHeader(RTVIDC_CALL callback)
 // Sets callback(s) called on channel header receipt.
 //
 //////////////////////////////////////////////////////////////////////////////
-void CRtVidc::SetCallbackHeader(RTVIDC_CALL callback, short sChannel)
+void CRtVidc::SetCallbackHeader(RTVIDC_CALL callback, int16_t sChannel)
 	{
 	m_avidchdrs[sChannel].callbackHeader	= callback;
 	}
@@ -544,7 +544,7 @@ void CRtVidc::SetCallbackHeader(RTVIDC_CALL callback, short sChannel)
 //////////////////////////////////////////////////////////////////////////////
 void CRtVidc::SetCallbackBefore(RTVIDC_CALL callback)
 	{
-	for (short i = 0; i < MAX_VID_CHANNELS; i++)
+	for (int16_t i = 0; i < MAX_VID_CHANNELS; i++)
 		{
 		SetCallbackBefore(callback, i);
 		}
@@ -555,7 +555,7 @@ void CRtVidc::SetCallbackBefore(RTVIDC_CALL callback)
 // Sets callback(s) called before decompression.
 //
 //////////////////////////////////////////////////////////////////////////////
-void CRtVidc::SetCallbackBefore(RTVIDC_CALL callback, short sChannel)
+void CRtVidc::SetCallbackBefore(RTVIDC_CALL callback, int16_t sChannel)
 	{
 	m_avidchdrs[sChannel].callbackBefore	= callback;
 	}
@@ -567,7 +567,7 @@ void CRtVidc::SetCallbackBefore(RTVIDC_CALL callback, short sChannel)
 //////////////////////////////////////////////////////////////////////////////
 void CRtVidc::SetCallbackAfter(RTVIDC_CALL callback)
 	{
-	for (short i = 0; i < MAX_VID_CHANNELS; i++)
+	for (int16_t i = 0; i < MAX_VID_CHANNELS; i++)
 		{
 		SetCallbackAfter(callback, i);
 		}
@@ -578,7 +578,7 @@ void CRtVidc::SetCallbackAfter(RTVIDC_CALL callback)
 // Sets callback(s) called after decompression.
 //
 //////////////////////////////////////////////////////////////////////////////
-void CRtVidc::SetCallbackAfter(RTVIDC_CALL callback, short sChannel)
+void CRtVidc::SetCallbackAfter(RTVIDC_CALL callback, int16_t sChannel)
 	{
 	m_avidchdrs[sChannel].callbackAfter	= callback;
 	}

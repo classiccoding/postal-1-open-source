@@ -237,14 +237,14 @@ typedef struct
 typedef struct
 {
 	ULONG			ulSize;
-	long			lWidth;
-	long			lHeight;
+	int32_t			lWidth;
+	int32_t			lHeight;
 	USHORT		usPlanes;
 	USHORT		usBitCount;
 	ULONG			ulCompression;
 	ULONG			ulSizeImage;
-	long			lXPelsPerMeter;
-	long			lYPelsPerMeter;
+	int32_t			lXPelsPerMeter;
+	int32_t			lYPelsPerMeter;
 	ULONG			ulClrUsed;
 	ULONG			ulClrImportant;
 } DIBHEADER, *PDIBHEADER;
@@ -307,15 +307,15 @@ class RImage
 		Type	m_typeDestination;		// Type to convert to upon load
 												// (New version 2)
 		ULONG			m_ulSize;			// Image data's size
-		short			m_sWinWidth;		// Width of image
-		short			m_sWinHeight;		// Height of image
-		short			m_sWidth;			// Width of buffer   (new version 2)
-		short			m_sHeight;			// Height of buffer (new version 2)
-		short			m_sWinX;				// Position of image in the buffer
-		short			m_sWinY;				// Position of image in the buffer
+		int16_t			m_sWinWidth;		// Width of image
+		int16_t			m_sWinHeight;		// Height of image
+		int16_t			m_sWidth;			// Width of buffer   (new version 2)
+		int16_t			m_sHeight;			// Height of buffer (new version 2)
+		int16_t			m_sWinX;				// Position of image in the buffer
+		int16_t			m_sWinY;				// Position of image in the buffer
 
-		long			m_lPitch;			// Pitch of image
-		short			m_sDepth;			// Color depth of image
+		int32_t			m_lPitch;			// Pitch of image
+		int16_t			m_sDepth;			// Color depth of image
 		UCHAR*		m_pData;				// Pointer to data
 		RPal*			m_pPalette;			// Pointer to palette class
 		UCHAR*		m_pSpecial;			// Generic pointer for expandability
@@ -343,7 +343,7 @@ class RImage
 		// allocated by Image::CreateData and then detached from
 		// the RImage by Image::DetachData.  This routine will use
 		// the correct free() function for the memory handle.
-		static short DestroyDetachedData(void** hMem);
+		static int16_t DestroyDetachedData(void** hMem);
 
 		// General Constructor
 		RImage();
@@ -364,17 +364,17 @@ class RImage
 		RImage& operator=(const RImage& imSrc);
 
 		// Create IMAGE's data using the specified values.
-		short CreateData(	// Returns 0 if successful
+		int16_t CreateData(	// Returns 0 if successful
 			ULONG ulSize);	// Size of data
 
 		// Create IMAGE's data utilizing passed in fields.
 		// Calls CreateData(ULONG) to do the allocation.
-		short CreateImage(			// Returns 0 if successful.
-			short	sWidth,				// Width of new buffer.
-			short	sHeight,				// Height of new buffer.
+		int16_t CreateImage(			// Returns 0 if successful.
+			int16_t	sWidth,				// Width of new buffer.
+			int16_t	sHeight,				// Height of new buffer.
 			Type type,			// Type of new buffer.
-			long	lPitch	= 0L,		// Pitch of new buffer or 0 to calculate.
-			short	sDepth	= 8);		// Color depth of new buffer.
+			int32_t	lPitch	= 0L,		// Pitch of new buffer or 0 to calculate.
+			int16_t	sDepth	= 8);		// Color depth of new buffer.
 
 		// Detach the data from the Image.  This function returns a pointer
 		// to the memory buffer which can and should be freed by whoever
@@ -384,23 +384,23 @@ class RImage
 		// image types.  You can detach the buffer from the Image, have the
 		// Image create a new buffer (for the converted data) and then free
 		// the detached buffer when you're done with the conversion.
-		short DetachData(void** pMem, void** pData);
+		int16_t DetachData(void** pMem, void** pData);
 		void* DetachData();
 
 		// Destroy IMAGE's data
-		short DestroyData();
+		int16_t DestroyData();
 
 		// Allow the user to set the data pointer.
-		short SetData(void* pData);
+		int16_t SetData(void* pData);
 
 		// Set the pPalette pointer to a given RPal
-		short SetPalette(RPal* pPal);
+		int16_t SetPalette(RPal* pPal);
 
 		// Create palette and assign its pointer to pPalette
-		short CreatePalette(ULONG ulSize);
+		int16_t CreatePalette(ULONG ulSize);
 
 		// Create a palette but do not create a data buffer for the palette
-		short CreatePalette(void);
+		int16_t CreatePalette(void);
 
 		// Detach the palette from the Image and return a pointer to it.
 		// whoever detaches the palette is responsible for it afterward
@@ -408,37 +408,37 @@ class RImage
 		RPal* DetachPalette();
 
 		// Destroy the image's palette
-		short DestroyPalette();
+		int16_t DestroyPalette();
 
 		// Saves the current image in DIB format to pszFileName.
 		// Returns 0 on success.
-		short SaveDib(char* pszFileName);
+		int16_t SaveDib(char* pszFileName);
 
 		// Saves the current image ind DIB format to an open RFile
-		short SaveDib(RFile* pcf);
+		int16_t SaveDib(RFile* pcf);
 
 		// Save any image format except data pointed to by m_pSpecial
 		// This version takes a filename and saves the file.  If the
 		// Image type has m_pSpecial data to save then there should be
 		// a special save function registered in the RImageSpecialFunc class
-		short Save(char* pszFilename) const;
+		int16_t Save(char* pszFilename) const;
 
 		// This version takes an open RFile pointer and writes
 		// to the file.  This may be useful if you have m_pSpecial data, you
 		// can write your own save function that will open a RFile and
 		// call this function to write the main image data and then you
 		// can write your data to the same RFile before closing it.
-		short Save(RFile* pcf) const;
+		int16_t Save(RFile* pcf) const;
 
 		// Load the standard image formats, ie. those that do not
 		// include m_pSpecial data
-		short Load(char* pszFilename);
+		int16_t Load(char* pszFilename);
 
 		// This version takes an open RFile pointer and reads the
 		// standard image from the file.  This may be useful if you
 		// have a special image type that uses the m_pSpecial pointer.  You
 		// can write your own load function that opens a RFile
-		short Load(RFile* pcf);
+		int16_t Load(RFile* pcf);
 
 		// Converts the RImage from its current type to the new type
 		// by converting from the current form to the standard and then
@@ -446,10 +446,10 @@ class RImage
 		Type Convert(Type typeNew);
 
 		// Query functions
-		short GetHeight(void) 	{return m_sHeight;};
-		short GetWidth(void)		{return m_sWidth;};
-		static long GetPitch(short sWidth, short sDepth)
-			{return ((long)sWidth * ((long)sDepth / 8L) + 0x0000000F) & 0xFFFFFFF0;}
+		int16_t GetHeight(void) 	{return m_sHeight;};
+		int16_t GetWidth(void)		{return m_sWidth;};
+		static int32_t GetPitch(int16_t sWidth, int16_t sDepth)
+			{return ((int32_t)sWidth * ((int32_t)sDepth / 8L) + 0x0000000F) & 0xFFFFFFF0;}
 		Type GetType(void)		{return m_type;};
 
 		// Memory access functions
@@ -458,38 +458,38 @@ class RImage
 
 	private:
 		// Loads a DIB into a standard RImage format.
-		short	LoadDib(char* pszFilename);
+		int16_t	LoadDib(char* pszFilename);
 
 		// Loads a DIB from an open RFile
-		short LoadDib(RFile* pcf);
+		int16_t LoadDib(RFile* pcf);
 
 		// Writes the data in one chunk if the buffer is the same
 		// size as the image, or line by line if the buffer is larger
 		// than the image.  If the buffer is smaller than the image, 
 		// then you have some problem.
-		short WritePixelData(RFile* pcf) const;
+		int16_t WritePixelData(RFile* pcf) const;
 
 		// Reads the data in one chunk if the buffer is the same
 		// size as the image, or line by line if the buffer is larger
 		// than the image.  If the buffer is smaller than the image 
 		// then the image won't fit and the program will probably 
 		// crash and it will be your fault.
-		short ReadPixelData(RFile* pcf);
+		int16_t ReadPixelData(RFile* pcf);
 
 		// Initialize all members.  Calling this when m_pMem* is set is not a good idea.
 		void InitMembers(void);
 
 		//	To allocate memory for the data buffers of CPal
-		static short sCreateMem(void **hMem,ULONG ulSize);
+		static int16_t sCreateMem(void **hMem,U64 ulSize);
 
 		//	To allocate memory and return a pointer aligned to 128-bits
 		//	for optimum blit speed.  This is the function used by
 		//	CImage when it creates memory for the image buffers.
-		static short sCreateAlignedMem(void **hMem, void **hData, ULONG ulSize);
+		static int16_t sCreateAlignedMem(void **hMem, void **hData, U64 ulSize);
 
 		//	To free the data buffers of CPal and CImage that were created 
 		//	using either sCreateMem() or sCreateAlignedMem()
-		static short sDestroyMem(void **hMem);
+		static int16_t sDestroyMem(void **hMem);
 
 
 	public:
@@ -728,4 +728,3 @@ class RImageSpecialFunc : public RImage
 //////////////////////////////////////////////////////////////////////
 // EOF
 //////////////////////////////////////////////////////////////////////
-

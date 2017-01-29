@@ -33,7 +33,7 @@
 //=================================
 
 // This draws source to destination with clipping only if NEITHER are zero!
-extern	void rspMaskBlit(RImage* pimSrc,RImage* pimDst,short sDstX,short sDstY);
+extern	void rspMaskBlit(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY);
 
 // Takes a BMP8 and converts it to a mask of 0 and ucVal
 extern	void rspCopyAsMask(RImage* pimSrc,RImage* pimDst,UCHAR ucVal);
@@ -43,10 +43,10 @@ extern	void g_alphaBlit(
 		RImage* pimDst,			// Destination image.
 		RImage* pimMask,			// Mask of alphable area.
 		RMultiAlpha* pma,			// Table of alphas or something.
-		short sAlphaX,				// Source coordinate in pimSrc to put alphamask.
-		short sAlphaY,				// Source coordinate in pimSrc to put alphamask.
-		short sDstX,				// Destination coordinate in pimDst for pimSrc(0,0).
-		short sDstY,				// Destination coordinate in pimDst for pimSrc(0,0).
+		int16_t sAlphaX,				// Source coordinate in pimSrc to put alphamask.
+		int16_t sAlphaY,				// Source coordinate in pimSrc to put alphamask.
+		int16_t sDstX,				// Destination coordinate in pimDst for pimSrc(0,0).
+		int16_t sDstY,				// Destination coordinate in pimDst for pimSrc(0,0).
 		RRect &rDstClip);			// Rectangle to clip Dst to.
 
 

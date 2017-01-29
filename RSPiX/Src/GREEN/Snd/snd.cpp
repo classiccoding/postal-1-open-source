@@ -213,10 +213,10 @@ void RSnd::Reset(void)
 // (public)
 //
 ///////////////////////////////////////////////////////////////////////////////
-short RSnd::Stream(	char* pszSampleName, long lPlayBufSize, long lReadBufSize,
+int16_t RSnd::Stream(	char* pszSampleName, int32_t lPlayBufSize, int32_t lReadBufSize,
 						 UCHAR	ucMainVolume /* = 255 */, UCHAR ucVolume2 /* = 255 */)
 	{
-	short sRes = 0;
+	int16_t sRes = 0;
 	
 	// Reset variables and free data if any.
 	Reset();
@@ -237,7 +237,7 @@ short RSnd::Stream(	char* pszSampleName, long lPlayBufSize, long lReadBufSize,
 				// Store the buffer size to stream with.
 				m_lBufSize	= lPlayBufSize;
 				// Attempt to start the mixing . . .
-				if (m_mix.Start(StreamCallStatic, (ULONG)this) == 0)
+				if (m_mix.Start(StreamCallStatic, (U64)this) == 0)
 					{
 					// Success.  Set state to starting.
 					m_sState	= Starting;
@@ -308,18 +308,18 @@ short RSnd::Stream(	char* pszSampleName, long lPlayBufSize, long lReadBufSize,
 // 3..4 is played.
 //
 ///////////////////////////////////////////////////////////////////////////////
-short RSnd::Play(						// Returns 0 on success.
+int16_t RSnd::Play(						// Returns 0 on success.
 	RSample* psample,					// In:  Sample to play.
-	long lPlayBufSize,				// In:  Size of play buffer in bytes.
+	int32_t lPlayBufSize,				// In:  Size of play buffer in bytes.
 	UCHAR	ucMainVolume/* = 255 */,// In:  Primary Volume (0 - 255)
 	UCHAR ucVolume2 /* = 255 */,	// In:  Secondary Volume (0 - 255)
-	long lLoopStartTime/* = -1*/,	// In:  Where to loop back to in milliseconds.
+	int32_t lLoopStartTime/* = -1*/,	// In:  Where to loop back to in milliseconds.
 											//	-1 indicates no looping (unless m_sLoop is
 											// explicitly set).
-	long lLoopEndTime/* = 0*/)		// In:  Where to loop back from in milliseconds.
+	int32_t lLoopEndTime/* = 0*/)		// In:  Where to loop back from in milliseconds.
 											// In:  If less than 1, the end + lLoopEndTime is used.
 	{
-	short sRes = 0; // Assume success.
+	int16_t sRes = 0; // Assume success.
 	
 	ASSERT(psample != NULL);
 	ASSERT(GetState() == Stopped);
@@ -340,7 +340,7 @@ short RSnd::Play(						// Returns 0 on success.
 			// Store the buffer size to stream with.
 			m_lBufSize = lPlayBufSize;
 			// Attempt to play buffer . . .
-			if (m_mix.Start(PlayCallStatic, (ULONG)this,ucMainVolume,ucVolume2) == 0)
+			if (m_mix.Start(PlayCallStatic, (U64)this,ucMainVolume,ucVolume2) == 0)
 				{
 				// Success.  Set state to starting.
 				m_sState				= Starting;
@@ -442,9 +442,9 @@ short RSnd::Play(						// Returns 0 on success.
 // (public)
 //
 ///////////////////////////////////////////////////////////////////////////////
-short RSnd::Abort(void)
+int16_t RSnd::Abort(void)
 	{
-	short sRes = 0; // Assume success.
+	int16_t sRes = 0; // Assume success.
 
 	ASSERT(GetState() != Stopped);
 
@@ -495,7 +495,7 @@ short RSnd::Abort(void)
 // (public)
 //
 //////////////////////////////////////////////////////////////////////////////
-long RSnd::GetPos(void)
+int32_t RSnd::GetPos(void)
 	{
 	return m_mix.GetPos();
 	}
@@ -506,7 +506,7 @@ long RSnd::GetPos(void)
 // (public)
 //
 //////////////////////////////////////////////////////////////////////////////
-long RSnd::GetTime(void)
+int32_t RSnd::GetTime(void)
 	{
 	return m_mix.GetTime();
 	}

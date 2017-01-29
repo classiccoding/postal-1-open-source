@@ -122,7 +122,7 @@
 
 RLaymage::RLaymage()
 {
-	short i;
+	int16_t i;
 
 	for (i = 0; i < LAYMAGE_MAXCHANNELS; i++)
 		m_pcChannels[i] = NULL;
@@ -199,7 +199,7 @@ void RLaymage::Reset()
 
 void RLaymage::ClearChannelBuffers(void)
 {
-	short i;
+	int16_t i;
 
 	for (i = 0; i < LAYMAGE_MAXCHANNELS; i++)
 		if (m_pcChannels[i])
@@ -226,9 +226,9 @@ void RLaymage::ClearChannelBuffers(void)
 //
 //////////////////////////////////////////////////////////////////////
 
-short RLaymage::AllocateChannelBuffers(ULONG ulSize)
+int16_t RLaymage::AllocateChannelBuffers(ULONG ulSize)
 {
-	short sReturn = SUCCESS;
+	int16_t sReturn = SUCCESS;
 
 	ClearChannelBuffers();
 
@@ -270,12 +270,12 @@ short RLaymage::AllocateChannelBuffers(ULONG ulSize)
 //
 //////////////////////////////////////////////////////////////////////
 
-short RLaymage::SetPSD(char* pszFilename)
+int16_t RLaymage::SetPSD(char* pszFilename)
 {
 	RFile cf;
 	RFile cfChannel;
-	short sReturn = SUCCESS;
-	short i;
+	int16_t sReturn = SUCCESS;
+	int16_t i;
 
 	strcpy(m_szPhotoshopFilename, pszFilename);
 
@@ -330,12 +330,12 @@ error:
 //		
 //////////////////////////////////////////////////////////////////////
 
-short RLaymage::LoadPSD(char* pszFilename)
+int16_t RLaymage::LoadPSD(char* pszFilename)
 {
 	RFile cf;
 	RFile cfChannel;
-	short sReturn = SUCCESS;
-	short i;
+	int16_t sReturn = SUCCESS;
+	int16_t i;
 
 	strcpy(m_szPhotoshopFilename, pszFilename);
 
@@ -397,11 +397,11 @@ error:
 //
 //////////////////////////////////////////////////////////////////////
 
-short RLaymage::ReadPSDHeader(char* pszFilename)
+int16_t RLaymage::ReadPSDHeader(char* pszFilename)
 {
 	RFile cf;
 	RFile cfChannel;
-	short sReturn = SUCCESS;
+	int16_t sReturn = SUCCESS;
 	ULONG ulData;
 	USHORT usData;
 
@@ -543,12 +543,12 @@ error:
 //
 //////////////////////////////////////////////////////////////////////
 
-short RLaymage::ReadLayer(short sRequestedLayer)
+int16_t RLaymage::ReadLayer(int16_t sRequestedLayer)
 {
 	RFile cf;
 	RFile cfChannel;
-	short sReturn = SUCCESS;
-	short i;
+	int16_t sReturn = SUCCESS;
+	int16_t i;
 
 	if (cf.Open(m_szPhotoshopFilename, "rb", RFile::BigEndian) != SUCCESS)
 	{
@@ -614,14 +614,14 @@ error:
 //
 //////////////////////////////////////////////////////////////////////
 
-short RLaymage::SetChannelPointer(short sNumLayers, RFile* pcfChannel)
+int16_t RLaymage::SetChannelPointer(int16_t sNumLayers, RFile* pcfChannel)
 {
 	ULONG ulData;
 	USHORT usNumChannels = 0;
 	USHORT i;
 	UCHAR ucData;
-	short sReturn = FAILURE;
-	short sLayer;
+	int16_t sReturn = FAILURE;
+	int16_t sLayer;
 
 	if (pcfChannel && pcfChannel->IsOpen())
 	{
@@ -690,13 +690,13 @@ short RLaymage::SetChannelPointer(short sNumLayers, RFile* pcfChannel)
 //
 //////////////////////////////////////////////////////////////////////
 
-short RLaymage::ReadLayerInfo(short sLayerNum, RFile* pcfLayer, 
+int16_t RLaymage::ReadLayerInfo(int16_t sLayerNum, RFile* pcfLayer, 
                               RFile* pcfChannel)
 {
 	ULONG ulData;
 	USHORT usData;
 	UCHAR ucData;
-	short asChannelID[LAYMAGE_MAXCHANNELS];
+	int16_t asChannelID[LAYMAGE_MAXCHANNELS];
 	USHORT usNextChannel = 0;
 	USHORT usNumChannels = 0;
 	ULONG ulTop;
@@ -705,7 +705,7 @@ short RLaymage::ReadLayerInfo(short sLayerNum, RFile* pcfLayer,
 	ULONG ulRight;
 	USHORT k;
 	USHORT i;
-	short sReturn = SUCCESS;
+	int16_t sReturn = SUCCESS;
 
 	pcfLayer->ClearError();
 	pcfChannel->ClearError();
@@ -761,7 +761,7 @@ short RLaymage::ReadLayerInfo(short sLayerNum, RFile* pcfLayer,
 			{
 
 			// Read the channel data into buffers
-			short sChannelSel;
+			int16_t sChannelSel;
 			for (k = 0; k < usNumChannels; k++)
 				{
 				// If the channel is Alpha or R G or B, read the data
@@ -934,13 +934,13 @@ short RLaymage::ReadLayerInfo(short sLayerNum, RFile* pcfLayer,
 //
 //////////////////////////////////////////////////////////////////////
 
-short RLaymage::ReadLayerName(short sLayerNum, RFile* pcfLayer)
+int16_t RLaymage::ReadLayerName(int16_t sLayerNum, RFile* pcfLayer)
 {
 	ULONG ulData;
 	USHORT usData;
 	UCHAR ucData;
 	ULONG* pulChannelLength = NULL;
-	short* psChannelID = NULL;
+	int16_t* psChannelID = NULL;
 	USHORT usNextChannel = 0;
 	USHORT usNumChannels = 0;
 	ULONG ulTop;
@@ -948,7 +948,7 @@ short RLaymage::ReadLayerName(short sLayerNum, RFile* pcfLayer)
 	ULONG ulLeft;
 	ULONG ulRight;
 	USHORT i;
-	short sReturn = SUCCESS;
+	int16_t sReturn = SUCCESS;
 
 	pcfLayer->ClearError();
 	
@@ -960,7 +960,7 @@ short RLaymage::ReadLayerName(short sLayerNum, RFile* pcfLayer)
 	pcfLayer->Read(&usNumChannels);
 
 	pulChannelLength = (ULONG*) calloc(usNumChannels, sizeof(ULONG));
-	psChannelID = (short*) calloc(usNumChannels, sizeof(short));
+	psChannelID = (int16_t*) calloc(usNumChannels, sizeof(int16_t));
 	if (pulChannelLength == NULL || psChannelID == NULL)
 	{
 		TRACE("RLaymage::ReadLayerInfo - Error allocating buffers for channel data\n");
@@ -1034,14 +1034,14 @@ short RLaymage::ReadLayerName(short sLayerNum, RFile* pcfLayer)
 //
 //////////////////////////////////////////////////////////////////////
 
-short RLaymage::RLE_Decompress(char* pcBuffer, ULONG ulCompSize, RFile* pcfRLE)
+int16_t RLaymage::RLE_Decompress(char* pcBuffer, ULONG ulCompSize, RFile* pcfRLE)
 {
-	short sReturn;
+	int16_t sReturn;
 	ULONG ulRead = 0;
 	ULONG ulBufferPos = 0;
 	ULONG ulBufferFill = 0;
-	signed char cData;
-	signed char cFlag;
+	int8_t cData;
+	int8_t cFlag;
 	UCHAR ucRun;
 	USHORT i;
 
@@ -1116,10 +1116,10 @@ short RLaymage::RLE_Decompress(char* pcBuffer, ULONG ulCompSize, RFile* pcfRLE)
 //
 //////////////////////////////////////////////////////////////////////
 
-short RLaymage::ConvertToImage(short sLayerNum, ULONG ulTop, ULONG ulBottom, 
+int16_t RLaymage::ConvertToImage(int16_t sLayerNum, ULONG ulTop, ULONG ulBottom, 
                                ULONG ulLeft, ULONG ulRight)
 {
-	short sReturn = SUCCESS;
+	int16_t sReturn = SUCCESS;
 	RImage* pImage;
 	ULONG row;
 	ULONG col;
@@ -1137,13 +1137,13 @@ short RLaymage::ConvertToImage(short sLayerNum, ULONG ulTop, ULONG ulBottom,
 		for (i = 0; i < pImage->m_ulSize / 4; i++)
 			pu32[i] = 0x00ffffff;
 		pImage->m_type = pImage->m_typeDestination = RImage::SCREEN32_ARGB;
-		pImage->m_sWidth = (short)m_lWidth;
-		pImage->m_sHeight = (short)m_lHeight;	
+		pImage->m_sWidth = (int16_t)m_lWidth;
+		pImage->m_sHeight = (int16_t)m_lHeight;	
 		pImage->m_sDepth = 32;
-		pImage->m_lPitch = (long)pImage->m_sWidth * (pImage->m_sDepth/8);
+		pImage->m_lPitch = (int32_t)pImage->m_sWidth * (pImage->m_sDepth/8);
 
 		ULONG* ulp32 = (ULONG*) pImage->m_pData;
-		long lDestPitch = pImage->m_lPitch / 4;
+		int32_t lDestPitch = pImage->m_lPitch / 4;
 
 		i = 0;
 		for (row = ulTop; row < ulBottom; row++)
@@ -1180,10 +1180,10 @@ short RLaymage::ConvertToImage(short sLayerNum, ULONG ulTop, ULONG ulBottom,
 //
 //////////////////////////////////////////////////////////////////////
 
-short RLaymage::Load(char* pszFilename)
+int16_t RLaymage::Load(char* pszFilename)
 {
 	RFile cf;
-	short sReturn = SUCCESS;
+	int16_t sReturn = SUCCESS;
 
 	if (cf.Open(pszFilename, "rb", RFile::LittleEndian) != SUCCESS)
 	{
@@ -1198,9 +1198,9 @@ short RLaymage::Load(char* pszFilename)
 	return sReturn;
 }
 
-short RLaymage::Load(RFile* pcf)
+int16_t RLaymage::Load(RFile* pcf)
 {
-	short sReturn = SUCCESS;
+	int16_t sReturn = SUCCESS;
 	ULONG ulFileType = 0;
 	ULONG ulVersion = 0;
 
@@ -1275,10 +1275,10 @@ short RLaymage::Load(RFile* pcf)
 //
 //////////////////////////////////////////////////////////////////////
 
-short RLaymage::Save(char* pszFilename)
+int16_t RLaymage::Save(char* pszFilename)
 {
 	RFile cf;
-	short sReturn = SUCCESS;
+	int16_t sReturn = SUCCESS;
 
 	if (cf.Open(pszFilename, "wb", RFile::LittleEndian) != SUCCESS)
 	{
@@ -1293,7 +1293,7 @@ short RLaymage::Save(char* pszFilename)
 	return sReturn;
 }
 
-short RLaymage::Save(RFile* /*pcf*/)
+int16_t RLaymage::Save(RFile* /*pcf*/)
 {
 	return FAILURE;
 }
@@ -1319,7 +1319,7 @@ short RLaymage::Save(RFile* /*pcf*/)
 
 RImage* RLaymage::GetLayer(char* pszLayerName)
 {
-	short i = 0;
+	int16_t i = 0;
 	RImage* pLayerImage = NULL;
 
 	while (i < m_sNumLayers && pLayerImage == NULL)
@@ -1359,7 +1359,7 @@ RImage* RLaymage::GetLayer(char* pszLayerName)
 //
 //////////////////////////////////////////////////////////////////////
 
-RImage* RLaymage::GetLayer(short sLayerNumber)
+RImage* RLaymage::GetLayer(int16_t sLayerNumber)
 {
 	RImage* pLayerImage = NULL;
 
@@ -1396,8 +1396,8 @@ RImage* RLaymage::GetLayer(short sLayerNumber)
 
 void RLaymage::FreeLayer(char* pszLayerName)
 {
-	short i = 0;
-	short bFound = FALSE;
+	int16_t i = 0;
+	int16_t bFound = FALSE;
 
 	while (i < m_sNumLayers && !bFound)
 	{
@@ -1431,7 +1431,7 @@ void RLaymage::FreeLayer(char* pszLayerName)
 //
 //////////////////////////////////////////////////////////////////////
 
-void RLaymage::FreeLayer(short sLayerNumber)
+void RLaymage::FreeLayer(int16_t sLayerNumber)
 {
 	if (sLayerNumber >= 0 && sLayerNumber < m_sNumLayers)
 		if (m_apImages[sLayerNumber])
@@ -1458,7 +1458,7 @@ void RLaymage::FreeLayer(short sLayerNumber)
 
 void RLaymage::FreeAllLayers(void)
 {
-	short i;
+	int16_t i;
 
 	for (i = 0; i < m_sNumLayers; i++)
 	{
@@ -1488,9 +1488,9 @@ void RLaymage::FreeAllLayers(void)
 //
 //////////////////////////////////////////////////////////////////////
 
-short RLaymage::GetLayerName(short sLayer, char* pszNameBuffer)
+int16_t RLaymage::GetLayerName(int16_t sLayer, char* pszNameBuffer)
 {
-	short sReturn = FAILURE;
+	int16_t sReturn = FAILURE;
 	
 	if (pszNameBuffer && sLayer >= 0 && sLayer < m_sNumLayers)
 	{
@@ -1530,7 +1530,7 @@ void RLaymage::FreeLayerArrays(void)
 
 	if (m_apszLayerNames)
 	{
-		short i;
+		int16_t i;
 		for (i = 0; i < m_sNumLayers; i++)
 			if (m_apszLayerNames[i])
 				delete []m_apszLayerNames[i];
@@ -1557,10 +1557,10 @@ void RLaymage::FreeLayerArrays(void)
 //
 //////////////////////////////////////////////////////////////////////
 
-short RLaymage::AllocateLayerArrays(short sNumLayers)
+int16_t RLaymage::AllocateLayerArrays(int16_t sNumLayers)
 {
-	short sReturn = SUCCESS;
-	short i;
+	int16_t sReturn = SUCCESS;
+	int16_t i;
 
 	FreeLayerArrays();
 	
@@ -1589,4 +1589,3 @@ short RLaymage::AllocateLayerArrays(short sNumLayers)
 //////////////////////////////////////////////////////////////////////
 // EOF
 //////////////////////////////////////////////////////////////////////
-

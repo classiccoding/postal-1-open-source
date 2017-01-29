@@ -79,14 +79,14 @@
 class RAttributeMap
 {
 	public:
-		long m_lWidth;
-		long m_lHeight;
-		long m_lWorldWidth;
-		long m_lWorldHeight;
-		short m_sScaleX;
-		short m_sScaleY;
-		short m_sNumDetailMaps;
-		short m_sBlockDataSize;
+		int32_t m_lWidth;
+		int32_t m_lHeight;
+		int32_t m_lWorldWidth;
+		int32_t m_lWorldHeight;
+		int16_t m_sScaleX;
+		int16_t m_sScaleY;
+		int16_t m_sNumDetailMaps;
+		int16_t m_sBlockDataSize;
 
 		// General Constructor
 		RAttributeMap();
@@ -98,16 +98,16 @@ class RAttributeMap
 		~RAttributeMap();
 
 		// Load function - to load a map
-		short Load(char* pszFilename);
+		int16_t Load(char* pszFilename);
 
 		// Load function that takes an open RFile pointer
-		short Load(RFile* prf);
+		int16_t Load(RFile* prf);
 
 		// Single point attribute
-		USHORT GetAttribute(long lX, long lY);
+		USHORT GetAttribute(int32_t lX, int32_t lY);
 
 		// Rectangle attribute
-		USHORT GetAttribute(long lTop, long lBottom, long lLeft, long lRight);
+		USHORT GetAttribute(int32_t lTop, int32_t lBottom, int32_t lLeft, int32_t lRight);
 
 		// Get just the low 8 bits (flags) from the last GetAttribute Call
 		UCHAR GetFlags()
@@ -141,7 +141,7 @@ class RAttributeMap
 		UCHAR m_ucFlags;
 
 		// Allocate buffer for map
-		short AllocateMap(ULONG ulSize, ULONG ulDetailMapSize);
+		int16_t AllocateMap(ULONG ulSize, ULONG ulDetailMapSize);
 			
 	public:
 		// Deallocate buffer for map
@@ -155,10 +155,3 @@ class RAttributeMap
 //////////////////////////////////////////////////////////////////////
 // EOF
 //////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-

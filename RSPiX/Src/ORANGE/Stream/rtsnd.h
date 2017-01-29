@@ -58,11 +58,11 @@ class CRtSnd
 
 		// Use handler for RtSnd buffers.
 		// Returns RET_FREE if done with data on return, RET_DONTFREE otherwise.
-		short Use(	UCHAR* puc, long lSize, USHORT usType, UCHAR ucFlags, 
-						long lTime);
+		int16_t Use(	UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags, 
+						int32_t lTime);
 		// Static entry point for above.
-		static short UseStatic(	UCHAR* puc, long lSize, USHORT usType, 
-										UCHAR ucFlags, long lTime, long l_pRtSnd);
+		static int16_t UseStatic(	UCHAR* puc, int32_t lSize, USHORT usType, 
+										UCHAR ucFlags, int32_t lTime, int32_t l_pRtSnd);
 
 		// Callback for mixer.
 		// Returns new buffer to play or NULL if none.
@@ -79,18 +79,18 @@ class CRtSnd
 		typedef struct
 			{
 			UCHAR*	puc;		// Data.
-			long		lSize;	// Amount of data in bytes.
-			long		lTime;	// Time for chunk to be played.
-			short		sLast;	// TRUE if the last buffer, FALSE otherwise.
+			int32_t		lSize;	// Amount of data in bytes.
+			int32_t		lTime;	// Time for chunk to be played.
+			int16_t		sLast;	// TRUE if the last buffer, FALSE otherwise.
 			} SNDBUF, *PSNDBUF;
 
 		typedef struct
 			{
 			// Header info from stream.
-			long		lSamplesPerSec;	// Sample rate.
-			short		sBitsPerSample;	// Number of bits that constitute a sample.
-			short		sNumChannels;		// Number of channels: 1 == mono, 2 == stereo.
-			long		lLead;				// Amount of time data is received of ahead
+			int32_t		lSamplesPerSec;	// Sample rate.
+			int16_t		sBitsPerSample;	// Number of bits that constitute a sample.
+			int16_t		sNumChannels;		// Number of channels: 1 == mono, 2 == stereo.
+			int32_t		lLead;				// Amount of time data is received of ahead
 												// of being used.
 
 			// Header info for our use.

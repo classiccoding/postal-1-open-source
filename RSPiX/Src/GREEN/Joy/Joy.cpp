@@ -68,9 +68,9 @@ static UCHAR		ms_aucDirKeys[NUM_JOYSTICKS][NUM_DIRS]		= { 0, };
 // Returns 0 on success.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern short Joy_SetKey(short sJoy, UCHAR ucKey, USHORT usState)
+extern int16_t Joy_SetKey(int16_t sJoy, UCHAR ucKey, USHORT usState)
 	{
-	short	sRes	= 0;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	ASSERT(sJoy >= 0 && sJoy < NUM_JOYSTICKS);
 	
@@ -80,7 +80,7 @@ extern short Joy_SetKey(short sJoy, UCHAR ucKey, USHORT usState)
 	if (usButState != 0)
 		{
 		// For every bit represented store this key.
-		for (short i = 0; i < sizeof(ms_aucButKeys[sJoy]); i++)
+		for (int16_t i = 0; i < sizeof(ms_aucButKeys[sJoy]); i++)
 			{
 			if (usButState & (0x0001 << i))
 				{
@@ -95,7 +95,7 @@ extern short Joy_SetKey(short sJoy, UCHAR ucKey, USHORT usState)
 	if (usDirState != 0)
 		{
 		// For every bit represented store this key.
-		for (short i = 0; i < sizeof(ms_aucDirKeys[sJoy]); i++)
+		for (int16_t i = 0; i < sizeof(ms_aucDirKeys[sJoy]); i++)
 			{
 			if (usDirState & (0x0010 << i))
 				{
@@ -114,9 +114,9 @@ extern short Joy_SetKey(short sJoy, UCHAR ucKey, USHORT usState)
 // Returns 0 on success.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern short Joy_Update(short sJoy)
+extern int16_t Joy_Update(int16_t sJoy)
 	{
-	short sRes = 0; // Assume success.
+	int16_t sRes = 0; // Assume success.
 
 	ASSERT(sJoy >= 0 && sJoy < NUM_JOYSTICKS);
 	
@@ -134,7 +134,7 @@ extern short Joy_Update(short sJoy)
 			// Update for keys.
 			UCHAR	uc;
 			// Buttons:
-			for (short i = 0; i < sizeof(ms_aucButKeys[sJoy]); i++)
+			for (int16_t i = 0; i < sizeof(ms_aucButKeys[sJoy]); i++)
 				{
 				// Get key.
 				uc = ms_aucButKeys[sJoy][i];
@@ -178,7 +178,7 @@ extern short Joy_Update(short sJoy)
 // Returns nothing.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern void Joy_GetPos(short sJoy, long *px, long *py, long *pz)
+extern void Joy_GetPos(int16_t sJoy, int32_t *px, int32_t *py, int32_t *pz)
 	{
 	ASSERT(sJoy >= 0 && sJoy < NUM_JOYSTICKS);
 	
@@ -191,7 +191,7 @@ extern void Joy_GetPos(short sJoy, long *px, long *py, long *pz)
 // Returns nothing.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern void Joy_GetPrevPos(short sJoy, long *px, long *py, long *pz)
+extern void Joy_GetPrevPos(int16_t sJoy, int32_t *px, int32_t *py, int32_t *pz)
 	{
 	ASSERT(sJoy >= 0 && sJoy < NUM_JOYSTICKS);
 
@@ -203,7 +203,7 @@ extern void Joy_GetPrevPos(short sJoy, long *px, long *py, long *pz)
 // Returns the current joystick sJoy's state.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern USHORT Joy_GetState(short sJoy)
+extern USHORT Joy_GetState(int16_t sJoy)
 	{
 	ASSERT(sJoy >= 0 && sJoy < NUM_JOYSTICKS);
 
@@ -215,7 +215,7 @@ extern USHORT Joy_GetState(short sJoy)
 // Returns the previous joystick sJoy's state.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern USHORT Joy_GetPrevState(short sJoy)
+extern USHORT Joy_GetPrevState(int16_t sJoy)
 	{
 	ASSERT(sJoy >= 0 && sJoy < NUM_JOYSTICKS);
 
@@ -227,7 +227,7 @@ extern USHORT Joy_GetPrevState(short sJoy)
 // Places the current joystick sJoy's state in pjs.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern void Joy_GetState(short sJoy, PJOYSTATE pjs)
+extern void Joy_GetState(int16_t sJoy, PJOYSTATE pjs)
 	{
 	ASSERT(sJoy >= 0 && sJoy < NUM_JOYSTICKS);
 
@@ -239,7 +239,7 @@ extern void Joy_GetState(short sJoy, PJOYSTATE pjs)
 // Places the previous joystick sJoy's state in pjs.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern void Joy_GetPrevState(short sJoy, PJOYSTATE pjs)
+extern void Joy_GetPrevState(int16_t sJoy, PJOYSTATE pjs)
 	{
 	ASSERT(sJoy >= 0 && sJoy < NUM_JOYSTICKS);
 
@@ -249,4 +249,3 @@ extern void Joy_GetPrevState(short sJoy, PJOYSTATE pjs)
 //////////////////////////////////////////////////////////////////////////////
 // EOF
 //////////////////////////////////////////////////////////////////////////////
-
