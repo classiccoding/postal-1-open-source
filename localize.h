@@ -287,6 +287,7 @@ extern char g_pszStartSinglePlayerMenu_New[];
 extern char g_pszStartSinglePlayerMenu_AddOn[];
 #if TARGET == POSTAL_2015
 extern char g_pszStartSinglePlayerMenu_AddOn2[];
+extern char g_pszStartSinglePlayerMenu_AllLevels[];
 #endif
 extern char g_pszStartSinglePlayerMenu_LoadLevel[];
 extern char g_pszStartSinglePlayerMenu_LoadGame[];
@@ -316,6 +317,9 @@ extern char g_pszStartDemoMenu_Title[];
 extern char g_pszStartDemoMenu_Browse[];
 extern char g_pszStartDemoMenu_Play[];
 extern char g_pszStartDemoMenu_Record[];
+extern char g_pszStartDemoMenu_ConSite[];
+extern char g_pszStartDemoMenu_Home[];
+extern char g_pszStartDemoMenu_Bridge[];
 
 extern char g_pszMultiplayerSetupMenu_Title[];
 extern char g_pszMultiplayerSetupMenu_Name[];

@@ -616,6 +616,7 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 		extern char g_pszStartSinglePlayerMenu_New[]		= "NEW GAME";
 		extern char g_pszStartSinglePlayerMenu_AddOn[]		= "SPECIAL DELIVERY";
 		extern char g_pszStartSinglePlayerMenu_AddOn2[]		= "SUPER POSTAL";
+		extern char g_pszStartSinglePlayerMenu_AllLevels[]	= "ALL LEVELS";
 	#else
 		#error Strings must be customized for current TARGET
 	#endif
@@ -656,6 +657,9 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszStartDemoMenu_Browse[]					= "BROWSE";
 	extern char g_pszStartDemoMenu_Play[]						= "PLAY";
 	extern char g_pszStartDemoMenu_Record[]					= "RECORD";
+	extern char g_pszStartDemoMenu_ConSite[]				= "CONSTRUCTION";
+	extern char g_pszStartDemoMenu_Home[]					= "HOME";
+	extern char g_pszStartDemoMenu_Bridge[]					= "BRIDGE";
 
 	extern char g_pszMultiplayerSetupMenu_Title[]			= "MULTIPLAYER";
 	extern char g_pszMultiplayerSetupMenu_Name[]				= "NAME";
@@ -761,6 +765,7 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszStartSinglePlayerMenu_AddOn[]			= "ADD-ON SPIEL"		// Mike's lame translation
 #if TARGET == POSTAL_2015
 	extern char g_pszStartSinglePlayerMenu_AddOn2[]			= "SUPER POSTAL";
+	extern char g_pszStartSinglePlayerMenu_AllLevels[]	= "ALLE EBENEN"; // FIXME: Google Translated, possibly wrong
 #endif
 	extern char g_pszStartSinglePlayerMenu_LoadLevel[]		= "EBENE LADEN";
 	extern char g_pszStartSinglePlayerMenu_LoadGame[]		= "SPIEL LADEN";
@@ -790,6 +795,9 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszStartDemoMenu_Browse[]					= "DURCHSUCHEN";
 	extern char g_pszStartDemoMenu_Play[]						= "ABSPIELEN";
 	extern char g_pszStartDemoMenu_Record[]					= "AUSZEICHNEN";
+	extern char g_pszStartDemoMenu_ConSite[]				= "DIE BAUSTELLE"; // FIXME: Google Translated
+	extern char g_pszStartDemoMenu_Home[]					= "ZUHAUSE"; // FIXME: Google Translated
+	extern char g_pszStartDemoMenu_Bridge[]					= "DIE BRÜCKE";	// FIXME: Google Translated
 
 	extern char g_pszMultiplayerSetupMenu_Title[]			= "MEHRERE SPIELER";
 	extern char g_pszMultiplayerSetupMenu_Name[]				= "NAME";
@@ -895,6 +903,7 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszStartSinglePlayerMenu_AddOn[]			= "CHARGER ADD-ON";		// Mike's lame translation
 #if TARGET == POSTAL_2015
 	extern char g_pszStartSinglePlayerMenu_AddOn2[]			= "SUPER POSTAL";
+	extern char g_pszStartSinglePlayerMenu_AllLevels[]	= "TOUS LES NIVEAUX"; // FIXME: Google Translated, probably wrong
 #endif
 	extern char g_pszStartSinglePlayerMenu_LoadLevel[]		= "CHARGER LE NIVEAU";
 	extern char g_pszStartSinglePlayerMenu_LoadGame[]		= "CHARGER LE JEU";
@@ -924,6 +933,9 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszStartDemoMenu_Browse[]					= "PARCOURIR";
 	extern char g_pszStartDemoMenu_Play[]						= "JOUER";
 	extern char g_pszStartDemoMenu_Record[]					= "ENREGISTRER";
+	extern char g_pszStartDemoMenu_ConSite[]				= "LE CHANTIER"; // FIXME: Google Translated
+	extern char g_pszStartDemoMenu_Home[]					= "DOMICILE"; // FIXME: Google Translated
+	extern char g_pszStartDemoMenu_Bridge[]					= "LE PONT";	// FIXME: Google Translated	
 
 	extern char g_pszMultiplayerSetupMenu_Title[]			= "JOUEURS MULTIPLES";
 	extern char g_pszMultiplayerSetupMenu_Name[]				= "NOM";

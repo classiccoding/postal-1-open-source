@@ -514,6 +514,11 @@ extern bool EnableSteamCloud;
 
 #define CHAT_IN_LENGTH						46
 
+// The number of levels in each category.
+#define REALM_NUM	16
+#define ADDON_NUM 	(REALM_NUM + 4)
+#define JADDON_NUM	(ADDON_NUM + 2)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Types.
 ////////////////////////////////////////////////////////////////////////////////
@@ -4926,7 +4931,16 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 	if (sResult == 0)
 		{
 		int16_t	sNumLevels;
-		prefsRealm.GetVal("Info", "NumSinglePlayerLevels", 16, &sNumLevels);
+#if TARGET == POSTAL_2015
+		if (bAddOn == 3)
+		{
+			prefsRealm.GetVal("Info", "NumAllSinglePlayerLevels", 22, &sNumLevels);
+		} else {
+#endif
+			prefsRealm.GetVal("Info", "NumSinglePlayerLevels", 16, &sNumLevels);
+#if TARGET == POSTAL_2015
+		}
+#endif
 		prefsRealm.Close();
 
 		// Prepare game
@@ -5563,17 +5577,43 @@ extern void Play_GetRealmSectionAndEntry(
 			{
 			// Single player sections are named "Realm1", "Realm2", etc.
 			// AddOn single player sections are named "AddOn1", "AddOn2", etc.
+			// JAddOn... You get the picture.
+			// Selecting "ALL LEVELS" will play the levels in sequence
+			// Realm, AddOn, JAddOn (Carnival?)
 			TRACE("bAddOnLevels = %d\n", bAddOnLevels);
 			switch(bAddOnLevels){
+			case 3:
+				TRACE("sRealmNum = %d\n", sRealmNum);
+				TRACE("REALM_NUM = %d\n", REALM_NUM);
+				TRACE("ADDON_NUM = %d\n", ADDON_NUM);
+				TRACE("JADDON_NUM = %d\n", JADDON_NUM);
+				if (sRealmNum < REALM_NUM)
+				{
+					*pstrSection = "Realm";
+					*pstrSection += (int16_t)(sRealmNum + 1);
+					TRACE("*pstrSection = Realm%d\n", (int16_t)(sRealmNum + 1));
+				} else if (sRealmNum < ADDON_NUM)
+				{
+					*pstrSection = "AddOn";
+					*pstrSection += (int16_t)(sRealmNum + 1 - REALM_NUM);
+					TRACE("*pstrSection = AddOn%d\n", (int16_t)(sRealmNum + 1 - REALM_NUM));
+				} else {
+					*pstrSection = "JAddOn";
+					*pstrSection += (int16_t)(sRealmNum + 1 - ADDON_NUM);
+					TRACE("*pstrSection = JAddOn%d\n", (int16_t)(sRealmNum + 1 - ADDON_NUM));
+				}
+				break;
 			case 2:
-				*pstrSection = "JAddOn"; break;
+				*pstrSection = "JAddOn";
+				*pstrSection += (int16_t)(sRealmNum + 1); break;
 			 case 1:
-				*pstrSection = "AddOn"; break;
+				*pstrSection = "AddOn";
+				*pstrSection += (int16_t)(sRealmNum + 1); break;
 			default:
 				TRACE("HUH! CG! Coconut Gun!\n");
 				*pstrSection = "Realm";
+				*pstrSection += (int16_t)(sRealmNum + 1);
 			}
-			*pstrSection += (int16_t)(sRealmNum + 1);
 			// Single player entry depends on difficulty level
 			switch (sDifficulty)
 				{

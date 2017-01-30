@@ -695,7 +695,8 @@ typedef enum
 	ACTION_POSTAL_ORGAN,
 	ACTION_LOAD_GAME,
 	ACTION_PLAY_ADDON,
-	ACTION_PLAY_ADDON2
+	ACTION_PLAY_ADDON2,
+	ACTION_PLAY_ALL
 #ifdef MOBILE
 	,ACTION_CONTINUE_GAME
 #endif
@@ -1486,7 +1487,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 #ifndef SPAWN
 		// If there's no user action and the demo timer expired, simulate the
 		// appropriate action to start the self-running demo.
-#if 0 // Just disable demos entirely, we've changed things too much for the old demos to be compatible anymore. - Rick
+#ifndef AUTO_DEMOS_REMOVED // It's time to stop.
 		if ((m_action == ACTION_NOTHING) && 
 		    ((rspGetMilliseconds() - m_lDemoBaseTime) >= m_lDemoTimeOut) &&
 			 g_GameSettings.m_sNumAvailableDemos > 0)
@@ -1804,8 +1805,8 @@ static int16_t GameCore(void)		// Returns 0 on success.
 #endif // SPAWN
 					break;
 #if TARGET == POSTAL_2015
-				case ACTION_PLAY_ADDON2:
 #ifndef SPAWN
+				case ACTION_PLAY_ADDON2:
 					// Remember menu to go back to.
 					pmenuStart	= GetCurrentMenu();
 					// End the menu.
@@ -1841,9 +1842,53 @@ static int16_t GameCore(void)		// Returns 0 on success.
 #ifdef MOBILE
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
 #endif
-#endif // POSTAL_2015
+					break;
+				case ACTION_PLAY_ALL:
+					// Remember menu to go back to.
+					pmenuStart	= GetCurrentMenu();
+					// End the menu.
+					StopMenu();
+					bMenuActive = false;
+					// Turn off paltran but remember to restore.
+					PalTranOff();
+					bPalTran		= true;
+					// Remember to show title, but no musak.
+					bTitleImage	= true;
+					bTitleMusak	= false;
+
+					// Note that m_sRealmNum, m_szRealmFile, and m_bJustOneRealm are
+					// set via the callback, Game_StartChallengeGame().
+					// ***ADD FLAG(S) TO THIS CALL INDICATING THIS IS A CHALLENGE GAME***
+					Play(
+						NULL,									// No client (not network game)
+						NULL,									// No server (not network game)
+						INPUT_MODE_LIVE,					// Input mode
+						m_sRealmNum,						// Realm number OR -1 to use realm file
+						m_szRealmFile,						// Realm file
+						m_bJustOneRealm,					// Whether to play just one realm or not
+						false,								// Don't play challenge levels
+						3,									// Play all other levels, though
+						GetGameDifficulty(),				// Difficulty level
+						false,								// Rejunenate (MP only)
+						0,										// Time limit (MP only)
+						0,										// Kill limit (MP only)
+						0,										// Cooperative (MP only)
+						0,										// Use cooperative mode (MP only)
+						0,										// Frame time (MP only)
+						NULL);								// Demo mode file
+#ifdef MOBILE
+	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
+#endif
+						// If the player won the game, show them the last level demo
+						// and then the ending cutscenes.
+						if (g_bLastLevelDemo)
+							GameEndingSequence();
+
+						// clear the end of game flag just to be safe
+						g_bLastLevelDemo = false;
+					break;			
 #endif // SPAWN
-					break;					
+#endif // POSTAL_2015		
 
 				
 				//------------------------------------------------------------------------------
@@ -2837,7 +2882,13 @@ extern void Game_StartSinglePlayerGame(
 				m_szRealmFile[0] = 0;
 				m_bJustOneRealm = false;
 				break;
-			#define START_MENU_ID_OFFSET	+1
+			case 3:
+				m_action = ACTION_PLAY_ALL;
+				m_sRealmNum = 0;
+				m_szRealmFile[0] = 0;
+				m_bJustOneRealm = false;
+				break;
+			#define START_MENU_ID_OFFSET	+2 // I am a bit confused by this
 		#else
 			#define START_MENU_ID_OFFSET	0
 		#endif
@@ -2997,9 +3048,23 @@ extern void Game_StartDemoGame(
 	char*	pszDemoFile	= NULL;
 	char	szLevelDir[RSP_MAX_PATH]	= "";
 	char  szTitle[256] = "";
-
+	TRACE("sMenuItem = %d\n", sMenuItem);
 	switch (sMenuItem)
 		{
+#if TARGET == POSTAL_2015			
+		case 0:
+			sprintf(m_szDemoFile, "%s/default0.dmo", FullPathHD(DEMO_LEVEL_DIR));
+			m_action = ACTION_DEMO_PLAYBACK;
+			break;
+		case 1:
+			sprintf(m_szDemoFile, "%s/default1.dmo", FullPathHD(DEMO_LEVEL_DIR));
+			m_action = ACTION_DEMO_PLAYBACK;
+			break;
+		case 2:
+			sprintf(m_szDemoFile, "%s/default2.dmo", FullPathHD(DEMO_LEVEL_DIR));
+			m_action = ACTION_DEMO_PLAYBACK;
+			break;
+#else
 		// Browse for and Playback demo
 		case 0:
 		{
@@ -3031,7 +3096,7 @@ extern void Game_StartDemoGame(
 		// Record demo
 		case 2:
 			m_action = ACTION_DEMO_RECORD;
-			break;
+#endif
 		}
 
 	// The main game loop resets the demo timer whenever it notices any user input.
