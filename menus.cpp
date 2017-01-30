@@ -824,7 +824,7 @@ extern Menu	menuMain =
 		},
 #else
 		{	// pszText,						sEnabled,	pmenu,				pgui
-			{ g_pszMainMenu_Start,		TRUE,			&menuStartSingle/*menuStart*/,			NULL,			},
+			{ g_pszMainMenu_Start,		TRUE,			&menuStart/*Single*/,			NULL,			},
 			{ g_pszMainMenu_Options,	TRUE,			&menuOptions,		NULL,			},
 
 			#ifndef EDITOR_REMOVED
@@ -2513,6 +2513,7 @@ extern Menu	menuStartSingle =
 			{ g_pszStartSinglePlayerMenu_AddOn,			TRUE,			NULL,					NULL,	},	
 #if TARGET == POSTAL_2015
 			{ g_pszStartSinglePlayerMenu_AddOn2,		TRUE,			NULL,					NULL,	},
+			{ g_pszStartSinglePlayerMenu_AllLevels,		TRUE,			NULL,					NULL,	},
 #endif
 #endif
             #ifndef LOADLEVEL_REMOVED
@@ -2932,8 +2933,11 @@ extern Menu	menuStartDemo =
 	// Menu items.
 		{	// pszText,							sEnabled,	pmenu,		pgui
 //			{ g_pszStartDemoMenu_Browse,	TRUE,			NULL,			NULL,	},
-			{ g_pszStartDemoMenu_Play,		TRUE,			NULL,			NULL,	},
-			{ g_pszStartDemoMenu_Record,	TRUE,			NULL,			NULL,	},
+//			{ g_pszStartDemoMenu_Play,		TRUE,			NULL,			NULL,	},
+//			{ g_pszStartDemoMenu_Record,	TRUE,			NULL,			NULL,	},
+			{ g_pszStartDemoMenu_ConSite,	TRUE,			NULL,			NULL,	},
+			{ g_pszStartDemoMenu_Home,		TRUE,			NULL,			NULL,	},
+			{ g_pszStartDemoMenu_Bridge,	TRUE,			NULL,			NULL,	},
 			{ "",									FALSE,		NULL,			NULL, },
 			NULL							// Terminates list.
 		},
@@ -3147,11 +3151,11 @@ static int16_t StartGameInit(	// Returns 0 on success, non-zero to cancel menu.
 	{
 	int16_t	sRes	= 0;	// Assume success.
 
-	// Be sure the demo option reflects INI setting.
-	if (g_GameSettings.m_sCanRecordDemos == FALSE)
-		{
-		menuStart.ami[2].pmenu	= NULL;
-		}
+	//// Be sure the demo option reflects INI setting.
+	//if (g_GameSettings.m_sCanRecordDemos == FALSE)
+		//{
+		//menuStart.ami[2].pmenu	= NULL;
+		//}
 
 	return sRes;
 	}
@@ -3182,13 +3186,13 @@ static bool StartGameMenu(		// Returns true to accept, false to deny choice.
 		case 1:
         #endif
 
-			// If we can't record...
-			if (g_GameSettings.m_sCanRecordDemos == FALSE)
-				{
-				// Start a demo in playback mode by simulating the menu choice "Play"
-				// from the demo menu.
-				Game_StartDemoGame(1);
-				}
+			//// If we can't record...
+			//if (g_GameSettings.m_sCanRecordDemos == FALSE)
+				//{
+				//// Start a demo in playback mode by simulating the menu choice "Play"
+				//// from the demo menu.
+				//Game_StartDemoGame(1);
+				//}
 			break;
 		}
 
@@ -3487,15 +3491,7 @@ static bool StartDemoMenu(	// Returns true to accept, false to deny choice.
 		PlaySample(g_smidMenuItemSelect, SampleMaster::UserFeedBack);
 
 	// Let game module handle it
-	switch (sMenuItem)
-		{
-		case 0:
-			Game_StartDemoGame(0);
-			break;
-		case 1:
-			Game_StartDemoGame(2);
-			break;
-		}
+	Game_StartDemoGame(sMenuItem);
 
 	return bAcceptChoice;
 	}
