@@ -519,6 +519,9 @@ extern bool EnableSteamCloud;
 #define ADDON_NUM 	(REALM_NUM + 4)
 #define JADDON_NUM	(ADDON_NUM + 2)
 
+#define NUM_ELEMENTS(a)		(sizeof(a) / sizeof(a[0]) )
+#define FONT_HEIGHT						12						// "Best" for ComicB.
+
 ////////////////////////////////////////////////////////////////////////////////
 // Types.
 ////////////////////////////////////////////////////////////////////////////////
@@ -5703,6 +5706,36 @@ void Play_GetApplicationDescriptor(			// Returns nothing.
 #endif
 	}
 
+//////////////////////////////////////////////////////////////////////////////
+// Called to setup a level select
+//////////////////////////////////////////////////////////////////////////////
+extern int16_t Play_InitLevelSelectMenu(	// Returns 0 on success.
+	Menu* pmenu)									// In:  Menu to setup.
+	{
+	int16_t		sRes				= 0;		// Assume success.
+	int16_t		sInputIndex		= 0;		// Safety.
+	char tempFile[256];
+	char tempText[256];
+
+	// Assert we have enough room for the levels
+	ASSERT(JADDON_NUM < (NUM_ELEMENTS(pmenu->ami)) );
+
+	//// Set font for GUIs' default print.
+	//// Cell height doesn't matter since it is set by the GUIs themselves.
+	//RGuiItem::ms_print.SetFont(FONT_HEIGHT, &g_fontBig);
+
+	for (sInputIndex = 0; sInputIndex < JADDON_NUM && sRes == 0; sInputIndex++)
+		{
+		// Set text describing input function for this menu item.
+		Play_GetRealmInfo(false, false, false, 3, sInputIndex, 1, tempFile, 256, tempText, 256);
+		memset(levelNames[sInputIndex], '\0', sizeof(levelNames[sInputIndex]));
+		strcpy(levelNames[sInputIndex], tempText);
+		// Enable item.
+		pmenu->ami[sInputIndex].sEnabled	= TRUE;
+		}
+
+	return sRes;
+	}
 
 ////////////////////////////////////////////////////////////////////////////////
 // EOF

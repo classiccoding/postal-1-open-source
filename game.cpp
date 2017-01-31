@@ -2906,6 +2906,7 @@ extern void Game_StartSinglePlayerGame(
 		case 2 + START_MENU_ID_OFFSET:
 #endif
         #ifndef LOADLEVEL_REMOVED
+        #ifndef LOADLEVEL_DIALOG
 			{
 			// Static so dialog will "remember" the previously-used name
 			static char	szFile[RSP_MAX_PATH]	= "";
@@ -2931,11 +2932,12 @@ extern void Game_StartSinglePlayerGame(
 		// it is still useful for testing the way it is now, so I'll add this
 		//	as a separate option - Load Saved Game
 		case 3 + START_MENU_ID_OFFSET:
-        #endif
+		#endif // LOADLEVEL_DIALOG
+        #endif // LOADLEVEL_REMOVED
 			m_action	= ACTION_LOAD_GAME;
 			break;
 #if (TARGET == POSTAL_2015)
-		case 3 + START_MENU_ID_OFFSET:
+		case 4 + START_MENU_ID_OFFSET:
 			Game_StartChallengeGame(0); 
 			break;
 #endif
@@ -2951,6 +2953,42 @@ extern void Game_StartSinglePlayerGame(
 #endif // SPAWN
 	}
 
+////////////////////////////////////////////////////////////////////////////////
+//
+// Callback for the Level Select
+//
+////////////////////////////////////////////////////////////////////////////////
+extern void Game_StartLevelOnce(
+	int16_t sMenuItem)
+	{
+
+	// we reset these as we go along.
+	const bool usedCheats = ((Flag_Achievements & FLAG_USED_CHEATS) != 0);
+	Flag_Achievements = FLAG_USED_M16 | FLAG_KILLED_EVERYTHING | FLAG_KILLED_ONLY_HOSTILES | FLAG_HIGHEST_DIFFICULTY;
+	if (usedCheats)
+		Flag_Achievements |= FLAG_USED_CHEATS;
+
+	playthroughMS = 0;
+
+// If its a spawn version, then don't allow them to play single player
+// games, and to make it harder, we will take out some of the code for
+// single player games so its harder to hack back in.
+#ifndef SPAWN
+
+	m_action = ACTION_PLAY_ALL;
+	m_sRealmNum = sMenuItem;
+	m_szRealmFile[0] = 0;
+	m_bJustOneRealm = true;
+
+	// The main game loop resets the demo timer whenever it notices any user input.
+	// However, when the user is in a dialog or message box, the OS handles all the
+	// user input, and the main game loop won't know anything about what's going on
+	// in there.  If the user spends a long time in there, the demo timer will
+	// expire.  We don't want that to happen, so we manually reset the demo timer
+	// here in recognition of the fact that some kind of user input obviously occurred.
+	ResetDemoTimer();
+#endif // SPAWN
+	}
 
 ////////////////////////////////////////////////////////////////////////////////
 //

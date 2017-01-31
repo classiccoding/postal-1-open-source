@@ -648,6 +648,14 @@ static bool JoyChoice(			// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem);				// Item chosen.
 
+static int16_t LoadLevelInit(			// Returns 0 on success, non-zero to cancel menu.
+	Menu*	pmenuCur,				// Current menu.
+	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
+
+static bool LoadLevelChoice(			// Returns true to accept, false to deny choice.
+	Menu*	pmenuCurrent,			// Current menu.
+	int16_t	sMenuItem);
+
 static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel menu.
 	Menu*	pmenuCur,					// Current menu.
 	int16_t	sInit);						// TRUE, if initializing; FALSE, if killing.
@@ -740,6 +748,7 @@ static char*			ms_apszDifficultyDescriptions[]	=
 	"Masochist",
 	};
 
+char levelNames[22][256];
 
 // Main menu
 extern Menu	menuMain =
@@ -2067,6 +2076,124 @@ extern Menu	menuJoystick =
 		},
 	};
 
+
+// Level select.
+extern Menu	menuLoadLevel =
+	{
+	LOAD_LEVEL_MENU_ID,
+
+	// Position info.
+		{	// x, y, w, h, sPosX, sPosY, sItemSpacingY, sIndicatorSpacingX,
+		MENU_RECT_LG,	// Pos and dimensions.
+		15,					// Offset from left edge for menu header.
+								// Negative indicates offset from center.
+		12,					// Offset from top edge for menu header.
+								// Negative indicates offset from center.
+		72,					// Offset from left edge for menu items.
+								// Negative indicates offset from center.
+		40,					// Offset from top edge for menu items.
+								// Negative indicates offset from center.
+		-5,						// Space between menu items.
+		5,						// Space between indicator and menu items horizontally.
+		-10,					// X position menu items should not pass w/i Menu.
+								// Less than 1, indicates offset from right edge. 
+		-20,					// Y position menu items should not pass w/i Menu.
+								// Less than 1, indicates offset from right edge. 
+		},
+
+	// Background info.
+		{	// pszFile, u32BackColor
+		MENU_BG_LG, 
+		MENU_BG_COLOR,		// Background color.
+		PAL_SET_START,		// Starting palette index to set.
+		PAL_SET_NUM,		// Number of entries to set.
+		PAL_MAP_START,		// Starting index of palette entries that can be mapped to.
+		PAL_MAP_NUM,		// Number of palette entries that can be mapped to.
+		},
+
+	// GUI settings.
+		{	// sTransparent.
+		TRUE,		// TRUE if GUI is to be BLiT with transparency.
+		},
+
+	// Flags.
+		(MenuFlags)(MenuPosCenter | MenuBackTiled | MenuItemTextShadow | MenuHeaderTextShadow | MenuHeaderTextCenter | MenuColumnizeGuis),
+
+	// Header and its font info.
+		{	// pszHeaderText, pszFontFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor.
+		g_pszStartSinglePlayerMenu_LoadLevel,
+		SMASH_FONT,
+		HEAD_FONT_HEIGHT,	// Height of font.
+		HEAD_COLOR,			// Text RGBA.
+		HEAD_SHADOW_COLOR	// Text Shadow RGBA.
+		},
+
+	// Font info.
+		{	// pszFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor
+		SMASH_FONT,
+		ITEM_FONT_HEIGHT_SMALLER,	// Height of font.
+		ITEM_COLOR,			// Text RGBA.
+		ITEM_SHADOW_COLOR	// Text Shadow RGBA.
+		},
+
+	// Menu indicator.
+		{	// pszFile, type
+		MENU_INDICATOR,
+		RImage::FSPR8,
+		},
+
+	// Menu callbacks.
+		{	// fnInit, fnChoice,
+		LoadLevelInit,		// Called before menu is initialized.
+		LoadLevelChoice,	// Called when item is chosen.
+		},
+
+	// Menu auto items.
+		{	// sDefaultItem, sCancelItem,
+		0,		// Menu item (index in ami[]) selected initially.
+				// Negative indicates distance from number of items
+				// (e.g., -1 is the last item).
+		-1,	// Menu item (index in ami[]) chosen on cancel.
+				// Negative indicates distance from number of items
+				// (e.g., -1 is the last item).
+		},
+
+	// Menu items.
+	// Note that in the old ways we had to reserve as many of these
+	// as there were items to be in this menu, but now, since this array
+	// is not open ended, we don't.  But, if it ever ends up open ended
+	// again, this will have to be updated.  I included enough for the 
+	// current settings, but more will have to be added, if we ever change
+	// back and add more input functions.
+
+		{	// pszText,				sEnabled,	pmenu,					pgui
+			{ levelNames[0], TRUE, NULL, NULL, },
+			{ levelNames[1], TRUE, NULL, NULL, },
+			{ levelNames[2], TRUE, NULL, NULL, },
+			{ levelNames[3], TRUE, NULL, NULL, },
+			{ levelNames[4], TRUE, NULL, NULL, },
+			{ levelNames[5], TRUE, NULL, NULL, },
+			{ levelNames[6], TRUE, NULL, NULL, },
+			{ levelNames[7], TRUE, NULL, NULL, },
+			{ levelNames[8], TRUE, NULL, NULL, },
+			{ levelNames[9], TRUE, NULL, NULL, },
+			{ levelNames[10], TRUE, NULL, NULL, },
+			{ levelNames[11], TRUE, NULL, NULL, },
+			{ levelNames[12], TRUE, NULL, NULL, },
+			{ levelNames[13], TRUE, NULL, NULL, },
+			{ levelNames[14], TRUE, NULL, NULL, },
+			{ levelNames[15], TRUE, NULL, NULL, },
+			{ levelNames[16], TRUE, NULL, NULL, },
+			{ levelNames[17], TRUE, NULL, NULL, },
+			{ levelNames[18], TRUE, NULL, NULL, },
+			{ levelNames[19], TRUE, NULL, NULL, },
+			{ levelNames[20], TRUE, NULL, NULL, },
+			{ levelNames[21], TRUE, NULL, NULL, },
+			{ "", FALSE, NULL, NULL, }, // This needs to be at the end of the list or ESC will load the last level
+			NULL							// Terminates list.
+		},
+	};
+
 // Features menu.
 extern Menu	menuFeatures =
 	{
@@ -2517,7 +2644,7 @@ extern Menu	menuStartSingle =
 #endif
 #endif
             #ifndef LOADLEVEL_REMOVED
-			{ g_pszStartSinglePlayerMenu_LoadLevel,	TRUE,			NULL,					NULL,	},
+			{ g_pszStartSinglePlayerMenu_LoadLevel,	TRUE,			&menuLoadLevel,					NULL,	},
             #endif
 			{ g_pszStartSinglePlayerMenu_LoadGame,		TRUE,			NULL,					NULL, },
 			{ g_pszStartSinglePlayerMenu_Challenge,	TRUE,			/*&menuChallenge,*/NULL,	NULL,	},
@@ -4617,6 +4744,52 @@ static bool JoyChoice(			// Returns true to accept, false to deny choice.
 		PlaySample(g_smidMenuItemSelect, SampleMaster::UserFeedBack);
 
 	InputSettingsDlg_Choice(pmenuCurrent, sMenuItem);
+
+	return bAcceptChoice;
+	}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Called to init or kill the level select.
+//
+////////////////////////////////////////////////////////////////////////////////
+static int16_t LoadLevelInit(			// Returns 0 on success, non-zero to cancel menu.
+	Menu*	pmenuCur,				// Current menu.
+	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
+	{
+	int16_t	sRes	= 0;	// Assume success.
+	
+	if (sInit == TRUE)
+		{
+		sRes	= Play_InitLevelSelectMenu(pmenuCur);
+		}
+
+	return sRes;
+	}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Called when a choice is made on the level select.
+//
+////////////////////////////////////////////////////////////////////////////////
+static bool LoadLevelChoice(			// Returns true to accept, false to deny choice.
+	Menu*	pmenuCurrent,			// Current menu.
+	int16_t	sMenuItem)				// Item chosen or -1 for change of focus.
+	{
+	bool	bAcceptChoice	= true;	// Assume accepting.
+
+	// Audible Feedback.
+	if (sMenuItem == -1)
+		PlaySample(g_smidMenuItemChange, SampleMaster::UserFeedBack);
+	else
+	{
+		PlaySample(g_smidMenuItemSelect, SampleMaster::UserFeedBack);
+		if (pmenuCurrent->ami[sMenuItem].sEnabled == TRUE)
+		{
+			TRACE("sMenuItem = %d\n", sMenuItem);
+			Game_StartLevelOnce(sMenuItem);
+		}
+	}
 
 	return bAcceptChoice;
 	}
