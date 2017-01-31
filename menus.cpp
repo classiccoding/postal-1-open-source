@@ -3697,7 +3697,8 @@ static bool OptionsChoice(		// Returns true to accept, false to deny choice.
 		case 4:
 #endif
 			{
-			// Toggle 'Use Joystick'.
+			// Toggle crosshair.
+			g_GameSettings.m_sCrossHair = !g_GameSettings.m_sCrossHair;
 			RMultiBtn*	pmb	= (RMultiBtn*)pmenuCurrent->ami[sMenuItem].pgui;
 			ASSERT(pmb->m_type == RGuiItem::MultiBtn);
 			pmb->NextState();

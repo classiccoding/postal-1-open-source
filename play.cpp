@@ -3572,6 +3572,8 @@ class CPlayInput : public CPlay
 		void StopMenu(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
+			CDude* pdudeLocal = pinfo->LocalDudePointer();
+			
 			// End the menu
 			::StopMenu();
 
@@ -3613,6 +3615,12 @@ class CPlayInput : public CPlay
 			pinfo->Camera()->SetViewSize(
 				VIEW_W * g_GameSettings.m_dGameFilmScale,
 				VIEW_H * g_GameSettings.m_dGameFilmScale);
+			
+			// If the user toggled the crosshair via the options menu,
+			// they'll want their changes to take effect immediately,
+			// so we update the Dude's value to the global value here.
+			if (pdudeLocal != NULL)
+				pdudeLocal->m_bTargetingHelpEnabled = (g_GameSettings.m_sCrossHair != FALSE) ? true : false;
 
 			// Clear flag
 			pinfo->m_bInMenu = false;
