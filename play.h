@@ -167,6 +167,12 @@ extern void Play_GetApplicationDescriptor(		// Returns nothing.
 	int16_t	sMaxBytes);										// In:  Amount of writable 
 																// memory pointed to by pszText.
 
+//////////////////////////////////////////////////////////////////////////////
+// Called to setup a level select
+//////////////////////////////////////////////////////////////////////////////
+extern int16_t Play_InitLevelSelectMenu(	// Returns 0 on success.
+	Menu* pmenu);
+
 #ifdef SALES_DEMO
 	// When true, one can advance to the next level without meeting the goal.
 	extern bool g_bEnableLevelAdvanceWithoutGoal;

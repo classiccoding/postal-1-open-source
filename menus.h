@@ -80,10 +80,15 @@
 #define JOIN_MULTI_MENU_ID				25
 #define HOST_MULTI_MENU_ID				26
 #define PICK_FILE_MENU_ID				27
+#define LOAD_LEVEL_MENU_ID				28
 
 ////////////////////////////////////////////////////////////////////////////////
 // Externs.
 ////////////////////////////////////////////////////////////////////////////////
+
+// Level name strings (for the level select).
+
+extern char levelNames[22][256];
 
 // Forward declarations.
 extern Menu	menuStart;
@@ -107,6 +112,7 @@ extern Menu	menuPlayOptions;
 extern Menu menuRotation;
 extern Menu menuJoinMulti;
 extern Menu menuHostMulti;
+extern Menu menuLoadLevel;
 
 // Main menu
 extern Menu	menuMain;
