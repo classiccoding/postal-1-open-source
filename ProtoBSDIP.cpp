@@ -1436,7 +1436,7 @@ int16_t RProtocolBSDIP::GetMaxSockets(				// Returns 0 if successfull, non-zero 
 /* static */
 int16_t RProtocolBSDIP::GetAddress(					// Returns 0 if successfull, non-zero otherwise
 	char* pszName,											// In:  Host's name or dotted address (x.x.x.x)
-	USHORT usPort,											// In:  Host's port number
+	uint16_t usPort,											// In:  Host's port number
 	RSocket::Address* paddress)						// Out: Address
 	{
 #if PLATFORM_UNIX
@@ -1545,7 +1545,7 @@ uint16_t RProtocolBSDIP::GetAddressPort(	// Returns port number
 //////////////////////////////////////////////////////////////////////////////
 /* static */
 void RProtocolBSDIP::SetAddressPort(
-	USHORT usPort,											// In:  New port number
+	uint16_t usPort,											// In:  New port number
 	RSocket::Address* paddress)						// I/O: Address who's port is to be set
 	{
 	PSOCKADDR_IN pin = (PSOCKADDR_IN) &(paddress->address);
@@ -1562,7 +1562,7 @@ void RProtocolBSDIP::SetAddressPort(
 ////////////////////////////////////////////////////////////////////////////////
 /* static */
 #ifdef WIN32
-int CALLBACK RProtocolBSDIP::BlockingHook(void)
+intptr_t CALLBACK RProtocolBSDIP::BlockingHook(void)
 	{
 	// !!!
 	// The only Windows Socket API function you can call from this

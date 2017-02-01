@@ -40,7 +40,7 @@ inline void _BLiTT(PIXSIZE ucTransparent,PIXSIZE* pSrc,PIXSIZE* pDst,int32_t lSr
 	{
 	union	{
 		PIXSIZE *w;
-		UCHAR	*b;
+		uint8_t	*b;
 		} pSrcLine,pDstLine;
 
 	int i;
@@ -73,7 +73,7 @@ inline void _BLiTT(PIXSIZE ucTransparent,PIXSIZE* pSrc,PIXSIZE* pDst,int32_t lSr
 // if prSrc == NULL, no source clipping will occure
 // if prDst == NULL, it will clip to the CImage
 //
-int16_t	rspBlitT(ULONG ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sSrcX,int16_t sSrcY,int16_t sDstX,
+int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sSrcX,int16_t sSrcY,int16_t sDstX,
 			  int16_t sDstY,int16_t sW,int16_t sH,const RRect* prDst,const RRect* prSrc)
 	{
 	int16_t sClip;
@@ -305,13 +305,13 @@ int16_t	rspBlitT(ULONG ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sSrcX
 	switch (pimDst->m_sDepth)
 		{
 		case 8:
-			_BLiTT((UCHAR)ucTransparent,(U8*)pSrc,(U8*)pDst,pimSrc->m_lPitch,pimDst->m_lPitch,sH,sW); 
+			_BLiTT((uint8_t)ucTransparent,(U8*)pSrc,(U8*)pDst,pimSrc->m_lPitch,pimDst->m_lPitch,sH,sW); 
 		break;
 		case 16:
-			_BLiTT((USHORT)ucTransparent,(U16*)pSrc,(U16*)pDst,(pimSrc->m_lPitch),(pimDst->m_lPitch),sH,int16_t(sW>>1)); 
+			_BLiTT((uint16_t)ucTransparent,(U16*)pSrc,(U16*)pDst,(pimSrc->m_lPitch),(pimDst->m_lPitch),sH,int16_t(sW>>1)); 
 		break;
 		case 32:
-			_BLiTT((ULONG)ucTransparent,(U32*)pSrc,(U32*)pDst,(pimSrc->m_lPitch),(pimDst->m_lPitch),sH,int16_t(sW>>2)); 
+			_BLiTT((uint32_t)ucTransparent,(U32*)pSrc,(U32*)pDst,(pimSrc->m_lPitch),(pimDst->m_lPitch),sH,int16_t(sW>>2)); 
 		break;
 		default:
 			TRACE("rspBlitT: color depth not supported.\n");

@@ -133,14 +133,14 @@ int16_t RSpry::Load(
 	Clear();
 
 	// Read & validate file ID
-	ULONG ulFileID;
+	uint32_t ulFileID;
 	if (pFile->Read(&ulFileID) == 1)
 		{
 		if (ulFileID == RSpry::FileID)
 			{
 
 			// Read & validate file version
-			ULONG ulFileVersion;
+			uint32_t ulFileVersion;
 			if (pFile->Read(&ulFileVersion) == 1)
 				{
 				if (ulFileVersion == RSpry::FileVersion)

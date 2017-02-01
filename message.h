@@ -198,7 +198,7 @@ typedef struct tag_MESSAGE_POPOUT
 {
 	MessageType eType; // = typePopout
 	int16_t			sPriority;
-	UCHAR			ucIDNext;			// Next Pylon to run to
+	uint8_t			ucIDNext;			// Next Pylon to run to
 	U16			u16UniqueDudeID;	// Dude to target
 	U16			u16UniquePylonID;	// Easier way to get to pylon data
 	int16_t			sNextPylonX;		// Next pylon X position
@@ -209,7 +209,7 @@ typedef struct tag_MESSAGE_SHOOTCYCLE
 {
 	MessageType eType; // = typeShootCycle
 	int16_t			sPriority;
-	UCHAR			ucIDNext;			// ID of next bouy in cycle
+	uint8_t			ucIDNext;			// ID of next bouy in cycle
 	U16			u16UniqueDudeID;	// Dude to target
 	U16			u16UniquePylonID;	// Easier way to get to pylon data
 	int16_t			sNextPylonX;		// Next pylon X position

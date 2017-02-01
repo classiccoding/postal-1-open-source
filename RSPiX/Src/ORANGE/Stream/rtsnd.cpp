@@ -137,7 +137,7 @@ void CRtSnd::Reset(void)
 // Returns RET_FREE if done with data on return, RET_DONTFREE otherwise.
 //
 //////////////////////////////////////////////////////////////////////////////
-int16_t CRtSnd::Use(UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags,
+int16_t CRtSnd::Use(uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFlags,
 						int32_t lTime)
 	{
 	int16_t	sRes		= RET_FREE;	// Always free.
@@ -152,7 +152,7 @@ int16_t CRtSnd::Use(UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags,
 	// Read values common to all chunks.
 
 	// Read Snd ID.
-	USHORT	usSndId;
+	uint16_t	usSndId;
 	file.Read (&usSndId);
 	
 	// Make sure we're in range.
@@ -192,7 +192,7 @@ int16_t CRtSnd::Use(UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags,
 				if (sWasEmpty == TRUE)
 					{
 					// Start critical handler that starts the mixing . . .
-					if (Blu_AddCritical(CritiCall, (ULONG)this) == 0)
+					if (Blu_AddCritical(CritiCall, (uint32_t)this) == 0)
 						{
 						// Success.
 						}
@@ -300,8 +300,8 @@ int16_t CRtSnd::Use(UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags,
 //	(static)
 //
 //////////////////////////////////////////////////////////////////////////////
-void* CRtSnd::MixCall(	USHORT usMsg, void* pData, ULONG* pulBufSize, 
-										ULONG ul_psndhdr)
+void* CRtSnd::MixCall(	uint16_t usMsg, void* pData, uint32_t* pulBufSize, 
+										uint32_t ul_psndhdr)
 	{
 	PSND_RT_HDR	psndhdr	= (PSND_RT_HDR)ul_psndhdr;
 	PSNDBUF		psb;
@@ -320,7 +320,7 @@ void* CRtSnd::MixCall(	USHORT usMsg, void* pData, ULONG* pulBufSize,
 				// Must get.
 				ASSERT(psb != NULL)
 				// Should match supplied.
-				if /*ASSERT*/(psb->puc + DATACHUNKHEADERSIZE == (UCHAR*)pData)
+				if /*ASSERT*/(psb->puc + DATACHUNKHEADERSIZE == (uint8_t*)pData)
 					TRACE("MixCall(): Not the expected pointer.\n");
 
 				// Set last flag.
@@ -410,7 +410,7 @@ void* CRtSnd::MixCall(	USHORT usMsg, void* pData, ULONG* pulBufSize,
 // (static)
 //
 //////////////////////////////////////////////////////////////////////////////
-void CRtSnd::CritiCall(ULONG)
+void CRtSnd::CritiCall(uint32_t)
 	{
 	PSND_RT_HDR	psndhdr	= ms_listSndhdrs.GetHead();
 
@@ -434,7 +434,7 @@ void CRtSnd::CritiCall(ULONG)
 					if (psb->lTime <= lTime)
 						{
 						// Attempt to start mixing in our channel . . .
-						if (psndhdr->mix.Start(MixCall, (ULONG)psndhdr, 0) == 0)
+						if (psndhdr->mix.Start(MixCall, (uint32_t)psndhdr, 0) == 0)
 							{
 							psndhdr->usStatus |= STATUS_STARTED;
 							}
@@ -464,8 +464,8 @@ void CRtSnd::CritiCall(ULONG)
 // (static)
 //
 //////////////////////////////////////////////////////////////////////////////
-int16_t CRtSnd::UseStatic(	UCHAR* puc, int32_t lSize, USHORT usType, 
-									UCHAR ucFlags, int32_t lTime, int32_t l_pRtSnd)
+int16_t CRtSnd::UseStatic(	uint8_t* puc, int32_t lSize, uint16_t usType, 
+									uint8_t ucFlags, int32_t lTime, int32_t l_pRtSnd)
 	{
 	return ((CRtSnd*)l_pRtSnd)->Use(puc, lSize, usType, ucFlags, lTime);
 	}

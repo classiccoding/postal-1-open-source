@@ -100,11 +100,11 @@ class CRtFlic
 
 		// Use handler for RtFlic buffers.
 		// Returns RET_FREE if done with data on return, RET_DONTFREE otherwise.
-		int16_t Use(	UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags, 
+		int16_t Use(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFlags, 
 						int32_t lTime);
 		// Static entry point for above.
-		static int16_t UseStatic(	UCHAR* puc, int32_t lSize, USHORT usType, 
-										UCHAR ucFlags, int32_t lTime, int32_t l_pRtFlic);
+		static int16_t UseStatic(	uint8_t* puc, int32_t lSize, uint16_t usType, 
+										uint8_t ucFlags, int32_t lTime, int32_t l_pRtFlic);
 
 	protected:	// Internal typedefs.
 
@@ -113,7 +113,7 @@ class CRtFlic
 
 	protected:	// Members.
 		FLX_RT_HDR	m_aflxhdrs[MAX_VID_CHANNELS];// Info for each channel.
-		USHORT		m_usState;					// The current state of this CRtFlic.
+		uint16_t		m_usState;					// The current state of this CRtFlic.
 		CDispatch*	m_pdispatch;				// The dispatcher for this CRtFlic.
 
 	};

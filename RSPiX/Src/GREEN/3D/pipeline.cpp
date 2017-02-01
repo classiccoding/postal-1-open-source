@@ -271,11 +271,11 @@ int16_t RPipeLine::NotCulled(RP3d *p1,RP3d *p2,RP3d *p3)
 // Uses the static transformed point buffer.
 //
 void RPipeLine::Render(RImage* pimDst,int16_t sDstX,int16_t sDstY,
-		RMesh* pMesh,UCHAR ucColor) // wire!
+		RMesh* pMesh,uint8_t ucColor) // wire!
 	{
 	int32_t i;
 	int32_t v1,v2,v3;
-	USHORT *psVertex = pMesh->m_pArray;
+	uint16_t *psVertex = pMesh->m_pArray;
 	int32_t lNumHidden = 0;
 
 	for (i=0;i < pMesh->m_sNum; i++)
@@ -301,11 +301,11 @@ void RPipeLine::Render(RImage* pimDst,int16_t sDstX,int16_t sDstY,
 // Currently (sDstX,sDstY) allgns with the upper left half of the z-buffer
 // Uses the static transformed point buffer.
 //
-void RPipeLine::RenderShadow(RImage* pimDst,RMesh* pMesh,UCHAR ucColor)
+void RPipeLine::RenderShadow(RImage* pimDst,RMesh* pMesh,uint8_t ucColor)
 	{
 	int32_t i;
 	int32_t v1,v2,v3;
-	USHORT *psVertex = pMesh->m_pArray;
+	uint16_t *psVertex = pMesh->m_pArray;
 
 	for (i=0;i < pMesh->m_sNum; i++)
 		{
@@ -334,10 +334,10 @@ void RPipeLine::Render(RImage* pimDst,int16_t sDstX,int16_t sDstY,
 	{
 	int32_t i;
 	int32_t v1,v2,v3;
-	USHORT *psVertex = pMesh->m_pArray;
-	UCHAR *pColor = pTexColors->m_pIndices;
+	uint16_t *psVertex = pMesh->m_pArray;
+	uint8_t *pColor = pTexColors->m_pIndices;
 	int32_t lDstP = pimDst->m_lPitch;
-	UCHAR* pDst = pimDst->m_pData + (sDstX + sOffsetX) + lDstP * (sDstY + sOffsetY);
+	uint8_t* pDst = pimDst->m_pData + (sDstX + sOffsetX) + lDstP * (sDstY + sOffsetY);
 
 	for (i=0;i < pMesh->m_sNum; i++,pColor++)
 		{
@@ -368,10 +368,10 @@ void RPipeLine::Render(RImage* pimDst,int16_t sDstX,int16_t sDstY,
 	{
 	int32_t i;
 	int32_t v1,v2,v3;
-	USHORT *psVertex = pMesh->m_pArray;
-	UCHAR *pColor = pTexColors->m_pIndices;
+	uint16_t *psVertex = pMesh->m_pArray;
+	uint8_t *pColor = pTexColors->m_pIndices;
 	int32_t lDstP = pimDst->m_lPitch;
-	UCHAR* pDst = pimDst->m_pData + (sDstX + sOffsetX) + lDstP * (sDstY + sOffsetY);
+	uint8_t* pDst = pimDst->m_pData + (sDstX + sOffsetX) + lDstP * (sDstY + sOffsetY);
 
 	for (i=0;i < pMesh->m_sNum; i++,pColor++)
 		{
@@ -438,7 +438,7 @@ void RPipeLine::ClearClipBuffer()
 	{
 	if (m_pimClipBuf == NULL) return;
 
-	rspRect(ULONG(0),m_pimClipBuf,0,0,
+	rspRect(uint32_t(0),m_pimClipBuf,0,0,
 		m_pimClipBuf->m_sWidth,m_pimClipBuf->m_sHeight);
 	}
 
@@ -446,6 +446,6 @@ void RPipeLine::ClearShadowBuffer()
 	{
 	if (m_pimShadowBuf == NULL) return;
 
-	rspRect(ULONG(0),m_pimShadowBuf,0,0,
+	rspRect(uint32_t(0),m_pimShadowBuf,0,0,
 		m_pimShadowBuf->m_sWidth,m_pimShadowBuf->m_sHeight);
 	}

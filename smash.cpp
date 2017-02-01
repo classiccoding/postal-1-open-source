@@ -1414,10 +1414,10 @@ void CSmashatorium::Update(CSmash* pSmash)	// In:  CSmash to be updated
 			// Because a fat smash should NOT be moving, we shouldn't be doing this 
 			// more than once!
 
-			int16_t sClipX = MAX(0L,lX);
-			int16_t sClipY = MAX(0L,lY);
-			int16_t sClipX2 = MIN(m_sWorldW-1L,lX + lD);
-			int16_t sClipY2 = MIN(m_sWorldH-1L,lY + lD);
+			int16_t sClipX = MAX((int32_t)0,lX);
+			int16_t sClipY = MAX((int32_t)0,lY);
+			int16_t sClipX2 = MIN((int32_t)m_sWorldW-1,lX + lD);
+			int16_t sClipY2 = MIN((int32_t)m_sWorldH-1,lY + lD);
 
 			pFat->m_pClippedGrid = m_ppslClipY[sClipY] + m_psClipX[sClipX];
 

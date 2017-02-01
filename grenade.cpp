@@ -229,7 +229,7 @@ int16_t CGrenade::Load(				// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,						// In:  File to load from
 	bool bEditMode,					// In:  True for edit mode, false otherwise
 	int16_t sFileCount,					// In:  File count (unique per file, never 0)
-	ULONG	ulFileVersion)				// In:  Version of file format to load.
+	uint32_t	ulFileVersion)				// In:  Version of file format to load.
 	{
 	int16_t sResult = 0;
 
@@ -316,7 +316,7 @@ int16_t CGrenade::Save(										// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 void CGrenade::Update(void)
 	{
-	USHORT usAttrib;
+	uint16_t usAttrib;
 	int16_t sHeight = m_sPrevHeight;
 	double dPrevVertVel;
 	double dNewX;

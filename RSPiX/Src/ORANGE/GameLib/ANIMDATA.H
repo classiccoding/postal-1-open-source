@@ -75,7 +75,7 @@ typedef struct tag_IMAGE
 	// we should use a UNION to define whatever parts of the
 	// various image types we can.
 	// For now, I just declare it as generic data bytes.
-	UCHAR abData[];		// Image data (as per type)
+	uint8_t abData[];		// Image data (as per type)
 	} IMAGE;
 
 

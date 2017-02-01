@@ -134,7 +134,7 @@ class CVideo
 
 	// Data
 	private:
-		ULONG		m_ulDeviceID;
+		uint32_t		m_ulDeviceID;
 		int32_t		m_lhwnd;
 	};
 

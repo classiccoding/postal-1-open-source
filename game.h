@@ -517,7 +517,7 @@ extern int Stat_LevelsPlayed;
 
 extern int32_t playthroughMS;
 
-extern ULONG Flag_Achievements;
+extern uint32_t Flag_Achievements;
 #define FLAG_USED_M16             (1<<0)
 #define FLAG_USED_SHOTGUN         (1<<1)
 #define FLAG_USED_DBL_SHOTGUN     (1<<2)

@@ -244,8 +244,8 @@ class	CCutSceneInfo
 		char	m_szTitle[256];
 		char	m_szText[4096];
 		char	m_szMusic[RSP_MAX_PATH];
-		UCHAR	m_ucForeText;
-		UCHAR	m_ucShadowText;
+		uint8_t	m_ucForeText;
+		uint8_t	m_ucShadowText;
 		RImage*	m_pimBGLayer;
 		RImage*	m_pimTextLayer;
 		RImage*	m_pimDst;
@@ -366,7 +366,7 @@ int16_t	MartiniDo(	RImage*	pimBackground,	// actually, this is the ONLY graphic
 	rClip.sH -= sRadius<<1;
 	//==============================================================================
 	// Copy the palette:
-	UCHAR PaletteCopy[256 * 3] = {0,};
+	uint8_t PaletteCopy[256 * 3] = {0,};
 	rspGetPaletteEntries(10,236,PaletteCopy+30,PaletteCopy + 31,PaletteCopy + 32,3);
 
 	int32_t lStartTime = rspGetMilliseconds();

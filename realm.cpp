@@ -858,14 +858,14 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 	ms_sFileCount++;
 
 	// Read & validate file ID
-	ULONG ulFileID;
+	uint32_t ulFileID;
 	if (pFile->Read(&ulFileID) == 1)
 		{
 		if (ulFileID == CRealm::FileID)
 			{
 
 			// Read & validate file version
-			ULONG ulFileVersion;
+			uint32_t ulFileVersion;
 			if (pFile->Read(&ulFileVersion) == 1)
 				{
 				// If a known version . . .

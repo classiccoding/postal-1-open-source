@@ -811,7 +811,7 @@ int16_t CDoofus::Load(										// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,											// In:  File to load from
 	bool bEditMode,										// In:  True for edit mode, false otherwise
 	int16_t sFileCount,										// In:  File count (unique per file, never 0)
-	ULONG	ulFileVersion)									// In:  Version of file format to load.
+	uint32_t	ulFileVersion)									// In:  Version of file format to load.
 	{
 	int16_t sResult = CCharacter::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 
@@ -1203,9 +1203,9 @@ int16_t CDoofus::SelectDudeBouy(void)
 // SelectRandomBouy - make sure it exists before setting it
 ////////////////////////////////////////////////////////////////////////////////
 
-UCHAR CDoofus::SelectRandomBouy(void)
+uint8_t CDoofus::SelectRandomBouy(void)
 {
-	UCHAR ucSelect = 0;
+	uint8_t ucSelect = 0;
 	CBouy* pBouy = NULL;
 
 	if (m_pNavNet->GetNumNodes() <= 1)
@@ -1230,10 +1230,10 @@ int16_t CDoofus::SelectDude(void)
 //	Things* pDudes;
 
 	m_idDude = CIdBank::IdNil;
-	ULONG	ulSqrDistance;
-	ULONG	ulCurSqrDistance	= 0xFFFFFFFF;
-	ULONG	ulDistX;
-	ULONG	ulDistZ;
+	uint32_t	ulSqrDistance;
+	uint32_t	ulCurSqrDistance	= 0xFFFFFFFF;
+	uint32_t	ulDistX;
+	uint32_t	ulDistZ;
 //	pDudes = m_pRealm->m_apthings[CThing::CDudeID];
 	CDude*	pdude;
 
@@ -2087,7 +2087,7 @@ void CDoofus::Logic_MoveNext(void)
 		double dsq = (dX * dX) + (dZ * dZ);
 		if (dsq < 5*5) // Was 10*10 for a long time, trying smaller to see if it keeps guys from getting stuck
 		{
-			UCHAR ucNext = m_pNextBouy->NextRouteNode(m_ucDestBouyID);
+			uint8_t ucNext = m_pNextBouy->NextRouteNode(m_ucDestBouyID);
 			if (ucNext == 0 || ucNext == 255) // you are here or you are lost
 			{
 				m_state = m_eDestinationState;

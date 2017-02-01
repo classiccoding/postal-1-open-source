@@ -255,7 +255,7 @@ int32_t RSample::ReadWaveHeader(void)
 	// Skip RIFF garbage
 	if (m_iff.Find(".WAVE.fmt ") == 0)
 		{
-		USHORT usFormatTag;
+		uint16_t usFormatTag;
 		// Read PCMWAVEFORMAT header.
 		if (m_iff.Read(&usFormatTag) == 1L)
 			{
@@ -279,19 +279,19 @@ int32_t RSample::ReadWaveHeader(void)
 								if (usFormatTag == WAVE_FORMAT_ADPCM)
 									{
 									// Read rest of 'fmt ' chunk.
-									USHORT usExtendedSize;
+									uint16_t usExtendedSize;
 									if (m_iff.Read(&usExtendedSize) == 1L)
 										{
 										// Read number of samples per block.
-										USHORT usSamplesPerBlock;
+										uint16_t usSamplesPerBlock;
 										if (m_iff.Read(&usSamplesPerBlock) == 1L)
 											{
 											// Read number of coefficients.
-											USHORT usNumCoefs;
+											uint16_t usNumCoefs;
 											if (m_iff.Read(&usNumCoefs) == 1L)
 												{
 												// Read coefficients.
-												for (USHORT usIndex = 0; usIndex < usNumCoefs; usIndex++)
+												for (uint16_t usIndex = 0; usIndex < usNumCoefs; usIndex++)
 													{
 
 													}

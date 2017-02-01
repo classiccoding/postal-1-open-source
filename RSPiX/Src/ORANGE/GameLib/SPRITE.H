@@ -114,7 +114,7 @@ class RSprite
 		double	m_dXvel;				// X Velocity
 		double	m_dYvel;				// Y Velocity
 		double	m_dZvel;				// Z Velocity
-		ULONG		m_ulFlags;			// Attribute and status flags
+		uint32_t		m_ulFlags;			// Attribute and status flags
 		RImage*	m_pImage;			// Image
 		RList<RRegion> m_clRegions;// List of regions
 		SPRITE_PREDISP	m_cbPreDisp;// Pre-display callback function
@@ -129,11 +129,11 @@ class RSprite
 		RSprite();
 
 		// Constructor for image and flags
-		RSprite(RImage* pImage, ULONG ulFlags = 0);
+		RSprite(RImage* pImage, uint32_t ulFlags = 0);
 
 		// Constructor for complete initialize
 		RSprite(int16_t sX, int16_t sY, int16_t sZ, int16_t sAngle, int32_t lWidth, int32_t lHeight,
-		        ULONG ulFlags, RImage* pImage);
+		        uint32_t ulFlags, RImage* pImage);
 
 		// Does basic default initialization for RSprite.
 		// Should not be called after CreateImage() unless DestroyImage() is called
@@ -183,7 +183,7 @@ class RSprite
 
 		// Get details about collision.  Use the predefined COLLIDE_??? masks
 		// with the return value to determine details about the collision.
-		virtual ULONG GetCxFlags() {return m_ulFlags;};	// Returns detailed collision flags
+		virtual uint32_t GetCxFlags() {return m_ulFlags;};	// Returns detailed collision flags
 
 		// Add a region to this sprite's region list
 		virtual int16_t AddRegion(RRegion*);

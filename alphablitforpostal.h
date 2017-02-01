@@ -36,7 +36,7 @@
 extern	void rspMaskBlit(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY);
 
 // Takes a BMP8 and converts it to a mask of 0 and ucVal
-extern	void rspCopyAsMask(RImage* pimSrc,RImage* pimDst,UCHAR ucVal);
+extern	void rspCopyAsMask(RImage* pimSrc,RImage* pimDst,uint8_t ucVal);
 
 extern	void g_alphaBlit(
 		RImage* pimSrc,			// Source image. (wall)

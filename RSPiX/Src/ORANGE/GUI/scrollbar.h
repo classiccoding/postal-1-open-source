@@ -35,7 +35,7 @@
 //							and write members of this class.
 //
 //		01/26/97	JMI	Altered static HotCall to accept an RHot* instead of a
-//							ULONG 'as per' new RHot callbacks.
+//							uint32_t 'as per' new RHot callbacks.
 //
 //		01/30/97	JMI	Took Do() out of here and put in scrollbar.cpp.
 //							Fixed rounding error in POS2PIXEL().

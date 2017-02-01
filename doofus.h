@@ -296,10 +296,10 @@ class CDoofus : public CCharacter
 		// Navigation Net control
 		CNavigationNet* m_pNavNet;			// The network I should use
 		U16 m_u16NavNetID;					// My network's ID				
-		UCHAR m_ucDestBouyID;				// Destination bouy
-		UCHAR m_ucNextBouyID;				// Next bouy to go to
-		UCHAR m_ucSpecialBouy0ID;			// Starting bouy for special cases like marching
-		UCHAR m_ucSpecialBouy1ID;			// Ending bouy for special cases like marching
+		uint8_t m_ucDestBouyID;				// Destination bouy
+		uint8_t m_ucNextBouyID;				// Next bouy to go to
+		uint8_t m_ucSpecialBouy0ID;			// Starting bouy for special cases like marching
+		uint8_t m_ucSpecialBouy1ID;			// Ending bouy for special cases like marching
 		CBouy* m_pNextBouy;					// pointer to next bouy to go to.
 		int16_t m_sNextX;						// Position of next Bouy
 		int16_t m_sNextZ;						// Position of next Bouy
@@ -355,7 +355,7 @@ class CDoofus : public CCharacter
 		CSprite3			m_spriteWeapon;			// Sprite for weapon.
 		ClassIDType		m_eFallbackWeaponType;	// Fallback weapon type or TotalIDs for none.
 		int16_t				m_sStuckCounter;			// Number of times he tried to move in the current state
-		USHORT			m_usBloodCounter;			// Counter to limit the blood pools.
+		uint16_t			m_usBloodCounter;			// Counter to limit the blood pools.
 		SampleMaster::SoundInstance m_siPlaying;	// Sound instance that is playing - in case it needs to be stopped
 
 
@@ -444,7 +444,7 @@ class CDoofus : public CCharacter
 			RFile* pFile,											// In:  File to load from
 			bool bEditMode,										// In:  True for edit mode, false otherwise
 			int16_t sFileCount,										// In:  File count (unique per file, never 0)
-			ULONG	ulFileVersion);								// In:  Version of file format to load.
+			uint32_t	ulFileVersion);								// In:  Version of file format to load.
 
 		// Save object (should call base class version!)
 		virtual int16_t Save(													// Returns 0 if successfull, non-zero otherwise
@@ -658,7 +658,7 @@ class CDoofus : public CCharacter
 		int16_t SelectDudeBouy(void);					// Returns 0 if successful, non-zero otherwise
 
 		// Return a valid random bouy or 0 if no bouys exist.
-		UCHAR SelectRandomBouy(void);
+		uint8_t SelectRandomBouy(void);
 
 		// Set a pointer to the CDude you are tracking for other CDude related
 		// functions like FindDirection and SQDistanceToDude

@@ -208,18 +208,18 @@ class RLaymage
 
 		// RLE decompression routine to decompress the Photoshop channel
 		// data.
-		int16_t RLE_Decompress(char* pcBuffer, ULONG ulCompSize, RFile* pcfRLE);
+		int16_t RLE_Decompress(char* pcBuffer, uint32_t ulCompSize, RFile* pcfRLE);
 				
 		// Convert the m_pcChannels of Photoshop Alpha, R, G and B data into
 		// a RImage 32-bit ARGB format.  The data in the channels is bounded by
 		// a rectangle which needs to be mapped on to a full size CLamage layer.
-		int16_t ConvertToImage(int16_t sLayer, ULONG ulTop, ULONG ulBottom, ULONG ulLeft, ULONG ulRight);
+		int16_t ConvertToImage(int16_t sLayer, uint32_t ulTop, uint32_t ulBottom, uint32_t ulLeft, uint32_t ulRight);
 
 		// Deallocate channel buffers and reset the pointers to NULL
 		void ClearChannelBuffers(void);
 
 		// Allocate 4 standard channel buffers
-		int16_t AllocateChannelBuffers(ULONG ulSize);
+		int16_t AllocateChannelBuffers(uint32_t ulSize);
 
 		// Allocate an array of RImage pointers and
 		// char* pointers, one for each layer.

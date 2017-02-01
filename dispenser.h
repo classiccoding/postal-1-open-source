@@ -100,7 +100,7 @@ class CDispenser : public CThing
 		ClassIDType	m_idDispenseeType;					// Type of object to dispense.
 		RFile			m_fileDispensee;						// Mem file representing
 																	// dispensee.
-		ULONG			m_ulFileVersion;						// File version of data stored
+		uint32_t			m_ulFileVersion;						// File version of data stored
 																	// in m_fileDispensee.
 
 		int16_t			m_sX;										// Location of this object,
@@ -202,7 +202,7 @@ class CDispenser : public CThing
 			RFile* pFile,											// In:  File to load from
 			bool bEditMode,										// In:  True for edit mode, false otherwise
 			int16_t sFileCount,										// In:  File count (unique per file, never 0)
-			ULONG	ulFileVersion);								// In:  Version of file format to load.
+			uint32_t	ulFileVersion);								// In:  Version of file format to load.
 
 		// Save object (should call base class version!)
 		int16_t Save(													// Returns 0 if successfull, non-zero otherwise
