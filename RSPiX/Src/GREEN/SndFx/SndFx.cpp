@@ -431,9 +431,9 @@ inline void UnsignedDecimate(	// Returns nothing.
 //
 /////////////////////////////////////////////////////////////////////////
 void RSndFx::Do(						// Returns nothing.
-	UCHAR* pucSrcData,				// Data to affect.
+	uint8_t* pucSrcData,				// Data to affect.
 	int32_t lBufSize,						// Amount of data.
-	UCHAR* pucDstData /*= NULL*/)	// Destination for data, defaults 
+	uint8_t* pucDstData /*= NULL*/)	// Destination for data, defaults 
 											// to same as source.
 	{
 	if (ms_lBitsPerSec > 0)

@@ -108,10 +108,10 @@ class RMix
 		// Callback.
 		typedef void* (*RMixCall)(	Msg		msg, 
 											void*		pData, 
-											ULONG*	pulBufSize, 
-											ULONG		ulUser,
-											UCHAR*	pucVol1,
-											UCHAR*	pucVol2);
+											uint32_t*	pulBufSize, 
+											uint32_t		ulUser,
+											uint8_t*	pucVol1,
+											uint8_t*	pucVol2);
 
 	public:	// <Con|De>struction.
 		// Default constructor.
@@ -137,8 +137,8 @@ class RMix
 		// Start receiving callbacks to fill channel data.
 		// Set the initial mix volumes
 		// Returns 0 on success.
-		int16_t Start(RMixCall mcUser, ULONG ulUser,
-					UCHAR	ucVolume = 255, UCHAR ucVol2 = 255 );
+		int16_t Start(RMixCall mcUser, uint32_t ulUser,
+					uint8_t	ucVolume = 255, uint8_t ucVol2 = 255 );
 
 		// Stop receiving callbacks to fill channel data.
 		int16_t Suspend(void);	// Returns 0 on success.
@@ -316,16 +316,16 @@ class RMix
 		// Callbacks from Blue.
 		static int16_t BlueCallStatic(	// Returns TRUE to continue mixing in this
 												// buffer or FALSE to not mix this buffer.
-			UCHAR*	pucData, 
+			uint8_t*	pucData, 
 			int32_t		lBufSize, 
 			int32_t		lDataPos,
-			ULONG*	pul_ppmixbuf);
+			uint32_t*	pul_ppmixbuf);
 
 	public:	// members
 
 		// Volume information is set from Start and RSND callbacks
-		UCHAR			m_ucVolume;				// 0 - 255
-		UCHAR			m_ucSecondaryVolume;	// 0 - 255
+		uint8_t			m_ucVolume;				// 0 - 255
+		uint8_t			m_ucSecondaryVolume;	// 0 - 255
 
 	protected:	// Members.
 		int32_t			m_lSampleRate;			// Sample rate for audio playback/mix.
@@ -340,9 +340,9 @@ class RMix
 													// otherwise.
 		int32_t			m_lLastDataPos;		// Last byte mixed into.
 		RMixCall		m_mcUser;				// User callback.
-		ULONG			m_ulUser;				// User value.
-		UCHAR*		m_pucData;				// User data.
-		ULONG			m_ulAmount;				// Amount of user data remaining.
+		uint32_t			m_ulUser;				// User value.
+		uint8_t*		m_pucData;				// User data.
+		uint32_t			m_ulAmount;				// Amount of user data remaining.
 
 		int32_t			m_lStartTime;			// Audio time when first buffer entered
 													// queue.
@@ -361,7 +361,7 @@ class RMix
 		static State			ms_sState;			// Current state for all RMixes.
 		static int32_t				ms_lCurPos;			// Current play position
 															// based on absolute start.
-		static ULONG			ms_ulBufSize;		// The size to use when allocating
+		static uint32_t			ms_ulBufSize;		// The size to use when allocating
 															// RMixBufs.
 		static int16_t			ms_sReset;			// Resets Blue and returns all
 															// current user buffers.

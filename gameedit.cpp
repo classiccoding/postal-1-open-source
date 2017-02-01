@@ -1816,7 +1816,7 @@ extern void GameEdit(
 					if (pguiItem != NULL)
 						{
 						pguiItem->m_lId			= LIST_ITEM_GUI_ID_BASE + idCur;
-						pguiItem->m_ulUserData	= (ULONG)idCur;
+						pguiItem->m_ulUserData	= (uint32_t)idCur;
 
 						// Set the callback on pressed.
 						pguiItem->m_bcUser		= ListItemPressedCall;
@@ -1854,7 +1854,7 @@ extern void GameEdit(
 				if (pguiItem != NULL)
 					{
 					// Remember which layer it's associated with.
-					pguiItem->m_ulUserData	= (ULONG)sLayer;
+					pguiItem->m_ulUserData	= (uint32_t)sLayer;
 					// We'll need to know when these are pressed.
 					pguiItem->m_bcUser	= ListItemPressedCall;
 					pguiItem->m_lId		= GUI_ID_TOGGLE_LAYER;
@@ -2130,7 +2130,7 @@ static bool DoInput(		// Returns true when done.
 			// Get cursor position and event
 			GetCursor(&ie, &sCursorX, &sCursorY, &sCursorZ, &sCursorEvent);
 			
-			UCHAR	ucId	= ms_pylonEdit->m_ucID;
+			uint8_t	ucId	= ms_pylonEdit->m_ucID;
 
 			static U8*	pau8KeyStatus	= rspGetKeyStatusArray();
 
@@ -3153,7 +3153,7 @@ static void DoOutput(	// Returns nothing.
 		// If editting a pylon . . .
 		if (ms_pylonEdit != NULL)
 			{
-			UCHAR	ucId	= ms_pylonEdit->m_ucID;
+			uint8_t	ucId	= ms_pylonEdit->m_ucID;
 			ASSERT(ms_argns[ucId].pimRgn != NULL);
 
 			// Draw trigger region.
@@ -3529,10 +3529,10 @@ static void DrawCursor(
 		short sMin = MIN(sCursorZ, (short)(sCursorZ - sCursorY));
 		short sMax = MAX(sCursorZ, (short)(sCursorZ - sCursorY));
 		for (short y = sMin; y <= sMax; y++)
-			rspPlot((UCHAR)255, pimDst, sCursorX, y);
+			rspPlot((uint8_t)255, pimDst, sCursorX, y);
 #else
 		rspLine(
-			(UCHAR)255,
+			(uint8_t)255,
 			pimDst,
 			sBaseX2,
 			sBaseY2,
@@ -5489,7 +5489,7 @@ static void ThingHotCall(	// Returns nothing.
 				{
 				SetSel(pthing, phot);
 				// If EDIT_KEY_SENDTOBACK held down . . .
-				UCHAR	aucKeys[128];
+				uint8_t	aucKeys[128];
 				rspScanKeys(aucKeys);
 				if (aucKeys[EDIT_KEY_SENDTOBACK] != 0)
 					{
@@ -5797,8 +5797,8 @@ static void NetLog(CNavigationNet* pNavNet)
 	ofstream routeout;
 	CNavigationNet::nodeMap::iterator ibouy;
 	CBouy::linkset::iterator ilink;
-	UCHAR i;
-	UCHAR ucHops;
+	uint8_t i;
+	uint8_t ucHops;
 
 
 	txtout.open("c:\\temp\\navnet.txt");
@@ -5819,21 +5819,21 @@ static void NetLog(CNavigationNet* pNavNet)
 			for (ibouy = pNavNet->m_NodeMap.begin(); 
 				  ibouy != pNavNet->m_NodeMap.end(); ibouy++)
 			{
-				txtout << (USHORT) ((*ibouy).second->m_ucID) << " : "; 
+				txtout << (uint16_t) ((*ibouy).second->m_ucID) << " : "; 
 				for (ilink = (*ibouy).second->m_apsDirectLinks.begin(); 
 					  ilink != (*ibouy).second->m_apsDirectLinks.end(); ilink++)
 				{
-					txtout << (USHORT) (*ilink)->m_ucID << ", ";
+					txtout << (uint16_t) (*ilink)->m_ucID << ", ";
 				}
 				txtout << endl;
 				// Show routing table for reachable links
-				routeout << "bouy " << (USHORT) ((*ibouy).second->m_ucID) << endl;
+				routeout << "bouy " << (uint16_t) ((*ibouy).second->m_ucID) << endl;
 				for (i = 1; i < pNavNet->GetNumNodes(); i++)
 				{
 					ucHops = (*ibouy).second->NextRouteNode(i);
 					if (ucHops < 255)
 					{
-						routeout << " vialink[" << (USHORT) i << "] = " << (USHORT) ucHops << endl;
+						routeout << " vialink[" << (uint16_t) i << "] = " << (uint16_t) ucHops << endl;
 					}
 				}
 
@@ -7549,7 +7549,7 @@ static int16_t TmpFileName(								// Returns 0 if successfull, non-zero otherwi
 	#if defined(WIN32)
 
 		char	szPath[RSP_MAX_PATH];
-		ULONG	ulLen	= GetTempPath(sizeof(szPath), szPath);
+		uint32_t	ulLen	= GetTempPath(sizeof(szPath), szPath);
 		if (ulLen >= sizeof(szPath) )
 			{
 			TRACE("TmpFileName(): GetTempPath() could not fit the path and filename into our string.\n");

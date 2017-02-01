@@ -39,7 +39,7 @@
 //							was written.
 //
 //	 03/06/96	JMI	Converted references from PORTABLE.H (e.g., DWORD) to
-//							references from SYSTEM.H (e.g., ULONG).
+//							references from SYSTEM.H (e.g., uint32_t).
 //
 //
 ///////////////////////////////////////////////////////////////////////////////

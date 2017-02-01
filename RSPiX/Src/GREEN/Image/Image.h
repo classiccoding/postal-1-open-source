@@ -102,7 +102,7 @@
 //						CNFile			RFile
 //						CImage			RImage
 //						CPal				RPal
-//						ULONG ulType	RImage::Type ulType
+//						uint32_t ulType	RImage::Type ulType
 //						
 //						Added a using directive to IMAGELINKLATE.
 //
@@ -208,7 +208,7 @@
 // Macros.
 ///////////////////////////////////////////////////////////////////////////////
 
-#define WIDTHUCHAR(i)   (((i)+3) & ~3)      // ULONG aligned
+#define WIDTHuint8_t(i)   (((i)+3) & ~3)      // uint32_t aligned
 #define WIDTH128(i)		 (((i)+15) & ~15)	 // 128-bit aligned
 
 #define IMAGE_COOKIE	0x20204d49 // Looks like "IM  " in the file
@@ -226,27 +226,27 @@
 // Windows Independent DIB BITMAPFILEHEADER representation.
 typedef struct
 {
-	USHORT	usType;
-	ULONG		ulSize;
-	USHORT	usReserved1;
-	USHORT	usReserved2;
-	ULONG		ulOffBits;
+	uint16_t	usType;
+	uint32_t		ulSize;
+	uint16_t	usReserved1;
+	uint16_t	usReserved2;
+	uint32_t		ulOffBits;
 } DIBFILEHEADER;
 
 // Windows Independent DIB BITMAPINFOHEADER representation.
 typedef struct
 {
-	ULONG			ulSize;
+	uint32_t			ulSize;
 	int32_t			lWidth;
 	int32_t			lHeight;
-	USHORT		usPlanes;
-	USHORT		usBitCount;
-	ULONG			ulCompression;
-	ULONG			ulSizeImage;
+	uint16_t		usPlanes;
+	uint16_t		usBitCount;
+	uint32_t			ulCompression;
+	uint32_t			ulSizeImage;
 	int32_t			lXPelsPerMeter;
 	int32_t			lYPelsPerMeter;
-	ULONG			ulClrUsed;
-	ULONG			ulClrImportant;
+	uint32_t			ulClrUsed;
+	uint32_t			ulClrImportant;
 } DIBHEADER, *PDIBHEADER;
 
 //////////////////////////////////////////////////////////////////////
@@ -306,7 +306,7 @@ class RImage
 		Type	m_type;						// Image type
 		Type	m_typeDestination;		// Type to convert to upon load
 												// (New version 2)
-		ULONG			m_ulSize;			// Image data's size
+		uint32_t			m_ulSize;			// Image data's size
 		int16_t			m_sWinWidth;		// Width of image
 		int16_t			m_sWinHeight;		// Height of image
 		int16_t			m_sWidth;			// Width of buffer   (new version 2)
@@ -316,12 +316,12 @@ class RImage
 
 		int32_t			m_lPitch;			// Pitch of image
 		int16_t			m_sDepth;			// Color depth of image
-		UCHAR*		m_pData;				// Pointer to data
+		uint8_t*		m_pData;				// Pointer to data
 		RPal*			m_pPalette;			// Pointer to palette class
-		UCHAR*		m_pSpecial;			// Generic pointer for expandability
+		uint8_t*		m_pSpecial;			// Generic pointer for expandability
 												// (other image formats)
-		UCHAR*		m_pSpecialMem;		// Pointer to allocated special memory
-		UCHAR*		m_pMem;				// Pointer to the memory buffer
+		uint8_t*		m_pSpecialMem;		// Pointer to allocated special memory
+		uint8_t*		m_pMem;				// Pointer to the memory buffer
 												// (for alloc/dealloc of aligned data)
 												// User access in lieu of an AttachData function
 
@@ -350,7 +350,7 @@ class RImage
 
 		// Constructor that allocates data for the buffer
 		// Same as calling CreateData(ulSize)
-		RImage(ULONG ulSize);
+		RImage(uint32_t ulSize);
 
 		// Constructor that allocates a buffer and loads a bitmap
 		// Same as calling LoadDib(pszFilename, ulType)
@@ -365,10 +365,10 @@ class RImage
 
 		// Create IMAGE's data using the specified values.
 		int16_t CreateData(	// Returns 0 if successful
-			ULONG ulSize);	// Size of data
+			uint32_t ulSize);	// Size of data
 
 		// Create IMAGE's data utilizing passed in fields.
-		// Calls CreateData(ULONG) to do the allocation.
+		// Calls CreateData(uint32_t) to do the allocation.
 		int16_t CreateImage(			// Returns 0 if successful.
 			int16_t	sWidth,				// Width of new buffer.
 			int16_t	sHeight,				// Height of new buffer.
@@ -397,7 +397,7 @@ class RImage
 		int16_t SetPalette(RPal* pPal);
 
 		// Create palette and assign its pointer to pPalette
-		int16_t CreatePalette(ULONG ulSize);
+		int16_t CreatePalette(uint32_t ulSize);
 
 		// Create a palette but do not create a data buffer for the palette
 		int16_t CreatePalette(void);
@@ -453,8 +453,8 @@ class RImage
 		Type GetType(void)		{return m_type;};
 
 		// Memory access functions
-		UCHAR* GetBuffer(void)	{return m_pData;};
-		UCHAR* GetMemory(void)	{return m_pMem;};
+		uint8_t* GetBuffer(void)	{return m_pData;};
+		uint8_t* GetMemory(void)	{return m_pMem;};
 
 	private:
 		// Loads a DIB into a standard RImage format.
@@ -523,9 +523,9 @@ typedef short (*CONVFROMFUNC)(RImage* pImage);
 // Conversion to extended from standard function typedef
 typedef short (*CONVTOFUNC)(RImage* pImage);
 // Load extension for special types - loads m_pSpecial data
-typedef short (*LOADFUNC)(RImage* pImage, RFile* pcf/*, ULONG ulVersion*/);
+typedef short (*LOADFUNC)(RImage* pImage, RFile* pcf/*, uint32_t ulVersion*/);
 // Save extension for special types - saves m_pSpecial data
-typedef short (*SAVEFUNC)(RImage* pImage, RFile* pcf/*, ULONG ulVersion*/);
+typedef short (*SAVEFUNC)(RImage* pImage, RFile* pcf/*, uint32_t ulVersion*/);
 // Special data allocation function
 typedef short (*ALLOCFUNC)(RImage* pImage);
 // Special data deallocation function

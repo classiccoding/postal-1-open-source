@@ -96,7 +96,7 @@ class CRtPlay
 			{ m_rttime.SetTimeFunc(fnTime); }
 
 		// Sets the channels to play.
-		void SetChannels(USHORT usFilter)
+		void SetChannels(uint16_t usFilter)
 			{ m_filter.SetFilter(usFilter); }
 
 		// Sets the window and panes sizes for the file window (which is set 
@@ -111,7 +111,7 @@ class CRtPlay
 
 	public:		// Querries.
 		// Get current status.
-		USHORT GetState(void)
+		uint16_t GetState(void)
 			{ return m_usState; }
 
 	protected:	// Internal methods.
@@ -124,26 +124,26 @@ class CRtPlay
 		// Sets the state to the new state.  Generates messages if a state change
 		// occurs.
 		// Returns 0 on success.
-		int16_t SetState(USHORT usState);
+		int16_t SetState(uint16_t usState);
 
 		// Adds an RT_TYPE_RTFINFO chunk to the dispatcher with the specified command
 		// and parameters.
 		// Returns 0 on success.
-		int16_t CreateCmd(USHORT usCmd, int32_t lTime, int32_t lParm1, int32_t lParm2);
+		int16_t CreateCmd(uint16_t usCmd, int32_t lTime, int32_t lParm1, int32_t lParm2);
 
 		// Handles data callbacks from dispatch.
 		// Returns RET_FREE if puc should be freed and RET_DONTFREE, otherwise.
-		int16_t RtInfoCall(	UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags,
+		int16_t RtInfoCall(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFlags,
 								int32_t lTime);
 		// Callback dispatcher (calls the implied this version).
 		// Returns RET_FREE if puc should be freed and RET_DONTFREE, otherwise.
-		static int16_t RtInfoCallStatic(UCHAR* puc, int32_t lSize, USHORT usType, 
-												UCHAR ucFlags, int32_t lTime, int32_t l_pRtPlay);
+		static int16_t RtInfoCallStatic(uint8_t* puc, int32_t lSize, uint16_t usType, 
+												uint8_t ucFlags, int32_t lTime, int32_t l_pRtPlay);
 
 		// Handles current state.  Called by Blue's critical handler list.
 		void Critical(void);
 		// Static version of above.
-		static void CriticalStatic(ULONG ul_pRtPlay)
+		static void CriticalStatic(uint32_t ul_pRtPlay)
 			{ ((CRtPlay*)ul_pRtPlay)->Critical(); }
 
 
@@ -158,9 +158,9 @@ class CRtPlay
 
 	protected:	// Members.
 		
-		USHORT		m_usState;				// Current state of class.
+		uint16_t		m_usState;				// Current state of class.
 
-		ULONG			m_ulChannelsDone;		// Masks of channels that have 
+		uint32_t			m_ulChannelsDone;		// Masks of channels that have 
 													// completed.
 
 		int32_t			m_lWindowSize;			// Size for file window.

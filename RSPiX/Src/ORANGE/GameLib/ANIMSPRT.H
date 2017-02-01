@@ -94,7 +94,7 @@ typedef struct tag_FRAME
 	int16_t		sRotDeg;		// Rotation in Degrees
 	int32_t		lScaleWidth;// Scaled width for this frame
 	int32_t		lScaleHeight;//Scaled height for this frame
-	ULONG		ulFlags;		// Flags for this frame
+	uint32_t		ulFlags;		// Flags for this frame
 	int16_t		sHold;		// number of milliseconds to hold this frame
 	int16_t		sPicIndex;	// Animation's picture index for this frame (used to load)
 	RImage*	pImage;		// pointer to the image for this frame
@@ -110,7 +110,7 @@ class RAnimSprite : public RSprite
 		int16_t		m_sNumFrames;		// Number of frames in this animation
 		int16_t		m_sNumPictures;	// Number of RImages in this animation
 		int16_t		m_sLoopToFrame;	// -1 if no loop, or frame number to start loop
-		ULONG		m_ulAnimFlags;		// Animation flags and status
+		uint32_t		m_ulAnimFlags;		// Animation flags and status
 		int32_t		m_lTimer;			// timer used for animating
 		int16_t		m_sCurrFrame;		// current frame in the animation
 		FRAME*	m_aFrames;			// Array of frame structures

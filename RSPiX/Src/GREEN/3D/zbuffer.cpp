@@ -118,7 +118,7 @@ void RZBuffer::TestHeight(RImage* pimDst,int16_t sDepth,
 	int16_t i,j;
 	int32_t lP = pimDst->m_lPitch;
 
-	UCHAR *pDst,*pDstLine = pimDst->m_pData + lP * sY + sX;
+	uint8_t *pDst,*pDstLine = pimDst->m_pData + lP * sY + sX;
 	int16_t *pZB,*pZLine = m_pBuf + m_lP * sY + sX;
 
 	for (j=0;j<sH;j++,pDstLine += lP,pZLine += m_lP )
@@ -133,12 +133,12 @@ void RZBuffer::TestHeight(RImage* pimDst,int16_t sDepth,
 		}
 	}
 
-void RZBuffer::Dump(RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_t sH,UCHAR* pZCol)
+void RZBuffer::Dump(RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_t sH,uint8_t* pZCol)
 	{
 	int16_t i,j;
 	int32_t lP = pimDst->m_lPitch;
 
-	UCHAR *pDst,*pDstLine = pimDst->m_pData + lP * sY + sX;
+	uint8_t *pDst,*pDstLine = pimDst->m_pData + lP * sY + sX;
 	int16_t *pZLine = m_pBuf + m_lP * sY + sX;
 	RFixedS16 *pZB;
 

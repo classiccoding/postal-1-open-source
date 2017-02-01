@@ -39,14 +39,14 @@ endif
 ifeq ($(strip $(target)),linux_x86)
   macosx := false
   CPUARCH := x86
-  CC := g++
-  LINKER := g++ -m32
+  CC := x86_64-w64-mingw32-g++
+  LINKER := x86_64-w64-mingw32-g++ -m32
 endif
 ifeq ($(strip $(target)),linux_x86_64)
   macosx := false
   CPUARCH := x86_64
-  CC := g++
-  LINKER := g++
+  CC := x86_64-w64-mingw32-g++
+  LINKER := x86_64-w64-mingw32-g++
 endif
 ifeq ($(strip $(target)),macosx_x86)
   macosx := true

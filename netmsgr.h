@@ -328,10 +328,10 @@ class NetMsg
 
 		typedef struct Err
 			{
-			enum { Size = 1 + sizeof(Error) + sizeof(ULONG) };
+			enum { Size = 1 + sizeof(Error) + sizeof(uint32_t) };
 			uint8_t	ucType;								// Message type
 			Error				error;								// error value
-			ULONG				ulParam;								// Miscellaneous param for errors.
+			uint32_t				ulParam;								// Miscellaneous param for errors.
 																		// For *VersionMismatchError, used
 																		// for other system's version for
 																		// error reportage.
@@ -1290,7 +1290,7 @@ class CNetMsgr
 		typedef void (*FUNC_WRITE)(NetMsg* pmsg, CBufQ* pBuf);	// Pointer to write function
 		typedef struct
 			{
-			UCHAR				ucType;								// Type (used only for debug ASSERTs)
+			uint8_t				ucType;								// Type (used only for debug ASSERTs)
 			size_t			size;									// Size of data to read/write (bytes)
 			FUNC_READ		funcRead;							// Pointer to read function
 			FUNC_WRITE		funcWrite;							// Pointer to write function

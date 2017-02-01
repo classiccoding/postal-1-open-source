@@ -28,7 +28,7 @@
 //						=========			=========
 //						CNFile				RFile
 //						CPal					RPal
-//						ULONG ulType		RPal::Type ulType
+//						uint32_t ulType		RPal::Type ulType
 //						m_bCanDestroyData	m_sCanDestroyData
 //						
 //						Also, Convert() contained a "lack of m_" bug where it was
@@ -36,8 +36,8 @@
 //						of the stack when it meant the one in the class.
 //
 //						The thing that annoys me the most about using actual enums
-//						instead of ULONGs is that you have to copy it into a dummy
-//						ULONG to use RFile on it.  This isn't very bad, but it's
+//						instead of uint32_ts is that you have to copy it into a dummy
+//						uint32_t to use RFile on it.  This isn't very bad, but it's
 //						annoying.
 //
 //	11/01/96	JMI	Changed all members to be preceded by m_ (e.g., sDepth
@@ -302,7 +302,7 @@ int16_t RPal::GetPalEntrySize(Type type)
 //
 //////////////////////////////////////////////////////////////////////
 
-int16_t	RPal::CreateData(ULONG ulNewSize)
+int16_t	RPal::CreateData(uint32_t ulNewSize)
 {
 	if (m_sCanDestroyData && m_pData)
 	{
@@ -319,7 +319,7 @@ int16_t	RPal::CreateData(ULONG ulNewSize)
 	return RImage::sCreateMem((void**) &m_pData, ulNewSize);
 }
 
-int16_t RPal::CreateData(ULONG ulNewSize, 
+int16_t RPal::CreateData(uint32_t ulNewSize, 
                        Type  typeNew,
 							  int16_t sSetPalEntrySize,
 							  int16_t sSetStartIndex,
@@ -396,7 +396,7 @@ int16_t RPal::SetData(void* pUserData)
 {
 	if (pUserData != NULL && m_pData == NULL)
 	{
-		m_pData = (UCHAR*) pUserData;
+		m_pData = (uint8_t*) pUserData;
 		m_sCanDestroyData = FALSE;
 		return SUCCESS;
 	}
@@ -431,9 +431,9 @@ int16_t RPal::SetData(void* pUserData)
 //
 //////////////////////////////////////////////////////////////////////
 
-UCHAR* RPal::DetachData(void)
+uint8_t* RPal::DetachData(void)
 {
- 	UCHAR* pDetachment = m_pData;
+ 	uint8_t* pDetachment = m_pData;
 	m_pData = NULL;
 	m_sCanDestroyData = FALSE;
 	return pDetachment;
@@ -538,8 +538,8 @@ int16_t RPal::Save(char* pszFilename)
 int16_t RPal::Save(RFile* pcf)
 {
 	int16_t sReturn = SUCCESS;
-	ULONG ulFileType = PAL_COOKIE;
-	ULONG ulCurrentVersion = PAL_CURRENT_VERSION;
+	uint32_t ulFileType = PAL_COOKIE;
+	uint32_t ulCurrentVersion = PAL_CURRENT_VERSION;
 
 	if (pcf && pcf->IsOpen())
 	{
@@ -547,7 +547,7 @@ int16_t RPal::Save(RFile* pcf)
 		pcf->Write(&ulFileType);
 		pcf->Write(&ulCurrentVersion);
 		// No RFile support for RImage::Type, so we used a U32.
-		U32	u32Temp	= (ULONG)m_type;
+		U32	u32Temp	= (uint32_t)m_type;
 		pcf->Write(&u32Temp);
 		pcf->Write(&m_ulSize);
 		pcf->Write(&m_sStartIndex);
@@ -555,13 +555,13 @@ int16_t RPal::Save(RFile* pcf)
 		pcf->Write(&m_sPalEntrySize);
 		if (m_pData)
 		{
-			USHORT usFlag = 1;
+			uint16_t usFlag = 1;
 			pcf->Write(&usFlag);
 			pcf->Write(m_pData, m_ulSize);
 		}
 		else
 		{
-			USHORT usFlag = 0;
+			uint16_t usFlag = 0;
 			pcf->Write(&usFlag);
 		}
 		if (pcf->Error())
@@ -637,9 +637,9 @@ int16_t RPal::Load(char* pszFilename)
 int16_t RPal::Load(RFile* pcf)
 {	
 	int16_t sReturn = SUCCESS;
-	ULONG ulFileType = 0;
-	ULONG ulFileVersion = 0;
-	USHORT usFlag = 2;
+	uint32_t ulFileType = 0;
+	uint32_t ulFileVersion = 0;
+	uint16_t usFlag = 2;
 
 	if (pcf && pcf->IsOpen())
 	{

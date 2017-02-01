@@ -424,7 +424,7 @@ int16_t CThing3d::Load(									// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,											// In:  File to load from
 	bool bEditMode,										// In:  True for edit mode, false otherwise
 	int16_t sFileCount,										// In:  File count (unique per file, never 0)
-	ULONG	ulFileVersion)									// In:  Version of file format to load.
+	uint32_t	ulFileVersion)									// In:  Version of file format to load.
 	{
 	// Call the CThing base class load to get the instance ID
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
@@ -863,7 +863,7 @@ bool CThing3d::WhileBlownUp(void)	// Returns true until state is complete.
 
 	// Get attribute at new location.
 	// Get height at new position.
-	USHORT	usAttrib;
+	uint16_t	usAttrib;
 	int16_t		sHeight;
 	GetFloorAttributes(dNewX, dNewZ, &usAttrib, &sHeight);
 
@@ -1200,7 +1200,7 @@ bool CThing3d::MakeValidPosition(	// Returns true, if new position was valid.
 
 	// Get attribute at new location.
 	// Get height at new position.
-	USHORT	usAttrib;
+	uint16_t	usAttrib;
 	int16_t		sHeight;
 	GetFloorAttributes(*pdNewX, *pdNewZ, &usAttrib, &sHeight);
 

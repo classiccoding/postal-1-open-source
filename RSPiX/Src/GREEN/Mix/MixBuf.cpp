@@ -24,7 +24,7 @@
 //
 //		12/19/95	JMI	Altered to accept user supplied data space as well as
 //							the space allocated by this module.  Changed use of void*
-//							in calls to UCHAR*.
+//							in calls to uint8_t*.
 //
 //		08/02/96 MJR	Updated non-WIN32 code (was using m_pData, should have
 //							been m_pucData).
@@ -142,7 +142,7 @@ int32_t	RMixBuf::ms_lDstBitsPerSample;	// Sample size in bits for Blue data.
 int32_t	RMixBuf::ms_lNumChannels;			// Number of channels (mono
 													//  or stereo).
 int16_t	RMixBuf::ms_sNumBufs	= 0;			// Number of RMixBufs allocated.
-UCHAR	RMixBuf::ms_ucGlobalVolume = UCHAR(255);	// Full volume is standard
+uint8_t	RMixBuf::ms_ucGlobalVolume = uint8_t(255);	// Full volume is standard
 
 int16_t	RMixBuf::ms_sCutOffVolume = 1;	// Volume to not bother mixing.
 
@@ -219,7 +219,7 @@ inline void Mix(		// Returns nothing.
 			sVal = -128;
 		
 		// Stored as unsigned.
-		*pu8Dst++ = (UCHAR)(sVal + 128);
+		*pu8Dst++ = (uint8_t)(sVal + 128);
 		}
 	}
 
@@ -371,7 +371,7 @@ inline void Mix(		// Returns nothing.
 		else if (sVal < -128)
 			sVal = -128;
 
-		*pu8Dst++ = (UCHAR)(sVal + 128);
+		*pu8Dst++ = (uint8_t)(sVal + 128);
 		}
 	}
 
@@ -567,8 +567,8 @@ RMixBuf::RMixBuf(void)
 //
 //////////////////////////////////////////////////////////////////////////////
 RMixBuf::RMixBuf(
-	UCHAR* pu8Dst,	// In:  Destination buffer.
-	ULONG ulSize)	// In:  Size of destination buffer in bytes.
+	uint8_t* pu8Dst,	// In:  Destination buffer.
+	uint32_t ulSize)	// In:  Size of destination buffer in bytes.
 	{
 	ms_sNumBufs++;
 
@@ -674,7 +674,7 @@ void RMixBuf::Silence(void)
 // Returns 0 on success.
 //
 //////////////////////////////////////////////////////////////////////////////
-int16_t RMixBuf::SetSize(ULONG ulSize)
+int16_t RMixBuf::SetSize(uint32_t ulSize)
 	{
 	int16_t sRes = 0;	// Assume success.
 
@@ -697,7 +697,7 @@ int16_t RMixBuf::SetSize(ULONG ulSize)
 		}
 
 	// Allocate new data chunk.
-	m_pu8Mix = (UCHAR*)malloc(ulSize);
+	m_pu8Mix = (uint8_t*)malloc(ulSize);
 	// If successful . . .
 	if (m_pu8Mix != NULL)
 		{
@@ -722,8 +722,8 @@ int16_t RMixBuf::SetSize(ULONG ulSize)
 //
 //////////////////////////////////////////////////////////////////////////////
 void RMixBuf::SetDest(	// Returns nothing.
-	UCHAR* pu8Dst,			// In:  Destination buffer.
-	ULONG ulSize)			// In:  Size of destination buffer in bytes.
+	uint8_t* pu8Dst,			// In:  Destination buffer.
+	uint32_t ulSize)			// In:  Size of destination buffer in bytes.
 	{
 	// If mix is using dest . . .
 	if (m_pu8Mix == m_pu8Dst)
@@ -848,14 +848,14 @@ CDVA::CDVA()	// Create the tables!
 // Returns 0 on success.
 //
 //////////////////////////////////////////////////////////////////////////////
-int16_t RMixBuf::Mix(	ULONG		ulStartPos,
+int16_t RMixBuf::Mix(	uint32_t		ulStartPos,
 							U8*		pu8Data, 
-							ULONG		ulSize, 
+							uint32_t		ulSize, 
 							int32_t		lSampleRate,
 							int32_t		lBitsPerSample,
 							int32_t		lNumChannels,
-							UCHAR		ucVolume,
-							UCHAR		ucVol2)
+							uint8_t		ucVolume,
+							uint8_t		ucVol2)
 	{
 	int16_t sRes	= 0;	// Assume success.
 
@@ -899,7 +899,7 @@ int16_t RMixBuf::Mix(	ULONG		ulStartPos,
 
 		ASSERT(ulSize <= (m_ulMixSize - ulStartPos) );
 		
-		ULONG ulNum	= MIN(ulSize, m_ulMixSize - ulStartPos);
+		uint32_t ulNum	= MIN(ulSize, m_ulMixSize - ulStartPos);
 
 		if (ulNum > 0)
 			{

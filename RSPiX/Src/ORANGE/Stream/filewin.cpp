@@ -143,7 +143,7 @@ int16_t CFileWin::Alloc(int32_t lSize)
 	int16_t	sRes	= 0;	// Assume success.
 
 	// Allocate new window . . .
-	m_pucWindow	= (UCHAR*)malloc(lSize);
+	m_pucWindow	= (uint8_t*)malloc(lSize);
 	if (m_pucWindow != NULL)
 		{
 		m_paneUser.puc		= m_pucWindow;
@@ -311,7 +311,7 @@ int16_t CFileWin::Open(char* pszFile)
 	int16_t	sRes	= 0;	// Assume success.
 
 	// Attempt to open file . . .
-	// Endianness doesn't matter (only UCHAR reads).
+	// Endianness doesn't matter (only uint8_t reads).
 	if (m_file.Open(pszFile, "rb", ENDIAN_BIG) == 0)
 		{
 		}
@@ -463,7 +463,7 @@ int16_t CFileWin::Start(void)
 		{
 		if (m_sActive == FALSE)
 			{
-			if (Blu_AddCritical((CRITICALL)CriticalStatic, (ULONG)this) == 0)
+			if (Blu_AddCritical((CRITICALL)CriticalStatic, (uint32_t)this) == 0)
 				{
 				// Pick up where we left off.
 				m_lNextTime	= GetTime() + m_lNextTime;

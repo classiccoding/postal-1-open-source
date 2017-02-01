@@ -142,7 +142,7 @@ int16_t CFlag::Load(				// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,						// In:  File to load from
 	bool bEditMode,					// In:  True for edit mode, false otherwise
 	int16_t sFileCount,					// In:  File count (unique per file, never 0)
-	ULONG	ulFileVersion)				// In:  Version of file format to load.
+	uint32_t	ulFileVersion)				// In:  Version of file format to load.
 {
 	int16_t sResult = 0;
 	// Call the base load function to get ID, position, etc.

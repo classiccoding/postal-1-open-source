@@ -58,9 +58,9 @@ extern	int16_t	rspDither(
 					RImage* pimDst,	// MUST be 8-bit
 					int16_t sStartMap,	// palette index
 					int16_t sNumMap,		// # of colors
-					UCHAR*	pRed,		// Palette to match to
-					UCHAR*	pGreen,
-					UCHAR*	pBlue,
+					uint8_t*	pRed,		// Palette to match to
+					uint8_t*	pGreen,
+					uint8_t*	pBlue,
 					int32_t	lInc = 4,
 					// User interaction
 					PDitherCallBack func = NULL,
@@ -85,9 +85,9 @@ extern	int16_t	rspSimpleMap(
 					RImage* pimDst,	// MUST be 8-bit
 					int16_t sStartMap,	// palette index
 					int16_t sNumMap,		// # of colors
-					UCHAR*	pRed,		// Palette to match to
-					UCHAR*	pGreen,
-					UCHAR*	pBlue,
+					uint8_t*	pRed,		// Palette to match to
+					uint8_t*	pGreen,
+					uint8_t*	pBlue,
 					int32_t	lInc = 4,
 					// User interaction
 					PDitherCallBack func = NULL,
@@ -109,14 +109,14 @@ extern	int16_t	rspDither(
 					int32_t lBackR,		// Don't dither to this color!
 					int32_t lBackG,
 					int32_t lBackB,
-					UCHAR ucBack,		// index to make BKGD
+					uint8_t ucBack,		// index to make BKGD
 					RImage* pimSrc,	// MUST BE 24-bit!
 					RImage* pimDst,	// MUST be 8-bit
 					int16_t sStartMap,	// palette index
 					int16_t sNumMap,		// # of colors
-					UCHAR*	pRed,		// Palette to match to
-					UCHAR*	pGreen,
-					UCHAR*	pBlue,
+					uint8_t*	pRed,		// Palette to match to
+					uint8_t*	pGreen,
+					uint8_t*	pBlue,
 					int32_t	lInc = 4,
 					// User interaction
 					PDitherCallBack func = NULL,
@@ -137,15 +137,15 @@ extern	int16_t	rspDither(
 //==============================================
 //	
 int16_t	rspDither(	
-					UCHAR ucForeAlpha,		// lower limit for foreground
-					UCHAR ucBack,		// index to make BKGD
+					uint8_t ucForeAlpha,		// lower limit for foreground
+					uint8_t ucBack,		// index to make BKGD
 					RImage* pimSrc,	// MUST BE 24-bit!
 					RImage* pimDst,	// MUST be 8-bit
 					int16_t sStartMap,	// palette index
 					int16_t sNumMap,		// # of colors
-					UCHAR*	pRed,		// Palette to match to
-					UCHAR*	pGreen,
-					UCHAR*	pBlue,
+					uint8_t*	pRed,		// Palette to match to
+					uint8_t*	pGreen,
+					uint8_t*	pBlue,
 					int32_t	lInc = 4,
 					// User interaction
 					PDitherCallBack func = NULL,
@@ -169,15 +169,15 @@ int16_t	rspDither(
 //==============================================
 //	
 int16_t	rspSimpleMap(	
-					UCHAR	ucForeAlpha,	// alpha threshhold
-					UCHAR ucBack,			// map background to this index
+					uint8_t	ucForeAlpha,	// alpha threshhold
+					uint8_t ucBack,			// map background to this index
 					RImage* pimSrc,	// MUST BE 32-bit!
 					RImage* pimDst,	// MUST be 8-bit
 					int16_t sStartMap,	// palette index
 					int16_t sNumMap,		// # of colors
-					UCHAR*	pRed,		// Palette to match to
-					UCHAR*	pGreen,
-					UCHAR*	pBlue,
+					uint8_t*	pRed,		// Palette to match to
+					uint8_t*	pGreen,
+					uint8_t*	pBlue,
 					int32_t	lInc = 4,
 					// User interaction
 					PDitherCallBack func = NULL,

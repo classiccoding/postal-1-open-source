@@ -30,7 +30,7 @@
 //						=========			=========
 //						CNFile				RFile
 //						CPal					RPal
-//						ULONG ulType		RPal::Type ulType
+//						uint32_t ulType		RPal::Type ulType
 //						m_bCanDestroyData	m_sCanDestroyData
 //
 //	11/01/96	JMI	Changed all members to be preceded by m_ (e.g., sDepth
@@ -81,17 +81,17 @@
 
 typedef struct  
 {
-    UCHAR rgbtBlue;
-    UCHAR rgbtGreen;
-    UCHAR rgbtRed;
+    uint8_t rgbtBlue;
+    uint8_t rgbtGreen;
+    uint8_t rgbtRed;
 } IM_RGBTRIPLE;
 
 typedef struct 
 {
-    UCHAR    rgbBlue;
-    UCHAR    rgbGreen;
-    UCHAR    rgbRed;
-    UCHAR    rgbReserved;
+    uint8_t    rgbBlue;
+    uint8_t    rgbGreen;
+    uint8_t    rgbRed;
+    uint8_t    rgbReserved;
 } IM_RGBQUAD, *IM_PRGBQUAD;
 
 
@@ -132,11 +132,11 @@ class RPal
 
 	public:	// Member vars.
 		Type		m_type;				// Palette type
-		ULONG		m_ulSize;			// Size of data
+		uint32_t		m_ulSize;			// Size of data
 		int16_t		m_sStartIndex;		// Starting index
 		int16_t		m_sNumEntries;		// Number of entries
 		int16_t		m_sPalEntrySize;	// Number of bytes in each palette entry
-		UCHAR*	m_pData;			   // Pointer to data
+		uint8_t*	m_pData;			   // Pointer to data
 
 		// This array of type names should correspond to the above list of
 		// enumerated types.  Whenever you add an image type and an enum, 
@@ -173,10 +173,10 @@ class RPal
 
 		// Create PAL's data using the specified values.
 		int16_t CreateData(	// Returns 0 if successful
-			ULONG	ulSize);	// Size of data
+			uint32_t	ulSize);	// Size of data
 
 		int16_t CreateData(
-			ULONG ulSize, 			// Size of data
+			uint32_t ulSize, 			// Size of data
 			Type	type, 		// Palette type
 			int16_t sPalEntrySize, // Size in bytes of each Pal entry
 			int16_t sStartIndex,	// Starting index of colors
@@ -209,7 +209,7 @@ class RPal
 		// palette types.  You can detach the buffer from the palette, have the
 		// palette create a new buffer (for the converted data) and then free
 		// the detached buffer when you're done with the conversion.
-		UCHAR* DetachData();
+		uint8_t* DetachData();
 
 		// Gets a pointer to the red, green or blue component of the specified
 		// palette entry.  This presents a method of accessing this data in a

@@ -99,7 +99,7 @@ extern int wideScreenWidth;
 
 extern RFont g_fontBig;	// I hope this one is OK....
 
-typedef	struct { UCHAR r; UCHAR g; UCHAR b; } MatchColor;
+typedef	struct { uint8_t r; uint8_t g; uint8_t b; } MatchColor;
 
 MatchColor	gmcSmallFont = { 255,255,0 };	// yellow
 MatchColor	gmcLargeFont = { 255,255,0 };	// yellow
@@ -484,8 +484,8 @@ public:
 			{
 				for (int x=0;x<ms_pimCompositeBufferScaled->m_sWidth;x++)
 				{
-					UCHAR* dest = ms_pimCompositeBufferScaled->m_pData + n * ms_pimCompositeBufferScaled->m_lPitch + x;
-					UCHAR* src = ms_pimCompositeBuffer->m_pData + n * ms_pimCompositeBuffer->m_lPitch + (int)((float)x * widthScale);
+					uint8_t* dest = ms_pimCompositeBufferScaled->m_pData + n * ms_pimCompositeBufferScaled->m_lPitch + x;
+					uint8_t* src = ms_pimCompositeBuffer->m_pData + n * ms_pimCompositeBuffer->m_lPitch + (int)((float)x * widthScale);
 					*dest = *src;
 				}
 				//memcpy(ms_pimCompositeBufferScaled->m_pData + n * ms_pimCompositeBufferScaled->m_lPitch,

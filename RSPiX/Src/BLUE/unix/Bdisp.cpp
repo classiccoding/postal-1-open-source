@@ -999,9 +999,9 @@ extern void rspSetPaletteEntries(
 	int32_t lIncBytes)				// Number of bytes by which to increment pointers after each copy
 	{
 	// Set up destination pointers.
-	UCHAR*	pucDstRed	= &(apeApp[sStartIndex].r);
-	UCHAR*	pucDstGreen	= &(apeApp[sStartIndex].g);
-	UCHAR*	pucDstBlue	= &(apeApp[sStartIndex].b);
+	uint8_t*	pucDstRed	= &(apeApp[sStartIndex].r);
+	uint8_t*	pucDstGreen	= &(apeApp[sStartIndex].g);
+	uint8_t*	pucDstBlue	= &(apeApp[sStartIndex].b);
 
 	// Set up lock pointer.
 	int16_t*	psLock		= &(asPalEntryLocks[sStartIndex]);
@@ -1035,9 +1035,9 @@ extern void rspSetPaletteEntries(
 ///////////////////////////////////////////////////////////////////////////////
 void rspSetPaletteEntry(
 	int16_t sEntry,				// Palette entry (0 to 255)
-	UCHAR ucRed,				// Red component (0 to 255)
-	UCHAR ucGreen,				// Green component (0 to 255)
-	UCHAR ucBlue)				// Blue component (0 to 255)
+	uint8_t ucRed,				// Red component (0 to 255)
+	uint8_t ucGreen,				// Green component (0 to 255)
+	uint8_t ucBlue)				// Blue component (0 to 255)
 	{
 	ASSERT(sEntry >= 0 && sEntry < 256);
 
@@ -1086,9 +1086,9 @@ extern void rspGetPaletteEntries(
 	int32_t lIncBytes)				// Number of bytes by which to increment pointers after each copy
 	{
 	// Set up source pointers.
-	UCHAR*	pucSrcRed	= &(apeApp[sStartIndex].r);
-	UCHAR*	pucSrcGreen	= &(apeApp[sStartIndex].g);
-	UCHAR*	pucSrcBlue	= &(apeApp[sStartIndex].b);
+	uint8_t*	pucSrcRed	= &(apeApp[sStartIndex].r);
+	uint8_t*	pucSrcGreen	= &(apeApp[sStartIndex].g);
+	uint8_t*	pucSrcBlue	= &(apeApp[sStartIndex].b);
 
 	while (sCount-- > 0)
 		{
@@ -1136,9 +1136,9 @@ extern void rspSetPaletteMaps(
 	int32_t lIncBytes)				// Number of bytes by which to increment pointers after each copy
 	{
 	// Set up destination pointers.
-	UCHAR*	pucDstRed	= &(au8MapRed[sStartIndex]);
-	UCHAR*	pucDstGreen	= &(au8MapGreen[sStartIndex]);
-	UCHAR*	pucDstBlue	= &(au8MapBlue[sStartIndex]);
+	uint8_t*	pucDstRed	= &(au8MapRed[sStartIndex]);
+	uint8_t*	pucDstGreen	= &(au8MapGreen[sStartIndex]);
+	uint8_t*	pucDstBlue	= &(au8MapBlue[sStartIndex]);
 
 	while (sCount-- > 0)
 		{
@@ -1171,9 +1171,9 @@ extern void rspGetPaletteMaps(
 	int32_t lIncBytes)				// Number of bytes by which to increment pointers after each copy
 	{
 	// Set up source pointers.
-	UCHAR*	pucSrcRed	= &(au8MapRed[sStartIndex]);
-	UCHAR*	pucSrcGreen	= &(au8MapGreen[sStartIndex]);
-	UCHAR*	pucSrcBlue	= &(au8MapBlue[sStartIndex]);
+	uint8_t*	pucSrcRed	= &(au8MapRed[sStartIndex]);
+	uint8_t*	pucSrcGreen	= &(au8MapGreen[sStartIndex]);
+	uint8_t*	pucSrcBlue	= &(au8MapBlue[sStartIndex]);
 
 	while (sCount-- > 0)
 		{

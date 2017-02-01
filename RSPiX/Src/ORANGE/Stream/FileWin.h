@@ -40,7 +40,7 @@
 // Access into window.
 typedef struct
 	{
-	UCHAR		*puc;		// Pane data.
+	uint8_t		*puc;		// Pane data.
 	int32_t		lSize;	// Size of pane.
 	int32_t		lPos;		// Pane's position in Window.
 	} PANE, *PPANE;
@@ -108,7 +108,7 @@ class CFileWin
 		int16_t IsNextInputPaneReady(void);
 
 		// Current callback status.
-		USHORT GetStatus(void)
+		uint16_t GetStatus(void)
 			{ return m_usStatus; }
 
 		// Get time based on user handler or blue.
@@ -146,13 +146,13 @@ class CFileWin
 	
 	protected:	// Members.
 		CNFile	m_file;				// File object use to read data.
-		UCHAR*	m_pucWindow;		// Window into file.
+		uint8_t*	m_pucWindow;		// Window into file.
 		int32_t		m_lWinSize;			// Size of window.
 		int32_t		m_lInputInterval;	// Time between pane input accesses.
 		int32_t		m_lNextTime;		// Time of next pane input.
 		PANE		m_paneIn;			// Window pane for input.
 		PANE		m_paneUser;			// Window pane for user access.
-		USHORT	m_usStatus;			// Current status.
+		uint16_t	m_usStatus;			// Current status.
 		FILEWIN_TIMEFUNC	m_fnTime;// Custom time handler.
 		int32_t		m_lTimeUser;		// User value for time handler.
 		int16_t		m_sActive;			// TRUE if critical is active, FALSE 

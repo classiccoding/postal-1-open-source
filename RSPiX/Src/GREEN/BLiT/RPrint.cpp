@@ -41,7 +41,7 @@
 //========================================================
 // Instantiate the static members:
 char	RPrint::ms_szInput[4096]; // temporary column buffer
-UCHAR	RPrint::ms_szLineText[1024]; // Stores a line at a time
+uint8_t	RPrint::ms_szLineText[1024]; // Stores a line at a time
 int16_t	RPrint::ms_sCharPosX[1024]; // positions of each character in the line...
 
 // CURRENTLY we are going with the unconventional 
@@ -133,7 +133,7 @@ char* RPrint::ScanLine(char* pszInput)
 			}
 	
 		// Not zero:
-		GetPropCellX((int16_t)UCHAR(*pLast),&sLeft,&sW,&sRight,sFirst);
+		GetPropCellX((int16_t)uint8_t(*pLast),&sLeft,&sW,&sRight,sFirst);
 		sFirst = FALSE;
 
 		if ((sX + sW) > (m_rClip.sX + m_rClip.sW))
@@ -149,7 +149,7 @@ char* RPrint::ScanLine(char* pszInput)
 		ms_sCharPosX[i] = sX + sLeft; // store for prosperity
 		sX += sRight;
 		ms_sCharPosX[i+1] = sX + sLeft; // store for continuation
-		ms_szLineText[i] = UCHAR(*pLast);
+		ms_szLineText[i] = uint8_t(*pLast);
 		pLast++; i++;
 		}
 
@@ -231,14 +231,14 @@ int16_t RPrint::GetWidth(char* pszInput)
 			}
 
 		// Not zero:
-		GetPropCellX((int16_t)UCHAR(*pLast),&sLeft,&sW,&sRight,sFirst);
+		GetPropCellX((int16_t)uint8_t(*pLast),&sLeft,&sW,&sRight,sFirst);
 		sFirst = FALSE;
 
 		// fit another char on the line:
 		ms_sCharPosX[i] = sX; // store for prosperity
 		sX += sRight;
 		ms_sCharPosX[i+1] = sX; // store for continuation
-		ms_szLineText[i] = UCHAR(*pLast);
+		ms_szLineText[i] = uint8_t(*pLast);
 		pLast++; i++;
 		}
 
@@ -249,7 +249,7 @@ int16_t RPrint::GetWidth(char* pszInput)
 
 // returns 0 if not a printable character
 //
-int16_t RPrint::GetBlitW(UCHAR c)
+int16_t RPrint::GetBlitW(uint8_t c)
 	{
 	int16_t sW;
 	if (!m_pCurFontSet->m_ppimCharacters[c]) return 0;
@@ -901,7 +901,7 @@ int16_t RPrint::SetFont(int16_t sCellH,RFont* pFont)
 	return SUCCESS;
 	}
 
-int16_t RPrint::SetColor(ULONG ulForeColor,ULONG ulBackColor,ULONG ulShadowColor)
+int16_t RPrint::SetColor(uint32_t ulForeColor,uint32_t ulBackColor,uint32_t ulShadowColor)
 	{
 	m_ForegroundColor = ulForeColor;
 	if (ulBackColor) m_BackgroundColor = ulBackColor;

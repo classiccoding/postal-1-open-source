@@ -534,7 +534,7 @@ static bool touchFile(const char *fname, const int64 stamp)
         return false;
 
     ULARGE_INTEGER val;
-    val.QuadPart = (ULONGLONG) stamp;
+    val.QuadPart = (uint32_tLONG) stamp;
     val.QuadPart += 11644473600LL;  // epoch difference. Ignoring leap seconds, oh well.
     val.QuadPart *= 10000000LL;  // convert to nanoseconds.
     FILETIME ft;
@@ -925,7 +925,7 @@ rspSetProfileOutput("profile.out");
 							
 							// Default to generic error.
 							char*	pszMsg;
-							USHORT usFlags; 
+							uint16_t usFlags; 
 							// Try to find a better one, though, based on the return value.
 							switch (sResult)
 								{

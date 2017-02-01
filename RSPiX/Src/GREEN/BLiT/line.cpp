@@ -47,7 +47,7 @@
 // (It sure doesn't clip!)
 // VERY cheezy implementation!  For drawing, should do IC stuff inline with pDst
 //
-void rspLine(UCHAR ucColor,RImage* pimDst,int16_t sX1,int16_t sY1,int16_t sX2,int16_t sY2,const RRect* prClip)
+void rspLine(uint8_t ucColor,RImage* pimDst,int16_t sX1,int16_t sY1,int16_t sX2,int16_t sY2,const RRect* prClip)
 	{
 	/*
 #ifdef _DEBUG

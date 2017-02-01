@@ -179,7 +179,7 @@ extern void rspClearKeyEvents(void)
 //
 //////////////////////////////////////////////////////////////////////////////
 extern void rspScanKeys(
-	UCHAR* pucKeys)	// Array of 128 unsigned chars is returned here.
+	uint8_t* pucKeys)	// Array of 128 unsigned chars is returned here.
 	{
         memcpy(pucKeys, keystates, sizeof (keystates));
 	}

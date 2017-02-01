@@ -219,7 +219,7 @@ RBtn* RMsgBox::AddButton(	// Returns allocated GUI item on success.
 	char* pszText,				// Text for btn item.
 	int16_t	sX,					// X position in RMsgBox dlg.
 	int16_t	sY,					// Y position in RMsgBox dlg.
-	ULONG	ulId,				// ID to return if this item is chosen.
+	uint32_t	ulId,				// ID to return if this item is chosen.
 								// There will be no response to this item
 								// if lId is 0.
 	int16_t	sAddW /*= 0*/,	// Additional width for guis that require more.
@@ -268,7 +268,7 @@ RTxt* RMsgBox::AddText(	// Returns allocated GUI item on success.
 	char* pszText,			// Text for txt item.
 	int16_t	sX,				// X position in RMsgBox dlg.
 	int16_t	sY,				// Y position in RMsgBox dlg.
-	ULONG	ulId,				// ID to return if this item is chosen.
+	uint32_t	ulId,				// ID to return if this item is chosen.
 								// There will be no response to this item
 								// if lId is 0.
 	int16_t	sAddW /*= 0*/,	// Additional width for guis that require more.
@@ -317,7 +317,7 @@ REdit* RMsgBox::AddEdit(	// Returns allocated GUI item on success.
 	char* pszText,				// Text for edit item.
 	int16_t	sX,					// X position in RMsgBox dlg.
 	int16_t	sY,					// Y position in RMsgBox dlg.
-	ULONG	ulId,				// ID to return if this item is chosen.
+	uint32_t	ulId,				// ID to return if this item is chosen.
 								// There will be no response to this item
 								// if lId is 0.
 	int16_t	sAddW /*= 0*/,	// Additional width for guis that require more.
@@ -427,7 +427,7 @@ inline void DrawDirty(	// Returns nothing.
 // Check m_pguiFocus to determine RGuiItem with focus.
 //
 ////////////////////////////////////////////////////////////////////////
-ULONG RMsgBox::DoModeless(		// Returns item clicked or 0, if none.
+uint32_t RMsgBox::DoModeless(		// Returns item clicked or 0, if none.
 	RInputEvent* pie)				// In:  Most recent user input event.
 										// Out: pie->sUsed = TRUE, if used.
 	{
@@ -435,7 +435,7 @@ ULONG RMsgBox::DoModeless(		// Returns item clicked or 0, if none.
 	if (m_mbcUser != NULL)
 		{
 		// Allow the user to call stuff.
-		ULONG	ulRes	= (*m_mbcUser)(this);
+		uint32_t	ulRes	= (*m_mbcUser)(this);
 		// If the user returned a non-zero value . . .
 		if (ulRes != 0)
 			{
@@ -452,7 +452,7 @@ ULONG RMsgBox::DoModeless(		// Returns item clicked or 0, if none.
 
 	RGuiItem::DoFocus(pie);
 
-	ULONG	ulResId	= m_ulId;
+	uint32_t	ulResId	= m_ulId;
 	// Reset.
 	m_ulId			= 0;
 
@@ -467,7 +467,7 @@ ULONG RMsgBox::DoModeless(		// Returns item clicked or 0, if none.
 // reactivated before exitting DoModal().
 //
 ////////////////////////////////////////////////////////////////////////
-ULONG RMsgBox::DoModal(					// Returns chosen ID on success, 
+uint32_t RMsgBox::DoModal(					// Returns chosen ID on success, 
 												// 0 on failure.
 	RInputEvent* pie,						// In:  Most recent user input event.
 												// Out: pie->sUsed = TRUE, if used.
@@ -548,7 +548,7 @@ ULONG RMsgBox::DoModal(					// Returns chosen ID on success,
 		DrawDirty(pimDst, pimScr, &drl);
 
 		// Do GUI maintainence.
-		ULONG	ulRes	= DoModeless(pie);
+		uint32_t	ulRes	= DoModeless(pie);
 		if (ulRes != 0)
 			{
 			// Override ours.
@@ -640,7 +640,7 @@ int16_t RMsgBox::AddItem(	// Returns 0 on success.
 	char* pszText,			// Text for item.
 	int16_t	sX,				// X position in RMsgBox dlg.
 	int16_t	sY,				// Y position in RMsgBox dlg.
-	ULONG	ulId,				// ID to return if this item is chosen.
+	uint32_t	ulId,				// ID to return if this item is chosen.
 								// There will be no response to this item
 								// if lId is 0.
 	int16_t	sAddW /*= 0*/,	// Additional width for guis that require more.

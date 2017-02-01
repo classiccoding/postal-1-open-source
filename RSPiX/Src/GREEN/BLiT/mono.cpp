@@ -83,11 +83,11 @@ int16_t rspBlitToMono(
 		}
 
 
-	UCHAR	*pDst,*pDstLine,*pCode,ucCount;
+	uint8_t	*pDst,*pDstLine,*pCode,ucCount;
 	pDstLine = pimDst->m_pData + lDstP * sDstY + (sDstX>>3);
 	RSpecialFSPR1*	pHead = (RSpecialFSPR1*)(pimSrc->m_pSpecial);
 	pCode = pHead->m_pCode;
-	const UCHAR FF = (UCHAR)255;
+	const uint8_t FF = (uint8_t)255;
 
 	// Let's scale it, baby! (pre-clipping)
 	int16_t sDenX = pimSrc->m_sWidth; 
@@ -105,7 +105,7 @@ int16_t rspBlitToMono(
 	int32_t *alDstSkip = (int32_t*)calloc(sizeof(int32_t),afrSkipY[1].mod + 2);
 	for (i=1;i<(afrSkipY[1].mod + 2);i++) 
 		alDstSkip[i] = alDstSkip[i-1] + lDstP;
-	UCHAR	bits[] = {128,64,32,16,8,4,2,1};
+	uint8_t	bits[] = {128,64,32,16,8,4,2,1};
 	int16_t sBit;
 	frInitX.mod = (sDstX & 7);
 
@@ -142,7 +142,7 @@ int16_t rspBlitToMono(
 				ucCount = *(pCode++);
 				frOldX = frX;
 				rspfrAdd(frX,afrSkipX[ucCount],sDenX);
-				ucCount = UCHAR(frX.mod - frOldX.mod);
+				ucCount = uint8_t(frX.mod - frOldX.mod);
 				// Modify this to a rect for solid VMagnification.
 				pDst = pDstLine + ((frOldX.mod)>>3);
 				sBit = frOldX.mod & 7;
@@ -185,7 +185,7 @@ int16_t rspBlitToMono(
 
 // mono rect ....
 //
-int16_t rspRectToMono(ULONG ulColor,RImage* pimDst,int16_t sX,int16_t sY,
+int16_t rspRectToMono(uint32_t ulColor,RImage* pimDst,int16_t sX,int16_t sY,
 						int16_t sW,int16_t sH)
 	{
 #ifdef _DEBUG
@@ -212,13 +212,13 @@ int16_t rspRectToMono(ULONG ulColor,RImage* pimDst,int16_t sX,int16_t sY,
 
 	int32_t lP = pimDst->m_lPitch;
 
-	UCHAR	ucStart = 0,ucEnd = 0;
-	UCHAR *pDst,*pDstLine;
+	uint8_t	ucStart = 0,ucEnd = 0;
+	uint8_t *pDst,*pDstLine;
 	int16_t sMidCount,sStart,sEnd,i,j;
 
-	UCHAR ucBits[] = { 128,64,32,16,8,4,2,1 };
-	UCHAR ucStartBits[] = { 255,127,63,31,15,7,3,1 };
-	UCHAR ucEndBits[] = { 128,192,224,240,248,252,254,255 };
+	uint8_t ucBits[] = { 128,64,32,16,8,4,2,1 };
+	uint8_t ucStartBits[] = { 255,127,63,31,15,7,3,1 };
+	uint8_t ucEndBits[] = { 128,192,224,240,248,252,254,255 };
 
 	sStart = (sX >> 3);
 	sEnd = (sX + sW - 1);

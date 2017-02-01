@@ -55,8 +55,8 @@
 static JOYSTATE	ms_ajsCurr[NUM_JOYSTICKS];		// Current joystick state.
 static JOYSTATE	ms_ajsPrev[NUM_JOYSTICKS];		// Previous joystick state.
 
-static UCHAR		ms_aucButKeys[NUM_JOYSTICKS][NUM_BUTTONS]	= { 0, };
-static UCHAR		ms_aucDirKeys[NUM_JOYSTICKS][NUM_DIRS]		= { 0, };
+static uint8_t		ms_aucButKeys[NUM_JOYSTICKS][NUM_BUTTONS]	= { 0, };
+static uint8_t		ms_aucDirKeys[NUM_JOYSTICKS][NUM_DIRS]		= { 0, };
 
 //////////////////////////////////////////////////////////////////////////////
 // Externally callable functions.
@@ -68,14 +68,14 @@ static UCHAR		ms_aucDirKeys[NUM_JOYSTICKS][NUM_DIRS]		= { 0, };
 // Returns 0 on success.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern int16_t Joy_SetKey(int16_t sJoy, UCHAR ucKey, USHORT usState)
+extern int16_t Joy_SetKey(int16_t sJoy, uint8_t ucKey, uint16_t usState)
 	{
 	int16_t	sRes	= 0;	// Assume success.
 
 	ASSERT(sJoy >= 0 && sJoy < NUM_JOYSTICKS);
 	
 	// Get portion for buttons.
-	USHORT	usButState	= (usState & JOY_BUT);
+	uint16_t	usButState	= (usState & JOY_BUT);
 	// If any buttons represented . . .
 	if (usButState != 0)
 		{
@@ -90,7 +90,7 @@ extern int16_t Joy_SetKey(int16_t sJoy, UCHAR ucKey, USHORT usState)
 		}
 
 	// Get portion for dirs.
-	USHORT	usDirState	= (usState & JOY_DIR_STATES);
+	uint16_t	usDirState	= (usState & JOY_DIR_STATES);
 	// If any directionss represented . . .
 	if (usDirState != 0)
 		{
@@ -132,7 +132,7 @@ extern int16_t Joy_Update(int16_t sJoy)
 		if (Blu_GetKeyboard(&kb) == 0)
 			{
 			// Update for keys.
-			UCHAR	uc;
+			uint8_t	uc;
 			// Buttons:
 			for (int16_t i = 0; i < sizeof(ms_aucButKeys[sJoy]); i++)
 				{
@@ -203,7 +203,7 @@ extern void Joy_GetPrevPos(int16_t sJoy, int32_t *px, int32_t *py, int32_t *pz)
 // Returns the current joystick sJoy's state.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern USHORT Joy_GetState(int16_t sJoy)
+extern uint16_t Joy_GetState(int16_t sJoy)
 	{
 	ASSERT(sJoy >= 0 && sJoy < NUM_JOYSTICKS);
 
@@ -215,7 +215,7 @@ extern USHORT Joy_GetState(int16_t sJoy)
 // Returns the previous joystick sJoy's state.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern USHORT Joy_GetPrevState(int16_t sJoy)
+extern uint16_t Joy_GetPrevState(int16_t sJoy)
 	{
 	ASSERT(sJoy >= 0 && sJoy < NUM_JOYSTICKS);
 

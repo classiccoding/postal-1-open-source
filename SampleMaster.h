@@ -268,7 +268,7 @@
 // Sample identifier type.  See Data section for details.
 typedef struct
 	{
-	USHORT	usDescFlags;	// Use | to combine SMDF_* flags.
+	uint16_t	usDescFlags;	// Use | to combine SMDF_* flags.
 	char*		pszId;
 	} SampleMasterID;
 

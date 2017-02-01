@@ -236,23 +236,23 @@ extern	int16_t	rspGeneralLock(RImage* pimDst);
 extern	int16_t	rspGeneralUnlock(RImage* pimDst);
 
 /* archaic
-extern	void	rspSetConvertToFSPR1(ULONG ulLassoBackCol = 0,ULONG ulComprBackCol = 0,
-								short sTrimT = 0,short sMaxH = 0,UCHAR ucASCII = 0);
+extern	void	rspSetConvertToFSPR1(uint32_t ulLassoBackCol = 0,uint32_t ulComprBackCol = 0,
+								short sTrimT = 0,short sMaxH = 0,uint8_t ucASCII = 0);
 
-extern	void	rspSetConvertFromFSPR1(ULONG ulFrontCol,ULONG ulBackCol = 1);
+extern	void	rspSetConvertFromFSPR1(uint32_t ulFrontCol,uint32_t ulBackCol = 1);
 */
 
 /* Archaic
-extern	short	rspBlit(ULONG ulForeColor,ULONG ulBackColor,RImage* pimSrc,RImage* pimDst,
+extern	short	rspBlit(uint32_t ulForeColor,uint32_t ulBackColor,RImage* pimSrc,RImage* pimDst,
 								  short sDstX,short sDstY,const RRect* prDst = NULL,short sAddW = 0);
-extern	short	rspBlit(ULONG ulForeColor,ULONG ulBackColor,RImage* pimSrc,RImage* pimDst,
+extern	short	rspBlit(uint32_t ulForeColor,uint32_t ulBackColor,RImage* pimSrc,RImage* pimDst,
 	short sDstX,short sDstY,short sDstW,short sDstH,const RRect* prDst=NULL,short sAddW=0,
 	short *psItalics=NULL);
 	*/
 
 //============================  The modern version FSPR1 =================================
 extern	int16_t rspBlit(
-				  ULONG ulForeColor, // will draw in color 0!
+				  uint32_t ulForeColor, // will draw in color 0!
 				  RImage* pimSrc,
 				  RImage* pimDst,
 				  int16_t sDstX,
@@ -261,7 +261,7 @@ extern	int16_t rspBlit(
 				  ); // no scaling, clipping, or text effects.
 
 extern	int16_t rspBlit(
-				  ULONG ulForeColor, // will draw color 0
+				  uint32_t ulForeColor, // will draw color 0
 				  RImage* pimSrc,
 				  RImage* pimDst,
 				  int16_t sDstX,
@@ -272,7 +272,7 @@ extern	int16_t rspBlit(
 				  ); // no clipping or text effects, but scaling.
 
 extern	int16_t rspBlit(
-				  ULONG ulForeColor,
+				  uint32_t ulForeColor,
 				  RImage* pimSrc,
 				  RImage* pimDst,
 				  int16_t sDstX,
@@ -281,7 +281,7 @@ extern	int16_t rspBlit(
 				  );	// No clipping ever, text effects, no scaling.
 
 extern	int16_t rspBlit(
-				  ULONG ulForeColor, // will draw color 0
+				  uint32_t ulForeColor, // will draw color 0
 				  RImage* pimSrc,
 				  RImage* pimDst,
 				  int16_t sDstX,
@@ -302,18 +302,18 @@ extern	int16_t rspAddRotationPadding(RImage* pimSrc,int16_t sHotX,int16_t sHotY)
 
 
 /* archaic
-extern	short	_rspBlit(ULONG ulClrLTR,ULONG ulClrBKD,RImage* pimSrc,RImage* pimDst,
+extern	short	_rspBlit(uint32_t ulClrLTR,uint32_t ulClrBKD,RImage* pimSrc,RImage* pimDst,
 				  short sDstX,short sDstY,short sW,short sH,
 				  short sAddW=0,u16Frac* frSkipY=NULL,u16Frac* frSkipX=NULL);
-extern	short	_rspBlit(ULONG ulForeColor,ULONG ulBackColor,RImage* pimSrc,RImage* pimDst,
+extern	short	_rspBlit(uint32_t ulForeColor,uint32_t ulBackColor,RImage* pimSrc,RImage* pimDst,
 								  short sDstX,short sDstY,const RRect* prDst = NULL,short sAddW = 0);
 
-extern	short	_rspBlit(ULONG ulForeColor,ULONG ulBackColor,RImage* pimSrc,RImage* pimDst,
+extern	short	_rspBlit(uint32_t ulForeColor,uint32_t ulBackColor,RImage* pimSrc,RImage* pimDst,
 								  short sDstX,short sDstY,short sDstW,short sDstH,
 								  const RRect* prDst = NULL,short sAddW = 0);
 */
 
-extern	int16_t rspRectToMono(ULONG ulColor,RImage* pimDst,int16_t sX,int16_t sY,
+extern	int16_t rspRectToMono(uint32_t ulColor,RImage* pimDst,int16_t sX,int16_t sY,
 						int16_t sW,int16_t sH);
 
 //****************************************************************************************
@@ -442,8 +442,8 @@ private:
 	float m_fSpace; // Extra space between pixels based on chosen height.
 	short m_sSpace; // Extra kerning space in pixels
 
-	UCHAR	m_clrBKD;	// current color
-	UCHAR	m_clrFGD;
+	uint8_t	m_clrBKD;	// current color
+	uint8_t	m_clrFGD;
 
 	RFontOld*	m_fnCurrent;	// Current font
 	FontNode* m_pFontSize;	// Base font template
@@ -552,7 +552,7 @@ extern	int16_t rspBlitToMono(
 // if prSrc == NULL, no source clipping will occure
 // if prDst == NULL, it will clip to the RImage
 //
-extern	int16_t	rspBlitT(ULONG ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sSrcX,int16_t sSrcY,int16_t sDstX,
+extern	int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sSrcX,int16_t sSrcY,int16_t sDstX,
 			  int16_t sDstY,int16_t sW,int16_t sH,const RRect* prDst,const RRect* prSrc);
 
 extern	int16_t rspBlitT(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,
@@ -572,7 +572,7 @@ extern	int16_t rspBlitRot(int16_t sDeg,RImage* pimSrc,RImage* pimDst,
 					 int16_t sDstX,int16_t sDstY,double dScaleX,double dScaleY,
 					 const RRect* prDstClip = NULL);
 
-extern	void rspLine(UCHAR ucColor,RImage* pimDst,int16_t sX1,int16_t sY1,int16_t sX2,int16_t sY2,
+extern	void rspLine(uint8_t ucColor,RImage* pimDst,int16_t sX1,int16_t sY1,int16_t sX2,int16_t sY2,
 							 const RRect* prClip = NULL);
 
 extern	int16_t rspRand(int16_t sMax);
@@ -597,7 +597,7 @@ extern	int16_t rspMonoRectLightenTo(int16_t sThickness,int16_t rspBrightness,RIm
 extern	int16_t	rspMonoRectDarkenTo(int16_t sThickness,int16_t rspBrightness,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_t sH,
 						const RRect* prClip = NULL);
 
-extern	int16_t rspGetBrightness(int16_t sIndex,UCHAR* pR,UCHAR* pG,UCHAR* pB,int32_t lInc = 4);
+extern	int16_t rspGetBrightness(int16_t sIndex,uint8_t* pR,uint8_t* pG,uint8_t* pB,int32_t lInc = 4);
 
 //**********************************  FAST CONVERTS:  *******************************
 //----- BYTE dpeth to shift amount:

@@ -132,7 +132,7 @@ int16_t RAnimSprite::Load(char* pszFilename)
 int16_t RAnimSprite::Load(RFile* pcf)
 {
 	int16_t sReturn = SUCCESS;
-	ULONG ulFileType;
+	uint32_t ulFileType;
 
 	if (pcf && pcf->IsOpen())
 	{
@@ -404,7 +404,7 @@ int16_t RAnimSprite::Save(char* pszFilename)
 int16_t RAnimSprite::Save(RFile* pcf)
 {
 	int16_t sReturn = SUCCESS;
-	ULONG ulFileType = ANIMSPRITE_COOKIE;
+	uint32_t ulFileType = ANIMSPRITE_COOKIE;
 
 	if (pcf && pcf->IsOpen())
 	{

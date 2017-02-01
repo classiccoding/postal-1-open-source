@@ -567,7 +567,7 @@ class RFile
 		// Returns the memory ptr if this is a memory file; NULL, otherwise.
 		// NOTE:  This buffer may move after any Write() call that exceeds the
 		// existing buffer size.
-		UCHAR* GetMemory(void)
+		uint8_t* GetMemory(void)
 			{ return m_pucFile; }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -666,9 +666,9 @@ class RFile
 													// processed.
 
 	protected:	// Member variables.
-		UCHAR*		m_pucFile;			// Memory file ptr.
+		uint8_t*		m_pucFile;			// Memory file ptr.
 		int16_t			m_sOwnMem;			// TRUE, if RFile allocated m_pucFile.
-		UCHAR*		m_pucCur;			// Current position in memory file.
+		uint8_t*		m_pucCur;			// Current position in memory file.
 		int32_t			m_lSize;				// Size of memory file (in bytes).
 		int32_t			m_lGrowSize;		// Amount to grow memfile when buffer 
 												// overwritten.

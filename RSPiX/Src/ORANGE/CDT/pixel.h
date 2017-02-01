@@ -48,7 +48,7 @@ class CPixel
 		void SetVal(U32 val)
 			{ memcpy(m_au8, &val, sizeof(val)); }
 
-		void SetVal(UCHAR* puc)
+		void SetVal(uint8_t* puc)
 			{ memcpy(m_au8, puc, m_sSize); }
 
 		int operator <(CPixel &pixel)

@@ -45,7 +45,7 @@
 //							just the client by default.  
 //
 //		01/26/97	JMI	Altered static HotCall to accept an RHot* instead of a
-//							ULONG 'as per' new RHot callbacks.
+//							uint32_t 'as per' new RHot callbacks.
 //
 //		02/05/97	JMI	Added enum for new PushBtn (RPushBtn).
 //
@@ -929,7 +929,7 @@ class RGuiItem : public RProps <U32, U32>
 														// the user but is intended to represent 
 														// a user instance structure such as a 
 														// struct or class.
-		ULONG					m_ulUserData;		// Space that can be used in any way by
+		uint32_t					m_ulUserData;		// Space that can be used in any way by
 														// the user and has no particular intended
 														// use.
 

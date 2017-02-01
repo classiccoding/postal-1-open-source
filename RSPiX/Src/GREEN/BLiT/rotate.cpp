@@ -41,7 +41,7 @@ I AM ARCHAIC !  REMOVE ME AT ONCE AND ADD ROTATE96.CPP!
 class RSaveOld
 	{
 public:
-	ULONG m_type;
+	uint32_t m_type;
 	int16_t sX;
 	int16_t sY;
 	int16_t sW;
@@ -151,7 +151,7 @@ int16_t   ConvertToROTBUF(RImage* pImage)
 		pImage->m_sWidth,pImage->m_sHeight);
 	
 	// Now transfer it ALL back to the original buffer!
-	UCHAR	*pBuf = NULL,*pMem = NULL;
+	uint8_t	*pBuf = NULL,*pMem = NULL;
 	imTemp.DetachData((void**)&pMem,(void**)&pBuf);
 	// Kill Old:
 	pImage->DestroyData();
@@ -166,7 +166,7 @@ int16_t   ConvertToROTBUF(RImage* pImage)
 	pSave->sH = pImage->m_sHeight;
 	pSave->sX = pImage->m_sWinX;
 	pSave->sY = pImage->m_sWinY;
-	pImage->m_pSpecialMem = pImage->m_pSpecial = (UCHAR*) pSave;
+	pImage->m_pSpecialMem = pImage->m_pSpecial = (uint8_t*) pSave;
 
 	pImage->m_type = RImage::ROTBUF;
 	pImage->m_sWidth = imTemp.m_sWidth;
@@ -237,7 +237,7 @@ typedef	struct	tagLine2
 	int32_t	lIncY;
 	int32_t	lDel; 	// Default Integral Increment for slopes > 1 as 
 	int32_t	lDen;
-	UCHAR*	pCur; // Current point position
+	uint8_t*	pCur; // Current point position
 	int32_t	lPitchX;	// Conditional adding to current position
 	int32_t	lPitchY;	
 	}	Line2;
@@ -266,7 +266,7 @@ inline void initLine(Line1*	pLine,
 	}
 
 // d = the number of steps from pt 1 to pt 2...
-inline void initLine(Line2*	pLine,UCHAR*	pBase,int32_t	lPitch,
+inline void initLine(Line2*	pLine,uint8_t*	pBase,int32_t	lPitch,
 							int32_t	x1,int32_t y1,int32_t x2,int32_t y2,int32_t d)
 	{
 	int32_t	lDelX = x2 - x1,lDelY = y2 - y1;
@@ -366,9 +366,9 @@ void	_RotateShrink(float fDeg,RImage* pimSrc,RImage* pimDst,
 		Line1	l1Left,l1Right;
 		Line2	l2Across; // need 3 lines...
 		int32_t	lP = pimDst->m_lPitch;
-		UCHAR	*pDst,*pDstLine;
+		uint8_t	*pDst,*pDstLine;
 		Pt temp;
-		UCHAR	pixel;	// ERROR 8-bit color!
+		uint8_t	pixel;	// ERROR 8-bit color!
 
 		pDst = pimDst->m_pData + (int32_t)sDstX + ((int32_t)(sDstY))*lP;
 
@@ -613,9 +613,9 @@ int16_t rspStrafeRotate(void *pReturnArray,	// Output
 	RImage* pimBuf,*pimScreen;
 	rspNameBuffers(&pimBuf,&pimScreen);
 
-	union { int16_t *pL; UCHAR *pB; } pHotX,pHotY;
-	union { int16_t **ppL; UCHAR *pB; } ppLinkX,ppLinkY;
-	union { RImage **ppI; UCHAR *pB; } ppBuf;
+	union { int16_t *pL; uint8_t *pB; } pHotX,pHotY;
+	union { int16_t **ppL; uint8_t *pB; } ppLinkX,ppLinkY;
+	union { RImage **ppI; uint8_t *pB; } ppBuf;
 
 	// default to a CStrafe:
 	//
@@ -632,7 +632,7 @@ int16_t rspStrafeRotate(void *pReturnArray,	// Output
 	
 	rspSetConvertToROTBUF(sCenterX,sCenterY);
 
-	ULONG ulOldType  = pimSrc->m_type;
+	uint32_t ulOldType  = pimSrc->m_type;
 	if (pimSrc->Convert(RImage::ROTBUF)!= RImage::ROTBUF)
 		{
 		TRACE("rspStrafeRotate: Internal Conversion error\n");
@@ -677,7 +677,7 @@ int16_t rspStrafeRotate(void *pReturnArray,	// Output
 		
 		// Get the coordinates:
 		int16_t sX=0,sY=0,sW=(int16_t)(*(ppBuf.ppI))->m_sWidth,sH = (int16_t)(*(ppBuf.ppI))->m_sHeight;
-		rspLasso((UCHAR)0,(*(ppBuf.ppI)),sX,sY,sW,sH);
+		rspLasso((uint8_t)0,(*(ppBuf.ppI)),sX,sY,sW,sH);
 
 		rspCrop((*(ppBuf.ppI)),sX,sY,sW,sH);
 

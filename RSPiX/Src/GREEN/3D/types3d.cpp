@@ -57,7 +57,7 @@ void RTexture::Alloc(int16_t sNum)
 void RTexture::AllocIndices(void)
 	{
 	FreeIndices();
-	m_pIndices = (UCHAR*)calloc(m_sNum, 1);
+	m_pIndices = (uint8_t*)calloc(m_sNum, 1);
 	ASSERT(m_pIndices != 0);
 	}
 
@@ -168,9 +168,9 @@ int16_t RTexture::Save(RFile* fp)
 void RTexture::Remap(
 	int16_t sStartIndex,
 	int16_t sNumIndex,
-	UCHAR* pr,
-	UCHAR* pg,
-	UCHAR* pb,
+	uint8_t* pr,
+	uint8_t* pg,
+	uint8_t* pb,
 	int32_t linc)
 	{
 	ASSERT(m_pColors);
@@ -196,9 +196,9 @@ void RTexture::Remap(
 ////////////////////////////////////////////////////////////////////////////////
 void 
 RTexture::Unmap(
-	UCHAR* pr,
-	UCHAR* pg,
-	UCHAR* pb,
+	uint8_t* pr,
+	uint8_t* pg,
+	uint8_t* pb,
 	int32_t lInc)
 	{
 	ASSERT(m_pIndices);
@@ -259,7 +259,7 @@ void RMesh::Alloc(int16_t sNum)
 	{
 	Free();
 	m_sNum = sNum;
-	m_pArray = (USHORT*)calloc((int32_t)m_sNum * 3, sizeof(USHORT));
+	m_pArray = (uint16_t*)calloc((int32_t)m_sNum * 3, sizeof(uint16_t));
 	ASSERT(m_pArray != 0);
 	}
 

@@ -43,8 +43,8 @@
 // This is POST CLIPPING, POST MIRRORING, POST PARAMETER VALIDATION!
 //
 inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
-				  UCHAR* pSrcData,int32_t lSrcXP,int32_t lSrcP,
-				  UCHAR* pDstData,int32_t lDstXP,int32_t lDstP,
+				  uint8_t* pSrcData,int32_t lSrcXP,int32_t lSrcP,
+				  uint8_t* pDstData,int32_t lDstXP,int32_t lDstP,
 				  int16_t sDstW,int16_t sDstH, // Target this for inlining!
 				  int16_t sClipL,int16_t sClipR,int16_t sClipT,int16_t sClipB)
 	{
@@ -63,7 +63,7 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 	int16_t sR = ( (sHeight-1) >> 1);		// spinning corner radius
 	int16_t sEdge = int16_t(sR * rspSQRT2);      // square edge size
 	// all things start at this source location:
-	UCHAR* pP;
+	uint8_t* pP;
 
 	int32_t	lDen = int32_t(sDstW) * sDstH; // compound fraction
 
@@ -216,7 +216,7 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 	int32_t lLadX = 0,lLadY = 0,lRungX,lRungY;
 
 	// test template, condition 0, no clip:
-	UCHAR *pDst,*pDstLine = pDstData; // offset included for us...
+	uint8_t *pDst,*pDstLine = pDstData; // offset included for us...
 	int16_t i,j;
 
 	// Left Top Clipping:
@@ -275,7 +275,7 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 		NEGATIVE negative = 0;	// Value doesn't matter since var isn't REALLY used -- just want to avoid unitialized warning
 		switch(sCondition)
 			{
-			UCHAR ucPix;	// The only 8-bit concept:
+			uint8_t ucPix;	// The only 8-bit concept:
 
 			case (sProperRungX | sPosRungX | sProperRungY | sPosRungY):
 				for (i = sDstW; i != 0; i--)
@@ -428,7 +428,7 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 		for (i = sDstW; i != 0; i--)
 			{
 			// The only 8-bit concept:
-			UCHAR ucPix;
+			uint8_t ucPix;
 			ucPix = *(pP + lRungX + lRungY); // pitch included!
 			if (ucPix) *pDst = ucPix;
 
@@ -470,7 +470,7 @@ inline int16_t rspClipMirrorDst(RImage* pimDst, // input:
 										int16_t &sDstY,
 										int16_t &sDstW, 	// Negative for mirror 
 										int16_t &sDstH,	// Negative for mirror
-										UCHAR* &pDst,	// OUTPUT:
+										uint8_t* &pDst,	// OUTPUT:
 										int16_t &sClipL, // positive = clip...
 										int16_t &sClipR,
 										int16_t &sClipT,
@@ -654,7 +654,7 @@ int16_t rspRemovePadding(RImage* pimSrc)
 		pimSrc->m_sWinWidth,pimSrc->m_sWinHeight);
 
 	// tricky part: Swap buffers...
-	UCHAR	*pSrcMem,*pSrcBuf;
+	uint8_t	*pSrcMem,*pSrcBuf;
 	pimSrc->DetachData((void**)&pSrcMem,(void**)&pSrcBuf);
 	// Move the new buffer back to the original
 	imDst.DetachData((void**)&(pimSrc->m_pMem),(void**)&(pimSrc->m_pData));
@@ -798,9 +798,9 @@ int16_t rspBlitRot(int16_t sDeg,RImage* pimSrc,RImage* pimDst,
 	// set up IC
 	//------------------------------------------------------------------------------
 	// Use the old pitch because the coordinates have been changed
-	UCHAR*	pDst = pimDst->m_pData + pimDst->m_lPitch * sDstY + sDstX;
+	uint8_t*	pDst = pimDst->m_pData + pimDst->m_lPitch * sDstY + sDstX;
 	// There is NO source position or source clipping here!
-	UCHAR*	pSrc = pimSrc->m_pData;
+	uint8_t*	pSrc = pimSrc->m_pData;
 
 	// pass the mirrored pitches....
 	_BlitRot(sDeg,pimSrc->m_sHeight,pSrc,pimSrc->m_sDepth>>3,pimSrc->m_lPitch,
@@ -893,9 +893,9 @@ int16_t rspStrafeRotate(void *pReturnArray,	// Output
 
 #endif
 
-	union { int16_t *pL; UCHAR *pB; } pHotX,pHotY;
-	union { int16_t **ppL; UCHAR *pB; } ppLinkX,ppLinkY;
-	union { RImage **ppI; UCHAR *pB; } ppBuf;
+	union { int16_t *pL; uint8_t *pB; } pHotX,pHotY;
+	union { int16_t **ppL; uint8_t *pB; } ppLinkX,ppLinkY;
+	union { RImage **ppI; uint8_t *pB; } ppBuf;
 
 	// IN PREVIOUS VERSIONS, THE USER COULD NOT UINPUT VALUES,
 	// And then I would fill in a CStrafe for them.
@@ -956,7 +956,7 @@ int16_t rspStrafeRotate(void *pReturnArray,	// Output
 		
 		// Get the coordinates:
 		int16_t sX=0,sY=0,sW=(int16_t)(*(ppBuf.ppI))->m_sWidth,sH = (int16_t)(*(ppBuf.ppI))->m_sHeight;
-		rspLasso((UCHAR)0,(*(ppBuf.ppI)),sX,sY,sW,sH);
+		rspLasso((uint8_t)0,(*(ppBuf.ppI)),sX,sY,sW,sH);
 
 		rspCrop((*(ppBuf.ppI)),sX,sY,sW,sH); // sX,sY are the blitting offset
 

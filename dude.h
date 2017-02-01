@@ -651,7 +651,7 @@ class CDude : public CCharacter
 			RFile* pFile,											// In:  File to load from
 			bool bEditMode,										// In:  True for edit mode, false otherwise
 			int16_t sFileCount,										// In:  File count (unique per file, never 0)
-			ULONG	ulFileVersion);								// In:  File version being loaded.
+			uint32_t	ulFileVersion);								// In:  File version being loaded.
 
 		// Save object (should call base class version!)
 		int16_t Save(													// Returns 0 if successfull, non-zero otherwise

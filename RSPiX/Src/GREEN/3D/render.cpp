@@ -31,9 +31,9 @@ typedef struct
 // rendered.
 // sX and sY are additional offsets into pimDst
 //
-void	DrawTri_ZColorFog(UCHAR* pDstOffset,int32_t lDstP,
+void	DrawTri_ZColorFog(uint8_t* pDstOffset,int32_t lDstP,
 			RP3d* p1,RP3d* p2,RP3d* p3,
-			RZBuffer* pZB,UCHAR* pFog,
+			RZBuffer* pZB,uint8_t* pFog,
 			int16_t sOffsetX/* = 0*/,		// In: 2D offset for pZB.
 			int16_t sOffsetY/* = 0*/) 	// In: 2D offset for pZB.
 	{
@@ -60,7 +60,7 @@ void	DrawTri_ZColorFog(UCHAR* pDstOffset,int32_t lDstP,
 	pt3.z.mod = int16_t(p3->z);
 	pt1.x.frac = 
 	pt2.x.frac = 
-	pt3.x.frac = USHORT(32768); // offset each by 1/2
+	pt3.x.frac = uint16_t(32768); // offset each by 1/2
 
 	/*
 	// Catch the special case of a single pixel
@@ -85,7 +85,7 @@ void	DrawTri_ZColorFog(UCHAR* pDstOffset,int32_t lDstP,
 
 			if (pt1.z.mod > *pBufZ)
 				{
-				UCHAR* pDst = pDstOffset + lDstP * pt1.y.mod + pt1.x.mod; 
+				uint8_t* pDst = pDstOffset + lDstP * pt1.y.mod + pt1.x.mod; 
 				*pDst = pFog[pt1.z.upper]; // can't forget to set the z-buffer!
 				*pBufZ = pt1.z.mod;			
 				}
@@ -181,8 +181,8 @@ void	DrawTri_ZColorFog(UCHAR* pDstOffset,int32_t lDstP,
 		fx2inc = fx2 / y2; // stuck with division using fx32!
 		fz2inc = fz2 / y2; // stuck with division using fx32!
 		/* CANDIDATE FOR ONE_OVER!
-		fx2inc = ULONG(fx2.mod) * CInitNum::OneOver[y2]; // stuck with division using fx32!
-		fz2inc = ULONG(fz2.mod) * CInitNum::OneOver[y2]; // stuck with division using fx32!
+		fx2inc = uint32_t(fx2.mod) * CInitNum::OneOver[y2]; // stuck with division using fx32!
+		fz2inc = uint32_t(fz2.mod) * CInitNum::OneOver[y2]; // stuck with division using fx32!
 		*/
 		}
 
@@ -200,7 +200,7 @@ void	DrawTri_ZColorFog(UCHAR* pDstOffset,int32_t lDstP,
 
 	int32_t lP = lDstP;
 	// add in extra piece uv rounding!
-	UCHAR* pDst = pDstOffset + lP * pv1->y.mod + pv1->x.mod + x2.mod; 
+	uint8_t* pDst = pDstOffset + lP * pv1->y.mod + pv1->x.mod + x2.mod; 
 	int16_t* pBufZ = pZB -> GetZPtr(pv1->x.mod + x2.mod + sOffsetX, pv1->y.mod + sOffsetY);
 	int32_t lZP = pZB->m_lP; // in words!!!
 
@@ -308,7 +308,7 @@ void	DrawTri_ZColorFog(UCHAR* pDstOffset,int32_t lDstP,
 			fz.mod += sBaseZ; // This is for coloring but it effects true z as well!
 			xdel = x3.mod - x2.mod;
 			//if (hzdel) hzinc.val = (z3.val - z2.val) / hzdel;
-			if (xdel) fzinc.val = ULONG(z3.mod - z2.mod) * RInitNum::OneOver[xdel];
+			if (xdel) fzinc.val = uint32_t(z3.mod - z2.mod) * RInitNum::OneOver[xdel];
 			//if (hzdel) Mul(hzinc,z3.val - z2.val,CInitNum::OneOver[hzdel]);
 			// Assume 2 to 3:
 			for (x = x2.mod; x<= x3.mod;x++)
@@ -332,8 +332,8 @@ void	DrawTri_ZColorFog(UCHAR* pDstOffset,int32_t lDstP,
 			fx2inc = (fx3 - fx2) / ybot;  // stuck with division using fx32!
 			fz2inc = (fz3 - fz2) / ybot;  // stuck with division using fx32!
 			/*
-			fx2inc = ULONG(fx3.mod-fx2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
-			fz2inc = ULONG(fz3.mod-fz2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
+			fx2inc = uint32_t(fx3.mod-fx2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
+			fz2inc = uint32_t(fz3.mod-fz2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
 			*/
 			//_DrawTri(pDst,lP,x2,x3,fx2inc,fx3inc,yc,ucColor);
 
@@ -417,8 +417,8 @@ void	DrawTri_ZColorFog(UCHAR* pDstOffset,int32_t lDstP,
 			fx2inc = (fx3 - fx2) / ybot;  // stuck with division using fx32!
 			fz2inc = (fz3 - fz2) / ybot;  // stuck with division using fx32!
 			/*
-			fx2inc = ULONG(fx3.mod-fx2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
-			fz2inc = ULONG(fz3.mod-fz2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
+			fx2inc = uint32_t(fx3.mod-fx2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
+			fz2inc = uint32_t(fz3.mod-fz2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
 			*/
 			//_DrawTri(pDst,lP,x2,x3,fx2inc,fx3inc,yc,ucColor);
 
@@ -436,7 +436,7 @@ void	DrawTri_ZColorFog(UCHAR* pDstOffset,int32_t lDstP,
 				fz.mod += sBaseZ;
 				xdel = x2.mod - x3.mod;
 				//if (hzdel) hzinc.val = (z2.val - z3.val) / hzdel;
-				if (xdel) fzinc.val = ULONG(z2.mod - z3.mod) * RInitNum::OneOver[xdel];
+				if (xdel) fzinc.val = uint32_t(z2.mod - z3.mod) * RInitNum::OneOver[xdel];
 				// Full accuracy fxMul!
 				//if (hzdel) Mul(hzinc,z2.val - z3.val,CInitNum::OneOver[hzdel]);
 				// Assume 2 to 3:
@@ -457,7 +457,7 @@ void	DrawTri_ZColorFog(UCHAR* pDstOffset,int32_t lDstP,
 //================================================== 
 // For debugging:
 void	DrawTri_wire(RImage* pimDst,int16_t sX,int16_t sY,
-			RP3d* p1,RP3d* p2,RP3d* p3,UCHAR ucColor)
+			RP3d* p1,RP3d* p2,RP3d* p3,uint8_t ucColor)
 	{
 	rspLine(ucColor,pimDst,
 		sX+int16_t(p1->x),sY+int16_t(p1->y),
@@ -475,9 +475,9 @@ void	DrawTri_wire(RImage* pimDst,int16_t sX,int16_t sY,
 // FLAT SHADED!
 // sX and sY are additional offsets into pimDst
 //
-void	DrawTri_ZColor(UCHAR* pDstOffset,int32_t lDstP,
+void	DrawTri_ZColor(uint8_t* pDstOffset,int32_t lDstP,
 			RP3d* p1,RP3d* p2,RP3d* p3,
-			RZBuffer* pZB,UCHAR ucFlatColor,
+			RZBuffer* pZB,uint8_t ucFlatColor,
 			int16_t sOffsetX/* = 0*/,		// In: 2D offset for pZB.
 			int16_t sOffsetY/* = 0*/) 	// In: 2D offset for pZB.
 	{
@@ -504,7 +504,7 @@ void	DrawTri_ZColor(UCHAR* pDstOffset,int32_t lDstP,
 	pt3.z.mod = int16_t(p3->z);
 	pt1.x.frac = 
 	pt2.x.frac = 
-	pt3.x.frac = USHORT(32768); // offset each by 1/2
+	pt3.x.frac = uint16_t(32768); // offset each by 1/2
 	
 	// sort the triangles and choose which mirror case to render.
 
@@ -539,8 +539,8 @@ void	DrawTri_ZColor(UCHAR* pDstOffset,int32_t lDstP,
 		fx2inc = fx2 / y2; // stuck with division using fx32!
 		fz2inc = fz2 / y2; // stuck with division using fx32!
 		/* CANDIDATE FOR ONE_OVER!
-		fx2inc = ULONG(fx2.mod) * CInitNum::OneOver[y2]; // stuck with division using fx32!
-		fz2inc = ULONG(fz2.mod) * CInitNum::OneOver[y2]; // stuck with division using fx32!
+		fx2inc = uint32_t(fx2.mod) * CInitNum::OneOver[y2]; // stuck with division using fx32!
+		fz2inc = uint32_t(fz2.mod) * CInitNum::OneOver[y2]; // stuck with division using fx32!
 		*/
 		}
 
@@ -558,7 +558,7 @@ void	DrawTri_ZColor(UCHAR* pDstOffset,int32_t lDstP,
 
 	int32_t lP = lDstP;
 	// add in extra piece uv rounding!
-	UCHAR* pDst = pDstOffset + lP * pv1->y.mod + pv1->x.mod + x2.mod; 
+	uint8_t* pDst = pDstOffset + lP * pv1->y.mod + pv1->x.mod + x2.mod; 
 	int16_t* pBufZ = pZB -> GetZPtr(pv1->x.mod + x2.mod + sOffsetX, pv1->y.mod + sOffsetY);
 	int32_t lZP = pZB->m_lP; // in words!!!
 
@@ -666,7 +666,7 @@ void	DrawTri_ZColor(UCHAR* pDstOffset,int32_t lDstP,
 			fz.mod += sBaseZ; // This is for coloring but it effects true z as well!
 			xdel = x3.mod - x2.mod;
 			//if (hzdel) hzinc.val = (z3.val - z2.val) / hzdel;
-			if (xdel) fzinc.val = ULONG(z3.mod - z2.mod) * RInitNum::OneOver[xdel];
+			if (xdel) fzinc.val = uint32_t(z3.mod - z2.mod) * RInitNum::OneOver[xdel];
 			//if (hzdel) Mul(hzinc,z3.val - z2.val,CInitNum::OneOver[hzdel]);
 			// Assume 2 to 3:
 			for (x = x2.mod; x<= x3.mod;x++)
@@ -690,8 +690,8 @@ void	DrawTri_ZColor(UCHAR* pDstOffset,int32_t lDstP,
 			fx2inc = (fx3 - fx2) / ybot;  // stuck with division using fx32!
 			fz2inc = (fz3 - fz2) / ybot;  // stuck with division using fx32!
 			/*
-			fx2inc = ULONG(fx3.mod-fx2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
-			fz2inc = ULONG(fz3.mod-fz2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
+			fx2inc = uint32_t(fx3.mod-fx2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
+			fz2inc = uint32_t(fz3.mod-fz2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
 			*/
 			//_DrawTri(pDst,lP,x2,x3,fx2inc,fx3inc,yc,ucColor);
 
@@ -775,8 +775,8 @@ void	DrawTri_ZColor(UCHAR* pDstOffset,int32_t lDstP,
 			fx2inc = (fx3 - fx2) / ybot;  // stuck with division using fx32!
 			fz2inc = (fz3 - fz2) / ybot;  // stuck with division using fx32!
 			/*
-			fx2inc = ULONG(fx3.mod-fx2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
-			fz2inc = ULONG(fz3.mod-fz2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
+			fx2inc = uint32_t(fx3.mod-fx2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
+			fz2inc = uint32_t(fz3.mod-fz2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
 			*/
 			//_DrawTri(pDst,lP,x2,x3,fx2inc,fx3inc,yc,ucColor);
 
@@ -794,7 +794,7 @@ void	DrawTri_ZColor(UCHAR* pDstOffset,int32_t lDstP,
 				fz.mod += sBaseZ;
 				xdel = x2.mod - x3.mod;
 				//if (hzdel) hzinc.val = (z2.val - z3.val) / hzdel;
-				if (xdel) fzinc.val = ULONG(z2.mod - z3.mod) * RInitNum::OneOver[xdel];
+				if (xdel) fzinc.val = uint32_t(z2.mod - z3.mod) * RInitNum::OneOver[xdel];
 				// Full accuracy fxMul!
 				//if (hzdel) Mul(hzinc,z2.val - z3.val,CInitNum::OneOver[hzdel]);
 				// Assume 2 to 3:
@@ -817,9 +817,9 @@ void	DrawTri_ZColor(UCHAR* pDstOffset,int32_t lDstP,
 // sX and sY are additional offsets into pimDst
 // There is NO Z_BUFFER here!  It is JUST a polygon drawer
 //
-void	DrawTri(UCHAR* pDstOffset,int32_t lDstP,
+void	DrawTri(uint8_t* pDstOffset,int32_t lDstP,
 			RP3d* p1,RP3d* p2,RP3d* p3,
-			UCHAR ucFlatColor)
+			uint8_t ucFlatColor)
 	{
 //////////////////////////////////////////////////////////////////
 //****************************************************************
@@ -841,7 +841,7 @@ void	DrawTri(UCHAR* pDstOffset,int32_t lDstP,
 	pt3.y.mod = int16_t(p3->y);
 	pt1.x.frac = 
 	pt2.x.frac = 
-	pt3.x.frac = USHORT(32768); // offset each by 1/2
+	pt3.x.frac = uint16_t(32768); // offset each by 1/2
 	
 	// sort the triangles and choose which mirror case to render.
 
@@ -872,7 +872,7 @@ void	DrawTri(UCHAR* pDstOffset,int32_t lDstP,
 		{
 		fx2inc = fx2 / y2; // stuck with division using fx32!
 		/* CANDIDATE FOR ONE_OVER!
-		fx2inc = ULONG(fx2.mod) * CInitNum::OneOver[y2]; // stuck with division using fx32!
+		fx2inc = uint32_t(fx2.mod) * CInitNum::OneOver[y2]; // stuck with division using fx32!
 		*/
 		}
 
@@ -884,7 +884,7 @@ void	DrawTri(UCHAR* pDstOffset,int32_t lDstP,
 
 	int32_t lP = lDstP;
 	// add in extra piece uv rounding!
-	UCHAR* pDst = pDstOffset + lP * pv1->y.mod + pv1->x.mod + x2.mod; 
+	uint8_t* pDst = pDstOffset + lP * pv1->y.mod + pv1->x.mod + x2.mod; 
 
 	// Draw the upper triangle! (Assuming fx2inc < fx3inc.....)
 	int16_t x,y;
@@ -968,7 +968,7 @@ void	DrawTri(UCHAR* pDstOffset,int32_t lDstP,
 			// new x2 slope:
 			fx2inc = (fx3 - fx2) / ybot;  // stuck with division using fx32!
 			/*
-			fx2inc = ULONG(fx3.mod-fx2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
+			fx2inc = uint32_t(fx3.mod-fx2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
 			*/
 			//_DrawTri(pDst,lP,x2,x3,fx2inc,fx3inc,yc,ucColor);
 
@@ -1017,7 +1017,7 @@ void	DrawTri(UCHAR* pDstOffset,int32_t lDstP,
 			// new x2 slope:
 			fx2inc = (fx3 - fx2) / ybot;  // stuck with division using fx32!
 			/*
-			fx2inc = ULONG(fx3.mod-fx2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
+			fx2inc = uint32_t(fx3.mod-fx2.mod) * CInitNum::OneOver[yc]; // stuck with division using fx32!
 			*/
 			//_DrawTri(pDst,lP,x2,x3,fx2inc,fx3inc,yc,ucColor);
 

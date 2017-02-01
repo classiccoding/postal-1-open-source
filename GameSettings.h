@@ -147,8 +147,8 @@ class CGameSettings : CSettings
 		int16_t		m_sCrossHair;								// TRUE, to use crosshair.
 
 		char		m_szServerName[RSP_MAX_PATH];			// Name of server for network game.
-		USHORT	m_usServerPort;							// Port on server for network game.
-		USHORT	m_usProtocol;								// Network protocol enum
+		uint16_t	m_usServerPort;							// Port on server for network game.
+		uint16_t	m_usProtocol;								// Network protocol enum
 		char		m_szPlayerName[256];						// Player's name for multiplayer mode.
 		int16_t		m_sPlayerColorIndex;						// Player's color index for multiplayer mode.
 		int16_t		m_sNetBandwidth;							// Network bandwidth
