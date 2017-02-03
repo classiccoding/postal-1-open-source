@@ -39,14 +39,14 @@ endif
 ifeq ($(strip $(target)),linux_x86)
   macosx := false
   CPUARCH := x86
-  CC := x86_64-w64-mingw32-g++
-  LINKER := x86_64-w64-mingw32-g++ -m32
+  CC := g++
+  LINKER := g++ -m32
 endif
 ifeq ($(strip $(target)),linux_x86_64)
   macosx := false
   CPUARCH := x86_64
-  CC := x86_64-w64-mingw32-g++
-  LINKER := x86_64-w64-mingw32-g++
+  CC := g++
+  LINKER := g++
 endif
 ifeq ($(strip $(target)),macosx_x86)
   macosx := true
@@ -284,13 +284,13 @@ else
   ifeq ($(CPUARCH),arm)
     LIBS += -lSDL2
   else
-    ifeq ($(CPUARCH),x86_64)
+	ifeq ($(CPUARCH),x86_64)
 	  LIBS += -lSDL2
-    else
-      LIBS += SDL2/libs/linux-x86/libSDL2-2.0.so.0
-      LDFLAGS += -Wl,-rpath,\$$ORIGIN
-      STEAMLDFLAGS += steamworks/sdk/redistributable_bin/linux32/libsteam_api.so
-    endif
+	else
+	  LIBS += SDL2/libs/linux-x86/libSDL2-2.0.so.0
+	  LDFLAGS += -Wl,-rpath,\$$ORIGIN
+	  STEAMLDFLAGS += steamworks/sdk/redistributable_bin/linux32/libsteam_api.so
+	endif
  endif
 endif
 
@@ -308,7 +308,6 @@ all: debugoff $(CLIENTEXE)
 
 
 debug: debugon $(CLIENTEXE)
-
 
 debugon:
 	$(eval CFLAGS += -DDEBUG -D_DEBUG -O0 -g)
