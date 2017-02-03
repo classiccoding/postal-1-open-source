@@ -58,7 +58,7 @@ class VIDC_RT_HDR
 		int16_t			sTransparent;		// Blt with transparency if TRUE.
 		int16_t			sX;					// Intended position in x direction.
 		int16_t			sY;					// Intended position in y direction.
-		ULONG			ulFCCHandler;		// FCC of Windows' VIDC handler.
+		uint32_t			ulFCCHandler;		// FCC of Windows' VIDC handler.
 	
 		// Header info for our use.
 		CImage*		pImage;				// Where to blt.
@@ -111,15 +111,15 @@ class CRtVidc
 		// Decompresses a VIDC frame using the opened decompressor.
 		// Returns 0 on success.
 		int16_t DecompressFrame(	PVIDC_RT_HDR pvidchdr, CNFile* pfile, 
-										ULONG ulFlags, PBMI pbmiIn, PBMI pbmiOut);
+										uint32_t ulFlags, PBMI pbmiIn, PBMI pbmiOut);
 
 		// Use handler for RtVidc buffers.
 		// Returns RET_FREE if done with data on return, RET_DONTFREE otherwise.
-		int16_t Use(	UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags, 
+		int16_t Use(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFlags, 
 						int32_t lTime);
 		// Static entry point for above.
-		static int16_t UseStatic(	UCHAR* puc, int32_t lSize, USHORT usType, 
-										UCHAR ucFlags, int32_t lTime, int32_t l_pRtVidc);
+		static int16_t UseStatic(	uint8_t* puc, int32_t lSize, uint16_t usType, 
+										uint8_t ucFlags, int32_t lTime, int32_t l_pRtVidc);
 
 	protected:	// Internal typedefs.
 
@@ -128,7 +128,7 @@ class CRtVidc
 
 	protected:	// Members.
 		VIDC_RT_HDR	m_avidchdrs[MAX_VID_CHANNELS];// Info for each channel.
-		USHORT		m_usState;					// The current state of this CRtVidc.
+		uint16_t		m_usState;					// The current state of this CRtVidc.
 		CDispatch*	m_pdispatch;				// The dispatcher for this CRtVidc.
 
 	};

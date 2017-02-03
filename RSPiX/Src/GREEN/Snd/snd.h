@@ -131,8 +131,8 @@ class RSnd
 			char* pszSampleName,			// In:  Name of sample file.
 			int32_t lPlayBufSize,			// In:  Size of play buffer in bytes.
 			int32_t lReadBufSize,			// In:  Size of file read buffer in bytes.
-			UCHAR	ucMainVolume = 255,	// In:  Primary Volume (0 - 255)
-			UCHAR ucVolume2 = 255);		// In:  Secondary Volume (0 - 255)
+			uint8_t	ucMainVolume = 255,	// In:  Primary Volume (0 - 255)
+			uint8_t ucVolume2 = 255);		// In:  Secondary Volume (0 - 255)
 
 			// Plays RSample supplied via ptr with buffer size of lPlayBufSize
 		// (this is the size of the chunks sent to RMix).
@@ -148,8 +148,8 @@ class RSnd
 		int16_t Play(							// Returns 0 on success.
 			RSample* psample,				// In:  Sample to play.
 			int32_t lPlayBufSize,			// In:  Size of play buffer in bytes.
-			UCHAR	ucMainVolume = 255,	// In:  Primary Volume (0 - 255)
-			UCHAR ucVolume2 = 255,		// In:  Secondary Volume (0 - 255)
+			uint8_t	ucMainVolume = 255,	// In:  Primary Volume (0 - 255)
+			uint8_t ucVolume2 = 255,		// In:  Secondary Volume (0 - 255)
 			int32_t lLoopStartTime = -1,	// In:  Where to loop back to in milliseconds.
 												//	-1 indicates no looping (unless m_sLoop is
 												// explicitly set).
@@ -189,38 +189,38 @@ class RSnd
 		// Returns pointer to next buffer to play or NULL to end.
 		void* StreamCall(	RMix::Msg msg, 
 								void* pData, 
-								ULONG* pulNewBufSize,
-								ULONG	 ulUser,
-								UCHAR* pucVolume = NULL,
-								UCHAR* pucVol2 = NULL);
+								uint32_t* pulNewBufSize,
+								uint32_t	 ulUser,
+								uint8_t* pucVolume = NULL,
+								uint8_t* pucVol2 = NULL);
 								
 
 		// Callback from blue regarding playing buffer(s).
 		// Returns pointer to next buffer to play or NULL to end.
 		static void* StreamCallStatic(RMix::Msg msg, 
 												 void* pData,
-												 ULONG* pulNewBufSize,
-												 ULONG ulUser,
-												 UCHAR* pucVolume = NULL,
-												 UCHAR* pucVol2 = NULL);
+												 uint32_t* pulNewBufSize,
+												 uint32_t ulUser,
+												 uint8_t* pucVolume = NULL,
+												 uint8_t* pucVol2 = NULL);
 
 										// Called from PlayCallStatic.
 		// Returns pointer to next buffer to play or NULL to end.
 		void* PlayCall(RMix::Msg msg, 
 							void* pData,
-							ULONG* pulNewBufSize,
-							UCHAR*		pucVolume = NULL,
-							UCHAR*		pucVol2 = NULL);
+							uint32_t* pulNewBufSize,
+							uint8_t*		pucVolume = NULL,
+							uint8_t*		pucVol2 = NULL);
 
 		// Callback from blue regarding playing buffer(s).
 		// Sends back current volume information to RMix
 		// Returns pointer to next buffer to play or NULL to end
 		static void* PlayCallStatic(RMix::Msg msg, 
 											 void* pData,
-											 ULONG* pulNewBufSize,
-											 ULONG ulUser,
-											 UCHAR* pucVolume = NULL,
-											 UCHAR* pucVol2 = NULL);
+											 uint32_t* pulNewBufSize,
+											 uint32_t ulUser,
+											 uint8_t* pucVolume = NULL,
+											 uint8_t* pucVol2 = NULL);
 
 	////////////////////////// Member vars ////////////////////////////////////
 	public:
@@ -233,7 +233,7 @@ class RSnd
 		DoneCall		m_dcUser;		// User callback when done playing/streaming
 											// a sample.
 
-		ULONG			m_ulUser;		// User value -- set as you please.
+		uint32_t			m_ulUser;		// User value -- set as you please.
 
 		int16_t			m_sChannelVolume;// 0-255 = Primary (local) Volume
 		int16_t			m_sTypeVolume;	// 0-255	= Secondary (category) Volume
@@ -246,8 +246,8 @@ class RSnd
 		PSAMPLE		m_psample;		// Sample to be streamed.
 		int16_t			m_sOwnSample;	// TRUE if RSnd allocated m_psample, FALSE
 											// otherwise.
-		ULONG			m_ulRemaining;	// Amount left of sample data to be played.
-		ULONG			m_ulSampleSize;// Overall sample size.
+		uint32_t			m_ulRemaining;	// Amount left of sample data to be played.
+		uint32_t			m_ulSampleSize;// Overall sample size.
 
 		/////////////////////// Static members /////////////////////////////////
 	

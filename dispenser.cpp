@@ -261,7 +261,7 @@ int16_t CDispenser::Load(		// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,				// In:  File to load from
 	bool bEditMode,			// In:  True for edit mode, false otherwise
 	int16_t sFileCount,			// In:  File count (unique per file, never 0)
-	ULONG	ulFileVersion)		// In:  Version of file format to load.
+	uint32_t	ulFileVersion)		// In:  Version of file format to load.
 	{
 	int16_t sResult = 0;
 
@@ -894,7 +894,7 @@ int16_t CDispenser::EditModify(void)					// Returns 0 if successfull, non-zero o
 						pguiItem	= plbThings->AddString((char*)CThing::ms_aClassInfo[idCur].pszClassName);
 						if (pguiItem != NULL)
 							{
-							pguiItem->m_ulUserData	= (ULONG)idCur;
+							pguiItem->m_ulUserData	= (uint32_t)idCur;
 
 							// If this is the current type . . .
 							if (m_idDispenseeType == idCur)
@@ -1513,10 +1513,10 @@ int16_t CDispenser::GetClosestDudeDistance(	// Returns 0 on success.  Fails, if 
 	{
 	int16_t	sRes	= 1;	// Assume no dude found.
 
-	ULONG	ulSqrDistance;
-	ULONG	ulCurSqrDistance	= 0xFFFFFFFF;
-	ULONG	ulDistX;
-	ULONG	ulDistZ;
+	uint32_t	ulSqrDistance;
+	uint32_t	ulCurSqrDistance	= 0xFFFFFFFF;
+	uint32_t	ulDistX;
+	uint32_t	ulDistZ;
 	CDude*	pdude;
 
 	CListNode<CThing>* pDudeList = m_pRealm->m_aclassHeads[CThing::CDudeID].m_pnNext;

@@ -133,7 +133,7 @@ int16_t RFont::Add(RFile* pcf)
 
 		if (!strcmp(szCommand,"LETTER_"))
 			{
-			UCHAR ucASCII;
+			uint8_t ucASCII;
 			RImage* pim = new RImage;
 
 			pcf->Read(&ucASCII);
@@ -345,7 +345,7 @@ int16_t RFont::Save(RFile* pcf)
 			if (pfs->m_ppimCharacters[i])
 				{
 				pcf->Write("LETTER_");
-				pcf->Write((UCHAR*)&i);
+				pcf->Write((uint8_t*)&i);
 				pfs->m_ppimCharacters[i]->Save(pcf);
 				}
 			}
@@ -417,8 +417,8 @@ int16_t RFont::Load(RFile* pcf)
 
 		else if (!strcmp(&string[0],"LETTER_")) // equal
 			{
-			UCHAR c;
-			pcf->Read((UCHAR*)&c);
+			uint8_t c;
+			pcf->Read((uint8_t*)&c);
 			RImage* pimLetter = new RImage;
 			pimLetter->Load(pcf);
 			if (pimLetter == NULL)

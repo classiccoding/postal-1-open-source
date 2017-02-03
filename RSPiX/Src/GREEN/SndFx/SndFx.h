@@ -105,9 +105,9 @@ class RSndFx
 		
 		// Implements the effect on the provided buffer.
 		void Do(								// Returns nothing.
-			UCHAR* pucSrcData,			// Data to affect.
+			uint8_t* pucSrcData,			// Data to affect.
 			int32_t lBufSize,					// Amount of data.
-			UCHAR* pucDstData = NULL);	// Destination for data, defaults to
+			uint8_t* pucDstData = NULL);	// Destination for data, defaults to
 												// same as source.
 		
 		/////////////////////////////////////////////////////////////////////////

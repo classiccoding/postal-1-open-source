@@ -40,7 +40,7 @@
 // Only set value if not NULL.
 #define SET(ptr, val)		( ((ptr) != NULL) ? *(ptr) = (val) : 0)
 
-static ULONG callback_data = 0;
+static uint32_t callback_data = 0;
 
 static void sdl_audio_callback(void *userdata, Uint8 *stream, int len)
 {
@@ -61,7 +61,7 @@ extern int16_t rspSetSoundOutMode(				// Returns 0 if successfull, non-zero othe
 	int32_t lCurBufferTime,							// In:  Current buffer time (in ms.)
 	int32_t lMaxBufferTime,							// In:  Maximum buffer time (in ms.)
 	RSP_SND_CALLBACK callback,					// In:  Callback function
-	ULONG ulUser)									// In:  User-defined value to pass to callback
+	uint32_t ulUser)									// In:  User-defined value to pass to callback
 {
     if (audio_opened)
         rspKillSoundOutMode();

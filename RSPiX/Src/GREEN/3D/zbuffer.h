@@ -54,7 +54,7 @@ public:
 	int16_t* GetZPtr(int16_t sX,int16_t sY){return (m_pBuf + sX + m_lP*sY);}
 	void TestHeight(RImage* pimDst,int16_t sDepth,
 		int16_t sX,int16_t sY,int16_t sW,int16_t sH);
-	void Dump(RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_t sH,UCHAR* pZCol);
+	void Dump(RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_t sH,uint8_t* pZCol);
 	};
 
 

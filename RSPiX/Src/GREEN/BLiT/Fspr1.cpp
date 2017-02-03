@@ -201,7 +201,7 @@ int16_t ConvertToFSPR1(RImage* pImage)
 	int32_t	lMaxSize = (int32_t)sW * (sH + 2) * 2 + sH;
 	lMaxSize = (lMaxSize + 15) & ~15; // 128 bit alignment
 
-	UCHAR*	pCodeBuf = (UCHAR*) calloc(1,lMaxSize);
+	uint8_t*	pCodeBuf = (uint8_t*) calloc(1,lMaxSize);
 	if (pCodeBuf == NULL)
 		{
 		TRACE("ConvertToFSPR1: Out of memory ERROR!");
@@ -209,10 +209,10 @@ int16_t ConvertToFSPR1(RImage* pImage)
 		return RImage::NOT_SUPPORTED;
 		}
 	
-	UCHAR*	pCode = pCodeBuf;
+	uint8_t*	pCode = pCodeBuf;
 	int32_t	lP =  pImage->m_lPitch;
-	UCHAR	*pBuf,*pBufLine = pImage->m_pData + sX + lP*sY; // 8-bit for now!
-	UCHAR	ucTranCol = (UCHAR) (gFSPR1.u32TransparentColor & 0xff); // 8-bit for now!
+	uint8_t	*pBuf,*pBufLine = pImage->m_pData + sX + lP*sY; // 8-bit for now!
+	uint8_t	ucTranCol = (uint8_t) (gFSPR1.u32TransparentColor & 0xff); // 8-bit for now!
 	int16_t sLineLen,sLineW = sW;
 	int16_t y;
 
@@ -259,7 +259,7 @@ int16_t ConvertToFSPR1(RImage* pImage)
 					sBlankLineCount -= 254;
 					}
 				*pCode++ = 255;
-				*pCode++ = (UCHAR)sBlankLineCount;
+				*pCode++ = (uint8_t)sBlankLineCount;
 				sBlankLineCount = 0;
 				}
 
@@ -271,7 +271,7 @@ int16_t ConvertToFSPR1(RImage* pImage)
 				*pCode++ = 0;  // No skip
 				sCount -= 254;
 				}
-			*pCode++ = (UCHAR)sCount; // Enter skip run..
+			*pCode++ = (uint8_t)sCount; // Enter skip run..
 
 			//---------- Opaque Run:
 			sCount = 0;
@@ -288,7 +288,7 @@ int16_t ConvertToFSPR1(RImage* pImage)
 				*pCode++ = 0;   // Next clear run
 				sCount -= 255;
 				}
-			*pCode++ = (UCHAR)sCount; // Enter opaque run..
+			*pCode++ = (uint8_t)sCount; // Enter opaque run..
 			}
 	NEXT_Y:
 		pBufLine += lP;
@@ -304,7 +304,7 @@ int16_t ConvertToFSPR1(RImage* pImage)
 			sBlankLineCount -= 254;
 			}
 		*pCode++ = 255;
-		*pCode++ = (UCHAR)sBlankLineCount;
+		*pCode++ = (uint8_t)sBlankLineCount;
 		}
 
 	// Final Code:  (Safety cap)
@@ -314,7 +314,7 @@ int16_t ConvertToFSPR1(RImage* pImage)
 	//****************** SHRINK THE BUFFER!
 	int32_t lCompressedSize = pCode - pCodeBuf + 1;
 	int32_t lAlignSize = (lCompressedSize + 15) & ~15;
-	UCHAR* pNewCodeBuf = (UCHAR*) calloc(1,lAlignSize); //+ Free problem
+	uint8_t* pNewCodeBuf = (uint8_t*) calloc(1,lAlignSize); //+ Free problem
 	if (pNewCodeBuf == NULL)
 		{
 		TRACE("ConvertToFSPR1: Out of memory ERROR!");
@@ -338,8 +338,8 @@ int16_t ConvertToFSPR1(RImage* pImage)
 	pSpecial->m_OldType = pImage->m_type;
 	pSpecial->m_pCode = pNewCodeBuf;
 	pSpecial->m_lSize = lCompressedSize; // Set font specific stuff yourself!
-	pSpecial->m_u16Width = USHORT(sW); // so the default kerning makes sense!
-	pimNew->m_pSpecial = pimNew->m_pSpecialMem = (UCHAR*)pSpecial;
+	pSpecial->m_u16Width = uint16_t(sW); // so the default kerning makes sense!
+	pimNew->m_pSpecial = pimNew->m_pSpecialMem = (uint8_t*)pSpecial;
 	pimNew->m_sWidth = sW;
 	pimNew->m_sHeight = sH;
 	pimNew->m_sWinWidth = sW;
@@ -379,7 +379,7 @@ int16_t ConvertToFSPR1(RImage* pImage)
 // DOES NOT CURRENTLY CLIP!!!!!
 // is currently 8-bit color!
 //
-void _rspBLiT(UCHAR ucColor,RImage* pimSrc,RImage* pimDst,
+void _rspBLiT(uint8_t ucColor,RImage* pimSrc,RImage* pimDst,
 				  int16_t sDstX,int16_t sDstY)
 	{
 
@@ -402,10 +402,10 @@ void _rspBLiT(UCHAR ucColor,RImage* pimSrc,RImage* pimDst,
 #endif
 
 	int32_t lP = pimDst->m_lPitch;
-	UCHAR *pDst,*pDstLine = pimDst->m_pData + sDstX + lP*sDstY;
-	UCHAR	*pCode = ((RSpecialFSPR1*)pimSrc->m_pSpecialMem)->m_pCode;
+	uint8_t *pDst,*pDstLine = pimDst->m_pData + sDstX + lP*sDstY;
+	uint8_t	*pCode = ((RSpecialFSPR1*)pimSrc->m_pSpecialMem)->m_pCode;
 	// Take advantage of the new FSPR1 EOS safety code:
-	UCHAR	ucCode,ucCount;
+	uint8_t	ucCode,ucCount;
 
 	while (TRUE) // loop through drawing lines:
 		{
@@ -453,7 +453,7 @@ int16_t		ConvertFromFSPR1(RImage* pImage)
 	// rspBLiT... wait a sec...
 	// This one should fool it!  It only works in 8-bit color for now!
 	//
-	_rspBLiT((UCHAR)gFSPR1.u32ForeColor,pImage,pImage,(int16_t)0,(int16_t)0);
+	_rspBLiT((uint8_t)gFSPR1.u32ForeColor,pImage,pImage,(int16_t)0,(int16_t)0);
 
 	// Now jettison the FSPR1 data:
 	delete pHead;
@@ -497,7 +497,7 @@ int16_t		LoadFSPR1(RImage* pImage, RFile* pcf)
 	//------------------
 
 	RSpecialFSPR1* pSpec = new RSpecialFSPR1;
-	pImage->m_pSpecialMem = pImage->m_pSpecial = (UCHAR*)pSpec;
+	pImage->m_pSpecialMem = pImage->m_pSpecial = (uint8_t*)pSpec;
 
 	pcf->Read((U32*)(&pSpec->m_OldType));
 	pcf->Read(&pSpec->m_lSize);
@@ -594,7 +594,7 @@ int16_t		SaveFSPR1(RImage* pImage, RFile* pcf)
 // Make s for an easier transition!
 //
 int16_t rspBlit(
-				  ULONG ulForeColor,
+				  uint32_t ulForeColor,
 				  RImage* pimSrc,
 				  RImage* pimDst,
 				  int16_t sDstX,
@@ -625,7 +625,7 @@ int16_t rspBlit(
 #endif
 	
 	// transfer colors:
-	UCHAR	ucForeColor = (UCHAR) ulForeColor;
+	uint8_t	ucForeColor = (uint8_t) ulForeColor;
 
 	// Clip!
 	int16_t sClipL=0,sClipR=0,sClipT=0,sClipB=0;
@@ -750,11 +750,11 @@ int16_t rspBlit(
 		return FAILURE;
 		}
 
-	UCHAR	*pDst,*pDstLine,*pCode,ucCount;
+	uint8_t	*pDst,*pDstLine,*pCode,ucCount;
 	pDstLine = pimDst->m_pData + lDstP * sDstY + sDstX;
 	RSpecialFSPR1*	pHead = (RSpecialFSPR1*)(pimSrc->m_pSpecialMem);
 	pCode = pHead->m_pCode;
-	const UCHAR FF = (UCHAR)255;
+	const uint8_t FF = (uint8_t)255;
 
 
 	//***********************************************************
@@ -765,11 +765,11 @@ int16_t rspBlit(
 	//***********************************************************
 	//*********  No clip case!
 	//***********************************************************
-	if ( (sClipL|sClipR) != (UCHAR)0)	// FULL clip case!
+	if ( (sClipL|sClipR) != (uint8_t)0)	// FULL clip case!
 		{
 		TRACE("BLiT: FSPR1=>BMP8, clipping NYI!\n");
 		}
-	else if ( (sClipT|sClipB) != (UCHAR)0) // VCLIP case!
+	else if ( (sClipT|sClipB) != (uint8_t)0) // VCLIP case!
 		{
 		TRACE("BLiT: FSPR1=>BMP8, clipping NYI!\n");
 		/*
@@ -871,7 +871,7 @@ int16_t rspBlit(
 // left up to a higher level.
 //
 int16_t rspBlit(
-				  ULONG ulForeColor, // will draw color 0
+				  uint32_t ulForeColor, // will draw color 0
 				  RImage* pimSrc,
 				  RImage* pimDst,
 				  int16_t sDstX,
@@ -923,7 +923,7 @@ int16_t rspBlit(
 		}
 	
 	// transfer colors:
-	UCHAR	ucForeColor = (UCHAR) ulForeColor;
+	uint8_t	ucForeColor = (uint8_t) ulForeColor;
 
 	// Clip!
 	int16_t sClipL=0,sClipR=0,sClipT=0,sClipB=0;
@@ -1048,11 +1048,11 @@ int16_t rspBlit(
 		return FAILURE;
 		}
 
-	UCHAR	*pDst,*pDstLine,*pCode,ucCount;
+	uint8_t	*pDst,*pDstLine,*pCode,ucCount;
 	pDstLine = pimDst->m_pData + lDstP * sDstY + sDstX;
 	RSpecialFSPR1*	pHead = (RSpecialFSPR1*)(pimSrc->m_pSpecial);
 	pCode = pHead->m_pCode;
-	const UCHAR FF = (UCHAR)255;
+	const uint8_t FF = (uint8_t)255;
 
 	// Let's scale it, baby! (pre-clipping)
 	int16_t sDenX = pimSrc->m_sWidth; 
@@ -1079,11 +1079,11 @@ int16_t rspBlit(
 	//***********************************************************
 	//*********  No clip case!
 	//***********************************************************
-	if ( (sClipL|sClipR) != (UCHAR)0)	// FULL clip case!
+	if ( (sClipL|sClipR) != (uint8_t)0)	// FULL clip case!
 		{
 		TRACE("BLiT: FSPR1=>BMP8 + SCALE, clipping NYI!\n");
 		}
-	else if ( (sClipT|sClipB) != (UCHAR)0) // VCLIP case!
+	else if ( (sClipT|sClipB) != (uint8_t)0) // VCLIP case!
 		{
 		TRACE("BLiT: FSPR1=>BMP8 + SCALE, clipping NYI!\n");
 		}
@@ -1189,7 +1189,7 @@ int16_t rspBlit(
 // Make s for an easier transition!
 //
 int16_t rspBlit(
-				  ULONG ulForeColor,
+				  uint32_t ulForeColor,
 				  RImage* pimSrc,
 				  RImage* pimDst,
 				  int16_t sDstX,
@@ -1220,7 +1220,7 @@ int16_t rspBlit(
 #endif
 	
 	// transfer colors:
-	UCHAR	ucForeColor = (UCHAR) ulForeColor;
+	uint8_t	ucForeColor = (uint8_t) ulForeColor;
 	int32_t	lDstP = pimDst->m_lPitch;
 
 	//**************  INSERT BUFFER HOOKS HERE!  ************************
@@ -1300,11 +1300,11 @@ int16_t rspBlit(
 		return FAILURE;
 		}
 
-	UCHAR	*pDst,*pDstLine,*pCode,ucCount;
+	uint8_t	*pDst,*pDstLine,*pCode,ucCount;
 	pDstLine = pimDst->m_pData + lDstP * sDstY + sDstX;
 	RSpecialFSPR1*	pHead = (RSpecialFSPR1*)(pimSrc->m_pSpecialMem);
 	pCode = pHead->m_pCode;
-	const UCHAR FF = (UCHAR)255;
+	const uint8_t FF = (uint8_t)255;
 
 
 	//***********************************************************
@@ -1398,7 +1398,7 @@ int16_t rspBlit(
 // left up to a higher level.
 //
 int16_t rspBlit(
-				  ULONG ulForeColor, // will draw color 0
+				  uint32_t ulForeColor, // will draw color 0
 				  RImage* pimSrc,
 				  RImage* pimDst,
 				  int16_t sDstX,
@@ -1437,7 +1437,7 @@ int16_t rspBlit(
 		}
 
 	// transfer colors:
-	UCHAR	ucForeColor = (UCHAR) ulForeColor;
+	uint8_t	ucForeColor = (uint8_t) ulForeColor;
 
 	int16_t sW = sDstW; // clippng parameters...
 	int16_t sH = sDstH; // clippng parameters...
@@ -1520,11 +1520,11 @@ int16_t rspBlit(
 		return FAILURE;
 		}
 
-	UCHAR	*pDst,*pDstLine,*pCode,ucCount;
+	uint8_t	*pDst,*pDstLine,*pCode,ucCount;
 	pDstLine = pimDst->m_pData + lDstP * sDstY + sDstX;
 	RSpecialFSPR1*	pHead = (RSpecialFSPR1*)(pimSrc->m_pSpecial);
 	pCode = pHead->m_pCode;
-	const UCHAR FF = (UCHAR)255;
+	const uint8_t FF = (uint8_t)255;
 
 	// Let's scale it, baby! (pre-clipping)
 	int16_t sDenX = pimSrc->m_sWidth; 

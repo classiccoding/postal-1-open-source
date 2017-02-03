@@ -173,7 +173,7 @@ int32_t ReadBitmapInfo(	BITMAPINFO*	pbmi, CNFile* pfile)
 //
 //////////////////////////////////////////////////////////////////////////////
 int16_t CRtVidc::DecompressFrame(	PVIDC_RT_HDR pvidchdr, CNFile* pfile, 
-											ULONG ulFlags, PBMI pbmiIn, PBMI pbmiOut)
+											uint32_t ulFlags, PBMI pbmiIn, PBMI pbmiOut)
 
 	{
 	int16_t	sRes	= 0;	// Assume success.
@@ -236,7 +236,7 @@ int16_t CRtVidc::DecompressFrame(	PVIDC_RT_HDR pvidchdr, CNFile* pfile,
 // Returns RET_FREE if done with data on return, RET_DONTFREE otherwise.
 //
 //////////////////////////////////////////////////////////////////////////////
-int16_t CRtVidc::Use(	UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags, 
+int16_t CRtVidc::Use(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFlags, 
 							int32_t lTime)
 	{
 	int16_t	sRes		= RET_FREE;	// Always free.
@@ -251,7 +251,7 @@ int16_t CRtVidc::Use(	UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags,
 	// Read values common to all chunks.
 
 	// Read vidc ID.
-	USHORT	usVidcId;
+	uint16_t	usVidcId;
 	file.Read (&usVidcId);
 	
 	// Make sure we're in range.
@@ -311,7 +311,7 @@ int16_t CRtVidc::Use(	UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags,
 			ASSERT(pvidchdr->pImage->pPalette			!= NULL);
 			ASSERT(pvidchdr->pImage->pPalette->pData	!= NULL);
 
-			ULONG	ulFlags	= 0;
+			uint32_t	ulFlags	= 0;
 			if (ucFlags & RT_FLAG_TAG)
 				{
 				// Key frame.
@@ -390,7 +390,7 @@ int16_t CRtVidc::Use(	UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags,
 						pal.ulType					= PDIB;
 						pal.ulSize					= bmiOut.bmiHeader.biSize - sizeof(bmiOut.bmiHeader);
 						pal.sPalEntrySize			= sizeof(bmiOut.bmiColors[0]);
-						pal.pData					= (UCHAR*)bmiOut.bmiColors;
+						pal.pData					= (uint8_t*)bmiOut.bmiColors;
 						// Attach the palette to an empty image.
 						CImage	imageEmpty;
 						imageEmpty.ulSize			= 0L;
@@ -482,8 +482,8 @@ int16_t CRtVidc::Use(	UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags,
 // (static)
 //
 //////////////////////////////////////////////////////////////////////////////
-int16_t CRtVidc::UseStatic(	UCHAR* puc, int32_t lSize, USHORT usType, 
-									UCHAR ucFlags, int32_t lTime, int32_t l_pRtVidc)
+int16_t CRtVidc::UseStatic(	uint8_t* puc, int32_t lSize, uint16_t usType, 
+									uint8_t ucFlags, int32_t lTime, int32_t l_pRtVidc)
 	{
 	return ((CRtVidc*)l_pRtVidc)->Use(puc, lSize, usType, ucFlags, lTime);
 	}

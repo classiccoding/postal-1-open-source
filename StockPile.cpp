@@ -461,7 +461,7 @@ int16_t CStockPile::Save(		// Returns 0 on success.
 ///////////////////////////////////////////////////////////////////////////////
 int16_t CStockPile::Load(		// Returns 0 on success.
 	RFile*	pfile,			// In:  File to load from.
-	ULONG		ulVersion)		// In:  File version to load. 
+	uint32_t		ulVersion)		// In:  File version to load. 
 	{
 	// Zero() out first in case file version doesn't support a value.
 	Zero();

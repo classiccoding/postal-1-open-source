@@ -221,7 +221,7 @@ class CBouy : public CThing
 	// Variables
 	//---------------------------------------------------------------------------
 	public:
-		UCHAR	m_ucID;								// Bouy ID (or address)
+		uint8_t	m_ucID;								// Bouy ID (or address)
 		linklist m_aplDirectLinks;
 		int16_t		m_sNumDirectLinks;
 		TreeListNode m_TreeNode;
@@ -237,7 +237,7 @@ class CBouy : public CThing
 
 		int16_t m_sSuspend;							// Suspend flag
 
-		UCHAR* m_paucRouteTable;				// Routing table (new non-STL way)
+		uint8_t* m_paucRouteTable;				// Routing table (new non-STL way)
 		int16_t m_sRouteTableSize;
 
 		linkinstanceid m_LinkInstanceID;		// Used to relink the network after a load
@@ -311,7 +311,7 @@ class CBouy : public CThing
 			RFile* pFile,											// In:  File to load from
 			bool bEditMode,										// In:  True for edit mode, false otherwise
 			int16_t sFileCount,										// In:  File count (unique per file, never 0)
-			ULONG	ulFileVersion);								// In:  Version of file format to load.
+			uint32_t	ulFileVersion);								// In:  Version of file format to load.
 
 		// Save object (should call base class version!)
 		int16_t Save(													// Returns 0 if successfull, non-zero otherwise
@@ -383,7 +383,7 @@ class CBouy : public CThing
 		// Get the next link to follow to get to this destination.  This is
 		// normally a routing table lookup unless the entry is not in the routing
 		// table, then it is discovered and added as an entry to the routing table.
-		UCHAR NextRouteNode(UCHAR dst);
+		uint8_t NextRouteNode(uint8_t dst);
 
 		// Disconnect this node from the network.  This will visit all of its
 		// direct links and remove itself from their link list and then free

@@ -45,7 +45,7 @@ class RTask
 	public:
 		// Typedef for user task callback.  This is the type of function called.
 		typedef void (*TaskFunc)(	// Returns nothing.
-			ULONG ulUser);				// User defined m_ulUser.
+			uint32_t ulUser);				// User defined m_ulUser.
 
 		// Typedef to override this RTask's timer.  If overridden, this RTask
 		// will use this callback to get the time.
@@ -57,7 +57,7 @@ class RTask
 		// Default constructor.
 		RTask();
 		// Special constructor that passes parms on to Init().
-		RTask(TaskFunc tf, ULONG ulUser);
+		RTask(TaskFunc tf, uint32_t ulUser);
 		// Destructor.
 		~RTask();
 
@@ -74,7 +74,7 @@ class RTask
 	////////////////////////// Methods ////////////////////////////////////////
 	public:
 		// Initialize task info.
-		void Init(TaskFunc tf, ULONG ulUser);
+		void Init(TaskFunc tf, uint32_t ulUser);
 		// Kill task info.
 		// Returns 0 on success.
 		int16_t Kill(void);
@@ -107,7 +107,7 @@ class RTask
 		// this function, and that is why they're public.
 
 		TaskFunc		m_fnTask;		// User specified task function.
-		ULONG			m_ulUser;		// User specified parm to task function.
+		uint32_t			m_ulUser;		// User specified parm to task function.
 
 		int32_t			m_lInterval;	// User specified timer interval.
 		int32_t			m_lNextExpiration;	// Next time to call task.

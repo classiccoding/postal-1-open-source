@@ -43,33 +43,33 @@
 
 #ifndef RAMFLX_H	// Already defined if RAMFLX.H was included.
 	// Define struct that describes everything in a FLC/FLI header.  The header is
-	// 128 UCHARs for both FLC and FLI files, but the usage is somewhat different.
+	// 128 uint8_ts for both FLC and FLI files, but the usage is somewhat different.
 	typedef struct tag_FLX_FILE_HDR
 		{
 		int32_t lEntireFileSize;		// Size of entire file, including header
-		USHORT wMagic;					// Magic number: FLC = $af12, FLI = $af11
+		uint16_t wMagic;					// Magic number: FLC = $af12, FLI = $af11
 		int16_t sNumFrames;				// Number of frames, not including ring. Max 4000.
 		int16_t sWidth;					// Width in pixels (always 320 in FLI)
 		int16_t sHeight;					// Height in pixels (always 200 in FLI)
 		int16_t sDepth;					// Bits per pixel (always 8)
-		USHORT sFlags;					// FLC: set to 3 if properly written, FLI: always 0
-		int32_t lMilliPerFrame;			// FLC: milliseconds between frames (4 UCHARs)
-											// FLI: jiffies (1/70th) between frames (2 UCHARs)
+		uint16_t sFlags;					// FLC: set to 3 if properly written, FLI: always 0
+		int32_t lMilliPerFrame;			// FLC: milliseconds between frames (4 uint8_ts)
+											// FLI: jiffies (1/70th) between frames (2 uint8_ts)
 		// The rest is for FLC files only -- for FLI files, it's all reserved.
-		USHORT sReserveA;				// Reserved -- set to zero
-		ULONG dCreatedTime;			// MS-DOS-formatted date and time of file's creation
-		ULONG dCreator;				// Serial number of Animator Pro program used to
+		uint16_t sReserveA;				// Reserved -- set to zero
+		uint32_t dCreatedTime;			// MS-DOS-formatted date and time of file's creation
+		uint32_t dCreator;				// Serial number of Animator Pro program used to
 											// create file -- $464c4942 is a good one ("FLIB")
-		ULONG dUpdatedTime;			// MS-DOS-formatted date and time of file's update
-		ULONG dUpdater;				// Serial number of Animator Pro program used to
+		uint32_t dUpdatedTime;			// MS-DOS-formatted date and time of file's update
+		uint32_t dUpdater;				// Serial number of Animator Pro program used to
 											// update file -- $464c4942 is a good one ("FLIB")
 		int16_t sAspectX;				// X-axis aspect ratio at which file was created
 		int16_t sAspectY;				// Y-axis aspect ratio at which file was created
-		UCHAR bReservedB[38];			// Reserved -- set to zeroes
+		uint8_t bReservedB[38];			// Reserved -- set to zeroes
 		int32_t lOffsetFrame1;			// Offset from beginning of file to first frame chunk
 		int32_t lOffsetFrame2;			// Offset from beginning of file to second frame chunk,
 											// used when looping from ring back to second frame
-		UCHAR bReservedC[40];			// Reserved -- set to zeroes
+		uint8_t bReservedC[40];			// Reserved -- set to zeroes
 		} FLX_FILE_HDR;
 
 
@@ -78,10 +78,10 @@
 		{
 		int32_t lChunkSize;				// Size of entire frame chunk, including header
 											// and all subordinate chunks
-		USHORT wType;						// Frame header chunk id: always 0xF1FA
+		uint16_t wType;						// Frame header chunk id: always 0xF1FA
 		int16_t sNumSubChunks;			// Number of subordinate chunks.  0 indicates that
 											// this frame is identical to previous frame.
-		UCHAR bReserved[8];			// Reserved
+		uint8_t bReserved[8];			// Reserved
 		} FLX_FRAME_HDR;
 
 
@@ -89,7 +89,7 @@
 	typedef struct tag_FLX_DATA_HDR
 		{
 		int32_t lChunkSize;				// Size of frame data chunk, including header
-		USHORT wType;						// Type of frame data chunk
+		uint16_t wType;						// Type of frame data chunk
 		// NOTE: The actual data follows these two items, but is not
 		// included in this struct because it has a variable size!
 		} FLX_DATA_HDR;
@@ -98,16 +98,16 @@
 	// Define struct that describes RGB color data as used by a FLC/FLI
 	typedef struct tag_FLX_RGB
 		{
-		UCHAR bR;
-		UCHAR bG;
-		UCHAR bB;
+		uint8_t bR;
+		uint8_t bG;
+		uint8_t bB;
 		} FLX_RGB;
 #endif	// RAMFLX_H
 
 // Define struct that describes the buffers where a frame's data is stored
 typedef struct tag_FLX_BUF
 	{
-	UCHAR* pbPixels;			// Pointer to memory for pixel data
+	uint8_t* pbPixels;			// Pointer to memory for pixel data
 	int16_t sPitch;				// Pitch to be used for pixel data
 	FLX_RGB* prgbColors;		// Pointer to memory for color data (normally 256 colors)
 	int16_t bPixelsModified;	// TRUE if pixels were modified (only valid after a "Read")
@@ -234,28 +234,28 @@ class CFlx
 		int16_t ReadDataSS2(FLX_BUF* pbufRead);
 
 		int16_t DoWriteFrame(FLX_BUF* pbufWrite, FLX_BUF* pbufPrev);
-		int16_t WriteColorDelta(FLX_BUF* pbufNext, FLX_BUF* pbufPrev, UCHAR* pBuf, int32_t* plChunkSize);
-		int16_t WritePixelDelta(FLX_BUF* pbufNext, FLX_BUF* pbufPrev, UCHAR* pBuf, int32_t* plChunkSize);
-		int16_t WriteDataChunk(UCHAR* pData, int32_t lSize, USHORT wType, int32_t* plChunkSize);
+		int16_t WriteColorDelta(FLX_BUF* pbufNext, FLX_BUF* pbufPrev, uint8_t* pBuf, int32_t* plChunkSize);
+		int16_t WritePixelDelta(FLX_BUF* pbufNext, FLX_BUF* pbufPrev, uint8_t* pBuf, int32_t* plChunkSize);
+		int16_t WriteDataChunk(uint8_t* pData, int32_t lSize, uint16_t wType, int32_t* plChunkSize);
 		
 		int16_t CompressLineDelta(
 			int16_t y,				// Current line to compress, used to calculate offset.
 			FLX_BUF* pbufNext,		// Pointer to current flx frame.
 			FLX_BUF* pbufPrev,		// Pointer to previous flx frame.
-			UCHAR* pbDst,			// Pointer to the chunk storage.
+			uint8_t* pbDst,			// Pointer to the chunk storage.
 			int32_t& lSize,			// Size of the data used by current compressed line.
-			int16_t sAlign,			// 1 = UCHAR oriented, 2 = USHORT oriented
-			int16_t sLineSkipCount = 0);	// Used only for USHORT oriented delta compression during which
+			int16_t sAlign,			// 1 = uint8_t oriented, 2 = uint16_t oriented
+			int16_t sLineSkipCount = 0);	// Used only for uint16_t oriented delta compression during which
 										// the line skip count will be written out to the chunk.
 
 		int32_t CompressBRUN(
-			UCHAR* pbIn,				// Pointer to input (pixels to be compressed)
+			uint8_t* pbIn,				// Pointer to input (pixels to be compressed)
 			int16_t sPitch,			// Pitch (distance from one pixel to the pixel below it)
 			int16_t sSrcX,			// Starting x of rectangular area to compress
 			int16_t sSrcY,			// Starting y of rectangular area to compress
 			int16_t sWidth,			// Width of rectangular area to compress
 			int16_t sHeight,			// Height of rectangular area to compress
-			UCHAR* pbOut);			// Pointer to output (compressed data)
+			uint8_t* pbOut);			// Pointer to output (compressed data)
 		
 		int16_t ReadHeader(void);
 		int16_t WriteHeader(void);

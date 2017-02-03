@@ -528,7 +528,7 @@ class RSocket
 		static
 		int16_t GetAddress(											// Returns 0 if successfull, non-zero otherwise
 			char* pszName,											// In:  Host's name or dotted address (x.x.x.x)
-			USHORT usPort,											// In:  Host's port number
+			uint16_t usPort,											// In:  Host's port number
 			Address* paddress);									// Out: Address
 
 
@@ -553,7 +553,7 @@ class RSocket
 		////////////////////////////////////////////////////////////////////////////////
 		static
 		void SetAddressPort(
-			USHORT usPort,											// In:  New port number
+			uint16_t usPort,											// In:  New port number
 			Address* paddress);									// I/O: Address whose port is to be set
 
 

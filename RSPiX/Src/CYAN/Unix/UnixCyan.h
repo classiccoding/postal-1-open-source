@@ -89,7 +89,7 @@ void rspSetWin32StaticColors(
 
 // Display a message (with buttons and/or icon if specified).
 extern int16_t rspMsgBox(	// Returns one of the macro defined RSP_MB_RET_*.
-	USHORT usFlags,		// |'ed RSP_MB_BUT/ICO_* representing buttons and icons
+	uint16_t usFlags,		// |'ed RSP_MB_BUT/ICO_* representing buttons and icons
 								// desired.
 	char *pszTitle,		// Title for box.
 	char *pszFrmt,			// Format of string (sprintf flags).

@@ -125,15 +125,15 @@ int16_t	RMultiGridIndirect::Alloc(int16_t sW, int16_t sH, int16_t sMaxPlanes,
 	int16_t sGridW = (sW / sTileW) + 1;
 	int16_t sGridH = (sH / sTileH) + 1;
 
-	m_pucPalette = (UCHAR*) calloc(sMaxPlanes,int32_t(sGridW) * sGridH);
+	m_pucPalette = (uint8_t*) calloc(sMaxPlanes,int32_t(sGridW) * sGridH);
 	ASSERT(m_pucPalette);
-	m_plAccessX = (ULONG*) calloc(sizeof(int32_t),sGridW * sTileW);
+	m_plAccessX = (uint32_t*) calloc(sizeof(int32_t),sGridW * sTileW);
 	ASSERT(m_plAccessX);
-	m_ppucAccessY = (UCHAR**) calloc( sizeof(UCHAR*),int32_t(sGridH)*sTileH );
+	m_ppucAccessY = (uint8_t**) calloc( sizeof(uint8_t*),int32_t(sGridH)*sTileH );
 	ASSERT(m_ppucAccessY);
 
 	// Populate the pointer list:
-	UCHAR*	pY = m_pucPalette;
+	uint8_t*	pY = m_pucPalette;
 	int32_t	lOffset = int32_t(sGridW)*sMaxPlanes;
 	int16_t i,j;
 
@@ -180,7 +180,7 @@ int16_t	RMultiGridIndirect::Alloc(int16_t sW, int16_t sH, int16_t sMaxPlanes,
 //
 
 int16_t RMultiGridIndirect::AddFSPR1(RImage* pimSrc,int16_t sLogX,int16_t sLogY,
-					UCHAR ucVal,int16_t sMaxW,int16_t sMaxH)
+					uint8_t ucVal,int16_t sMaxW,int16_t sMaxH)
 	{
 	ASSERT(pimSrc);
 	ASSERT(pimSrc->m_type == RImage::FSPR1);
@@ -206,11 +206,11 @@ int16_t RMultiGridIndirect::AddFSPR1(RImage* pimSrc,int16_t sLogX,int16_t sLogY,
 		}
 	//--------------------------------------------
 	// 1) clear the buffer
-	rspRect(UCHAR(0),m_pimBuffer,0,0,m_pimBuffer->m_sWidth,
+	rspRect(uint8_t(0),m_pimBuffer,0,0,m_pimBuffer->m_sWidth,
 		m_pimBuffer->m_sHeight);
 
 	// 2) copy in the region to be tiled
-	rspBlit(UCHAR(1),pimSrc,m_pimBuffer,0,0);
+	rspBlit(uint8_t(1),pimSrc,m_pimBuffer,0,0);
 
 	int16_t sX,sY,sX2,sY2;
 
@@ -287,7 +287,7 @@ int16_t RMultiGridIndirect::AddFSPR1(RImage* pimSrc,int16_t sLogX,int16_t sLogY,
 					int16_t sPlaneVal = ms_asColorToPlane[sIndex];
 
 					// 4) Draw the tile into the attribute map:
-					TileOR(UCHAR(1),USHORT(sPlaneVal),sCurX,sCurY,1);
+					TileOR(uint8_t(1),uint16_t(sPlaneVal),sCurX,sCurY,1);
 					}
 				}
 			//===================================================
@@ -299,7 +299,7 @@ int16_t RMultiGridIndirect::AddFSPR1(RImage* pimSrc,int16_t sLogX,int16_t sLogY,
 	}
 
 
-	void	RMultiGridIndirect::TileOR(UCHAR ucKey,USHORT usValueOR,int16_t sDstX,int16_t sDstY,
+	void	RMultiGridIndirect::TileOR(uint8_t ucKey,uint16_t usValueOR,int16_t sDstX,int16_t sDstY,
 		int16_t sClip) // you can turn off the half clipping:
 		{
 		ASSERT(m_pmg);
@@ -307,7 +307,7 @@ int16_t RMultiGridIndirect::AddFSPR1(RImage* pimSrc,int16_t sLogX,int16_t sLogY,
 		ASSERT(!m_pmg->m_sIsCompressed);
 		ASSERT(usValueOR < 32768);
 		//-------------- half clipping ------------
-		USHORT* pusAttrib = (USHORT*) m_pmg->m_psGrid;
+		uint16_t* pusAttrib = (uint16_t*) m_pmg->m_psGrid;
 		int16_t sW = m_sTileW,sH = m_sTileH;
 
 		if (sClip)
@@ -323,8 +323,8 @@ int16_t RMultiGridIndirect::AddFSPR1(RImage* pimSrc,int16_t sLogX,int16_t sLogY,
 
 		int32_t	lDstP = m_pmg->m_sWidth; // (in shorts)
 		int32_t	lSrcP = m_sTileW;
-		UCHAR*	pSrc,*pSrcLine = m_pimTempTile->m_pData;
-		USHORT*  pDst,*pDstLine = (USHORT*)m_pmg->m_psGrid;
+		uint8_t*	pSrc,*pSrcLine = m_pimTempTile->m_pData;
+		uint16_t*  pDst,*pDstLine = (uint16_t*)m_pmg->m_psGrid;
 
 		// Adjust for actual coordinates!!!!
 		pDstLine += int32_t(m_pmg->m_sWidth) * sDstY + sDstX;
@@ -386,7 +386,7 @@ int16_t RMultiGridIndirect::Load(RFile* fp)
 
 	// just the palette data:
 	int32_t lLen = int32_t(m_sGridW) * m_sGridH * m_sMaxPlanes;
-	m_pucPalette = (UCHAR*) calloc(1,lLen);
+	m_pucPalette = (uint8_t*) calloc(1,lLen);
 
 	fp->Read(m_pucPalette,lLen);
 
@@ -400,13 +400,13 @@ int16_t RMultiGridIndirect::Load(RFile* fp)
 		}
 
 	// Need to hook up all the access variables!
-	m_plAccessX = (ULONG*) calloc(sizeof(int32_t),m_sGridW * m_sTileW);
+	m_plAccessX = (uint32_t*) calloc(sizeof(int32_t),m_sGridW * m_sTileW);
 	ASSERT(m_plAccessX);
-	m_ppucAccessY = (UCHAR**) calloc( sizeof(UCHAR*),int32_t(m_sGridH)*m_sTileH );
+	m_ppucAccessY = (uint8_t**) calloc( sizeof(uint8_t*),int32_t(m_sGridH)*m_sTileH );
 	ASSERT(m_ppucAccessY);
 
 	// Populate the pointer list:
-	UCHAR*	pY = m_pucPalette;
+	uint8_t*	pY = m_pucPalette;
 	int32_t	lOffset = int32_t(m_sGridW)*m_sMaxPlanes;
 
 	int16_t i,j;

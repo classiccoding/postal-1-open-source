@@ -67,9 +67,9 @@ int16_t	rspDither(
 					RImage* pimDst,	// MUST be 8-bit
 					int16_t sStartMap,	// palette index
 					int16_t sNumMap,		// # of colors
-					UCHAR*	pRed,		// Palette to match to
-					UCHAR*	pGreen,
-					UCHAR*	pBlue,
+					uint8_t*	pRed,		// Palette to match to
+					uint8_t*	pGreen,
+					uint8_t*	pBlue,
 					int32_t	lInc,
 					// User interaction
 					PDitherCallBack func,
@@ -127,8 +127,8 @@ int16_t	rspDither(
 
 	int32_t lSrcXP = 3; // hard coded for 24-bit bmp's!!!
 	
-	UCHAR* pSrc = pimSrc->m_pData;
-	UCHAR* pDst = pimDst->m_pData;
+	uint8_t* pSrc = pimSrc->m_pData;
+	uint8_t* pDst = pimDst->m_pData;
 
 	// Must store two lines of diffused error:
 	// Keep in same array so to maximize caching
@@ -166,7 +166,7 @@ int16_t	rspDither(
 			int32_t lGreen = int32_t(pSrc[1] + sNextErrorG + psCurrentErrorG[sErrPos]);
 			int32_t	lBlue = int32_t(pSrc[0] + sNextErrorB + psCurrentErrorB[sErrPos]);
 
-			UCHAR ucIndex = rspMatchColorRGB(lRed,lGreen,lBlue,
+			uint8_t ucIndex = rspMatchColorRGB(lRed,lGreen,lBlue,
 				sStartMap,sNumMap,pRed,pGreen,pBlue,lInc);
 			*pDst = ucIndex;
 
@@ -334,9 +334,9 @@ int16_t	rspSimpleMap(
 					RImage* pimDst,	// MUST be 8-bit
 					int16_t sStartMap,	// palette index
 					int16_t sNumMap,		// # of colors
-					UCHAR*	pRed,		// Palette to match to
-					UCHAR*	pGreen,
-					UCHAR*	pBlue,
+					uint8_t*	pRed,		// Palette to match to
+					uint8_t*	pGreen,
+					uint8_t*	pBlue,
 					int32_t	lInc,
 					// User interaction
 					PDitherCallBack func,
@@ -391,8 +391,8 @@ int16_t	rspSimpleMap(
 	int32_t lDstP = pimDst->m_lPitch;
 	int32_t lSrcXP = 3; // hard coded for 24-bit bmp's!!!
 	
-	UCHAR* pSrc, *pSrcLine = pimSrc->m_pData;
-	UCHAR* pDst, *pDstLine = pimDst->m_pData;
+	uint8_t* pSrc, *pSrcLine = pimSrc->m_pData;
+	uint8_t* pDst, *pDstLine = pimDst->m_pData;
 
 	for (j=pimSrc->m_sHeight;j; j--,pSrcLine += lSrcP,pDstLine += lDstP)
 		{	
@@ -406,7 +406,7 @@ int16_t	rspSimpleMap(
 			int32_t lGreen = int32_t(pSrc[1]);
 			int32_t	lBlue = int32_t(pSrc[0]);
 
-			UCHAR ucIndex = rspMatchColorRGB(lRed,lGreen,lBlue,
+			uint8_t ucIndex = rspMatchColorRGB(lRed,lGreen,lBlue,
 				sStartMap,sNumMap,pRed,pGreen,pBlue,lInc);
 			*pDst = ucIndex;
 
@@ -445,14 +445,14 @@ int16_t	rspDither(
 					int32_t lBackR,		// Don't dither to this color!
 					int32_t lBackG,
 					int32_t lBackB,
-					UCHAR ucBack,		// index to make BKGD
+					uint8_t ucBack,		// index to make BKGD
 					RImage* pimSrc,	// MUST BE 24-bit!
 					RImage* pimDst,	// MUST be 8-bit
 					int16_t sStartMap,	// palette index
 					int16_t sNumMap,		// # of colors
-					UCHAR*	pRed,		// Palette to match to
-					UCHAR*	pGreen,
-					UCHAR*	pBlue,
+					uint8_t*	pRed,		// Palette to match to
+					uint8_t*	pGreen,
+					uint8_t*	pBlue,
 					int32_t	lInc,
 					// User interaction
 					PDitherCallBack func,
@@ -509,8 +509,8 @@ int16_t	rspDither(
 
 	int32_t lSrcXP = 3; // hard coded for 24-bit bmp's!!!
 	
-	UCHAR* pSrc = pimSrc->m_pData;
-	UCHAR* pDst = pimDst->m_pData;
+	uint8_t* pSrc = pimSrc->m_pData;
+	uint8_t* pDst = pimDst->m_pData;
 
 	// Must store two lines of diffused error:
 	// Keep in same array so to maximize caching
@@ -556,7 +556,7 @@ int16_t	rspDither(
 			lGreen += int32_t(sNextErrorG + psCurrentErrorG[sErrPos]);
 			lBlue += int32_t(sNextErrorB + psCurrentErrorB[sErrPos]);
 
-			UCHAR ucIndex = rspMatchColorRGB(lRed,lGreen,lBlue,
+			uint8_t ucIndex = rspMatchColorRGB(lRed,lGreen,lBlue,
 				sStartMap,sNumMap,pRed,pGreen,pBlue,lInc);
 
 			if (sBackground) *pDst = ucBack;
@@ -741,15 +741,15 @@ int16_t	rspDither(
 //==============================================
 //	
 int16_t	rspDither(	
-					UCHAR ucForeAlpha,		// lower limit for foreground
-					UCHAR ucBack,		// index to make BKGD
+					uint8_t ucForeAlpha,		// lower limit for foreground
+					uint8_t ucBack,		// index to make BKGD
 					RImage* pimSrc,	// MUST BE 32-bit!
 					RImage* pimDst,	// MUST be 8-bit
 					int16_t sStartMap,	// palette index
 					int16_t sNumMap,		// # of colors
-					UCHAR*	pRed,		// Palette to match to
-					UCHAR*	pGreen,
-					UCHAR*	pBlue,
+					uint8_t*	pRed,		// Palette to match to
+					uint8_t*	pGreen,
+					uint8_t*	pBlue,
 					int32_t	lInc,
 					// User interaction
 					PDitherCallBack func,
@@ -807,8 +807,8 @@ int16_t	rspDither(
 
 	int32_t lSrcXP = 4; // hard coded for 32-bit bmp's!!!
 	
-	UCHAR* pSrc = pimSrc->m_pData;
-	UCHAR* pDst = pimDst->m_pData;
+	uint8_t* pSrc = pimSrc->m_pData;
+	uint8_t* pDst = pimDst->m_pData;
 
 	// Must store two lines of diffused error:
 	// Keep in same array so to maximize caching
@@ -842,12 +842,12 @@ int16_t	rspDither(
 			int16_t sTotErrorR,sTotErrorG,sTotErrorB;
 
 			// This is the desired target color
-			UCHAR	ucAlpha = int32_t(pSrc[3]); 
+			uint8_t	ucAlpha = int32_t(pSrc[3]); 
 			int32_t	lRed = int32_t(pSrc[2] + sNextErrorR + psCurrentErrorR[sErrPos]);
 			int32_t lGreen = int32_t(pSrc[1] + sNextErrorG + psCurrentErrorG[sErrPos]);
 			int32_t	lBlue = int32_t(pSrc[0] + sNextErrorB + psCurrentErrorB[sErrPos]);
 
-			UCHAR ucIndex = rspMatchColorRGB(lRed,lGreen,lBlue,
+			uint8_t ucIndex = rspMatchColorRGB(lRed,lGreen,lBlue,
 				sStartMap,sNumMap,pRed,pGreen,pBlue,lInc);
 
 			if (ucAlpha < ucForeAlpha) *pDst = ucBack;
@@ -1022,15 +1022,15 @@ int16_t	rspDither(
 //==============================================
 //	
 int16_t	rspSimpleMap(	
-					UCHAR	ucForeAlpha,	// alpha threshhold
-					UCHAR ucBack,			// map background to this index
+					uint8_t	ucForeAlpha,	// alpha threshhold
+					uint8_t ucBack,			// map background to this index
 					RImage* pimSrc,	// MUST BE 32-bit!
 					RImage* pimDst,	// MUST be 8-bit
 					int16_t sStartMap,	// palette index
 					int16_t sNumMap,		// # of colors
-					UCHAR*	pRed,		// Palette to match to
-					UCHAR*	pGreen,
-					UCHAR*	pBlue,
+					uint8_t*	pRed,		// Palette to match to
+					uint8_t*	pGreen,
+					uint8_t*	pBlue,
 					int32_t	lInc,
 					// User interaction
 					PDitherCallBack func,
@@ -1085,8 +1085,8 @@ int16_t	rspSimpleMap(
 	int32_t lDstP = pimDst->m_lPitch;
 	int32_t lSrcXP = 4; // hard coded for 32-bit bmp's!!!
 	
-	UCHAR* pSrc, *pSrcLine = pimSrc->m_pData;
-	UCHAR* pDst, *pDstLine = pimDst->m_pData;
+	uint8_t* pSrc, *pSrcLine = pimSrc->m_pData;
+	uint8_t* pDst, *pDstLine = pimDst->m_pData;
 
 	for (j=pimSrc->m_sHeight;j; j--,pSrcLine += lSrcP,pDstLine += lDstP)
 		{	
@@ -1096,12 +1096,12 @@ int16_t	rspSimpleMap(
 		for (i=0; i < pimSrc->m_sWidth; i++,pSrc += lSrcXP,pDst++)
 			{
 			// This is the desired target color
-			UCHAR	ucAlpha = pSrc[3];
+			uint8_t	ucAlpha = pSrc[3];
 			int32_t	lRed = int32_t(pSrc[2]);
 			int32_t lGreen = int32_t(pSrc[1]);
 			int32_t	lBlue = int32_t(pSrc[0]);
 
-			UCHAR ucIndex;
+			uint8_t ucIndex;
 
 			if (ucAlpha < ucForeAlpha) *pDst = ucBack;
 			else 

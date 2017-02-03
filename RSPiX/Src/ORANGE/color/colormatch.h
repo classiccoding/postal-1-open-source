@@ -28,8 +28,8 @@
 #endif
 //==================================
 
-extern	UCHAR rspMatchColorRGB(int32_t r,int32_t g,int32_t b,int16_t sStart,int16_t sNum,
-					 UCHAR* pr,UCHAR* pg,UCHAR* pb,int32_t linc);
+extern	uint8_t rspMatchColorRGB(int32_t r,int32_t g,int32_t b,int16_t sStart,int16_t sNum,
+					 uint8_t* pr,uint8_t* pg,uint8_t* pb,int32_t linc);
 
 // designed for 2 dimenional input. For example, fog = source color +
 // eye distance = dst color.
@@ -44,7 +44,7 @@ public:
 	RAlpha();
 	~RAlpha();
 	//==========================================================
-	UCHAR* m_pAlphas[256]; // array of 256 ptrs to UCHAR lists
+	uint8_t* m_pAlphas[256]; // array of 256 ptrs to uint8_t lists
 	int16_t m_sAlphaDepth; // number of 256's
 	//==========================================================
 	// a fog effect is actually a 256 x n light effect, currently a depth of 256
@@ -53,14 +53,14 @@ public:
 	// This can also be used to create a light map.
 	// This is the simplest colored lighting effect.
 	// It is really only of use for fog.
-	int16_t CreateLightEffectRGB(UCHAR* pa,UCHAR* pr,UCHAR* pg,UCHAR* pb,int32_t linc = 4,
+	int16_t CreateLightEffectRGB(uint8_t* pa,uint8_t* pr,uint8_t* pg,uint8_t* pb,int32_t linc = 4,
 			int16_t sPalStart=0, int16_t sPalLen = 256, int16_t sAlphaDepth = 256);
 	// This uses the built in scratch space and assumes to be already alloc'ed
 	int16_t CreateLightEffectRGB(int16_t sPalStart=0, int16_t sPalLen = 256);
 
 	// This is an optional interface for creation of lighting effects:
 	void StartEffect(); // do alloc first
-	int16_t MarkEffect(int16_t sLev,int16_t sChannel,UCHAR ucLev);
+	int16_t MarkEffect(int16_t sLev,int16_t sChannel,uint8_t ucLev);
 	void FinishEffect(int16_t sPalStart=0, int16_t sPalLen = 256); // will create it for you.
 
 	// This is always 256 x 256, as it maps source to destination
@@ -110,9 +110,9 @@ public:
 	//==========================================================
 	int16_t m_sNumLevels; // 0 = 1st non transparent level
 	RAlpha** m_pAlphaList; // store ACTUAL alpha tables...
-	UCHAR* m_pLevelOpacity; // for each layer
+	uint8_t* m_pLevelOpacity; // for each layer
 	// This goes from a 0-255 Alpha channel DIRECTLY to an alpha matrix
-	UCHAR** m_pGeneralAlpha[256];
+	uint8_t** m_pGeneralAlpha[256];
 
 	// For live dimming, this takes a source pixel alpha level and
 	// translates it to a dimmed alpha value, where 255 = source
@@ -120,14 +120,14 @@ public:
 	// It is selected at a higher level by the dimming parameter
 	// Sadly, this is a 64K hit, but I don't see a way around it.
 
-	static	UCHAR	ms_aucLiveDimming[65536];	// must be initialized!
+	static	uint8_t	ms_aucLiveDimming[65536];	// must be initialized!
 	static	int16_t ms_sIsInitialized;
 
 	// This stores the alpha levels so m_pGeneralAlpha can be
 	// restored after load / save
 	// THIS contains TWO more levels than you: 
 	// 0 = transparent, and m_sNumLevels = OPAQUE
-	UCHAR	m_pSaveLevels[256];
+	uint8_t	m_pSaveLevels[256];
 	int16_t m_sGeneral; // a flag, TRUE = general type
 	//==========================================================
 	// Newest Format: FastMultiAlpha Support
@@ -142,13 +142,13 @@ public:
 
 	// Create a FastMultiAlpha which MUST be freed BY the USER
 	// USING the DeleteFastMultiAlpha command ising THIS MALPHA:
-	UCHAR*** pppucCreateFastMultiAlpha(
+	uint8_t*** pppucCreateFastMultiAlpha(
 		int16_t sStartSrc,int16_t sNumSrc,	// color indices
 		int16_t sStartDst,int16_t sNumDst,
 		int32_t*	plAlignedSize = NULL);
 
 	// USER MUST call this to free the fast multi alpha
-	static int16_t DeleteFastMultiAlpha(UCHAR ****pfmaDel);
+	static int16_t DeleteFastMultiAlpha(uint8_t ****pfmaDel);
 
 	//==========================================================
 	// archaic - old format - will go away
@@ -194,11 +194,11 @@ public:
 	void	Erase();
 	//------------------------ Using the wrapper
 	int16_t	Load(RFile* prfFile);
-	UCHAR ***pppucGetFMA(); // can only access ONCE!
+	uint8_t ***pppucGetFMA(); // can only access ONCE!
 	int16_t	IsSrcCompatible(RImage* pimSrc);
 	int16_t	IsDstCompatible(RImage* pimDst);
 	//------------------------ Creating the wrapper
-	int16_t	Attach(UCHAR ***pppucFMA,int16_t sStartSrc,
+	int16_t	Attach(uint8_t ***pppucFMA,int16_t sStartSrc,
 		int16_t sNumSrc,int16_t sStartDst,int16_t sNumDst,
 		int16_t sNumLayers);
 	int16_t	Save(RFile* prfFile);
@@ -220,7 +220,7 @@ public:
 	//-----------------------------------------------
 private:
 	// You can't touch this directly!
-	UCHAR ***m_pppucFastMultiAlpha;
+	uint8_t ***m_pppucFastMultiAlpha;
 	int16_t	m_sStartSrc;
 	int16_t m_sStartDst;
 	int16_t m_sNumSrc;

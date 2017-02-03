@@ -88,7 +88,7 @@ CResItem::CResItem()
 // Constructura Especial! Ole!
 //
 //////////////////////////////////////////////////////////////////////////////
-CResItem::CResItem(char* pszName, UCHAR* puc, int32_t lSize, CRes* pRes)
+CResItem::CResItem(char* pszName, uint8_t* puc, int32_t lSize, CRes* pRes)
 	{
 	m_pszName	= pszName;
 	m_puc			= puc;

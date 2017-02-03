@@ -70,10 +70,10 @@ public:
 
 	// Do NOT use a z-buffer.  Return offset to current position to
 	// draw the image m_pimShadowBuf
-	void	RenderShadow(RImage* pimDst,RMesh* pMesh,UCHAR ucColor); // Unicolored!
+	void	RenderShadow(RImage* pimDst,RMesh* pMesh,uint8_t ucColor); // Unicolored!
 
 	void Render(RImage* pimDst,int16_t sDstX,int16_t sDstY,
-		RMesh* pMesh,UCHAR ucColor); // wire frame!
+		RMesh* pMesh,uint8_t ucColor); // wire frame!
 
 	// Flat shaded
 	void Render(RImage* pimDst,int16_t sDstX,int16_t sDstY,

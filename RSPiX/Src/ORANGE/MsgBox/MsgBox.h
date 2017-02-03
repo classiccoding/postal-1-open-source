@@ -85,7 +85,7 @@ class RMsgBox : public RDlg
 	public:	// Typedefs.
 
 		// Called iteratively while waiting for user response.
-		typedef ULONG (*MsgBoxCall)(	// If the return value is non-zero,
+		typedef uint32_t (*MsgBoxCall)(	// If the return value is non-zero,
 												// RMsgBox::DoModal() returns with this value
 												// returned by this callback.
 			RMsgBox* pmb);					// this.
@@ -103,7 +103,7 @@ class RMsgBox : public RDlg
 			char* pszText,		// Text for btn item.
 			int16_t	sX,			// X position in RMsgBox dlg.
 			int16_t	sY,			// Y position in RMsgBox dlg.
-			ULONG	ulId,			// ID to return if this item is chosen.
+			uint32_t	ulId,			// ID to return if this item is chosen.
 									// There will be no response to this item
 									// if lId is 0.
 			int16_t	sAddW = 0,	// Additional width for guis that require more.
@@ -116,7 +116,7 @@ class RMsgBox : public RDlg
 			char* pszText,		// Text for txt item.
 			int16_t	sX,			// X position in RMsgBox dlg.
 			int16_t	sY,			// Y position in RMsgBox dlg.
-			ULONG	ulId,			// ID to return if this item is chosen.
+			uint32_t	ulId,			// ID to return if this item is chosen.
 									// There will be no response to this item
 									// if lId is 0.
 			int16_t	sAddW = 0,	// Additional width for guis that require more.
@@ -129,7 +129,7 @@ class RMsgBox : public RDlg
 			char* pszText,	// Text for edit item.
 			int16_t	sX,		// X position in RMsgBox dlg.
 			int16_t	sY,		// Y position in RMsgBox dlg.
-			ULONG	ulId,			// ID to return if this item is chosen.
+			uint32_t	ulId,			// ID to return if this item is chosen.
 									// There will be no response to this item
 									// if lId is 0.
 			int16_t	sAddW = 0,	// Additional width for guis that require more.
@@ -145,7 +145,7 @@ class RMsgBox : public RDlg
 		// non-zero or an item is clicked.  If sDeactivateHots is TRUE, all 
 		// CHots are deactivated before activating GUI items.  These CHots are
 		// reactivated before exiting DoModal().
-		ULONG DoModal(								// Returns chosen ID on success,
+		uint32_t DoModal(								// Returns chosen ID on success,
 														// 0 on failure.
 			RInputEvent* pie,						// In:  Most recent user input event.
 														// Out: pie->sUsed = TRUE, if used.
@@ -158,7 +158,7 @@ class RMsgBox : public RDlg
 
 		// Operates RMsgBox for one iteration.  Does NOT Draw().
 		// Check m_pguiFocus to determine RGuiItem with focus.
-		ULONG DoModeless(			// Returns item clicked or 0, if none.
+		uint32_t DoModeless(			// Returns item clicked or 0, if none.
 			RInputEvent* pie);	// In:  Most recent user input event.
 										// Out: pie->sUsed = TRUE, if used.
 
@@ -194,7 +194,7 @@ class RMsgBox : public RDlg
 			char* pszText,		// Text for item.
 			int16_t	sX,			// X position in RMsgBox dlg.
 			int16_t	sY,			// Y position in RMsgBox dlg.
-			ULONG	ulId,			// ID to return if this item is chosen.
+			uint32_t	ulId,			// ID to return if this item is chosen.
 									// There will be no response to this item
 									// if lId is 0.
 			int16_t	sAddW = 0,	// Additional width for guis that require more.
@@ -210,7 +210,7 @@ class RMsgBox : public RDlg
 										// RGuiItem::m_ulUser as argument.
 										// If not defined (i.e., NULL), rspDoSystem
 										// and CHot::Do() are called.
-		ULONG			m_ulId;		// ID of control that caused DoModal to end.
+		uint32_t			m_ulId;		// ID of control that caused DoModal to end.
 
 	protected:	// Internal typedefs.
 

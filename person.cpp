@@ -322,7 +322,7 @@ int16_t CPerson::Load(				// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,						// In:  File to load from
 	bool bEditMode,					// In:  True for edit mode, false otherwise
 	int16_t sFileCount,					// In:  File count (unique per file, never 0)
-	ULONG	ulFileVersion)				// In:  Version of file format to load.
+	uint32_t	ulFileVersion)				// In:  Version of file format to load.
 {
 	int16_t sResult = 0;
 	sResult = CDoofus::Load(pFile, bEditMode, sFileCount, ulFileVersion);
@@ -350,7 +350,7 @@ int16_t CPerson::Load(				// Returns 0 if successfull, non-zero otherwise
 			}
 		}
 
-		UCHAR uc;
+		uint8_t uc;
 
 		// Load data specific to CPerson (if any)
 		switch (ulFileVersion)
@@ -457,7 +457,7 @@ int16_t CPerson::Save(				// Returns 0 if successfull, non-zero otherwise
 		}
 
 	// Save imbecile specific data if any
-	pFile->Write((UCHAR*) &m_ePersonType);
+	pFile->Write((uint8_t*) &m_ePersonType);
 	pFile->Write(&m_sShowState);
 	m_rstrLogicFile.Save(pFile);
 
@@ -1112,7 +1112,7 @@ int16_t CPerson::EditModify(void)
 				if (pGuiItem != NULL)
 				{
 					pGuiItem->m_lId = PERSONALITY_ITEM_ID_BASE + i;
-					pGuiItem->m_ulUserData = (ULONG) i;
+					pGuiItem->m_ulUserData = (uint32_t) i;
 				}
 			}
 

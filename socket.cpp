@@ -689,7 +689,7 @@ int16_t RSocket::GetMaxSockets(							// Returns 0 on success, non-zero otherwis
 // static
 int16_t RSocket::GetAddress(								// Returns 0 on success, non-zero otherwise
 	char* pszName,											// In:  Host's name or dotted addres (x.x.x.x)
-	USHORT usPort,											// In:  Host's port number
+	uint16_t usPort,											// In:  Host's port number
 	RSocket::Address* paddress)						// Out: Address
 	{
 	int16_t sResult = 0;
@@ -805,7 +805,7 @@ uint16_t RSocket::GetAddressPort(			// Returns the port number
 ////////////////////////////////////////////////////////////////////////////////
 // static
 void RSocket::SetAddressPort(
-	USHORT usPort,											// In:  New port number
+	uint16_t usPort,											// In:  New port number
 	RSocket::Address* paddress)						// I/O: Address whose port is to be set
 	{
 	switch (ms_prototype)

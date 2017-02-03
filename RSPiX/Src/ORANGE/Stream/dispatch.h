@@ -38,24 +38,24 @@
 // This type is used to call the user to allow them to allocate space for the
 // data and return it to be filled.  Return NULL if unable to allocate the
 // space or other errror.
-typedef UCHAR* (*ALLOC_DISPATCHFUNC)(	int32_t lSize, USHORT usType, UCHAR ucFlags,
+typedef uint8_t* (*ALLOC_DISPATCHFUNC)(	int32_t lSize, uint16_t usType, uint8_t ucFlags,
 													int32_t lUser);
 
 // This type is used to call the user to allow them to DEallocate space al-
 // located by a previous call to their ALLOC_DISPATCHFUNC.
-typedef void (*FREE_DISPATCHFUNC)(	UCHAR* puc, USHORT usType, UCHAR ucFlags,
+typedef void (*FREE_DISPATCHFUNC)(	uint8_t* puc, uint16_t usType, uint8_t ucFlags,
 												int32_t lUser);
 
 // This type is used to pass the copied chunk to the user ready to be used.
 // Returning RET_FREE will cause puc to get freed if it meets the criteria
 // for freeing described in the dispatch.cpp header comment.  Return
 // RET_DONTFREE to avoid this.
-typedef short (*USE_DISPATCHFUNC)(	UCHAR* puc, int32_t lSize, USHORT usType, 
-												UCHAR ucFlags, 
+typedef short (*USE_DISPATCHFUNC)(	uint8_t* puc, int32_t lSize, uint16_t usType, 
+												uint8_t ucFlags, 
 												int32_t lTime, int32_t lUser);
 
 // This type is used to pass messages to the handler.
-typedef short (*MSG_DISPATCHFUNC)(USHORT usMsg);
+typedef short (*MSG_DISPATCHFUNC)(uint16_t usMsg);
 
 // For custom time handlers.
 typedef long (*TIME_DISPATCHFUNC)(int32_t lTimeUser);
@@ -66,10 +66,10 @@ class CDispatch
 		// Items waiting to be dispatched.
 		typedef struct
 			{
-			UCHAR*	puc;		// Data.
+			uint8_t*	puc;		// Data.
 			int32_t		lSize;	// Size of data in bytes.
-			USHORT	usType;	// Type of data.
-			UCHAR		ucFlags;	// Flags for data.
+			uint16_t	usType;	// Type of data.
+			uint8_t		ucFlags;	// Flags for data.
 			int32_t		lTime;	// Time data is to be dispatched.
 			} RTITEM, *PRTITEM;
 		
@@ -82,16 +82,16 @@ class CDispatch
 
 	public:		// Methods.
 		// Sets the data handler for usType to fnUse.
-		void SetDataHandler(USHORT usType, USE_DISPATCHFUNC fnUse);
+		void SetDataHandler(uint16_t usType, USE_DISPATCHFUNC fnUse);
 
 		// Sets the type handler for usType to fnAlloc.
-		void SetAllocHandler(USHORT usType, ALLOC_DISPATCHFUNC fnAlloc);
+		void SetAllocHandler(uint16_t usType, ALLOC_DISPATCHFUNC fnAlloc);
 
 		// Sets the type handler for usType to fnUse.
-		void SetFreeHandler(USHORT usType, FREE_DISPATCHFUNC fnFree);
+		void SetFreeHandler(uint16_t usType, FREE_DISPATCHFUNC fnFree);
 
 		// Sets the user value for usType to lUser.
-		void SetUserVal(USHORT usType, int32_t lUser);
+		void SetUserVal(uint16_t usType, int32_t lUser);
 
 		// Set filter.
 		void SetFilter(CFilter* pfilter);
@@ -109,11 +109,11 @@ class CDispatch
 
 		// Sends a message to all type handlers.
 		// Returns the number of handlers that returned an error.
-		int16_t SendHandlerMessage(USHORT usMsg);
+		int16_t SendHandlerMessage(uint16_t usMsg);
 
 		// Adds an item to the list of items to be dispatched.
 		// Returns 0 on success.
-		int16_t AddItem(	UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags, 
+		int16_t AddItem(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFlags, 
 							int32_t lTime);
 
 	public:		// Querries.
@@ -138,24 +138,24 @@ class CDispatch
 		void Reset(void);
 
 		// Handles data callbacks from filter.
-		void UseCall(	UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags, 
+		void UseCall(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFlags, 
 							int32_t lTime);
 		// Callback dispatcher (calls the implied this version).
-		static void UseCallStatic(	UCHAR* puc, int32_t lSize, USHORT usType, 
-											UCHAR ucFlags, int32_t lTime,
+		static void UseCallStatic(	uint8_t* puc, int32_t lSize, uint16_t usType, 
+											uint8_t ucFlags, int32_t lTime,
 											int32_t l_pDispatch);
 
 		// Handles alloc callbacks from filter.
-		UCHAR* AllocCall(int32_t lSize, USHORT usType, UCHAR ucFlags);
+		uint8_t* AllocCall(int32_t lSize, uint16_t usType, uint8_t ucFlags);
 		// Callback dispatcher (calls the implied this version).
-		static UCHAR* AllocCallStatic(	int32_t lSize, 
-													USHORT usType, UCHAR ucFlags, 
+		static uint8_t* AllocCallStatic(	int32_t lSize, 
+													uint16_t usType, uint8_t ucFlags, 
 													int32_t l_pDispatch);
 
 		// Handles free callbacks from filter.
-		void FreeCall(UCHAR* puc, USHORT usType, UCHAR ucFlags);
+		void FreeCall(uint8_t* puc, uint16_t usType, uint8_t ucFlags);
 		// Callback dispatcher (calls the implied this version).
-		static void FreeCallStatic(	UCHAR* puc, USHORT usType, UCHAR ucFlags, 
+		static void FreeCallStatic(	uint8_t* puc, uint16_t usType, uint8_t ucFlags, 
 												int32_t l_pDispatch);
 
 

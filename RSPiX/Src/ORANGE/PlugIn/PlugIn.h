@@ -113,7 +113,7 @@ class CPlugIn
 
 		// Storage of this object is oversized to accomodate new variables even
 		// in older versions.  ALWAYS add new variables before this.
-		UCHAR			m_aucReserved[1024];	// NEVER use this space.
+		uint8_t			m_aucReserved[1024];	// NEVER use this space.
 
       /////////////////////////////////////////////////////////////////////////
 		// Static members instantiated in the executable for the DLLs' 

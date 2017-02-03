@@ -49,29 +49,29 @@
 	typedef struct tag_FLX_FILE_HDR
 		{
 		int32_t lEntireFileSize;		// Size of entire file, including header
-		USHORT wMagic;					// Magic number: FLC = $af12, FLI = $af11
+		uint16_t wMagic;					// Magic number: FLC = $af12, FLI = $af11
 		int16_t sNumFrames;				// Number of frames, not including ring. Max 4000.
 		int16_t sWidth;					// Width in pixels (always 320 in FLI)
 		int16_t sHeight;					// Height in pixels (always 200 in FLI)
 		int16_t sDepth;					// Bits per pixel (always 8)
-		USHORT sFlags;					// FLC: set to 3 if properly written, FLI: always 0
+		uint16_t sFlags;					// FLC: set to 3 if properly written, FLI: always 0
 		int32_t lMilliPerFrame;			// FLC: milliseconds between frames (4 bytes)
 											// FLI: jiffies (1/70th) between frames (2 bytes)
 		// The rest is for FLC files only -- for FLI files, it's all reserved.
-		USHORT sReserveA;				// Reserved -- set to zero
-		ULONG dCreatedTime;			// MS-DOS-formatted date and time of file's creation
-		ULONG dCreator;				// Serial number of Animator Pro program used to
+		uint16_t sReserveA;				// Reserved -- set to zero
+		uint32_t dCreatedTime;			// MS-DOS-formatted date and time of file's creation
+		uint32_t dCreator;				// Serial number of Animator Pro program used to
 											// create file -- $464c4942 is a good one ("FLIB")
-		ULONG dUpdatedTime;			// MS-DOS-formatted date and time of file's update
-		ULONG dUpdater;				// Serial number of Animator Pro program used to
+		uint32_t dUpdatedTime;			// MS-DOS-formatted date and time of file's update
+		uint32_t dUpdater;				// Serial number of Animator Pro program used to
 											// update file -- $464c4942 is a good one ("FLIB")
 		int16_t sAspectX;				// X-axis aspect ratio at which file was created
 		int16_t sAspectY;				// Y-axis aspect ratio at which file was created
-		UCHAR bReservedB[38];		// Reserved -- set to zeroes
+		uint8_t bReservedB[38];		// Reserved -- set to zeroes
 		int32_t lOffsetFrame1;			// Offset from beginning of file to first frame chunk
 		int32_t lOffsetFrame2;			// Offset from beginning of file to second frame chunk,
 											// used when looping from ring back to second frame
-		UCHAR bReservedC[40];		// Reserved -- set to zeroes
+		uint8_t bReservedC[40];		// Reserved -- set to zeroes
 		} FLX_FILE_HDR;
 
 
@@ -80,10 +80,10 @@
 		{
 		int32_t lChunkSize;				// Size of entire frame chunk, including header
 											// and all subordinate chunks
-		USHORT wType;					// Frame header chunk id: always 0xF1FA
+		uint16_t wType;					// Frame header chunk id: always 0xF1FA
 		int16_t sNumSubChunks;			// Number of subordinate chunks.  0 indicates that
 											// this frame is identical to previous frame.
-		UCHAR bReserved[8];			// Reserved
+		uint8_t bReserved[8];			// Reserved
 		} FLX_FRAME_HDR;
 
 
@@ -91,7 +91,7 @@
 	typedef struct tag_FLX_DATA_HDR
 		{
 		int32_t lChunkSize;				// Size of frame data chunk, including header
-		USHORT wType;					// Type of frame data chunk
+		uint16_t wType;					// Type of frame data chunk
 		// NOTE: The actual data follows these two items, but is not
 		// included in this struct because it has a variable size!
 		} FLX_DATA_HDR;
@@ -100,9 +100,9 @@
 	// Define struct that describes RGB color data as used by a FLC/FLI
 	typedef struct tag_FLX_RGB
 		{
-		UCHAR bR;
-		UCHAR bG;
-		UCHAR bB;
+		uint8_t bR;
+		uint8_t bG;
+		uint8_t bB;
 		} FLX_RGB;
 #endif	// FLX_H
 
@@ -218,7 +218,7 @@ class CRamFlx
 
 		int16_t				m_sNoDelta;			// Flag to signal no delta compression						
 		
-		UCHAR*			m_pucFlxBuf;		// RAM buffer for flic frames from .FLC file
+		uint8_t*			m_pucFlxBuf;		// RAM buffer for flic frames from .FLC file
 
 		int32_t*				m_plFrames;			// Indexices of frames in flics
 													// with no delta compression

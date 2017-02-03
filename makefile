@@ -284,13 +284,13 @@ else
   ifeq ($(CPUARCH),arm)
     LIBS += -lSDL2
   else
-    ifeq ($(CPUARCH),x86_64)
+	ifeq ($(CPUARCH),x86_64)
 	  LIBS += -lSDL2
-    else
-      LIBS += SDL2/libs/linux-x86/libSDL2-2.0.so.0
-      LDFLAGS += -Wl,-rpath,\$$ORIGIN
-      STEAMLDFLAGS += steamworks/sdk/redistributable_bin/linux32/libsteam_api.so
-    endif
+	else
+	  LIBS += SDL2/libs/linux-x86/libSDL2-2.0.so.0
+	  LDFLAGS += -Wl,-rpath,\$$ORIGIN
+	  STEAMLDFLAGS += steamworks/sdk/redistributable_bin/linux32/libsteam_api.so
+	endif
  endif
 endif
 
@@ -308,7 +308,6 @@ all: debugoff $(CLIENTEXE)
 
 
 debug: debugon $(CLIENTEXE)
-
 
 debugon:
 	$(eval CFLAGS += -DDEBUG -D_DEBUG -O0 -g)

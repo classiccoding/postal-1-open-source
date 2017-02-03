@@ -159,7 +159,7 @@ public:
 	int32_t	m_lFadeOutTime;			//	also in delta time form
 	int32_t	m_lBlackTime;				//	also in delta time form
 	int32_t	m_lFadeInTime;				//	also in delta time form
-	UCHAR	m_TransitionPalette[1024];
+	uint8_t	m_TransitionPalette[1024];
 	typedef enum { Inactive,FadeOut,Black,FadeIn } BackState;
 	BackState	m_eState;
 	typedef enum { OnEnter,OnExit } ActivationType;
@@ -1174,7 +1174,7 @@ int16_t Credits(SampleMasterID* pMusic,
 	int32_t	lStartTime = rspGetMilliseconds();
 
 	// Copy the palette:
-	UCHAR PaletteCopy[256 * 3] = {0,};
+	uint8_t PaletteCopy[256 * 3] = {0,};
 	
 	rspGetPaletteEntries(10,236,PaletteCopy+30,PaletteCopy + 31,PaletteCopy + 32,3);
 

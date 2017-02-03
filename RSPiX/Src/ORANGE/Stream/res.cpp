@@ -177,7 +177,7 @@ void CRes::Reset(void)
 // Handles data callbacks from dispatch.
 //
 //////////////////////////////////////////////////////////////////////////////
-int16_t CRes::UseCall(	UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags, 
+int16_t CRes::UseCall(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFlags, 
 							int32_t lTime)
 	{
 	int16_t	sRes		= RET_DONTFREE;	// Assume success.
@@ -239,8 +239,8 @@ int16_t CRes::UseCall(	UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags,
 // (static)
 //
 //////////////////////////////////////////////////////////////////////////////
-int16_t CRes::UseCallStatic(	UCHAR* puc, int32_t lSize, USHORT usType, 
-									UCHAR ucFlags, int32_t lTime, int32_t l_pRes)
+int16_t CRes::UseCallStatic(	uint8_t* puc, int32_t lSize, uint16_t usType, 
+									uint8_t ucFlags, int32_t lTime, int32_t l_pRes)
 	{
 	return ((CRes*)l_pRes)->UseCall(puc, lSize, usType, ucFlags, lTime);
 	}
@@ -250,11 +250,11 @@ int16_t CRes::UseCallStatic(	UCHAR* puc, int32_t lSize, USHORT usType,
 // Handles alloc callbacks from dispatch.
 //
 //////////////////////////////////////////////////////////////////////////////
-UCHAR* CRes::AllocCall(int32_t lSize, USHORT usType, UCHAR ucFlags)
+uint8_t* CRes::AllocCall(int32_t lSize, uint16_t usType, uint8_t ucFlags)
 	{
 	ASSERT(usType == RT_TYPE_FILEIMAGE);
 
-	UCHAR*	puc	= (UCHAR*)malloc(lSize);
+	uint8_t*	puc	= (uint8_t*)malloc(lSize);
 
 	if (puc != NULL)
 		{
@@ -275,7 +275,7 @@ UCHAR* CRes::AllocCall(int32_t lSize, USHORT usType, UCHAR ucFlags)
 // (static)
 //
 //////////////////////////////////////////////////////////////////////////////
-UCHAR* CRes::AllocCallStatic(	int32_t lSize, USHORT usType, UCHAR ucFlags,
+uint8_t* CRes::AllocCallStatic(	int32_t lSize, uint16_t usType, uint8_t ucFlags,
 										int32_t l_pRes)
 	{
 	return ((CRes*)l_pRes)->AllocCall(lSize, usType, ucFlags);
@@ -286,7 +286,7 @@ UCHAR* CRes::AllocCallStatic(	int32_t lSize, USHORT usType, UCHAR ucFlags,
 // Handles free callbacks from filter.
 //
 //////////////////////////////////////////////////////////////////////////////
-void CRes::FreeCall(UCHAR* puc, USHORT usType, UCHAR ucFlags)
+void CRes::FreeCall(uint8_t* puc, uint16_t usType, uint8_t ucFlags)
 	{
 	ASSERT(usType	== RT_TYPE_FILEIMAGE);
 	ASSERT(puc		!= NULL);
@@ -300,7 +300,7 @@ void CRes::FreeCall(UCHAR* puc, USHORT usType, UCHAR ucFlags)
 // (static)
 //
 //////////////////////////////////////////////////////////////////////////////
-void CRes::FreeCallStatic(	UCHAR* puc, USHORT usType, UCHAR ucFlags, 
+void CRes::FreeCallStatic(	uint8_t* puc, uint16_t usType, uint8_t ucFlags, 
 									int32_t l_pRes)
 	{
 	((CRes*)l_pRes)->FreeCall(puc, usType, ucFlags);

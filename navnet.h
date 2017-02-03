@@ -55,9 +55,9 @@ class CNavigationNet : public CThing
 			#if __MWERKS__ >= 0x1100
 				ITERATOR_TRAITS(const CBouy*);
 			#endif
-			typedef map <UCHAR, CBouy*, less<UCHAR>, allocator<CBouy*> > nodeMap;
+			typedef map <uint8_t, CBouy*, less<uint8_t>, allocator<CBouy*> > nodeMap;
 		#else
-			typedef map <UCHAR, CBouy*, less<UCHAR> > nodeMap;
+			typedef map <uint8_t, CBouy*, less<uint8_t> > nodeMap;
 		#endif
 
 	//---------------------------------------------------------------------------
@@ -70,8 +70,8 @@ class CNavigationNet : public CThing
 		double m_dX;												// x coord
 		double m_dY;												// y coord
 		double m_dZ;												// z coord
-		UCHAR	 m_ucNextID;
-		UCHAR	 m_ucNumSavedBouys;
+		uint8_t	 m_ucNextID;
+		uint8_t	 m_ucNumSavedBouys;
 		RImage* m_pImage;											// Pointer to only image (replace with 3d anim, soon)
 		CSprite2 m_sprite;										// Sprite (replace with CSprite3, soon)
 		RString  m_rstrNetName;									// Name of Nav Net
@@ -152,7 +152,7 @@ class CNavigationNet : public CThing
 			RFile* pFile,											// In:  File to load from
 			bool bEditMode,										// In:  True for edit mode, false otherwise
 			int16_t sFileCount,										// In:  File count (unique per file, never 0)
-			ULONG	ulFileVersion);								// In:  Version of file format to load.
+			uint32_t	ulFileVersion);								// In:  Version of file format to load.
 
 		// Save object (should call base class version!)
 		int16_t Save(													// Returns 0 if successfull, non-zero otherwise
@@ -222,16 +222,16 @@ class CNavigationNet : public CThing
 		double GetZ(void)	{ return m_dZ; }
 
 		// Add a bouy to this network and assign it an ID
-		UCHAR AddBouy(CBouy* pBouy);
+		uint8_t AddBouy(CBouy* pBouy);
 
 		// Remove a bouy from the network
-		void RemoveBouy(UCHAR ucBouyID);
+		void RemoveBouy(uint8_t ucBouyID);
 
 		// Get the address of the Bouy with this ID
-		CBouy* GetBouy(UCHAR ucBouy);
+		CBouy* GetBouy(uint8_t ucBouy);
 
 		// Find the bouy closest to this location in the world
-		UCHAR FindNearestBouy(int16_t sX, int16_t sZ);
+		uint8_t FindNearestBouy(int16_t sX, int16_t sZ);
 
 		// Preprocess the routing tables by pinging all nodes
 		void UpdateRoutingTables(void);
@@ -240,10 +240,10 @@ class CNavigationNet : public CThing
 		void PrintRoutingTables(void);
 
 		// Ping - return minimum number of hops from source to destination nodes
-//		UCHAR Ping(UCHAR dst, UCHAR src, UCHAR depth, UCHAR maxdepth);
-		UCHAR Ping(UCHAR dst, UCHAR src, UCHAR depth);
+//		uint8_t Ping(uint8_t dst, uint8_t src, uint8_t depth, uint8_t maxdepth);
+		uint8_t Ping(uint8_t dst, uint8_t src, uint8_t depth);
 
-		UCHAR GetNumNodes(void)
+		uint8_t GetNumNodes(void)
 			{ return m_ucNextID;}
 
 		// Set this NavNet as the default one for the Realm.  

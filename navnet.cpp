@@ -172,7 +172,7 @@ int16_t CNavigationNet::Load(							// Returns 0 if successfull, non-zero otherw
 	RFile* pFile,											// In:  File to load from
 	bool bEditMode,										// In:  True for edit mode, false otherwise
 	int16_t sFileCount,										// In:  File count (unique per file, never 0)
-	ULONG	ulFileVersion)									// In:  Version of file format to load.
+	uint32_t	ulFileVersion)									// In:  Version of file format to load.
 	{
 	// Call the base class load to get the instance ID
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
@@ -256,7 +256,7 @@ int16_t CNavigationNet::Save(										// Returns 0 if successfull, non-zero oth
 	// Save the number of nodes so we can check after load to see if all
 	// of the Bouys have been loaded yet.
 //	pFile->Write(&m_ucNextID);
-	UCHAR ucNumNodes = m_NodeMap.size();
+	uint8_t ucNumNodes = m_NodeMap.size();
 	pFile->Write(&ucNumNodes);
 
 	m_rstrNetName.Save(pFile);
@@ -613,9 +613,9 @@ int16_t CNavigationNet::FreeResources(void)						// Returns 0 if successfull, no
 // AddBouy - Returns zero if there are no bouys left.
 ////////////////////////////////////////////////////////////////////////////////
 
-UCHAR CNavigationNet::AddBouy(CBouy* pBouy)
+uint8_t CNavigationNet::AddBouy(CBouy* pBouy)
 {
-	UCHAR ucID = 0;
+	uint8_t ucID = 0;
 
 	if (m_ucNextID < 254)
 	{
@@ -633,7 +633,7 @@ UCHAR CNavigationNet::AddBouy(CBouy* pBouy)
 // RemoveBouy
 ////////////////////////////////////////////////////////////////////////////////
 
-void CNavigationNet::RemoveBouy(UCHAR ucBouyID)
+void CNavigationNet::RemoveBouy(uint8_t ucBouyID)
 {
 	m_NodeMap.erase(ucBouyID);
 	UpdateRoutingTables();
@@ -643,7 +643,7 @@ void CNavigationNet::RemoveBouy(UCHAR ucBouyID)
 // GetBouy
 ////////////////////////////////////////////////////////////////////////////////
 
-CBouy* CNavigationNet::GetBouy(UCHAR ucBouyID)
+CBouy* CNavigationNet::GetBouy(uint8_t ucBouyID)
 {
 	CBouy* pBouy = NULL;
 	nodeMap::iterator i;
@@ -663,7 +663,7 @@ CBouy* CNavigationNet::GetBouy(UCHAR ucBouyID)
 //							bouy - one that is not blocked by terrain.
 ////////////////////////////////////////////////////////////////////////////////
 
-UCHAR CNavigationNet::FindNearestBouy(int16_t sX, int16_t sZ)
+uint8_t CNavigationNet::FindNearestBouy(int16_t sX, int16_t sZ)
 {
 	nodeMap::iterator i;
 	double dSqDist;
@@ -672,7 +672,7 @@ UCHAR CNavigationNet::FindNearestBouy(int16_t sX, int16_t sZ)
 	CBouy* pBouy;
 	TreeListNode* pRoot = NULL;
 	TreeListNode* pCurrent = NULL;
-	UCHAR	ucNode = 0;
+	uint8_t	ucNode = 0;
 
 	// Build the sorted list of bouys
 	for (i = m_NodeMap.begin(); i != m_NodeMap.end(); i++)
@@ -729,7 +729,7 @@ UCHAR CNavigationNet::FindNearestBouy(int16_t sX, int16_t sZ)
 }
 
 #if 0
-UCHAR CNavigationNet::FindNearestBouy(short sX, short sZ)
+uint8_t CNavigationNet::FindNearestBouy(short sX, short sZ)
 {
 	nodeMap::iterator i;
 	double dSqDist;
@@ -737,7 +737,7 @@ UCHAR CNavigationNet::FindNearestBouy(short sX, short sZ)
 	double dX;
 	double dZ;
 	CBouy* pBouy;
-	UCHAR ucNode = 0;
+	uint8_t ucNode = 0;
 
 	for (i = m_NodeMap.begin(); i != m_NodeMap.end(); i++)
 	{

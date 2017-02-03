@@ -132,7 +132,7 @@ class CNetBrowse
 		// Startup
 		////////////////////////////////////////////////////////////////////////////////
 		int16_t Startup(												// Returns 0 if sucessfull, non-zero otherwise
-			USHORT usPort,											// In:  Server's base port number
+			uint16_t usPort,											// In:  Server's base port number
 			RSocket::BLOCK_CALLBACK callback);				// In:  Blocking callback
 
 
@@ -164,7 +164,7 @@ class CNetBrowse
 		static
 		int16_t LookupHost(											// Returns 0 if successfull, non-zero otherwise
 			char* pszName,											// In:  Server's name or dotted address (x.x.x.x)
-			USHORT usPort,											// In:  Server's port number
+			uint16_t usPort,											// In:  Server's port number
 			RSocket::Address* paddress);						// Out: Addresss
 	};
 

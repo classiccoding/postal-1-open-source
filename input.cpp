@@ -760,7 +760,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 				dDeltaRot	-= 0.5;
 				}
 #endif
-//			TRACE("sDif = %d, dDeltaRot = %g\n", (MOUSE_RESET_X - sPosX), dDeltaRot);
+			//TRACE("sDif = %d, dDeltaRot = %g\n", (MOUSE_RESET_X - sPosX), dDeltaRot);
 
 			// Must cast to short before subtracting b/c this statement is really:
 			// sDeltaX = sDeltaX + dDeltaRot which became promoted to float before
