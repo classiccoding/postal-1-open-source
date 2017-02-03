@@ -52,7 +52,11 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
+#ifdef WIN32
+#include <stdint.h>
+#else
 #include <cstdlib>
+#endif
 
 #ifndef SHAPES_H
 #define SHAPES_H

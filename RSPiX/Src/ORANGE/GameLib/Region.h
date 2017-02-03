@@ -86,7 +86,7 @@
 class RRegion
 {
 	protected:
-		USHORT usType;	// User defined region type
+		uint16_t usType;	// User defined region type
 		int32_t m_lAbsX;	// Absolute X position
 		int32_t m_lAbsY;	// Absolute Y position
 		int32_t m_lAbsZ;	// Absolute Z position

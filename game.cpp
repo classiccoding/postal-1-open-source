@@ -549,8 +549,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#define DWORD U32
-
 #include "RSPiX.h"
 
 #include <time.h>
@@ -864,7 +862,7 @@ int Stat_KilledCivilians = 0;
 int Stat_TotalKilled = 0;
 int Stat_LevelsPlayed = 0;
 
-ULONG Flag_Achievements = 0;
+uint32_t Flag_Achievements = 0;
 
 #if 1 //PLATFORM_UNIX
 #include <sys/stat.h>
@@ -1331,7 +1329,7 @@ extern void TheGame(void)
 static int16_t GameCore(void)		// Returns 0 on success.
 	{
 	int16_t sResult = 0;
-	USHORT usDemoCount = 0;
+	uint16_t usDemoCount = 0;
 	bool	bMPath = false,
 			bMPathServer = false;
 
@@ -3385,7 +3383,7 @@ extern int16_t Game_SavePlayersGame(
 {
 	RFile rf;
 	int16_t sResult = rf.Open(pszSaveName, "wb", RFile::LittleEndian);
-	ULONG ulFileVersion = CRealm::FileVersion;
+	uint32_t ulFileVersion = CRealm::FileVersion;
 
 	if (sResult == SUCCESS)
 	{
@@ -3420,7 +3418,7 @@ extern int16_t Game_LoadPlayersGame(
 {
 	RFile rf;
 	int16_t sResult = rf.Open(pszSaveName, "rb", RFile::LittleEndian);
-	ULONG ulFileVersion;
+	uint32_t ulFileVersion;
 
 	if (sResult == SUCCESS)
 	{

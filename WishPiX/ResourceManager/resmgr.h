@@ -377,7 +377,7 @@ class CResourceBlock
 	typedef map <void*, RString, less<void*>, allocator<RString> > ptrLookupMap;
 	typedef vector <RString, allocator<RString> > accessVector;
 	typedef set <RString, less<RString>, allocator<RString> > dupSet;
-	typedef vector <USHORT, allocator<USHORT> > typeVector;
+	typedef vector <uint16_t, allocator<uint16_t> > typeVector;
 	typedef map <RString, int32_t, less<RString>, allocator<int32_t> > dirMap;
 	typedef set <int32_t, less<int32_t>, allocator<int32_t> > dirOffsets;
 #else
@@ -385,7 +385,7 @@ class CResourceBlock
 	typedef map <void*, RString, less<void*> > ptrLookupMap;
 	typedef vector <RString > accessVector;
 	typedef set <RString, less<RString> > dupSet;
-	typedef vector <USHORT > typeVector;
+	typedef vector <uint16_t > typeVector;
 	typedef map <RString, int32_t, less<RString> > dirMap;
 	typedef set <int32_t, less<int32_t> > dirOffsets;
 #endif

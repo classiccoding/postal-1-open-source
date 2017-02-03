@@ -576,13 +576,13 @@ extern S64 rspGetAppMicroseconds(void);	// Returns microseconds since app starte
 ////////////////////////////////////////////////////////////////////////////////
 
 // Callback returns 0 if successfull, non-zero if no data was returned
-typedef short (*RSP_SND_CALLBACK)(UCHAR*	pucBuffer,	// Data buffer to be filled
+typedef short (*RSP_SND_CALLBACK)(uint8_t*	pucBuffer,	// Data buffer to be filled
 											int32_t		lSize,		// Size of buffer (must fill
 																		// entire bufffer - pad with
 																		// silence if necessary)
 											int32_t		lDataPos,	// Data's starting position
 																		// in sound out data stream
-											ULONG*	pulUser);	// For use by user (can be
+											uint32_t*	pulUser);	// For use by user (can be
 																		// changed as desired)
 
 extern int16_t rspSetSoundOutMode(				// Returns 0 if successfull, non-zero otherwise
@@ -592,7 +592,7 @@ extern int16_t rspSetSoundOutMode(				// Returns 0 if successfull, non-zero othe
 	int32_t lCurBufferTime,							// In:  Current buffer time (in ms.)
 	int32_t lMaxBufferTime,							// In:  Maximum buffer time (in ms.)
 	RSP_SND_CALLBACK callback,					// In:  Callback function
-	ULONG ulUser);									// In:  User-defined value to pass to callback
+	uint32_t ulUser);									// In:  User-defined value to pass to callback
 	
 extern int16_t rspGetSoundOutMode(				// Returns 0 if successfull, non-zero otherwise
 	int32_t* plSampleRate,							// Out: Sample rate or -1 (unless NULL)

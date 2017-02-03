@@ -192,7 +192,7 @@ int16_t RPalFile::LoadVersion3(	// Returns SUCCESS on success or FAILURE on
 	pfile->Read(&ppal->m_sNumEntries);
 	pfile->Read(&ppal->m_sPalEntrySize);
 
-	USHORT	usFlag	= 2;
+	uint16_t	usFlag	= 2;
 	pfile->Read(&usFlag);
 	if (usFlag == 1)
 		{
@@ -232,12 +232,12 @@ int16_t RPalFile::Load(			// Returns SUCCESS on success or FAILURE on failure.
 	int16_t	sRes	= SUCCESS;	// Assume success.
 
 	// Get finger print . . .
-	ULONG	ulFinger;
+	uint32_t	ulFinger;
 	if (pfile->Read(&ulFinger) == 1)
 		{
 		if (ulFinger == PAL_COOKIE)
 			{
-			ULONG	ulVersion;
+			uint32_t	ulVersion;
 			if (pfile->Read(&ulVersion) == 1)
 				{
 				switch (ulVersion)

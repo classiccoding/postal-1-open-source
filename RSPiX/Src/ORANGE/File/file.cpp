@@ -681,7 +681,7 @@ int16_t RFile::Open(		// Returns 0 on success.
 		SetEndian(endian);
 
 		// Open memory.
-		m_pucFile	= m_pucCur	= (UCHAR*)pFile;
+		m_pucFile	= m_pucCur	= (uint8_t*)pFile;
 		// Do not own buffer.
 		m_sOwnMem	= FALSE;
 
@@ -729,7 +729,7 @@ int16_t RFile::Open(	// Returns 0 on success.
 		SetEndian(endian);
 
 		// Open memory.
-		m_pucFile	= m_pucCur	= (UCHAR*)malloc(lSize);
+		m_pucFile	= m_pucCur	= (uint8_t*)malloc(lSize);
 		if (m_pucFile != NULL)
 			{
 			// Do own buffer.
@@ -1548,7 +1548,7 @@ int32_t RFile::Write(const void* pData, int32_t lNum)
 					int32_t	lNewSize			= m_lSize + MAX(m_lGrowSize, (lNum - lDistanceToEOF) );
 
 					// Enlarge . . .
-					UCHAR*	pucNewFile	= (UCHAR*)realloc(m_pucFile, lNewSize);
+					uint8_t*	pucNewFile	= (uint8_t*)realloc(m_pucFile, lNewSize);
 					// If successful . . .
 					if (pucNewFile != NULL)
 						{

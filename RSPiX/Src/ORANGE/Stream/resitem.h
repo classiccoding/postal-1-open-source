@@ -38,7 +38,7 @@ class CResItem
 		// Default constructor.
 		CResItem();
 		// Constructura Especial! Ole!
-		CResItem(char* pszName, UCHAR* puc, int32_t lSize, CRes* pRes);
+		CResItem(char* pszName, uint8_t* puc, int32_t lSize, CRes* pRes);
 
 		// Destructor.
 		~CResItem();
@@ -53,7 +53,7 @@ class CResItem
 
 	public:	// Members.
 		char*		m_pszName;		// Resource name.
-		UCHAR*	m_puc;			// Resource data.
+		uint8_t*	m_puc;			// Resource data.
 		int32_t		m_lSize;			// Resource size.
 		int16_t		m_sRefCnt;		// Number of items using this resource.
 		CRes*		m_pRes;			// Res Manager that owns this resource.

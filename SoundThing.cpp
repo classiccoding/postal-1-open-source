@@ -145,7 +145,7 @@ int16_t CSoundThing::Load(								// Returns 0 if successfull, non-zero otherwis
 	RFile* pFile,											// In:  File to load from
 	bool bEditMode,										// In:  True for edit mode, false otherwise
 	int16_t sFileCount,										// In:  File count (unique per file, never 0)
-	ULONG	ulFileVersion)									// In:  Version of file format to load.
+	uint32_t	ulFileVersion)									// In:  Version of file format to load.
 	{
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 	if (sResult == 0)
@@ -492,7 +492,7 @@ void CSoundThing::Render(void)
 	//	here.
 
 	// Adjust volume of last play instance.  Clip just in case.
-	SetInstanceVolume(m_siChannel, MIN(255L, m_lCollectiveVolume) );
+	SetInstanceVolume(m_siChannel, MIN((int32_t)255L, m_lCollectiveVolume) );
 
 	// Reset volume.
 	m_lCollectiveVolume	= 0;

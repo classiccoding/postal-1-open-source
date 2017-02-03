@@ -37,7 +37,7 @@
 //							dequeued or polled events, but it was getting stale any-
 //							ways.
 //
-//		01/26/97	JMI	Changed callbacks' first parms to RHot* instead of ULONG.
+//		01/26/97	JMI	Changed callbacks' first parms to RHot* instead of uint32_t.
 //
 //		03/19/97	JMI	Added InputEventCall and made Do(pie) the main RHot
 //							interface.
@@ -131,7 +131,7 @@ class RHot
 			int16_t sH,									// Height of new hotbox.
 			REventCall fnEventCall = NULL,		// Callback on mouse event.
 			int16_t	sActive	= FALSE,					// Initially active, if TRUE.
-			ULONG	ulUser	= 0,						// User value.
+			uint32_t	ulUser	= 0,						// User value.
 			int16_t sPriority = RHOT_NO_PRIORITY);// Priority.  Default == non-prioritized.
 
 		// Constructura Especial el Segundario or something that sets some
@@ -143,7 +143,7 @@ class RHot
 			int16_t sH,									// Height of new hotbox.
 			REventPosCall fnEventPosCall,			// Callback on mouse event.
 			int16_t	sActive	= FALSE,					// Initially active, if TRUE.
-			ULONG	ulUser	= 0,						// User value.
+			uint32_t	ulUser	= 0,						// User value.
 			int16_t sPriority = RHOT_NO_PRIORITY);// Priority.  Default == non-prioritized.
 
 		// Constructura Especial el Tres or something that sets some
@@ -155,7 +155,7 @@ class RHot
 			int16_t sH,									// Height of new hotbox.
 			InputEventCall fnInputEventCall,		// Callback on mouse event.
 			int16_t	sActive	= FALSE,					// Initially active, if TRUE.
-			ULONG	ulUser	= 0,						// User value.
+			uint32_t	ulUser	= 0,						// User value.
 			int16_t sPriority = RHOT_NO_PRIORITY);// Priority.  Default == non-prioritized.
 
 		// Destructor.
@@ -301,7 +301,7 @@ class RHot
 		InputEventCall	m_iecUser;	// User callback on input events.  Includes
 											// a full RInputEvent.
 											// All callbacks can be used simultaneously.
-		ULONG		m_ulUser;			// User value passed to callbacks.
+		uint32_t		m_ulUser;			// User value passed to callbacks.
 
 		SListHots	m_slistActiveChildren;	// List of active child RHots.
 		ListHots		m_listChildren;			// List of all child RHots.

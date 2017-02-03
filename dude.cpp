@@ -1660,7 +1660,7 @@ int16_t CDude::Load(										// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,											// In:  File to load from
 	bool bEditMode,										// In:  True for edit mode, false otherwise
 	int16_t sFileCount,										// In:  File count (unique per file, never 0)
-	ULONG	ulFileVersion)									// In:  File version being loaded.
+	uint32_t	ulFileVersion)									// In:  File version being loaded.
 	{
 	int16_t sResult = 0;
 
@@ -4551,7 +4551,7 @@ void CDude::ArmWeapon(							// Returns nothing.
 		int16_t*	psNumLeft;
 		GetWeaponInfo(weapon, &m_eWeaponType, &psNumLeft);
 
-		ULONG weaponFlag = 0;
+		uint32_t weaponFlag = 0;
 		switch (weapon)
 			{
 			case Grenade: weaponFlag = FLAG_USED_GRENADE; break;

@@ -270,7 +270,7 @@ static RImage*		ms_pimComposite	= NULL;	// Composite buffer.
 // Critical callage for our msgbox.
 //
 //////////////////////////////////////////////////////////////////////////////
-static ULONG CriticalCall(	// Returns item to select or 0.
+static uint32_t CriticalCall(	// Returns item to select or 0.
 	RMsgBox*	/*pmsgbox*/)	// MsgBox.
 	{
 	// For now, we expect the caller of this Menu API to call rspDoSystem(),

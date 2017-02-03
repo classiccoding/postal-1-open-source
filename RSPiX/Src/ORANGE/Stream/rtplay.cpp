@@ -186,12 +186,12 @@ void CRtPlay::Reset(void)
 // Returns 0 on success.
 //
 //////////////////////////////////////////////////////////////////////////////
-int16_t CRtPlay::CreateCmd(USHORT usCmd, int32_t lTime, int32_t lParm1, int32_t lParm2)
+int16_t CRtPlay::CreateCmd(uint16_t usCmd, int32_t lTime, int32_t lParm1, int32_t lParm2)
 	{
 	int16_t	sRes	= 0;	// Assume success.
 	int32_t	lSize	= sizeof(usCmd) + sizeof(lParm1) + sizeof(lParm2);
 
-	UCHAR*	puc	= (UCHAR*)malloc(lSize);
+	uint8_t*	puc	= (uint8_t*)malloc(lSize);
 
 	// If successful . . .
 	if (puc != NULL)
@@ -237,7 +237,7 @@ int16_t CRtPlay::CreateCmd(USHORT usCmd, int32_t lTime, int32_t lParm1, int32_t 
 // Returns RET_FREE if puc should be freed and RET_DONTFREE, otherwise.
 //
 //////////////////////////////////////////////////////////////////////////////
-int16_t CRtPlay::RtInfoCall(	UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucFlags,
+int16_t CRtPlay::RtInfoCall(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFlags,
 									int32_t lTime)
 	{
 	int16_t	sError	= 0;
@@ -268,8 +268,8 @@ int16_t CRtPlay::RtInfoCall(	UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucF
 
 	if (file.Open(puc, lSize, ENDIAN_BIG) == 0)
 		{
-		USHORT	usCmd;
-		ULONG		ulChannels;
+		uint16_t	usCmd;
+		uint32_t		ulChannels;
 		int32_t		lTimeVal;
 		int32_t		lVal;
 
@@ -394,8 +394,8 @@ int16_t CRtPlay::RtInfoCall(	UCHAR* puc, int32_t lSize, USHORT usType, UCHAR ucF
 // (static)
 //
 //////////////////////////////////////////////////////////////////////////////
-int16_t CRtPlay::RtInfoCallStatic(	UCHAR* puc, int32_t lSize, USHORT usType, 
-											UCHAR ucFlags, int32_t lTime, int32_t l_pRtPlay)
+int16_t CRtPlay::RtInfoCallStatic(	uint8_t* puc, int32_t lSize, uint16_t usType, 
+											uint8_t ucFlags, int32_t lTime, int32_t l_pRtPlay)
 	{
 	return ((CRtPlay*)l_pRtPlay)->RtInfoCall(puc, lSize, usType, ucFlags, lTime);
 	}
@@ -407,7 +407,7 @@ int16_t CRtPlay::RtInfoCallStatic(	UCHAR* puc, int32_t lSize, USHORT usType,
 // Returns 0 on success.
 //
 //////////////////////////////////////////////////////////////////////////////
-int16_t CRtPlay::SetState(USHORT usState)
+int16_t CRtPlay::SetState(uint16_t usState)
 	{
 	int16_t	sRes	= 0;	// Assume success.
 
@@ -420,7 +420,7 @@ int16_t CRtPlay::SetState(USHORT usState)
 		// this should be updated.  Of course, if you simply change the
 		// macros, you'll never see this until you figure out that there's
 		// a problem.
-		USHORT	usMsg	= usState;
+		uint16_t	usMsg	= usState;
 		int16_t		sNum	= m_dispatch.SendHandlerMessage(usMsg);
 
 		if (sNum == 0)

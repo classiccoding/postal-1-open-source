@@ -173,7 +173,7 @@ int16_t RImageFile::LoadVersion2(	// Returns SUCCESS on success or FAILURE on
 			{
 			if (pim->ReadPixelData(pfile) == SUCCESS)
 				{
-				ULONG ulPalSize;
+				uint32_t ulPalSize;
 				if (pfile->Read(&ulPalSize) == 1)
 					{
 					if (ulPalSize > 0)
@@ -325,7 +325,7 @@ int16_t RImageFile::LoadVersion5(	// Returns SUCCESS on success or FAILURE on
 	// If file is still okay . . .
 	if (pfile->Error() == FALSE)
 		{
-		USHORT usFlag;
+		uint16_t usFlag;
 		// See if there is any pixel data to be read
 		pfile->Read(&usFlag);
 		if (usFlag == 1)
@@ -346,7 +346,7 @@ int16_t RImageFile::LoadVersion5(	// Returns SUCCESS on success or FAILURE on
 	// If file is still okay . . .
 	if (pfile->Error() == FALSE)
 		{
-		USHORT usFlag;
+		uint16_t usFlag;
 		// See if there is a palette to load
 		pfile->Read(&usFlag);
 		if (usFlag == 1)
@@ -380,12 +380,12 @@ int16_t RImageFile::Load(			// Returns SUCCESS on success or FAILURE on failure.
 	int16_t	sRes	= SUCCESS;	// Assume success.
 
 	// Get finger print . . .
-	ULONG	ulFinger;
+	uint32_t	ulFinger;
 	if (pfile->Read(&ulFinger) == 1)
 		{
 		if (ulFinger == IMAGE_COOKIE)
 			{
-			ULONG	ulVersion;
+			uint32_t	ulVersion;
 			if (pfile->Read(&ulVersion) == 1)
 				{
 				switch (ulVersion)

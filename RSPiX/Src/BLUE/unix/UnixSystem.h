@@ -69,22 +69,6 @@ using namespace std;
 // Usefull pragms
 ////////////////////////////////////////////////////////////////////////////////
 
-
-////////////////////////////////////////////////////////////////////////////////
-// Old-fashioned base types (BASETYPES macro is for compatibility with WIN32)
-////////////////////////////////////////////////////////////////////////////////
-#ifndef BASETYPES
-#define BASETYPES
-typedef uint32_t ULONG;
-typedef ULONG *PULONG;
-typedef uint16_t USHORT;
-typedef USHORT *PUSHORT;
-typedef uint8_t UCHAR;
-typedef UCHAR *PUCHAR;
-typedef char *PSZ;
-#endif // !BASETYPES
-
-
 ////////////////////////////////////////////////////////////////////////////////
 // Basic RSPiX Types
 ////////////////////////////////////////////////////////////////////////////////
@@ -258,13 +242,19 @@ inline bool rspObjCmp(const T* p1, const T* p2, size_t count)
 	}
 
 
-inline char *ltoa(int32_t l, char *buf, size_t bufsize)
+inline char *ltoa(int32_t l, char *buf, int bufsize)
 {
     snprintf(buf, bufsize, "%ld", l);
     return(buf);
 }
 
-inline char *itoa(int l, char *buf, size_t bufsize)
+inline char *ltoa(uint32_t l, char *buf, int bufsize)
+{
+    snprintf(buf, bufsize, "%ld", l);
+    return(buf);
+}
+
+inline char *itoa(int l, char *buf, int bufsize)
 {
     snprintf(buf, bufsize, "%d", l);
     return(buf);

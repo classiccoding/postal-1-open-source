@@ -65,7 +65,7 @@ class RTexture
 	//------------------------------------------------------------------------------
 	public:
 		int16_t m_sNum;												// Number of colors in array(s)
-		UCHAR* m_pIndices;										// Array of indices
+		uint8_t* m_pIndices;										// Array of indices
 		RPixel32* m_pColors;										// Array of colors
 
 	//------------------------------------------------------------------------------
@@ -188,18 +188,18 @@ class RTexture
 		void Remap(
 			int16_t sStartIndex,
 			int16_t sNumIndex,
-			UCHAR* pr,
-			UCHAR* pg,
-			UCHAR* pb,
+			uint8_t* pr,
+			uint8_t* pg,
+			uint8_t* pb,
 			int32_t linc);
 
 		// Unmap colors from the specified palette and put them into the colors
 		// array.  If the array of colors doesn't exist, it will be created.
 		void 
 		Unmap(
-			UCHAR* pr,
-			UCHAR* pg,
-			UCHAR* pb,
+			uint8_t* pr,
+			uint8_t* pg,
+			uint8_t* pb,
 			int32_t lInc)
 			;
 

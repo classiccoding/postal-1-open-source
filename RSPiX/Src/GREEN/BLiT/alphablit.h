@@ -226,7 +226,7 @@ extern	void rspGeneralAlphaBlitT(
 //====================================================================
 extern	void rspFastAlphaBlitT(			
 						int16_t sAlphaLevel,	// 0-255, 255 = unchanged
-						UCHAR*** pMultiX,		// A fast multialpha table
+						uint8_t*** pMultiX,		// A fast multialpha table
 						RImage* pimSrc,		// BMP8 source	
 						RImage* pimDst,		// BMP8 destination
 						int16_t sDstX,int16_t sDstY,
@@ -240,7 +240,7 @@ extern	void rspFastAlphaBlitT(
 //									by it's COLOR - sheet of glass effect.
 //====================================================================
 extern	void rspFastMaskAlphaBlit(
-						UCHAR*** pfaX,		// A fast multialpha table
+						uint8_t*** pfaX,		// A fast multialpha table
 						RImage* pimMask,	// BMP8 source alpha channel mask
 						RImage* pimSrc,	// BMP8 source	
 						RImage* pimDst,	// BMP8 destination
@@ -256,7 +256,7 @@ extern	void rspFastMaskAlphaBlit(
 //									the alpha mask (which could be useful)
 //====================================================================
 extern	void rspFastMaskAlphaBlitT(
-						UCHAR*** pfaX,		// A fast multialpha table	
+						uint8_t*** pfaX,		// A fast multialpha table	
 						RImage* pimMask,	// BMP8 source alpha channel mask	
 						RImage* pimSrc,	// BMP8 source		
 						RImage* pimDst,	// BMP8 destination		
@@ -324,13 +324,13 @@ extern	void rspScaleAlphaMask(RImage* pimSrcMask, // BMP8 alpha mask
 // WARNING:  will not bounds check so be careful:
 // sLeve will range from 255 (solid) to 0 (transparent)
 //===========================================================================
-inline UCHAR	rspBlendColor(int16_t sLevel,RMultiAlpha* pX,UCHAR ucSrc,UCHAR ucDst)
+inline uint8_t	rspBlendColor(int16_t sLevel,RMultiAlpha* pX,uint8_t ucSrc,uint8_t ucDst)
 	{
 	ASSERT(pX);
 
 	if (sLevel > *(pX->m_pLevelOpacity))
 		{
-		UCHAR** ppucAlpha = pX->m_pGeneralAlpha[sLevel]; 
+		uint8_t** ppucAlpha = pX->m_pGeneralAlpha[sLevel]; 
 		if (ppucAlpha) return ppucAlpha[ucSrc][ucDst]; // alpha'ed
 		return ucSrc; // opaque
 		}
@@ -346,14 +346,14 @@ inline UCHAR	rspBlendColor(int16_t sLevel,RMultiAlpha* pX,UCHAR ucSrc,UCHAR ucDs
 // RETURN:	ppuc, a short cut to the fast blend function, or NULL if you hit the
 //				extreme cases of fully opaque of fully transparent.
 //===========================================================================
-inline UCHAR**	rspFindBlend(int16_t sLevel,RMultiAlpha* pX,int16_t* psOpaque)
+inline uint8_t**	rspFindBlend(int16_t sLevel,RMultiAlpha* pX,int16_t* psOpaque)
 	{
 	ASSERT(pX);
 	ASSERT(psOpaque);
 	*psOpaque = FALSE;
 	
 	if (sLevel <= *(pX->m_pLevelOpacity)) return NULL;	// fully transparent
-	UCHAR** ppucAlpha = pX->m_pGeneralAlpha[sLevel]; 
+	uint8_t** ppucAlpha = pX->m_pGeneralAlpha[sLevel]; 
 
 	if (ppucAlpha) return ppucAlpha;
 	*psOpaque = TRUE;
@@ -361,7 +361,7 @@ inline UCHAR**	rspFindBlend(int16_t sLevel,RMultiAlpha* pX,int16_t* psOpaque)
 	}
 
 // A fast way to do repeated blits of the same alpha level, once you've used rspFindBlend:
-inline	UCHAR	rspBlendColor(UCHAR** ppucAlpha,RMultiAlpha* pX,UCHAR ucSrc,UCHAR ucDst)
+inline	uint8_t	rspBlendColor(uint8_t** ppucAlpha,RMultiAlpha* pX,uint8_t ucSrc,uint8_t ucDst)
 	{
 	ASSERT(ppucAlpha);
 	ASSERT(pX);
@@ -396,7 +396,7 @@ extern	void rspMaskBlit(
 // alpha mask of a set homogeneous opacity level.
 //====================================================================
 extern	void rspMakeMask(RImage* pimSrc,	// SOURCE AND DESTINATION
-								  UCHAR ucVal);
+								  uint8_t ucVal);
 //====================================================================
 //	rspCopyAsMask - a blit used to dynamically create an alpha mask
 //--------------------------------------------------------------------
@@ -409,7 +409,7 @@ extern	void rspMakeMask(RImage* pimSrc,	// SOURCE AND DESTINATION
 extern	void rspCopyAsMask(
 					RImage* pimSrc,
 					RImage* pimDst,
-					UCHAR ucVal);
+					uint8_t ucVal);
 
 
 //===========================================================================

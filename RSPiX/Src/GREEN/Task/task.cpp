@@ -79,7 +79,7 @@ RTask::RTask(void)
 // Special constructor that passes parms on to Init().
 //
 //////////////////////////////////////////////////////////////////////////////
-RTask::RTask(TaskFunc tf, ULONG ulUser)
+RTask::RTask(TaskFunc tf, uint32_t ulUser)
 	{
 	Reset();
 
@@ -111,7 +111,7 @@ RTask::~RTask(void)
 // Returns nothing.
 //
 //////////////////////////////////////////////////////////////////////////////
-void RTask::Init(TaskFunc tf, ULONG ulUser)
+void RTask::Init(TaskFunc tf, uint32_t ulUser)
 	{
 	ASSERT(tf != NULL);
 

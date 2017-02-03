@@ -71,7 +71,7 @@ void CNetBrowse::Reset(void)
 // Startup
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CNetBrowse::Startup(							// Returns 0 if sucessfull, non-zero otherwise
-	USHORT usPort,											// In:  Server's base port number
+	uint16_t usPort,											// In:  Server's base port number
 	RSocket::BLOCK_CALLBACK callback)				// In:  Blocking callback
 	{
 	int16_t sResult = 0;
@@ -261,7 +261,7 @@ void CNetBrowse::Update(
 // static
 int16_t CNetBrowse::LookupHost(						// Returns 0 if successfull, non-zero otherwise
 	char* pszName,											// In:  Server's name or dotted address (x.x.x.x)
-	USHORT usPort,											// In:  Server's port number
+	uint16_t usPort,											// In:  Server's port number
 	RSocket::Address* paddress)						// Out: Addresss
 	{
 	// Try to get requested address 

@@ -162,7 +162,7 @@ inline void	rspfrAdd(RFracU16& pDst,RFracU16& pAdd,int16_t sDen)
 // Creates a proper fraction from an improper one:
 // The sizes MUST be appropriate!
 //
-inline void rspMakeProper(RFracU16& pDst,USHORT usNum,USHORT usDen)
+inline void rspMakeProper(RFracU16& pDst,uint16_t usNum,uint16_t usDen)
 	{
 	pDst.mod = usNum / usDen;
 	pDst.frac = usNum % usDen;
@@ -173,13 +173,13 @@ inline void rspMakeProper(RFracU16& pDst,USHORT usNum,USHORT usDen)
 // 1 is tha base fraction, and 255 is 255 * the base fraction.
 // Both must be unsigned!  (uses calloc)
 //
-inline RFracU16* rspfrU16Strafe256(USHORT usNum,USHORT usDen)
+inline RFracU16* rspfrU16Strafe256(uint16_t usNum,uint16_t usDen)
 	{
 	RFracU16* pu16fNew = (RFracU16*) calloc(256,sizeof(RFracU16));
 	RFracU16 u16fInc;
 	rspMakeProper(u16fInc,usNum,usDen); // the 2 part mod
 
-	ULONG ulNumInc = 0;
+	uint32_t ulNumInc = 0;
 	for (int16_t i = 1; i < 256 ; i++)
 		{
 		pu16fNew[i].mod = pu16fNew[i-1].mod + u16fInc.mod;

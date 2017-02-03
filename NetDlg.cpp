@@ -511,11 +511,11 @@ typedef struct
 		{
 		void*			pvLink;
 		int32_t*			pl;
-		ULONG*		pul;
+		uint32_t*		pul;
 		int16_t*		ps;
-		USHORT*		pus;
+		uint16_t*		pus;
 		char*			pc;
-		UCHAR*		puc;
+		uint8_t*		puc;
 		char*			psz;
 		bool*			pb;
 		RGuiItem**	ppgui;
@@ -707,7 +707,7 @@ void UploadLinkInteger(			// Returns nothing.
 			else
 				{
 				// Unsigned.
-				pgui->SetText("%lu", (ULONG)i);
+				pgui->SetText("%lu", (uint32_t)i);
 				}
 #else
 			// Hardwire to signed b/c bool was displaying a warning regarding the
@@ -1958,7 +1958,7 @@ static int16_t OnJoinedMsg(	// Returns 0 on success.
 
 	ASSERT(pmsg->msg.nothing.ucType == NetMsg::JOINED);
 	
-	UCHAR	ucColorIndex	= pmsg->msg.joined.ucColor;
+	uint8_t	ucColorIndex	= pmsg->msg.joined.ucColor;
 	if (ucColorIndex >= CGameSettings::ms_sNumPlayerColorDescriptions)
 		ucColorIndex	= 0;
 
@@ -2604,7 +2604,7 @@ extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero othe
 												RGuiItem*	pguiPlayerSel	= ms_plbPlayers->GetSel();
 												if (pguiPlayerSel)
 													{
-													Net::ID id = (UCHAR)pguiPlayerSel->m_lId;
+													Net::ID id = (uint8_t)pguiPlayerSel->m_lId;
 													// Don't be a moron -- don't drop yourself
 													if (id == pclient->GetID())
 														{

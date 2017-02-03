@@ -182,7 +182,7 @@
 //						NOT_SUPPORTED.  Also, SaveDib() was improperly setting the 
 //						size field of the DIB file header to the lPitch * lHeight 
 //						when it should have been the lDibPitch * lHeight.  Also, 
-//						WIDTHUCHAR and WIDTH128 macros were not 'order-of-operations'
+//						WIDTHuint8_t and WIDTH128 macros were not 'order-of-operations'
 //						safe macros.  Added parenthesis surrounding arguments for 
 //						that extra sense of comfort we've come to know and love.  We
 //						deserve that kind of protection.
@@ -227,8 +227,8 @@
 //						This was done so that the data will be properly
 //						byte swapped when transfering it between the Mac and PC.
 //						For example, 16 bit image formats are now written 
-//						to the CNFile as a number of USHORTs rather than
-//						twice as many UCHARs.  This same functionality
+//						to the CNFile as a number of uint16_ts rather than
+//						twice as many uint8_ts.  This same functionality
 //						needs to be added to load and save for DIBs which
 //						will be in the next version.
 //
@@ -246,11 +246,11 @@
 //						CNFile			RFile
 //						CImage			RImage
 //						CPal				RPal
-//						ULONG ulType	RImage::Type ulType
+//						uint32_t ulType	RImage::Type ulType
 //
 //						The thing that annoys me the most about using actual enums
-//						instead of ULONGs is that you have to copy it into a dummy
-//						ULONG to use RFile on it.  This isn't very bad, but it's
+//						instead of uint32_ts is that you have to copy it into a dummy
+//						uint32_t to use RFile on it.  This isn't very bad, but it's
 //						annoying.
 //
 //	10/31/96	JMI	Changed all members to be preceded by m_ (e.g., sDepth
@@ -667,7 +667,7 @@ RImage::RImage()
 //
 //////////////////////////////////////////////////////////////////////
 
-RImage::RImage(ULONG ulNewSize)
+RImage::RImage(uint32_t ulNewSize)
 {
 	// Initialize member variables to zero
 	InitMembers();
@@ -781,7 +781,7 @@ void RImage::InitMembers(void)
 //
 //////////////////////////////////////////////////////////////////////
 
-int16_t	RImage::CreateData(ULONG ulNewSize)
+int16_t	RImage::CreateData(uint32_t ulNewSize)
 {
 	if (m_pMem)
 	{
@@ -808,13 +808,13 @@ int16_t	RImage::CreateData(ULONG ulNewSize)
 //
 // Description:
 //		Create IMAGE's data utilizing passed in fields.
-//		Calls CreateData(ULONG) to do the allocation.
+//		Calls CreateData(uint32_t) to do the allocation.
 //
 // Parameters:
 //		As described below.
 //
 // Returns:
-//		Return value from CreateData(ULONG).
+//		Return value from CreateData(uint32_t).
 //		SUCCESS if the memory was alocated successfully 
 //		FAILURE if memory could not be allocted
 //
@@ -1020,7 +1020,7 @@ int16_t RImage::SetData(void* pUserData)
 	}
 	else
 	{
-		m_pData = (UCHAR*) pUserData;
+		m_pData = (uint8_t*) pUserData;
 		return SUCCESS;
 	}
 }
@@ -1100,7 +1100,7 @@ int16_t RImage::CreatePalette(void)
 //
 //////////////////////////////////////////////////////////////////////
 
-int16_t RImage::CreatePalette(ULONG ulSize)
+int16_t RImage::CreatePalette(uint32_t ulSize)
 {
 	if (CreatePalette() == SUCCESS)
 		return m_pPalette->CreateData(ulSize);
@@ -1422,7 +1422,7 @@ int16_t RImage::LoadDib(RFile* pcf)
 																			// Pre calc width in bits.
 																			S64 lBitsWidth	= dh.lWidth * dh.usBitCount;
 																			m_lPitch		= WIDTH128(((lBitsWidth + 7) & ~7) / 8);
-																			lDibPitch	= WIDTHUCHAR(((lBitsWidth + 7) & ~7) / 8);
+																			lDibPitch	= WIDTHuint8_t(((lBitsWidth + 7) & ~7) / 8);
 
 																			// Calculate size.
 																			// If not compressed . . .
@@ -1753,7 +1753,7 @@ int16_t RImage::SaveDib(RFile* pcf)
 
 	if (pcf && pcf->IsOpen())
 	{
-		int32_t lDibPitch = WIDTHUCHAR((((int32_t)m_sWidth * (int32_t)m_sDepth + 7L) & ~7L) / 8L);
+		int32_t lDibPitch = WIDTHuint8_t((((int32_t)m_sWidth * (int32_t)m_sDepth + 7L) & ~7L) / 8L);
 
 		int32_t	ulColorData	= 0;
 		if (m_pPalette != NULL)
@@ -1768,7 +1768,7 @@ int16_t RImage::SaveDib(RFile* pcf)
 		dfh.usReserved1	= 0;
 		dfh.usReserved2	= 0;
 
-		UCHAR	auc[2]	= { 'B', 'M' };
+		uint8_t	auc[2]	= { 'B', 'M' };
 
 		//  Write BITMAPFILEHEADER
 		if (pcf->Write(auc) == 1L && pcf->Write(auc + 1) == 1L)
@@ -2065,8 +2065,8 @@ int16_t RImage::Save(char* pszFilename) const
 int16_t RImage::Save(RFile* pcf) const
 {
 	int16_t sReturn = SUCCESS;
-	ULONG ulFileType = IMAGE_COOKIE;
-	ULONG	ulCurrentVersion = IMAGE_CURRENT_VERSION;
+	uint32_t ulFileType = IMAGE_COOKIE;
+	uint32_t	ulCurrentVersion = IMAGE_CURRENT_VERSION;
 
 	if (pcf && pcf->IsOpen())
 	{
@@ -2074,9 +2074,9 @@ int16_t RImage::Save(RFile* pcf) const
 		pcf->Write(&ulFileType);
 		pcf->Write(&ulCurrentVersion);
 		// No RFile support for RImage::Type, so we use a U32.
-		U32	u32Temp	= (ULONG)m_type;
+		U32	u32Temp	= (uint32_t)m_type;
 		pcf->Write(&u32Temp);
-		u32Temp			= (ULONG)m_typeDestination;
+		u32Temp			= (uint32_t)m_typeDestination;
 		pcf->Write(&u32Temp);
 		pcf->Write(&m_ulSize);
 		pcf->Write(&m_sWinWidth);
@@ -2090,25 +2090,25 @@ int16_t RImage::Save(RFile* pcf) const
 		
 		if (m_pData)
 		{
-			USHORT usFlag = 1;
+			uint16_t usFlag = 1;
 			pcf->Write(&usFlag);
 			WritePixelData(pcf);
 		}
 		else
 		{
-			USHORT usFlag = 0;
+			uint16_t usFlag = 0;
 			pcf->Write(&usFlag);
 		}
 
 		if (m_pPalette)
 		{
-			USHORT usOne = 1;
+			uint16_t usOne = 1;
 			pcf->Write(&usOne);
 			m_pPalette->Save(pcf);
 		}
 		else
 		{
-			USHORT usZero = 0;
+			uint16_t usZero = 0;
 			pcf->Write(&usZero);
 		}
 
@@ -2154,7 +2154,7 @@ int16_t RImage::Save(RFile* pcf) const
 int16_t RImage::WritePixelData(RFile* pcf) const
 {
 	int16_t sReturn = SUCCESS;
-	UCHAR* pLineData = NULL;
+	uint8_t* pLineData = NULL;
 
 	if (m_sWidth <= m_sWinWidth && m_sHeight <= m_sWinHeight)
 	{
@@ -2368,7 +2368,7 @@ int16_t RImage::Load(RFile* pcf)
 int16_t RImage::ReadPixelData(RFile* pcf)
 {
 	int16_t sReturn = SUCCESS;
-	UCHAR* pLineData = NULL;
+	uint8_t* pLineData = NULL;
 
 	if (m_sWidth <= m_sWinWidth && m_sHeight <= m_sWinHeight)
 	{

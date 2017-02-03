@@ -384,7 +384,7 @@ void CNetServer::GetMsg(
 							// Store version number from original message before we clobber it
 							// by creating an error message in the same area (not sure if this
 							// is really an issue but just in case).
-							ULONG	ulVersion	= pmsg->msg.login.ulVersion;
+							uint32_t	ulVersion	= pmsg->msg.login.ulVersion;
 							// Incompatible version number.
 							pmsg->msg.err.error		= NetMsg::ServerVersionMismatchError;
 							pmsg->msg.err.ulParam	= ulVersion & ~CNetMsgr::MacVersionBit;
