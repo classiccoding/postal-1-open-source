@@ -97,7 +97,7 @@ extern void rspGetMouse(
     const Uint32 buttons = SDL_GetMouseState(&x, &y);
     SET(psX, x);
     SET(psY, y);
-    TRACE("x = %d, y = %d\n");
+    // TRACE("x = %d, y = %d\n");
 
 	if (psButton != NULL)
 		{
