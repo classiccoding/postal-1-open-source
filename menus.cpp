@@ -1264,6 +1264,7 @@ extern Menu	menuOptions =
 			{ g_pszOptionsMenu_Performance,	TRUE,			&menuFeatures,			NULL,	},
 			{ g_pszOptionsMenu_Difficulty,	TRUE,			&menuPlayOptions,		NULL,	},
 			{ g_pszOptionsMenu_Crosshair,	TRUE,			NULL,		NULL,	},
+			{ g_pszMultiplayerSetupMenu_Color,			TRUE,			NULL,				NULL, },
 			{ "",										FALSE,		NULL,						NULL,	},
 			NULL							// Terminates list.
 		},
@@ -3146,7 +3147,6 @@ extern Menu	menuMultiOptions =
 	// Menu items.
 		{	// pszText,				sEnabled,	pmenu,			pgui
 			{ g_pszMultiplayerSetupMenu_Name,			TRUE,			NULL,				NULL,	},
-			{ g_pszMultiplayerSetupMenu_Color,			TRUE,			NULL,				NULL, },
 			{ g_pszMultiplayerSetupMenu_Protocol,		TRUE,			NULL,				NULL,	},
 			{ g_pszMultiplayerSetupMenu_Connection,	TRUE,			NULL,				NULL,	},
 			{ "",													FALSE,		NULL,				NULL,	},
@@ -3655,13 +3655,37 @@ static int16_t OptionsInit(		// Returns 0 on success, non-zero to cancel menu.
 			TRACE("ControlsInit(): rspGetResource() failed.\n");
 			sRes	= 1;
 			}
+		TRACE("Stop shooting, you sick bastard. I'm already dead.\n");
+		if (rspGetResource(&g_resmgrShell, PLAYER_COLOR_GUI_FILE, &ms_ptxtColor) == 0)
+			{
+			// Keep in bounds just in case (anyone could type any number into the INI) . . .
+			if (	g_GameSettings.m_sPlayerColorIndex >= CGameSettings::ms_sNumPlayerColorDescriptions
+				||	g_GameSettings.m_sPlayerColorIndex >= CDude::MaxTextures
+				|| g_GameSettings.m_sPlayerColorIndex < 0)
+				{
+				g_GameSettings.m_sPlayerColorIndex	= 0;
+				}
+			TRACE("g_GameSettings.m_sPlayerColorIndex = %d\n", g_GameSettings.m_sPlayerColorIndex);
+			// Set the text from the INI setting. Note that we are changing a
+			// resource!
+			ms_ptxtColor->SetText("%s", CGameSettings::ms_apszPlayerColorDescriptions[g_GameSettings.m_sPlayerColorIndex]);
+			ms_ptxtColor->Compose();
+			TRACE("Before ms_ptxtColor assignment. sMenuItem = %d\n", sMenuItem);
+			pmenuCur->ami[sMenuItem++].pgui	= ms_ptxtColor;
+			TRACE("After ms_ptxtColor assignment. sMenuItem = %d\n", sMenuItem);
+			}
+		else
+			{
+			TRACE("MultiOptionsInit(): rspGetResource() failed.\n");
+			sRes	= 2;
+			}
 		}
 	else
 		{
 #ifndef MULTIPLAYER_REMOVED
-		int16_t sMenuItem = 6;
+		int16_t sMenuItem = 5;
 #else
-		int16_t	sMenuItem	= 5;
+		int16_t	sMenuItem	= 4;
 #endif
 
 		RMultiBtn**	ppmb	= (RMultiBtn**)&(pmenuCur->ami[sMenuItem++].pgui);
@@ -3673,6 +3697,18 @@ static int16_t OptionsInit(		// Returns 0 on success, non-zero to cancel menu.
 			// Release resource.
 			rspReleaseResourceInstance(&g_resmgrShell, ppmb);
 			}
+
+		if (ms_ptxtColor != NULL)
+			{
+			// Release resource.
+			rspReleaseResource(&g_resmgrShell, &ms_ptxtColor);
+
+			// Clear menu's pointer.
+			TRACE("Before ms_ptxtColor assignment. sMenuItem = %d\n", sMenuItem);
+			pmenuCur->ami[sMenuItem++].pgui	= NULL;
+			TRACE("After ms_ptxtColor assignment. sMenuItem = %d\n", sMenuItem);
+			}
+			
 		}
 
 	return sRes;
@@ -3705,6 +3741,24 @@ static bool OptionsChoice(		// Returns true to accept, false to deny choice.
 			pmb->Compose();
 			break;
 			}
+#ifndef MULTIPLAYER_REMOVED
+		case 6:
+#else
+		case 5:
+#endif
+			// Increment and check to make sure we have a description and we have such a color . . .
+			g_GameSettings.m_sPlayerColorIndex++;
+			if (	g_GameSettings.m_sPlayerColorIndex >= CGameSettings::ms_sNumPlayerColorDescriptions
+				||	g_GameSettings.m_sPlayerColorIndex >= CDude::MaxTextures)
+				{
+				g_GameSettings.m_sPlayerColorIndex	= 0;
+				}
+
+			// Set the text from the INI setting. Note that we are changing a
+			// resource!
+			ms_ptxtColor->SetText("%s", CGameSettings::ms_apszPlayerColorDescriptions[g_GameSettings.m_sPlayerColorIndex]);
+			ms_ptxtColor->Compose();
+			break;
 		}
 
 	// Audible Feedback.
@@ -4420,29 +4474,6 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			sRes	= 1;
 			}
 
-		if (rspGetResource(&g_resmgrShell, PLAYER_COLOR_GUI_FILE, &ms_ptxtColor) == 0)
-			{
-			// Keep in bounds just in case (anyone could type any number into the INI) . . .
-			if (	g_GameSettings.m_sPlayerColorIndex >= CGameSettings::ms_sNumPlayerColorDescriptions
-				||	g_GameSettings.m_sPlayerColorIndex >= CDude::MaxTextures
-				|| g_GameSettings.m_sPlayerColorIndex < 0)
-				{
-				g_GameSettings.m_sPlayerColorIndex	= 0;
-				}
-
-			// Set the text from the INI setting. Note that we are changing a
-			// resource!
-			ms_ptxtColor->SetText("%s", CGameSettings::ms_apszPlayerColorDescriptions[g_GameSettings.m_sPlayerColorIndex]);
-			ms_ptxtColor->Compose();
-
-			pmenuCur->ami[1].pgui	= ms_ptxtColor;
-			}
-		else
-			{
-			TRACE("MultiOptionsInit(): rspGetResource() failed.\n");
-			sRes	= 2;
-			}
-
 		if (rspGetResource(&g_resmgrShell, NET_PROTO_GUI_FILE, &ms_ptxtProto) == 0)
 			{
 			// Set the text from the INI setting.  Note that we are changing a 
@@ -4450,7 +4481,7 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			ms_ptxtProto->SetText("%s", RSocket::GetProtoName((RSocket::ProtoType)g_GameSettings.m_usProtocol));
 			ms_ptxtProto->Compose();
 
-			pmenuCur->ami[2].pgui   = ms_ptxtProto;
+			pmenuCur->ami[1].pgui   = ms_ptxtProto;
 			}
 		else
 			{
@@ -4468,7 +4499,7 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			ms_ptxtBandwidth->SetText("%s", Net::BandwidthText[g_GameSettings.m_sNetBandwidth]);
 			ms_ptxtBandwidth->Compose();
 
-			pmenuCur->ami[3].pgui   = ms_ptxtBandwidth;
+			pmenuCur->ami[2].pgui   = ms_ptxtBandwidth;
 			}
 		else
 			{
@@ -4488,15 +4519,6 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 
 			// Clear menu's pointer.
 			pmenuCur->ami[0].pgui	= NULL;
-			}
-
-		if (ms_ptxtColor != NULL)
-			{
-			// Release resource.
-			rspReleaseResource(&g_resmgrShell, &ms_ptxtColor);
-
-			// Clear menu's pointer.
-			pmenuCur->ami[1].pgui	= NULL;
 			}
 
 		if (ms_ptxtProto)
@@ -4536,20 +4558,6 @@ static bool MultiOptionsChoice(	// Returns true to accept, false to deny choice.
 	switch (sMenuItem)
 		{
 		case 1:
-			// Increment and check to make sure we have a description and we have such a color . . .
-			g_GameSettings.m_sPlayerColorIndex++;
-			if (	g_GameSettings.m_sPlayerColorIndex >= CGameSettings::ms_sNumPlayerColorDescriptions
-				||	g_GameSettings.m_sPlayerColorIndex >= CDude::MaxTextures)
-				{
-				g_GameSettings.m_sPlayerColorIndex	= 0;
-				}
-
-			// Set the text from the INI setting. Note that we are changing a
-			// resource!
-			ms_ptxtColor->SetText("%s", CGameSettings::ms_apszPlayerColorDescriptions[g_GameSettings.m_sPlayerColorIndex]);
-			ms_ptxtColor->Compose();
-			break;
-		case 2:
 			if (ms_ptxtProto != NULL)
 				{
 				g_GameSettings.m_usProtocol++;
@@ -4559,7 +4567,7 @@ static bool MultiOptionsChoice(	// Returns true to accept, false to deny choice.
 				ms_ptxtProto->Compose();
 				}
 			break;
-		case 3:
+		case 2:
 			if (ms_ptxtBandwidth)
 				{
 				g_GameSettings.m_sNetBandwidth = (Net::Bandwidth)(g_GameSettings.m_sNetBandwidth + 1);
