@@ -5166,7 +5166,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 									// If this was the last demo level, then do the martini effect
 									if (g_bLastLevelDemo)
 										{
-										RRect rect(0,40,640,400);
+										RRect rect(0,40,VIEW_W,VIEW_H);
 										MartiniDo(g_pimScreenBuf,
 													 0,
 													 0,
