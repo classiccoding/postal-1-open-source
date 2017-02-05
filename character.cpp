@@ -871,7 +871,8 @@ void CCharacter::OnDrawBloodMsg(				// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 void CCharacter::OnSuicideMsg(		// Returns nothing.
 	Suicide_Message* psuicidemsg)		// In:  Message to handle.
-	{
+   {
+  UNUSED(psuicidemsg);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -882,6 +883,7 @@ void CCharacter::OnSuicideMsg(		// Returns nothing.
 void CCharacter::OnHelpMsg(			// Returns nothing
 	Help_Message* phelpmsg)
 	{
+  UNUSED(phelpmsg);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -892,6 +894,7 @@ void CCharacter::OnHelpMsg(			// Returns nothing
 void CCharacter::OnPutMeDownMsg(		// Returns nothing
 	PutMeDown_Message* pputmedownmsg)
 	{
+  UNUSED(pputmedownmsg);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////

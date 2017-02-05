@@ -219,9 +219,9 @@ RFile::CritiCall	RFile::ms_criticall		= NULL;
 
 // For hooking Open(char*, ...) calls.
 RFile::OpenHook	RFile::ms_hOpen			= NULL;
-address_t					RFile::ms_lOpenUser		= 0L;
+uintptr_t					RFile::ms_lOpenUser		= 0L;
 RFile::CloseHook	RFile::ms_hClose			= NULL;
-address_t					RFile::ms_lCloseUser		= 0L;
+uintptr_t					RFile::ms_lCloseUser		= 0L;
 
 // Used to byte swap by Write().
 uint8_t					RFile::ms_au8SwapBuf[RFILE_SWAP_SIZE];
@@ -330,7 +330,7 @@ static void locateCorrectCase(char *buf)
 {
 #if PLATFORM_UNIX
 	char *ptr = buf;
-	char *prevptr = buf;
+//	char *prevptr = buf;
 
 	while (ptr = strchr(ptr + 1, '/'))
 	{

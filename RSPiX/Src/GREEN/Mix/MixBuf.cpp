@@ -857,6 +857,7 @@ int16_t RMixBuf::Mix(	uint32_t		ulStartPos,
 							uint8_t		ucVolume,
 							uint8_t		ucVol2)
 	{
+  UNUSED(lSampleRate, lNumChannels);
 	int16_t sRes	= 0;	// Assume success.
 
 	ASSERT(m_sInUse == FALSE);
@@ -950,7 +951,7 @@ int16_t RMixBuf::Mix(	uint32_t		ulStartPos,
 				// Offset high by 128 to represent signed upper bytes
 				int16_t*	psHighTable = 128 + CDVA::ms_asHighByte[sCurVolume];
 				// The assembler doesn't know the offset is signed
-				int16_t*	psASMHighTable = CDVA::ms_asHighByte[sCurVolume];
+//				int16_t*	psASMHighTable = CDVA::ms_asHighByte[sCurVolume];
 				// Low byte is by nature unsigned, so no offset
 				// This is packed into the same table, offset by DVA_SIZE entries
 				int16_t*	psLowTable = CDVA::ms_asHighByte[DVA_SIZE + sCurVolume];

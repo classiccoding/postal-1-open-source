@@ -460,6 +460,7 @@ int16_t RSphericalRegion::Collide(R3DPoint* pPoint)
 
 int16_t RSphericalRegion::Collide(R3DRay* pRay)
 	{
+  UNUSED(pRay);
 	TRACE("RSphericalRegion::Collide(): NYI!\n");
 
 	return NO_COLLISION;

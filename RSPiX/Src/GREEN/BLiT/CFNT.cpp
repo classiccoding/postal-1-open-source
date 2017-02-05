@@ -139,7 +139,7 @@ int16_t RFont::Add(RFile* pcf)
 			pcf->Read(&ucASCII);
 			pim->Load(pcf);
 			AddLetter(pim,(int16_t)ucASCII);
-			int32_t lBogus = pcf->Tell();
+//			int32_t lBogus = pcf->Tell();
 			}
 		}
 
@@ -152,7 +152,7 @@ int16_t RFont::Add(RFile* pcf)
 int16_t RFont::AddLetter(RImage* pimLetter,int16_t sASCII,
 							  int16_t sKernL,int16_t sKernR)
 	{
-
+  UNUSED(sKernL, sKernR);
 #ifdef _DEBUG
 
 	if (!pimLetter)

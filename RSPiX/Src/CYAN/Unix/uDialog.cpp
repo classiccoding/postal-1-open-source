@@ -143,6 +143,7 @@ extern int16_t rspOpenBox(								// Returns 0 if successfull, non-zero otherwis
 	int16_t sSelectedFileBufSize,						// In:  Size of buffer pointed to by pszSelectedFile
 	const char*	pszFilter /*= NULL*/)				// In:  Filename filter or NULL for none
 {
+  UNUSED(pszBoxTitle, pszDefaultPath, pszSelectedFile, sSelectedFileBufSize, pszFilter);
     fprintf(stderr, "STUBBED: %s:%d\n", __FILE__, __LINE__);
     return -1;
 }
@@ -157,6 +158,7 @@ extern int16_t rspSaveBox(			// Returns 0 on success.
 											//	filter specification.  Ex: ".cpp.h.exe.lib" or "cpp.h.exe.lib"
 											// Note: Cannot use '.' in filter.  Preceding '.' ignored.
 {
+  UNUSED(pszBoxTitle, pszBoxTitle, pszDefFileName, pszChosenFileName, sStrSize, pszFilter);
     fprintf(stderr, "STUBBED: %s:%d\n", __FILE__, __LINE__);
     return -1;
 }
@@ -165,5 +167,6 @@ extern int16_t rspSaveBox(			// Returns 0 on success.
 extern void rspSetCursor(
 	int16_t sCursorID)						// In:  ID of built-in cursor (use RSP_CURSOR_* macros)
 {
+  UNUSED(sCursorID);
     fprintf(stderr, "STUBBED: %s:%d\n", __FILE__, __LINE__);
 }

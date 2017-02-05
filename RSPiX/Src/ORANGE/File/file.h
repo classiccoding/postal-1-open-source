@@ -154,12 +154,12 @@ class RFile
 			const char* pszFileName,		// File path and name to open.
 			const char* pszFlags,			// Open flags ala fopen.
 			Endian endian,				// Endian nature of file.
-         address_t lUser);				// User value.
+         uintptr_t lUser);				// User value.
 
 		typedef short (*CloseHook)(	// Returns 0 to bypass default Close's
 												// functionality.
 			RFile* pfile,					// Pointer to RFile being closed.
-         address_t lUser);					// User value.
+         uintptr_t lUser);					// User value.
 
 		// This is the type of the function that is called before every disk
 		// read or write operation to let the user know of (and, perhaps, act
@@ -686,11 +686,11 @@ class RFile
 		// Hook stuff.
 		int32_t							m_lUser;			// Instantiable hook value.
 		static OpenHook			ms_hOpen;		// Hook for calls to Open(char*...).
-      static address_t					ms_lOpenUser;	// User value passed to m_hOpen.
+      static uintptr_t					ms_lOpenUser;	// User value passed to m_hOpen.
 		int16_t							m_sOpenSem;		// Semaphore to block recursion greater
 															// than 1.
 		static CloseHook			ms_hClose;		// Hook for calls to Close().
-      static address_t					ms_lCloseUser;	// User value passed to m_hClose.
+      static uintptr_t					ms_lCloseUser;	// User value passed to m_hClose.
 		int16_t							m_sCloseSem;	// Semaphore to block recursion greater
 															// than 1.
 	#ifdef ALLOW_RFILE_REOPEN

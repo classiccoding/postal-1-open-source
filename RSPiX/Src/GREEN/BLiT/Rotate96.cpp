@@ -595,8 +595,8 @@ int16_t rspAddRotationPadding(RImage* pimSrc,int16_t sHotX,int16_t sHotY)
 	// Calculate new position of image within the buffer:
 	int16_t sX = int16_t (lR - sHotX); // new offset...
 	int16_t sY = int16_t (lR - sHotY);
-	int16_t sOldW = pimSrc->m_sWidth;
-	int16_t sOldH = pimSrc->m_sHeight;
+//	int16_t sOldW = pimSrc->m_sWidth;
+//	int16_t sOldH = pimSrc->m_sHeight;
 
 	rspPad(pimSrc,sX,sY,sSize,sSize,1); // go to 8-bit alignment since offset may not align
 
@@ -1011,7 +1011,7 @@ int16_t rspStrafeRotate(void *pReturnArray,	// Output
 	// Restore the source picture to it's original form.
 	rspRemovePadding(pimSrc);
 	
-	return NULL;
+   return SUCCESS;
 	}
 
 // **************************************************************

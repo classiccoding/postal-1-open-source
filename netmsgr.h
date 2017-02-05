@@ -296,12 +296,14 @@ class NetMsg
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
 				{
+           UNUSED(pmsg, pBuf);
 				TRACE("ERROR!  NOTHING message is not intended to be transmitted!\n");
 				ASSERT(0);
 				}
 
 			static void Write(NetMsg* pmsg, CBufQ* pBuf)
 				{
+           UNUSED(pmsg, pBuf);
 				TRACE("ERROR!  NOTHING message is not intended to be transmitted!\n");
 				ASSERT(0);
 				}
@@ -315,12 +317,14 @@ class NetMsg
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
 				{
+           UNUSED(pmsg, pBuf);
 				TRACE("ERROR!  STAT message is not intended to be transmitted!\n");
 				ASSERT(0);
 				}
 
 			static void Write(NetMsg* pmsg, CBufQ* pBuf)
 				{
+           UNUSED(pmsg, pBuf);
 				TRACE("ERROR!  STAT message is not intended to be transmitted!\n");
 				ASSERT(0);
 				}
@@ -338,12 +342,14 @@ class NetMsg
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
 				{
+           UNUSED(pmsg, pBuf);
 				TRACE("ERROR!  ERR message is not intended to be transmitted!\n");
 				ASSERT(0);
 				}
 
 			static void Write(NetMsg* pmsg, CBufQ* pBuf)
 				{
+           UNUSED(pmsg, pBuf);
 				TRACE("ERROR!  ERR message is not intended to be transmitted!\n");
 				ASSERT(0);
 				}

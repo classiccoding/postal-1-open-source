@@ -713,6 +713,7 @@ extern void CutSceneStart(
 	int16_t sBorderX,
 	int16_t sBorderY)
 	{
+  UNUSED(pstrEntry);
 	// This is used for more than just paths, so it has a larger size!
 	char szText[2048];
 

@@ -252,6 +252,7 @@ class CLogTabVar
 		virtual int16_t GetVal(									// Returns current value
 			usertype user)											// In:  User type passed here
 			{
+        UNUSED(user);
 			TRACE("CLogTabVar::GetVal(): '%s' is likely missing a derived-class GetVal()!\n", m_pszName);
 			return 0;
 			}
@@ -263,6 +264,7 @@ class CLogTabVar
 			usertype user,											// In:  User type passed here
 			int16_t sVal)												// In:  Value to set
 			{
+        UNUSED(user, sVal);
 			if (m_bSettable)
 				TRACE("CLogTabVar::SetVal(): '%s' is likely missing a derived-class SetVal()!\n", m_pszName);
 			else

@@ -113,8 +113,7 @@ void MakeCRCTable();
 //////////////////////////////////////////////////////////////////////////////////////
 int16_t Encrypt(char* szInputString,char* szOutputString,int16_t sSourceLength)
 	{
-	int16_t		rc=0,				// assume success
-				sIndex=0,
+   int16_t	sIndex=0,
 				sStartIndex=GetRandom()%KEY_LENGTH,
 				sCurrentKey=GetRandom()%NUM_KEYS,
 				sSeedIndex=sStartIndex;

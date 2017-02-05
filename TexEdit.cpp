@@ -1295,6 +1295,7 @@ CTexEdit::ComposeTransform(
 void
 CTexEdit::QuitCall(RGuiItem* pgui)
 	{
+  UNUSED(pgui);
 	m_bQuit	= true;
 	}
 
@@ -1313,6 +1314,7 @@ CTexEdit::ManipCall(RGuiItem* pgui)
 void
 CTexEdit::ColorCall(RGuiItem* pgui, RInputEvent* pie)
 	{
+  UNUSED(pgui);
 	if (pie->type == RInputEvent::Mouse)
 		{
 		switch (pie->sEvent)
@@ -1338,6 +1340,7 @@ CTexEdit::ColorCall(RGuiItem* pgui, RInputEvent* pie)
 void
 CTexEdit::ApplyCall(RGuiItem* pgui)
 	{
+  UNUSED(pgui);
 	Apply();
 	}
 
@@ -1347,6 +1350,7 @@ CTexEdit::ApplyCall(RGuiItem* pgui)
 void
 CTexEdit::SaveCall(RGuiItem* pgui)
 	{
+  UNUSED(pgui);
 	Save();
 	}
 
@@ -1356,6 +1360,7 @@ CTexEdit::SaveCall(RGuiItem* pgui)
 void
 CTexEdit::RevertCall(RGuiItem* pgui)
 	{
+  UNUSED(pgui);
 	Revert();
 	}
 
@@ -1391,6 +1396,7 @@ CTexEdit::BrightnessCall(RScrollBar* psb)
 void
 CTexEdit::AdjustCall(RGuiItem* pgui)
 	{
+  UNUSED(pgui);
 	// Get frequency.
 	int32_t	lFreq	= m_pguiRoot->GetVal(c_lIdFrequency);
 	
@@ -1443,6 +1449,7 @@ CTexEdit::AdjustCall(RGuiItem* pgui)
 void
 CTexEdit::AnimCall(RGuiItem* pgui, RInputEvent* pie)
 	{
+  UNUSED(pgui);
 	if (pie->type == RInputEvent::Mouse)
 		{
 		switch (pie->sEvent)

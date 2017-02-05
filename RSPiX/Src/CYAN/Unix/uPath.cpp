@@ -74,8 +74,8 @@ extern char* rspPathToSystem(			// Returns pszSystem
 			TRACE("rspPathToSystem(): Warning: RSPiX path contains '\\' which is not legal: '%s'\n", pszRSPiX);
 	#endif
 	
-    if (pszRSPiX != pszSystem)  // yes, pointer comparison.
-        strcpy(pszSystem, pszRSPiX);
+  if (pszRSPiX != pszSystem)  // yes, pointer comparison.
+    strcpy(pszSystem, pszRSPiX);
 	return pszSystem;
 	}
 	
@@ -108,16 +108,15 @@ extern char* rspPathToSystem(			// Returns pointer to system-specific path (stat
 extern char* rspPathFromSystem(		// Returns pszRSPiX
 	const char* pszSystem,				// In:  System path
 	char* pszRSPiX)						// Out: RSPiX path
-	{
-	ASSERT(pszSystem != NULL);
-	ASSERT(pszRSPiX != NULL);
-	ASSERT(strlen(pszSystem) <= RSP_MAX_PATH);
+{
+  ASSERT(pszSystem != NULL);
+  ASSERT(pszRSPiX != NULL);
+  ASSERT(strlen(pszSystem) <= RSP_MAX_PATH);
 
-
-    if (pszRSPiX != pszSystem)  // yes, pointer comparison.
-        strcpy(pszRSPiX, pszSystem);
-	return pszRSPiX;
-	}
+  if (pszRSPiX != pszSystem)  // yes, pointer comparison.
+    strcpy(pszRSPiX, pszSystem);
+  return pszRSPiX;
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -102,7 +102,7 @@ static const char* ms_apszBlueResNames[] =
 	NULL
 };
 
-
+#ifdef UNUSED_VARIABLES
 // These are the points that are checked on the attribute map relative to his origin
 static RP3d ms_apt3dAttribCheck[] =
 {
@@ -113,7 +113,7 @@ static RP3d ms_apt3dAttribCheck[] =
 	{ 0, 0,  6},
 	{ 6, 0,  6},
 };
-
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // Load object (should call base class version!)
@@ -327,10 +327,10 @@ int16_t CFlagbase::Shutdown(void)							// Returns 0 if successfull, non-zero ot
 ////////////////////////////////////////////////////////////////////////////////
 void CFlagbase::Update(void)
 {
-	int16_t sHeight = m_sPrevHeight;
+//	int16_t sHeight = m_sPrevHeight;
 	int32_t lThisTime;
 	int32_t lTimeDifference;
-	int32_t lSqDistanceToDude = 0;
+//	int32_t lSqDistanceToDude = 0;
 	CSmash* pSmashed = NULL;
 
 	if (!m_sSuspend)
@@ -340,7 +340,7 @@ void CFlagbase::Update(void)
 		lTimeDifference = lThisTime - m_lPrevTime;
 
 		// Calculate elapsed time in seconds
-		double dSeconds = (double)(lThisTime - m_lPrevTime) / 1000.0;
+//		double dSeconds = (double)(lThisTime - m_lPrevTime) / 1000.0;
 
 		// Check for new messages that may change the state
 		ProcessMessages();
@@ -522,7 +522,6 @@ int16_t CFlagbase::EditModify(void)
 {
 	int16_t sResult = 0;
 	uint16_t u16OrigColor = m_u16Color;
-	RGuiItem* pGuiItem = NULL;
 	RGuiItem* pguiRoot = RGuiItem::LoadInstantiate(FullPathVD("res/editor/flagbase.gui"));
 	if (pguiRoot != NULL)
 	{
@@ -617,6 +616,7 @@ int16_t CFlagbase::FreeResources(void)						// Returns 0 if successfull, non-zer
 
 void CFlagbase::OnExplosionMsg(Explosion_Message* pMessage)
 {
+  UNUSED(pMessage);
 	if (
 	    m_state != State_BlownUp	&&
 		 m_state != State_Die		&& 
@@ -649,6 +649,7 @@ void CFlagbase::OnExplosionMsg(Explosion_Message* pMessage)
 
 void CFlagbase::OnBurnMsg(Burn_Message* pMessage)
 {
+  UNUSED(pMessage);
 	// For now we made the sentry fireproof, the only
 	// way it can be destroyed is by blowing it up.
 }

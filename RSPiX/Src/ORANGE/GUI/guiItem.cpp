@@ -477,7 +477,7 @@ RGuiItem::RGuiItem()
 	m_sX	= 0;
 	m_sY	= 0;
 
-   m_hot.m_ulUser			= reinterpret_cast<address_t>(this);
+   m_hot.m_ulUser			= reinterpret_cast<uintptr_t>(this);
 	m_hot.m_iecUser		= HotCall;
 
 	m_sEventAreaX			= 0;	// X coord of area in which we care
@@ -1235,8 +1235,8 @@ void RGuiItem::SetVisible(		// Returns nothing.
 ////////////////////////////////////////////////////////////////////////
 void RGuiItem::SetParent(RGuiItem* pguiParent)
 	{
-	int16_t	sDifX	= 0;	// Difference in top level x positioning.
-	int16_t	sDifY	= 0;	// Difference in top level y positioning.
+//	int16_t	sDifX	= 0;	// Difference in top level x positioning.
+//	int16_t	sDifY	= 0;	// Difference in top level y positioning.
 
 	// If there is an old . . .
 	if (m_pguiParent != NULL)

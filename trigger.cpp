@@ -273,6 +273,7 @@ int16_t CTrigger::EditNew(									// Returns 0 if successfull, non-zero otherwi
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
+  UNUSED(sX, sY, sZ);
 	return 0;
 	}
 

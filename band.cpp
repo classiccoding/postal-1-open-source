@@ -301,6 +301,7 @@ static const char* ms_apszOnFireResNames[] =
 	NULL
 };
 
+#ifdef UNUSED_VARIABLES
 // These are the points that are checked on the attribute map relative to his origin
 static RP3d ms_apt3dAttribCheck[] =
 {
@@ -311,6 +312,7 @@ static RP3d ms_apt3dAttribCheck[] =
 	{ 0, 0,  6},
 	{ 6, 0,  6},
 };
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // Load object (should call base class version!)
@@ -1520,6 +1522,7 @@ void CBand::OnBurnMsg(Burn_Message* pMessage)
 
 void CBand::OnPanicMsg(Panic_Message* pMessage)
 {
+  UNUSED(pMessage);
 	if (m_state != State_Die &&
 	    m_state != State_Dead &&
 		 m_state != State_BlownUp &&
@@ -1570,10 +1573,12 @@ void CBand::AlertBand(void)
 {
 	CThing* pThing;
 	GameMessage msg;
+#ifdef UNUSED_VARIABLES
 	GameMessage msgStopSound;
 
 	msgStopSound.msg_ObjectDelete.eType = typeObjectDelete;
 	msgStopSound.msg_ObjectDelete.sPriority = 0;
+#endif
 
 	msg.msg_Panic.eType = typePanic;
 	msg.msg_Panic.sPriority = 0;

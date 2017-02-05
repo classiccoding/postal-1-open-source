@@ -109,7 +109,7 @@ class RMix
 		typedef void* (*RMixCall)(	Msg		msg, 
 											void*		pData, 
 											uint32_t*	pulBufSize, 
-                                 address_t		ulUser,
+                                 uintptr_t		ulUser,
 											uint8_t*	pucVol1,
 											uint8_t*	pucVol2);
 
@@ -137,7 +137,7 @@ class RMix
 		// Start receiving callbacks to fill channel data.
 		// Set the initial mix volumes
 		// Returns 0 on success.
-      int16_t Start(RMixCall mcUser, address_t ulUser,
+      int16_t Start(RMixCall mcUser, uintptr_t ulUser,
 					uint8_t	ucVolume = 255, uint8_t ucVol2 = 255 );
 
 		// Stop receiving callbacks to fill channel data.
@@ -340,7 +340,7 @@ class RMix
 													// otherwise.
 		int32_t			m_lLastDataPos;		// Last byte mixed into.
 		RMixCall		m_mcUser;				// User callback.
-      address_t			m_ulUser;				// User value.
+      uintptr_t			m_ulUser;				// User value.
 		uint8_t*		m_pucData;				// User data.
 		uint32_t			m_ulAmount;				// Amount of user data remaining.
 

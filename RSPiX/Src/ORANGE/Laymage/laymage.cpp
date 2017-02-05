@@ -273,8 +273,7 @@ int16_t RLaymage::AllocateChannelBuffers(uint32_t ulSize)
 int16_t RLaymage::SetPSD(char* pszFilename)
 {
 	RFile cf;
-	RFile cfChannel;
-	int16_t sReturn = SUCCESS;
+   RFile cfChannel;
 	int16_t i;
 
 	strcpy(m_szPhotoshopFilename, pszFilename);
@@ -333,8 +332,7 @@ error:
 int16_t RLaymage::LoadPSD(char* pszFilename)
 {
 	RFile cf;
-	RFile cfChannel;
-	int16_t sReturn = SUCCESS;
+   RFile cfChannel;
 	int16_t i;
 
 	strcpy(m_szPhotoshopFilename, pszFilename);
@@ -400,8 +398,7 @@ error:
 int16_t RLaymage::ReadPSDHeader(char* pszFilename)
 {
 	RFile cf;
-	RFile cfChannel;
-	int16_t sReturn = SUCCESS;
+   RFile cfChannel;
 	uint32_t ulData;
 	uint16_t usData;
 
@@ -546,8 +543,7 @@ error:
 int16_t RLaymage::ReadLayer(int16_t sRequestedLayer)
 {
 	RFile cf;
-	RFile cfChannel;
-	int16_t sReturn = SUCCESS;
+   RFile cfChannel;
 	int16_t i;
 
 	if (cf.Open(m_szPhotoshopFilename, "rb", RFile::BigEndian) != SUCCESS)
@@ -697,7 +693,7 @@ int16_t RLaymage::ReadLayerInfo(int16_t sLayerNum, RFile* pcfLayer,
 	uint16_t usData;
 	uint8_t ucData;
 	int16_t asChannelID[LAYMAGE_MAXCHANNELS];
-	uint16_t usNextChannel = 0;
+//	uint16_t usNextChannel = 0;
 	uint16_t usNumChannels = 0;
 	uint32_t ulTop;
 	uint32_t ulBottom;
@@ -1041,7 +1037,7 @@ int16_t RLaymage::RLE_Decompress(char* pcBuffer, uint32_t ulCompSize, RFile* pcf
 	uint32_t ulBufferPos = 0;
 	uint32_t ulBufferFill = 0;
 	int8_t cData;
-	int8_t cFlag;
+   uint8_t cFlag;
 	uint8_t ucRun;
 	uint16_t i;
 

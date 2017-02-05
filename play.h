@@ -118,7 +118,7 @@ extern int16_t Play_GetRealmInfo(						// Returns 0 if successfull, 1 if no such
 	char* pszFile,											// Out: Realm's file name
 	int16_t sMaxFileLen,									// In:  Max length of returned file name, including terminating null
 	char* pszTitle = 0,									// Out: Realm's title
-	int16_t sMaxTitleLen = NULL);						// In:  Max length of returned title, including terminating null
+   int16_t sMaxTitleLen = 0);						// In:  Max length of returned title, including terminating null
 
 
 ////////////////////////////////////////////////////////////////////////////////

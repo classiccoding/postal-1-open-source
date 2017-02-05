@@ -75,12 +75,27 @@ using namespace std;
 #ifndef __RSPX_TYPES
 #define __RSPX_TYPES
 
+#define UNUSED1(a)                (void)(a)
+#define UNUSED2(a,b)             UNUSED1(a),UNUSED1(b)
+#define UNUSED3(a,b,c)           UNUSED1(a),UNUSED2(b,c)
+#define UNUSED4(a,b,c,d)         UNUSED1(a),UNUSED3(b,c,d)
+#define UNUSED5(a,b,c,d,e)       UNUSED1(a),UNUSED4(b,c,d,e)
+#define UNUSED6(a,b,c,d,e,f)     UNUSED1(a),UNUSED5(b,c,d,e,f)
+#define UNUSED7(a,b,c,d,e,f,g)   UNUSED1(a),UNUSED6(b,c,d,e,f,g)
+#define UNUSED8(a,b,c,d,e,f,g,h) UNUSED1(a),UNUSED7(b,c,d,e,f,g,h)
+
+#define VA_NUM_ARGS_IMPL(_1,_2,_3,_4,_5, _6, _7, _8, N,...) N
+#define VA_NUM_ARGS(...) VA_NUM_ARGS_IMPL(__VA_ARGS__,8, 7, 6, 5, 4, 3, 2, 1)
+
+#define UNUSED_IMPL_(nargs) UNUSED ## nargs
+#define UNUSED_IMPL(nargs) UNUSED_IMPL_(nargs)
+#define UNUSED(...) UNUSED_IMPL( VA_NUM_ARGS(__VA_ARGS__))(__VA_ARGS__ )
+
 #define UINT8_MIN 0
 #define UINT16_MIN 0
 #define UINT32_MIN 0
 
-  typedef unsigned long address_t;
-  static_assert(sizeof(address_t) == sizeof(void*), "your compiler is broken!");
+  static_assert(sizeof(uintptr_t) == sizeof(void*), "your compiler is broken!");
 
 	// 128-bit got a little trickier...
 	#ifdef SYS_ENDIAN_LITTLE

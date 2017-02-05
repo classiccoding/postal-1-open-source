@@ -118,6 +118,7 @@ class RFrame : public RGuiItem
 			int16_t sH,			// Height.
 			int16_t sDepth)		// Color depth.
 			{
+        UNUSED(sDepth);
 			m_sX				= sX;
 			m_sY				= sY;
 			m_im.m_sWidth	= sW;
@@ -141,6 +142,7 @@ class RFrame : public RGuiItem
 			int16_t sH = 0,			// Amount to draw.
 			RRect* prc = NULL)	// Clip to.
 			{
+        UNUSED(sSrcX, sSrcY, sW, sH);
 			int16_t	sRes	= 0;	// Assume success.
 
 			// If visible . . .

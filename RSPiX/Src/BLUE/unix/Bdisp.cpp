@@ -58,7 +58,7 @@ typedef union { struct { Uint8 b; Uint8 g; Uint8 r; Uint8 a; }; Uint32 argb; } A
 static ArgbColor	apeApp[256];				// App's palette.  The palette
 														// entries the App actually set.
 
-static ArgbColor	apeMapped[256];			// Tweaked palette.
+//static ArgbColor	apeMapped[256];			// Tweaked palette.
 														// This is the palette updated to
 														// the hardware.  apeApp is trans-
 														// lated through au8MapRed, Green,
@@ -365,7 +365,7 @@ extern int16_t rspSuggestVideoMode(		// Returns 0 if successfull, non-zero other
 	int16_t	sRes	= 0;	// Assume success.
 
 	// Store video mode that the app is currently iterating.
-	PVIDEO_MODE	pvmOldModeQuery	= slvmModes.GetCurrent();
+//	PVIDEO_MODE	pvmOldModeQuery	= slvmModes.GetCurrent();
 
 	rspQueryVideoModeReset();
 
@@ -819,6 +819,7 @@ extern void rspCacheDirtyRect(
 	int16_t sWidth,				// Width of area to update
 	int16_t sHeight)				// Height of area to update
 {
+  UNUSED(sX,sY,sWidth,sHeight);
 }
 
 extern void rspPresentFrame(void)
@@ -882,6 +883,7 @@ extern void rspUpdateDisplay(
 	int16_t sWidth,				// Width of area to update
 	int16_t sHeight)				// Height of area to update
 {
+  UNUSED(sX,sY,sWidth,sHeight);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -896,6 +898,7 @@ extern int16_t rspLockVideoPage(	// Returns 0 if screen memory could be locked.
 											// NULL returned if not supported.
 	int32_t*		plPitch)					// Pitch of display memory returned here.
 	{
+  UNUSED(ppvMemory,plPitch);
 	/* no-op. */
 	return 1;
 	}
@@ -923,6 +926,7 @@ extern int16_t rspLockVideoFlipPage(	// Returns 0 if flip screen memory could be
 											// NULL returned on failure.
 	int32_t*		plPitch)					// Pitch of flip screen memory returned here.
 	{
+  UNUSED(ppvMemory,plPitch);
 	return -1;
 	}
 
@@ -1243,6 +1247,7 @@ extern void rspSetBackgroundCallback(	// Returns nothing.
 	void (BackgroundCall)(void))			// Callback when app processing becomes
 													// background.  NULL to clear.
 	{
+  UNUSED(BackgroundCall);
         /* no-op. */
 	}
 
@@ -1255,6 +1260,7 @@ extern void rspSetForegroundCallback(	// Returns nothing.
 	void (ForegroundCall)(void))			// Callback when app processing becomes
 													// foreground.  NULL to clear.
 	{
+  UNUSED(ForegroundCall);
         /* no-op. */
 	}
 

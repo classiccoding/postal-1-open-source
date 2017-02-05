@@ -350,6 +350,7 @@ SampleMasterID* CDemon::ms_apsmidKillSeries[NumSoundBanks][NumKillSeriesComments
 int16_t CDemon::Preload(
 	CRealm* prealm)				// In:  Calling realm.
 {
+  UNUSED(prealm);
 #if 0
 	// Tell samplemaster to cache (preload) this sample
 	CacheSample(g_smidDemonBleed);
@@ -393,7 +394,6 @@ int16_t CDemon::Preload(
 	CacheSample(g_smidDemonYes2);
 	CacheSample(g_smidDemonBuckwheat4);
 	CacheSample(g_smidDemonTheMan);
-
 #endif
 	return 0;
 }

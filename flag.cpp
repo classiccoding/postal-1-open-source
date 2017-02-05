@@ -353,7 +353,7 @@ int16_t CFlag::Shutdown(void)							// Returns 0 if successfull, non-zero otherw
 ////////////////////////////////////////////////////////////////////////////////
 void CFlag::Update(void)
 {
-	int16_t sHeight = m_sPrevHeight;
+//	int16_t sHeight = m_sPrevHeight;
 	int32_t lThisTime;
 	int32_t lTimeDifference;
 	CSmash* pSmashed = NULL;
@@ -367,7 +367,7 @@ void CFlag::Update(void)
 		m_lAnimTime += lTimeDifference;
 
 		// Calculate elapsed time in seconds
-		double dSeconds = (double)(lThisTime - m_lPrevTime) / 1000.0;
+//		double dSeconds = (double)(lThisTime - m_lPrevTime) / 1000.0;
 
 		// Check for new messages that may change the state
 		ProcessMessages();
@@ -771,6 +771,7 @@ void CFlag::OnExplosionMsg(Explosion_Message* pMessage)
 
 void CFlag::OnBurnMsg(Burn_Message* pMessage)
 {
+  UNUSED(pMessage);
 	// For now we made the sentry fireproof, the only
 	// way it can be destroyed is by blowing it up.
 	m_state = State_Burning;

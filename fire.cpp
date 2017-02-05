@@ -628,7 +628,9 @@ int16_t CFire::Setup(									// Returns 0 if successfull, non-zero otherwise
 int16_t CFire::Init(void)
 {
 	int16_t sResult = SUCCESS;
+#ifdef _DEBUG
 	CAlphaAnim* pAnim = NULL;
+#endif
 
 	if (m_pAnimChannel != NULL)
 	{
@@ -636,8 +638,10 @@ int16_t CFire::Init(void)
 		m_lStartTime = m_lTimer;
 		m_lBurnUntil = m_lTimer + m_lTimeToLive;
 		m_lAlphaBreakPoint = m_lTimer + (m_lTimeToLive * BRIGHT_PERCENT);
-		pAnim = (CAlphaAnim*) m_pAnimChannel->GetAtTime(0);
+#ifdef _DEBUG
+      pAnim = (CAlphaAnim*) m_pAnimChannel->GetAtTime(0);
 		ASSERT(pAnim != NULL);
+#endif
 		m_lBrightAlphaInterval = (m_lTimeToLive * BRIGHT_PERCENT) / MAX(1, m_sCurrentAlphaLevel - DIEDOWN_ALPHA);
 		m_lDimAlphaInterval = (m_lTimeToLive * (100.0 - BRIGHT_PERCENT)) / MAX(1, DIEDOWN_ALPHA);
 		m_lCurrentAlphaTimeout = m_lTimer + m_lBrightAlphaInterval;
@@ -717,14 +721,18 @@ int16_t CFire::Smokeout(void)
 	sResult = GetResources();
 
 	// Reset timers
+#ifdef _DEBUG
 	CAlphaAnim* pAnim = NULL;
+#endif
 
 	if (m_pAnimChannel != NULL)
 	{
 		// Reset alpha level
 		m_sCurrentAlphaLevel = THICK_ALPHA;
+#ifdef _DEBUG
 		pAnim = (CAlphaAnim*) m_pAnimChannel->GetAtTime(0);
 		ASSERT(pAnim != NULL);
+#endif
 //		m_lTimeToLive = m_pAnimChannel->TotalTime();
 		// use same time to live as the original
 		m_lStartTime = m_lTimer = 0;

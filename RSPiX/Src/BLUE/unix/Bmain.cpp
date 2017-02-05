@@ -166,9 +166,10 @@ extern void rspDoSystem(void)										// Returns nothing.
 // 
 //////////////////////////////////////////////////////////////////////////////
 extern void rspSetDoSystemMode(	// Returns nothing.
-	int16_t sCooperativeLevel)		// In:  One of the RSP_DOSYSTEM_* macros 
+   int16_t sCooperativeLevel)		// In:  One of the RSP_DOSYSTEM_* macros
 											// defining what level of cooperation to use.
 	{
+  UNUSED(sCooperativeLevel);
         /* no-op */
 	}
 

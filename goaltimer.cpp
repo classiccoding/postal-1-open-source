@@ -276,8 +276,6 @@ void CheckMultiBtn(			// Returns nothing.
 	int32_t			lId,			// In:  ID of GUI to set text.
 	int16_t			sChecked)	// In:  1 to check, 0 to uncheck.
 	{
-	int16_t	sRes	= 0;	// Assume nothing;
-
 	RMultiBtn*	pmb	= (RMultiBtn*)pguiRoot->GetItemFromId(lId);
 	if (pmb != NULL)
 		{

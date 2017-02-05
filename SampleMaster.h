@@ -319,7 +319,7 @@ class SampleMaster
 	{
 	public:
 		// Used as a unique idea for running sound sample manipulation -> includes channel number
-      typedef	address_t	SoundInstance; // 0 indicates error condition.
+      typedef	uintptr_t	SoundInstance; // 0 indicates error condition.
 
 		//////////////////////////////////////////////////////////////
 		// Use these tags to specify a sound volume category

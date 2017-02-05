@@ -2002,7 +2002,7 @@ int16_t RImage::SaveDib(RFile* pcf)
 //
 //////////////////////////////////////////////////////////////////////
 
-int16_t RImage::Save(char* pszFilename) const
+int16_t RImage::Save(const char* pszFilename) const
 {
 	RFile cf;
 	int16_t sReturn = SUCCESS;
@@ -2296,7 +2296,7 @@ int16_t RImage::WritePixelData(RFile* pcf) const
 //
 //////////////////////////////////////////////////////////////////////
 
-int16_t RImage::Load(char* pszFilename)
+int16_t RImage::Load(const char* pszFilename)
 {
 	RFile cf;
 	int16_t sReturn = SUCCESS;

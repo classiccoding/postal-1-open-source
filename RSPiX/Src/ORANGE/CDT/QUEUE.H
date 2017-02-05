@@ -99,8 +99,8 @@
 // taking warp-around into account.  Note that the given index must NEVER be
 // modified, even temporarily, because that could cause bugs when the queue is
 // used by interrupt-driven and normal code at the same time.
-#define QNEXT(i) 		(((i)+(short)1) >= QSIZE ? (short)0 : ((i)+(short)1))
-#define QPREV(i)		(((i)-(short)1) >= 0 ? ((i)-(short)1) : (QSIZE-(short)1))
+#define QNEXT(i) 		((size_t)(i+1) >= QSIZE ? 0 : i+1)
+#define QPREV(i)		((i-1) >= 0 ? i-1 : QSIZE-1)
 
 template <class T, int16_t sSize> class RQueue
 	{

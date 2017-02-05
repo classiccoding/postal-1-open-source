@@ -4458,7 +4458,7 @@ void CDude::GetWeaponInfo(		// Returns nothing.
 	int16_t**			ppsNum)		// Out: Ptr to the weapon's counter.
 	{
 	static int16_t sSafetyNum	= 0;
-	int16_t	*psNumLeft	= &sSafetyNum;
+//	int16_t	*psNumLeft	= &sSafetyNum;
 	// Switch on weapon type . . .
 	switch (weapon)
 		{
@@ -4885,6 +4885,8 @@ bool CDude::MakeValidPosition(		// Returns true, if new position was valid.
 												// Out: New z position.
 	int16_t	sVertTolerance /*= 0*/)		// Vertical tolerance.
 	{
+  UNUSED(sVertTolerance);
+
 	bool bValidatedPosition	= false;	// Assume failure.
 
 	double	dCrawlerNewX;
@@ -5425,16 +5427,16 @@ void CDude::ShowTarget()
 		// sAngle must be between 0 and 359.
 		int16_t sRotY = rspMod360((int16_t) m_dRot);
 		int16_t sRangeXZ = 100;
-		int16_t sRadius = 20;
+//		int16_t sRadius = 20;
 
 		float	fRateX = COSQ[sRotY] * sRangeXZ;
 		float	fRateZ = -SINQ[sRotY] * sRangeXZ;
-		float	fRateY = 0.0;	// If we ever want vertical movement . . .
+//		float	fRateY = 0.0;	// If we ever want vertical movement . . .
 
 		// Set initial position to first point to check (NEVER checks original position).
-		float	fPosX = m_dX + fRateX;
-		float	fPosY = m_dY + fRateY;
-		float	fPosZ = m_dZ + fRateZ;
+//		float	fPosX = m_dX + fRateX;
+//		float	fPosY = m_dY + fRateY;
+//		float	fPosZ = m_dZ + fRateZ;
 
 		if (m_TargetSprite.m_psprParent)
 			m_TargetSprite.m_psprParent->RemoveChild(&m_TargetSprite);

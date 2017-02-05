@@ -159,6 +159,7 @@ void	RMultiGrid::DumpData(RImage* pimDst)
 
 void	RMultiGrid::DumpTiles(RImage* pimDst)
 	{
+  UNUSED(pimDst);
 	int16_t sNumTiles = 0 ;// scan for the number of tiles:
 
 	int16_t i,j;
@@ -280,7 +281,7 @@ int16_t	RMultiGrid::AllocGrid(int16_t sScaleW, int16_t sScaleH)
 	//--------------------------------------------- Allocate the Tile Lists:
 	int32_t	lShortTileSize = int32_t(sScaleW) * sScaleH;
 	int32_t	lByteTileSize = lShortTileSize << 1;
-	int32_t	lLongTileSize = lShortTileSize >> 1;
+//	int32_t	lLongTileSize = lShortTileSize >> 1;
 	// Initial Max
 	int16_t		sMaxNumTiles = MIN((int32_t)32767, (int32_t)1 + int32_t(sGridW) * (int32_t)sGridH);
 
@@ -385,7 +386,7 @@ int16_t RMultiGrid::Compress(
 	int16_t	sExtraW = m_sWidth - (sWholeGridW << m_sShiftX);
 	int16_t	sExtraH = m_sHeight - (sWholeGridH << m_sShiftY);
 
-	int16_t sMaxTile = MIN((int32_t)32767, (int32_t)1 + int32_t(sGridW) * (int32_t)sGridH);
+//	int16_t sMaxTile = MIN((int32_t)32767, (int32_t)1 + int32_t(sGridW) * (int32_t)sGridH);
 	int16_t	sShortSize = (m_sMaskX+1)*(m_sMaskY+1);
 	int16_t sNumMatches = 0;
 

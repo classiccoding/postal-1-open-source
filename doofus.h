@@ -432,6 +432,7 @@ class CDoofus : public CCharacter
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
+        UNUSED(pRealm, ppNew);
 			return 0;
 			}
 

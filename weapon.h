@@ -181,6 +181,7 @@ class CWeapon : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
+        UNUSED(pRealm, ppNew);
 			return 0;
 			}
 
@@ -248,6 +249,7 @@ class CWeapon : public CThing
 		// Give Edit a rectangle around this object
 		virtual void EditRect(RRect* pRect)
 		{
+        UNUSED(pRect);
 		}
 
 		// Get the coordinates of this thing.
@@ -305,6 +307,7 @@ class CWeapon : public CThing
 			uint32_t u32BitsDontCare, // Bits that are ignored for collision
 			uint32_t u32BitsExclude)	// Bits that invalidate collision
 		{
+        UNUSED(u32BitsInclude, u32BitsDontCare, u32BitsExclude);
 			// The base class does nothing - override if you want to use it, but
 			// you don't have to if your weapon doesn't have collide bits.
 		}
@@ -315,9 +318,10 @@ class CWeapon : public CThing
 		virtual
 		void SetDetectionBits(		// Returns nothing
 			uint32_t u32BitsInclude,		// Bits included in a collision
-			uint32_t u32BitsDontcare,		// Bits that are ignored for collision
+         uint32_t u32BitsDontCare,		// Bits that are ignored for collision
 			uint32_t u32BitsExclude)		// Bits that invalidate collision
 		{
+        UNUSED(u32BitsInclude, u32BitsDontCare, u32BitsExclude);
 			// The base class does nothing - override if you want to use it, but
 			// you don't have to if your weapon doesn't have detect bits
 		}

@@ -23,7 +23,7 @@ char	RBatch::ms_Error[256];
 int16_t RBatch::GetLine()
 	{
 	m_sNumTokens = 0;
-	int16_t i;
+   size_t i;
 	for (i=0; i < SB_MAX_TOKENS; i++)
 		{
 		m_pszTokenList[i][0] = '\0';
@@ -146,6 +146,7 @@ BEGIN_LOOP:
 
 		// Check for string changes....
 		if (c == m_cStringContext)
+      {
 			if (sInString)  // end the string
 				{
 				m_pszTokenList[m_sNumTokens][sTokenChar] = '\0';
@@ -162,6 +163,7 @@ BEGIN_LOOP:
 				m_sLinePos[m_sNumTokens] = sLinePos;
 				continue; // KEEP SCANNING!
 				}
+      }
 
 		// 5) Add to token
 		if (sMidToken) // continue to add onto existing token

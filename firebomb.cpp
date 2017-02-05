@@ -273,7 +273,9 @@ int16_t CFirebomb::Save(										// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 void CFirebomb::Update(void)
 {
+#ifdef UNUSED_VARIABLE
 	uint16_t usAttrib;
+#endif
 	int16_t sHeight = m_sPrevHeight;
 	double dNewX;
 	double dNewY;
@@ -305,7 +307,9 @@ void CFirebomb::Update(void)
 			case CFirebomb::State_Fire:
 				// Make sure we start in a valid position.  If we are staring
 				// inside a wall, just delete this object now.
-				usAttrib = m_pRealm->GetFloorAttribute((int16_t) m_dX, (int16_t) m_dZ);
+#ifdef UNUSED_VARIABLE
+          usAttrib = m_pRealm->GetFloorAttribute((int16_t) m_dX, (int16_t) m_dZ);
+#endif
 				sHeight = m_pRealm->GetHeight((int16_t) m_dX, (int16_t) m_dZ);
 				if (m_dY < sHeight)
 				{

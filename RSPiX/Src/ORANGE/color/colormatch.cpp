@@ -466,6 +466,7 @@ int16_t RAlpha::CreateAlphaRGB(double dOpacity,int16_t sPalStart, int16_t sPalLe
 int16_t RAlpha::CreateLightEffectRGB(uint8_t* pa,uint8_t* pr,uint8_t* pg,uint8_t* pb,int32_t linc,
 			int16_t sPalStart, int16_t sPalLen, int16_t sAlphaDepth)
 	{
+  UNUSED(linc);
 #ifdef _DEBUG
 	if (!ms_IsPaletteSet)
 		{

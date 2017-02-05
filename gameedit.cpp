@@ -1590,7 +1590,7 @@ static int16_t ShowRealmStatistics(	// Returns 0 on success.
 // Init load/save counter.  You should call KillFileCounter() after
 // done with the file access.
 static void InitFileCounter(			// Returns nothing.
-	char*	pszDescriptionFrmt);			// In:  sprintf format for description of 
+   const char*	pszDescriptionFrmt);			// In:  sprintf format for description of
 												// operation.
 
 // Kill load/save counter.  Can be called multiple times w/o corresponding
@@ -1896,10 +1896,10 @@ extern void GameEdit(
 			ms_pguiNavNets->SetVisible(ms_pguiNavNets->m_sVisible);
 
 			// ---------- Show Attribs --------
-         SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_LAYERS, (address_t)(&ms_u16LayerMask), REALM_ATTR_LAYER_MASK, 1);
-         SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_HEIGHT, (address_t)(&ms_u16TerrainMask), REALM_ATTR_HEIGHT_MASK, 1);
-         SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_NOWALK, (address_t)(&ms_u16TerrainMask), REALM_ATTR_NOT_WALKABLE, 1);
-         SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_LIGHT, (address_t)(&ms_u16TerrainMask), REALM_ATTR_LIGHT_BIT, 1);
+         SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_LAYERS, (uintptr_t)(&ms_u16LayerMask), REALM_ATTR_LAYER_MASK, 1);
+         SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_HEIGHT, (uintptr_t)(&ms_u16TerrainMask), REALM_ATTR_HEIGHT_MASK, 1);
+         SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_NOWALK, (uintptr_t)(&ms_u16TerrainMask), REALM_ATTR_NOT_WALKABLE, 1);
+         SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_LIGHT, (uintptr_t)(&ms_u16TerrainMask), REALM_ATTR_LIGHT_BIT, 1);
 
 			ms_pguiShowAttribs->SetVisible(TRUE);
 
@@ -1953,11 +1953,11 @@ extern void GameEdit(
 			rspSetMouseCursorShowLevel(1);
 
 			// User must load an existing realm or start a new one to go any further
-			bool bGoEdit = false;
+//			bool bGoEdit = false;
 			bool bExit = false;
 
 			// Set currently select thing to default value
-			CThing::ClassIDType idCurrent = DEFAULT_THING_ID;
+//			CThing::ClassIDType idCurrent = DEFAULT_THING_ID;
 			// Clear mouse and keyboard events
 			rspClearAllInputEvents();
 
@@ -3687,7 +3687,7 @@ static int16_t CloseRealm(
 			}
 
 		// Clean up trigger regions.
-		int16_t i;
+      size_t i;
 		for (i = 0; i < NUM_ELEMENTS(ms_argns); i++)
 			{
 			ms_argns[i].Destroy();
@@ -3789,7 +3789,7 @@ static int16_t LoadRealm(
 						rc.sH,							// Dimensions.
 						ThingHotCall,					// Callback.
 						TRUE,								// TRUE, if active.
-                  (address_t)phood,						// User value (CThing*).
+                  (uintptr_t)phood,						// User value (CThing*).
 						FRONTMOST_HOT_PRIORITY);	// New items towards front.
 					// If successful . . .
 					if (ms_photHood != NULL)
@@ -3834,7 +3834,7 @@ static int16_t LoadRealm(
 									rc.sH,							// Dimensions.
 									ThingHotCall,					// Callback.
 									sActivateHot,					// TRUE, if initially active.
-                           (address_t)pthing,					// User value (CThing*).
+                           (uintptr_t)pthing,					// User value (CThing*).
 									FRONTMOST_HOT_PRIORITY);	// New items towards front.
 
 								// If successful . . .
@@ -4343,10 +4343,10 @@ static void PlayRealm(
 							INFO_STATUS_RECT_W,
 							INFO_STATUS_RECT_H);
 
-						int32_t	lLastDispTime			= 0;
-						int32_t	lFramesTime				= 0;
-						int32_t	lUpdateDisplayTime	= 0;
-						int32_t	lNumFrames				= 0;
+//						int32_t	lLastDispTime			= 0;
+//						int32_t	lFramesTime				= 0;
+//						int32_t	lUpdateDisplayTime	= 0;
+//						int32_t	lNumFrames				= 0;
 
 						RPrint	printDisp;
 						printDisp.SetFont(DISP_INFO_FONT_H, &g_fontBig);
@@ -4877,7 +4877,7 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 							rc.sH,							// Dimensions.
 							ThingHotCall,					// Callback.
 							sActivateHot,					// TRUE, if initially active.
-                     (address_t)*ppthing,					// User value (CThing*).
+                     (uintptr_t)*ppthing,					// User value (CThing*).
 							FRONTMOST_HOT_PRIORITY);	// New items towards front.
 
 						if (*pphot != NULL)
@@ -5792,6 +5792,7 @@ static void AddNewLine(int16_t sX0, int16_t sY0, int16_t sX1, int16_t sY1)
 
 static void NetLog(CNavigationNet* pNavNet)
 {
+  UNUSED(pNavNet);
 /*
 	ofstream txtout;
 	ofstream routeout;
@@ -6470,9 +6471,8 @@ static int16_t LoadTriggerRegions(	// Returns 0 on success.
 
 	RFile	file;
 	if (file.Open(szRgnName, "rb", RFile::LittleEndian) == 0)
-		{
-		int16_t	i;
-		for (i = 0; i < NUM_ELEMENTS(ms_argns) && sRes == 0; i++)
+      {
+      for (size_t i = 0; i < NUM_ELEMENTS(ms_argns) && sRes == 0; ++i)
 			{
 			sRes	= ms_argns[i].Load(&file);
 			}
@@ -6496,6 +6496,7 @@ static int16_t SaveTriggerRegions(	// Returns 0 on success.
 	CRealm*	prealm					// In:  Access of Realm Info
 	)										// The .ext is stripped and .rgn is appended.
 	{
+  UNUSED(prealm);
 	int16_t sRes	= 0;	// Assume success.
 
 	// Change filename to .RGN name.
@@ -6504,9 +6505,8 @@ static int16_t SaveTriggerRegions(	// Returns 0 on success.
 
 	RFile	file;
 	if (file.Open(szRgnName, "wb", RFile::LittleEndian) == 0)
-		{
-		int16_t	i;
-		for (i = 0; i < NUM_ELEMENTS(ms_argns) && sRes == 0; i++)
+      {
+      for (size_t i = 0; i < NUM_ELEMENTS(ms_argns) && sRes == 0; ++i)
 			{
 			sRes	= ms_argns[i].Save(&file);
 			}
@@ -6923,7 +6923,7 @@ static void DelClass(	// Returns nothing.
 
 ////////////////////////////////////////////////////////////////////////////////
 // Delete all but the pylons, bouys, soundthings and soundrelays.
-// This is useful for making a template of a level that is already fully \
+// This is useful for making a template of a level that is already fully
 // populated.
 ////////////////////////////////////////////////////////////////////////////////
 static void DelMost(	// Returns nothing.
@@ -7405,7 +7405,7 @@ static void MyRFileCallback(int32_t lBytes)
 // done with the file access.
 ////////////////////////////////////////////////////////////////////////////////
 static void InitFileCounter(			// Returns nothing.
-	char*	pszDescriptionFrmt)			// In:  sprintf format for description of 
+   const char*	pszDescriptionFrmt)			// In:  sprintf format for description of
 												// operation.
 	{
 	// Make sure string (with some digits) will fit . . .
