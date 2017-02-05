@@ -38,9 +38,9 @@ void	DrawTri_ZColorFog(uint8_t* pDstOffset,int32_t lDstP,
 			int16_t sOffsetY/* = 0*/) 	// In: 2D offset for pZB.
 	{
 //////////////////////////////////////////////////////////////////
-//****************************************************************
+// ****************************************************************
 //======================  INITIAL SET UP  ========================
-//****************************************************************
+// ****************************************************************
 //////////////////////////////////////////////////////////////////
 
 	// copy the 3d points into screen coordinates:
@@ -79,7 +79,7 @@ void	DrawTri_ZColorFog(uint8_t* pDstOffset,int32_t lDstP,
 			if (pt2.z.mod > pt1.z.mod) pt1.z.mod = pt2.z.mod;
 			if (pt3.z.mod > pt1.z.mod) pt1.z.mod = pt3.z.mod;
 
-			//***** PLOT THE SINGLE POINT!
+			// ***** PLOT THE SINGLE POINT!
 			short* pBufZ = pZB -> GetZPtr
 				(pt1.x.mod + sOffsetX, pt1.y.mod + sOffsetY);
 
@@ -210,14 +210,14 @@ void	DrawTri_ZColorFog(uint8_t* pDstOffset,int32_t lDstP,
 	int16_t xdel;
 
 //////////////////////////////////////////////////////////////////
-//****************************************************************
+// ****************************************************************
 //======================  CHOOSE II CASES  =======================
-//****************************************************************
+// ****************************************************************
 //////////////////////////////////////////////////////////////////
 
-	//****************************************************************
+	// ****************************************************************
 	//======================  FLAT TOP TRIANGLE  =====================
-	//****************************************************************
+	// ****************************************************************
 	// Don't worry about the wasted calculations above!
 	// (I STILL THINK YOU CAN STREAMLINE THIS AND INTEGRATE IT INTO
 	// THE OTHER CASE -> THERE IS NO CALL FOR THIS!)
@@ -240,7 +240,7 @@ void	DrawTri_ZColorFog(uint8_t* pDstOffset,int32_t lDstP,
 		sBaseZ = pv1->z.mod;
 
 		// This time, we want the end slopes:
-		//*******   CANDIDATE FOR ONE_OVER!
+		// *******   CANDIDATE FOR ONE_OVER!
 		fx1inc = fx3 / y3; // from pt 1 to pt 3
 		fz1inc = fz3 / y3;
 		fx2inc = (fx3 - fx2) / y3; // from pt 2 to pt 3
@@ -268,7 +268,7 @@ void	DrawTri_ZColorFog(uint8_t* pDstOffset,int32_t lDstP,
 			fz.mod += sBaseZ; // ****** advance the z-value.
 			xdel = x2.mod - x1.mod;
 			//if (hzdel) hzinc.val = (z3.val - z2.val) / hzdel;
-			//***************8 flipped the inc value:!
+			// ***************8 flipped the inc value:!
 			if (xdel) fzinc.val = int32_t(z2.mod - z1.mod) * RInitNum::OneOver[xdel];
 			//if (hzdel) Mul(hzinc,z3.val - z2.val,CInitNum::OneOver[hzdel]);
 
@@ -286,9 +286,9 @@ void	DrawTri_ZColorFog(uint8_t* pDstOffset,int32_t lDstP,
 
 		return;
 		}
-	//****************************************************************
+	// ****************************************************************
 	//======================  NORMAL TRIANGLE  =======================
-	//****************************************************************
+	// ****************************************************************
 	if (fx2inc <= fx3inc)
 		{
 		//_DrawTri(pDst,lP,x2,x3,fx2inc,fx3inc,y2,ucColor);
@@ -482,9 +482,9 @@ void	DrawTri_ZColor(uint8_t* pDstOffset,int32_t lDstP,
 			int16_t sOffsetY/* = 0*/) 	// In: 2D offset for pZB.
 	{
 //////////////////////////////////////////////////////////////////
-//****************************************************************
+// ****************************************************************
 //======================  INITIAL SET UP  ========================
-//****************************************************************
+// ****************************************************************
 //////////////////////////////////////////////////////////////////
 
 	// copy the 3d points into screen coordinates:
@@ -568,14 +568,14 @@ void	DrawTri_ZColor(uint8_t* pDstOffset,int32_t lDstP,
 	int16_t xdel;
 
 //////////////////////////////////////////////////////////////////
-//****************************************************************
+// ****************************************************************
 //======================  CHOOSE II CASES  =======================
-//****************************************************************
+// ****************************************************************
 //////////////////////////////////////////////////////////////////
 
-	//****************************************************************
+	// ****************************************************************
 	//======================  FLAT TOP TRIANGLE  =====================
-	//****************************************************************
+	// ****************************************************************
 	// Don't worry about the wasted calculations above!
 	// (I STILL THINK YOU CAN STREAMLINE THIS AND INTEGRATE IT INTO
 	// THE OTHER CASE -> THERE IS NO CALL FOR THIS!)
@@ -598,7 +598,7 @@ void	DrawTri_ZColor(uint8_t* pDstOffset,int32_t lDstP,
 		sBaseZ = pv1->z.mod;
 
 		// This time, we want the end slopes:
-		//*******   CANDIDATE FOR ONE_OVER!
+		// *******   CANDIDATE FOR ONE_OVER!
 		fx1inc = fx3 / y3; // from pt 1 to pt 3
 		fz1inc = fz3 / y3;
 		fx2inc = (fx3 - fx2) / y3; // from pt 2 to pt 3
@@ -626,7 +626,7 @@ void	DrawTri_ZColor(uint8_t* pDstOffset,int32_t lDstP,
 			fz.mod += sBaseZ; // ****** advance the z-value.
 			xdel = x2.mod - x1.mod;
 			//if (hzdel) hzinc.val = (z3.val - z2.val) / hzdel;
-			//***************8 flipped the inc value:!
+			// ***************8 flipped the inc value:!
 			if (xdel) fzinc.val = int32_t(z2.mod - z1.mod) * RInitNum::OneOver[xdel];
 			//if (hzdel) Mul(hzinc,z3.val - z2.val,CInitNum::OneOver[hzdel]);
 
@@ -644,9 +644,9 @@ void	DrawTri_ZColor(uint8_t* pDstOffset,int32_t lDstP,
 
 		return;
 		}
-	//****************************************************************
+	// ****************************************************************
 	//======================  NORMAL TRIANGLE  =======================
-	//****************************************************************
+	// ****************************************************************
 	if (fx2inc <= fx3inc)
 		{
 		//_DrawTri(pDst,lP,x2,x3,fx2inc,fx3inc,y2,ucColor);
@@ -822,9 +822,9 @@ void	DrawTri(uint8_t* pDstOffset,int32_t lDstP,
 			uint8_t ucFlatColor)
 	{
 //////////////////////////////////////////////////////////////////
-//****************************************************************
+// ****************************************************************
 //======================  INITIAL SET UP  ========================
-//****************************************************************
+// ****************************************************************
 //////////////////////////////////////////////////////////////////
 
 	// copy the 3d points into screen coordinates:
@@ -891,14 +891,14 @@ void	DrawTri(uint8_t* pDstOffset,int32_t lDstP,
 	int16_t xdel;
 
 //////////////////////////////////////////////////////////////////
-//****************************************************************
+// ****************************************************************
 //======================  CHOOSE II CASES  =======================
-//****************************************************************
+// ****************************************************************
 //////////////////////////////////////////////////////////////////
 
-	//****************************************************************
+	// ****************************************************************
 	//======================  FLAT TOP TRIANGLE  =====================
-	//****************************************************************
+	// ****************************************************************
 	// Don't worry about the wasted calculations above!
 	// (I STILL THINK YOU CAN STREAMLINE THIS AND INTEGRATE IT INTO
 	// THE OTHER CASE -> THERE IS NO CALL FOR THIS!)
@@ -917,7 +917,7 @@ void	DrawTri(uint8_t* pDstOffset,int32_t lDstP,
 		fx3 = pv3->x.val - fx1;
 
 		// This time, we want the end slopes:
-		//*******   CANDIDATE FOR ONE_OVER!
+		// *******   CANDIDATE FOR ONE_OVER!
 		fx1inc = fx3 / y3; // from pt 1 to pt 3
 		fx2inc = (fx3 - fx2) / y3; // from pt 2 to pt 3
 
@@ -933,7 +933,7 @@ void	DrawTri(uint8_t* pDstOffset,int32_t lDstP,
 			x1.val += fx1inc;
 
 			xdel = x2.mod - x1.mod;
-			//***************8 flipped the inc value:!
+			// ***************8 flipped the inc value:!
 
 			// Assume 2 to 3:
 			for (x = x1.mod; x<= x2.mod;x++) *(pDst+x) = ucFlatColor;
@@ -941,9 +941,9 @@ void	DrawTri(uint8_t* pDstOffset,int32_t lDstP,
 
 		return;
 		}
-	//****************************************************************
+	// ****************************************************************
 	//======================  NORMAL TRIANGLE  =======================
-	//****************************************************************
+	// ****************************************************************
 	if (fx2inc <= fx3inc)
 		{
 		//_DrawTri(pDst,lP,x2,x3,fx2inc,fx3inc,y2,ucColor);

@@ -280,7 +280,7 @@ class RSocket
 		static bool						ms_bAutoShutdown;		// Whether to call Shutdown() automatically
 		static int16_t					ms_sNumSockets;		// Number of sockets in existance
 		static RSocket::ProtoType	ms_prototype;			// Current protocol (can only be one "current" protocol)
-		static char*					ms_apszProtoNames[];	// String names corresponding to RSocket::ProtoType values
+      static const char*					ms_apszProtoNames[];	// String names corresponding to RSocket::ProtoType values
 
 	//------------------------------------------------------------------------------
 	// Functions

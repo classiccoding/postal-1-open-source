@@ -946,7 +946,7 @@ int16_t	ScrollPage(char* pszBackground,char* pszScrollScript,double dScrollRate,
 	int16_t sButtons = 0;
 	int16_t sJoyPress = 0;
 
-//******************  STATISTICAL ANALYSIS!
+// ******************  STATISTICAL ANALYSIS!
 /*
 long lTimeCount[256] = {0,}; // bucket sort
 */
@@ -986,16 +986,16 @@ lRunningTime = lPrevTime = rspGetMilliseconds();
 			{
 			lRunningTime = rspGetMilliseconds();
 			}
-//*******************8 Update timing statistics:
+// *******************8 Update timing statistics:
 //lTimeCount[lRunningTime - lPrevTime]++;
 
 		lPrevTime = lRunningTime;
 		}
 
-//************* Report statistics
+// ************* Report statistics
 /*
 FILE* fp = fopen("speed.out","a");
-for (short i=0;i < 256;i++) fprintf(fp,"%hd = %ld\n",i,lTimeCount[i]);
+for (short i=0;i < 256;i++) fprintf(fp,"%hd = %i\n",i,lTimeCount[i]);
 */
 
 	//------------------------------------------------------------------------------

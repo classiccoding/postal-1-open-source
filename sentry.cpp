@@ -151,7 +151,7 @@ int16_t CSentry::ms_sFileCount;
 
 /// Throwing Animation Files ////////////////////////////////////////////////////
 // An array of pointers to resource names (one for each channel of the animation)
-static char* ms_apszShootResNames[] = 
+static const char* ms_apszShootResNames[] =
 {
 	"3d/sentry_shoot.sop",
 	"3d/sentry_shoot.mesh",
@@ -163,7 +163,7 @@ static char* ms_apszShootResNames[] =
 	NULL
 };
 
-static char* ms_apszStandResNames[] = 
+static const char* ms_apszStandResNames[] =
 {
 	"3d/sentry_still.sop",
 	"3d/sentry_still.mesh",
@@ -175,7 +175,7 @@ static char* ms_apszStandResNames[] =
 	NULL
 };
 
-static char* ms_apszDieResNames[] = 
+static const char* ms_apszDieResNames[] =
 {
 	"3d/sentry_damaged.sop",
 	"3d/sentry_damaged.mesh",
@@ -187,7 +187,7 @@ static char* ms_apszDieResNames[] =
 	NULL
 };
 
-static char* ms_apszBaseStandResNames[] = 
+static const char* ms_apszBaseStandResNames[] =
 {
 	"3d/stand_still.sop",
 	"3d/stand_still.mesh",
@@ -199,7 +199,7 @@ static char* ms_apszBaseStandResNames[] =
 	NULL
 };
 
-static char* ms_apszBaseDieResNames[] = 
+static const char* ms_apszBaseDieResNames[] =
 {
 	"3d/stand_damaged.sop",
 	"3d/stand_damaged.mesh",

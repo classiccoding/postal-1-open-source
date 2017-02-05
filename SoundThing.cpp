@@ -530,7 +530,7 @@ inline void SetGuiItemVal(	// Returns nothing.
 	RGuiItem*	pgui	= pguiRoot->GetItemFromId(lId);
 	if (pgui)
 		{
-		pgui->SetText("%ld", lVal);
+		pgui->SetText("%i", lVal);
 		pgui->Compose();
 		}
 	}
@@ -651,28 +651,28 @@ int16_t CSoundThing::EditModify(void)
 		REdit* pFirstTime = (REdit*)pgui->GetItemFromId(100);
 		ASSERT(pFirstTime != NULL);
 		ASSERT(pFirstTime->m_type == RGuiItem::Edit);
-		pFirstTime->SetText("%ld", m_lMinTime[0]);
+		pFirstTime->SetText("%i", m_lMinTime[0]);
 		pFirstTime->Compose();
 
 		// Init "first random time" edit
 		REdit* pFirstRndTime = (REdit*)pgui->GetItemFromId(101);
 		ASSERT(pFirstRndTime != NULL);
 		ASSERT(pFirstRndTime->m_type == RGuiItem::Edit);
-		pFirstRndTime->SetText("%ld", m_lRndTime[0]);
+		pFirstRndTime->SetText("%i", m_lRndTime[0]);
 		pFirstRndTime->Compose();
 
 		// Init "repeat time" edit
 		REdit* pRepeatTime = (REdit*)pgui->GetItemFromId(102);
 		ASSERT(pRepeatTime != NULL);
 		ASSERT(pRepeatTime->m_type == RGuiItem::Edit);
-		pRepeatTime->SetText("%ld", m_lMinTime[1]);
+		pRepeatTime->SetText("%i", m_lMinTime[1]);
 		pRepeatTime->Compose();
 
 		// Init "repeat random time" edit
 		REdit* pRepeatRndTime = (REdit*)pgui->GetItemFromId(103);
 		ASSERT(pRepeatRndTime != NULL);
 		ASSERT(pRepeatRndTime->m_type == RGuiItem::Edit);
-		pRepeatRndTime->SetText("%ld", m_lRndTime[1]);
+		pRepeatRndTime->SetText("%i", m_lRndTime[1]);
 		pRepeatRndTime->Compose();
 
 		// Init "enable" push button
@@ -691,7 +691,7 @@ int16_t CSoundThing::EditModify(void)
 		REdit* peditHalfLife = (REdit*)pgui->GetItemFromId(301);
 		ASSERT(peditHalfLife != NULL);
 		ASSERT(peditHalfLife->m_type == RGuiItem::Edit);
-		peditHalfLife->SetText("%ld", m_lVolumeHalfLife);
+		peditHalfLife->SetText("%i", m_lVolumeHalfLife);
 		peditHalfLife->Compose();
 
 		// Init "Purge sample when done" checkbox.

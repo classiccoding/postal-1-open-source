@@ -20,9 +20,9 @@
 #define RPRINT_H
 /****************************************************** QUICK CHECK
 	//-------------------------- Higher Level
-	char* print(char* pszFormat,...);
-	char* print(short sX,short sY,char* pszFormat,...);
-	char* print(RImage* pimDst,short sX,short sY,char* pszFormat,...);
+   char* print(const char* pszFormat,...);
+   char* print(short sX,short sY,const char* pszFormat,...);
+   char* print(RImage* pimDst,short sX,short sY,const char* pszFormat,...);
 	short SetEffectAbs(Effect eEffect,short sVal); // absolute:
 	short SetEffect(Effect eEffect,double dVal); // relative:
 	short SetColor(uint32_t ulForeColor,uint32_t ulBackColor=0,uint32_t ulShadowColor=0);
@@ -39,7 +39,7 @@
 	short	GetWidth(char* pszString); // see m_sNumChar,ms_szLineText,ms_sCharPosX
 	RFont* GetFont() { return m_pfnCurFont; }
 	short SetColumn(short sX,short sY,short sW,short sH);
-//****************************************************** QUICK CHECK */
+// ****************************************************** QUICK CHECK */
 
 #include "BLIT.H"
 //====================
@@ -79,9 +79,9 @@ public:
 		NUM_OF_EFFECTS
 		}	Effect; // binary
 	//-------------------------- Higher Level
-	char* print(char* pszFormat,...);
-	char* print(int16_t sX,int16_t sY,char* pszFormat,...);
-	char* print(RImage* pimDst,int16_t sX,int16_t sY,char* pszFormat,...);
+   const char* print(const char* pszFormat,...);
+   const char* print(int16_t sX,int16_t sY,const char* pszFormat,...);
+   const char* print(RImage* pimDst,int16_t sX,int16_t sY,const char* pszFormat,...);
 	int16_t SetEffectAbs(Effect eEffect,int16_t sVal); // absolute:
 	int16_t SetEffect(Effect eEffect,double dVal); // relative:
 	int16_t SetColor(uint32_t ulForeColor,uint32_t ulBackColor=0,uint32_t ulShadowColor=0);
@@ -97,17 +97,17 @@ public:
 	void SetMode(Mode eMode,int16_t sVal); // 0 = off
 	int16_t SetFont(int16_t sCellH,RFont* pFont = NULL);
 	void	GetPos(int16_t *psX,int16_t *psY = NULL,int16_t *psW = NULL,int16_t *psH = NULL);
-	int16_t	GetWidth(char* pszString);
+   int16_t	GetWidth(const char* pszString);
 	RFont* GetFont() { return m_pfnCurFont; }
 	//-------------------------- Lower Level
 	//void OffsetShadow();
-	char* printInt(char* pszInput);
+   const char* printInt(const char* pszInput);
 	void GetPropEffX(int16_t sX,int16_t sE,int16_t sNext,
 								  int16_t *psEffX = NULL,int16_t *psEffE = NULL,
 								  int16_t *psEffNext = NULL);
 	int16_t GetPropCellX(int16_t sChar,int16_t *psX = NULL,int16_t *psE = NULL,
 			int16_t *psNext = NULL,int16_t sFirst = FALSE);
-	char* ScanLine(char* pszInput);
+   const char* ScanLine(const char* pszInput);
 	void  FormatText();
 	void	DrawText();
 	int16_t GetBlitW(uint8_t c);

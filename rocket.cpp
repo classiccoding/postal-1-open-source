@@ -212,7 +212,7 @@ int32_t CRocket::ms_lSmokeTimeToLive = 1000;				// Time for smoke to stick aroun
 int16_t CRocket::ms_sFileCount;
 
 /// Rocket Animation Files
-static char* ms_apszResNames[] = 
+static const char* ms_apszResNames[] =
 {
 	"3d/missile.sop",
 	"3d/missile.mesh",

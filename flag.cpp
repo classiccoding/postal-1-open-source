@@ -111,7 +111,7 @@ int16_t CFlag::ms_sFileCount;
 
 /// Throwing Animation Files ////////////////////////////////////////////////////
 // An array of pointers to resource names (one for each channel of the animation)
-static char* ms_apszRedResNames[] = 
+static const char* ms_apszRedResNames[] =
 {
 	"3d/rflag.sop",
 	"3d/rflag.mesh",
@@ -123,7 +123,7 @@ static char* ms_apszRedResNames[] =
 	NULL
 };
 
-static char* ms_apszBlueResNames[] = 
+static const char* ms_apszBlueResNames[] =
 {
 	"3d/bflag.sop",
 	"3d/bflag.mesh",
@@ -656,7 +656,7 @@ int16_t CFlag::EditModify(void)
 			lMinutes = m_lTimeBonus / 60000;
 			lSeconds = (m_lTimeBonus / 1000) % 60;
 
-			peditMinutes->SetText("%ld", lMinutes);
+			peditMinutes->SetText("%i", lMinutes);
 			peditSeconds->SetText("%2.2ld", lSeconds);
 			peditFlagID->SetText("%d", m_u16FlagID);
 			peditColor->SetText("%d", m_u16FlagColor);

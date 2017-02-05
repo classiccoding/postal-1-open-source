@@ -59,7 +59,7 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 	while (sDegL > 359) sDegL -= 360; // FMOD/2
 	while (sDegP > 359) sDegP -= 360; // FMOD/2
 
-	//*************** Find P
+	// *************** Find P
 	int16_t sR = ( (sHeight-1) >> 1);		// spinning corner radius
 	int16_t sEdge = int16_t(sR * rspSQRT2);      // square edge size
 	// all things start at this source location:
@@ -70,9 +70,9 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 	// Calculate the sub pixel offset:
 	int32_t lLadNumX,lLadNumY,lRungNumX,lRungNumY;
 
-	//**********************************************
-	//******  OVERFLOW AREA - NEEDS 64bit math!
-	//**********************************************
+	// **********************************************
+	// ******  OVERFLOW AREA - NEEDS 64bit math!
+	// **********************************************
 	// OVERFLOW LIMIT: lDstW * lDstH * sSrcW * sSrcH;
 	// MUST CUSTOMIZE FOR THE MAC:
 
@@ -105,7 +105,7 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 
 #endif
 
-	//**********************************************
+	// **********************************************
 
 	//--------------------------------------------------
 	//--------- Initialize the four ratios...
@@ -480,7 +480,7 @@ inline int16_t rspClipMirrorDst(RImage* pimDst, // input:
 										)
 	{
 	int16_t sMirrorX = 1,sMirrorY = 1; // direction flags...
-	//********************* MIRROR PART I => PRE CLIP:
+	// ********************* MIRROR PART I => PRE CLIP:
 	lDstP = pimDst->m_lPitch;
 	lDstPX = (pimDst->m_sDepth>>8);
 
@@ -511,7 +511,7 @@ inline int16_t rspClipMirrorDst(RImage* pimDst, // input:
 		return -1; // fully clipped out
 		}
 
-	//********************* MIRROR PART II => POST CLIP, flip back...
+	// ********************* MIRROR PART II => POST CLIP, flip back...
 	if (sMirrorX == -1)
 		{
 		sDstX += (sDstW - 1);
@@ -659,7 +659,7 @@ int16_t rspRemovePadding(RImage* pimSrc)
 	// Move the new buffer back to the original
 	imDst.DetachData((void**)&(pimSrc->m_pMem),(void**)&(pimSrc->m_pData));
 
-	//*******  IMPORTANT! COPY ALL NEW INFO OVER!
+	// *******  IMPORTANT! COPY ALL NEW INFO OVER!
 	pimSrc->m_ulSize = imDst.m_ulSize;
 	pimSrc->m_sWidth = imDst.m_sWidth; // width and height shouldn't change...
 	pimSrc->m_sHeight = imDst.m_sHeight;
@@ -742,7 +742,7 @@ int16_t rspBlitRot(int16_t sDeg,RImage* pimSrc,RImage* pimDst,
 		sDstClipH = prDstClip->sH;
 		}
 
-	//********************* MIRROR PART I => PRE CLIP:
+	// ********************* MIRROR PART I => PRE CLIP:
 	// Instead of mirror FLAGS, make use of the destination pitch:
 	//
 	int32_t lDstP = pimDst->m_lPitch,lDstXP = (pimDst->m_sDepth>>3);
@@ -763,7 +763,7 @@ int16_t rspBlitRot(int16_t sDeg,RImage* pimSrc,RImage* pimDst,
 		sDstY -= (sDstH - 1);
 		lDstP = -lDstP;
 		}
-	//*********************
+	// *********************
 
 	//-------- Do the clipping:
 	int16_t sClipL,sClipR,sClipT,sClipB; // positive = clipped
@@ -778,7 +778,7 @@ int16_t rspBlitRot(int16_t sDeg,RImage* pimSrc,RImage* pimDst,
 		return 0; // fully clipped out
 		}
 
-	//********************* MIRROR PART II => POST CLIP, flip back...
+	// ********************* MIRROR PART II => POST CLIP, flip back...
 	if (sMirrorH == -1)
 		{
 		sDstX += (sDstW - 1);
@@ -792,7 +792,7 @@ int16_t rspBlitRot(int16_t sDeg,RImage* pimSrc,RImage* pimDst,
 		}
 
 
-	//*********************
+	// *********************
 
 	//------------------------------------------------------------------------------
 	// set up IC
@@ -843,10 +843,10 @@ int16_t rspBlitRot(int16_t sDeg,RImage* pimSrc,RImage* pimDst,
 	return rspBlitRot(sDeg,pimSrc,pimDst,sDstX,sDstY,sDstW,sDstH,prDstClip);
 	}
 
-//**************************************************************
+// **************************************************************
 //***  BECAUSE THE OLD SrafeRot used GENERIC input structures
 //***  to hold the auxiliary data, it should still be useful!
-//**************************************************************
+// **************************************************************
 
 // In this version, You must supply the host structure, which you may define, but which 
 // must contain the following:  
@@ -1014,4 +1014,4 @@ int16_t rspStrafeRotate(void *pReturnArray,	// Output
 	return NULL;
 	}
 
-//**************************************************************
+// **************************************************************

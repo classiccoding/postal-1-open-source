@@ -405,7 +405,6 @@ extern int16_t rspStrnicmp(	// Returns 0 if equivalent.
 	const char* pszStr2,		// In:  Second string to compare.
 	size_t count)				// In:  Number of characters to compare.
 	{
-	ASSERT(count >= 0);
 
 	int16_t	sRes	= 0;	// Assume equivalent.
 

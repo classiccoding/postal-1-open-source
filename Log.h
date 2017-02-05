@@ -33,8 +33,8 @@ int16_t CloseLogFile();
 //		global variables used:		g_GameSettings
 ////////////////////////////////////////////////////////////////////////////////
 extern
-int16_t WriteTimeStamp(char *pszCaller,						// Name of calling routine
-							char *pszCalleeName,					// Name of player being sent or sending 
+int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
+                     const char *pszCalleeName,					// Name of player being sent or sending
 							uint8_t ucMsgType,			// Message type
 							Net::SEQ seqStart,					// Beginning sequent sent/received
 							int32_t sNum,								// Number of seq's sent/received

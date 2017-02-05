@@ -938,7 +938,7 @@ bool CSmashatorium::QuickCheckClosest(	// Returns true if collision detected, fa
 	// Set up the line, clipping where needed: (We only look at 2d)
 	// We will draw the line left to right:
 
-	//************************************************************************************
+	// ************************************************************************************
 	// Sort points left to right:
 
 	int32_t lLeft = pline->X1;
@@ -954,16 +954,16 @@ bool CSmashatorium::QuickCheckClosest(	// Returns true if collision detected, fa
 		lLeftY = pline->Z2;		
 		lRightY = pline->Z1;
 		}
-	//************************************************************************************
+	// ************************************************************************************
 	// Calculate y major line coefficients: (later, adapt to clipping values)
 	int32_t	lDelX = lRight - lLeft;
 	int32_t	lDelY = lRightY - lLeftY;
 	int32_t	lDet = lDelX * lRightY - lDelY * lRight;
 	int32_t	lDetY = lDelY * lRight - lDelX * lRightY; // for x-major line form
 
-	//************************************************************************************
+	// ************************************************************************************
 	// Handle Clipping, x-major line caclulation, and special cases
-				//***************  NYI!  **************
+				// ***************  NYI!  **************
 
 	// Check for horizontal clipping (easy)
 	int32_t	lClipLeft = lLeft;// = MAX(0,lLeft);
@@ -981,13 +981,13 @@ bool CSmashatorium::QuickCheckClosest(	// Returns true if collision detected, fa
 		if (lLeft < 0) 
 			{
 			lClipLeft = 0;
-			lClipLeftY = lDet / lDelX; //********** CAREFUL
+			lClipLeftY = lDet / lDelX; // ********** CAREFUL
 			}
 
 		if (lRight >= m_sWorldW)
 			{
 			lClipRight = m_sWorldW - 1;
-			lClipRightY = (lClipRight * lDelY + lDet) / lDelX;	//******** CAREFUL!
+			lClipRightY = (lClipRight * lDelY + lDet) / lDelX;	// ******** CAREFUL!
 			}
 		}
 	else	// certical strip case:
@@ -1021,7 +1021,7 @@ bool CSmashatorium::QuickCheckClosest(	// Returns true if collision detected, fa
 		if (lClipLeftY >= m_sWorldH) lClipLeftY = m_sWorldH;
 		}
 
-	//************************************************************************************
+	// ************************************************************************************
 	// Check for Vertical Clipping:  (even for strip case)
 	// Must recalculate grid positions of X changes:
 
@@ -1037,7 +1037,7 @@ bool CSmashatorium::QuickCheckClosest(	// Returns true if collision detected, fa
 			if (lClipLeftY < 0) 
 				{
 				lClipLeftY = 0;
-				lClipLeft = lDetY / lDelY; //********** CAREFUL
+				lClipLeft = lDetY / lDelY; // ********** CAREFUL
 
 				if ( (lClipLeft < 0) || (lClipLeft >= m_sWorldW) ) return false;
 
@@ -1048,7 +1048,7 @@ bool CSmashatorium::QuickCheckClosest(	// Returns true if collision detected, fa
 			if (lClipRightY >= m_sWorldH)
 				{
 				lClipRightY = m_sWorldH - 1;
-				lClipRight = (lClipRightY * lDelX + lDetY) / lDelY;	//******** CAREFUL!
+				lClipRight = (lClipRightY * lDelX + lDetY) / lDelY;	// ******** CAREFUL!
 
 				if ( (lClipRight < 0) || (lClipRight >= m_sWorldW) ) return false;
 
@@ -1069,7 +1069,7 @@ bool CSmashatorium::QuickCheckClosest(	// Returns true if collision detected, fa
 				//ASSERT(lDetY < 0);
 
 				lClipRightY = 0;
-				lClipRight = lDetY / lDelY; //********** CAREFUL
+				lClipRight = lDetY / lDelY; // ********** CAREFUL
 
 				// Assert on the actual value, duh!  I don't know what
 				// I was thinking with that fancy smancy ASSERT above.
@@ -1084,7 +1084,7 @@ bool CSmashatorium::QuickCheckClosest(	// Returns true if collision detected, fa
 			if (lClipLeftY >= m_sWorldH)
 				{
 				lClipLeftY = m_sWorldH - 1;
-				lClipLeft = (lClipLeftY * lDelX + lDetY) / lDelY;	//******** CAREFUL!
+				lClipLeft = (lClipLeftY * lDelX + lDetY) / lDelY;	// ******** CAREFUL!
 
 				// Since lDelY must be negative for us to get here,
 				// lDetY must be positive enough to get us out of negatives
@@ -1116,11 +1116,11 @@ bool CSmashatorium::QuickCheckClosest(	// Returns true if collision detected, fa
 		if ( (lClipLeftY < 0) || (lClipLeftY >= m_sWorldH) ) return false;
 		}
 
-	//************************************************************************************
+	// ************************************************************************************
 	// Calculate grid points for the line: (later, switch to clipped values)
 
 	// allocate on the stack a local point chart:
-#define MAX_GRID_W 1024	//************************************ NEED TO DEAL WITH THIS!
+#define MAX_GRID_W 1024	// ************************************ NEED TO DEAL WITH THIS!
 
 	int32_t	alPointsY[MAX_GRID_W + 1];
 	int16_t i,x;
@@ -1129,7 +1129,7 @@ bool CSmashatorium::QuickCheckClosest(	// Returns true if collision detected, fa
 	alPointsY[lGridLeft] = (int32_t)m_psClipY[lClipLeftY];
 	alPointsY[lGridRight] = (int32_t)m_psClipY[lClipRightY];
 
-	//************************************************************************************
+	// ************************************************************************************
 	// Handle vertical strip case, if applicable:
 
 	if (sVerticalStrip == false)	// Load theintermediate values:
@@ -1145,7 +1145,7 @@ bool CSmashatorium::QuickCheckClosest(	// Returns true if collision detected, fa
 			}
 		}
 
-	//************************************************************************************
+	// ************************************************************************************
 	//  Move acros all the grid points crossed by the line, and process each Smash List!
 	int16_t j;
 
@@ -1181,7 +1181,7 @@ bool CSmashatorium::QuickCheckClosest(	// Returns true if collision detected, fa
 			ASSERT(i * m_sTileW >= 0);
 			CSmashatoriumList* pCurrentList = m_ppslAccessY[j * m_sTileH] + m_psAccessX[i * m_sTileW];
 
-			//***************************************************************************
+			// ***************************************************************************
 			// Now, process this smash grid in a standard loop like any other.
 			if (pCurrentList->m_sNum)
 				{
@@ -1608,7 +1608,7 @@ void	CSmashatorium::RemoveFat(CFatSmash* pFatSmash)
 	pFatSmash->m_pParent->m_sInGrid = FALSE;
 	int16_t i,j;
 
-	//****** HERE IS A BIG DESIGN FLAW!!!!! *****
+	// ****** HERE IS A BIG DESIGN FLAW!!!!! *****
 	CSmashLink*	pLink = pFatSmash->m_pLinks;	// do them all!
 	//-------------------------------------
 	for (j=0; j < pFatSmash->m_sH; j++)
@@ -1627,9 +1627,9 @@ void	CSmashatorium::RemoveFat(CFatSmash* pFatSmash)
 	TRACE("Fat removed\n");
 	}
 
-//******************************************************************************
-//********************************  CFatSmash  *********************************
-//******************************************************************************
+// ******************************************************************************
+// ********************************  CFatSmash  *********************************
+// ******************************************************************************
 
 ////////////////////////////////////////////////////////////////////////////////
 //

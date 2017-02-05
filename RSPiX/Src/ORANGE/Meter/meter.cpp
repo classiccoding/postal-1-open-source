@@ -347,7 +347,7 @@ int16_t RMeter::Draw(					// Returns 0 on success.
 				m_pprint->SetColumn(sMeterX, sInfoY, sMeterW, sMeterH);
 
 				// Draw text info.
-				m_pprint->print(sMeterX, sInfoY, "%ld%s%s", lVal, szExtra, m_szUnit);
+				m_pprint->print(sMeterX, sInfoY, "%i%s%s", lVal, szExtra, m_szUnit);
 				}
 
 			// Contain within range.

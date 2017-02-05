@@ -296,7 +296,7 @@ class RFile
 		// Returns number of bytes successfully read.
 		int32_t Read(void* pData, int32_t lNum);
 
-	public:
+   public:
 		// Reads lNum char values from currently open file.
 		// Returns number of char values successfully read.
 		int32_t Read(char* pcData, int32_t lNum)
@@ -722,14 +722,14 @@ class RFile
 template <class ClassType>
 #ifdef _DEBUG
 int16_t RFileEZLoadDebug(
-	char* FILE_MACRO,
+   const char* FILE_MACRO,
 	int32_t LINE_MACRO,
 #else
 int16_t RFileEZLoad(
 #endif
 	ClassType* pObject,
-	char* pszName,
-	char* pszMode,
+   const char* pszName,
+   const char* pszMode,
 	RFile::Endian endian)
 	{
 	int16_t sResult = 0;
@@ -754,7 +754,7 @@ int16_t RFileEZLoad(
 				{
 				sResult = -1;
 				#ifdef _DEBUG
-					STRACE("%s(%ld):RFileEZLoad(): File I/O Error!\n", FILE_MACRO, LINE_MACRO);
+					STRACE("%s(%i):RFileEZLoad(): File I/O Error!\n", FILE_MACRO, LINE_MACRO);
 				#endif
 				}
 
@@ -765,7 +765,7 @@ int16_t RFileEZLoad(
 			{
 			sResult = -1;
 			#ifdef _DEBUG
-				STRACE("%s(%ld):RFileEZLoad(): Couldn't open file '%s'!\n", FILE_MACRO, LINE_MACRO, pszName);
+				STRACE("%s(%i):RFileEZLoad(): Couldn't open file '%s'!\n", FILE_MACRO, LINE_MACRO, pszName);
 			#endif
 			}
 		
@@ -776,7 +776,7 @@ int16_t RFileEZLoad(
 		{
 		sResult = -1;
 		#ifdef _DEBUG
-			STRACE("%s(%ld):RFileEZLoad(): Couldn't create RFile object!\n", FILE_MACRO, LINE_MACRO);
+			STRACE("%s(%i):RFileEZLoad(): Couldn't create RFile object!\n", FILE_MACRO, LINE_MACRO);
 		#endif
 		}
 
@@ -798,14 +798,14 @@ int16_t RFileEZLoad(
 template <class ClassType>
 #ifdef _DEBUG
 int16_t RFileEZSaveDebug(
-	char* FILE_MACRO,
+   const char* FILE_MACRO,
  	int32_t LINE_MACRO,
 #else
 int16_t RFileEZSave(
 #endif
 	ClassType* pObject,
-	char* pszName, 
-	char* pszMode,
+   const char* pszName,
+   const char* pszMode,
 	RFile::Endian endian)
 	{
 	int16_t sResult = 0;
@@ -830,7 +830,7 @@ int16_t RFileEZSave(
 				{
 				sResult = -1;
 				#ifdef _DEBUG
-					STRACE("%s(%ld):RFileEZSave(): File I/O Error!\n", FILE_MACRO, LINE_MACRO);
+					STRACE("%s(%i):RFileEZSave(): File I/O Error!\n", FILE_MACRO, LINE_MACRO);
 				#endif
 				}
 
@@ -841,7 +841,7 @@ int16_t RFileEZSave(
 			{
 			sResult = -1;
 			#ifdef _DEBUG
-				STRACE("%s(%ld):RFileEZSave(): Couldn't open file '%s'!\n", FILE_MACRO, LINE_MACRO, pszName);
+				STRACE("%s(%i):RFileEZSave(): Couldn't open file '%s'!\n", FILE_MACRO, LINE_MACRO, pszName);
 			#endif
 			}
 
@@ -852,7 +852,7 @@ int16_t RFileEZSave(
 		{
 		sResult = -1;
 		#ifdef _DEBUG
-			STRACE("%s(%ld):RFileEZSave(): Couldn't create RFile object!\n", FILE_MACRO, LINE_MACRO);
+			STRACE("%s(%i):RFileEZSave(): Couldn't create RFile object!\n", FILE_MACRO, LINE_MACRO);
 		#endif
 		}
 

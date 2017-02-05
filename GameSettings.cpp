@@ -175,7 +175,7 @@ inline T CLAMP(T val, T min,T max)
 //////////////////////////////////////////////////////////////////////////////
 
 // Player color descriptions.
-char*	CGameSettings::ms_apszPlayerColorDescriptions[CDude::MaxTextures + 1]	=
+const char*	CGameSettings::ms_apszPlayerColorDescriptions[CDude::MaxTextures + 1]	=
 	{
 	"Black",
 	"Green",

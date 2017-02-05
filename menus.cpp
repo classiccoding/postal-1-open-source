@@ -733,7 +733,7 @@ static SampleMasterID*	ms_apsmidVolumeTesters[SampleMaster::MAX_NUM_SOUND_CATEGO
 	&g_smidWrithing2,			// Suffering
 	};
 
-static char*			ms_apszDifficultyDescriptions[]	=
+static const char*			ms_apszDifficultyDescriptions[]	=
 	{
 	"Easy",
 	"Easy",
@@ -5256,10 +5256,11 @@ int16_t PickFile(const char *title, void (*enumer)(Menu *), char *buf, size_t bu
     }
 
     TRACE("PickFile: Going with %s.\n", buf);
-
+// do not free string literals!
+/*
     for (int i = 0; (i < Max) && (g_menuPickFile.ami[i].pszText); i++)
         free(g_menuPickFile.ami[i].pszText);
-
+*/
     // put the old menu back.
 	StartMenu(currentMenu, &g_resmgrShell, g_pimScreenBuf);
     return ((g_PickFileMenuChoice == NULL) ? -1 : 0);

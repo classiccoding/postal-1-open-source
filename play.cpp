@@ -2572,7 +2572,7 @@ class CPlayStatus : public CPlay
 								{
 								m_print.print(
 									m_rectInfo.sX, m_rectInfo.sY,
-									"FPS: %ld Video H/W Update: %ld%% %s", 
+									"FPS: %i Video H/W Update: %i%% %s", 
 									m_lFramePerSecond,
 									(pinfo->m_lSumUpdateDisplayTimes * 100) / m_lSumFrameTimes,
 									m_szFileDescriptor);
@@ -5393,7 +5393,7 @@ extern void Play_SnapPicture(void)
 
 		// Save picture to file
 		char szFileName[RSP_MAX_PATH];
-		sprintf(szFileName, "PostalShot%03ld.bmp", ms_lCurPicture++);
+      sprintf(szFileName, "PostalShot%03d.bmp", ms_lCurPicture++);
 
 		// This will require direct access to the composite buffer.
 		rspLockBuffer();

@@ -20,9 +20,9 @@
 // and the invention of a common image format,
 // great simplifications and changes in BLiT are about to happen.
 
-//**************************************************************************
-//**************************  THE NEW BLiT
-//**************************************************************************
+// **************************************************************************
+// **************************  THE NEW BLiT
+// **************************************************************************
 
 // Blue has taken out a lot of the screen abstraction from BLiT.  It has
 // provided calls to obtain the screen address on the fly.  It does

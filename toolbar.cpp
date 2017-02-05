@@ -767,7 +767,7 @@ public:
 		CToolItem::ms_aWeapons = new CToolItem[NumberOfWeapons];
 		CToolItem::ms_aAmmo = new CToolItem[NumberOfAmmos];
 
-		//************* WEAPONS **************
+		// ************* WEAPONS **************
 		CToolItem::ms_aWeapons[MachineGun].ArrangeWeapon(
 			MachineGun,CDude::SemiAutomatic,
 			RRect(123,443,48,23),
@@ -799,7 +799,7 @@ public:
 			RRect(464,442,52,22),
 			&CToolItem::ms_aAmmo[Fuel]);
 
-		//************** AMMO ****************
+		// ************** AMMO ****************
 		CToolItem::ms_aAmmo[Health].ArrangeAmmo(
 			Health,CDude::NoWeapon,
 			RRect(0,440,58,40), 

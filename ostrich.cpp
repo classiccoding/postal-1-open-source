@@ -128,7 +128,7 @@ int16_t COstrich::ms_sFileCount;
 
 /// Standing Animation Files
 // An array of pointers to resource names (one for each channel of the animation)
-static char* ms_apszStandResNames[] = 
+static const char* ms_apszStandResNames[] =
 {
 	"3d/ostrich_stand.sop",
 	"3d/ostrich_stand.mesh",
@@ -142,7 +142,7 @@ static char* ms_apszStandResNames[] =
 
 /// Running Animation Files
 // An array of pointers to resource names (one for each channel of the animation)
-static char* ms_apszRunResNames[] = 
+static const char* ms_apszRunResNames[] =
 {
 	"3d/ostrich_run.sop",
 	"3d/ostrich_run.mesh",
@@ -156,7 +156,7 @@ static char* ms_apszRunResNames[] =
 
 /// Throwing Animation Files 
 // An array of pointers to resource names (one for each channel of the animation)
-static char* ms_apszWalkResNames[] = 
+static const char* ms_apszWalkResNames[] =
 {
 	"3d/ostrich_walk.sop",
 	"3d/ostrich_walk.mesh",
@@ -170,7 +170,7 @@ static char* ms_apszWalkResNames[] =
 
 // Shot Animation Files
 // An array of pointers to resource names (one for each channel of the animation)
-static char* ms_apszShotResNames[] = 
+static const char* ms_apszShotResNames[] =
 {
 	"3d/ostrich_shot.sop",
 	"3d/ostrich_shot.mesh",
@@ -184,7 +184,7 @@ static char* ms_apszShotResNames[] =
 
 /// Blown up Animation Files
 // An array of pointers to resource names (one for each channel of the animation)
-static char* ms_apszBlownupResNames[] =
+static const char* ms_apszBlownupResNames[] =
 {
 	"3d/ostrich_blownup.sop",
 	"3d/ostrich_blownup.mesh",
@@ -198,7 +198,7 @@ static char* ms_apszBlownupResNames[] =
 
 /// Hide Animation Files
 // An array of pointers to resource names (one for each channel of the animation)
-static char* ms_apszHideResNames[] =
+static const char* ms_apszHideResNames[] =
 {
 	"3d/ostrich_hide.sop",
 	"3d/ostrich_hide.mesh",
@@ -212,7 +212,7 @@ static char* ms_apszHideResNames[] =
 
 /// Die Animation files
 // An array of pointers to resource names (one for each channel of the animation)
-static char* ms_apszDieResNames[] = 
+static const char* ms_apszDieResNames[] =
 {
 	"3d/ostrich_die.sop",
 	"3d/ostrich_die.mesh",

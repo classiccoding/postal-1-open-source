@@ -227,7 +227,7 @@ address_t					RFile::ms_lCloseUser		= 0L;
 uint8_t					RFile::ms_au8SwapBuf[RFILE_SWAP_SIZE];
 
 // String description of endian (index by Endian enum).
-static char*	ms_apszEndian[]	=
+static const char*	ms_apszEndian[]	=
 	{
 	"BigEndian",
 	"NeutralEndian",
@@ -692,7 +692,7 @@ int16_t RFile::Open(		// Returns 0 on success.
 		}
 	else
 		{
-		TRACE("Open(%08lX, %ld, %s): File already open.\n",
+		TRACE("Open(%08lX, %i, %s): File already open.\n",
 				pFile, lSize,
 				ms_apszEndian[endian]);
 		sRes = -2;
@@ -744,7 +744,7 @@ int16_t RFile::Open(	// Returns 0 on success.
 			}
 		else
 			{
-			TRACE("Open(%ld, %ld, %s): File too large for free memory.\n",
+			TRACE("Open(%i, %i, %s): File too large for free memory.\n",
 					lSize, lGrowSize,
 					ms_apszEndian[endian]);
 			sRes = -3;
@@ -752,7 +752,7 @@ int16_t RFile::Open(	// Returns 0 on success.
 		}
 	else
 		{
-		TRACE("Open(%ld, %ld, %s): File already open.\n",
+		TRACE("Open(%i, %i, %s): File already open.\n",
 				lSize, lGrowSize,
 				ms_apszEndian[endian]);
 		sRes = -2;
@@ -1598,7 +1598,7 @@ int32_t WriteASCII(		// Returns number of complete TYPE items successfully
 	TYPE*		ptData,	// In:  Pointer to array of TYPE items for write data.
 	int32_t		lNum,		// In:  Number of TYPE items to read.
 	FILE*		pfsOut,	// In:  File stream to use for output.
-	char*		pszFrmt)	// In:  Output printf style format specifier.
+   const char*		pszFrmt)	// In:  Output printf style format specifier.
 	{
 	int32_t	lRes	= 0;	// Assume success.
 
@@ -1780,7 +1780,7 @@ int32_t RFile::Write(const int32_t* ps32Data, int32_t lNum /*= 1L*/)
 	if ((m_flags & Ascii) != 0)
 		{
 		// Write ASCII data.
-		lRes = WriteASCII(ps32Data, lNum, m_fs, "%ld ");
+		lRes = WriteASCII(ps32Data, lNum, m_fs, "%i ");
 		}
 	else
 		{

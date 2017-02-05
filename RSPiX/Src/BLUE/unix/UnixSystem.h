@@ -96,21 +96,6 @@ using namespace std;
                         uint64_t	lo;} uint128_t;
 	#endif
 
-#if 0
-	// Ranges for basic RSPiX types
-	#define	S8_MIN	((int8_t) 0x80)
-	#define	S8_MAX	((int8_t) 0x7F)
-	#define	U8_MIN	((uint8_t) 0x0)
-	#define	U8_MAX	((uint8_t) 0xFF)
-	#define	S16_MIN	((int16_t) 0x8000)
-	#define	S16_MAX	((int16_t) 0x7FFF)
-	#define	U16_MIN	((uint16_t) 0x0)
-	#define	U16_MAX	((uint16_t) 0xFFFF)
-	#define	S32_MIN	((int32_t) 0x80000000L)
-	#define	S32_MAX	((int32_t) 0x7FFFFFFFL)
-	#define	U32_MIN	((uint32_t) 0x0)
-	#define	U32_MAX	((uint32_t) 0xFFFFFFFFUL)
-#endif
 	// These pixel types take the endian order of the system into account.
 	typedef uint8_t RPixel;
 	typedef uint16_t RPixel16;
@@ -240,13 +225,13 @@ inline bool rspObjCmp(const T* p1, const T* p2, size_t count)
 
 inline char *ltoa(int32_t l, char *buf, int bufsize)
 {
-    snprintf(buf, bufsize, "%ld", l);
+    snprintf(buf, bufsize, "%i", l);
     return(buf);
 }
 
 inline char *ltoa(uint32_t l, char *buf, int bufsize)
 {
-    snprintf(buf, bufsize, "%ld", l);
+    snprintf(buf, bufsize, "%i", l);
     return(buf);
 }
 

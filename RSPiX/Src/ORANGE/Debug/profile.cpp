@@ -66,13 +66,13 @@ void	RProfile::StartProfile(char* pszFieldName)
 	{
 	int16_t sKey;
 
-	//*****************************************************************************
-	//************************************ TIME NOT BILLED CORRECTLY : START ******
-	//*****************************************************************************
+	// *****************************************************************************
+	// ************************************ TIME NOT BILLED CORRECTLY : START ******
+	// *****************************************************************************
    int64_t i64EntryTime = rspGetAppMicroseconds() - i64GetTimeSpeed; // Track Overhead
-	//*****************************************************************************
-	//************************************ TIME NOT BILLED CORRECTLY : .END. ******
-	//*****************************************************************************
+	// *****************************************************************************
+	// ************************************ TIME NOT BILLED CORRECTLY : .END. ******
+	// *****************************************************************************
 	if (!m_sActive) return; // Do not activate if in error state!
 
 	m_sLastUnaccounted = m_lFastTimeOut - m_lFastTimeIn; // Get last overhead time
@@ -141,9 +141,9 @@ void	RProfile::StartProfile(char* pszFieldName)
 	m_sCurDepth++; // You have descended down one level!
 	if (m_sCurDepth > m_sMaxDepth) m_sMaxDepth = m_sCurDepth;
 
-	//*****************************************************************************
-	//************************************ TIME NOT BILLED CORRECTLY : START ******
-	//*****************************************************************************
+	// *****************************************************************************
+	// ************************************ TIME NOT BILLED CORRECTLY : START ******
+	// *****************************************************************************
 	// Track Overhead
 	m_lCount++;
 	m_lTotTime += m_sLastUnaccounted; // Total system overhead, lag one
@@ -166,9 +166,9 @@ void	RProfile::StartProfile(char* pszFieldName)
 	m_lFastTimeOut = m_aList[sKey].m_lLastTime = rspGetAppMicroseconds();
 
 	return;
-	//*****************************************************************************
-	//************************************ TIME NOT BILLED CORRECTLY : .END. ******
-	//*****************************************************************************
+	// *****************************************************************************
+	// ************************************ TIME NOT BILLED CORRECTLY : .END. ******
+	// *****************************************************************************
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -178,13 +178,13 @@ void	RProfile::StartProfile(char* pszFieldName)
 void	RProfile::EndProfile(char* pszFieldName)
 	{
 	int16_t sKey;
-	//*****************************************************************************
-	//************************************ TIME NOT BILLED CORRECTLY : START ******
-	//*****************************************************************************
+	// *****************************************************************************
+	// ************************************ TIME NOT BILLED CORRECTLY : START ******
+	// *****************************************************************************
    int64_t i64EntryTime = rspGetAppMicroseconds() - i64GetTimeSpeed; // Track Overhead
-	//*****************************************************************************
-	//************************************ TIME NOT BILLED CORRECTLY : .END. ******
-	//*****************************************************************************
+	// *****************************************************************************
+	// ************************************ TIME NOT BILLED CORRECTLY : .END. ******
+	// *****************************************************************************
 
 	if (!m_sActive) return; // Do not activate if in error state!
 
@@ -266,9 +266,9 @@ void	RProfile::EndProfile(char* pszFieldName)
 		}
 
 	m_aList[sKey].m_eState = DoneTiming;
-	//*****************************************************************************
-	//************************************ TIME NOT BILLED CORRECTLY : START ******
-	//*****************************************************************************
+	// *****************************************************************************
+	// ************************************ TIME NOT BILLED CORRECTLY : START ******
+	// *****************************************************************************
 	// Track Overhead
 	m_lCount++; 
 	m_lTotTime += m_sLastUnaccounted; // Total system overhead, lag one
@@ -288,9 +288,9 @@ void	RProfile::EndProfile(char* pszFieldName)
 	m_lFastTimeOut = rspGetAppMicroseconds();
 
 	return;
-	//*****************************************************************************
-	//************************************ TIME NOT BILLED CORRECTLY : .END. ******
-	//*****************************************************************************
+	// *****************************************************************************
+	// ************************************ TIME NOT BILLED CORRECTLY : .END. ******
+	// *****************************************************************************
 	}
 
 int16_t	gsReportNumber = 0;
@@ -326,7 +326,7 @@ void RProfile::Report()
 						double(m_lFastTimeOut - m_lBeginTime)/1000000.0);
 
 		if (m_lCount) // safety
-		fprintf(fp,"Profiler overhead: Tot(ms) = %g, # of calls = %ld, Avg(ms) = %g\n\n",
+		fprintf(fp,"Profiler overhead: Tot(ms) = %g, # of calls = %i, Avg(ms) = %g\n\n",
          double(m_lTotTime)/1000.0,int32_t(m_lCount),double(m_lTotTime)/double(m_lCount * int64_t(1000)));
 		
 		fprintf(fp,"Number of profile ranges was %hd.\n",m_sNumTracked);
@@ -391,7 +391,7 @@ void RProfile::Report()
 				{
 				fprintf(fp,"-------------------------------------------------------\n%s:\n",
 					m_aList[i].m_szFieldName);
-				fprintf(fp,"				# of passes = %ld, Tot(ms) = %g, Avg(ms) = %g",
+				fprintf(fp,"				# of passes = %i, Tot(ms) = %g, Avg(ms) = %g",
 					int32_t(m_aList[i].m_lNumCalls),
 					double(m_aList[i].m_lTotTime)/1000.0,
                double(m_aList[i].m_lTotTime)/double(m_aList[i].m_lNumCalls * int64_t(1000)));

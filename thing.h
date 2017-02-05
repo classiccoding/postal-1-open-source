@@ -373,15 +373,15 @@ class CThing
 																		// cannot.
 			} ClassInfo;
 
-		// Typedef for class ID's, required because we want specify the type,
-		// whereas the compiler always uses type int for enums.
-		typedef uint8_t ClassIDType;
+      // Typedef for class ID's, required because we want specify the type,
+      // whereas the compiler always uses type int for enums.
+      typedef uint8_t ClassIDType;
 
 		// Class ID's for all derived classes that need to be loaded/saved.  If
 		// these numbers change, it will completely invalidate any world files
 		// that were created prior to the change!  Add new ID's after existing
 		// ID's so the existing ones don't change.
-		typedef enum
+      enum : uint8_t
 			{
 			// First entry should start at 0!
 			CHoodID = 0,
@@ -445,7 +445,7 @@ class CThing
 
 			// This must be the last entry so it gets set to the total number of ID's
 			TotalIDs
-			};
+         };
 
 		typedef enum	// Macros within CThing namespace.
 			{

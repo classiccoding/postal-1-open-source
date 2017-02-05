@@ -1239,7 +1239,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 								if (vtScoringUnit == Value)
 									{
 									// Value.
-									pguiScore->SetText("%ld %s", alScores[sScoreIndex], g_apszScoreUnits[pRealm->m_ScoringMode] );
+									pguiScore->SetText("%i %s", alScores[sScoreIndex], g_apszScoreUnits[pRealm->m_ScoringMode] );
 									}
 								else
 									{

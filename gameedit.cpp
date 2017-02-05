@@ -1622,7 +1622,7 @@ inline void SetPressedCall(	// Returns nothing.
 		}
 	else
 		{
-		TRACE("SetPressedCall(): ID %ld missing.\n", lId);
+      TRACE("SetPressedCall(): ID %i missing.\n", lId);
 		}
 	}
 
@@ -3737,7 +3737,7 @@ static int16_t LoadRealm(
 		if (sResult == 0)
 			{
 			// Attach file counter callback to RFile and setup necessary components.
-			InitFileCounter("Loading -- %ld bytes so far.");
+         InitFileCounter("Loading -- %i bytes so far.");
 			
 			// Convert to RSPiX format b/c CRealm::Load() now likes it that way.
 			char	szRealmName[sizeof(ms_szFileName)];
@@ -4031,7 +4031,7 @@ static int16_t SaveRealm(			// Returns 0 on success.
 		CreateTriggerRegions(prealm);
 
 		// Attach file counter callback to RFile and setup necessary components.
-		InitFileCounter("Saving -- %ld bytes so far.");
+      InitFileCounter("Saving -- %i bytes so far.");
 		// Save realm
 		sResult = prealm->Save(pszRealmName);
 		// Clean and detach file counter.
@@ -4101,7 +4101,7 @@ static void PlayRealm(
 		if (TmpFileName(szFileName, sizeof(szFileName)) == 0)
 			{
 			// Attach file counter callback to RFile and setup necessary components.
-			InitFileCounter("Saving -- %ld bytes so far.");
+         InitFileCounter("Saving -- %i bytes so far.");
 			// Save realm being edited without the trigger regions.
 			sResult	= SaveRealm(pEditRealm, szFileName, false);
 			// Clean and detach file counter.
@@ -4131,7 +4131,7 @@ static void PlayRealm(
 				SetInputMode(INPUT_MODE_LIVE);
 
 				// Attach file counter callback to RFile and setup necessary components.
-				InitFileCounter("Loading -- %ld bytes so far.");
+            InitFileCounter("Loading -- %i bytes so far.");
 			
 				// Convert to RSPiX format b/c CRealm::Load() now likes it that way.
 				char	szRealmName[sizeof(szFileName)];
@@ -7415,7 +7415,7 @@ static void InitFileCounter(			// Returns nothing.
 		}
 	else
 		{
-		strcpy(ms_szFileOpDescriptionFrmt, "Progress: %ld bytes");
+      strcpy(ms_szFileOpDescriptionFrmt, "Progress: %i bytes");
 		}
 
 	// Hook the RFile callback and reset the timer.  The callback does nothing
@@ -7643,7 +7643,7 @@ static int16_t ShowRealmStatistics(	// Returns 0 on success.
 
 				sprintf(
 					szThingDescription, 
-					"%ld) \"%s\" ID: %u X: %s Y: %s Z: %s",
+               "%i) \"%s\" ID: %u X: %s Y: %s Z: %s",
 					lNum,
 					CThing::ms_aClassInfo[pthing->GetClassID()].pszClassName,
 					pthing->GetInstanceID(),

@@ -25,7 +25,7 @@
 	#include "fixedpoint.h"
 #endif
 
-//************************ RZBuffer
+// ************************ RZBuffer
 void	RZBuffer::Init()
 	{
 	m_sW = m_sH = 0;

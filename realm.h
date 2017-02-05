@@ -500,7 +500,7 @@ class CRealm
 
 		// Scoring modes
 		typedef uint16_t ScoringMode;
-		typedef enum
+      enum
 			{
 			Standard = 0,		// Standard single player showing population, hostiles, kills and kill %
 			Timed,				// Score as many kills as possible in set amount of time
@@ -563,10 +563,10 @@ class CRealm
 		static int16_t ms_asAttribToLayer[LayerAttribMask + 1];
 		
 		// Names of layers.  Use Layer enum values to index.
-		static char* ms_apszLayerNames[TotalLayers];
+      static const char* ms_apszLayerNames[TotalLayers];
 
 		// 2D resource paths.
-		static char* ms_apsz2dResPaths[Num2dPaths];
+      static const char* ms_apsz2dResPaths[Num2dPaths];
 
 
 	//---------------------------------------------------------------------------

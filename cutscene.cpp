@@ -526,14 +526,14 @@ class	CSwirlMe
 			rSafeClip.sW -= (m_sRadX<<1);
 			rSafeClip.sH -= (m_sRadY<<1);
 
-//******************************************************************************
+// ******************************************************************************
 //  THIS IS A COMPLETE HACK - IT IS A LAST MINUTE ATTEMPT TO ADJUST FOR THE
 //  CHANGE TO THE CUT SCENE ASSEST WHICH ADDED BLACK STRIPS TO THE TOP AND
 //  BOTTOM OF THE SCREEN....
-//******************************************************************************
+// ******************************************************************************
 			rSafeClip.sY += 40; // HARD CODED FOR POSTAL!
 			rSafeClip.sH -= 80; // HARD CODED FOR POSTAL!
-//******************************************************************************
+// ******************************************************************************
 
 			// 1) Put original image down upon target:
 
@@ -633,7 +633,7 @@ class	CSwirlMe
 				m_lTimeSpin = m_lCycleTimeX = m_lCycleTimeY = m_lCycleTimeA = 0;
 			m_dCenA = m_dRadA = 0.0;
 			m_rClip = RRect(0,0,0,0);
-			m_siSound = NULL;
+         m_siSound = 0;
 			}
 
 		////////////////////////////////////////////////////////////////////////////

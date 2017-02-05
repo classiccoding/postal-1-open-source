@@ -716,7 +716,7 @@ CDoofus::WeaponType	CDoofus::ms_awtId2Type[TotalIDs]	=
 	Dynamite,
 };
 
-char* CDoofus::ms_apszActionNames[] = 
+const char* CDoofus::ms_apszActionNames[] =
 {
 	"Guard",
 	"Advance",

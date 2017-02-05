@@ -103,7 +103,7 @@ class CPowerUp : public CItem3d
 	//---------------------------------------------------------------------------
 	public:
 		// Powerup anim names.
-		static char*	ms_apszPowerUpResNames[CStockPile::NumStockPileItems + 2];
+      static const char*	ms_apszPowerUpResNames[CStockPile::NumStockPileItems + 2];
 
 	//---------------------------------------------------------------------------
 	// Constructor(s) / destructor

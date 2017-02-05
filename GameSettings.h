@@ -220,7 +220,7 @@ class CGameSettings : CSettings
 	public:	// Statics.
 		
 		// Player color descriptions.
-		static char*	ms_apszPlayerColorDescriptions[];
+      static const char*	ms_apszPlayerColorDescriptions[];
 		// Number of color descriptions.
 		static const int16_t	ms_sNumPlayerColorDescriptions;
 

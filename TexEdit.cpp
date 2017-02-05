@@ -997,7 +997,7 @@ CTexEdit::ProcessManip(
 			{
 			m_lTriIndex	= lTriIndex;
 
-			SetStatusText("Triangle %ld", m_lTriIndex);
+			SetStatusText("Triangle %i", m_lTriIndex);
 
 			if (bButtonDown)
 				{

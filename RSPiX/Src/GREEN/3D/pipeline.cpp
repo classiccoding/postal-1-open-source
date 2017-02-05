@@ -295,7 +295,7 @@ void RPipeLine::Render(RImage* pimDst,int16_t sDstX,int16_t sDstY,
 			lNumHidden++; // cull debug
 			}
 		}
-	//TRACE("Number culled was %ld\n",lNumHidden);
+	//TRACE("Number culled was %i\n",lNumHidden);
 	}
 
 // Currently (sDstX,sDstY) allgns with the upper left half of the z-buffer

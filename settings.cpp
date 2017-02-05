@@ -146,7 +146,7 @@ CSettings::~CSettings()
 //
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSettings::LoadPrefs(					// Returns 0 if successfull, non-zero otherwise
-	char* pszFile)									// In:  Name of prefs file
+   const char* pszFile)									// In:  Name of prefs file
 	{
 	int16_t sResult = 0;
 
@@ -204,7 +204,7 @@ int16_t CSettings::LoadPrefs(					// Returns 0 if successfull, non-zero otherwis
 //
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSettings::SavePrefs(					// Returns 0 if successfull, non-zero otherwise
-	char* pszFile)									// In:  Name of prefs file
+   const char* pszFile)									// In:  Name of prefs file
 	{
 	int16_t sResult = 0;
 
@@ -271,7 +271,7 @@ int16_t CSettings::SavePrefs(					// Returns 0 if successfull, non-zero otherwis
 //
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSettings::LoadGame(						// Returns 0 if successfull, non-zero otherwise
-	char* pszFile)									// In:  Name of prefs file
+   const char* pszFile)									// In:  Name of prefs file
 	{
 	int16_t sResult = 0;
 
@@ -324,7 +324,7 @@ int16_t CSettings::LoadGame(						// Returns 0 if successfull, non-zero otherwis
 //
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSettings::SaveGame(						// Returns 0 if successfull, non-zero otherwise
-	char* pszFile)									// In:  Name of prefs file
+   const char* pszFile)									// In:  Name of prefs file
 	{
 	int16_t sResult = 0;
 

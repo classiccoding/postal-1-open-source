@@ -292,7 +292,7 @@ int16_t CDispenser::Load(		// Returns 0 if successfull, non-zero otherwise
 				pFile->Read(&m_sX);
 				pFile->Read(&m_sY);
 				pFile->Read(&m_sZ);
-				pFile->Read(&m_idDispenseeType);
+            pFile->Read(reinterpret_cast<uint8_t*>(&m_idDispenseeType));
 				uint16_t	u16LogicType;
 				pFile->Read(&u16LogicType);
 				m_logictype	= (LogicType)u16LogicType;
@@ -361,7 +361,7 @@ int16_t CDispenser::Load(		// Returns 0 if successfull, non-zero otherwise
 				pFile->Read(&m_sX);
 				pFile->Read(&m_sY);
 				pFile->Read(&m_sZ);
-				pFile->Read(&m_idDispenseeType);
+            pFile->Read(reinterpret_cast<uint8_t*>(&m_idDispenseeType));
 				uint16_t	u16LogicType;
 				pFile->Read(&u16LogicType);
 				m_logictype	= (LogicType)u16LogicType;
@@ -675,7 +675,7 @@ int16_t CDispenser::EditNew(									// Returns 0 if successfull, non-zero other
 inline void SetLogicText(	// Returns nothing.
 	RGuiItem*	pguiRoot,	// In:  Root item.
 	int32_t			lId,			// In:  ID of item to update text.
-	char*			pszText,		// In:  New text or NULL for none and to disable lIdEdit.
+   const char*			pszText,		// In:  New text or NULL for none and to disable lIdEdit.
 	int32_t			lIdEdit)		// In:  Item to enable or disable.
 	{
 	RGuiItem*	pguiEdit	= pguiRoot->GetItemFromId(lIdEdit);
@@ -829,12 +829,12 @@ int16_t CDispenser::EditModify(void)					// Returns 0 if successfull, non-zero o
 					RGuiItem*	pgui	= pguiRoot->GetItemFromId(LOGIC_PARMS_EDIT_ID_BASE + i);
 					if (pgui)
 						{
-						pgui->SetText("%ld", m_alLogicParms[i]);
+                  pgui->SetText("%i", m_alLogicParms[i]);
 						pgui->Compose();
 						}
 					}
 
-				peditMaxDispensees->SetText("%ld", m_sMaxDispensees);
+            peditMaxDispensees->SetText("%i", m_sMaxDispensees);
 				peditMaxDispensees->Compose();
 
 				// Point instance data at the max dispensees edit so it can show and
@@ -883,15 +883,14 @@ int16_t CDispenser::EditModify(void)					// Returns 0 if successfull, non-zero o
 
 				pguiSel	= NULL;
 
-				// Add available objects to listbox.
-				CThing::ClassIDType	idCur;
-				for (idCur	= 0; idCur < CThing::TotalIDs; idCur++)
+            // Add available objects to listbox.
+            for (uint8_t idCur	= 0; idCur < CThing::TotalIDs; idCur++)
 					{
 					// If item is editor creatable . . .
 					if (CThing::ms_aClassInfo[idCur].bEditorCreatable == true)
 						{
 						// Add string for each item to listbox.
-						pguiItem	= plbThings->AddString((char*)CThing::ms_aClassInfo[idCur].pszClassName);
+                  pguiItem	= plbThings->AddString(CThing::ms_aClassInfo[idCur].pszClassName);
 						if (pguiItem != NULL)
 							{
 							pguiItem->m_ulUserData	= (uint32_t)idCur;

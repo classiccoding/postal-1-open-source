@@ -118,7 +118,7 @@ int16_t CBall::ms_sFileCount;
 
 /// Standing Animation Files ////////////////////////////////////////////////////
 // An array of pointers to res names (one for each animation component).
-static char*	ms_apszAnimNames[]	=
+static const char*	ms_apszAnimNames[]	=
 	{
 	"3d/main_bobbing.sop",
 	"3d/main_bobbing.mesh",

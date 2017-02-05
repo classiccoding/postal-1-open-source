@@ -773,7 +773,7 @@ int16_t CHood::EditNew(									// Returns 0 if successfull, non-zero otherwise
 			}
 		else
 			{
-			TRACE("EditNew(): No GUI with ID %ld.\n", GUI_ID_BASENAME);
+			TRACE("EditNew(): No GUI with ID %i.\n", GUI_ID_BASENAME);
 			sResult	= -2;
 			}
 

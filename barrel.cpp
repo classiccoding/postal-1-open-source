@@ -143,7 +143,7 @@ int16_t CBarrel::ms_sFileCount;
 
 /// Still Animation Files ///////////////////////////////////////////////////////
 // An array of pointers to resource names (one for each channel of the animation)
-static char* ms_apszStillResNames[] = 
+static const char* ms_apszStillResNames[] =
 {
 	"3d/barrel_still.sop",
 	"3d/barrel_still.mesh",
@@ -157,7 +157,7 @@ static char* ms_apszStillResNames[] =
 
 /// Spinning Animation Files ///////////////////////////////////////////////////
 // An array of pointers to resource names (one for each channel of the animation)
-static char* ms_apszSpinResNames[] = 
+static const char* ms_apszSpinResNames[] =
 {
 	"3d/barrel_spin.sop",
 	"3d/barrel_spin.mesh",

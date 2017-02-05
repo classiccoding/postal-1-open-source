@@ -178,7 +178,7 @@ int16_t CFirebomb::ms_sFileCount;
 
 /// Grenade Animation Files
 // An array of pointers to res names (one for each animatino component)
-static char* ms_apszResNames[] =
+static const char* ms_apszResNames[] =
 {
 	"3d/grenade.sop",
 	"3d/grenade.mesh",

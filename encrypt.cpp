@@ -70,7 +70,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 // Module specific (static) globals.
 //////////////////////////////////////////////////////////////////////////////////////
-static char *ms_aszSeed[NUM_KEYS]=				{	"S3D5Lf6klfdsjiureLJKHLKmnblkjshgwieourLKHLKJHSDA0432175094SJAKLFK7348LSDLKJDHFOIUhjgdskgfeiurytowelxcmnvbdfhgeoriyfdslkhgfdgyuie",
+static const char *ms_aszSeed[NUM_KEYS]=		{	"S3D5Lf6klfdsjiureLJKHLKmnblkjshgwieourLKHLKJHSDA0432175094SJAKLFK7348LSDLKJDHFOIUhjgdskgfeiurytowelxcmnvbdfhgeoriyfdslkhgfdgyuie",
 																"KlkjILKJ879IHKJ8kj67kjh7IUKJHjkh98769872vYUTui6JHG87jhg78JHg787JHGUYuytuyjg876RHCVBnvbAIUT678787igJGFHGFTy67uhHJKJHUYTjhg6HGHG76",
 																"4LKJH5Euhysdiouyfjlkw45879345kjshfdgcvxJSDHFR8734hdskmfv7y8KJLSDGFAVBMZXBV789kMNADFYUYjhkgkjhdsgfowe787243KJHGDSAGJKkjgdfuye3sd7",
 																"l45kjhdfuihlIUYSLKHi87ylKJHYOIUmsagKJLHgY9802734KJHLKiuoymNJHTmnb4iU7687nkmbojyTD64654HJG765KHKJhg87jKHKJ76dcbnmbDBDSJFDHJ6IHGHJ",

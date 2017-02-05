@@ -449,7 +449,7 @@ RPrint		RGuiItem::ms_print;			// This is the main RPrint that all
 RGuiItem*	RGuiItem::ms_pguiFocus	= NULL;	// Higher level APIs can use this
 															// as their current point of 
 															// input focus.
-char*			RGuiItem::ms_apszTypes[NumGuiTypes]	=	// Array of strings 
+const char*			RGuiItem::ms_apszTypes[NumGuiTypes]	=	// Array of strings
 																	// indexed by type.
 	{
 	"GuiItem",
@@ -477,7 +477,7 @@ RGuiItem::RGuiItem()
 	m_sX	= 0;
 	m_sY	= 0;
 
-	m_hot.m_ulUser			= (uint64_t)this;
+   m_hot.m_ulUser			= reinterpret_cast<address_t>(this);
 	m_hot.m_iecUser		= HotCall;
 
 	m_sEventAreaX			= 0;	// X coord of area in which we care
@@ -499,7 +499,7 @@ RGuiItem::RGuiItem()
 
 	m_fnInputEvent			= NULL;
 
-	m_ulUserInstance		= NULL;
+   m_ulUserInstance		= 0;
 	m_ulUserData			= 0;
 
 	m_sBorderThickness	= DEF_BORDER_THICKNESS;
@@ -972,7 +972,7 @@ void RGuiItem::Erase(	// Returns nothing.
 //
 ////////////////////////////////////////////////////////////////////////
 void RGuiItem::SetText(	
-	char* pszFrmt,	// sprintf formatted format string.
+   const char* pszFrmt,	// sprintf formatted format string.
 	...)				// Corresponding good stuff.
 	{
 	va_list val;
@@ -986,7 +986,7 @@ void RGuiItem::SetText(
 ////////////////////////////////////////////////////////////////////////
 int16_t RGuiItem::SetText(	// Returns 0 if item found, non-zero otherwise.
 	int32_t	lId,					// Child item ID (can identify this item).
-	char* pszFrmt,				// sprintf formatted format string.
+   const char* pszFrmt,				// sprintf formatted format string.
 	...)							// Corresponding good stuff.
 	{
 	int16_t	sRes	= 0;	// Assume success.
@@ -1001,7 +1001,7 @@ int16_t RGuiItem::SetText(	// Returns 0 if item found, non-zero otherwise.
 		}
 	else
 		{
-		TRACE("SetText(): No such ID %ld.\n", lId);
+		TRACE("SetText(): No such ID %i.\n", lId);
 		sRes	= -1;
 		}
 
@@ -2585,7 +2585,7 @@ int16_t RGuiItem::GetText(	// Returns 0 on success.
 		}
 	else
 		{
-		TRACE("GetText(): No such ID %ld.\n", lId);
+		TRACE("GetText(): No such ID %i.\n", lId);
 		sRes	= -1;
 		}
 
@@ -2619,7 +2619,7 @@ int32_t RGuiItem::GetVal(	// Returns value.
 		}
 	else
 		{
-		TRACE("GetVal(): No such ID %ld.\n", lId);
+		TRACE("GetVal(): No such ID %i.\n", lId);
 		}
 
 	return lRes;

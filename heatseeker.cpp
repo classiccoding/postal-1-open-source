@@ -192,7 +192,7 @@ int32_t CHeatseeker::ms_lSmokeTimeToLive = 1000;			// MS for smoke to stay aroun
 int16_t CHeatseeker::ms_sFileCount;
 
 /// Rocket Animation Files
-static char* ms_apszResNames[] = 
+static const char* ms_apszResNames[] =
 {
 	"3d/Gmissile.sop",
 	"3d/Gmissile.mesh",

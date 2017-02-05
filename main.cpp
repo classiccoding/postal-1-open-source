@@ -924,7 +924,7 @@ rspSetProfileOutput("profile.out");
 								(MAIN_AUDIO_CHANNELS == 1) ? "Mono" : "Stereo");
 							
 							// Default to generic error.
-							char*	pszMsg;
+                     const char*	pszMsg;
 							uint16_t usFlags; 
 							// Try to find a better one, though, based on the return value.
 							switch (sResult)

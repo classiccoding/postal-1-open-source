@@ -321,7 +321,7 @@ void RListBox::Compose(			// Returns nothing.
 //
 ////////////////////////////////////////////////////////////////////////
 RGuiItem* RListBox::AddString(		// Returns new GUI item on success.
-	char*	pszString,						// String to add.
+   const char*	pszString,						// String to add.
 	RGuiItem* pguiAfter /*= NULL*/)	// Gui to add after or NULL to add at
 												// end.
 	{
@@ -346,7 +346,7 @@ RGuiItem* RListBox::AddString(		// Returns new GUI item on success.
 //
 ////////////////////////////////////////////////////////////////////////
 RGuiItem* RListBox::InsertString(	// Returns new GUI item on success.
-	char*	pszString,						// String to insert.
+   const char*	pszString,						// String to insert.
 	RGuiItem* pguiBefore /*= NULL*/)	// Gui to insert before or NULL to 
 												// insert at beginning.
 	{
@@ -934,7 +934,7 @@ RGuiItem* RListBox::GetPrev(		// Returns the previous child item or NULL.
 ////////////////////////////////////////////////////////////////////////
 RGuiItem* RListBox::CreateStringItem(	// Returns new item on success;
 													// NULL, otherwise.
-	char* pszString)							// Text for new item.
+   const char* pszString)							// Text for new item.
 	{
 	RGuiItem*	pgui		= NULL;	// Assume nothing.
 	int16_t	sError	= 0;

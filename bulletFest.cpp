@@ -854,7 +854,7 @@ bool CBulletFest::Fire(			// Returns true if a hit, false otherwise.
 				sRand	= m_sCurTracerPos	= (m_sCurTracerPos + GetRand() % TRACER_ACCUMMULATION_STEP_MAX) % sDistance;
 				}
 
-#else	METHOD == 3	// Method 3:  Multiple Method 1 and Method 2's.
+#elif	METHOD == 3	// Method 3:  Multiple Method 1 and Method 2's.
 			
 			// Reduce distance.
 			sDistance	-= TRACER_ACCUMMULATION_STEP_MAX;

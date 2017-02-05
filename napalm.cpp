@@ -165,7 +165,7 @@ int16_t CNapalm::ms_sFileCount;
 
 /// Napalm Canister Animation Files
 // An array of pointers to res names (one for each animation component)
-static char* ms_apszResNames[] =
+static const char* ms_apszResNames[] =
 {
 	"3d/napalmcan.sop",
 	"3d/napalmcan.mesh",

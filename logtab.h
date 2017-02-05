@@ -112,14 +112,14 @@ class CLogTabVar
 	protected:
 		static CLogTabVar* ms_pHead;							// Head of linked list of variables
 
-		char* m_pszName;											// Variable name
+      const char* m_pszName;											// Variable name
 
 		int16_t m_sMaxVal;											// Maximum value
 
 		bool m_bSettable;											// Whether val is settable (true) or not (false)
 
 		int16_t m_sNumStrings;										// Number of strings (0 if number based)
-		char** m_papszStrings;									// Pointer to array of pointers to strings
+      const char** m_papszStrings;									// Pointer to array of pointers to strings
 
 		int16_t m_sOutputWidth;									// Width of output in characters
 
@@ -191,7 +191,7 @@ class CLogTabVar
 		////////////////////////////////////////////////////////////////////////////////
 		static
 		int16_t FindVar(												// Returns 0 if successfull, non-zero otherwise
-			char* pszName,											// In:  Variable name to find
+         const char* pszName,											// In:  Variable name to find
 			CLogTabVar** ppVar);									//	Out: Pointer to variable (if found)
 
 		////////////////////////////////////////////////////////////////////////////////
@@ -214,7 +214,7 @@ class CLogTabVar
 		// Convert text into value
 		////////////////////////////////////////////////////////////////////////////////
 		int16_t TextToVal(											// Returns 0 if successfull, non-zero otherwise
-			char* pszText,											// In:  Text to convert
+         const char* pszText,											// In:  Text to convert
 			int16_t* psVal);											// Out: Value (only if successfull)
 
 		////////////////////////////////////////////////////////////////////////////////
@@ -241,7 +241,7 @@ class CLogTabVar
 		////////////////////////////////////////////////////////////////////////////////
 		// Get name
 		////////////////////////////////////////////////////////////////////////////////
-		char* GetName(void)										// Returns name
+      const char* GetName(void)										// Returns name
 			{
 			return m_pszName;
 			}
@@ -284,7 +284,7 @@ CLogTabVar<usertype>* CLogTabVar<usertype>::ms_pHead = 0;
 //static
 template <class usertype>
 int16_t CLogTabVar<usertype>::FindVar(				// Returns 0 if successfull, non-zero otherwise
-	char* pszName,											// In:  Variable name to find
+   const char* pszName,											// In:  Variable name to find
 	CLogTabVar** ppVar)									//	Out: Pointer to variable (if found)
 	{
 	int16_t sResult = 0;
@@ -332,7 +332,7 @@ int16_t CLogTabVar<usertype>::FindVar(				// Returns 0 if successfull, non-zero 
 ////////////////////////////////////////////////////////////////////////////////
 template <class usertype>
 int16_t CLogTabVar<usertype>::TextToVal(				// Returns 0 if successfull, non-zero otherwise
-	char* pszText,											// In:  Text to convert
+   const char* pszText,											// In:  Text to convert
 	int16_t* psVal)											// Out: Value (only if successfull)
 	{
 	int16_t sResult = 0;
@@ -448,7 +448,7 @@ class CLogTab
 	// Types, enums, etc.
 	//------------------------------------------------------------------------------
 	public:
-		typedef enum
+      enum
 			{
 			MaxVars = 32,			// Limited only by memory considerations
 			MaxRows = 100,			// Limited only by memory considerations
@@ -558,7 +558,7 @@ class CLogTab
 		////////////////////////////////////////////////////////////////////////////////
 		int16_t ReadEntry(
 			RFile* pFile,											// In:  RFile to read from
-			char* pszEntry,										// Out: Entry is returned in here
+         char* pszEntry,										// Out: Entry is returned in here
 			int16_t sMaxEntrySize,									// In:  Maximum size of entry
 			bool* pbEndOfTable,									// Out: true if this is last entry in table
 			bool* pbEndOfRow,										// Out: true if this is last entry in row
@@ -1105,7 +1105,7 @@ int16_t CLogTab<usertype>::Load(						// Returns 0 if successfull, non-zero othe
 template <class usertype>
 int16_t CLogTab<usertype>::ReadEntry(					// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,											// In:  RFile to read from
-	char* pszEntry,										// Out: Entry is returned in here
+   char* pszEntry,										// Out: Entry is returned in here
 	int16_t sMaxEntrySize,									// In:  Maximum size of entry
 	bool* pbEndOfTable,									// Out: true if this is last entry in table
 	bool* pbEndOfRow,										// Out: true if this is last entry in row

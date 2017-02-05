@@ -106,7 +106,7 @@ class CSprite
 	public:
 
 		// Define bit usage within "m_sInFlags"
-		typedef enum
+      enum
 			{
 			InAlpha				= 0x0001,			// Set if on alpha layer, clear otherwise
 			InOpaque				= 0x0002,			// Set if on opaque layer, clear otherwise
@@ -122,19 +122,19 @@ class CSprite
 			};
 
 		// Define bit usage within "m_sOutFlags"
-		typedef enum
+      enum
 			{
 			OutRendered = 1										// Set whenever rendered (cleared by user)
 			};
 
 		// Define bit usage within "m_sPrivFlags"
-		typedef enum
+      enum
 			{
 			PrivInserted = 1										// Set if inserted in scene
 			};
 
 		// Types of sprites (or primitives).
-		typedef enum
+      typedef enum
 			{
 			Standard2d,
 			Standard3d,
@@ -151,7 +151,7 @@ class CSprite
 		int16_t m_sOutFlags;										// Sprite's output flags
 		CThing*	m_pthing;										// Owner of this sprite (for debugging).
 
-		char*	m_pszText;											// Point this at your text.
+      const char*	m_pszText;											// Point this at your text.
 																		// DO NOT strcpy/cat/etc to this until
 																		// you've pointed it at some memory!!!
 

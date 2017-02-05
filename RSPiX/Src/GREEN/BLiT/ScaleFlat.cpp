@@ -111,7 +111,7 @@ inline void _Blit_HS_VS_C(
 	if (sMirrorV == -1) lDstP = -lDstP; // make sure pDst is correctly positioned
 	
 	// ASSUME SHRINKING FOR NOW:
-	//************ THIS CHANGES FOR MAGNIFY!
+	// ************ THIS CHANGES FOR MAGNIFY!
 	INIT_IMPROPER_FRACTION_V(sDstH,sSrcH,lDelMemY,sIncY,sNumY,lSrcP) // sDstH is the numerator
 	sClipH = sDstH - sClipB - sClipT; // Fully clipped...
 	//-------------------------------------------------------------------------
@@ -200,7 +200,7 @@ inline void _Blit_HM_VM_C(
 	if (sMirrorV == -1) lDstP = -lDstP; // make sure pDst is correctly positioned
 	
 	// ASSUME ENLARGING FOR NOW:
-	//************ THIS CHANGES FOR SHRINK!
+	// ************ THIS CHANGES FOR SHRINK!
 	INIT_PROPER_FRACTION(sDstH,sNumY) // sDstH is the denominator
 	sClipH = sDstH - sClipB - sClipT; // Fully clipped...
 	//-------------------------------------------------------------------------
@@ -289,7 +289,7 @@ inline void _Blit_HS_VM_C(
 	if (sMirrorV == -1) lDstP = -lDstP; // make sure pDst is correctly positioned
 	
 	// ASSUME ENLARGING FOR NOW:
-	//************ THIS CHANGES FOR SHRINK!
+	// ************ THIS CHANGES FOR SHRINK!
 	INIT_PROPER_FRACTION(sDstH,sNumY) // sDstH is the denominator
 	sClipH = sDstH - sClipB - sClipT; // Fully clipped...
 	//-------------------------------------------------------------------------
@@ -379,7 +379,7 @@ inline void _Blit_HM_VS_C(
 	if (sMirrorV == -1) lDstP = -lDstP; // make sure pDst is correctly positioned
 	
 	// ASSUME SHRINKING FOR NOW:
-	//************ THIS CHANGES FOR MAGNIFY!
+	// ************ THIS CHANGES FOR MAGNIFY!
 	INIT_IMPROPER_FRACTION_V(sDstH,sSrcH,lDelMemY,sIncY,sNumY,lSrcP) // sDstH is the numerator
 	sClipH = sDstH - sClipB - sClipT; // Fully clipped...
 	//-------------------------------------------------------------------------
@@ -546,7 +546,7 @@ int16_t rspBlitT(RImage* pimSrc,RImage* pimDst,RRect* prSrc,const RRect* prDst,
 		sDstClipH = prDstClip->sH;
 		}
 
-	//********************* MIRROR PART I => PRE CLIP:
+	// ********************* MIRROR PART I => PRE CLIP:
 	int16_t sMirrorH = 1,sMirrorV = 1;
 
 	if (sDstW < 0)
@@ -562,7 +562,7 @@ int16_t rspBlitT(RImage* pimSrc,RImage* pimDst,RRect* prSrc,const RRect* prDst,
 		sDstH = -sDstH;
 		sDstY -= (sDstH - 1);
 		}
-	//*********************
+	// *********************
 
 	//-------- Do the clipping:
 	int16_t sClipL,sClipR,sClipT,sClipB; // positive = clipped
@@ -577,7 +577,7 @@ int16_t rspBlitT(RImage* pimSrc,RImage* pimDst,RRect* prSrc,const RRect* prDst,
 		return 0; // fully clipped out
 		}
 
-	//********************* MIRROR PART II => POST CLIP, flip back...
+	// ********************* MIRROR PART II => POST CLIP, flip back...
 	if (sMirrorH == -1)
 		{
 		sDstX += (sDstW - 1);
@@ -591,7 +591,7 @@ int16_t rspBlitT(RImage* pimSrc,RImage* pimDst,RRect* prSrc,const RRect* prDst,
 		}
 
 
-	//*********************
+	// *********************
 
 	//------------------------------------------------------------------------------
 	// set up IC

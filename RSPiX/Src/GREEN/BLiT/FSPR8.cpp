@@ -15,9 +15,9 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-//********************************************
+// ********************************************
 // Here is the basic FSPR8 IO, Convert, & BLiT
-//********************************************
+// ********************************************
 #include "System.h"
 
 #ifdef PATHS_IN_INCLUDES
@@ -34,7 +34,7 @@
 
 #include <string.h>
 
-//***************************************************************************
+// ***************************************************************************
 // NOTES:  The FSPR8 compression format is NOT based around the idea of
 // data compression, but around the sheer speed of assembly blitting.
 // In short, the compression op codes are designed to have the fastest
@@ -42,7 +42,7 @@
 // five other more "advanced" algorithms which took longer to read their
 // OP-CODES.  It provides semi-random access by compressing scan lines as
 // autonomous units, which makes things like clipping much, much faster.
-//***************************************************************************
+// ***************************************************************************
 // There is currently no convert options for FSPR8.
 // Color index zero is transparancy.  Mild performance degredation may occur
 // for objects with visual details larger than 256 pixels across.
@@ -314,12 +314,12 @@ int16_t   ConvertToFSPR8(RImage*  pImage)
 
 #endif
 
-	//*********************  DO THE CONVERSION  ************************
+	// *********************  DO THE CONVERSION  ************************
 	RSpecialFSPR8* pHeader = new RSpecialFSPR8;
 	pHeader->m_usCompType = RImage::FSPR8;
 	pHeader->m_usSourceType = (uint16_t) pImage->m_type;
 
-	//************ RUN LENGTH COMPRESSION -> 8-bit Aligned **********
+	// ************ RUN LENGTH COMPRESSION -> 8-bit Aligned **********
 
 	//====== CONTROL BLOCK CODES (8-bit) ====== (Only one run type)
 	// if first clear run byte = 255, done the line
@@ -346,8 +346,8 @@ int16_t   ConvertToFSPR8(RImage*  pImage)
 	int16_t	sCount;
 	uint8_t *pucOldMem,*pucOldBuf; // For shrinking the buffer while maintaining alignment
 
-	//********* MALLOC all elements to maximum possible length, then shrink them. (realloc)
-	//********* for now, assume MALLOC returns 32-bit aligned ptr arrays.
+	// ********* MALLOC all elements to maximum possible length, then shrink them. (realloc)
+	// ********* for now, assume MALLOC returns 32-bit aligned ptr arrays.
 
 	// Max memory requirements:  Compresssed block = uncompressed block.
 	//									  Control Block = (width+1)*height
@@ -355,21 +355,21 @@ int16_t   ConvertToFSPR8(RImage*  pImage)
 
 	// So worst case scenario:  MEM = Height * (2*Width+9)
 
-	//*********************************** These are always the same size!
+	// *********************************** These are always the same size!
 	// Adjustment... for saving and retrieval, I am storing the total buffer sizes
 	// as the last elements in the random access arrays.
 	//
 	pHeader->m_pCodeArry = (uint8_t**)calloc(pImage->m_sHeight+1,sizeof(uint8_t*));
 	pHeader->m_pBufArry = (uint8_t**)calloc(pImage->m_sHeight+1,sizeof(uint8_t*));
 
-	//************** For now, set these to an optimisitically large size: 1:1 compression (could be 2:1 worst case)
+	// ************** For now, set these to an optimisitically large size: 1:1 compression (could be 2:1 worst case)
 	int32_t	lSizeEstimate = ((int32_t)(pImage->m_sHeight+1))*(pImage->m_sWidth*2+1) + 15;
 	pHeader->m_pCompMem = (uint8_t*)malloc((size_t)pImage->m_sHeight*(size_t)pImage->m_sWidth+15);
 
 	pHeader->m_pCompBuf = (uint8_t*)(( (int64_t)(pHeader->m_pCompMem) + 15) & ~ 15); // align it 128!
 	pHeader->m_pCodeBuf = (uint8_t*)malloc((size_t)lSizeEstimate);
 
-	//******** For convenience, generate the Compressed Buffer immediately:
+	// ******** For convenience, generate the Compressed Buffer immediately:
 	uint8_t*	pucCPos = pHeader->m_pCompBuf;
 	uint8_t*	pucBPos = pImage->m_pData; // read the actual buffer
 	int16_t	sW = pImage->m_sWidth;
@@ -423,7 +423,7 @@ int16_t   ConvertToFSPR8(RImage*  pImage)
 	// Now update the indexes (m_pBufArry) which point into PCBuf:
 	for (y=0;y<sH;y++) pHeader->m_pBufArry[y] += (int64_t)(pHeader->m_pCompBuf);
 
-	//******** NOW, the challange... Create the Control Block!
+	// ******** NOW, the challange... Create the Control Block!
 	pucBPos = pImage->m_pData;
 	uint8_t*	pucConBlk = pHeader->m_pCodeBuf;
 
@@ -494,9 +494,9 @@ int16_t   ConvertToFSPR8(RImage*  pImage)
 	// Move the indexes in (m_pCodeArry)
 	for (y=0;y<sH;y++) pHeader->m_pCodeArry[y] += (int64_t)(pHeader->m_pCodeBuf);
 
-	//******************************************************************
+	// ******************************************************************
 
-	//******************************************************************
+	// ******************************************************************
 	// Install the newly compressed buffer:
 
 	// Kill the old buffer in an Image-Safe way:
@@ -514,7 +514,7 @@ int16_t   ConvertToFSPR8(RImage*  pImage)
 
 //------------------------------------------------------------------------
 
-//*****************************  THE FSPRITE BLiT  ******************************
+// *****************************  THE FSPRITE BLiT  ******************************
 // currently 8-bit, but soon to be full color.
 // Must deal with screen locking.
 //
@@ -594,7 +594,7 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,const 
 		if ((sW <= 0) || (sH <= 0)) return -1; // fully clipped
 		}
 
-		//**************  INSERT BUFFER HOOKS HERE!  ************************
+		// **************  INSERT BUFFER HOOKS HERE!  ************************
 
 	// do OS based copying!
 	int16_t sNeedToUnlock = 0; // will be the name of a buffer to unlock.
@@ -666,7 +666,7 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,const 
 		}
 //BLIT_PRELOCKED:
 
-	//*******************************************************************
+	// *******************************************************************
 	// 8-bit biased!
 	// Check for locking error:
 	if (!pimDst->m_pData)
@@ -691,7 +691,7 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,const 
 	//
 	if (sSrcX > 0)	// LClip Situation! => The slowest!
 		{
-		//**** THE WORST OF ALL CASES!  TWO SIDED CLIPPING! ****
+		// **** THE WORST OF ALL CASES!  TWO SIDED CLIPPING! ****
 		if (sW < (pimSrc->m_sWidth - sSrcX) )
 			{
 			for (sY = sSrcY; sY < sSrcY + sH; sY++,pDstLine += lDstP)
@@ -935,7 +935,7 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,const 
 					}
 				}
 
-	//*******************************************************************
+	// *******************************************************************
 	// IN RELEASE MODE, GIVE THE USER A CHANCE:
 #ifndef _DEBUG
 
@@ -943,9 +943,9 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,const 
 
 #endif
 
-	//********************
+	// ********************
 	// OS_SPECIFIC:
-	//********************  UNLOCK WHATEVER YOU NEED TO
+	// ********************  UNLOCK WHATEVER YOU NEED TO
 	switch (sNeedToUnlock)
 		{
 		case 0: // nothing to unlock!

@@ -37,7 +37,7 @@ class CSettings
 	private:
 		typedef RFList<CSettings*> SETTINGS;
 
-		typedef enum
+      enum
 			{
 			MemFileSize = 512
 			};
@@ -54,19 +54,19 @@ class CSettings
 	public:
 		// Read settings that are stored in preference file
 		static int16_t LoadPrefs(
-			char* pszFile);
+         const char* pszFile);
 
 		// Write settings that are stored in preference file
 		static int16_t SavePrefs(
-			char* pszFile);
+         const char* pszFile);
 
 		// Load settings that are stored in game file
 		static int16_t LoadGame(
-			char* pszFile);
+         const char* pszFile);
 
 		// Save settings that are stored in game file
 		static int16_t SaveGame(
-			char* pszFile);
+         const char* pszFile);
 
 		// Temporarily set settings for demo mode
 		static int16_t PreDemo(

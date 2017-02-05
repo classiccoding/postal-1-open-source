@@ -39,30 +39,30 @@
 #define KEYS_H
 
 // Array of key descriptors.
-extern char* g_apszKeyDescriptions[128];
+extern const char* g_apszKeyDescriptions[128];
 
 // Array of button descriptors.
-extern char* g_apszMouseButtonDescriptions[8];
+extern const char* g_apszMouseButtonDescriptions[8];
 
 // Array of joy button descriptors.
-extern char* g_apszJoyButtonDescriptions[18];
+extern const char* g_apszJoyButtonDescriptions[18];
 
 // Given a string, returns the appropriate key code.
 extern int16_t KeyDescriptionToValue(	// Returns 0 on success.  Returns non-zero, if
 												// key not found.
-	char*		pszKeyDescriptor,			// In:  Description of key.
+   const char*		pszKeyDescriptor,			// In:  Description of key.
 	uint32_t*	psScanKey);					// Out: Key value.
 
 // Given a string, returns the appropriate button mask.
 extern int16_t MouseButtonDescriptionToMask(	// Returns 0 on success.  Returns
 															// non-zero, if description not 
 															// found.
-	char*		pszButtonDescriptor,					// In:  Description of button.
+   const char*		pszButtonDescriptor,					// In:  Description of button.
 	uint32_t*	psButtonMask);							// Out: Button mask.
 
 extern int16_t JoyButtonDescriptionToMask(	// Returns 0 on success.  Returns 
 														// non-zero, if description not found.
-	char*		pszButtonDescriptor,				// In:  Description of button.
+   const char*		pszButtonDescriptor,				// In:  Description of button.
 	uint32_t*	psButtonMask);						// Out: Button mask.
 
 #endif	// KEYS_H

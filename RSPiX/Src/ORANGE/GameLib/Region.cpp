@@ -476,7 +476,7 @@ int16_t RSphericalRegion::Collide(R3DLine* pline)
 			// it says 'long lCirDist = SQR(lRelCenX) + SQR(lRelCenX);'
 			// I'm assuming that the second lRelCenX should be lRelCenY.
 			// Blech...making attempt to take to 3D.
-	//***************************** FUNCTION UINPUT **
+	// ***************************** FUNCTION UINPUT **
 	long lRelCenX = sphere.X - pline->X1;
 	long lRelCenY = sphere.Y - pline->Y1;
 	// JMI: Added Z component:
@@ -487,7 +487,7 @@ int16_t RSphericalRegion::Collide(R3DLine* pline)
 	// JMI: Added Z component:
 	long lDelZ = (pline->Z1 - pline->Z2);
 	short sCirR = sphere.lRadius;	// the circle radius
-	//***********************************************
+	// ***********************************************
 
 	// DO RANGE CHECKS FIRST SINCE THEY ARE LESS EXPENSIVE:
 
@@ -515,9 +515,9 @@ int16_t RSphericalRegion::Collide(R3DLine* pline)
 
 			if (d >= 0)
 				{
-				//***********************************************
+				// ***********************************************
 				// WE HAVE A DIRECT HIT !!!!!!!!!!!!!!!!!!!
-				//***********************************************
+				// ***********************************************
 
 				// DO WHATEVER!
 				return COLLISION;
@@ -526,7 +526,7 @@ int16_t RSphericalRegion::Collide(R3DLine* pline)
 
 		}
 #else	// 2D version on X and Z.
-	//***************************** FUNCTION UINPUT **
+	// ***************************** FUNCTION UINPUT **
 	int32_t lRelCenX = sphere.X - pline->X1;
 //	long lRelCenY = sphere.Y - pline->Y1;
 	// JMI: Added Z component:
@@ -537,7 +537,7 @@ int16_t RSphericalRegion::Collide(R3DLine* pline)
 	// JMI: Added Z component:
 	int32_t lDelZ = (pline->Z2 - pline->Z1);
 	int16_t sCirR = sphere.lRadius;	// the circle radius
-	//***********************************************
+	// ***********************************************
 
 	// DO RANGE CHECKS FIRST SINCE THEY ARE LESS EXPENSIVE:
 
@@ -565,9 +565,9 @@ int16_t RSphericalRegion::Collide(R3DLine* pline)
 
 			if (d >= 0)
 				{
-				//***********************************************
+				// ***********************************************
 				// WE HAVE A DIRECT HIT !!!!!!!!!!!!!!!!!!!
-				//***********************************************
+				// ***********************************************
 
 				// DO WHATEVER!
 				return COLLISION;

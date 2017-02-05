@@ -54,11 +54,11 @@ typedef struct
 	} RDRect;
 
 
-//*******************************************************************
+// *******************************************************************
 // NOTE: Do NOT call Insert, InsertHead, or AddTail unless you want
 // a rectangle to be added w/o combination.  A rectangle added later
 // may be combined with that one, however.
-//*******************************************************************
+// *******************************************************************
 class RDirtyRects : public RList<RDRect>
 	{
 	public:	// Typedefs.
