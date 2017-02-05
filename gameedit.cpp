@@ -6007,7 +6007,7 @@ static void RemoveView(		// Returns nothing.
 		RGuiItem*	pguiRemove;
 		if (pview != NULL)
 			{
-			pguiRemove	= plb->GetItemFromId((int64_t)pview);
+         pguiRemove	= pview->pgui;
 			}
 		else
 			{

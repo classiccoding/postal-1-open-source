@@ -717,7 +717,7 @@ class RGuiItem : public RProps <uint32_t, uint32_t>
 		// its children.
 		RGuiItem* GetItemFromId(	// Returns pointer to RGuiItem, if found;
 											// otherwise, returns NULL.
-			int32_t lId)					// ID of RGuiItem to find.
+         int32_t lId)					// ID of RGuiItem to find.
 			{
 			RGuiItem*	pguiRes	= NULL;	// Assume not found.
 
