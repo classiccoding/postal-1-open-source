@@ -271,9 +271,9 @@ int16_t Encrypt(char* szFileName,char* szInputString)
 				UPDATE_CRC(szEncrypted[i]);			
 
 			//grow 2 bytes for internal info
-			cnFile.Write((S16*)&sLength);
-			cnFile.Write((S8*) szEncrypted,sLength+2);
-			cnFile.Write((U16*)&ms_usCRC);
+			cnFile.Write((int16_t*)&sLength);
+			cnFile.Write((int8_t*) szEncrypted,sLength+2);
+			cnFile.Write((uint16_t*)&ms_usCRC);
 			
 			rc=0;
 			}
@@ -310,9 +310,9 @@ int16_t Decrypt(char* szFileName,char* szOutputString)
 		{
 		MakeCRCTable();
 			
-		cnFile.Read((S16*)&sLength);
-		cnFile.Read((S8*) szDecrypted,sLength+2);
-		cnFile.Read((U16*)&usCRC);
+		cnFile.Read((int16_t*)&sLength);
+		cnFile.Read((int8_t*) szDecrypted,sLength+2);
+		cnFile.Read((uint16_t*)&usCRC);
 				
 		if(Verify(szDecrypted,sLength,usCRC)==0)
 			rc=Decrypt(szDecrypted,szOutputString,sLength);

@@ -102,9 +102,9 @@ RSndFx::PCMINFO	RSndFx::ms_apcminfo[RSP_SNDFX_MAX_BITSPERSAMPLE + 1] =	// Stores
 		{ 0x40000000, 0x7FFFFFFF	},	// 32 Bit.
 	};
 
-U8*	RSndFx::ms_pu8Fade	= NULL;	// Unsigned 8 bit output
+uint8_t*	RSndFx::ms_pu8Fade	= NULL;	// Unsigned 8 bit output
 												// fade table.
-S16*	RSndFx::ms_ps16Fade	= NULL;	// Signed 16 bit output
+int16_t*	RSndFx::ms_ps16Fade	= NULL;	// Signed 16 bit output
 												// fade table.
 
 int16_t	RSndFx::ms_sNumFadeSteps	= 0;	// Number of fade steps.
@@ -273,19 +273,19 @@ int16_t RSndFx::SetFadeAccuracy(	// Returns 0 on success.
 			{
 			case 8:
 				{
-				ms_pu8Fade	= (U8*)malloc((int32_t)sNumSteps * 256L * sizeof(S16));
+				ms_pu8Fade	= (uint8_t*)malloc((int32_t)sNumSteps * 256L * sizeof(int16_t));
 				if (ms_pu8Fade != NULL)
 					{
 					int16_t	sStep;
 					int16_t	sSample;
 					float	fStep				= 1.0F / (float)sNumSteps;
 					float	fCurDecimation	= fStep;
-					U8*	pu8	= ms_pu8Fade;
+					uint8_t*	pu8	= ms_pu8Fade;
 					for (sStep	= 0; sStep < sNumSteps; sStep++)
 						{
 						for (sSample = 0; sSample < 256; sSample++)
 							{
-							*pu8++	= (U8)( (float)(sSample - 0x80) * fCurDecimation) + 0x80;
+							*pu8++	= (uint8_t)( (float)(sSample - 0x80) * fCurDecimation) + 0x80;
 							}
 						
 						fCurDecimation	+= fStep;
@@ -313,19 +313,19 @@ int16_t RSndFx::SetFadeAccuracy(	// Returns 0 on success.
 
 			case 16:
 				{
-				ms_ps16Fade	= (S16*)malloc((int32_t)sNumSteps * 256L * sizeof(S16));
+				ms_ps16Fade	= (int16_t*)malloc((int32_t)sNumSteps * 256L * sizeof(int16_t));
 				if (ms_ps16Fade != NULL)
 					{
 					int16_t	sStep;
 					int16_t	sSample;
 					float	fStep				= 1.0F / (float)sNumSteps;
 					float	fCurDecimation	= fStep;
-					S16*	ps16	= ms_ps16Fade;
+					int16_t*	ps16	= ms_ps16Fade;
 					for (sStep	= 0; sStep < sNumSteps; sStep++)
 						{
 						for (sSample = 0; sSample < 256; sSample++)
 							{
-							*ps16++	= (S16)( (float)((sSample - 128) << 8) * fCurDecimation);
+							*ps16++	= (int16_t)( (float)((sSample - 128) << 8) * fCurDecimation);
 							}
 						
 						fCurDecimation	+= fStep;
@@ -456,8 +456,8 @@ void RSndFx::Do(						// Returns nothing.
 						case 8:
 							{
 							UnsignedDecimate(							// Returns nothing.           
-										(U8*)pucSrcData,				// Data buffer to fade.
-										(U8*)pucDstData,				// Dest data buffer.
+										(uint8_t*)pucSrcData,				// Data buffer to fade.
+										(uint8_t*)pucDstData,				// Dest data buffer.
 										lBufSize, 						// Number of bytes in buffer. 
 										ms_pu8Fade + (m_lFadeInBytesDurationAffected / m_lFadeInRate) * 256 );	// Attenuation Table.
 							break;
@@ -465,8 +465,8 @@ void RSndFx::Do(						// Returns nothing.
 						case 16:
 							{
 							Decimate(									// Returns nothing.
-										(S16*)pucSrcData,				// Data buffer to fade.
-										(S16*)pucDstData,				// Dest data buffer.
+										(int16_t*)pucSrcData,				// Data buffer to fade.
+										(int16_t*)pucDstData,				// Dest data buffer.
 										lBufSize, 						// Number of bytes in buffer.
 										ms_ps16Fade + (m_lFadeInBytesDurationAffected / m_lFadeInRate) * 256 );	// Attenuation Table.
 							break;
@@ -497,8 +497,8 @@ void RSndFx::Do(						// Returns nothing.
 							case 8:
 								{
 								UnsignedDecimate(							// Returns nothing.           
-											(U8*)pucSrcData,				// Data buffer to fade.
-											(U8*)pucDstData,				// Dest data buffer.
+											(uint8_t*)pucSrcData,				// Data buffer to fade.
+											(uint8_t*)pucDstData,				// Dest data buffer.
 											lBufSize, 						// Number of bytes in buffer. 
 											ms_pu8Fade + (m_lFadeOutBytesDurationRemaining / m_lFadeOutRate) * 256 );	// Attenuation Table.
 								break;
@@ -506,8 +506,8 @@ void RSndFx::Do(						// Returns nothing.
 							case 16:
 								{
 								Decimate(									// Returns nothing.           
-											(S16*)pucSrcData,				// Data buffer to fade.
-											(S16*)pucDstData,				// Dest data buffer.
+											(int16_t*)pucSrcData,				// Data buffer to fade.
+											(int16_t*)pucDstData,				// Dest data buffer.
 											lBufSize, 						// Number of bytes in buffer. 
 											ms_ps16Fade + (m_lFadeOutBytesDurationRemaining / m_lFadeOutRate) * 256 ); // Attenuation table.         
 								break;

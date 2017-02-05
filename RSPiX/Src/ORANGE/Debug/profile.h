@@ -246,9 +246,9 @@ rspProfileOff();
 typedef	enum {Inactive,Timing,DoneTiming,InError}	ProfileState;
 
 #ifdef __GNUC__
-#define BIGS64(x) S64(x##ll)
+#define BIGS64(x) int64_t(x##ll)
 #else
-#define BIGS64(x) S64(x)
+#define BIGS64(x) int64_t(x)
 #endif
 
 class	RProfileNode
@@ -271,14 +271,14 @@ public:
 	~RProfileNode(){};
 	//----------------------------
 	char m_szFieldName[PF_MAX_LEN];
-	S64	m_lNumCalls;
-	S64	m_lTotTime;
-	S64  m_lLastTime;
+   int64_t	m_lNumCalls;
+   int64_t	m_lTotTime;
+   int64_t  m_lLastTime;
 
-	S64	m_lMinTime;
-	S64  m_lWhenMin; // relative to begin
-	S64	m_lMaxTime;
-	S64	m_lWhenMax; // relative to begin
+   int64_t	m_lMinTime;
+   int64_t  m_lWhenMin; // relative to begin
+   int64_t	m_lMaxTime;
+   int64_t	m_lWhenMax; // relative to begin
 
 	ProfileState m_eState;	// parenthesis verification!
 
@@ -342,7 +342,7 @@ public:
 			*/
 		}
 
-	//S64	DetermineTimeError();
+   //int64_t	DetermineTimeError();
 
 	void Report(); // tell it all!
 	//----------------------------
@@ -360,18 +360,18 @@ public:
 	RProfile(); // in cpp file
 
 	//----------------------------
-	S64	m_lCount;		// to determine my own overhead!
-	S64	m_lTotTime;		// Total overhead used by profiling!
+   int64_t	m_lCount;		// to determine my own overhead!
+   int64_t	m_lTotTime;		// Total overhead used by profiling!
 
-	S64	m_lInitTime;		// start of program
-	S64	m_lDeceasedTime;	// end of program
+   int64_t	m_lInitTime;		// start of program
+   int64_t	m_lDeceasedTime;	// end of program
 
-	S64	m_lBeginTime;	// when user kicks off profiling
-	S64  m_lFirstTime;	// first time a profile range is entered in active mode
+   int64_t	m_lBeginTime;	// when user kicks off profiling
+   int64_t  m_lFirstTime;	// first time a profile range is entered in active mode
 
 	//===== Let's try to max out a theme here:
-	S64	m_lFastTimeIn;
-	S64	m_lFastTimeOut;
+   int64_t	m_lFastTimeIn;
+   int64_t	m_lFastTimeOut;
 	//----------------------------
 	
 	int16_t	m_sLastUnaccounted;// Used for one frame lag timing of unknown overhead...

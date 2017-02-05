@@ -294,17 +294,17 @@ if (sEdit && (paa->m_sNumAlphas > 2))
 		}
 	for (int16_t y = 0; y < paa->m_pimAlphaArray[1].m_sHeight; y++)
 		{
-		U8* pSrc = paa->m_pimAlphaArray[1].m_pData + (y * paa->m_pimAlphaArray[1].m_lPitch);
-		U8* pDst = paa->m_pimAlphaArray[0].m_pData + (y * paa->m_pimAlphaArray[0].m_lPitch);
+		uint8_t* pSrc = paa->m_pimAlphaArray[1].m_pData + (y * paa->m_pimAlphaArray[1].m_lPitch);
+		uint8_t* pDst = paa->m_pimAlphaArray[0].m_pData + (y * paa->m_pimAlphaArray[0].m_lPitch);
 
 		for (int16_t x = 0; x < paa->m_pimAlphaArray[1].m_sWidth; x++)
 			{
 			double dVal = (double)(*pSrc);
 			dVal *= dScale;
 			if (dVal < 256.0)
-				*pDst = (U8)dVal;
+				*pDst = (uint8_t)dVal;
 			else
-				*pDst = (U8)255;
+				*pDst = (uint8_t)255;
 			pSrc++;
 			pDst++;
 			}

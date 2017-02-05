@@ -237,7 +237,7 @@ int16_t RSnd::Stream(	char* pszSampleName, int32_t lPlayBufSize, int32_t lReadBu
 				// Store the buffer size to stream with.
 				m_lBufSize	= lPlayBufSize;
 				// Attempt to start the mixing . . .
-				if (m_mix.Start(StreamCallStatic, (U64)this) == 0)
+				if (m_mix.Start(StreamCallStatic, (uint64_t)this) == 0)
 					{
 					// Success.  Set state to starting.
 					m_sState	= Starting;
@@ -340,7 +340,7 @@ int16_t RSnd::Play(						// Returns 0 on success.
 			// Store the buffer size to stream with.
 			m_lBufSize = lPlayBufSize;
 			// Attempt to play buffer . . .
-			if (m_mix.Start(PlayCallStatic, (U64)this,ucMainVolume,ucVolume2) == 0)
+			if (m_mix.Start(PlayCallStatic, (uint64_t)this,ucMainVolume,ucVolume2) == 0)
 				{
 				// Success.  Set state to starting.
 				m_sState				= Starting;

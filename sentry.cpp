@@ -142,9 +142,9 @@ int32_t CSentry::ms_lMaxShootTime = MS_BETWEEN_BULLETS;		// Maximum in ms of con
 int32_t CSentry::ms_lReselectDudeTime	= 3000;	// Time to go without finding a dude
 															// before calling SelectDude() to find
 															// possibly a closer one.
-U32 CSentry::ms_u32WeaponIncludeBits = CSmash::Character | CSmash::Barrel | CSmash::Misc;
-U32 CSentry::ms_u32WeaponDontcareBits = CSmash::Good | CSmash::Bad;
-U32 CSentry::ms_u32WeaponExcludeBits = CSmash::SpecialBarrel | CSmash::Ducking | CSmash::Bad | CSmash::Civilian;
+uint32_t CSentry::ms_u32WeaponIncludeBits = CSmash::Character | CSmash::Barrel | CSmash::Misc;
+uint32_t CSentry::ms_u32WeaponDontcareBits = CSmash::Good | CSmash::Bad;
+uint32_t CSentry::ms_u32WeaponExcludeBits = CSmash::SpecialBarrel | CSmash::Ducking | CSmash::Bad | CSmash::Civilian;
 
 // Let this auto-init to 0
 int16_t CSentry::ms_sFileCount;
@@ -372,7 +372,7 @@ void CSentry::Render(void)
 {
 
 	// Do our own render of the stationary base
-	U16	u16CombinedAttributes;
+	uint16_t	u16CombinedAttributes;
 	int16_t	sLightTally;
 	GetEffectAttributes(m_dXBase, m_dZBase, &u16CombinedAttributes, &sLightTally);
 

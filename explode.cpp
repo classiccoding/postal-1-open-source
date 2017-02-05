@@ -371,7 +371,7 @@ int16_t CExplode::Setup(									// Returns 0 if successfull, non-zero otherwise
 	int16_t sX,												// In:  New x coord
 	int16_t sY,												// In:  New y coord
 	int16_t sZ,												// In:  New z coord
-	U16	u16ShooterID,									// In:  Who is responsible for this explosion
+	uint16_t	u16ShooterID,									// In:  Who is responsible for this explosion
 	int16_t sAnim)											// In:  Which animation to use
 {
 	int16_t sResult = 0;

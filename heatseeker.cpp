@@ -179,12 +179,12 @@ int16_t CHeatseeker::ms_sOffScreenDist = 200;				// Go off screen this far befor
 int16_t CHeatseeker::ms_sAngularVelocity = 120;				// Degrees per second
 
 // Set the collision bits
-U32 CHeatseeker::ms_u32SeekIncludeBits = CSmash::Character | CSmash::Fire;
-U32 CHeatseeker::ms_u32SeekDontcareBits = CSmash::Good | CSmash::Bad;
-U32 CHeatseeker::ms_u32SeekExcludeBits = CSmash::Ducking | CSmash::AlmostDead;
-U32 CHeatseeker::ms_u32CollideIncludeBits = CSmash::Character | CSmash::Misc | CSmash::Barrel | CSmash::Fire;
-U32 CHeatseeker::ms_u32CollideDontcareBits = CSmash::Good | CSmash::Bad;
-U32 CHeatseeker::ms_u32CollideExcludeBits = CSmash::Ducking; // Miss if they are ducking
+uint32_t CHeatseeker::ms_u32SeekIncludeBits = CSmash::Character | CSmash::Fire;
+uint32_t CHeatseeker::ms_u32SeekDontcareBits = CSmash::Good | CSmash::Bad;
+uint32_t CHeatseeker::ms_u32SeekExcludeBits = CSmash::Ducking | CSmash::AlmostDead;
+uint32_t CHeatseeker::ms_u32CollideIncludeBits = CSmash::Character | CSmash::Misc | CSmash::Barrel | CSmash::Fire;
+uint32_t CHeatseeker::ms_u32CollideDontcareBits = CSmash::Good | CSmash::Bad;
+uint32_t CHeatseeker::ms_u32CollideExcludeBits = CSmash::Ducking; // Miss if they are ducking
 int32_t CHeatseeker::ms_lSmokeTrailInterval = 10;			// MS between smoke releases
 int32_t CHeatseeker::ms_lSmokeTimeToLive = 1000;			// MS for smoke to stay around.
 

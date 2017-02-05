@@ -160,7 +160,7 @@ RListBox::RListBox()
 	m_sbVert.m_im.m_sWidth		= DEF_SCROLL_THICKNESS;
 	m_sbVert.m_oOrientation		= RScrollBar::Vertical;
 	m_sbVert.m_upcUser			= ScrollCall;
-	m_sbVert.m_ulUserInstance	= (U64)this;
+	m_sbVert.m_ulUserInstance	= (uint64_t)this;
 
 	// Priority for scrollbars should be higher than any other sibling.
 	m_sbVert.m_hot.SetPriority(SCROLLBAR_PRIORITY);
@@ -168,7 +168,7 @@ RListBox::RListBox()
 	m_sbHorz.m_im.m_sHeight		= DEF_SCROLL_THICKNESS;
 	m_sbHorz.m_oOrientation		= RScrollBar::Horizontal;
 	m_sbHorz.m_upcUser			= ScrollCall;
-	m_sbHorz.m_ulUserInstance	= (U64)this;
+	m_sbHorz.m_ulUserInstance	= (uint64_t)this;
 
 	// Priority for scrollbars should be higher than any other sibling.
 	m_sbHorz.m_hot.SetPriority(SCROLLBAR_PRIORITY);
@@ -952,7 +952,7 @@ RGuiItem* RListBox::CreateStringItem(	// Returns new item on success;
 
 		// Set callback.
 		pgui->m_bcUser				= PressedCall;
-		pgui->m_ulUserInstance	= (U64)this;
+		pgui->m_ulUserInstance	= (uint64_t)this;
 
 		// Get thickness of border.
 		int16_t sBorder	= pgui->GetTopLeftBorderThickness()
@@ -1022,7 +1022,7 @@ RGuiItem* RListBox::CreateEncapsulator(	// Returns new item on success; NULL,
 
 		// Set callback.
 		pguiRes->m_bcUser				= PressedCall;
-		pguiRes->m_ulUserInstance	= (U64)this;
+		pguiRes->m_ulUserInstance	= (uint64_t)this;
 
 		// Get thickness of border.
 		int16_t sBorder	= pguiRes->GetTopLeftBorderThickness()
@@ -1310,7 +1310,7 @@ int16_t RListBox::SaveChildren(	// Returns 0 on success.
 ////////////////////////////////////////////////////////////////////////
 int16_t RListBox::ReadMembers(	// Returns 0 on success.
 	RFile*	pfile,					// File to read from.
-	U32		u32Version)				// File format version to use.
+	uint32_t		u32Version)				// File format version to use.
 	{
 	int16_t	sRes	= 0;	// Assume success.
 
@@ -1323,7 +1323,7 @@ int16_t RListBox::ReadMembers(	// Returns 0 on success.
 		ASSERT(pfile != NULL);
 		ASSERT(pfile->IsOpen() != FALSE);
 		
-		U32	u32Temp;
+		uint32_t	u32Temp;
 		
 		// Switch on version.
 		switch (u32Version)
@@ -1385,10 +1385,10 @@ int16_t RListBox::WriteMembers(	// Returns 0 on success.
 
 		// Write this class's members.
 		////////////// Version 2 ////////////////////
-		pfile->Write((U32)m_typeEncapsulator);	
+		pfile->Write((uint32_t)m_typeEncapsulator);	
 		////////////// Version 1 ////////////////////
-		pfile->Write((U32)m_sbvVert);
-		pfile->Write((U32)m_sbvHorz);
+		pfile->Write((uint32_t)m_sbvVert);
+		pfile->Write((uint32_t)m_sbvHorz);
 		////////////// Version 0 ////////////////////
 
 		// If successful . . .

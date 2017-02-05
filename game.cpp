@@ -121,7 +121,7 @@
 //
 //		06/04/97	JMI	Added MUST_BE_ON_CD, EDITOR_DISABLED, and CHECK_FOR_COOKIE 
 //							conditional compilation macros and added a check for a 
-//							specific U32 in the COOKIE file.
+//							specific uint32_t in the COOKIE file.
 //
 //		06/12/97 MJR	Reworked the callbacks so that the game-specific code now
 //							resides in this module rather than the menu module.
@@ -753,7 +753,7 @@ int16_t		g_sRealmNumToSave;
 bool		g_bLastLevelDemo = false;
 
 // The secret cookie value used to determine if the humongous file exists
-static U32	ms_u32Cookie = COOKIE_VALUE;
+static uint32_t	ms_u32Cookie = COOKIE_VALUE;
 
 // These variables are generally controlled via the menu system
 static ACTION m_action;
@@ -1127,7 +1127,7 @@ extern void TheGame(void)
 #if defined(CHECK_FOR_COOKIE)
 				if (file.Seek(COOKIE_FILE_POSITION, SEEK_SET) == 0)
 					{
-					U32	u32Cookie	= 0;
+					uint32_t	u32Cookie	= 0;
 					if (file.Read(&u32Cookie) == 1)
 						{
 						if (u32Cookie == ms_u32Cookie)
@@ -3708,7 +3708,7 @@ extern int SynchLog(	// Result of expr.
 	char*		pszFile,	// In:  Calling file.
 	int32_t		lLine,	// In:  Calling line.
 	char*		pszExpr,	// In:  Original C++ source expression.
-	U32		u32User)	// In:  A user value that is intended to be consistent.
+	uint32_t		u32User)	// In:  A user value that is intended to be consistent.
 	{
 	#if defined(_DEBUG) || defined(TRACENASSERT)
 		if (ms_fileSynchLog.IsOpen() )
@@ -3732,7 +3732,7 @@ extern int SynchLog(	// Result of expr.
 				int32_t		lLineIn;
 				int32_t		lSeqIn;
 				double	exprIn;
-				U32		u32UserIn;
+				uint32_t		u32UserIn;
 
 				if (fscanf(
 					ms_fileSynchLog.m_fs,
@@ -4336,9 +4336,9 @@ extern void SetGammaLevel(	// Returns nothing.
 
 	return; // don't set gamma for now
 
-	U8	au8RedMap[256];
-	U8	au8GreenMap[256];
-	U8	au8BlueMap[256];
+	uint8_t	au8RedMap[256];
+	uint8_t	au8GreenMap[256];
+	uint8_t	au8BlueMap[256];
 
 	int16_t i;
 	int16_t	sClipVal;
@@ -4347,9 +4347,9 @@ extern void SetGammaLevel(	// Returns nothing.
 			i++)
 		{
 		sClipVal	= MAX((int16_t)0, MIN(int16_t(pow((double)i / 100.0, GAMMA_EXPONENT) * sBase), (int16_t)255));
-		au8RedMap[i]	= (U8)sClipVal;
-		au8GreenMap[i]	= (U8)sClipVal;
-		au8BlueMap[i]	= (U8)sClipVal;
+		au8RedMap[i]	= (uint8_t)sClipVal;
+		au8GreenMap[i]	= (uint8_t)sClipVal;
+		au8BlueMap[i]	= (uint8_t)sClipVal;
 		}
 
 	// Update map.
@@ -4359,7 +4359,7 @@ extern void SetGammaLevel(	// Returns nothing.
 		au8RedMap,
 		au8GreenMap,
 		au8BlueMap,
-		sizeof(U8));
+		sizeof(uint8_t));
 
 	// Update hardware through new map.
 	rspUpdatePalette();
@@ -4379,9 +4379,9 @@ extern	void	SetBrightnessContrast(
 						double dContrast		// -1.0 = low contrast, 0.0 = normal, 1.0 = high
 						)
 	{
-	U8	au8RedMap[256];
-	U8	au8GreenMap[256];
-	U8	au8BlueMap[256];
+	uint8_t	au8RedMap[256];
+	uint8_t	au8GreenMap[256];
+	uint8_t	au8BlueMap[256];
 
 	// I will scale the ranges to within reasonable limits:
 	ASSERT( (dBrightness >= -1.0) || (dBrightness <= 1.0));
@@ -4401,9 +4401,9 @@ extern	void	SetBrightnessContrast(
 		if (sLev < 0) sLev = 0;
 		if (sLev > 255) sLev = 255;
 
-		au8RedMap[i]	= (U8)sLev;
-		au8GreenMap[i]	= (U8)sLev;
-		au8BlueMap[i]	= (U8)sLev;
+		au8RedMap[i]	= (uint8_t)sLev;
+		au8GreenMap[i]	= (uint8_t)sLev;
+		au8BlueMap[i]	= (uint8_t)sLev;
 		}
 
 	// Update map.
@@ -4413,7 +4413,7 @@ extern	void	SetBrightnessContrast(
 		au8RedMap,
 		au8GreenMap,
 		au8BlueMap,
-		sizeof(U8));
+		sizeof(uint8_t));
 
 	// Update hardware through new map.
 	rspUpdatePalette();

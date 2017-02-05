@@ -82,20 +82,20 @@ public:
 
 	//==========================================================
 	// scratch space for creating a command list for creation:
-	static U8 ms_r[256];
-	static U8 ms_g[256];
-	static U8 ms_b[256];
-	static U8 ms_a[256];
-	static U8 ms_f[256];
+	static uint8_t ms_r[256];
+	static uint8_t ms_g[256];
+	static uint8_t ms_b[256];
+	static uint8_t ms_a[256];
+	static uint8_t ms_f[256];
 
 	static int16_t ms_SetPalette(RImage* pimImage);
 	static int16_t ms_SetPalette(); // to system palette
 	static int16_t ms_IsPaletteSet;
 public:
 	// temporary storage for a master palette:
-	static U8 ms_red[256];
-	static U8 ms_green[256];
-	static U8 ms_blue[256];
+	static uint8_t ms_red[256];
+	static uint8_t ms_green[256];
+	static uint8_t ms_blue[256];
 	};
 
 // This concept will be refined later, but allows pixel selected alpha effects:

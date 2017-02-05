@@ -233,7 +233,7 @@ class RMesh
 	//------------------------------------------------------------------------------
 	public:
 		int16_t m_sNum;												// Number of triangles in array (3 elements per triangle!)
-		U16* m_pArray;												// Array of indices (3 per triangle!)
+		uint16_t* m_pArray;												// Array of indices (3 per triangle!)
 
 	//------------------------------------------------------------------------------
 	// Functions

@@ -187,9 +187,9 @@ class RSndFx
 																			// particular to each 
 																			// PCM type.
 
-		static U8*		ms_pu8Fade;			// Unsigned 8 bit output
+		static uint8_t*		ms_pu8Fade;			// Unsigned 8 bit output
 													// fade table.
-		static S16*		ms_ps16Fade;		// Signed 16 bit output
+		static int16_t*		ms_ps16Fade;		// Signed 16 bit output
 													// fade table.
 
 		static int16_t	ms_sNumFadeSteps;		// Number of fade steps.

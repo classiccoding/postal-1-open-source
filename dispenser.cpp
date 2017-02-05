@@ -293,7 +293,7 @@ int16_t CDispenser::Load(		// Returns 0 if successfull, non-zero otherwise
 				pFile->Read(&m_sY);
 				pFile->Read(&m_sZ);
 				pFile->Read(&m_idDispenseeType);
-				U16	u16LogicType;
+				uint16_t	u16LogicType;
 				pFile->Read(&u16LogicType);
 				m_logictype	= (LogicType)u16LogicType;
 				pFile->Read(m_alLogicParms, 4);
@@ -362,7 +362,7 @@ int16_t CDispenser::Load(		// Returns 0 if successfull, non-zero otherwise
 				pFile->Read(&m_sY);
 				pFile->Read(&m_sZ);
 				pFile->Read(&m_idDispenseeType);
-				U16	u16LogicType;
+				uint16_t	u16LogicType;
 				pFile->Read(&u16LogicType);
 				m_logictype	= (LogicType)u16LogicType;
 				pFile->Read(m_alLogicParms + 0);
@@ -446,7 +446,7 @@ int16_t CDispenser::Save(		// Returns 0 if successfull, non-zero otherwise
 		pFile->Write(m_sY);
 		pFile->Write(m_sZ);
 		pFile->Write(m_idDispenseeType);
-		pFile->Write((U16)m_logictype);
+		pFile->Write((uint16_t)m_logictype);
 		pFile->Write(m_alLogicParms, 4);
 
 		// We do this here instead of on EditMove() b/c EditMove() can
@@ -790,7 +790,7 @@ static void UpdateMaxDispensees(
 int16_t CDispenser::EditModify(void)					// Returns 0 if successfull, non-zero otherwise
 	{
 	// Get key status array.
-	U8*	pau8KeyStatus	= rspGetKeyStatusArray();
+	uint8_t*	pau8KeyStatus	= rspGetKeyStatusArray();
 
 	int16_t	sResult	= 0;
 	ClassIDType	idNewThingType;
@@ -839,7 +839,7 @@ int16_t CDispenser::EditModify(void)					// Returns 0 if successfull, non-zero o
 
 				// Point instance data at the max dispensees edit so it can show and
 				// hide it.
-				pmbInfiniteDispensees->m_ulUserInstance	= (U64)peditMaxDispensees;
+				pmbInfiniteDispensees->m_ulUserInstance	= (uint64_t)peditMaxDispensees;
 				pmbInfiniteDispensees->m_sState				= (m_sMaxDispensees < 0) ? 2 : 1;
 				pmbInfiniteDispensees->m_bcUser				= UpdateMaxDispensees;
 				pmbInfiniteDispensees->Compose();
@@ -859,7 +859,7 @@ int16_t CDispenser::EditModify(void)					// Returns 0 if successfull, non-zero o
 						// Set item number.
 						pguiItem->m_ulUserData		= i;
 						// Set listbox ptr.
-						pguiItem->m_ulUserInstance	= (U64)plbLogics;
+						pguiItem->m_ulUserInstance	= (uint64_t)plbLogics;
 						// Set callback.
 						pguiItem->m_bcUser			= LogicItemCall;
 						// If this item is the current logic type . . .
@@ -1289,7 +1289,7 @@ int16_t CDispenser::InstantiateDispensee(	// Returns 0 on success.
 					--ms_sDispenseeFileCount,	// Always load statics for these.
 					m_ulFileVersion) == 0)
 					{
-					U16	idInstance;
+					uint16_t	idInstance;
 					if (m_pRealm->m_idbank.Get(*ppthing, &idInstance) == 0)
 						{
 						// Release file's ID (cannot have all the dispensee's

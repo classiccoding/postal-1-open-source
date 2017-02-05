@@ -140,7 +140,7 @@ class CPerson : public CDoofus
 
 		// This is the one CPerson that can log its AI table transitions or
 		// CIdBank::IdNil.
-		static U16	ms_u16IdLogAI;
+		static uint16_t	ms_u16IdLogAI;
 
 		// "Constant" values that we want to be able to tune using the editor
 		static double ms_dLongRange;		// Squared distance (500 pixels away)

@@ -208,7 +208,7 @@ double CBand::ms_dMaxRunVel = 80.0;
 int32_t CBand::ms_lMingleTime = 400;
 int16_t CBand::ms_sStartingHitPoints = 100;
 SampleMaster::SoundInstance CBand::ms_siBandSongInstance = 0;
-U16	CBand::ms_idBandLeader	= CIdBank::IdNil;		// The person who adjusts the band sound
+uint16_t	CBand::ms_idBandLeader	= CIdBank::IdNil;		// The person who adjusts the band sound
 																	// volume or IdNil.
 
 // Let this auto-init to 0

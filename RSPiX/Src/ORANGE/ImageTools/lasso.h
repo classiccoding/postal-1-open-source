@@ -83,7 +83,7 @@ typedef short (*RLassoNextEvalCall)(	// Returns TRUE if the specified pixel
 // segment to be copied inclusively into pimDst from pimSrc.  This copy
 // is, of course, clipped to pimDst.  As this copy occurs, we erase the
 // shape in pimSrc so that the next rspLassoNext will scan right by it.
-template <class COLOR>		// Can be U8, U16, or U32.
+template <class COLOR>		// Can be uint8_t, uint16_t, or uint32_t.
 #ifdef WIN32	// Mac assumes extern.
 	extern 
 #endif // WIN32
@@ -103,8 +103,8 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 	int16_t	sSrcH,				// In:  Height of sub region to search.
 	COLOR	clrDisjoin,			// In:  Color that separates shapes.  This is the
 									// color that, to this function.
-									// Cast or use U8 for 8 bit, U16 for 16 bit,
-									// or U32 for 32 bit.
+									// Cast or use uint8_t for 8 bit, uint16_t for 16 bit,
+									// or uint32_t for 32 bit.
 	COLOR	clrDstEmpty,		// In:  Color that will be used to initialize 
 									// pimDst, if pimDst is allocated by this function.
 									// Type must be same size as clrDisjoinColor/COLOR.

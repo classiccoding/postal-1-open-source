@@ -1133,7 +1133,7 @@ int16_t RLaymage::ConvertToImage(int16_t sLayerNum, uint32_t ulTop, uint32_t ulB
 		// white pixels that are totally transparent.  This way if we read
 		// in a layer with a rectangle smaller than the total picture size, 
 		// the outer regions will match.
-		U32* pu32 = (U32*) pImage->m_pData;
+		uint32_t* pu32 = (uint32_t*) pImage->m_pData;
 		for (i = 0; i < pImage->m_ulSize / 4; i++)
 			pu32[i] = 0x00ffffff;
 		pImage->m_type = pImage->m_typeDestination = RImage::SCREEN32_ARGB;

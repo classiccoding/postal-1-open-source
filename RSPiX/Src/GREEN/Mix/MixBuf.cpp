@@ -126,8 +126,8 @@
 // Handy typedef for referring to a pointer as signed and unsigned char.
 typedef union	
 	{ 
-	S8* ps8; 
-	U8* pu8; 
+	int8_t* ps8; 
+	uint8_t* pu8; 
 	} P8;
 
 //////////////////////////////////////////////////////////////////////////////
@@ -156,8 +156,8 @@ int16_t	RMixBuf::ms_sCutOffVolume = 1;	// Volume to not bother mixing.
 // 
 //////////////////////////////////////////////////////////////////////////////
 inline void Conv8to16(	// Returns nothing.
-	U8*	pu8Src,			// In:  8 bit src.
-	S16*	ps16Dst,			// Out: 16 bit dst.  Cannot be the same as the src.
+	uint8_t*	pu8Src,			// In:  8 bit src.
+	int16_t*	ps16Dst,			// Out: 16 bit dst.  Cannot be the same as the src.
 	int32_t	lSamples)		// In:  Samples to convert.
 	{
 	while (lSamples--)
@@ -176,8 +176,8 @@ inline void Conv8to16(	// Returns nothing.
 // 
 //////////////////////////////////////////////////////////////////////////////
 inline void Conv16to8(	// Returns nothing.
-	S16*	ps16Src,			// In:  16 bit src.
-	U8*	pu8Dst,			// Out: 8 bit dst.  _Can_ be the same as the src.
+	int16_t*	ps16Src,			// In:  16 bit src.
+	uint8_t*	pu8Dst,			// Out: 8 bit dst.  _Can_ be the same as the src.
 	int32_t	lSamples)		// In:  Samples to convert.
 	{
 	while (lSamples--)
@@ -198,8 +198,8 @@ inline void Conv16to8(	// Returns nothing.
 // 
 //////////////////////////////////////////////////////////////////////////////
 inline void Mix(		// Returns nothing.
-	U8*	pu8Src,		// In:  Src.
-	U8*	pu8Dst,		// In:  Dst.
+	uint8_t*	pu8Src,		// In:  Src.
+	uint8_t*	pu8Dst,		// In:  Dst.
 	int32_t	lSamples)	// In:  Number of samples to mix.
 	{
 	int16_t	sVal;
@@ -231,8 +231,8 @@ inline void Mix(		// Returns nothing.
 // 
 //////////////////////////////////////////////////////////////////////////////
 inline void MixX86(	// Returns nothing.
-	U8*	pu8Src,		// In:  Src.
-	U8*	pu8Dst,		// In:  Dst.
+	uint8_t*	pu8Src,		// In:  Src.
+	uint8_t*	pu8Dst,		// In:  Dst.
 	int32_t	lSamples)	// In:  Number of samples to mix.
 	{
 	_asm
@@ -277,8 +277,8 @@ inline void MixX86(	// Returns nothing.
 // 
 //////////////////////////////////////////////////////////////////////////////
 inline void Mix(		// Returns nothing.
-	S16*	ps16Src,		// In:  Src.
-	S16*	ps16Dst,		// In:  Dst.
+	int16_t*	ps16Src,		// In:  Src.
+	int16_t*	ps16Dst,		// In:  Dst.
 	int32_t	lSamples)	// In:  Number of samples to mix.
 	{
 	int32_t	lVal;
@@ -295,7 +295,7 @@ inline void Mix(		// Returns nothing.
 		else if (lVal < -32768)
 			lVal = -32768;
 		
-		*ps16Dst++ = (S16)(lVal);
+		*ps16Dst++ = (int16_t)(lVal);
 		}
 	}
 
@@ -307,8 +307,8 @@ inline void Mix(		// Returns nothing.
 // 
 //////////////////////////////////////////////////////////////////////////////
 inline void MixX86(	// Returns nothing.
-	S16*	ps16Src,		// In:  Src.
-	S16*	ps16Dst,		// In:  Dst.
+	int16_t*	ps16Src,		// In:  Src.
+	int16_t*	ps16Dst,		// In:  Dst.
 	int32_t	lSamples)	// In:  Number of samples to mix.
 	{
 	_asm
@@ -349,10 +349,10 @@ inline void MixX86(	// Returns nothing.
 // 
 //////////////////////////////////////////////////////////////////////////////
 inline void Mix(		// Returns nothing.
-	U8*	pu8Src,		// In:  Src.
-	U8*	pu8Dst,		// In:  Dst.
+	uint8_t*	pu8Src,		// In:  Src.
+	uint8_t*	pu8Dst,		// In:  Dst.
 	int32_t	lSamples,	// In:  Number of samples to mix.
-	S16*	psLowTable)	// In:  Volume scale table.
+	int16_t*	psLowTable)	// In:  Volume scale table.
 	{
 	int16_t	sVal;
 
@@ -383,10 +383,10 @@ inline void Mix(		// Returns nothing.
 // 
 //////////////////////////////////////////////////////////////////////////////
 inline void MixX86(	// Returns nothing.
-	U8*	pu8Src,		// In:  Src.
-	U8*	pu8Dst,		// In:  Dst.
+	uint8_t*	pu8Src,		// In:  Src.
+	uint8_t*	pu8Dst,		// In:  Dst.
 	int32_t	lSamples,	// In:  Number of samples to mix.
-	S16*	psLowTable)	// In:  Volume scale table.
+	int16_t*	psLowTable)	// In:  Volume scale table.
 	{
 	_asm
 		{
@@ -433,11 +433,11 @@ inline void MixX86(	// Returns nothing.
 // 
 //////////////////////////////////////////////////////////////////////////////
 inline void Mix(			// Returns nothing.
-	S16*	ps16Src,			// In:  Src.
-	S16*	ps16Dst,			// In:  Dst.
+	int16_t*	ps16Src,			// In:  Src.
+	int16_t*	ps16Dst,			// In:  Dst.
 	int32_t	lSamples,		// In:  Number of samples to mix.
-	S16*	psLowTable,		// In:  Volume scale table for low byte.
-	S16*	psHighTable)	// In:  Volume scale table for high byte.
+	int16_t*	psLowTable,		// In:  Volume scale table for low byte.
+	int16_t*	psHighTable)	// In:  Volume scale table for high byte.
 	{
 	int32_t	lVal;
 	int16_t	sVal;
@@ -445,7 +445,7 @@ inline void Mix(			// Returns nothing.
 	int16_t	sLowSrc;
 
 	// Move into a byte by byte, sign adjustable reference wrapper.
-	P8	p8Src	= { (S8*)ps16Src };
+	P8	p8Src	= { (int8_t*)ps16Src };
 
 	while (lSamples--)
 		{
@@ -491,10 +491,10 @@ inline void Mix(			// Returns nothing.
 // 
 //////////////////////////////////////////////////////////////////////////////
 inline void MixX86(		// Returns nothing.
-	S16*	ps16Src,			// In:  Src.
-	S16*	ps16Dst,			// In:  Dst.
+	int16_t*	ps16Src,			// In:  Src.
+	int16_t*	ps16Dst,			// In:  Dst.
 	int32_t	lSamples,		// In:  Number of samples to mix.
-	S16*	psTable)			// In:  Volume scale tables for high AND low byte.
+	int16_t*	psTable)			// In:  Volume scale tables for high AND low byte.
 								// One table is used to save registers but we could
 								// have the second table as well instead of offseting
 								// this table by DVA_LOW_OFFSET.
@@ -849,7 +849,7 @@ CDVA::CDVA()	// Create the tables!
 //
 //////////////////////////////////////////////////////////////////////////////
 int16_t RMixBuf::Mix(	uint32_t		ulStartPos,
-							U8*		pu8Data, 
+							uint8_t*		pu8Data, 
 							uint32_t		ulSize, 
 							int32_t		lSampleRate,
 							int32_t		lBitsPerSample,
@@ -910,11 +910,11 @@ int16_t RMixBuf::Mix(	uint32_t		ulStartPos,
 					case 8:
 						#if defined(FORCE_GENERIC_CODE) || !defined(SYS_BIN_X86)
 
-							::Mix( (U8*)pu8Data, (U8*)(m_pu8Mix + ulStartPos), ulNum);
+							::Mix( (uint8_t*)pu8Data, (uint8_t*)(m_pu8Mix + ulStartPos), ulNum);
 
 						#else
 
-							MixX86( (U8*)pu8Data, (U8*)(m_pu8Mix + ulStartPos), ulNum);
+							MixX86( (uint8_t*)pu8Data, (uint8_t*)(m_pu8Mix + ulStartPos), ulNum);
 
 						#endif
 
@@ -923,11 +923,11 @@ int16_t RMixBuf::Mix(	uint32_t		ulStartPos,
 					case 16:
 						#if defined(FORCE_GENERIC_CODE) || !defined(SYS_BIN_X86)
 
-							::Mix( (S16*)pu8Data, (S16*)(m_pu8Mix + ulStartPos), ulNum / 2);
+							::Mix( (int16_t*)pu8Data, (int16_t*)(m_pu8Mix + ulStartPos), ulNum / 2);
 
 						#else
 
-							MixX86( (S16*)pu8Data, (S16*)(m_pu8Mix + ulStartPos), ulNum / 2);
+							MixX86( (int16_t*)pu8Data, (int16_t*)(m_pu8Mix + ulStartPos), ulNum / 2);
 
 						#endif
 
@@ -960,11 +960,11 @@ int16_t RMixBuf::Mix(	uint32_t		ulStartPos,
 					case 8:
 						#if defined(FORCE_GENERIC_CODE) || !defined(SYS_BIN_X86)
 							
-							::Mix( (U8*)pu8Data, (U8*)(m_pu8Mix + ulStartPos), ulNum, psLowTable);
+							::Mix( (uint8_t*)pu8Data, (uint8_t*)(m_pu8Mix + ulStartPos), ulNum, psLowTable);
 
 						#else
 
-							MixX86( (U8*)pu8Data, (U8*)(m_pu8Mix + ulStartPos), ulNum, psLowTable);
+							MixX86( (uint8_t*)pu8Data, (uint8_t*)(m_pu8Mix + ulStartPos), ulNum, psLowTable);
 
 						#endif
 
@@ -973,11 +973,11 @@ int16_t RMixBuf::Mix(	uint32_t		ulStartPos,
 					case 16:
 						#if defined(FORCE_GENERIC_CODE) || !defined(SYS_BIN_X86)
 
-							::Mix( (S16*)pu8Data, (S16*)(m_pu8Mix + ulStartPos), ulNum / 2, psLowTable, psHighTable);
+							::Mix( (int16_t*)pu8Data, (int16_t*)(m_pu8Mix + ulStartPos), ulNum / 2, psLowTable, psHighTable);
 
 						#else
 
-							MixX86( (S16*)pu8Data, (S16*)(m_pu8Mix + ulStartPos), ulNum / 2, psASMHighTable);
+							MixX86( (int16_t*)pu8Data, (int16_t*)(m_pu8Mix + ulStartPos), ulNum / 2, psASMHighTable);
 
 						#endif
 
@@ -1016,14 +1016,14 @@ void RMixBuf::PrepareForDest(void)
 			case 8:
 				
 				// Convert to 8 bit for playback.
-				Conv16to8( (S16*)m_pu8Mix, m_pu8Dst, m_ulDstSize);
+				Conv16to8( (int16_t*)m_pu8Mix, m_pu8Dst, m_ulDstSize);
 
 				break;
 
 			case 16:
 
 				// Convert to 16 bit for playback.
-				Conv8to16(m_pu8Mix, (S16*)m_pu8Dst, m_ulMixSize);
+				Conv8to16(m_pu8Mix, (int16_t*)m_pu8Dst, m_ulMixSize);
 
 				break;
 			}

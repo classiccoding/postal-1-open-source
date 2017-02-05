@@ -120,12 +120,12 @@ class CWeapon : public CThing
 
 		CWeaponState m_eState;				// State variable for run routine
 
-		U16		m_idParent;					// Anyone can be this item's parent.
+		uint16_t		m_idParent;					// Anyone can be this item's parent.
 													// It'd probably be a good idea to make
 													// sure this is NULL before setting it,
 													// though.
 
-		U16		m_u16ShooterID;			// Instance ID of the shooter (so that credit
+		uint16_t		m_u16ShooterID;			// Instance ID of the shooter (so that credit
 													// for a kill can be determined)
 		CSprite2	m_spriteShadow;			// 2D sprite for shadow on the ground
 
@@ -301,9 +301,9 @@ class CWeapon : public CThing
 		// the request to set the bits.
 		virtual
 		void SetCollideBits(		// Returns nothing
-			U32 u32BitsInclude,  // Bits included in a collision
-			U32 u32BitsDontCare, // Bits that are ignored for collision
-			U32 u32BitsExclude)	// Bits that invalidate collision
+			uint32_t u32BitsInclude,  // Bits included in a collision
+			uint32_t u32BitsDontCare, // Bits that are ignored for collision
+			uint32_t u32BitsExclude)	// Bits that invalidate collision
 		{
 			// The base class does nothing - override if you want to use it, but
 			// you don't have to if your weapon doesn't have collide bits.
@@ -314,9 +314,9 @@ class CWeapon : public CThing
 		// can override this function, otherwise the bits will be ignored
 		virtual
 		void SetDetectionBits(		// Returns nothing
-			U32 u32BitsInclude,		// Bits included in a collision
-			U32 u32BitsDontcare,		// Bits that are ignored for collision
-			U32 u32BitsExclude)		// Bits that invalidate collision
+			uint32_t u32BitsInclude,		// Bits included in a collision
+			uint32_t u32BitsDontcare,		// Bits that are ignored for collision
+			uint32_t u32BitsExclude)		// Bits that invalidate collision
 		{
 			// The base class does nothing - override if you want to use it, but
 			// you don't have to if your weapon doesn't have detect bits

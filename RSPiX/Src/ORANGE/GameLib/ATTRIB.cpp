@@ -25,7 +25,10 @@
 //		02/21/95	BH		Started this file, based on the
 //
 //*****************************************************************************
-				
+#ifndef TIME_TRAVEL_IS_REAL
+#error I AM ARCHAIC - DO NOT USE
+#endif
+
 #include <stdafx.h>
 #include "attrib.h"
 #include "univ.h"

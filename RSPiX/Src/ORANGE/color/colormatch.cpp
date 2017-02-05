@@ -31,15 +31,15 @@
 
 //short RAlpha::ms_SetPalette(RImage* pimImage);
 int16_t RAlpha::ms_IsPaletteSet = FALSE;
-U8 RAlpha::ms_red[256] = {0,};
-U8 RAlpha::ms_green[256] = {0,};
-U8 RAlpha::ms_blue[256] = {0,};
+uint8_t RAlpha::ms_red[256] = {0,};
+uint8_t RAlpha::ms_green[256] = {0,};
+uint8_t RAlpha::ms_blue[256] = {0,};
 
-U8 RAlpha::ms_r[256] = {0,};
-U8 RAlpha::ms_g[256] = {0,};
-U8 RAlpha::ms_b[256] = {0,};
-U8 RAlpha::ms_a[256] = {0,};
-U8 RAlpha::ms_f[256] = {0,};
+uint8_t RAlpha::ms_r[256] = {0,};
+uint8_t RAlpha::ms_g[256] = {0,};
+uint8_t RAlpha::ms_b[256] = {0,};
+uint8_t RAlpha::ms_a[256] = {0,};
+uint8_t RAlpha::ms_f[256] = {0,};
 
 int16_t RMultiAlpha::ms_sIsInitialized = FALSE;
 uint8_t	RMultiAlpha::ms_aucLiveDimming[65536];
@@ -449,11 +449,11 @@ int16_t RAlpha::CreateAlphaRGB(double dOpacity,int16_t sPalStart, int16_t sPalLe
 		for (d = 0;d < 256;d++)
 			{
 			// This can be replaced with a 256K table
-			r.val = U16( ms_red[s] * lSrc + ms_red[d] * lDst);
-			g.val = U16( ms_green[s] * lSrc + ms_green[d] * lDst);
-			b.val = U16( ms_blue[s] * lSrc + ms_blue[d] * lDst);
+			r.val = uint16_t( ms_red[s] * lSrc + ms_red[d] * lDst);
+			g.val = uint16_t( ms_green[s] * lSrc + ms_green[d] * lDst);
+			b.val = uint16_t( ms_blue[s] * lSrc + ms_blue[d] * lDst);
 
-			m_pAlphas[s][d] = (U8)rspMatchColorRGB(r.mod,g.mod,b.mod,sPalStart,sPalLen,
+			m_pAlphas[s][d] = (uint8_t)rspMatchColorRGB(r.mod,g.mod,b.mod,sPalStart,sPalLen,
 					ms_red,ms_green,ms_blue,1);					
 			}
 		}
@@ -489,11 +489,11 @@ int16_t RAlpha::CreateLightEffectRGB(uint8_t* pa,uint8_t* pr,uint8_t* pg,uint8_t
 			lSrc = int32_t(pa[f]);
 			lFog = 255 - lSrc;
 			// This can be replaced with a 256K table
-			r.val = U16( ms_red[s] * lSrc + pr[f] * lFog);
-			g.val = U16( ms_green[s] * lSrc + pg[f] * lFog);
-			b.val = U16( ms_blue[s] * lSrc + pb[f] * lFog);
+			r.val = uint16_t( ms_red[s] * lSrc + pr[f] * lFog);
+			g.val = uint16_t( ms_green[s] * lSrc + pg[f] * lFog);
+			b.val = uint16_t( ms_blue[s] * lSrc + pb[f] * lFog);
 
-			m_pAlphas[s][f] = (U8)rspMatchColorRGB(r.mod,g.mod,b.mod,sPalStart,sPalLen,
+			m_pAlphas[s][f] = (uint8_t)rspMatchColorRGB(r.mod,g.mod,b.mod,sPalStart,sPalLen,
 					ms_red,ms_green,ms_blue,1);					
 			}
 		}
@@ -523,11 +523,11 @@ int16_t RAlpha::CreateLightEffectRGB(int16_t sPalStart, int16_t sPalLen)
 			lFog = 255 - lSrc;
 
 			// This can be replaced with a 256K table
-			r.val = U16( ms_red[s] * lSrc + ms_r[f] * lFog);
-			g.val = U16( ms_green[s] * lSrc + ms_g[f] * lFog);
-			b.val = U16( ms_blue[s] * lSrc + ms_b[f] * lFog);
+			r.val = uint16_t( ms_red[s] * lSrc + ms_r[f] * lFog);
+			g.val = uint16_t( ms_green[s] * lSrc + ms_g[f] * lFog);
+			b.val = uint16_t( ms_blue[s] * lSrc + ms_b[f] * lFog);
 
-			m_pAlphas[s][f] = (U8)rspMatchColorRGB(r.mod,g.mod,b.mod,sPalStart,sPalLen,
+			m_pAlphas[s][f] = (uint8_t)rspMatchColorRGB(r.mod,g.mod,b.mod,sPalStart,sPalLen,
 					ms_red,ms_green,ms_blue,1);					
 			}
 		}
@@ -892,12 +892,12 @@ uint8_t*** RMultiAlpha::pppucCreateFastMultiAlpha(
 	// how you seek!
 
 	// I am adding on in BYTES, not words...
-	uint8_t*** pppucFastAligned = (uint8_t***) ((U64(pppucFastMem)+4095) & (~4095) );
+	uint8_t*** pppucFastAligned = (uint8_t***) ((uint64_t(pppucFastMem)+4095) & (~4095) );
 
 	if (!pppucFastMem) return NULL;
 	uint8_t* pInfo = (uint8_t*)pppucFastAligned;
 	// For freeing:
-	int32_t lMemOffset = U64(pppucFastAligned) - U64(pppucFastMem);
+	int32_t lMemOffset = uint64_t(pppucFastAligned) - uint64_t(pppucFastMem);
 
 	// Remember offsets for each main memory structure:
 
@@ -1254,10 +1254,10 @@ int16_t RFastMultiAlphaWrapper::Load(RFile* pf)
 	// how you seek!
 
 	// I am adding on in BYTES, not words...
-	uint8_t*** pppucFastAligned = (uint8_t***) ((U64(pppucFastMem)+4095) & (~4095) );
+	uint8_t*** pppucFastAligned = (uint8_t***) ((uint64_t(pppucFastMem)+4095) & (~4095) );
 
 	// For freeing (in bytes):
-	int32_t lMemOffset = U64(pppucFastAligned) - U64(pppucFastMem);
+	int32_t lMemOffset = uint64_t(pppucFastAligned) - uint64_t(pppucFastMem);
 
 	//==============  Idenitfy the different data sections  ===============
 	// NOTE:  once debugged, remove ppucFirstSrcArray,pucData

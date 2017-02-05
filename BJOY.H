@@ -18,6 +18,10 @@
 // This is a public header file.  It is to be included by applications that use
 // the WinBlue Library.
 ///////////////////////////////////////////////////////////////////////////////
+#ifndef TIME_TRAVEL_IS_REAL
+#error I AM ARCHAIC - DO NOT USE
+#endif
+
 #ifndef B_JOY_H
 #define B_JOY_H
 

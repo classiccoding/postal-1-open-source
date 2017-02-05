@@ -116,7 +116,7 @@ class CDispenser : public CThing
 		int16_t			m_sNumDispensees;						// Number of dispensees already
 																	// dispensed.
 
-		U16			m_u16IdDispensee;						// ID of the last dispensee
+		uint16_t			m_u16IdDispensee;						// ID of the last dispensee
 																	// we created.
 
 		int32_t			m_lNextUpdate;							// Time of next update.

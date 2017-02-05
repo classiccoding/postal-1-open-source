@@ -339,7 +339,7 @@ extern int SynchLog(		// Result of expr.
 	char*		pszFile,		// In:  Calling file.
 	int32_t		lLine,		// In:  Calling line.
 	char*		pszExpr,		// In:  Original C++ source expression.
-	U32		u32User);	// In:  A user value that is intended to be consistent.
+	uint32_t		u32User);	// In:  A user value that is intended to be consistent.
 
 ////////////////////////////////////////////////////////////////////////////////
 // If 'LOG_IFS' macro is defined, this will redefine 'if' such that it will 

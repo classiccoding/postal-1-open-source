@@ -374,7 +374,7 @@ int16_t CFirestream::Setup(									// Returns 0 if successfull, non-zero otherw
 	int16_t sZ,												// In:  New z coord
 	int16_t sDir,												// In:  Direction of travel
 	int32_t lTimeToLive,										// In:  Number of milliseconds to burn, default 1sec
-	U16 u16ShooterID)										// In:  Shooter's ID so you don't hit him
+	uint16_t u16ShooterID)										// In:  Shooter's ID so you don't hit him
 {
 	int16_t sResult = 0;
 	double dX;
@@ -902,7 +902,7 @@ int16_t CFireball::Setup(									// Returns 0 if successfull, non-zero otherwis
 	int16_t sZ,												// In:  New z coord
 	int16_t sDir,												// In:  Direction of travel
 	int32_t lTimeToLive,										// In:  Number of milliseconds to burn, default 1sec
-	U16 u16ShooterID)										// In:  Shooter's ID so you don't hit him
+	uint16_t u16ShooterID)										// In:  Shooter's ID so you don't hit him
 {
 	int16_t sResult = 0;
 	

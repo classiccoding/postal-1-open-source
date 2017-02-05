@@ -30,7 +30,7 @@
 
 #include <map>
 
-#include "SDL.h"
+#include <SDL2/SDL.h>
 #include "BLUE/Blue.h"
 #include "ORANGE/CDT/QUEUE.H"
 
@@ -45,10 +45,10 @@ extern SDL_Surface *sdlShadowSurface;
 
 static bool sdlKeyRepeat = false;
 
-static std::map<SDL_Keycode,U8> sdl_to_rws_keymap;
-static std::map<SDL_Keycode,U16> sdl_to_rws_gkeymap;
-static U8 keystates[128];
-static U8 ms_au8KeyStatus[128];
+static std::map<SDL_Keycode,uint8_t> sdl_to_rws_keymap;
+static std::map<SDL_Keycode,uint16_t> sdl_to_rws_gkeymap;
+static uint8_t keystates[128];
+static uint8_t ms_au8KeyStatus[128];
 
 typedef struct
 	{
@@ -75,13 +75,13 @@ extern void Key_Event(SDL_Event *event)
     ASSERT((event->type == SDL_KEYUP) || (event->type == SDL_KEYDOWN));
     //ASSERT(event->key.keysym.sym < SDLK_LAST);
 
-    const U8 pushed = (event->type == SDL_KEYDOWN);
+    const uint8_t pushed = (event->type == SDL_KEYDOWN);
     if ((pushed) && (event->key.repeat) && (!sdlKeyRepeat))
         return;  // drop it.
 
-    U8 key = sdl_to_rws_keymap[event->key.keysym.sym];
-    U16 gkey = sdl_to_rws_gkeymap[event->key.keysym.sym];
-    U8* pu8KeyStatus = (&ms_au8KeyStatus[key]);
+    uint8_t key = sdl_to_rws_keymap[event->key.keysym.sym];
+    uint16_t gkey = sdl_to_rws_gkeymap[event->key.keysym.sym];
+    uint8_t* pu8KeyStatus = (&ms_au8KeyStatus[key]);
 
     if (key == 0)
         return;
@@ -424,7 +424,7 @@ extern void Key_Init(void)
 // to call this function once for an entire program's execution of scans and 
 // clears of the array.
 //////////////////////////////////////////////////////////////////////////////
-U8* rspGetKeyStatusArray(void)	// Returns a ptr to the key status array.
+uint8_t* rspGetKeyStatusArray(void)	// Returns a ptr to the key status array.
 	{
 	return ms_au8KeyStatus;
 	}

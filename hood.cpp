@@ -664,7 +664,7 @@ int16_t CHood::EditNew(									// Returns 0 if successfull, non-zero otherwise
 			RSP_SAFE_GUI_REF_VOID(pguiScaleHeights, Compose() );
 
 			RSP_SAFE_GUI_REF(pguiBrowse, m_bcUser = BrowseBtnUp);
-			RSP_SAFE_GUI_REF(pguiBrowse, m_ulUserInstance = (U64)pguiBaseName);
+			RSP_SAFE_GUI_REF(pguiBrowse, m_ulUserInstance = (uint64_t)pguiBaseName);
 
 			switch (pgui2dResPaths->m_type)
 				{

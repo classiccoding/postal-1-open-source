@@ -480,12 +480,12 @@ class RImage
 		void InitMembers(void);
 
 		//	To allocate memory for the data buffers of CPal
-		static int16_t sCreateMem(void **hMem,U64 ulSize);
+		static int16_t sCreateMem(void **hMem,uint64_t ulSize);
 
 		//	To allocate memory and return a pointer aligned to 128-bits
 		//	for optimum blit speed.  This is the function used by
 		//	CImage when it creates memory for the image buffers.
-		static int16_t sCreateAlignedMem(void **hMem, void **hData, U64 ulSize);
+		static int16_t sCreateAlignedMem(void **hMem, void **hData, uint64_t ulSize);
 
 		//	To free the data buffers of CPal and CImage that were created 
 		//	using either sCreateMem() or sCreateAlignedMem()

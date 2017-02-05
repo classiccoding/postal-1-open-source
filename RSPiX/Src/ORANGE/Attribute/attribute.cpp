@@ -450,7 +450,7 @@ uint16_t RAttributeMap::GetAttribute(int32_t lTopCoord, int32_t lBottomCoord,
 			}
 		}
 
-	usResult = (usFlags & 0xff00) | (U8) cMax;
+	usResult = (usFlags & 0xff00) | (uint8_t) cMax;
 
 	return usResult;
 }

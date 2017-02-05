@@ -148,32 +148,32 @@ class RPrefs
 		int16_t SetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			S8 s8Value);						// In:  Value
+			int8_t s8Value);						// In:  Value
 
 		int16_t SetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			U8 u8Value);						// In:  Value
+			uint8_t u8Value);						// In:  Value
 
 		int16_t SetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			S16 s16Value);						// In:  Value
+			int16_t s16Value);						// In:  Value
 
 		int16_t SetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			U16 u16Value);						// In:  Value
+			uint16_t u16Value);						// In:  Value
 
 		int16_t SetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			S32 s32Value);						// In:  Value
+			int32_t s32Value);						// In:  Value
 
 		int16_t SetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			U32 u32Value);						// In:  Value
+			uint32_t u32Value);						// In:  Value
 
 		int16_t SetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
@@ -209,38 +209,38 @@ class RPrefs
 		int16_t GetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			S8 s8Default,						// In:  Default value
-			S8* s8Value);						// Out: Value returned here
+			int8_t s8Default,						// In:  Default value
+			int8_t* s8Value);						// Out: Value returned here
 
 		int16_t GetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			U8 u8Default,						// In:  Default value
-			U8* u8Value);						// Out: Value returned here
+			uint8_t u8Default,						// In:  Default value
+			uint8_t* u8Value);						// Out: Value returned here
 
 		int16_t GetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			S16 s16Default,					// In:  Default value
-			S16* s16Value);					// Out: Value returned here
+			int16_t s16Default,					// In:  Default value
+			int16_t* s16Value);					// Out: Value returned here
 
 		int16_t GetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			U16 u16Default,					// In:  Default value
-			U16* u16Value);					// Out: Value returned here
+			uint16_t u16Default,					// In:  Default value
+			uint16_t* u16Value);					// Out: Value returned here
 
 		int16_t GetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			S32 s32Default,					// In:  Default value
-			S32* s32Value);					// Out: Value returned here
+			int32_t s32Default,					// In:  Default value
+			int32_t* s32Value);					// Out: Value returned here
 
 		int16_t GetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			U32 u32Default,					// In:  Default value
-			U32* u32Value);					// Out: Value returned here
+			uint32_t u32Default,					// In:  Default value
+			uint32_t* u32Value);					// Out: Value returned here
 
 		int16_t GetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)

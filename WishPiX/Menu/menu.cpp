@@ -554,8 +554,8 @@ extern int16_t StartMenu(				// Returns 0 on success.
 		{
         rspKeyRepeat(true);
 
-		U32	u32TextColor;
-		U32	u32TextShadowColor;
+		uint32_t	u32TextColor;
+		uint32_t	u32TextShadowColor;
 		int16_t	sMapStartIndex;
 		int16_t	sMapNumEntries;
 
@@ -788,16 +788,16 @@ extern int16_t StartMenu(				// Returns 0 on success.
 			}
 
 		// Get color indices.
-		U8	au8Red[256];
-		U8	au8Green[256];
-		U8	au8Blue[256];
+		uint8_t	au8Red[256];
+		uint8_t	au8Green[256];
+		uint8_t	au8Blue[256];
 		rspGetPaletteEntries(
 			0,				// Palette entry to start copying to (has no effect on source!)
 			256,			// Number of palette entries to do
 			au8Red,		// Pointer to first red component to copy to
 			au8Green,	// Pointer to first green component to copy to
 			au8Blue,		// Pointer to first blue component to copy to
-			sizeof(U8)	// Number of bytes by which to increment pointers after each copy
+			sizeof(uint8_t)	// Number of bytes by which to increment pointers after each copy
 			);
 
 		sMapStartIndex	= ms_pmenu->menuback.sMapStartIndex;
@@ -817,7 +817,7 @@ extern int16_t StartMenu(				// Returns 0 on success.
 				au8Red,														// In:  Beginning of red color table.                      
 				au8Green,													// In:  Beginning of green color table.                    
 				au8Blue,														// In:  Beginning of blue color table.                     
-				sizeof(U8)													// In:  Size to increment between each index in each table.
+				sizeof(uint8_t)													// In:  Size to increment between each index in each table.
 				);
 
 		u32TextShadowColor
@@ -830,7 +830,7 @@ extern int16_t StartMenu(				// Returns 0 on success.
 				au8Red,														// In:  Beginning of red color table.                      
 				au8Green,													// In:  Beginning of green color table.                    
 				au8Blue,														// In:  Beginning of blue color table.                     
-				sizeof(U8)													// In:  Size to increment between each index in each table.
+				sizeof(uint8_t)													// In:  Size to increment between each index in each table.
 				);
 
 		ms_msgbox.m_u32BackColor		= 0;
@@ -845,7 +845,7 @@ extern int16_t StartMenu(				// Returns 0 on success.
 				au8Red,													// In:  Beginning of red color table.                      
 				au8Green,												// In:  Beginning of green color table.                    
 				au8Blue,													// In:  Beginning of blue color table.                     
-				sizeof(U8)												// In:  Size to increment between each index in each table.
+				sizeof(uint8_t)												// In:  Size to increment between each index in each table.
 				);
 
 		ms_txtHeader.m_u32TextShadowColor
@@ -858,7 +858,7 @@ extern int16_t StartMenu(				// Returns 0 on success.
 				au8Red,													// In:  Beginning of red color table.                      
 				au8Green,												// In:  Beginning of green color table.                    
 				au8Blue,													// In:  Beginning of blue color table.                     
-				sizeof(U8)												// In:  Size to increment between each index in each table.
+				sizeof(uint8_t)												// In:  Size to increment between each index in each table.
 				);
 
 		ms_txtHeader.m_u32BackColor		= 0;

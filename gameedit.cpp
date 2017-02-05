@@ -1217,8 +1217,8 @@ static CThing::ClassIDType	ms_idPaste;
 static CSprite2		ms_spriteAttributes;
 
 // Attribute masks to draw.
-static U16				ms_u16TerrainMask;
-static U16				ms_u16LayerMask;
+static uint16_t				ms_u16TerrainMask;
+static uint16_t				ms_u16LayerMask;
 
 // Used by RFile callback function
 static int32_t		ms_lRFileCallbackTime;
@@ -1552,7 +1552,7 @@ static void Maprealm2Screen(	// Returns nothing.
 // Blit attribute areas lit by the specified mask into the specified image.
 static void AttribBlit(			// Returns nothing.
 	RMultiGrid*	pmg,				// In:  Multigrid of attributes.
-	U16			u16Mask,			// In:  Mask of important attributes.
+	uint16_t			u16Mask,			// In:  Mask of important attributes.
 	RImage*		pimDst,			// In:  Destination image.
 	int16_t			sSrcX,			// In:  Where in Multigrid to start.
 	int16_t			sSrcY,			// In:  Where in Multigrid to start.
@@ -1634,8 +1634,8 @@ inline void SetPressedCall(	// Returns nothing.
 inline void SetMBValsAndCallback(		// Returns nothing.
 	RGuiItem*	pguiRoot,					// In:  Root item.
 	int32_t			lId,							// In:  ID of child to set user vals on.
-	U32			u32UserInstance,			// In:  Value for m_ulUserInstance.
-	U32			u32UserData,				// In:  Value for m_ulUserData.
+	uint32_t			u32UserInstance,			// In:  Value for m_ulUserInstance.
+	uint32_t			u32UserData,				// In:  Value for m_ulUserData.
 	int16_t			sState)						// In:  Initial MultiBtn state.
 	{
 	RMultiBtn*	pmb	= (RMultiBtn*)pguiRoot->GetItemFromId(lId);
@@ -1896,10 +1896,10 @@ extern void GameEdit(
 			ms_pguiNavNets->SetVisible(ms_pguiNavNets->m_sVisible);
 
 			// ---------- Show Attribs --------
-			SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_LAYERS, (U64)(&ms_u16LayerMask), REALM_ATTR_LAYER_MASK, 1);
-			SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_HEIGHT, (U64)(&ms_u16TerrainMask), REALM_ATTR_HEIGHT_MASK, 1);
-			SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_NOWALK, (U64)(&ms_u16TerrainMask), REALM_ATTR_NOT_WALKABLE, 1);
-			SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_LIGHT, (U64)(&ms_u16TerrainMask), REALM_ATTR_LIGHT_BIT, 1);
+			SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_LAYERS, (uint64_t)(&ms_u16LayerMask), REALM_ATTR_LAYER_MASK, 1);
+			SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_HEIGHT, (uint64_t)(&ms_u16TerrainMask), REALM_ATTR_HEIGHT_MASK, 1);
+			SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_NOWALK, (uint64_t)(&ms_u16TerrainMask), REALM_ATTR_NOT_WALKABLE, 1);
+			SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_LIGHT, (uint64_t)(&ms_u16TerrainMask), REALM_ATTR_LIGHT_BIT, 1);
 
 			ms_pguiShowAttribs->SetVisible(TRUE);
 
@@ -2132,7 +2132,7 @@ static bool DoInput(		// Returns true when done.
 			
 			uint8_t	ucId	= ms_pylonEdit->m_ucID;
 
-			static U8*	pau8KeyStatus	= rspGetKeyStatusArray();
+			static uint8_t*	pau8KeyStatus	= rspGetKeyStatusArray();
 
 			// Move unit for arrow key movement of region.
 			// Note: Combinations of SHIFT, CONTROL, and ALT
@@ -3789,7 +3789,7 @@ static int16_t LoadRealm(
 						rc.sH,							// Dimensions.
 						ThingHotCall,					// Callback.
 						TRUE,								// TRUE, if active.
-						(U64)phood,						// User value (CThing*).
+						(uint64_t)phood,						// User value (CThing*).
 						FRONTMOST_HOT_PRIORITY);	// New items towards front.
 					// If successful . . .
 					if (ms_photHood != NULL)
@@ -3834,7 +3834,7 @@ static int16_t LoadRealm(
 									rc.sH,							// Dimensions.
 									ThingHotCall,					// Callback.
 									sActivateHot,					// TRUE, if initially active.
-									(U64)pthing,					// User value (CThing*).
+									(uint64_t)pthing,					// User value (CThing*).
 									FRONTMOST_HOT_PRIORITY);	// New items towards front.
 
 								// If successful . . .
@@ -4159,7 +4159,7 @@ static void PlayRealm(
 					// Startup the realm
 					if (prealm->Startup() == 0)
 						{
-						U16	idSpecificWarp	= CIdBank::IdNil;
+						uint16_t	idSpecificWarp	= CIdBank::IdNil;
 
 						//////////// Special behaviors based on the current selection ////////////
 						// Note that pthingSel does not exist in prealm (it is in pEditRealm).
@@ -4207,7 +4207,7 @@ static void PlayRealm(
 						ClearLocalInput();
 
 						// We'll need access to the key status array.
-						U8* pau8KeyStatus = rspGetKeyStatusArray();
+						uint8_t* pau8KeyStatus = rspGetKeyStatusArray();
 						
 						// Setup camera
 						CCamera* pcamera = new CCamera;
@@ -4236,7 +4236,7 @@ static void PlayRealm(
 
 						// Get thing to track . . .
 						CThing*	pthingTrack	= NULL;
-						U16		u16IdTrack	= CIdBank::IdNil;
+						uint16_t		u16IdTrack	= CIdBank::IdNil;
 						if (ms_pgething != NULL)
 							{
 							u16IdTrack = ms_pgething->m_u16CameraTrackId;
@@ -4246,7 +4246,7 @@ static void PlayRealm(
 						RGuiItem::SetFocus(NULL);
 
 						CListNode<CThing>* pNext = prealm->m_aclassHeads[CThing::CDudeID].m_pnNext;
-						U16 u16IdDude = CIdBank::IdNil;
+						uint16_t u16IdDude = CIdBank::IdNil;
 						while (pNext->m_powner != NULL)
 						{
 							CDude*	pdude = (CDude*) pNext->m_powner;
@@ -4810,7 +4810,7 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 					if (pfile != NULL)
 						{
 						// Remember its ID.
-						U16	idInstance	= (*ppthing)->GetInstanceID();
+						uint16_t	idInstance	= (*ppthing)->GetInstanceID();
 						// Release its ID.
 						(*ppthing)->SetInstanceID(CIdBank::IdNil);
 
@@ -4877,7 +4877,7 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 							rc.sH,							// Dimensions.
 							ThingHotCall,					// Callback.
 							sActivateHot,					// TRUE, if initially active.
-							(U64)*ppthing,					// User value (CThing*).
+							(uint64_t)*ppthing,					// User value (CThing*).
 							FRONTMOST_HOT_PRIORITY);	// New items towards front.
 
 						if (*pphot != NULL)
@@ -5975,7 +5975,7 @@ static int16_t AddView(		// Returns 0 on success.
 			char	szTitle[256];
 			sprintf(szTitle, "Camera %d", ++sNum);
 			RGuiItem*	pgui			= plb->AddString(szTitle);
-			pgui->m_lId					= (S64)pview;
+			pgui->m_lId					= (int64_t)pview;
 			plb->AdjustContents();
 
 			pview->pgui->SetText("%s", szTitle);
@@ -6007,7 +6007,7 @@ static void RemoveView(		// Returns nothing.
 		RGuiItem*	pguiRemove;
 		if (pview != NULL)
 			{
-			pguiRemove	= plb->GetItemFromId((S64)pview);
+			pguiRemove	= plb->GetItemFromId((int64_t)pview);
 			}
 		else
 			{
@@ -7194,7 +7194,7 @@ static void Maprealm2Screen(	// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 static void AttribBlit(			// Returns nothing.
 	RMultiGrid*	pmg,				// In:  Multigrid of attributes.
-	U16			u16Mask,			// In:  Mask of important attributes.
+	uint16_t			u16Mask,			// In:  Mask of important attributes.
 	RImage*		pimDst,			// In:  Destination image.
 	int16_t			sSrcX,			// In:  Where in Multigrid to start.
 	int16_t			sSrcY,			// In:  Where in Multigrid to start.
@@ -7210,8 +7210,8 @@ static void AttribBlit(			// Returns nothing.
 	ASSERT(pimDst->m_sHeight >= sH);
 
 	// Get dst start.
-	U8*	pu8RowDst	= pimDst->m_pData;
-	U8*	pu8Dst;
+	uint8_t*	pu8RowDst	= pimDst->m_pData;
+	uint8_t*	pu8Dst;
 	int32_t	lPitch;
 
 	int16_t	sGridW, sGridH;
@@ -7250,7 +7250,7 @@ static void AttribMaskBtnPressed(	// Returns nothing.
 	RMultiBtn*	pmb	= (RMultiBtn*)pgui_pmb;
 
 	// Get mask to affect.
-	U16*	pu16AttribMask	= (U16*)(pmb->m_ulUserInstance);
+	uint16_t*	pu16AttribMask	= (uint16_t*)(pmb->m_ulUserInstance);
 
 	// Add or subtract mask dependent on state.
 	switch (pmb->m_sState)
@@ -7437,7 +7437,7 @@ static void InitFileCounter(			// Returns nothing.
 	// Determine size and position of text.
 	// Create sample string.
 	char	szSample[sizeof(ms_szFileOpDescriptionFrmt)];
-	sprintf(szSample, ms_szFileOpDescriptionFrmt, LONG_MAX);
+	sprintf(szSample, ms_szFileOpDescriptionFrmt, INT32_MAX);
 	// Just use entire width for now.
 	ms_sFileOpTextW	= ms_printFile.GetWidth(szSample);
 	// Get height.
@@ -7656,7 +7656,7 @@ static int16_t ShowRealmStatistics(	// Returns 0 on success.
 				if (pguiThing)
 					{
 					// Success.
-					pguiThing->m_lId	= (S64)pthing;
+					pguiThing->m_lId	= (int64_t)pthing;
 					}
 				else
 					{
@@ -7726,7 +7726,7 @@ static bool RealmOpProgress(			// Returns true to continue; false to
 	static int32_t	lLastCallTime;
 
 	// Just need to get the key status array once.
-	U8*	pau8KeyStatus	= rspGetKeyStatusArray();
+	uint8_t*	pau8KeyStatus	= rspGetKeyStatusArray();
 
 	bool	bContinue	= true;	// Assume we want to continue.
 

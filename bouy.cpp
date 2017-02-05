@@ -217,9 +217,9 @@ int16_t CBouy::Load(										// Returns 0 if successfull, non-zero otherwise
 		pFile->Read(&m_dY);
 		pFile->Read(&m_dZ);
 
-		U16 u16Data;
-		U16 u16NumLinks;
-		U16 i;
+		uint16_t u16Data;
+		uint16_t u16NumLinks;
+		uint16_t i;
 		// Get number of links to be read
 		pFile->Read(&u16NumLinks);
 		for (i = 0; i < u16NumLinks; i++)
@@ -311,7 +311,7 @@ int16_t CBouy::Save(										// Returns 0 if successfull, non-zero otherwise
 	pFile->Write(&m_dY);
 	pFile->Write(&m_dZ);
 
-	U16 u16Data = m_sNumDirectLinks;
+	uint16_t u16Data = m_sNumDirectLinks;
 	// Save the number of links that will follow in the file
 	pFile->Write(&u16Data);
 	CBouy* pLinkedBouy = m_aplDirectLinks.GetHead();

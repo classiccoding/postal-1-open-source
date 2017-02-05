@@ -1152,7 +1152,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 																		// This extra level of indirection makes it easy
 																		// to compress data items by allowing more than
 																		// one pointer to refer to the same data item.
-		U8* m_pArrayOfFlags;										// Pointer to array of flags.  If flag is 0, it
+		uint8_t* m_pArrayOfFlags;										// Pointer to array of flags.  If flag is 0, it
 																		// means it's pointing at it's own data item.  If
 																		// flag is 1, it means it's pointing at another
 																		// item that matched the original item -- in other
@@ -1238,7 +1238,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 					ASSERT(m_pArrayOfPtrs);
 
 					// Create array of flags
-					m_pArrayOfFlags = new U8[m_lNumItems];
+					m_pArrayOfFlags = new uint8_t[m_lNumItems];
 					ASSERT(m_pArrayOfFlags);
 
 					// The file contains a value corresponding to each of our pointers.
@@ -1642,7 +1642,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 			ASSERT(m_pArrayOfPtrs);
 
 			// Create array of flags
-			m_pArrayOfFlags = new U8[m_lNumItems];
+			m_pArrayOfFlags = new uint8_t[m_lNumItems];
 			ASSERT(m_pArrayOfFlags);
 
 			// Create actual data items and mark each item as uncompressed
@@ -1846,7 +1846,7 @@ class RChannel
 			// Reset to get rid of any existing data
 			Reset();
 
-			U32 u32ID;
+			uint32_t u32ID;
 			if (pFile->Read(&u32ID) == 1)
 				{
 				// The original versions of RChannel did NOT use an ID or version number.
@@ -1946,7 +1946,7 @@ class RChannel
 			int16_t sResult = 0;
 
 			// Write header (ID and version)
-			pFile->Write((U32)RChannel_FileID);
+			pFile->Write((uint32_t)RChannel_FileID);
 			pFile->Write((int16_t)RChannel_FileVersion);
 
 			// Write RChannel type

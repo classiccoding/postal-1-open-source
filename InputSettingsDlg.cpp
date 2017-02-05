@@ -143,7 +143,7 @@
 static bool			ms_bListenForInput	= false;	// true, when listening for input
 																// to set for current input function.
 
-static U32			ms_u32OrigTextColor;
+static uint32_t			ms_u32OrigTextColor;
 
 static bool			ms_bMenuDone			= false;	// true, when the current menu
 																// is done.
@@ -161,7 +161,7 @@ static int32_t			ms_lFlashTimer;
 // inaccessible to the user when it comes to mapping the input keys.
 // If you are adding a key to this array, PLEASE ADD THE _SK_ VERSION (not
 // the _GK_ version).
-static U8			ms_au8UnmappableKeys[]	=
+static uint8_t			ms_au8UnmappableKeys[]	=
 	{
 	RSP_SK_F1,				// Next level.
 	RSP_SK_F2,				// Toggle targeting.
@@ -206,7 +206,7 @@ extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
 	{
 	int16_t		sRes				= 0;		// Assume success.
 	int16_t		sInputIndex		= 0;		// Safety.
-	U32*	pasPlayInputs	= NULL;	// Input value array.
+	uint32_t*	pasPlayInputs	= NULL;	// Input value array.
 	char**	papszInputDescriptions	= NULL;	// Descriptions of input values.
 	bool	bIsJoystick = false;
 
@@ -338,7 +338,7 @@ void InputSettingsDlg_Choice(	// Returns nothing.
 	int16_t sMenuItem)				// In:  Menu item chosen or -1 if selection 
 										// change.
 	{
-	static U8*	pau8KeyStatusArray	= rspGetKeyStatusArray();
+	static uint8_t*	pau8KeyStatusArray	= rspGetKeyStatusArray();
 
 	int16_t	sError	 = 0;
 
@@ -382,7 +382,7 @@ void InputSettingsDlg_Choice(	// Returns nothing.
 			if (sMenuItem == ms_sResetItem
 				|| sMenuItem == ms_sResetItemOld)
 				{
-				U32*	pasPlayInputs	= NULL;				// Input value array.
+				uint32_t*	pasPlayInputs	= NULL;				// Input value array.
 				char**	papszInputDescriptions	= NULL;	// Descriptions of input values.
 
 				switch (pmenu->u32Id)
@@ -448,7 +448,7 @@ void InputSettingsDlg_Choice(	// Returns nothing.
 // Checks is a key is mappable as an input via ms_au8UnmappableKeys[].
 //////////////////////////////////////////////////////////////////////////////
 static bool IsMappable(	// Returns true, if mappable, false otherwise.
-	U8	u8Key)				// In:  Key to check mappable status on.
+	uint8_t	u8Key)				// In:  Key to check mappable status on.
 	{
 	bool	bMappable	= true;
 
@@ -474,7 +474,7 @@ static bool IsMappable(	// Returns true, if mappable, false otherwise.
 inline void ListenForInput(	// Returns nothing.
 	RInputEvent*	pie)			// In:  Input event.
 	{
-	static U8*	pau8KeyStatusArray	= rspGetKeyStatusArray();
+	static uint8_t*	pau8KeyStatusArray	= rspGetKeyStatusArray();
 
 	RGuiItem*	pgui	= RGuiItem::ms_pguiFocus;
 	bool			bAffirmitiveFeedback	= true;	// true to play affirmitive audible
@@ -502,7 +502,7 @@ inline void ListenForInput(	// Returns nothing.
 			{
 			case KEYBOARD_MENU_ID:
 				{
-				U8*	pu8Key = pau8KeyStatusArray;
+				uint8_t*	pu8Key = pau8KeyStatusArray;
 				int16_t	i;
 				for (i = 0; i < 128; i++, pu8Key++)
 					{
@@ -613,8 +613,8 @@ inline void ListenForInput(	// Returns nothing.
 						rspUpdateJoy(0);
 
 						// Get prev and current status.
-						U32	u32ButtonsPrev;
-						U32	u32ButtonsCur;
+						uint32_t	u32ButtonsPrev;
+						uint32_t	u32ButtonsCur;
 						rspGetJoyPrevState(0, &u32ButtonsPrev);
 						rspGetJoyState(0, &u32ButtonsCur);
 
@@ -765,8 +765,8 @@ extern int16_t EditInputSettings(void)	// Returns nothing.
 					rspUpdateJoy(0);
 
 					// Get prev and current status.
-					U32	u32ButtonsPrev;
-					U32	u32ButtonsCur;
+					uint32_t	u32ButtonsPrev;
+					uint32_t	u32ButtonsCur;
 					rspGetJoyPrevState(0, &u32ButtonsPrev);
 					rspGetJoyState(0, &u32ButtonsCur);
 

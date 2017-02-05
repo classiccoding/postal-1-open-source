@@ -521,7 +521,7 @@ void CFlagbase::EditHotSpot(			// Returns nothiing.
 int16_t CFlagbase::EditModify(void)
 {
 	int16_t sResult = 0;
-	U16 u16OrigColor = m_u16Color;
+	uint16_t u16OrigColor = m_u16Color;
 	RGuiItem* pGuiItem = NULL;
 	RGuiItem* pguiRoot = RGuiItem::LoadInstantiate(FullPathVD("res/editor/flagbase.gui"));
 	if (pguiRoot != NULL)

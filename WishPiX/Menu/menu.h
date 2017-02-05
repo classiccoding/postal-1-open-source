@@ -178,7 +178,7 @@ typedef struct
 typedef struct
 	{
 	char*			pszFile;				// Filespec of image for background of menu or NULL.
-	U32			u32BackColor;		// Background color.
+	uint32_t			u32BackColor;		// Background color.
 	int16_t			sSetStartIndex;	// Starting index of palette entries to set.
 	int16_t			sSetNumEntries;	// Number of palette entries to set.
 	int16_t			sMapStartIndex;	// Starting index of palette entries that can be mapped to.
@@ -194,9 +194,9 @@ typedef struct
 	{
 	char*	pszFile;				// Filespec of font to use for menu item text.
 	int16_t	sHeight;				// Height to use for menu item text.
-	U32	u32ForeColor;		// Color or color index for font to use for menu item
+	uint32_t	u32ForeColor;		// Color or color index for font to use for menu item
 									// text.
-	U32	u32ShadowColor;	// Color or color index for font to use for shadow
+	uint32_t	u32ShadowColor;	// Color or color index for font to use for shadow
 									// of menu item text.
 	} MenuItemsFont;
 
@@ -205,9 +205,9 @@ typedef struct
 	char*	pszHeaderText;		// Header text.
 	char*	pszFontFile;		// Filespec of font to use for menu header text.
 	int16_t	sHeight;				// Height to use for menu header text.
-	U32	u32ForeColor;		// Color or color index for font to use for menu header
+	uint32_t	u32ForeColor;		// Color or color index for font to use for menu header
 									// text.
-	U32	u32ShadowColor;	// Color or color index for font to use for shadow
+	uint32_t	u32ShadowColor;	// Color or color index for font to use for shadow
 									// of menu header text.
 	} MenuHeader;
 
@@ -261,7 +261,7 @@ typedef struct
 struct Menu		// Structure defining a menu.
 	{
 	// User defined identifier.
-	U32				u32Id;	// User may used to identify this menu.
+	uint32_t				u32Id;	// User may used to identify this menu.
 
 	// Position info.
 	MenuPos			menupos;

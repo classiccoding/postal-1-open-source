@@ -29,7 +29,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "Blue.h"
-#include "SDL.h"
+#include <SDL2/SDL.h>
 
 static Uint32 MicrosecondsBase = 0;
 
@@ -96,9 +96,9 @@ extern int32_t rspGetMicroseconds(	// Returns microseconds between now and
 // Returns the time in an __int64.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern S64 rspGetAppMicroseconds()
+extern int64_t rspGetAppMicroseconds()
 	{
-        return ((S64) SDL_GetTicks()) * 1000;
+        return ((int64_t) SDL_GetTicks()) * 1000;
 	}
 
 //////////////////////////////////////////////////////////////////////////////

@@ -214,7 +214,7 @@ class CSmash
 	// Types, enums, etc.
 	//---------------------------------------------------------------------------
 	public:
-		typedef U32 Bits;
+		typedef uint32_t Bits;
 
 		// Available bits for classifying a CSmash
 		enum

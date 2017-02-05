@@ -79,7 +79,7 @@ class CAnimThing : public CThing
 		int32_t	m_lAnimTime;						// Cummulative animation time.
 		int32_t	m_lAnimPrevTime;					// Last animation time.
 														
-		U16			m_u16IdSendMsg;			// ID of CThing to send msg to when done.
+		uint16_t			m_u16IdSendMsg;			// ID of CThing to send msg to when done.
 		GameMessage	m_msg;						// Message to send to m_pthingSendMsg.
 
 	protected:

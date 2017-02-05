@@ -63,7 +63,7 @@
 
 	// removed locking and unlocking except where needed for special cases:
 
-	switch ((int16_t)(((S64)pimDst->m_pSpecial))) // 0 = normal image
+	switch ((int16_t)(((int64_t)pimDst->m_pSpecial))) // 0 = normal image
 		{
 		case 0: // normal image, buffer in image
 		break;
@@ -381,7 +381,7 @@ inline void _BLiT_MA(uint8_t* pSrc,uint8_t* pDst,int32_t lSrcPitch, int32_t lDst
 		}
 #else
 	union	{
-		U32 *w;
+		uint32_t *w;
 		uint8_t	*b;
 		} pSrcLine,pDstLine,pS,pD;
 
@@ -725,8 +725,8 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sSrcX,int16_t sSrcY,int16_
 	// IN THIS IMPLEMENTATION, we must do LOCK, BLiT, UNLOCK, so I
 	// must record which UNLOCK (if any) needs to be done AFTER the BLiT
 	// has completed. (Lord help me if a blit gets interrupted)
-	if (pimSrc->m_type == RImage::IMAGE_STUB) sBlitTypeSrc = (int16_t)((S64)pimSrc->m_pSpecial);
-	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((S64)pimDst->m_pSpecial);
+	if (pimSrc->m_type == RImage::IMAGE_STUB) sBlitTypeSrc = (int16_t)((int64_t)pimSrc->m_pSpecial);
+	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((int64_t)pimDst->m_pSpecial);
 
 	switch ( (sBlitTypeSrc<<3) + sBlitTypeDst) // 0 = normal image
 		{
@@ -842,8 +842,8 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sSrcX,int16_t sSrcY,int16_
 	// Calculate memory offsets using signed pitch:
 
 	// sSrcX, sDstX, and sSrcW are in BYTES:
-	U8* pSrc = pimSrc->m_pData + sSrcX + pimSrc->m_lPitch * sSrcY;
-	U8* pDst = pimDst->m_pData + sDstX + pimDst->m_lPitch * sDstY;
+	uint8_t* pSrc = pimSrc->m_pData + sSrcX + pimSrc->m_lPitch * sSrcY;
+	uint8_t* pDst = pimDst->m_pData + sDstX + pimDst->m_lPitch * sDstY;
 	
 	// Determine Byte Alignment:
 	int16_t sAlign = sSrcX | sDstX | sW | 
@@ -855,22 +855,22 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sSrcX,int16_t sSrcY,int16_
 	if ( (sAlign & 15) == 0 )
 		{
 		// 128-bit copy
-		_BLiT((U128*)pSrc,(U128*)pDst,pimSrc->m_lPitch,pimDst->m_lPitch,sH,sW); 
+		_BLiT((uint128_t*)pSrc,(uint128_t*)pDst,pimSrc->m_lPitch,pimDst->m_lPitch,sH,sW); 
 		}
 	else if ( (sAlign & 7) == 0)
 		{
 		// 64-bit copy
-		_BLiT((U64*)pSrc,(U64*)pDst,pimSrc->m_lPitch,pimDst->m_lPitch,sH,sW); 
+		_BLiT((uint64_t*)pSrc,(uint64_t*)pDst,pimSrc->m_lPitch,pimDst->m_lPitch,sH,sW); 
 		}
 	else if ( (sAlign & 3) == 0)
 		{
 		// 32-bit copy
-		_BLiT((U32*)pSrc,(U32*)pDst,pimSrc->m_lPitch,pimDst->m_lPitch,sH,sW); 
+		_BLiT((uint32_t*)pSrc,(uint32_t*)pDst,pimSrc->m_lPitch,pimDst->m_lPitch,sH,sW); 
 		}
 	else if ( (sAlign & 1) == 0)
 		{
 		// 16-bit copy
-		_BLiT((U16*)pSrc,(U16*)pDst,pimSrc->m_lPitch,pimDst->m_lPitch,sH,sW); 
+		_BLiT((uint16_t*)pSrc,(uint16_t*)pDst,pimSrc->m_lPitch,pimDst->m_lPitch,sH,sW); 
 		}
 	else
 		{
@@ -962,7 +962,7 @@ inline void _ClearRect(WORDSIZE color,WORDSIZE* pDst,int32_t lDstPitch,
 
 // Must make TC possible!  
 //
-int16_t rspRect(U32 color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_t sH,RRect* prClip)
+int16_t rspRect(uint32_t color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_t sH,RRect* prClip)
 	{
 	// A cheap hook for mono:
 	if (pimDst->m_type == RImage::BMP1) // monochrome hook
@@ -1049,7 +1049,7 @@ int16_t rspRect(U32 color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_
 	// must record which UNLOCK (if any) needs to be done AFTER the BLiT
 	// has completed. (Lord help me if a blit gets interrupted)
 
-	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((S64)pimDst->m_pSpecial);
+	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((int64_t)pimDst->m_pSpecial);
 
 	switch (sBlitTypeDst) // 0 = normal image
 		{
@@ -1131,7 +1131,7 @@ int16_t rspRect(U32 color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_
 	// Calculate memory offsets using signed pitch:
 
 	// sX and sByteW are in BYTES!
-	U8* pDst = pimDst->m_pData + sX + pimDst->m_lPitch * sY;
+	uint8_t* pDst = pimDst->m_pData + sX + pimDst->m_lPitch * sY;
 	
 	// Determine Byte Alignment:
 	// sX and sByteW are in BYTES!
@@ -1145,18 +1145,18 @@ int16_t rspRect(U32 color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_
 		ulColor += (color << 8); // 16-bit
 		ulColor += (ulColor << 16); // 32-bit
 
-		_ClearRect(ulColor,(U32*)pDst,pimDst->m_lPitch,sH,sByteW); 
+		_ClearRect(ulColor,(uint32_t*)pDst,pimDst->m_lPitch,sH,sByteW); 
 		}
 	else if ( (sAlign & 1) == 0)
 		{
 		// 16-bit copy
 		uint16_t usColor = (uint16_t)(color + (color << 8)); // 16-bit;
-		_ClearRect(usColor,(U16*)pDst,pimDst->m_lPitch,sH,sByteW); 
+		_ClearRect(usColor,(uint16_t*)pDst,pimDst->m_lPitch,sH,sByteW); 
 		}
 	else
 		{
 		// 8-bit copy
-		_ClearRect((U8)color,(U8*)pDst,pimDst->m_lPitch,sH,sByteW); 
+		_ClearRect((uint8_t)color,(uint8_t*)pDst,pimDst->m_lPitch,sH,sByteW); 
 		}
 
 
@@ -1199,7 +1199,7 @@ int16_t rspRect(U32 color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_
 
 // Does a "hollow" rectangle! (grows inwards)
 //
-int16_t rspRect(int16_t sThickness,U32 color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_t sH,RRect* prClip)
+int16_t rspRect(int16_t sThickness,uint32_t color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_t sH,RRect* prClip)
 	{
 	// 1) preliminary parameter validation:
 #ifdef _DEBUG

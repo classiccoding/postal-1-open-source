@@ -117,7 +117,7 @@ RInitBLiT::RInitBLiT()
 	pimScreenBackPlane = new RImage;
 
 	// trick the compiler into instantiating the BLiT Image types...
-	if (((S64)pimScreenBuffer + (S64)pimScreenVisible + (S64)pimScreenBackPlane) == 0)
+	if (((int64_t)pimScreenBuffer + (int64_t)pimScreenVisible + (int64_t)pimScreenBackPlane) == 0)
 		{
 		LinkImage(); // NEVER Really do this!
 		}
@@ -487,7 +487,7 @@ int16_t	rspGeneralLock(RImage* pimDst)
 	// If it is a stub . . .
 	if (pimDst->m_type == RImage::IMAGE_STUB)
 		{
-		switch (((int16_t)(((S64)pimDst->m_pSpecial)))) // 0 = normal image
+		switch (((int16_t)(((int64_t)pimDst->m_pSpecial)))) // 0 = normal image
 			{
 			case 0:	// it's YOUR IMAGE!
 				return SUCCESS;
@@ -522,7 +522,7 @@ int16_t	rspGeneralUnlock(RImage* pimDst)
 	// If it is a stub . . .
 	if (pimDst->m_type == RImage::IMAGE_STUB)
 		{
-		switch (((int16_t)(((S64)pimDst->m_pSpecial)))) // 0 = normal image
+		switch (((int16_t)(((int64_t)pimDst->m_pSpecial)))) // 0 = normal image
 			{
 			case 0:	// it's YOUR IMAGE!
 				return SUCCESS;

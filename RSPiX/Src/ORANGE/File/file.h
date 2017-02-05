@@ -291,7 +291,7 @@ class RFile
 		// but was not supported, this API would happily accept it, but not
 		// swap it.  This could cause hard to detect problems.
 		// If you are reading or writing something that does not require 
-		// swapping, cast it as U8* or S8*.
+      // swapping, cast it as uint8_t* or int8_t*.
 		// Reads lNum bytes from currently open file.
 		// Returns number of bytes successfully read.
 		int32_t Read(void* pData, int32_t lNum);
@@ -302,46 +302,46 @@ class RFile
 		int32_t Read(char* pcData, int32_t lNum)
 			{ return Read((void*)pcData, lNum); }
 
-		// Reads lNum U8 values from currently open file.
-		// Returns number of U8 values successfully read.
-		int32_t Read(U8*	pu8Data, int32_t lNum = 1L);
+		// Reads lNum uint8_t values from currently open file.
+		// Returns number of uint8_t values successfully read.
+		int32_t Read(uint8_t*	pu8Data, int32_t lNum = 1L);
 
-		// Reads lNum S8 values from currently open file.
-		// Returns number of S8 values successfully read.
-		int32_t Read(S8*	ps8Data, int32_t lNum = 1L);
+      // Reads lNum int8_t values from currently open file.
+      // Returns number of int8_t values successfully read.
+      int32_t Read(int8_t*	ps8Data, int32_t lNum = 1L);
 
-		// Reads lNum U16 values from currently open file.
-		// Returns number of U16 values successfully read.
-		int32_t Read(U16* pu16Data, int32_t lNum = 1L);
+      // Reads lNum uint16_t values from currently open file.
+      // Returns number of uint16_t values successfully read.
+      int32_t Read(uint16_t* pu16Data, int32_t lNum = 1L);
 		
-		// Reads lNum S16 values from currently open file.
-		// Returns number of S16 values successfully read.
-		int32_t Read(S16* ps16Data, int32_t lNum = 1L);
+      // Reads lNum int16_t values from currently open file.
+      // Returns number of int16_t values successfully read.
+      int32_t Read(int16_t* ps16Data, int32_t lNum = 1L);
 
 		// Reads lNum RPixel24 values from currently open file.
 		// Returns number of RPixel24 values successfully read.
 		int32_t Read(RPixel24* ppix24, int32_t lNum = 1L);
 
-		// Reads lNum U32 values from currently open file.
-		// Returns number of U32 values successfully read.
-		int32_t Read(U32* pu32Data, int32_t lNum = 1L);
+      // Reads lNum uint32_t values from currently open file.
+      // Returns number of uint32_t values successfully read.
+      int32_t Read(uint32_t* pu32Data, int32_t lNum = 1L);
 
-		// Reads lNum S32 values from currently open file.
-		// Returns number of S32 values successfully read.
-		int32_t Read(S32* ps32Data, int32_t lNum = 1L);
+      // Reads lNum int32_t values from currently open file.
+      // Returns number of int32_t values successfully read.
+      int32_t Read(int32_t* ps32Data, int32_t lNum = 1L);
 
 		// Reads lNum RPixel32 values from currently open file.
 		// Returns number of RPixel32 values successfully read.
 		int32_t Read(RPixel32* ppix32Data, int32_t lNum = 1L)
-			{ return Read((U32*)ppix32Data, lNum); }
+         { return Read((uint32_t*)ppix32Data, lNum); }
 
-		// Reads lNum U64 values from currently open file.
-		// Returns number of U64 values successfully read.
-		int32_t Read(U64* pu64Data, int32_t lNum = 1L);
+      // Reads lNum uint64_t values from currently open file.
+      // Returns number of uint64_t values successfully read.
+      int32_t Read(uint64_t* pu64Data, int32_t lNum = 1L);
 
-		// Reads lNum S64 values from currently open file.
-		// Returns number of S64 values successfully read.
-		int32_t Read(S64* ps64Data, int32_t lNum = 1L);
+      // Reads lNum int64_t values from currently open file.
+      // Returns number of int64_t values successfully read.
+      int32_t Read(int64_t* ps64Data, int32_t lNum = 1L);
 
 		// Reads lNum float values from currently open file.
 		// Returns number of float values successfully read.
@@ -370,57 +370,57 @@ class RFile
 		// but was not supported, this API would happily accept it, but not
 		// swap it.  This could cause hard to detect problems.
 		// If you are reading or writing something that does not require 
-		// swapping, cast it as U8* or S8*.
+      // swapping, cast it as uint8_t* or int8_t*.
 		// Writes lNum bytes from currently open file.
 		// Returns number of bytes successfully written.
 		int32_t Write(const void* pData, int32_t lNum);
 
 	public:
 		// Writes lNum char values to currently open file.
-		// Returns number of U8 values successfully written.
+		// Returns number of uint8_t values successfully written.
 		int32_t Write(const char*	pcData, int32_t lNum)
 			{ return Write((void*)pcData, lNum); }
 
-		// Writes lNum U8 values to currently open file.
-		// Returns number of U8 values successfully written.
-		int32_t Write(const U8*	pu8Data, int32_t lNum = 1L);
+		// Writes lNum uint8_t values to currently open file.
+		// Returns number of uint8_t values successfully written.
+		int32_t Write(const uint8_t*	pu8Data, int32_t lNum = 1L);
 
-		// Writes lNum S8 values to currently open file.
-		// Returns number of S8 values successfully written.
-		int32_t Write(const S8*	ps8Data, int32_t lNum = 1L);
+      // Writes lNum int8_t values to currently open file.
+      // Returns number of int8_t values successfully written.
+      int32_t Write(const int8_t*	ps8Data, int32_t lNum = 1L);
 
-		// Writes lNum U16 values to currently open file.
-		// Returns number of U16 values successfully written.
-		int32_t Write(const U16* pu16Data, int32_t lNum = 1L);
+      // Writes lNum uint16_t values to currently open file.
+      // Returns number of uint16_t values successfully written.
+      int32_t Write(const uint16_t* pu16Data, int32_t lNum = 1L);
 
-		// Writes lNum S16 values to currently open file.
-		// Returns number of S16 values successfully written.
-		int32_t Write(const S16* ps16Data, int32_t lNum = 1L);
+      // Writes lNum int16_t values to currently open file.
+      // Returns number of int16_t values successfully written.
+      int32_t Write(const int16_t* ps16Data, int32_t lNum = 1L);
 
 		// Writes lNum RPixel24 values to currently open file.
 		// Returns number of RPixel24 values successfully written.
 		int32_t Write(const RPixel24* ppix24, int32_t lNum = 1L);
 
-		// Writes lNum U32 values to currently open file.
-		// Returns number of U32 values successfully written.
-		int32_t Write(const U32* pu32Data, int32_t lNum = 1L);
+      // Writes lNum uint32_t values to currently open file.
+      // Returns number of uint32_t values successfully written.
+      int32_t Write(const uint32_t* pu32Data, int32_t lNum = 1L);
 
-		// Writes lNum S32 values to currently open file.
-		// Returns number of S32 values successfully written.
-		int32_t Write(const S32* ps32Data, int32_t lNum = 1L);
+      // Writes lNum int32_t values to currently open file.
+      // Returns number of int32_t values successfully written.
+      int32_t Write(const int32_t* ps32Data, int32_t lNum = 1L);
 
 		// Writes lNum RPixel32 values to currently open file.
 		// Returns number of RPixel32 values successfully written.
 		int32_t Write(const RPixel32* ppix32Data, int32_t lNum = 1L)
-			{ return Write((U32*)ppix32Data, lNum); }
+         { return Write((uint32_t*)ppix32Data, lNum); }
 
-		// Writes lNum U64 values to currently open file.
-		// Returns number of U64 values successfully written.
-		int32_t Write(const U64* pu64Data, int32_t lNum = 1L);
+      // Writes lNum uint64_t values to currently open file.
+      // Returns number of uint64_t values successfully written.
+      int32_t Write(const uint64_t* pu64Data, int32_t lNum = 1L);
 
-		// Writes lNum S64 values to currently open file.
-		// Returns number of S64 values successfully written.
-		int32_t Write(const S64* ps64Data, int32_t lNum = 1L);
+      // Writes lNum int64_t values to currently open file.
+      // Returns number of int64_t values successfully written.
+      int32_t Write(const int64_t* ps64Data, int32_t lNum = 1L);
 
 		// Writes lNum float values to the currently open file.
 		// Returns number of float values successfully written.
@@ -447,32 +447,32 @@ class RFile
 		int32_t Write(char cVal)
 			{ return Write(&cVal, 1); }
 
-		// Writes one U8.
-		int32_t Write(U8 u8Val)
+		// Writes one uint8_t.
+		int32_t Write(uint8_t u8Val)
 			{ return Write(&u8Val); }
 
-		// Writes one S8.
-		int32_t Write(S8 s8Val)
+      // Writes one int8_t.
+      int32_t Write(int8_t s8Val)
 			{ return Write(&s8Val); }
 
-		// Writes one U16.
-		int32_t Write(U16 u16Val)
+      // Writes one uint16_t.
+      int32_t Write(uint16_t u16Val)
 			{ return Write(&u16Val); }
 
-		// Writes one S16.
-		int32_t Write(S16 s16Val)
+      // Writes one int16_t.
+      int32_t Write(int16_t s16Val)
 			{ return Write(&s16Val); }
 
 		// Writes one RPixel24.
 		int32_t Write(RPixel24 pix24Val)
 			{ return Write(&pix24Val); }
 
-		// Writes one U32.
-		int32_t Write(U32 u32Val)
+      // Writes one uint32_t.
+      int32_t Write(uint32_t u32Val)
 			{ return Write(&u32Val); }
 
-		// Writes one S32.
-		int32_t Write(S32 s32Val)
+      // Writes one int32_t.
+      int32_t Write(int32_t s32Val)
 			{ return Write(&s32Val); }
 
 		// Writes one RPixel32.
@@ -483,12 +483,12 @@ class RFile
 		int32_t Write(float fVal)
 			{ return Write(&fVal); }
 
-		// Writes one U64.
-		int32_t Write(U64 u64Val)
+      // Writes one uint64_t.
+      int32_t Write(uint64_t u64Val)
 			{ return Write(&u64Val); }
 
-		// Writes one S64.
-		int32_t Write(S64 s64Val)
+      // Writes one int64_t.
+      int32_t Write(int64_t s64Val)
 			{ return Write(&s64Val); }
 
 		// Writes one double.
@@ -589,12 +589,12 @@ class RFile
 
 		// Reads in 8 bit data, swapped if necessary (BWAH HA).
 		int32_t Read8(		// Returns number of 8 bit items read.
-			U8*	pu8,		// In:  8 bit data to read (swapping, if necessary).
+			uint8_t*	pu8,		// In:  8 bit data to read (swapping, if necessary).
 			int32_t	lNum);	// In:  Number of 8 bit items to read.
 
 		// Reads in 16 bit data, swapped if necessary.
 		int32_t Read16(		// Returns number of 16 bit items read.
-			U16*	pu16,		// In:  16 bit data to read (swapping, if necessary).
+         uint16_t*	pu16,		// In:  16 bit data to read (swapping, if necessary).
 			int32_t	lNum);	// In:  Number of 16 bit items to read.
 
 		// Reads in 24 bit data, swapped if necessary.
@@ -604,24 +604,24 @@ class RFile
 
 		// Reads in 32 bit data, swapped if necessary.
 		int32_t Read32(		// Returns number of 32 bit items read.
-			U32*	pu32,		// In:  32 bit data to read (swapping, if necessary).
+         uint32_t*	pu32,		// In:  32 bit data to read (swapping, if necessary).
 			int32_t	lNum);	// In:  Number of 32 bit items to read.
 
 		// Reads in 64 bit data, swapped if necessary.
 		int32_t Read64(		// Returns number of 64 bit items read.
-			U64*	pu64,		// In:  64 bit data to read (swapping, if necessary).
+         uint64_t*	pu64,		// In:  64 bit data to read (swapping, if necessary).
 			int32_t	lNum);	// In:  Number of 64 bit items to read.
 
 /////////// Binary Writes ////////////////////////////////////////////////////
 
 		// Writes out 8 bit data, swapped if necessary (BWAH HA).
 		int32_t Write8(		// Returns number of 8 bit items written.
-			const U8*	pu8,		// In:  8 bit data to write (swapping, if necessary).
+			const uint8_t*	pu8,		// In:  8 bit data to write (swapping, if necessary).
 			int32_t	lNum);	// In:  Number of 8 bit items to write.
 
 		// Writes out 16 bit data, swapped if necessary.
 		int32_t Write16(		// Returns number of 16 bit items written.
-			const U16*	pu16,		// In:  16 bit data to write (swapping, if necessary).
+         const uint16_t*	pu16,		// In:  16 bit data to write (swapping, if necessary).
 			int32_t	lNum);	// In:  Number of 16 bit items to write.
 
 		// Writes out 24 bit data, swapped if necessary.
@@ -631,12 +631,12 @@ class RFile
 
 		// Writes out 32 bit data, swapped if necessary.
 		int32_t Write32(		// Returns number of 32 bit items written.
-			const U32*	pu32,		// In:  32 bit data to write (swapping, if necessary).
+         const uint32_t*	pu32,		// In:  32 bit data to write (swapping, if necessary).
 			int32_t	lNum);	// In:  Number of 32 bit items to write.
 
 		// Writes out 64 bit data, swapped if necessary.
 		int32_t Write64(		// Returns number of 64 bit items written.
-			const U64*	pu64,		// In:  64 bit data to write (swapping, if necessary).
+         const uint64_t*	pu64,		// In:  64 bit data to write (swapping, if necessary).
 			int32_t	lNum);	// In:  Number of 64 bit items to write.
 
 		#ifdef ALLOW_RFILE_REOPEN
@@ -681,7 +681,7 @@ class RFile
 		RFile*		m_pfileSynch;		// RFile this RFile is synchronized with.
 												// Used on Close() to resynch.
 
-		static U8	ms_au8SwapBuf[RFILE_SWAP_SIZE];	// Used to byte swap by Write().
+		static uint8_t	ms_au8SwapBuf[RFILE_SWAP_SIZE];	// Used to byte swap by Write().
 
 		// Hook stuff.
 		int32_t							m_lUser;			// Instantiable hook value.
@@ -899,28 +899,28 @@ short rspAnySave(		/* Returns 0 on success.*/										\
 	return (pfile->Write(ptype) == 1) ? 0 : 1;										\
 	}																								
 
-RFILE_INSTANTIATE_ANYLOAD(U8)
-RFILE_INSTANTIATE_ANYSAVE(U8)
-RFILE_INSTANTIATE_ANYLOAD(S8)
-RFILE_INSTANTIATE_ANYSAVE(S8)
-RFILE_INSTANTIATE_ANYLOAD(U16)
-RFILE_INSTANTIATE_ANYSAVE(U16)
-RFILE_INSTANTIATE_ANYLOAD(S16)
-RFILE_INSTANTIATE_ANYSAVE(S16)
+RFILE_INSTANTIATE_ANYLOAD(uint8_t)
+RFILE_INSTANTIATE_ANYSAVE(uint8_t)
+RFILE_INSTANTIATE_ANYLOAD(int8_t)
+RFILE_INSTANTIATE_ANYSAVE(int8_t)
+RFILE_INSTANTIATE_ANYLOAD(uint16_t)
+RFILE_INSTANTIATE_ANYSAVE(uint16_t)
+RFILE_INSTANTIATE_ANYLOAD(int16_t)
+RFILE_INSTANTIATE_ANYSAVE(int16_t)
 RFILE_INSTANTIATE_ANYLOAD(RPixel24)
 RFILE_INSTANTIATE_ANYSAVE(RPixel24)
-RFILE_INSTANTIATE_ANYLOAD(U32)
-RFILE_INSTANTIATE_ANYSAVE(U32)
-RFILE_INSTANTIATE_ANYLOAD(S32)
-RFILE_INSTANTIATE_ANYSAVE(S32)
+RFILE_INSTANTIATE_ANYLOAD(uint32_t)
+RFILE_INSTANTIATE_ANYSAVE(uint32_t)
+RFILE_INSTANTIATE_ANYLOAD(int32_t)
+RFILE_INSTANTIATE_ANYSAVE(int32_t)
 RFILE_INSTANTIATE_ANYLOAD(RPixel32)
 RFILE_INSTANTIATE_ANYSAVE(RPixel32)
 RFILE_INSTANTIATE_ANYLOAD(float)
 RFILE_INSTANTIATE_ANYSAVE(float)
-RFILE_INSTANTIATE_ANYLOAD(U64)
-RFILE_INSTANTIATE_ANYSAVE(U64)
-RFILE_INSTANTIATE_ANYLOAD(S64)
-RFILE_INSTANTIATE_ANYSAVE(S64)
+RFILE_INSTANTIATE_ANYLOAD(uint64_t)
+RFILE_INSTANTIATE_ANYSAVE(uint64_t)
+RFILE_INSTANTIATE_ANYLOAD(int64_t)
+RFILE_INSTANTIATE_ANYSAVE(int64_t)
 RFILE_INSTANTIATE_ANYLOAD(double)
 RFILE_INSTANTIATE_ANYSAVE(double)
 

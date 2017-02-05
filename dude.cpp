@@ -1318,9 +1318,9 @@ double CDude::ms_dDegPerSec      = 240.0;			// Degrees of rotation per second
 
 double CDude::ms_dVertVelJump		= 100.0;			// Velocity of jump.
 
-U32	CDude::ms_u32CollideBitsInclude = CSmash::Character | CSmash::Barrel | CSmash::SpecialBarrel | CSmash::Sentry;
-U32	CDude::ms_u32CollideBitsDontcare = CSmash::Bad;
-U32	CDude::ms_u32CollideBitsExclude = 0;
+uint32_t	CDude::ms_u32CollideBitsInclude = CSmash::Character | CSmash::Barrel | CSmash::SpecialBarrel | CSmash::Sentry;
+uint32_t	CDude::ms_u32CollideBitsDontcare = CSmash::Bad;
+uint32_t	CDude::ms_u32CollideBitsExclude = 0;
 
 // Let this auto-init to 0
 int16_t CDude::ms_sFileCount;
@@ -1721,7 +1721,7 @@ int16_t CDude::Load(										// Returns 0 if successfull, non-zero otherwise
 					{
 					pFile->Read(&m_stockpile.m_sNumGrenades);
 
-					U32	u32Temp;
+					uint32_t	u32Temp;
 					pFile->Read(&u32Temp);
 					m_state	= (CCharacter::State)u32Temp;
 
@@ -2065,7 +2065,7 @@ void CDude::Update(void)
 			case State_Throw:
 				{
 #if 1
-				U8	u8Event	= *( (U8*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
+				uint8_t	u8Event	= *( (uint8_t*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
 				// Check for release point in animation . . .
 				if (u8Event > 0)
 					{
@@ -2232,7 +2232,7 @@ void CDude::Update(void)
 				break;
 			case State_Suicide:
 				// Check for moment of firing weapon . . .
-				if (*((U8*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime))) > 0
+				if (*((uint8_t*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime))) > 0
 					&& m_bBrainSplatted == false)		// ***FUDGE***
 					{
 					// Play shot fire.
@@ -2267,7 +2267,7 @@ void CDude::Update(void)
 					}
 				else if (m_bGenericEvent1 == false)
 					{
-					U8	u8Event	= *( (U8*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
+					uint8_t	u8Event	= *( (uint8_t*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
 
 					if (u8Event > 1)	// ***FUDGE***
 						{
@@ -2299,7 +2299,7 @@ void CDude::Update(void)
 			case State_Launch:
 #if 0
 				{
-				U8	u8Event	= *( (U8*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
+				uint8_t	u8Event	= *( (uint8_t*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
 				// Check for launch point in animation . . .
 				if (u8Event > 0)
 					{
@@ -2443,7 +2443,7 @@ void CDude::Update(void)
 					}
 				else 
 					{
-					U8	u8Event	= *( (U8*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
+					uint8_t	u8Event	= *( (uint8_t*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
 					// Check for show point in anim . . .
 					if (u8Event > 0)
 						{
@@ -4798,7 +4798,7 @@ CWeapon* CDude::ShootWeapon(					// Returns the weapon ptr or NULL.
 ////////////////////////////////////////////////////////////////////////////////
 void CDude::Damage(			// Returns nothing.
 	int16_t	sHitPoints,			// Hit points of damage to do.
-	U16	u16ShooterId)		// In:  Thing responsible for damage.
+	uint16_t	u16ShooterId)		// In:  Thing responsible for damage.
 	{
 	// Remember if already dead . . .
 	bool	bDead	= m_bDead;
@@ -5751,7 +5751,7 @@ void CDude::PlayStep(void)				// Returns nothing.
 	if (m_panimCur->m_pevent != NULL)
 		{
 		// If the current event is different from the last . . .
-		U8	u8Event	= *((U8*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime)) );
+		uint8_t	u8Event	= *((uint8_t*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime)) );
 		if (u8Event > 0 && u8Event != m_u8LastEvent)
 			{
 			PlaySample(g_smidStep, SampleMaster::Unspecified);
@@ -5915,7 +5915,7 @@ void CDude::TakePowerUp(		// Returns nothing.
 		(*pppowerup)->PickUpFeedback();
 
 		// Store its ID so we can attempt to get it if it does persist.
-		U16	idInstance	= (*pppowerup)->GetInstanceID();
+		uint16_t	idInstance	= (*pppowerup)->GetInstanceID();
 
 		// Let powerup decide if it should persist.
 		(*pppowerup)->RepaginateNow();
@@ -5948,7 +5948,7 @@ void CDude::TakePowerUp(		// Returns nothing.
 	if (*pppowerup)
 		{
 		// Store its ID so we can attempt to get it if it does persist.
-		U16	idInstance	= (*pppowerup)->GetInstanceID();
+		uint16_t	idInstance	= (*pppowerup)->GetInstanceID();
 
 		// Toss it.
 		TossPowerUp(*pppowerup, 130);
@@ -6128,7 +6128,7 @@ void CDude::DropAllFlags(	// Returns nothing.
 		// Get the next now b/c this won't be a sibling after we detach it.
 		pflagNext	= GetNextFlag(pflag);
 
-		U16	u16IdFlag	= pflag->GetInstanceID();
+		uint16_t	u16IdFlag	= pflag->GetInstanceID();
 		
 		// Detach the flag.
 		DetachChild(

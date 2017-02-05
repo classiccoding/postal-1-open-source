@@ -63,7 +63,7 @@ class RMixBuf
 		// Mix data in.
 		// Returns 0 on success.
 		int16_t Mix(	uint32_t		ulStartPos,
-						U8*		pu8Data, 
+						uint8_t*		pu8Data, 
 						uint32_t		ulSize, 
 						int32_t		lSampleRate,
 						int32_t		lBitsPerSample,
@@ -122,8 +122,8 @@ class RMixBuf
 		void Reset(void);
 
 	protected:	// Members.
-		U8*			m_pu8Mix;				// Mix buffer.
-		U8*			m_pu8Dst;				// Destination buffer.
+		uint8_t*			m_pu8Mix;				// Mix buffer.
+		uint8_t*			m_pu8Dst;				// Destination buffer.
 		int16_t			m_sOwnMixBuf;			// TRUE if RMixBuf allocated the mix buffer.
 		uint32_t			m_ulMixSize;			// Size of mix buffer in bytes.
 		uint32_t			m_ulDstSize;			// Size of dst buffer in bytes.

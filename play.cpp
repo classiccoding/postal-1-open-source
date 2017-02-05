@@ -447,7 +447,7 @@
 #define KILLS_LIMIT_DEFAULT				0
 
 // Default value for "final frame" in network mode (6.8 years at 10fps)
-#define DEFAULT_FINAL_FRAME				LONG_MAX
+#define DEFAULT_FINAL_FRAME				INT32_MAX
 
 #if WITH_STEAMWORKS
 extern bool EnableSteamCloud;
@@ -637,8 +637,8 @@ class CPlayInfo
 
 
 	public:
-		U16				m_idLocalDude;					// Local dude's ID
-		U16				m_idGripTarget;				// Grip target's ID
+		uint16_t				m_idLocalDude;					// Local dude's ID
+		uint16_t				m_idGripTarget;				// Grip target's ID
 		bool				m_bDoRealmFrame;				// Whether to do a realm frame
 		int32_t				m_lSumUpdateDisplayTimes;
 		bool				m_bXRayAll;						// X Ray all status.
@@ -2658,7 +2658,7 @@ class CPlayInput : public CPlay
 	//------------------------------------------------------------------------------
 	private:
 		int32_t				m_lDemoDeadTime;				// Time dude has been dead for
-		U8*				m_pau8KeyStatus;				// Key status array
+		uint8_t*				m_pau8KeyStatus;				// Key status array
 		REdit*			m_peditChatIn;					// Outgoing chat.
 
 
@@ -4452,11 +4452,11 @@ class CPlayRealm : public CPlay
 
 							bool bMatch = true;
 							int i;
-							U8* pSrcLine = im.m_pData;
-							U8* pDstLine = g_pimScreenBuf->m_pData + ((int32_t)FILM_Y * g_pimScreenBuf->m_lPitch) + (int32_t)FILM_X;
+							uint8_t* pSrcLine = im.m_pData;
+							uint8_t* pDstLine = g_pimScreenBuf->m_pData + ((int32_t)FILM_Y * g_pimScreenBuf->m_lPitch) + (int32_t)FILM_X;
 							int16_t sHeight = im.m_sHeight;
-							U8* pSrc;
-							U8* pDst;
+							uint8_t* pSrc;
+							uint8_t* pDst;
 							while (sHeight--)
 								{
 								pSrc = pSrcLine;
@@ -4475,11 +4475,11 @@ class CPlayRealm : public CPlay
 							if (!bMatch)
 								{
 								int i;
-								U8* pSrcLine = im.m_pData;
-								U8* pDstLine = g_pimScreenBuf->m_pData + ((int32_t)FILM_Y * g_pimScreenBuf->m_lPitch) + (int32_t)FILM_X;
+								uint8_t* pSrcLine = im.m_pData;
+								uint8_t* pDstLine = g_pimScreenBuf->m_pData + ((int32_t)FILM_Y * g_pimScreenBuf->m_lPitch) + (int32_t)FILM_X;
 								int16_t sHeight = im.m_sHeight;
-								U8* pSrc;
-								U8* pDst;
+								uint8_t* pSrc;
+								uint8_t* pDst;
 								while (sHeight--)
 									{
 									pSrc = pSrcLine;

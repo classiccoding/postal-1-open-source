@@ -47,9 +47,9 @@
 #include "ORANGE/str/str.h"
 
 #if WIN32
-	S64 i64GetTimeSpeed=7;	// how long does the time command take?
+   int64_t i64GetTimeSpeed=7;	// how long does the time command take?
 #else
-	S64 i64GetTimeSpeed=8;	// Mike's guess on the mac
+   int64_t i64GetTimeSpeed=8;	// Mike's guess on the mac
 #endif
 
 
@@ -69,7 +69,7 @@ void	RProfile::StartProfile(char* pszFieldName)
 	//*****************************************************************************
 	//************************************ TIME NOT BILLED CORRECTLY : START ******
 	//*****************************************************************************
-	S64 i64EntryTime = rspGetAppMicroseconds() - i64GetTimeSpeed; // Track Overhead
+   int64_t i64EntryTime = rspGetAppMicroseconds() - i64GetTimeSpeed; // Track Overhead
 	//*****************************************************************************
 	//************************************ TIME NOT BILLED CORRECTLY : .END. ******
 	//*****************************************************************************
@@ -181,7 +181,7 @@ void	RProfile::EndProfile(char* pszFieldName)
 	//*****************************************************************************
 	//************************************ TIME NOT BILLED CORRECTLY : START ******
 	//*****************************************************************************
-	S64 i64EntryTime = rspGetAppMicroseconds() - i64GetTimeSpeed; // Track Overhead
+   int64_t i64EntryTime = rspGetAppMicroseconds() - i64GetTimeSpeed; // Track Overhead
 	//*****************************************************************************
 	//************************************ TIME NOT BILLED CORRECTLY : .END. ******
 	//*****************************************************************************
@@ -245,7 +245,7 @@ void	RProfile::EndProfile(char* pszFieldName)
 	// Allow poosibility of hitting this first:
 	if (m_aList[sKey].m_eState == Timing) // you're in progress
 		{
-		S64 i64Diff = i64EntryTime - m_aList[sKey].m_lLastTime;
+      int64_t i64Diff = i64EntryTime - m_aList[sKey].m_lLastTime;
 		m_aList[sKey].m_lTotTime += i64Diff;
 		m_aList[sKey].m_lNumCalls++;	// A successful time
 		m_sCurDepth--; // You have risen up one level!
@@ -327,7 +327,7 @@ void RProfile::Report()
 
 		if (m_lCount) // safety
 		fprintf(fp,"Profiler overhead: Tot(ms) = %g, # of calls = %ld, Avg(ms) = %g\n\n",
-			double(m_lTotTime)/1000.0,int32_t(m_lCount),double(m_lTotTime)/double(m_lCount * S64(1000)));
+         double(m_lTotTime)/1000.0,int32_t(m_lCount),double(m_lTotTime)/double(m_lCount * int64_t(1000)));
 		
 		fprintf(fp,"Number of profile ranges was %hd.\n",m_sNumTracked);
 
@@ -394,7 +394,7 @@ void RProfile::Report()
 				fprintf(fp,"				# of passes = %ld, Tot(ms) = %g, Avg(ms) = %g",
 					int32_t(m_aList[i].m_lNumCalls),
 					double(m_aList[i].m_lTotTime)/1000.0,
-					double(m_aList[i].m_lTotTime)/double(m_aList[i].m_lNumCalls * S64(1000)));
+               double(m_aList[i].m_lTotTime)/double(m_aList[i].m_lNumCalls * int64_t(1000)));
 
 				if (dRel)
 					{

@@ -760,9 +760,9 @@ CPylon* CPylon::GetPylon(uint8_t ucPylonID)
 // GetPylonUniqueID - loop through list of pylons to get Unique ID
 ////////////////////////////////////////////////////////////////////////////////
 
-U16 CPylon::GetPylonUniqueID(uint8_t ucPylonID)
+uint16_t CPylon::GetPylonUniqueID(uint8_t ucPylonID)
 {
-	U16 u16UniqueID = CIdBank::IdNil;
+	uint16_t u16UniqueID = CIdBank::IdNil;
 	CListNode<CThing>* pNext = m_pRealm->m_aclassHeads[CThing::CPylonID].m_pnNext;
 	
 	bool bSearching = true;

@@ -253,7 +253,7 @@ class Net
 
 	// This MUST be unsigned to work properly!!!
 	// See above for an explanation of why 16-bits is a good choice.
-	typedef U16					SEQ;
+	typedef uint16_t					SEQ;
 
 	//------------------------------------------------------------------------------
 	// These are the various bandwidths we support

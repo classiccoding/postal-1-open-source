@@ -271,7 +271,7 @@ class CDoofus : public CCharacter
 	//---------------------------------------------------------------------------
 	protected:
 		// General position, motion and time variables
-		U16	m_idDude;						// The target CDude 
+		uint16_t	m_idDude;						// The target CDude 
 
 		// Animations
 		CAnim3D	m_animStand;				// Standing animation
@@ -295,7 +295,7 @@ class CDoofus : public CCharacter
 
 		// Navigation Net control
 		CNavigationNet* m_pNavNet;			// The network I should use
-		U16 m_u16NavNetID;					// My network's ID				
+		uint16_t m_u16NavNetID;					// My network's ID				
 		uint8_t m_ucDestBouyID;				// Destination bouy
 		uint8_t m_ucNextBouyID;				// Next bouy to go to
 		uint8_t m_ucSpecialBouy0ID;			// Starting bouy for special cases like marching
@@ -397,9 +397,9 @@ class CDoofus : public CCharacter
 		static int32_t ms_lHelpingTimeout;	// time before shooting when helping
 		static int32_t ms_lStuckRecoveryTime;//time to allow recovery from stuck position
 
-		static U32 ms_u32CollideBitsInclude;	// Default weapon collision bits
-		static U32 ms_u32CollideBitsDontcare;	// Default weapon collision bits
-		static U32 ms_u32CollideBitsExclude;	// Default weapon collision bits
+		static uint32_t ms_u32CollideBitsInclude;	// Default weapon collision bits
+		static uint32_t ms_u32CollideBitsDontcare;	// Default weapon collision bits
+		static uint32_t ms_u32CollideBitsExclude;	// Default weapon collision bits
 
 		static int16_t ms_sStuckLimit;				// Number of retrys before changing states to get unstuck
 
@@ -645,9 +645,9 @@ class CDoofus : public CCharacter
 		virtual			// Override to implement additional functionality.
 							// Call base class to get default functionality.
 		bool WhileHoldingWeapon(	// Returns true when weapon is released.
-			U32 u32BitsInclude,		// In:  Collision bits passed to ShootWeapon
-			U32 u32BitsDontcare,		// In:  Collision bits passed to ShootWeapon
-			U32 u32BitsExclude);		// In:  Collision bits passed to ShootWeapon
+			uint32_t u32BitsInclude,		// In:  Collision bits passed to ShootWeapon
+			uint32_t u32BitsDontcare,		// In:  Collision bits passed to ShootWeapon
+			uint32_t u32BitsExclude);		// In:  Collision bits passed to ShootWeapon
 
 
 	//---------------------------------------------------------------------------

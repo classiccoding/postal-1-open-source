@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include "SDL.h"
+#include <SDL2/SDL.h>
 #include "Blue.h"
 #include "ORANGE/CDT/slist.h"
 
@@ -66,13 +66,13 @@ static ArgbColor	apeMapped[256];			// Tweaked palette.
 														// updating to the hardware on
 														// rspUpdatePalette().
 
-static U8					au8MapRed[256];			// Map of red intensities to hardware
+static uint8_t					au8MapRed[256];			// Map of red intensities to hardware
 														// values.  Initially an identity
 														// mapping.
-static U8					au8MapGreen[256];			// Map of green intensities to
+static uint8_t					au8MapGreen[256];			// Map of green intensities to
 														// hardware values.  Initially an 
 														// identity mapping.
-static U8					au8MapBlue[256];			// Map of blue intensities to hardware
+static uint8_t					au8MapBlue[256];			// Map of blue intensities to hardware
 														// values.  Initially an identity
 														// mapping.
 

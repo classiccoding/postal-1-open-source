@@ -324,7 +324,7 @@ public:
 #if 0	// checking for palette errors:
 		rspSetWindowColors();
 
-		U8 r[256],g[256],b[256];	// for palette checking:
+		uint8_t r[256],g[256],b[256];	// for palette checking:
 		rspGetPaletteEntries(0,256,r,g,b,1);
 		short i;
 

@@ -31,6 +31,9 @@
 // ALL MAJOR COMMENT BLOCKS ARE IN FLX.CPP AS WELL.
 //
 ///////////////////////////////////////////////////////////////////////////////
+#ifndef TIME_TRAVEL_IS_REAL
+#error I AM ARCHAIC - DO NOT USE
+#endif
 
 #include <malloc.h>
 #include <memory.h>
@@ -421,7 +424,7 @@ int16_t CFlx::ReadDataBRun(FLX_BUF* pbufRead)
 	int16_t sError = 0;
 
 	uint8_t bVal;
-	S8		cVal;
+	int8_t		cVal;
 	int16_t sCount;
 	int16_t x;
 	int16_t y;
@@ -539,7 +542,7 @@ int16_t CFlx::ReadDataLC(FLX_BUF* pbufRead)
 		return 1;
 
 	uint8_t	bVal;
-	S8		cVal;
+	int8_t		cVal;
 	int16_t sCount;
 	int16_t y;
 	int16_t lines;
@@ -668,7 +671,7 @@ int16_t CFlx::ReadDataSS2(FLX_BUF* pbufRead)
 		return 1;
 	
 	uint8_t	bVal;
-	S8		cVal;
+	int8_t		cVal;
 	uint16_t wVal;
 	int16_t sCount;
 	int16_t y;

@@ -190,7 +190,7 @@ void CNetServer::Update(void)
 		// we can ignore it as well.  Bad messages could come from a foreign app that is
 		// using the same port as us.  If we do get a message, the address of the sender
 		// will be recorded -- this gives us the host's address!
-		U8 buf1[4];
+		uint8_t buf1[4];
 		int32_t lReceived;
 		RSocket::Address address;
 		int16_t serr = m_socketAntenna.ReceiveFrom(buf1, sizeof(buf1), &lReceived, &address);
@@ -210,15 +210,15 @@ void CNetServer::Update(void)
 				// that sent it, so as long as the encoding and decoding of the bytes
 				// is the same, that entity will get the same value that it sent.  All
 				// other entities will see this as a meaningless value, which is fine.
-				U8 buf2[4 + 4 + sizeof(m_acHostName)];
+				uint8_t buf2[4 + 4 + sizeof(m_acHostName)];
 				buf2[0] = Net::BroadcastMagic0;
 				buf2[1] = Net::BroadcastMagic1;
 				buf2[2] = Net::BroadcastMagic2;
 				buf2[3] = Net::BroadcastMagic3;
-				buf2[4] = (U8)(m_lHostMagic & 0xff);
-				buf2[5] = (U8)((m_lHostMagic >>  8) & 0xff);
-				buf2[6] = (U8)((m_lHostMagic >> 16) & 0xff);
-				buf2[7] = (U8)((m_lHostMagic >> 24) & 0xff);
+				buf2[4] = (uint8_t)(m_lHostMagic & 0xff);
+				buf2[5] = (uint8_t)((m_lHostMagic >>  8) & 0xff);
+				buf2[6] = (uint8_t)((m_lHostMagic >> 16) & 0xff);
+				buf2[7] = (uint8_t)((m_lHostMagic >> 24) & 0xff);
 				strncpy((char*)&buf2[8], m_acHostName, sizeof(m_acHostName));
 
 				// Send the message directly to the sender of the previous message
@@ -640,7 +640,7 @@ void CNetServer::GetMsg(
 						Net::ID id2;
 						int16_t sNumExpected = 0;
 						int16_t sNumReady = 0;
-						U16 mask = 0;
+						uint16_t mask = 0;
 						for (id2 = 0; id2 < Net::MaxNumIDs; id2++)
 							{
 							mask = (mask >> 1) & 0x7fff;
@@ -765,7 +765,7 @@ void CNetServer::SendMsg(
 // Send message to specified group of clients - only Joined clients are allowed!
 ////////////////////////////////////////////////////////////////////////////////
 void CNetServer::SendMsg(
-	U16 mask,												// In:  Bit-mask indicating who to send to
+	uint16_t mask,												// In:  Bit-mask indicating who to send to
 	NetMsg* pmsg)											// In:  Message to send
 	{
 	// Bit-mask determines who to send the message to

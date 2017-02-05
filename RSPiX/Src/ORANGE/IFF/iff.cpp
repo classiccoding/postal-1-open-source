@@ -253,7 +253,7 @@ int16_t RIff::EndChunk(FCC fccChunk /*= 0*/, FCC fccForm /*= 0*/)
 		if ((lSize % 2) != 0)
 			{
 			// Write a pad byte.
-			U8	u8Dummy	= 0;
+			uint8_t	u8Dummy	= 0;
 			Write(&u8Dummy);
 			// Increment size and current position.
 			lSize++;

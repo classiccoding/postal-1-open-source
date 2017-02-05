@@ -106,7 +106,7 @@ class CNetClient
 //				FQueue<long, NumAvgItems>	m_qPings;					// Queue of ping times for running average
 //				long					m_lRunnigAvgPing;						// Running average
 
-				U16					m_idDude;								// Dude's ID
+				uint16_t					m_idDude;								// Dude's ID
 
 			//------------------------------------------------------------------------------
 			// Functions
@@ -210,7 +210,7 @@ class CNetClient
 		/** SPA **/
 
 		/** 12/16/97 AJC **/
-		U16							m_u16PackageID;				// Unique number for every package sent
+		uint16_t							m_u16PackageID;				// Unique number for every package sent
 		/** 12/16/97 AJC **/
 		bool						m_bSendNextFrame;		// 12/30/97 *SPA True if we have all the info to render the current frame (m_seqFrame)
 		int32_t						m_lMaxWaitTime;
@@ -273,7 +273,7 @@ class CNetClient
 			m_lNextLocalInputTime = 0;
 			m_bNextRealmPending = false;
 
-			for (U8 id = 0; id < Net::MaxNumIDs; id++)
+			for (uint8_t id = 0; id < Net::MaxNumIDs; id++)
 				m_aPeers[id].Reset();
 
 			/** 12/15/97 SPA **/
@@ -448,7 +448,7 @@ class CNetClient
 		////////////////////////////////////////////////////////////////////////////////
 		// Get or set specified player's dude ID (not to be confused with a Net::ID)
 		////////////////////////////////////////////////////////////////////////////////
-		U16 GetPlayerDudeID(
+		uint16_t GetPlayerDudeID(
 			Net::ID id)
 			{
 			ASSERT(id != Net::InvalidID);
@@ -459,7 +459,7 @@ class CNetClient
 
 		void SetPlayerDudeID(
 			Net::ID id,
-			U16 idDude)
+			uint16_t idDude)
 			{
 			ASSERT(id != Net::InvalidID);
 			ASSERT(id < Net::MaxNumIDs);

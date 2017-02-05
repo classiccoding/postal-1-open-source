@@ -69,7 +69,7 @@ class CPylon : public CThing
 	public:
 		uint8_t	m_ucID;								// Pylon ID
 		GameMessage m_msg;						// Place for storing hint messages
-		U16	m_u16TargetDudeID;				// ID of dude you are supposed to attack;
+		uint16_t	m_u16TargetDudeID;				// ID of dude you are supposed to attack;
 
 	protected:
 		double m_dX;								// x coord
@@ -243,7 +243,7 @@ class CPylon : public CThing
 
 		// Search the list of pylons and return the instance ID of the one with
 		// the given pylon id.
-		U16 GetPylonUniqueID(uint8_t ucPylonID);
+		uint16_t GetPylonUniqueID(uint8_t ucPylonID);
 
 		// Return true if the pylon was triggered in the last interation
 		inline bool Triggered(void)

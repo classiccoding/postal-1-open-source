@@ -20,6 +20,9 @@
 // GRIP.H
 //
 //*****************************************************************************
+#ifndef TIME_TRAVEL_IS_REAL
+#error I AM ARCHAIC - DO NOT USE
+#endif
 
 #ifndef grip_h
 #define grip_h

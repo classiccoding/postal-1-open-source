@@ -633,7 +633,7 @@ void CFlag::EditHotSpot(			// Returns nothiing.
 int16_t CFlag::EditModify(void)
 {
 	int16_t sResult = 0;
-	U16 u16OrigColor = m_u16FlagColor;
+	uint16_t u16OrigColor = m_u16FlagColor;
 
 	RGuiItem* pGuiItem = NULL;
 	RGuiItem* pguiRoot = RGuiItem::LoadInstantiate(FullPathVD("res/editor/flag.gui"));

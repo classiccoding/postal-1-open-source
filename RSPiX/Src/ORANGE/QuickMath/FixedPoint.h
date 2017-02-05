@@ -26,14 +26,14 @@ This header depends on the rest QuickMath, but is not necessary
 for use of Quickmath, and deals primarily with high speed fixed
 point operations.
 /*****************************************************************
-Hungarian:	fp = either generic fixed point or signed 32 (S16.U16)
+Hungarian:	fp = either generic fixed point or signed 32 (int16_t.uint16_t)
 				pfp = pointer to fixed point number
 						(sorry FILE*)
-				fpS32 = S16.U16
+				fpS32 = int16_t.uint16_t
 				type = RFixedS32, members = "frac" and "mod"
 
-				fpS16 = S8.U8
-				fpU16 = U8.U8, etc.
+				fpS16 = int8_t.uint8_t
+				fpU16 = uint8_t.uint8_t, etc.
 				type = RFixedS16, same members, etc., etc.
 
 				& = implicit pass by reference, do NOT use a pointer

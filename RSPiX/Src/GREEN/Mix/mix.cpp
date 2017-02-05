@@ -343,7 +343,7 @@ int16_t RMix::BlueCall(	// Returns FALSE when done.
 					if (m_psndfx->GetCurrentFX() != 0)
 						{
 						// Attempt to allocate temp buffer . . .
-						U8*	pu8	= (U8*)malloc(ulCurMix);
+						uint8_t*	pu8	= (uint8_t*)malloc(ulCurMix);
 						if (pu8 != NULL)
 							{
 							// Perform effect into buffer.

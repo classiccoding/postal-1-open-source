@@ -89,13 +89,13 @@ void RZBuffer::Clear(int16_t sVal)
 	// 1) Create the 64-bit long
 	union
 		{
-		U64 word;
+		uint64_t word;
 		struct
 			{
-			S16 p1;
-			S16 p2;
-			S16 p3;
-			S16 p4;
+			int16_t p1;
+			int16_t p2;
+			int16_t p3;
+			int16_t p4;
 			};
 		} BigWord;
 
@@ -103,7 +103,7 @@ void RZBuffer::Clear(int16_t sVal)
 
 	//2) Do the copy
 	int32_t lWordP = m_lP >> 2; // 4 * 16 = 64
-	U64* pWord = (U64*) m_pBuf;
+	uint64_t* pWord = (uint64_t*) m_pBuf;
 
 	int32_t lWordLen = lWordP * m_sH;
 	for (int32_t i=0;i < lWordLen; i++) *pWord++ = BigWord.word;

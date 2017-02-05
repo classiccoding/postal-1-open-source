@@ -56,7 +56,7 @@
 //////////////////////////////////////////////////////////////////////////////
 #if 0
 //========================================================================================
-extern	short	rspBlitT(U8 u8Trans, RImage* pimSrc,RImage* pimDst,short sSrcX,short sSrcY,short sDstX,
+extern	short	rspBlitT(uint8_t u8Trans, RImage* pimSrc,RImage* pimDst,short sSrcX,short sSrcY,short sDstX,
 			  short sDstY,short sW,short sH,RRect* prDst,const RRect* prSrc);
 //========================================================================================
 #endif
@@ -162,12 +162,12 @@ static int16_t Alpha(	// Returns 0 on success.
 	// If there's anything left . . .
 	if (sW > 0 && sH > 0)
 		{
-		U8*	pu8SrcRow	= pimSrc->m_pData + sSrcX + sSrcY * pimSrc->m_lPitch;
-		U8*	pu8SrcBlt;
-		U8*	pu8MaskRow	= pimMask->m_pData + sMaskX + sMaskY * pimMask->m_lPitch;
-		U8*	pu8MaskBlt;
-		U8*	pu8DstRow	= pimDst->m_pData + sDstX + sDstY * pimDst->m_lPitch;
-		U8*	pu8DstBlt;
+		uint8_t*	pu8SrcRow	= pimSrc->m_pData + sSrcX + sSrcY * pimSrc->m_lPitch;
+		uint8_t*	pu8SrcBlt;
+		uint8_t*	pu8MaskRow	= pimMask->m_pData + sMaskX + sMaskY * pimMask->m_lPitch;
+		uint8_t*	pu8MaskBlt;
+		uint8_t*	pu8DstRow	= pimDst->m_pData + sDstX + sDstY * pimDst->m_lPitch;
+		uint8_t*	pu8DstBlt;
 		
 		int16_t	sWidth;
 

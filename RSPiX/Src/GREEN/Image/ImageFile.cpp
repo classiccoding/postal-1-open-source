@@ -132,8 +132,8 @@ int16_t RImageFile::LoadVersion2(	// Returns SUCCESS on success or FAILURE on
 	{
 	int16_t	sRes	= SUCCESS;	// Assume success.
 
-	// No RFile support for RImage::Type, so we used a U32.
-	U32	u32Temp				= 0;
+	// No RFile support for RImage::Type, so we used a uint32_t.
+	uint32_t	u32Temp				= 0;
 	
 	pfile->Read(&u32Temp);
 	pim->m_type					= (RImage::Type)u32Temp;
@@ -258,8 +258,8 @@ int16_t RImageFile::LoadVersion5(	// Returns SUCCESS on success or FAILURE on
 	{
 	int16_t	sRes	= SUCCESS;	// Assume success.
 
-	// No RFile support for RImage::Type, so we used a U32.
-	U32	u32Temp				= 0;
+	// No RFile support for RImage::Type, so we used a uint32_t.
+	uint32_t	u32Temp				= 0;
 	pfile->Read(&u32Temp);
 	pim->m_type					= (RImage::Type)u32Temp;
 	pfile->Read(&u32Temp);

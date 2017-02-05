@@ -1035,7 +1035,7 @@ if (g_bSceneDontBlit == false)
 ////////////////////////////////////////////////////////////////////////////////
 inline
 void DrawLine2d(			// Returns nothing.
-	U8			u8Color,		// Color to draw line with.
+	uint8_t			u8Color,		// Color to draw line with.
 	RImage*	pimDst,		// Destination image.
 	int16_t		sDstX1,		// Start pt.
 	int16_t		sDstY1,		// Start pt.
@@ -1078,7 +1078,7 @@ void DrawLine2d(			// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 inline
 void DrawLine3d(			// Returns nothing.
-	U8			u8Color,		// Color to draw line with.
+	uint8_t			u8Color,		// Color to draw line with.
 	RImage*	pimDst,		// Destination image.
 	int16_t		sDstX1,		// Start pt.
 	int16_t		sDstY1,		// Start pt.

@@ -28,6 +28,9 @@
 // Handles keyboard emulation of joystick stuff.
 //
 //////////////////////////////////////////////////////////////////////////////
+#ifndef TIME_TRAVEL_IS_REAL
+#error I AM ARCHAIC - DO NOT USE
+#endif
 
 #include "common/system.h"
 

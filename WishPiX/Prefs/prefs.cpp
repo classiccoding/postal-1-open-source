@@ -671,7 +671,7 @@ int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 	const char* pszSection,			// In:  Section name (without brackets)
 	const char* pszVariable,		// In:  Variable name
-	S8 s8Value)							// In:  Value
+	int8_t s8Value)							// In:  Value
 	{
 	char	pszValue[8];
 
@@ -687,7 +687,7 @@ int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 	const char* pszSection,			// In:  Section name (without brackets)
 	const char* pszVariable,		// In:  Variable name
-	U8 u8Value)							// In:  Value
+	uint8_t u8Value)							// In:  Value
 	{
 	char	pszValue[8];
 
@@ -703,7 +703,7 @@ int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 	const char* pszSection,			// In:  Section name (without brackets)
 	const char* pszVariable,		// In:  Variable name
-	S16 s16Value)						// In:  Value
+	int16_t s16Value)						// In:  Value
 	{
 	char	pszValue[8];
 
@@ -719,7 +719,7 @@ int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 	const char* pszSection,			// In:  Section name (without brackets)
 	const char* pszVariable,		// In:  Variable name
-	U16 u16Value)						// In:  Value
+	uint16_t u16Value)						// In:  Value
 	{
 	char	pszValue[8];
 
@@ -735,7 +735,7 @@ int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 	const char* pszSection,			// In:  Section name (without brackets)
 	const char* pszVariable,		// In:  Variable name
-	S32 s32Value)						// In:  Value
+	int32_t s32Value)						// In:  Value
 	{
 	char	pszValue[16];
 
@@ -751,7 +751,7 @@ int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 	const char* pszSection,			// In:  Section name (without brackets)
 	const char* pszVariable,		// In:  Variable name
-	U32 u32Value)						// In:  Value
+	uint32_t u32Value)						// In:  Value
 	{
 	char	pszValue[16];
 
@@ -976,8 +976,8 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 	const char* pszSection,			// In:  Section name (without brackets)
 	const char* pszVariable,		// In:  Variable name
-	S8 s8Default,						// In:  Default value
-	S8* s8Value)						// Out: Value returned here
+	int8_t s8Default,						// In:  Default value
+	int8_t* s8Value)						// Out: Value returned here
 	{
 	char	pszValue[RPrefs::MaxStrLen], pszDefault[RPrefs::MaxStrLen], *pszEndPtr;
 	int32_t	lRes;
@@ -992,8 +992,8 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 		{
 		lRes = strtol(pszValue, &pszEndPtr, 10);
 		if (((*pszEndPtr == '\0') || isspace(*pszEndPtr)) && 
-				lRes >= S8_MIN && lRes <= S8_MAX)
-			*s8Value = (S8) lRes;
+            lRes >= INT8_MIN && lRes <= INT8_MAX)
+			*s8Value = (int8_t) lRes;
 		else
 			{
 			m_sErrorStatus = 1;
@@ -1008,8 +1008,8 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 	const char* pszSection,			// In:  Section name (without brackets)
 	const char* pszVariable,		// In:  Variable name
-	U8 u8Default,						// In:  Default value
-	U8* u8Value)						// Out: Value returned here
+	uint8_t u8Default,						// In:  Default value
+	uint8_t* u8Value)						// Out: Value returned here
 	{
 	char	pszValue[RPrefs::MaxStrLen], pszDefault[RPrefs::MaxStrLen], *pszEndPtr;
 	int32_t	lRes;
@@ -1023,8 +1023,8 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 	if (m_sErrorStatus == 0)
 		{
 		lRes = strtol(pszValue, &pszEndPtr, 10);
-		if (((*pszEndPtr == '\0') || isspace(*pszEndPtr)) && lRes >= U8_MIN && lRes <= U8_MAX)
-			*u8Value = (U8) lRes;
+      if (((*pszEndPtr == '\0') || isspace(*pszEndPtr)) && lRes >= UINT8_MIN && lRes <= UINT8_MAX)
+			*u8Value = (uint8_t) lRes;
 		else
 			{
 			m_sErrorStatus = 1;
@@ -1038,8 +1038,8 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 	const char* pszSection,			// In:  Section name (without brackets)
 	const char* pszVariable,		// In:  Variable name
-	S16 s16Default,					// In:  Default value
-	S16* s16Value)						// Out: Value returned here
+	int16_t s16Default,					// In:  Default value
+	int16_t* s16Value)						// Out: Value returned here
 	{
 	char				pszValue[RPrefs::MaxStrLen], pszDefault[RPrefs::MaxStrLen], *pszEndPtr;
 	int32_t	lRes;
@@ -1053,8 +1053,8 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 	if (m_sErrorStatus == 0)
 		{
 		lRes = strtol(pszValue, &pszEndPtr, 10);
-		if (((*pszEndPtr == '\0') || isspace(*pszEndPtr)) && lRes >= S16_MIN && lRes <= S16_MAX)
-			*s16Value = (S16) lRes;
+      if (((*pszEndPtr == '\0') || isspace(*pszEndPtr)) && lRes >= INT16_MIN && lRes <= INT16_MAX)
+			*s16Value = (int16_t) lRes;
 		else
 			{
 			m_sErrorStatus = 1;
@@ -1068,8 +1068,8 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 	const char* pszSection,			// In:  Section name (without brackets)
 	const char* pszVariable,		// In:  Variable name
-	U16 u16Default,					// In:  Default value
-	U16* u16Value)						// Out: Value returned here
+	uint16_t u16Default,					// In:  Default value
+	uint16_t* u16Value)						// Out: Value returned here
 	{
 	char	pszValue[RPrefs::MaxStrLen], pszDefault[RPrefs::MaxStrLen], *pszEndPtr;
 	int32_t	lRes;
@@ -1084,8 +1084,8 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 		{
 		lRes = strtol(pszValue, &pszEndPtr, 10);
 		if (((*pszEndPtr == '\0') || isspace(*pszEndPtr)) 
-				&& lRes >= U16_MIN && lRes <= U16_MAX)
-			*u16Value = (U16) lRes;
+            && lRes >= UINT16_MIN && lRes <= UINT16_MAX)
+			*u16Value = (uint16_t) lRes;
 		else
 			{
 			m_sErrorStatus = 1;
@@ -1099,8 +1099,8 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 	const char* pszSection,			// In:  Section name (without brackets)
 	const char* pszVariable,		// In:  Variable name
-	S32 s32Default,					// In:  Default value
-	S32* s32Value)						// Out: Value returned here
+	int32_t s32Default,					// In:  Default value
+	int32_t* s32Value)						// Out: Value returned here
 	{
 	char		pszValue[RPrefs::MaxStrLen], pszDefault[RPrefs::MaxStrLen], *pszEndPtr;
 	double	dRes;
@@ -1115,8 +1115,8 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 		{
 		dRes = strtod(pszValue, &pszEndPtr);
 		if (((*pszEndPtr == '\0') || isspace(*pszEndPtr)) && 
-				dRes >= S32_MIN && dRes <= S32_MAX)
-			*s32Value = (S32) dRes;
+            dRes >= INT32_MIN && dRes <= INT32_MAX)
+			*s32Value = (int32_t) dRes;
 		else
 			{
 			m_sErrorStatus = 1;
@@ -1130,8 +1130,8 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 	const char* pszSection,			// In:  Section name (without brackets)
 	const char* pszVariable,		// In:  Variable name
-	U32 u32Default,					// In:  Default value
-	U32* u32Value)						// Out: Value returned here
+	uint32_t u32Default,					// In:  Default value
+	uint32_t* u32Value)						// Out: Value returned here
 	{
 	char		pszValue[RPrefs::MaxStrLen], pszDefault[RPrefs::MaxStrLen], *pszEndPtr;
 	double	dRes;
@@ -1146,8 +1146,8 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 		{
 		dRes = strtod(pszValue, &pszEndPtr);
 		if (((*pszEndPtr == '\0') || isspace(*pszEndPtr)) 
-				&& dRes >= U32_MIN && dRes <= U32_MAX)
-			*u32Value = (U32) dRes;
+            && dRes >= UINT32_MIN && dRes <= UINT32_MAX)
+			*u32Value = (uint32_t) dRes;
 		else
 			{
 			m_sErrorStatus = 1;

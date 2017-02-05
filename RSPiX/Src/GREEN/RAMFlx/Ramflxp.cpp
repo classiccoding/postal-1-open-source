@@ -32,7 +32,9 @@
 // ALL MAJOR COMMENT BLOCKS ARE IN FLX.CPP AS WELL.
 //
 ///////////////////////////////////////////////////////////////////////////////
-
+#ifndef TIME_TRAVEL_IS_REAL
+#error I AM ARCHAIC - DO NOT USE
+#endif
 #include <string.h>
 #include <malloc.h>
 
@@ -567,7 +569,7 @@ int16_t CRamFlx::ReadDataBRun(	CImage* pimageRead, CNFile* pfile,
 	#ifndef WIN32
 
 		uint8_t bVal;
-		S8		cVal;
+		int8_t		cVal;
 		int16_t sCount;
 		int16_t x;
 		int16_t y;
@@ -807,7 +809,7 @@ int16_t CRamFlx::ReadDataLC(	CImage* pimageRead, CNFile* pfile,
 
 	#ifndef WIN32
 		uint8_t	bVal;
-		S8		cVal;
+		int8_t		cVal;
 		int16_t sCount;
 		uint8_t* pbPix;
 		int16_t packets;
@@ -1016,7 +1018,7 @@ int16_t CRamFlx::ReadDataSS2(CImage* pimageRead, CNFile* pfile,
 	
 #ifndef WIN32		
 	uint8_t bVal;
-	S8		cVal;
+	int8_t		cVal;
 	uint16_t wVal;
 	int16_t sCount;
 	int16_t y;

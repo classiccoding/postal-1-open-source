@@ -78,8 +78,8 @@ class CExplode : public CThing
 		double	m_dX;
 		double	m_dY;
 		double	m_dZ;
-		U16		m_u16ShooterID;
-		U16		m_u16ExceptID;									// ID of object to except from explosion.
+		uint16_t		m_u16ShooterID;
+		uint16_t		m_u16ExceptID;									// ID of object to except from explosion.
 
 
 	protected:
@@ -189,7 +189,7 @@ class CExplode : public CThing
 			int16_t sX,												// In: New x coord
 			int16_t sY,												// In: New y coord
 			int16_t sZ,												// In: New z coord
-			U16	u16ShooterID,									// In: Who is responsible for this explosion
+			uint16_t	u16ShooterID,									// In: Who is responsible for this explosion
 			int16_t sAnim = 0);										// In: Which explosion to use, standard = 0,
 																		//     grenade = 1 etc.
 

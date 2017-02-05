@@ -45,7 +45,7 @@
 //							before loading.
 //
 //		02/05/97	JMI	Had to cast Reads and Writes that used void* overload
-//							in RFile to use U8* since void* is now protected
+//							in RFile to use uint8_t* since void* is now protected
 //							(see file.h for more details).
 //
 //		03/25/97	JMI	Changed a Seek(0, SEEK_SET) to a relative seek.
@@ -546,9 +546,9 @@ int32_t RSample::Read(int32_t lAmount)
 		// Otherwise, we read the data as words so the system's endian nature
 		// wil be taken into account.
 		if (m_sBitsPerSample < 16)
-			lRes = m_iff.Read((U8*)m_pData, lAmount);
+			lRes = m_iff.Read((uint8_t*)m_pData, lAmount);
 		else
-			lRes = m_iff.Read((U16*)m_pData, lAmount / 2) * 2;
+			lRes = m_iff.Read((uint16_t*)m_pData, lAmount / 2) * 2;
 		// If data read . . .
 		if (lRes > 0L)
 			{
@@ -767,7 +767,7 @@ int16_t RSample::Save(		// Returns 0 on success.
 				{
 				// Fill in the chunk.
 				// Write PCMWAVEFORMAT header.
-				iff.Write((U16)WAVE_FORMAT_PCM);
+				iff.Write((uint16_t)WAVE_FORMAT_PCM);
 				iff.Write(m_sNumChannels);
 				iff.Write(m_lSamplesPerSec);
 				// Average bytes per second.
@@ -783,7 +783,7 @@ int16_t RSample::Save(		// Returns 0 on success.
 				if (iff.CreateChunk(RIff::RiffStr2FCC("data") ) == 0)
 					{
 					// Write data da whole thing ... kerbang!
-					if (iff.Write((U8*)m_pData, m_lBufSize) == m_lBufSize)
+					if (iff.Write((uint8_t*)m_pData, m_lBufSize) == m_lBufSize)
 						{
 						// Success.
 						}
@@ -882,16 +882,16 @@ int16_t RSample::Convert8to16(void)
 	ASSERT(m_pData				!= NULL);
 
 	// Allocate space for new data.
-	S16*	ps16Dst	= (S16*)malloc(m_lBufSize);
+	int16_t*	ps16Dst	= (int16_t*)malloc(m_lBufSize);
 
 	// If successful . . .
 	if (ps16Dst != NULL)
 		{
-		U8* pu8Src	= (U8*)m_pData;
+		uint8_t* pu8Src	= (uint8_t*)m_pData;
 
 		for (int32_t l = 0L; l < m_lBufSize; l++)
 			{
-			ps16Dst[l]	= (S16)((pu8Src[l] << 8) ^ 0x8000);
+			ps16Dst[l]	= (int16_t)((pu8Src[l] << 8) ^ 0x8000);
 			}
 
 		// Discard old data.

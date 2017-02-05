@@ -420,9 +420,9 @@ void SetAll()
 		g_resmgrShell.Release(pimF);
 		return;
 		}
-	U8	Map[256];
+	uint8_t	Map[256];
 	for (i=0;i < 256;i++) Map[i] = uint8_t(i);
-	rspSetPaletteMaps(0,256,Map,Map,Map,sizeof(U8));
+	rspSetPaletteMaps(0,256,Map,Map,Map,sizeof(uint8_t));
 
 	test(pimF,pimB);
 

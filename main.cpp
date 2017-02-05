@@ -142,7 +142,7 @@
 // This redefines main() to something else, since libSDLmain-osx.a will have
 //  the actual application entry point...that will setup some Cocoa stuff and
 //  then call the redefined main() in this file...
-#include "SDL.h"
+#include <SDL2/SDL.h>
 #endif
 
 #if WITH_STEAMWORKS
@@ -388,20 +388,20 @@ static char* CreateChunk(	// Returns the memory ptr that will hold the chunk
 
 static void assert_types_are_sane(void)
 {
-    ASSERT(sizeof (S8) == 1);
-    ASSERT(sizeof (U8) == 1);
-    ASSERT(sizeof (S16) == 2);
-    ASSERT(sizeof (U16) == 2);
-    ASSERT(sizeof (S32) == 4);
-    ASSERT(sizeof (U32) == 4);
-    ASSERT(sizeof (S64) == 8);
-    ASSERT(sizeof (U64) == 8);
+    ASSERT(sizeof (int8_t) == 1);
+    ASSERT(sizeof (uint8_t) == 1);
+    ASSERT(sizeof (int16_t) == 2);
+    ASSERT(sizeof (uint16_t) == 2);
+    ASSERT(sizeof (int32_t) == 4);
+    ASSERT(sizeof (uint32_t) == 4);
+    ASSERT(sizeof (int64_t) == 8);
+    ASSERT(sizeof (uint64_t) == 8);
 
-    U32 val = 0x02000001;
+    uint32_t val = 0x02000001;
 #if SYS_ENDIAN_BIG
-    ASSERT(*((U8*) &val) == 0x02);
+    ASSERT(*((uint8_t*) &val) == 0x02);
 #else
-    ASSERT(*((U8*) &val) == 0x01);
+    ASSERT(*((uint8_t*) &val) == 0x01);
 #endif
 }
 

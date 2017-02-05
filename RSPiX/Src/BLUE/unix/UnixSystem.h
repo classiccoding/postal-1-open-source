@@ -30,7 +30,7 @@
 #ifndef UNIXSYSTEM_H
 #define UNIXSYSTEM_H
 
-#include "SDL.h"
+#include <SDL2/SDL.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -75,61 +75,57 @@ using namespace std;
 #ifndef __RSPX_TYPES
 #define __RSPX_TYPES
 
-	// The world's most specific types < S | U > < # >
-	// S == signed, U == unsigned, # == number of bits
-	typedef int8_t		S8;
-	typedef uint8_t		U8;
-	typedef int16_t		S16;
-	typedef uint16_t		U16;
-	typedef int32_t		S32;
-	typedef uint32_t		U32;
-	typedef int64_t S64;
-	typedef uint64_t U64;
+#define UINT8_MIN 0
+#define UINT16_MIN 0
+#define UINT32_MIN 0
+
+  typedef unsigned long address_t;
+  static_assert(sizeof(address_t) == sizeof(void*), "your compiler is broken!");
 
 	// 128-bit got a little trickier...
 	#ifdef SYS_ENDIAN_LITTLE
-		typedef struct {	U64	lo;
-								S64	hi;} S128;
-		typedef struct {	U64	lo;
-								U64	hi;} U128;
+		typedef struct {	uint64_t	lo;
+                        int64_t	hi;} int128_t;
+		typedef struct {	uint64_t	lo;
+                        uint64_t	hi;} uint128_t;
 	#else	// defined(SYS_ENDIAN_BIG)
 
-		typedef struct {	S64	hi;
-								U64	lo;} S128;
-		typedef struct {	U64	hi;
-								U64	lo;} U128;
+		typedef struct {	int64_t	hi;
+                        uint64_t	lo;} int128_t;
+		typedef struct {	uint64_t	hi;
+                        uint64_t	lo;} uint128_t;
 	#endif
 
-
+#if 0
 	// Ranges for basic RSPiX types
-	#define	S8_MIN	((S8) 0x80)
-	#define	S8_MAX	((S8) 0x7F)
-	#define	U8_MIN	((U8) 0x0)
-	#define	U8_MAX	((U8) 0xFF)
-	#define	S16_MIN	((S16) 0x8000)
-	#define	S16_MAX	((S16) 0x7FFF)
-	#define	U16_MIN	((U16) 0x0)
-	#define	U16_MAX	((U16) 0xFFFF)
-	#define	S32_MIN	((S32) 0x80000000L)
-	#define	S32_MAX	((S32) 0x7FFFFFFFL)
-	#define	U32_MIN	((U32) 0x0)
-	#define	U32_MAX	((U32) 0xFFFFFFFFUL)
-	
+	#define	S8_MIN	((int8_t) 0x80)
+	#define	S8_MAX	((int8_t) 0x7F)
+	#define	U8_MIN	((uint8_t) 0x0)
+	#define	U8_MAX	((uint8_t) 0xFF)
+	#define	S16_MIN	((int16_t) 0x8000)
+	#define	S16_MAX	((int16_t) 0x7FFF)
+	#define	U16_MIN	((uint16_t) 0x0)
+	#define	U16_MAX	((uint16_t) 0xFFFF)
+	#define	S32_MIN	((int32_t) 0x80000000L)
+	#define	S32_MAX	((int32_t) 0x7FFFFFFFL)
+	#define	U32_MIN	((uint32_t) 0x0)
+	#define	U32_MAX	((uint32_t) 0xFFFFFFFFUL)
+#endif
 	// These pixel types take the endian order of the system into account.
-	typedef U8 RPixel;
-	typedef U16 RPixel16;
+	typedef uint8_t RPixel;
+	typedef uint16_t RPixel16;
 	typedef struct
 		{
-		U8	u8Red;
-		U8	u8Green;
-		U8	u8Blue;
+		uint8_t	u8Red;
+		uint8_t	u8Green;
+		uint8_t	u8Blue;
 		} RPixel24;
 	typedef struct
 		{
-		U8	u8Alpha;
-		U8	u8Red;
-		U8	u8Green;
-		U8	u8Blue;
+		uint8_t	u8Alpha;
+		uint8_t	u8Red;
+		uint8_t	u8Green;
+		uint8_t	u8Blue;
 		} RPixel32;
 	inline bool operator==(const RPixel24& lhs, const RPixel24& rhs)
 		{ return ((lhs.u8Blue == rhs.u8Blue) && (lhs.u8Green == rhs.u8Green) && (lhs.u8Red == rhs.u8Red)) ? true : false; }

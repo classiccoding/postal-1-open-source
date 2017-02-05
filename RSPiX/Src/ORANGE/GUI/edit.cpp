@@ -398,7 +398,7 @@ int16_t REdit::DrawText(		// Returns 0 on success.
 		}
 
 	char*	pszText;
-	U32	u32ForeColor;
+	uint32_t	u32ForeColor;
 
 	if (m_szText[0] != '\0')
 		{
@@ -905,7 +905,7 @@ void REdit::CursorEvent(	// Returns nothing.
 ////////////////////////////////////////////////////////////////////////
 int16_t REdit::ReadMembers(			// Returns 0 on success.
 	RFile*	pfile,					// File to read from.
-	U32		u32Version)				// File format version to use.
+	uint32_t		u32Version)				// File format version to use.
 	{
 	int16_t	sRes	= 0;	// Assume success.
 

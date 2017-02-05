@@ -300,7 +300,7 @@ CInputSettings	g_InputSettings;
 INPUT_MODE m_mode;
 
 // Buffer-related stuff
-U32* m_pBuf = 0;				// Pointer to buffer. Must be a U32 to maintain demo compatibility!
+uint32_t* m_pBuf = 0;				// Pointer to buffer. Must be a uint32_t to maintain demo compatibility!
 int32_t m_lBufIndex;					// Current index into buffer
 int32_t m_lBufEntries;				// Total entries in buffer
 
@@ -441,7 +441,7 @@ extern int16_t InputDemoInit(void)
 	// Allocate buffer
 	if (m_pBuf == 0)
 		{
-		m_pBuf = new U32[BUF_MAX_ENTRIES];
+		m_pBuf = new uint32_t[BUF_MAX_ENTRIES];
 		if (m_pBuf == 0)
 			{
 			sResult = -1;
@@ -733,7 +733,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 		static int32_t		lPrevTime		= lCurTime;
 		// Get ptr to Blue's key status array.  Only need to do this
 		// once.
-		static U8*		pu8KeyStatus	= rspGetKeyStatusArray();
+		static uint8_t*		pu8KeyStatus	= rspGetKeyStatusArray();
 
 		int16_t	sButtons	= 0;
 		int16_t	sDeltaX	= 360;
@@ -792,7 +792,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 			}
 
 #if defined(ALLOW_JOYSTICK)
-		U32	u32Buttons	= 0;
+		uint32_t	u32Buttons	= 0;
 
 		// If utilizing joystick input . . .
 		if (g_InputSettings.m_sUseJoy)
@@ -800,7 +800,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 			// Only need to update joystick 1.
 			rspUpdateJoy(0);
 
-			U32	u32Axes	= 0;
+			uint32_t	u32Axes	= 0;
 			rspGetJoyState(0, &u32Buttons, &u32Axes);	
 
 #if defined(ALLOW_TWINSTICK)
@@ -1116,7 +1116,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 		// Set only the 10 bits of the delta (as unsigned value).
 		// As long as the above range check is used, we don't need
 		// to & with the rotation mask.
-		input		|=	(U32)sDeltaX;
+		input		|=	(uint32_t)sDeltaX;
 
 #ifdef MOBILE
 		input = AndroidGetInput();

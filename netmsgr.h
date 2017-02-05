@@ -113,9 +113,9 @@ inline void GetSocketAddress(
 			RProtocolBSDIP::AddressIP* p = (RProtocolBSDIP::AddressIP*)paddress;
 			pBuf->Get(&p->address.sin_family);
 			// Don't byte-swap these!!!  They are always in network order on all systems!
-			pBuf->Get((U8*)&p->address.sin_port, sizeof(p->address.sin_port));
-			pBuf->Get((U8*)&p->address.sin_addr, sizeof(p->address.sin_addr));
-			pBuf->Get((U8*)&p->address.sin_zero, sizeof(p->address.sin_zero));
+			pBuf->Get((uint8_t*)&p->address.sin_port, sizeof(p->address.sin_port));
+			pBuf->Get((uint8_t*)&p->address.sin_addr, sizeof(p->address.sin_addr));
+			pBuf->Get((uint8_t*)&p->address.sin_zero, sizeof(p->address.sin_zero));
 			}
 			break;
 
@@ -143,9 +143,9 @@ inline void PutSocketAddress(
 			RProtocolBSDIP::AddressIP* p = (RProtocolBSDIP::AddressIP*)paddress;
 			pBuf->Put(p->address.sin_family);
 			// Don't let these byte-swap!!!  They are always in network order on all systems!
-			pBuf->Put((U8*)&p->address.sin_port, sizeof(p->address.sin_port));
-			pBuf->Put((U8*)&p->address.sin_addr, sizeof(p->address.sin_addr));
-			pBuf->Put((U8*)&p->address.sin_zero, sizeof(p->address.sin_zero));
+			pBuf->Put((uint8_t*)&p->address.sin_port, sizeof(p->address.sin_port));
+			pBuf->Put((uint8_t*)&p->address.sin_addr, sizeof(p->address.sin_addr));
+			pBuf->Put((uint8_t*)&p->address.sin_zero, sizeof(p->address.sin_zero));
 			}
 			break;
 
@@ -723,7 +723,7 @@ class NetMsg
 			Net::SEQ seqStart;									// Starting seq of range
 			int16_t sNum;												// Number of seq's in range
 			UINPUT* pInputs;										// Pointer used to read/write actual input data
-			U8*		pFrameTimes;									// Pointer to read/write actual frame time data *SPA
+			uint8_t*		pFrameTimes;									// Pointer to read/write actual frame time data *SPA
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
 				{
@@ -788,7 +788,7 @@ class NetMsg
 			enum { Size = 1 + 2 + Net::MaxChatSize };
 
 			uint8_t	ucType;								// Message type
-			U16				u16Mask;								// Who will get this chat text
+			uint16_t				u16Mask;								// Who will get this chat text
 			char				acText[Net::MaxChatSize];		// Chat text
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
@@ -1175,7 +1175,7 @@ class NetMsg
 		// This is not sent as part of the message.  It is used by variable-length
 		// messages that require a separate memory block for their data.  Note that
 		// the size refers to the size of this data, not the whole msg.
-		U8*	m_pVarData;
+		uint8_t*	m_pVarData;
 		int32_t	m_lVarSize;
 
 	//------------------------------------------------------------------------------
@@ -1200,12 +1200,12 @@ class NetMsg
 			msg.nothing.ucType = NOTHING;
 			}
 
-		U8* AllocVar(
+		uint8_t* AllocVar(
 			int32_t lSize)
 			{
 			FreeVar();
 			m_lVarSize = lSize;
-			m_pVarData = new U8[lSize];
+			m_pVarData = new uint8_t[lSize];
 			return m_pVarData;
 			}
 
@@ -1216,7 +1216,7 @@ class NetMsg
 			m_lVarSize = 0;
 			}
 
-		static U8* AllocVar(
+		static uint8_t* AllocVar(
 			NetMsg* pmsg,
 			int32_t lSize)
 			{
