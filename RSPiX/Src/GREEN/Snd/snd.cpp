@@ -521,7 +521,7 @@ int32_t RSnd::GetTime(void)
 void* RSnd::StreamCall(RMix::Msg	msg, 
 								void*		pData, 
 								uint32_t*	pulBufSize,
-								uint32_t		ulUser,
+                        address_t		ulUser,
 								uint8_t*		pucVolume,
 								uint8_t*		pucVol2)
 	{
@@ -791,7 +791,7 @@ void* RSnd::PlayCall(RMix::Msg	msg,
 void* RSnd::StreamCallStatic(	RMix::Msg	msg, 
 										void*			pData, 
 										uint32_t*		pulBufSize, 
-										uint32_t			ulUser,
+                              address_t			ulUser,
 										uint8_t*		pucVolume,
 										uint8_t*		pucVol2)
 	{
@@ -808,8 +808,8 @@ void* RSnd::StreamCallStatic(	RMix::Msg	msg,
 //////////////////////////////////////////////////////////////////////////////
 void* RSnd::PlayCallStatic(RMix::Msg	msg, 
 									void*			pData, 
-									uint32_t*		pulBufSize, 
-									uint32_t			ulUser,
+                           uint32_t*	pulBufSize,
+                           address_t	ulUser,
 									uint8_t*		pucVolume,
 									uint8_t*		pucVol2)
 	{

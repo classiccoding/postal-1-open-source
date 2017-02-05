@@ -796,7 +796,7 @@ int16_t RMix::CloseChannel(void)
 // Returns 0 on success.
 //
 //////////////////////////////////////////////////////////////////////////////
-int16_t RMix::Start(RMixCall mcUser, uint32_t ulUser,
+int16_t RMix::Start(RMixCall mcUser, address_t ulUser,
 					uint8_t	ucVolume /* = 255 */, uint8_t ucVol2 /* = 255 */)
 	{						 
 	int16_t	sRes	= 0;	// Assume success.

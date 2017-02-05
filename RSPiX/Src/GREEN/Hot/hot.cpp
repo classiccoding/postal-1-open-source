@@ -153,7 +153,7 @@ RHot::RHot(
 	int16_t sH,										// Height of new hotbox.
 	REventCall fnEventCall /*= NULL*/,		// Callback on mouse event.
 	int16_t	sActive /*= FALSE*/,					// Initially active, if TRUE.
-	uint32_t	ulUser /*= 0*/,						// User value.
+   address_t	ulUser /*= 0*/,						// User value.
 	int16_t sPriority /*= RHOT_NO_PRIORITY*/)// Priority.  Default == non-prioritized.
 	{
 	// Reset all members.
@@ -186,7 +186,7 @@ RHot::RHot(
 	int16_t sH,										// Height of new hotbox.
 	REventPosCall fnEventPosCall,				// Callback on mouse event.
 	int16_t	sActive /*= FALSE*/,					// Initially active, if TRUE.
-	uint32_t	ulUser /*= 0*/,						// User value.
+   address_t	ulUser /*= 0*/,						// User value.
 	int16_t sPriority /*= RHOT_NO_PRIORITY*/)// Priority.  Default == non-prioritized.
 	{
 	// Reset all members.
@@ -219,7 +219,7 @@ RHot::RHot(
 	int16_t sH,										// Height of new hotbox.
 	InputEventCall fnInputEventCall,			// Callback on mouse event.
 	int16_t	sActive /*= FALSE*/,					// Initially active, if TRUE.
-	uint32_t	ulUser /*= 0*/,						// User value.
+   address_t	ulUser /*= 0*/,						// User value.
 	int16_t sPriority /*= RHOT_NO_PRIORITY*/)// Priority.  Default == non-prioritized.
 	{
 	// Reset all members.

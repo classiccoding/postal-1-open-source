@@ -78,7 +78,7 @@ typedef struct
 	int16_t	sUsed;	// Indicates that this event has been used.
 						// Set this if your API utilizes this event so that others
 						// know that it's already been absorbed.
-	int32_t	lUser;	// User value.  Use as you please.
+   address_t	lUser;	// User value.  Use as you please.
 
 	union
 		{

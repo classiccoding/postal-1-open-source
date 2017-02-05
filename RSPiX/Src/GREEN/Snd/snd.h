@@ -190,7 +190,7 @@ class RSnd
 		void* StreamCall(	RMix::Msg msg, 
 								void* pData, 
 								uint32_t* pulNewBufSize,
-								uint32_t	 ulUser,
+                        address_t	 ulUser,
 								uint8_t* pucVolume = NULL,
 								uint8_t* pucVol2 = NULL);
 								
@@ -200,7 +200,7 @@ class RSnd
 		static void* StreamCallStatic(RMix::Msg msg, 
 												 void* pData,
 												 uint32_t* pulNewBufSize,
-												 uint32_t ulUser,
+                                     address_t ulUser,
 												 uint8_t* pucVolume = NULL,
 												 uint8_t* pucVol2 = NULL);
 
@@ -218,7 +218,7 @@ class RSnd
 		static void* PlayCallStatic(RMix::Msg msg, 
 											 void* pData,
 											 uint32_t* pulNewBufSize,
-											 uint32_t ulUser,
+                                  address_t ulUser,
 											 uint8_t* pucVolume = NULL,
 											 uint8_t* pucVol2 = NULL);
 
@@ -233,7 +233,7 @@ class RSnd
 		DoneCall		m_dcUser;		// User callback when done playing/streaming
 											// a sample.
 
-		uint32_t			m_ulUser;		// User value -- set as you please.
+      address_t			m_ulUser;		// User value -- set as you please.
 
 		int16_t			m_sChannelVolume;// 0-255 = Primary (local) Volume
 		int16_t			m_sTypeVolume;	// 0-255	= Secondary (category) Volume
