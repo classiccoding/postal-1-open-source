@@ -170,7 +170,6 @@ SRCS := \
 	RSPiX/Src/GREEN/Sample/sample.cpp \
 	RSPiX/Src/GREEN/Snd/snd.cpp \
 	RSPiX/Src/GREEN/SndFx/SndFx.cpp \
-	RSPiX/Src/GREEN/Task/task.cpp \
 	RSPiX/Src/GREEN/3D/pipeline.cpp \
 	RSPiX/Src/GREEN/3D/render.cpp \
 	RSPiX/Src/GREEN/3D/types3d.cpp \
@@ -231,7 +230,6 @@ SRCS := \
 	WishPiX/Spry/spry.cpp
 
     # wtf is THIS?!
-	#RSPiX/Src/ORANGE/MTask/mtask.cpp \
 
 OBJS0 := $(SRCS:.s=.o)
 OBJS1 := $(OBJS0:.c=.o)
@@ -345,7 +343,6 @@ bindir :
 	mkdir -p $(BINDIR)/RSPiX/Src/GREEN/Sample
 	mkdir -p $(BINDIR)/RSPiX/Src/GREEN/Snd
 	mkdir -p $(BINDIR)/RSPiX/Src/GREEN/SndFx
-	mkdir -p $(BINDIR)/RSPiX/Src/GREEN/Task
 	mkdir -p $(BINDIR)/RSPiX/Src/GREEN/3D
 	mkdir -p $(BINDIR)/RSPiX/Src/GREEN/BLiT
 	mkdir -p $(BINDIR)/RSPiX/Src/ORANGE/GameLib
@@ -361,7 +358,6 @@ bindir :
 	mkdir -p $(BINDIR)/RSPiX/Src/ORANGE/Laymage
 	mkdir -p $(BINDIR)/RSPiX/Src/ORANGE/Meter
 	mkdir -p $(BINDIR)/RSPiX/Src/ORANGE/MsgBox
-	mkdir -p $(BINDIR)/RSPiX/Src/ORANGE/MTask
 	mkdir -p $(BINDIR)/RSPiX/Src/ORANGE/MultiGrid
 	mkdir -p $(BINDIR)/RSPiX/Src/ORANGE/Debug
 	mkdir -p $(BINDIR)/RSPiX/Src/ORANGE/RString
