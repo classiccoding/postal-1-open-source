@@ -181,7 +181,7 @@ class CNetInput
 		////////////////////////////////////////////////////////////////////////////////
 		void Reset(void)
 			{
-			int16_t i = 0;
+         size_t i = 0;
 			// Clear the entire window to "invalid" values
 			for (i = 0; i < Size; i++)
 				m_aInputs[i] = Invalid;
@@ -306,7 +306,7 @@ class CNetInput
 			if ((Net::SEQ)(seq - m_seqOldest) < (Net::SEQ)MaxTotalEntries)
 				return m_aFrameTimes[seq & Mask];
 			else
-				return Invalid;
+            return (uint8_t)Invalid;
 			}
 
 

@@ -467,7 +467,7 @@ int16_t		ConvertFromFSPR1(RImage* pImage)
 //
 int16_t		LoadFSPR1(RImage* pImage, RFile* pcf)
 	{
-	int32_t	lBogus1	= pcf->Tell();
+//	int32_t	lBogus1	= pcf->Tell();
 
 	//------------------
 	// Initial Security:
@@ -1439,8 +1439,8 @@ int16_t rspBlit(
 	// transfer colors:
 	uint8_t	ucForeColor = (uint8_t) ulForeColor;
 
-	int16_t sW = sDstW; // clippng parameters...
-	int16_t sH = sDstH; // clippng parameters...
+//	int16_t sW = sDstW; // clippng parameters...
+//	int16_t sH = sDstH; // clippng parameters...
 	int32_t	lDstP = pimDst->m_lPitch;
 
 	// **************  INSERT BUFFER HOOKS HERE!  ************************

@@ -465,6 +465,7 @@ typedef int32_t CHOOSE_TRANSPARENT;
 inline int16_t	_rspBlit(uint8_t* pSrc,int32_t lSrcP,int16_t sSrcW,int16_t sSrcH,
 								uint8_t* pDst,int32_t lDstP,int16_t sDstW,int16_t sDstH)
 	{
+  UNUSED(pSrc, lSrcP, sSrcW, sSrcH, pDst, lDstP, sDstW, sDstH);
 	return 0;
 	}
 

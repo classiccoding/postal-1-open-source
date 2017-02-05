@@ -201,6 +201,7 @@ RTexture::Unmap(
 	uint8_t* pb,
 	int32_t lInc)
 	{
+  UNUSED(lInc);
 	ASSERT(m_pIndices);
 		
 	if (m_pColors == 0)

@@ -200,7 +200,7 @@ const char* RPrint::ScanLine(const char* pszInput)
 	m_sNumChar = i;
 
 	// Store the final width based on the last characters full extent:
-	int16_t sExt = 0;
+//	int16_t sExt = 0;
 	GetPropCellX(ms_szLineText[i-1],NULL,&m_sExtX);
 	m_sExtX += ms_sCharPosX[i-1];
 

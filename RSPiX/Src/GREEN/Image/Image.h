@@ -421,7 +421,7 @@ class RImage
 		// This version takes a filename and saves the file.  If the
 		// Image type has m_pSpecial data to save then there should be
 		// a special save function registered in the RImageSpecialFunc class
-		int16_t Save(char* pszFilename) const;
+      int16_t Save(const char* pszFilename) const;
 
 		// This version takes an open RFile pointer and writes
 		// to the file.  This may be useful if you have m_pSpecial data, you
@@ -432,7 +432,7 @@ class RImage
 
 		// Load the standard image formats, ie. those that do not
 		// include m_pSpecial data
-		int16_t Load(char* pszFilename);
+      int16_t Load(const char* pszFilename);
 
 		// This version takes an open RFile pointer and reads the
 		// standard image from the file.  This may be useful if you

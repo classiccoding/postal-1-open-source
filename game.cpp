@@ -1330,8 +1330,8 @@ static int16_t GameCore(void)		// Returns 0 on success.
 	{
 	int16_t sResult = 0;
 	uint16_t usDemoCount = 0;
-	bool	bMPath = false,
-			bMPathServer = false;
+//	bool	bMPath = false,
+//			bMPathServer = false;
 
 #ifdef CHECK_EXPIRATION_DATE
 	#ifdef WIN32
@@ -2185,7 +2185,6 @@ static int16_t GameCore(void)		// Returns 0 on success.
 
 					// Display option dialog to let user choose a realm file
 					#if 1 //PLATFORM_UNIX
-                    char tmp[RSP_MAX_PATH];
 					if (PickFile("Choose Game Slot", EnumExistingSaveGames, szFileSaved, sizeof(szFileSaved)) == 0)
                     {
 #ifdef MOBILE
@@ -2355,6 +2354,7 @@ extern int16_t SubPathOpenBox(		// Returns 0 on success, negative on error, 1 if
 											//	filter specification.  Ex: ".cpp.h.exe.lib" or "cpp.h.exe.lib"
 											// Note: Cannot use '.' in filter.  Preceding '.' ignored.
 	{
+  UNUSED(sStrSize);
 	int16_t	sResult;
 
 	char	szBasePath[RSP_MAX_PATH];
@@ -2477,7 +2477,7 @@ inline void GetSoundPaths(		// Returns nothing.
 	char	szAudioResDescriptor[256];
 	sprintf(
 		szAudioResDescriptor,
-		"%i%c%ld",
+      "%i%c%d",
 		lSamplesPerSec,
 		AUDIO_SAK_SEPARATOR_CHAR,
 		lBitsPerSample);
@@ -2656,7 +2656,7 @@ static int16_t OpenSaks(void)
 		if (sInSoundMode)
 			{
 			char	szSoundQuality[256];
-			sprintf(szSoundQuality, "%.3f kHz, %hd Bit",
+         sprintf(szSoundQuality, "%.3f kHz, %hd Bit - %s",
 				(float)lSamplesPerSec/(float)1000,
 				(int16_t)lSrcBitsPerSample,
 				(MAIN_AUDIO_CHANNELS == 1) ? "Mono" : "Stereo");
@@ -2688,7 +2688,7 @@ static int16_t OpenSaks(void)
 						{ 22050, 16 },
 					};
 
-			int16_t	sModeIndex;
+         size_t	sModeIndex;
 			bool	bSakFound	= false;
 
 			for (sModeIndex = 0; sModeIndex < NUM_ELEMENTS(amodes) && bSakFound == false; sModeIndex++)
@@ -2996,6 +2996,7 @@ extern void Game_StartLevelOnce(
 extern bool Game_StartMultiPlayerGame(
 	int16_t sMenuItem)
 	{
+  UNUSED(sMenuItem);
 	bool bAccept = true;
 
 	#if defined(MULTIPLAYER_DISABLED)
@@ -3081,9 +3082,11 @@ extern void Game_HostMultiPlayerGame(
 extern void Game_StartDemoGame(
 	int16_t sMenuItem)
 	{
+#if TARGET != POSTAL_2015
 	char*	pszDemoFile	= NULL;
 	char	szLevelDir[RSP_MAX_PATH]	= "";
 	char  szTitle[256] = "";
+#endif
 	TRACE("sMenuItem = %d\n", sMenuItem);
 	switch (sMenuItem)
 		{
@@ -3608,7 +3611,7 @@ void GameEndingSequence(void)
 	if (Flag_Achievements & FLAG_HIGHEST_DIFFICULTY)
 		UnlockAchievement(ACHIEVEMENT_COMPLETE_GAME_ON_HARDEST);
 }
-
+#ifdef _DEBUG
 ////////////////////////////////////////////////////////////////////////////////
 // Returns a ptr to just the portion of the file path that specifies the file
 // name (excluding the path).
@@ -3626,7 +3629,7 @@ static const char* GetFileNameFromPath(	// Returns file name.
 
 	return (pszIndex + 1);
 	}
-
+#endif
 ////////////////////////////////////////////////////////////////////////////////
 // Opens the synchronization log with the specified access flags if in a 
 // TRACENASSERT mode and synchronization logging is enabled.
@@ -3705,9 +3708,9 @@ static void CloseSynchLogs(void)	// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 extern int SynchLog(	// Result of expr.
 	double	expr,		// In:  Expression to evaluate.
-	char*		pszFile,	// In:  Calling file.
+   const char*		pszFile,	// In:  Calling file.
 	int32_t		lLine,	// In:  Calling line.
-	char*		pszExpr,	// In:  Original C++ source expression.
+   const char*		pszExpr,	// In:  Original C++ source expression.
 	uint32_t		u32User)	// In:  A user value that is intended to be consistent.
 	{
 	#if defined(_DEBUG) || defined(TRACENASSERT)
@@ -3788,6 +3791,7 @@ extern int SynchLog(	// Result of expr.
 				}
 			}
 #else
+  UNUSED(pszFile, lLine, pszExpr, u32User);
 		rspMsgBox(
 			RSP_MB_ICN_STOP | RSP_MB_BUT_OK,
 			"Postal",

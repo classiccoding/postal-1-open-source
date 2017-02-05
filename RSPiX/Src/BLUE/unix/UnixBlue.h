@@ -595,7 +595,7 @@ extern int16_t rspSetSoundOutMode(				// Returns 0 if successfull, non-zero othe
 	int32_t lCurBufferTime,							// In:  Current buffer time (in ms.)
 	int32_t lMaxBufferTime,							// In:  Maximum buffer time (in ms.)
 	RSP_SND_CALLBACK callback,					// In:  Callback function
-   address_t ulUser);									// In:  User-defined value to pass to callback
+   uintptr_t ulUser);									// In:  User-defined value to pass to callback
 	
 extern int16_t rspGetSoundOutMode(				// Returns 0 if successfull, non-zero otherwise
 	int32_t* plSampleRate,							// Out: Sample rate or -1 (unless NULL)

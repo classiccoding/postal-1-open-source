@@ -88,6 +88,7 @@ class CLogTabVar_GetAction : CLogTabVar<CPerson*>
 
 		void SetVal(CPerson* pPerson, int16_t sVal)
 			{
+        UNUSED(pPerson, sVal);
 			}
 	} givename_getaction;
 
@@ -169,6 +170,7 @@ class CLogTabVar_TargetDist : CLogTabVar<CPerson*>
 
 		void SetVal(CPerson* pPerson, int16_t sVal)
 			{
+        UNUSED(pPerson, sVal);
 			}
 	} givename_targetdist;
 
@@ -197,6 +199,7 @@ class CLogTabVar_PopoutAvailable : CLogTabVar<CPerson*>
 
 		void SetVal(CPerson* pPerson, int16_t sVal)
 			{
+        UNUSED(pPerson, sVal);
 			}
 	} givename_popoutavailable;
 
@@ -225,6 +228,7 @@ class CLogTabVar_RunShootAvailable : CLogTabVar<CPerson*>
 
 		void SetVal(CPerson* pPerson, int16_t sVal)
 			{
+        UNUSED(pPerson, sVal);
 			}
 	} givename_runshootavailable;
 
@@ -254,6 +258,7 @@ class CLogTabVar_SafetyAvailable : CLogTabVar<CPerson*>
 
 		void SetVal(CPerson* pPerson, int16_t sVal)
 			{
+        UNUSED(pPerson, sVal);
 			}
 	} givename_safetyavailable;
 
@@ -301,6 +306,7 @@ class CLogTabVar_PylonAvailable : CLogTabVar<CPerson*>
 
 		void SetVal(CPerson* pPerson, int16_t sVal)
 			{
+        UNUSED(pPerson, sVal);
 			}
 	} givename_pylonavailable;
 
@@ -328,6 +334,7 @@ class CLogTabVar_MyHealth : CLogTabVar<CPerson*>
 
 		void SetVal(CPerson* pPerson, int16_t sVal)
 			{
+        UNUSED(pPerson, sVal);
 			}
 	} givename_myhealth;
 
@@ -378,6 +385,7 @@ class CLogTabVar_DudeHealth : CLogTabVar<CPerson*>
 
 		void SetVal(CPerson* pPerson, int16_t sVal)
 			{
+        UNUSED(pPerson, sVal);
 			}
 	} givename_dudehealth;
 
@@ -406,6 +414,7 @@ class CLogTabVar_IsTriggered : CLogTabVar<CPerson*>
 
 		void SetVal(CPerson* pPerson, int16_t sVal)
 			{
+        UNUSED(pPerson, sVal);
 			}
 	} givename_istriggered;
 
@@ -462,6 +471,7 @@ class CLogTabVar_RecentlyShot : CLogTabVar<CPerson*>
 
 		void SetVal(CPerson* pPerson, int16_t sVal)
 			{
+        UNUSED(pPerson, sVal);
 			}
 	} givename_recentlyshot;
 
@@ -523,6 +533,7 @@ class CLogTabVar_IsPanic : CLogTabVar<CPerson*>
 
 		void SetVal(CPerson* pPerson, int16_t sVal)
 			{
+        UNUSED(pPerson, sVal);
 			}
 	} givename_ispanic;
 
@@ -553,6 +564,7 @@ class CLogTabVar_HelpCall : CLogTabVar<CPerson*>
 
 		void SetVal(CPerson* pPerson, int16_t sVal)
 			{
+        UNUSED(pPerson, sVal);
 			}
 	} givename_helpcall;
 

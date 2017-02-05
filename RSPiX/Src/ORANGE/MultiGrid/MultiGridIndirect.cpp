@@ -105,6 +105,7 @@ int16_t	RMultiGridIndirect::ms_asColorToPlane[MGI_MAX_PLANES] =
 void	RMultiGridIndirect::DumpPalette(RImage* pimDst,int16_t sSrcX,int16_t sSrcY,int16_t sDstX,int16_t sDstY,
 					int16_t sW,int16_t sH)
 	{
+  UNUSED(pimDst, sSrcX, sSrcY, sDstX, sDstY, sW, sH);
 	//short i,j;
 
 	}
@@ -245,9 +246,10 @@ int16_t RMultiGridIndirect::AddFSPR1(RImage* pimSrc,int16_t sLogX,int16_t sLogY,
 	sX2 = (sLogX + sClipW + m_sTileW - 2) & ~(m_sTileW-1);
 	sY2 = (sLogY + sClipH + m_sTileH - 2) & ~(m_sTileH-1);
 
-	int16_t sTileX,sTileY,sTileW,sTileH;
-	sTileX = sX / m_sTileW;
-	sTileY = sY / m_sTileH;
+   //int16_t sTileX,sTileY;
+   int16_t sTileW,sTileH;
+//	sTileX = sX / m_sTileW;
+//	sTileY = sY / m_sTileH;
 	sTileW = (sX2 - sX + 1) / m_sTileW;
 	sTileH = (sY2 - sY + 1) / m_sTileH;
 
@@ -307,7 +309,7 @@ int16_t RMultiGridIndirect::AddFSPR1(RImage* pimSrc,int16_t sLogX,int16_t sLogY,
 		ASSERT(!m_pmg->m_sIsCompressed);
 		ASSERT(usValueOR < 32768);
 		//-------------- half clipping ------------
-		uint16_t* pusAttrib = (uint16_t*) m_pmg->m_psGrid;
+//		uint16_t* pusAttrib = (uint16_t*) m_pmg->m_psGrid;
 		int16_t sW = m_sTileW,sH = m_sTileH;
 
 		if (sClip)

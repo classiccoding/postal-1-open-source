@@ -199,6 +199,7 @@ int16_t CDeathWad::Save(										// Returns 0 if successfull, non-zero otherwis
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 {
+  UNUSED(pFile);
 	// In most cases, the base class Save() should be called.  In this case it
 	// isn't because the base class doesn't have a Save()!
 

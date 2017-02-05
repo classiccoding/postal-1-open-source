@@ -1444,6 +1444,7 @@ void CThing3d::OnBurnMsg(	// Returns nothing.
 void CThing3d::OnDeleteMsg(				// Returns nothing.
 	ObjectDelete_Message* pdeletemsg)	// In:  Message to handle.
 	{
+  UNUSED(pdeletemsg);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1453,6 +1454,7 @@ void CThing3d::OnDeleteMsg(				// Returns nothing.
 void CThing3d::OnHelpMsg(					// Returns nothing
 	Help_Message* phelpmsg)					// In:  Message to handle
 	{
+  UNUSED(phelpmsg);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1462,6 +1464,7 @@ void CThing3d::OnHelpMsg(					// Returns nothing
 void CThing3d::OnPutMeDownMsg(			// Returns nothing
 	PutMeDown_Message* pputmedownmsg)
 	{
+  UNUSED(pputmedownmsg);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1504,7 +1507,7 @@ void CThing3d::GetFloorAttributes(	// Returns nothing.
 	{
 	uint16_t	u16CurAttrib;
 	uint16_t	u16CombinedAttrib	= 0;
-	int16_t	sLightTally			= 0;
+//	int16_t	sLightTally			= 0;
 	int16_t	sMaxHeight			= -32767;
 	int16_t	sCurHeight;
 

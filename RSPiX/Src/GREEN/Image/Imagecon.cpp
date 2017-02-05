@@ -629,6 +629,8 @@ int16_t ConvertToSystem(RImage* pImage)
 			break;
 		}
 	}
+#else
+   UNUSED(pImage);
 #endif
 
     return sReturn;

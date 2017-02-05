@@ -363,6 +363,7 @@ inline uint8_t**	rspFindBlend(int16_t sLevel,RMultiAlpha* pX,int16_t* psOpaque)
 // A fast way to do repeated blits of the same alpha level, once you've used rspFindBlend:
 inline	uint8_t	rspBlendColor(uint8_t** ppucAlpha,RMultiAlpha* pX,uint8_t ucSrc,uint8_t ucDst)
 	{
+  UNUSED(pX); // for when debug is disabled
 	ASSERT(ppucAlpha);
 	ASSERT(pX);
 

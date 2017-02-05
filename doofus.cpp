@@ -891,7 +891,8 @@ int16_t CDoofus::Load(										// Returns 0 if successfull, non-zero otherwise
 			case 1:
 				// Get the instance ID for the NavNet
 				uint16_t u16Data;
-				int16_t sres = pFile->Read(&u16Data);
+            pFile->Read(&u16Data);
+//				int16_t sres = pFile->Read(&u16Data);
 				m_u16NavNetID = u16Data;
 				break;
 		}
@@ -1440,7 +1441,7 @@ bool CDoofus::TryClearShot(double dRot, int16_t sVariance)
 	{
 		int16_t sTries = 0;
 		int16_t sX, sY, sZ;
-		CThing* pthing = NULL;
+//		CThing* pthing = NULL;
 		double dRotAttempt = dRot;
 
 		// Do a translation to the weapon position so that it is at the correct
@@ -1854,17 +1855,20 @@ void CDoofus::Logic_Writhing(void)
 void CDoofus::Logic_Guard(void)
 {
 	int32_t lThisTime;
+#ifdef UNUSED_VARIABLES
 	int32_t lTimeDifference;
 	double dSeconds;
+#endif
 
+   m_eCurrentAction = Action_Guard;
 	// Get new time
 	lThisTime = m_pRealm->m_time.GetGameTime();
-	lTimeDifference = lThisTime - m_lPrevTime;
-	m_eCurrentAction = Action_Guard;
+#ifdef UNUSED_VARIABLES
+   lTimeDifference = lThisTime - m_lPrevTime;
 
-	// Calculate the elapsed time in seconds
+   // Calculate the elapsed time in seconds
 	dSeconds = (double)(lThisTime - m_lPrevTime) / 1000.0;
-
+#endif
 //	if (m_panimCur != &m_animStand)
 //	{
 //		m_panimCur = &m_animStand;
@@ -3685,6 +3689,7 @@ void CDoofus::OnDeleteMsg(					// Returns nothing.
 void CDoofus::OnHelpMsg(					// Returns nothing
 	Help_Message* phelpmsg)					// In:  Message to handle
 	{
+  UNUSED(phelpmsg);
 	m_lLastHelpCallTime = m_pRealm->m_time.GetGameTime();
 	// Victium take the yell for help as a indication to panic.
 	m_bPanic = true;							

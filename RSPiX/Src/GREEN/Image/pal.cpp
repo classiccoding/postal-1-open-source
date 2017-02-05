@@ -637,9 +637,9 @@ int16_t RPal::Load(char* pszFilename)
 int16_t RPal::Load(RFile* pcf)
 {	
 	int16_t sReturn = SUCCESS;
-	uint32_t ulFileType = 0;
-	uint32_t ulFileVersion = 0;
-	uint16_t usFlag = 2;
+//	uint32_t ulFileType = 0;
+//	uint32_t ulFileVersion = 0;
+//	uint16_t usFlag = 2;
 
 	if (pcf && pcf->IsOpen())
 	{

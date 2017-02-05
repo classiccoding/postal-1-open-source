@@ -1292,10 +1292,10 @@ int16_t	rspCrop(RImage* pimSrc,int16_t sX,int16_t sY,int16_t sW,int16_t sH,
 	// 2) Create a new buffer with 128-bit alignment and pitch:
 
 	// Determine pixel size:
-	int16_t	sPixSize = pimSrc->m_sDepth >> 3;
-	int16_t sShift[] = {-1,0,1,-1,2};
+//	int16_t	sPixSize = pimSrc->m_sDepth >> 3;
+//	int16_t sShift[] = {-1,0,1,-1,2};
 	int16_t sAlignMask = sAlign - 1; // sAlign is in BYTES
-	int16_t sPixShift = sShift[sPixSize];
+//	int16_t sPixShift = sShift[sPixSize];
 
 	// Determine Optimum Pitch...
 	lNewPitch = (sW + sAlignMask) & (~sAlignMask);
@@ -1384,10 +1384,10 @@ int16_t	rspPad(RImage* pimSrc,int16_t sX,int16_t sY, // where to move the old im
 	// 2) Create a new buffer with 128-bit alignment and pitch:
 
 	// Determine pixel size:
-	int16_t	sPixSize = pimSrc->m_sDepth >> 3;
-	int16_t sShift[] = {-1,0,1,-1,2};
+//	int16_t	sPixSize = pimSrc->m_sDepth >> 3;
+//	int16_t sShift[] = {-1,0,1,-1,2};
 	int16_t sAlignMask = sAlign - 1; // sAlign is in BYTES
-	int16_t sPixShift = sShift[sPixSize];
+//	int16_t sPixShift = sShift[sPixSize];
 
 	// Determine Optimum Pitch...
 	lNewPitch = (sW + sAlignMask) & (~sAlignMask);

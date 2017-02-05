@@ -179,7 +179,7 @@ inline RFracU16* rspfrU16Strafe256(uint16_t usNum,uint16_t usDen)
 	RFracU16 u16fInc;
 	rspMakeProper(u16fInc,usNum,usDen); // the 2 part mod
 
-	uint32_t ulNumInc = 0;
+//	uint32_t ulNumInc = 0;
 	for (int16_t i = 1; i < 256 ; i++)
 		{
 		pu16fNew[i].mod = pu16fNew[i-1].mod + u16fInc.mod;
@@ -209,6 +209,7 @@ typedef int32_t IMPROPER;
 inline void rspfrAdd32(int32_t &lVal,int32_t &lNum,int32_t &lDel,int32_t &lInc,
 						  int32_t &lDen,int32_t &lAdd,PROPER,POSITIVE)
 	{
+  UNUSED(lDel);
 	lNum += lInc;
 	if (lNum >= lDen) { lNum -= lDen; lVal += lAdd; }
 	}
@@ -229,6 +230,7 @@ inline void rspfrAdd32(int32_t &lVal,int32_t &lNum,int32_t &lDel,int32_t &lInc,
 inline void rspfrAdd32(int32_t &lVal,int32_t &lNum,int32_t &lDel,int32_t &lInc,
 						  int32_t &lDen,int32_t &lAdd,PROPER,NEGATIVE)
 	{
+  UNUSED(lDel);
 	lNum += lInc;
 	if (lNum < 0) { lNum += lDen; lVal -= lAdd; }
 	}

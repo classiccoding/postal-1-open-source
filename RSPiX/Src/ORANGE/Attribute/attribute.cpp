@@ -235,8 +235,6 @@ void RAttributeMap::FreeMap()
 
 int16_t RAttributeMap::AllocateMap(uint32_t ulSize, uint32_t ulDetailMapSize)
 {
-	int16_t sReturn = SUCCESS;
-
 	if (m_pusMap == NULL)
 		m_pusMap = new uint16_t[ulSize];
 

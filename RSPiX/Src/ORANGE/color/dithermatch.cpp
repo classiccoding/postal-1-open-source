@@ -93,8 +93,8 @@ int16_t	rspDither(
 #ifdef _DEBUG
 #endif
 
-	int16_t sRet = 0;
-	int32_t	lPalOffset = lInc * sStartMap;
+   int16_t sRet = SUCCESS;
+//	int32_t	lPalOffset = lInc * sStartMap;
 	int32_t	lLastTime = rspGetMilliseconds();
 
 	//--------- Set up receiving vessel:
@@ -117,7 +117,7 @@ int16_t	rspDither(
 		}
 
 	//--------- Begin:
-	int32_t lErrorRed = 0,lErrorGreen = 0,lErrorBlue = 0;
+//	int32_t lErrorRed = 0,lErrorGreen = 0,lErrorBlue = 0;
 
 	int16_t i,j;
 	int32_t lSrcP = pimSrc->m_lPitch;
@@ -307,7 +307,7 @@ int16_t	rspDither(
 				if ((*func)(1.0 - double(j)/dH) == -1) // user abort
 					{
 					j = 0; // premature exit!
-					sRet = 1;
+               sRet = FAILURE;
 					}
 				}
 			}
@@ -360,8 +360,8 @@ int16_t	rspSimpleMap(
 #ifdef _DEBUG
 #endif
 
-	int16_t sRet = 0;
-	int32_t	lPalOffset = lInc * sStartMap;
+   int16_t sRet = SUCCESS;
+//	int32_t	lPalOffset = lInc * sStartMap;
 	int32_t	lLastTime = rspGetMilliseconds();
 
 	//--------- Set up receiving vessel:
@@ -384,7 +384,7 @@ int16_t	rspSimpleMap(
 		}
 
 	//--------- Begin:
-	int32_t lErrorRed = 0,lErrorGreen = 0,lErrorBlue = 0;
+//	int32_t lErrorRed = 0,lErrorGreen = 0,lErrorBlue = 0;
 
 	int16_t i,j;
 	int32_t lSrcP = pimSrc->m_lPitch;
@@ -420,13 +420,13 @@ int16_t	rspSimpleMap(
 				if ((*func)(1.0 - double(j)/dH) == -1) // user abort
 					{
 					j = 0; // premature exit!
-					sRet = 1;
+               sRet = FAILURE;
 					}
 				}
 			}
 		}
 
-	return 0;
+   return sRet;
 	}
 
 					
@@ -476,8 +476,8 @@ int16_t	rspDither(
 #ifdef _DEBUG
 #endif
 
-	int16_t sRet = 0;
-	int32_t	lPalOffset = lInc * sStartMap;
+   int16_t sRet = SUCCESS;
+//	int32_t	lPalOffset = lInc * sStartMap;
 	int32_t	lLastTime = rspGetMilliseconds();
 
 	//--------- Set up receiving vessel:
@@ -499,7 +499,7 @@ int16_t	rspDither(
 		(*func)(double(0.0));
 		}
 
-	int32_t lErrorRed = 0,lErrorGreen = 0,lErrorBlue = 0;
+//	int32_t lErrorRed = 0,lErrorGreen = 0,lErrorBlue = 0;
 
 	int16_t i,j;
 	int32_t lSrcP = pimSrc->m_lPitch;
@@ -699,7 +699,7 @@ int16_t	rspDither(
 				if ((*func)(1.0 - double(j)/dH) == -1) // user abort
 					{
 					j = 0; // premature exit!
-					sRet = 1;
+               sRet = FAILURE;
 					}
 				}
 			}
@@ -773,8 +773,8 @@ int16_t	rspDither(
 #ifdef _DEBUG
 #endif
 
-	int16_t sRet = 0;
-	int32_t	lPalOffset = lInc * sStartMap;
+   int16_t sRet = SUCCESS;
+//	int32_t	lPalOffset = lInc * sStartMap;
 	int32_t	lLastTime = rspGetMilliseconds();
 
 	//--------- Set up receiving vessel:
@@ -797,7 +797,7 @@ int16_t	rspDither(
 		}
 
 	//--------- Begin:
-	int32_t lErrorRed = 0,lErrorGreen = 0,lErrorBlue = 0;
+//	int32_t lErrorRed = 0,lErrorGreen = 0,lErrorBlue = 0;
 
 	int16_t i,j;
 	int32_t lSrcP = pimSrc->m_lPitch;
@@ -990,7 +990,7 @@ int16_t	rspDither(
 				if ((*func)(1.0 - double(j)/dH) == -1) // user abort
 					{
 					j = 0; // premature exit!
-					sRet = 1;
+               sRet = FAILURE;
 					}
 				}
 			}
@@ -1054,8 +1054,8 @@ int16_t	rspSimpleMap(
 #ifdef _DEBUG
 #endif
 
-	int16_t sRet = 0;
-	int32_t	lPalOffset = lInc * sStartMap;
+   int16_t sRet = SUCCESS;
+//	int32_t	lPalOffset = lInc * sStartMap;
 	int32_t	lLastTime = rspGetMilliseconds();
 
 	//--------- Set up receiving vessel:
@@ -1078,7 +1078,7 @@ int16_t	rspSimpleMap(
 		}
 
 	//--------- Begin:
-	int32_t lErrorRed = 0,lErrorGreen = 0,lErrorBlue = 0;
+//	int32_t lErrorRed = 0,lErrorGreen = 0,lErrorBlue = 0;
 
 	int16_t i,j;
 	int32_t lSrcP = pimSrc->m_lPitch;
@@ -1121,13 +1121,13 @@ int16_t	rspSimpleMap(
 				if ((*func)(1.0 - double(j)/dH) == -1) // user abort
 					{
 					j = 0; // premature exit!
-					sRet = 1;
+               sRet = FAILURE;
 					}
 				}
 			}
 		}
 
-	return 0;
+   return sRet;
 	}
 
 					

@@ -436,6 +436,7 @@ extern void rspSetQuitStatusFlags(	// Returns nothing.
 	int32_t	lKeyFlags)						// In:  New keyflags (RSP_GKF_*).
 												// 0 to clear.
 	{
+  UNUSED(lKeyFlags);
     //fprintf(stderr, "STUBBED: %s:%d\n", __FILE__, __LINE__);
 	}
 

@@ -216,6 +216,7 @@ void RSnd::Reset(void)
 int16_t RSnd::Stream(	char* pszSampleName, int32_t lPlayBufSize, int32_t lReadBufSize,
 						 uint8_t	ucMainVolume /* = 255 */, uint8_t ucVolume2 /* = 255 */)
 	{
+  UNUSED(ucMainVolume, ucVolume2);
 	int16_t sRes = 0;
 	
 	// Reset variables and free data if any.
@@ -521,10 +522,11 @@ int32_t RSnd::GetTime(void)
 void* RSnd::StreamCall(RMix::Msg	msg, 
 								void*		pData, 
 								uint32_t*	pulBufSize,
-                        address_t		ulUser,
+                        uintptr_t		ulUser,
 								uint8_t*		pucVolume,
 								uint8_t*		pucVol2)
 	{
+  UNUSED(ulUser);
 	switch (msg)
 		{
 		case RMix::Data:
@@ -791,7 +793,7 @@ void* RSnd::PlayCall(RMix::Msg	msg,
 void* RSnd::StreamCallStatic(	RMix::Msg	msg, 
 										void*			pData, 
 										uint32_t*		pulBufSize, 
-                              address_t			ulUser,
+                              uintptr_t			ulUser,
 										uint8_t*		pucVolume,
 										uint8_t*		pucVol2)
 	{
@@ -809,7 +811,7 @@ void* RSnd::StreamCallStatic(	RMix::Msg	msg,
 void* RSnd::PlayCallStatic(RMix::Msg	msg, 
 									void*			pData, 
                            uint32_t*	pulBufSize,
-                           address_t	ulUser,
+                           uintptr_t	ulUser,
 									uint8_t*		pucVolume,
 									uint8_t*		pucVol2)
 	{

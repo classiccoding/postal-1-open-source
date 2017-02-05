@@ -659,6 +659,7 @@ int16_t CDispenser::EditNew(									// Returns 0 if successfull, non-zero other
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
+  UNUSED(sX, sY, sZ);
 	// Initialize for edit mode.
 	int16_t sResult	= Init(true);
 	if (sResult == 0)

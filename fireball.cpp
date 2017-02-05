@@ -278,11 +278,15 @@ void CFirestream::Resume(void)
 ////////////////////////////////////////////////////////////////////////////////
 void CFirestream::Update(void)
 {
+#ifdef UNUSED_VARIABLES
 	int32_t lThisTime;
+#endif
 
 	if (!m_sSuspend)
 	{
-		lThisTime = m_pRealm->m_time.GetGameTime();
+#ifdef UNUSED_VARIABLES
+      lThisTime = m_pRealm->m_time.GetGameTime();
+#endif
 
 		// See if we killed ourselves
 		if (ProcessFireballMessages() == State_Deleted)
@@ -938,8 +942,7 @@ int16_t CFireball::Setup(									// Returns 0 if successfull, non-zero otherwis
 int16_t CFireball::Init(void)
 {
 	int16_t sResult = SUCCESS;
-	CAlphaAnim* pAnim = NULL;
-
+//	CAlphaAnim* pAnim = NULL;
 
 	// Update sphere
 	m_smash.m_sphere.sphere.X = m_dX;

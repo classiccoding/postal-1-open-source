@@ -86,7 +86,6 @@ extern void rspGetMouse(
 
     if (!mouse_grabbed)
     {
-        int w, h;
         SET(psX, 0);
         SET(psY, 0);
         SET(psButton, 0);
@@ -116,11 +115,10 @@ extern void rspGetMouse(
 
 extern void Mouse_Event(SDL_Event *event)
 {
-	static int16_t	sEventIndex	= 0;
+  static int16_t	sEventIndex	= 0;
 
-
-    if (!mouse_grabbed)
-        return;  // drop mouse events if input isn't grabbed.
+  if (!mouse_grabbed)
+    return;  // drop mouse events if input isn't grabbed.
 
 	// Get next event.  We do not "new" a RSP_MOUSE_EVENT here to avoid 
 	// memory fragmentation.

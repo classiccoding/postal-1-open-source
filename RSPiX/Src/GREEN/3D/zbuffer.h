@@ -50,11 +50,13 @@ public:
 	//----------------------------------------------
 	void Clear(int16_t sVal = ZB_MIN_Z);
 	//----------------------------------------------
+   int16_t* GetZPtr(int16_t sX,int16_t sY) { return (m_pBuf + sX + m_lP*sY); }
+#ifdef _DEBUG
 	// debugging stuff
-	int16_t* GetZPtr(int16_t sX,int16_t sY){return (m_pBuf + sX + m_lP*sY);}
 	void TestHeight(RImage* pimDst,int16_t sDepth,
 		int16_t sX,int16_t sY,int16_t sW,int16_t sH);
 	void Dump(RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_t sH,uint8_t* pZCol);
+#endif
 	};
 
 

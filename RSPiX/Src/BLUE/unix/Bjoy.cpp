@@ -188,7 +188,7 @@ static inline double GetStickAngle(Sint32 axis_X, Sint32 axis_Y)
 #if defined(ALLOW_TWINSTICK)
 extern void GetDudeVelocity(double* d_Velocity, double* d_Angle)
 {
-	SDL_GameController* controller = ms_Controllers[0];
+//	SDL_GameController* controller = ms_Controllers[0];
 
 	Sint16 axis_MoveUpDown = ms_ajsCurr[0].axis_MoveUpDown;
 	Sint16 axis_MoveLeftRight = ms_ajsCurr[0].axis_MoveLeftRight;
@@ -207,7 +207,7 @@ extern void GetDudeVelocity(double* d_Velocity, double* d_Angle)
 //////////////////////////////////////////////////////////////////////////////
 extern bool GetDudeFireAngle(double* d_Angle)
 {
-	SDL_GameController* controller = ms_Controllers[0];
+//	SDL_GameController* controller = ms_Controllers[0];
 
 	Sint16 axis_FireUpDown = ms_ajsCurr[0].axis_FireUpDown;
 	Sint16 axis_FireLeftRight = ms_ajsCurr[0].axis_FireLeftRight;

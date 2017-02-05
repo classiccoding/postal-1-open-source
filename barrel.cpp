@@ -432,7 +432,7 @@ void CBarrel::Update(void)
 		lTimeDifference = lThisTime - m_lPrevTime;
 
 		// Calculate elapsed time in seconds
-		double dSeconds = (double)(lThisTime - m_lPrevTime) / 1000.0;
+//		double dSeconds = (double)(lThisTime - m_lPrevTime) / 1000.0;
 
 		// Check for new messages that may change the state
 		ProcessMessages();
@@ -573,7 +573,6 @@ int16_t CBarrel::EditNew(									// Returns 0 if successfull, non-zero otherwis
 int16_t CBarrel::EditModify(void)
 {
 	int16_t sResult = 0;
-	RGuiItem* pGuiItem = NULL;
 	RGuiItem* pGui = RGuiItem::LoadInstantiate(FullPathVD("res/editor/barrel.gui"));
 	if (pGui)
 	{

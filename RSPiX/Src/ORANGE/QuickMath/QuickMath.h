@@ -76,37 +76,29 @@ inline int16_t	rspSqrt(int32_t lVal)
 	}
 
 inline double rspSin(int16_t sDeg) 
-	{ 
-#ifdef _DEBUG
-	ASSERT((sDeg >= 0) || (sDeg < 360));
-#endif
+   {
+   ASSERT((sDeg >= 0) || (sDeg < 360));
 
 	return SINQ[sDeg]; 
 	}
 
 inline double rspCos(int16_t sDeg) 
-	{ 
-#ifdef _DEBUG
-	ASSERT((sDeg >= 0) || (sDeg < 360));
-#endif
+   {
+   ASSERT((sDeg >= 0) || (sDeg < 360));
 
 	return COSQ[sDeg]; 
 	}
 
 inline float rspfSin(int16_t sDeg) 
-	{ 
-#ifdef _DEBUG
-	ASSERT((sDeg >= 0) || (sDeg < 360));
-#endif
+   {
+   ASSERT((sDeg >= 0) || (sDeg < 360));
 
 	return fSINQ[sDeg];
 	}
 
 inline float rspfCos(int16_t sDeg) 
-	{ 
-#ifdef _DEBUG
-	ASSERT((sDeg >= 0) || (sDeg < 360));
-#endif
+   {
+   ASSERT((sDeg >= 0) || (sDeg < 360));
 
 	return fCOSQ[sDeg]; 
 	}

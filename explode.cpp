@@ -353,8 +353,10 @@ void CExplode::Render(void)
 		m_sprite.m_pImage = &(pAnim->m_imColor);
 		m_sprite.m_pimAlpha = &(pAnim->m_pimAlphaArray[0]);
 
+#ifdef UNUSED_VARIABLES
 		// temp
 		int16_t sTemp = pAnim->m_sNumAlphas;
+#endif
 
 		// Update sprite in scene
 		m_pRealm->m_scene.UpdateSprite(&m_sprite);

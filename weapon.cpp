@@ -440,6 +440,7 @@ void CWeapon::ProcessMessage(		// Returns nothing.
 void CWeapon::OnShotMsg(	// Returns nothing.
 	Shot_Message* pshotmsg)		// In:  Message to handle.
 {
+  UNUSED(pshotmsg);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -449,6 +450,7 @@ void CWeapon::OnShotMsg(	// Returns nothing.
 void CWeapon::OnExplosionMsg(			// Returns nothing.
 	Explosion_Message* pexplosionmsg)	// In:  Message to handle.
 {
+  UNUSED(pexplosionmsg);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -458,6 +460,7 @@ void CWeapon::OnExplosionMsg(			// Returns nothing.
 void CWeapon::OnBurnMsg(	// Returns nothing.
 	Burn_Message* pburnmsg)		// In:  Message to handle.
 {
+  UNUSED(pburnmsg);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -467,6 +470,7 @@ void CWeapon::OnBurnMsg(	// Returns nothing.
 void CWeapon::OnDeleteMsg(				// Returns nothing.
 	ObjectDelete_Message* pdeletemsg)	// In:  Message to handle.
 {
+  UNUSED(pdeletemsg);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -476,6 +480,7 @@ void CWeapon::OnDeleteMsg(				// Returns nothing.
 void CWeapon::OnTriggerMsg(			// Returns nothing
 	Trigger_Message* ptriggermsg)		// In: Message to handle
 {
+  UNUSED(ptriggermsg);
 }
 
 

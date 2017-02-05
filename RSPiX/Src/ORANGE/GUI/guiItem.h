@@ -925,11 +925,11 @@ class RGuiItem : public RProps <uint32_t, uint32_t>
 
 		Justification		m_justification;	// { RGuiItem::Right, RGuiItem::Center, RGuiItem::Left }
 
-      address_t					m_ulUserInstance;	// Space that can be used in any way by
+      uintptr_t					m_ulUserInstance;	// Space that can be used in any way by
 														// the user but is intended to represent 
 														// a user instance structure such as a 
 														// struct or class.
-      address_t					m_ulUserData;		// Space that can be used in any way by
+      uintptr_t					m_ulUserData;		// Space that can be used in any way by
 														// the user and has no particular intended
 														// use.
 

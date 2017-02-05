@@ -61,7 +61,7 @@ extern int16_t rspSetSoundOutMode(				// Returns 0 if successfull, non-zero othe
 	int32_t lCurBufferTime,							// In:  Current buffer time (in ms.)
 	int32_t lMaxBufferTime,							// In:  Maximum buffer time (in ms.)
 	RSP_SND_CALLBACK callback,					// In:  Callback function
-   address_t ulUser)									// In:  User-defined value to pass to callback
+   uintptr_t ulUser)									// In:  User-defined value to pass to callback
 {
     if (audio_opened)
         rspKillSoundOutMode();
@@ -137,6 +137,7 @@ extern int16_t rspGetSoundOutMode(				// Returns 0 if successfull, non-zero othe
 	int32_t* plCurBufferTime,				// Out: Current buffer time or -1 (unless NULL)
 	int32_t* plMaxBufferTime)			// Out: Maximum buffer time or -1 (unless NULL)
 {
+  UNUSED(plChannels);
     SET(plSampleRate, desired.freq);
     SET(plBitsPerSample, desired.format & 0x00FF);
     SET(plBitsPerSample, desired.channels);

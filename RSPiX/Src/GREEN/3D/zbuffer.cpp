@@ -109,7 +109,7 @@ void RZBuffer::Clear(int16_t sVal)
 	for (int32_t i=0;i < lWordLen; i++) *pWord++ = BigWord.word;
 
 	}
-
+#ifdef _DEBUG
 //----------------------------------------------
 // debugging stuff
 void RZBuffer::TestHeight(RImage* pimDst,int16_t sDepth,
@@ -153,3 +153,4 @@ void RZBuffer::Dump(RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_t sH,u
 			}
 		}
 	}
+#endif
