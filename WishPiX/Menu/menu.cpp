@@ -251,8 +251,8 @@ static RResMgr*	ms_presmgr			= NULL;
 static RImage		ms_imPreMenu;				// Contents of composite buffer
 														// before the menu was drawn.
 
-static int16_t		ms_sPreMenuX;				// Location of ms_imPreMenu on screen.
-static int16_t		ms_sPreMenuY;				// Location of ms_imPreMenu on screen.
+//static int16_t		ms_sPreMenuX;				// Location of ms_imPreMenu on screen.
+//static int16_t		ms_sPreMenuY;				// Location of ms_imPreMenu on screen.
 
 static RImage*		ms_pimComposite	= NULL;	// Composite buffer.
 

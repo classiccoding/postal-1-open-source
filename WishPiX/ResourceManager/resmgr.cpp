@@ -571,6 +571,7 @@ void RResMgr::FreeAllResources(void)
 int16_t RResMgr::Statistics(RString strStatFile)
 {
 #if PLATFORM_UNIX   // avoid STL on Unix.  --ryan.
+  UNUSED(strStatFile);
     fprintf(stderr, "STUBBED: %s:%d\n", __FILE__, __LINE__);
     return FAILURE;
 #else
@@ -647,6 +648,7 @@ int16_t RResMgr::Statistics(RString strStatFile)
 int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
 {
 #if PLATFORM_UNIX   // avoid STL on Unix.  --ryan.
+  UNUSED(strScriptFile, strSakFile);
     return FAILURE;
 #else
 	int16_t sReturn = SUCCESS;
