@@ -131,7 +131,7 @@ void CNetBrowse::Update(
 	if ((lTime - m_lLastBroadcast) > Net::BroadcastInterval)
 		{
 		// Create message
-		U8 buf1[4];
+		uint8_t buf1[4];
 		buf1[0] = Net::BroadcastMagic0;
 		buf1[1] = Net::BroadcastMagic1;
 		buf1[2] = Net::BroadcastMagic2;
@@ -171,7 +171,7 @@ void CNetBrowse::Update(
 	// will be recorded -- this gives us the host's address!
 	CHost host;
 	int32_t lReceived;
-	U8 buf[sizeof(host.m_acName) + 4 + 4];
+	uint8_t buf[sizeof(host.m_acName) + 4 + 4];
 	int16_t serr = m_socketBrowse.ReceiveFrom(buf, sizeof(buf), &lReceived, &host.m_address);
 	if (serr == 0)
 		{

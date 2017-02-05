@@ -159,7 +159,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////////
-class RGuiItem : public RProps <U32, U32>
+class RGuiItem : public RProps <uint32_t, uint32_t>
 	{
 	public:	// Construction/Destruction.
 		// Default constructor.
@@ -607,7 +607,7 @@ class RGuiItem : public RProps <U32, U32>
 		virtual				// If you override this, call this base if possible.
 		int16_t ReadMembers(			// Returns 0 on success.
 			RFile*	pfile,			// File to read from.
-			U32		u32Version);	// File format version to use.
+			uint32_t		u32Version);	// File format version to use.
 
 		// Write item's members to file.
 		virtual				// If you override this, call this base if possible.
@@ -828,7 +828,7 @@ class RGuiItem : public RProps <U32, U32>
 
 		// Get the current file version (that is, the file version a file
 		// written from this GUI right now would be).
-		static U32 GetCurrentFileVersion(void);
+		static uint32_t GetCurrentFileVersion(void);
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -851,7 +851,7 @@ class RGuiItem : public RProps <U32, U32>
 		// Read header for this GUI item.
 		static int16_t ReadHeader(	// Returns 0 on success.
 			RFile*	pfile,			// In:  File to read from.
-			U32*	pu32Version,		// Out: File format version.
+			uint32_t*	pu32Version,		// Out: File format version.
 			Type*	ptype);				// Out: Type of GUI item stored.
 
 		// Save item's children to the specified file.
@@ -907,14 +907,14 @@ class RGuiItem : public RProps <U32, U32>
 
 
 
-		U32					m_u32BorderColor;
-		U32					m_u32BorderShadowColor;
-		U32					m_u32BorderHighlightColor;
-		U32					m_u32BorderEdgeColor;
+		uint32_t					m_u32BorderColor;
+		uint32_t					m_u32BorderShadowColor;
+		uint32_t					m_u32BorderHighlightColor;
+		uint32_t					m_u32BorderEdgeColor;
 
-		U32					m_u32TextColor;			// 0 indicates transparency.
-		U32					m_u32BackColor;
-		U32					m_u32TextShadowColor;
+		uint32_t					m_u32TextColor;			// 0 indicates transparency.
+		uint32_t					m_u32BackColor;
+		uint32_t					m_u32TextShadowColor;
 
 		int16_t					m_sTextEffects;			// Flags for text effects.
 
@@ -925,7 +925,7 @@ class RGuiItem : public RProps <U32, U32>
 
 		Justification		m_justification;	// { RGuiItem::Right, RGuiItem::Center, RGuiItem::Left }
 
-		U64					m_ulUserInstance;	// Space that can be used in any way by 
+		uint64_t					m_ulUserInstance;	// Space that can be used in any way by 
 														// the user but is intended to represent 
 														// a user instance structure such as a 
 														// struct or class.
@@ -945,7 +945,7 @@ class RGuiItem : public RProps <U32, U32>
 														// (e.g., FSPR8 will always be blt'ed
 														// with transparency).
 
-		U32					m_u32TransparentColor;	// Color used for transparency
+		uint32_t					m_u32TransparentColor;	// Color used for transparency
 																// when using transparent blit
 																// call.
 
@@ -964,7 +964,7 @@ class RGuiItem : public RProps <U32, U32>
 														// -1 would but it just outside the
 														// client area.
 
-		U32					m_u32FocusColor;	// Color to draw focus with.
+		uint32_t					m_u32FocusColor;	// Color to draw focus with.
 
 		int16_t					m_sClicked;			// TRUE if this item is considered
 														// 'Clicked'.  For example, the default
@@ -978,7 +978,7 @@ class RGuiItem : public RProps <U32, U32>
 		int16_t					m_sBkdResTransparent;	// TRUE, if m_pimBkdRes is to be
 																// BLiT'ed transparently; FALSE,
 																// otherwise.
-		U32					m_u32BkdResTransparentColor;	// Transparency color for
+		uint32_t					m_u32BkdResTransparentColor;	// Transparency color for
 																		// m_pimBkdRes when 
 																		// BLiT'ed transparently.
 		int16_t					m_sBkdResPlacement;	// Combination of |'ed

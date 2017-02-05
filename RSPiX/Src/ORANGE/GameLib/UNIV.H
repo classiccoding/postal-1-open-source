@@ -20,6 +20,9 @@
 // UNIV.H
 //	
 //*****************************************************************************
+#ifndef TIME_TRAVEL_IS_REAL
+#error I AM ARCHAIC - DO NOT USE
+#endif
 
 #ifndef _UNIV_H
 #define _UNIV_H

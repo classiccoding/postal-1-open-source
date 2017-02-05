@@ -591,7 +591,7 @@ void CThing3d::Resume(void)
 ////////////////////////////////////////////////////////////////////////////////
 void CThing3d::Render(void)
 	{
-	U16	u16CombinedAttributes;
+	uint16_t	u16CombinedAttributes;
 	int16_t	sLightTally;
 	GetEffectAttributes(m_dX, m_dZ, &u16CombinedAttributes, &sLightTally);
 
@@ -1499,11 +1499,11 @@ void CThing3d::UpdateFirePosition(void)
 void CThing3d::GetFloorAttributes(	// Returns nothing.
 	int16_t		sX,						// In:  X coord.
 	int16_t		sZ,						// In:  Z coord.
-	U16*		pu16Attrib,				// Out: Combined attribs, if not NULL.
+	uint16_t*		pu16Attrib,				// Out: Combined attribs, if not NULL.
 	int16_t*	psHeight)				// Out: Max height, if not NULL.
 	{
-	U16	u16CurAttrib;
-	U16	u16CombinedAttrib	= 0;
+	uint16_t	u16CurAttrib;
+	uint16_t	u16CombinedAttrib	= 0;
 	int16_t	sLightTally			= 0;
 	int16_t	sMaxHeight			= -32767;
 	int16_t	sCurHeight;
@@ -1545,11 +1545,11 @@ void CThing3d::GetFloorAttributes(	// Returns nothing.
 void CThing3d::GetEffectAttributes(	// Returns nothing.
 	int16_t		sX,							// In:  X coord.
 	int16_t		sZ,							// In:  Z coord.
-	U16*		pu16Attrib,					// Out: Combined attribs, if not NULL.
+	uint16_t*		pu16Attrib,					// Out: Combined attribs, if not NULL.
 	int16_t*	psLightBits)				// Out: Tally of light bits set, if not NULL.
 	{
-	U16	u16CurAttrib;
-	U16	u16CombinedAttrib	= 0;
+	uint16_t	u16CurAttrib;
+	uint16_t	u16CombinedAttrib	= 0;
 	int16_t	sLightTally			= 0;
 
 	const Point2D*	p2d;
@@ -1581,7 +1581,7 @@ void CThing3d::GetLayer(	// Returns nothing.
 	int16_t  sZ,					// In:  Z coord.
 	int16_t* psLayer)			// Out: Combined layer.
 	{
-	U16	u16CombinedLayer	= 0;
+	uint16_t	u16CombinedLayer	= 0;
 
 	const Point2D*	p2d;
 	for (p2d = m_pap2dAttribCheckPoints; p2d->sX != ATTRIB_CHECK_TERMINATOR; p2d++)
@@ -1625,7 +1625,7 @@ void CThing3d::GetLinkPoint(	// Returns nothing.
 // (virtual).
 ////////////////////////////////////////////////////////////////////////////////
 CThing3d* CThing3d::DetachChild(	// Returns ptr to the child or NULL, if none.
-	U16*		pu16InstanceId,		// In:  Instance ID of child to detach.
+	uint16_t*		pu16InstanceId,		// In:  Instance ID of child to detach.
 											// Out: CIdBank::IdNil.
 	RTransform*	ptrans)				// In:  Transform for positioning child.
 	{

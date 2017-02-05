@@ -175,8 +175,8 @@
 //							'event' area.
 //
 //		01/05/97	JMI	Now descends from RProps so users of this and descendant
-//							classes can now add props.  Templated to item type U32
-//							with key type U32.
+//							classes can now add props.  Templated to item type uint32_t
+//							with key type uint32_t.
 //							Also, added virtual destructor to guarantee that all
 //							the destructors of the _allocated_ type get called.
 //
@@ -477,7 +477,7 @@ RGuiItem::RGuiItem()
 	m_sX	= 0;
 	m_sY	= 0;
 
-	m_hot.m_ulUser			= (U64)this;
+	m_hot.m_ulUser			= (uint64_t)this;
 	m_hot.m_iecUser		= HotCall;
 
 	m_sEventAreaX			= 0;	// X coord of area in which we care
@@ -1889,7 +1889,7 @@ int16_t RGuiItem::Load(	// Returns 0 on success.
 	ASSERT(pfile->IsOpen() != FALSE);
 
 	// Read header . . .
-	U32	u32Version;
+	uint32_t	u32Version;
 	Type	type;
 	if (ReadHeader(pfile, &u32Version, &type) == 0)
 		{
@@ -1991,7 +1991,7 @@ RGuiItem* RGuiItem::LoadInstantiate(	// Returns newly allocated GUI item
 	ASSERT(pfile->IsOpen() != FALSE);
 
 	// Read header . . .
-	U32	u32Version;
+	uint32_t	u32Version;
 	Type	type;
 	if (ReadHeader(pfile, &u32Version, &type) == 0)
 		{
@@ -2107,7 +2107,7 @@ int16_t RGuiItem::LoadChildren(	// Returns 0 on success.
 ////////////////////////////////////////////////////////////////////////
 int16_t RGuiItem::ReadHeader(	// Returns 0 on success.
 	RFile*	pfile,				// In:  File to read from.
-	U32*	pu32Version,			// Out: File format version.
+	uint32_t*	pu32Version,			// Out: File format version.
 	Type*	ptype)					// Out: Type of GUI item stored.
 	{
 	int16_t	sRes	= 0;	// Assume success.
@@ -2115,7 +2115,7 @@ int16_t RGuiItem::ReadHeader(	// Returns 0 on success.
 	ASSERT(pfile->IsOpen() != FALSE);
 
 	// Read fingerprint.
-	U32	u32FingerPrint;
+	uint32_t	u32FingerPrint;
 	if (pfile->Read(&u32FingerPrint) == 1)
 		{
 		if (u32FingerPrint == GUI_FINGER_PRINT)
@@ -2124,7 +2124,7 @@ int16_t RGuiItem::ReadHeader(	// Returns 0 on success.
 			if (pfile->Read(pu32Version) == 1)
 				{
 				// Read type.
-				U32	u32Type;
+				uint32_t	u32Type;
 				if (pfile->Read(&u32Type) == 1)
 					{
 					// Store type for caller.
@@ -2165,14 +2165,14 @@ int16_t RGuiItem::ReadHeader(	// Returns 0 on success.
 ////////////////////////////////////////////////////////////////////////
 int16_t RGuiItem::ReadMembers(	// Returns 0 on success.
 	RFile*	pfile,				// File to read from.
-	U32		u32Version)			// File format version to use.
+	uint32_t		u32Version)			// File format version to use.
 	{
 	int16_t	sRes	= 0;	// Assume success.
 
 	// Read members.  Type must always be first becuase 
 	// LoadInstantiate() utilizes this fact to determine the type of item
 	// that should be instantiated.
-	U32	u32Temp;
+	uint32_t	u32Temp;
 	
 	switch (u32Version)
 		{
@@ -2301,9 +2301,9 @@ int16_t RGuiItem::Save(	// Returns 0 on success.
 	ASSERT(pfile->IsOpen() != FALSE);
 
 	// Write fingerprint.
-	pfile->Write((U32)GUI_FINGER_PRINT);
+	pfile->Write((uint32_t)GUI_FINGER_PRINT);
 	// Write file format version.
-	pfile->Write((U32)GUI_FILE_VERSION);
+	pfile->Write((uint32_t)GUI_FILE_VERSION);
 
 	// Write member variables for RGuiItem . . .
 	if (WriteMembers(pfile) == 0)
@@ -2375,7 +2375,7 @@ int16_t RGuiItem::WriteMembers(	// Returns 0 on success.
 	// Write members.  Type must always be first becuase 
 	// LoadInstantiate() utilizes this fact to determine the type of item
 	// that should be instantiated.
-	pfile->Write((U32)m_type);
+	pfile->Write((uint32_t)m_type);
 
 	// Insert new members here.
 	pfile->Write(m_sTextEffects);
@@ -2399,7 +2399,7 @@ int16_t RGuiItem::WriteMembers(	// Returns 0 on success.
 	pfile->Write(m_u32TextColor);
 	pfile->Write(m_u32BackColor);
 	pfile->Write(m_sBorderThickness);
-	pfile->Write((U32)m_justification);
+	pfile->Write((uint32_t)m_justification);
 	pfile->Write(m_sInvertedBorder);
 	pfile->Write(m_sTransparent);
 	pfile->Write(m_u32TransparentColor);
@@ -2753,7 +2753,7 @@ void RGuiItem::TopPosToChild(	// Returns nothing.
 // (static).
 //
 //////////////////////////////////////////////////////////////////////////////
-U32 RGuiItem::GetCurrentFileVersion(void)
+uint32_t RGuiItem::GetCurrentFileVersion(void)
 	{
 	return GUI_FILE_VERSION;
 	}

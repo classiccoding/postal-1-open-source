@@ -531,7 +531,7 @@ int16_t CThing::Load(										// Returns 0 if successfull, non-zero otherwise
 //
 ////////////////////////////////////////////////////////////////////////////////
 void CThing::SetInstanceID(	// Returns nothing.
-	U16	u16Id)					// New id for this instance.
+	uint16_t	u16Id)					// New id for this instance.
 	{
 	// Safety.
 	if (m_u16InstanceId != CIdBank::IdNil)
@@ -550,7 +550,7 @@ void CThing::SetInstanceID(	// Returns nothing.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-int16_t CThing::SendThingMessage(pGameMessage pMessage, int16_t sPriority, U16 u16ID)
+int16_t CThing::SendThingMessage(pGameMessage pMessage, int16_t sPriority, uint16_t u16ID)
 	{
 	int16_t sResult = SUCCESS;
 	CThing* pThing = NULL;

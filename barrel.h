@@ -69,7 +69,7 @@ class CBarrel : public CThing3d
 	// Variables
 	//---------------------------------------------------------------------------
 	public:
-		U16		m_u16ShooterID;				// Variable for storing the shooter ID
+		uint16_t		m_u16ShooterID;				// Variable for storing the shooter ID
 														// to pass along in the messages.
 
 	protected:

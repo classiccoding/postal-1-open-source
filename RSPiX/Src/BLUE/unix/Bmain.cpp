@@ -44,7 +44,7 @@
 #include <time.h>
 
 // Blue //////////////////////////////////////////////////////////////////////
-#include "SDL.h"
+#include <SDL2/SDL.h>
 #include "BLUE/Blue.h"
 
 SDL_Window *sdlWindow = NULL;

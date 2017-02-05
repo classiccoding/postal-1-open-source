@@ -1578,9 +1578,9 @@ static int16_t UpdateListBox(					// Returns 0 on success.
 					MakeMoreReadable(pgui);
 					pgui->Compose();
 					// Point GUI at entry.
-					pgui->m_ulUserData	= (U64)phost;
+					pgui->m_ulUserData	= (uint64_t)phost;
 					// Successfully added entry.
-					phost->m_u32User	= (U64)pgui;
+					phost->m_u32User	= (uint64_t)pgui;
 					// Note that we updated the dialog and will need to re-adjust
 					// fields and recompose.
 					bRepaginate	= true;
@@ -1605,7 +1605,7 @@ static int16_t UpdateListBox(					// Returns 0 on success.
 		while (phostslistDropped->GetHead())
 			{
 			// Get pointer to first host in list
-			U32 u32User = phostslistDropped->GetHeadData().m_u32User;
+			uint32_t u32User = phostslistDropped->GetHeadData().m_u32User;
 
 			// We should have already been using this.
 			ASSERT(u32User);
@@ -1668,7 +1668,7 @@ static void AddConsoleMsg(	// Returns nothing.
 		vsprintf(szOutput, pszFrmt, varp);
 		va_end(varp);
 
-		U32	u32TextColor	= ms_plbNetConsole->m_u32TextColor;
+		uint32_t	u32TextColor	= ms_plbNetConsole->m_u32TextColor;
 
 		char szMsg[MAX_STATUS_STR];
 		// If it's a chat message . . .
@@ -3283,7 +3283,7 @@ static int16_t NetBlockingCallback(void)				// Returns 0 to continue normally, 1
 	// check on a key's status.  The important thing would be NOT to clear
 	// any key's status so we don't affect the input module (input.cpp) or
 	// the play loop (play.cpp:PlayRealm()).
-	static U8*	pau8KeyStatus	= rspGetKeyStatusArray();
+	static uint8_t*	pau8KeyStatus	= rspGetKeyStatusArray();
 
 	// Assume we won't abort
 	int16_t	sAbort = 0;

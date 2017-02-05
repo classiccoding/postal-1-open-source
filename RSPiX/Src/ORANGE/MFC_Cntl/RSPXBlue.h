@@ -17,6 +17,8 @@
 //
 // RSPiXBlue.h : header file
 //
+#error I AM ARCHAIC - DO NOT USE
+
 #ifndef RSPIXBLUE_H
 #define RSPIXBLUE_H
 
@@ -148,7 +150,7 @@ class EXE2DLL CRSPiXBlue : public CStatic
 		void Blu_SetDisplayBuf(	void* pvBuf, int32_t lWidth, int32_t lHeight,
 										int16_t sColorDepth, int16_t sVertFlip = FALSE)
 			{ ::Blu_SetDisplayBuf(pvBuf, lWidth, lHeight, sColorDepth, sVertFlip); }
-		U16*	Blu_GetPaletteTranslation(void)
+		uint16_t*	Blu_GetPaletteTranslation(void)
 			{ return ::Blu_GetPaletteTranslation(); }
 		int16_t Blu_UpdateDisplay(int32_t sx, int32_t sy, 
 										int32_t dx, int32_t dy, 

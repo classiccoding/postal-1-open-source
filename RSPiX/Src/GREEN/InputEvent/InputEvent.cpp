@@ -255,8 +255,8 @@ int16_t GetLastXInputState(XInputState* xis)
 int16_t GetXInputStateNoUpdate(XInputState* xis)
 {
 	// Get current input state from Blue
-	U32 u32Buttons = 0;
-	U32 u32Axes = 0;
+	uint32_t u32Buttons = 0;
+	uint32_t u32Axes = 0;
 	rspGetJoyState(0, &u32Buttons, &u32Axes);
 
 	for (int i = 0; i < XInputButtons; i++)

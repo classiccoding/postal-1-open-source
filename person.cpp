@@ -304,7 +304,7 @@ int16_t CPerson::ms_sFileCount;
 
 // This is the one CPerson that can log its AI table transitions or
 // CIdBank::IdNil.
-U16	CPerson::ms_u16IdLogAI	= CIdBank::IdNil;
+uint16_t	CPerson::ms_u16IdLogAI	= CIdBank::IdNil;
 
 // The max amount a guy and step up while writhing.
 #define WRITHING_VERTICAL_TOLERANCE		(MaxStepUpThreshold / 2)
@@ -928,7 +928,7 @@ void CPerson::Logic_Writhing(void)
 		int16_t	sPseudoHeadX	= m_dX + COSQ[sRot] * sRadius;
 		int16_t	sPseudoHeadY	= m_dZ - SINQ[sRot] * sRadius;
 		// Check pseudo-head point.
-		U16	u16Attrib	= 0;	// Safety.
+		uint16_t	u16Attrib	= 0;	// Safety.
 		int16_t	sHeight		= 0;	// Safety.
 		GetFloorAttributes(sPseudoHeadX, sPseudoHeadY, &u16Attrib, &sHeight);
 		if ( (u16Attrib & REALM_ATTR_NOT_WALKABLE) || sHeight > m_dY + WRITHING_VERTICAL_TOLERANCE
@@ -1185,7 +1185,7 @@ int16_t CPerson::EditModify(void)
 			// Set callback for logic browser button.
 			pbtnLogicUserBrowse->m_bcUser	= LogicUserBrowse;
 			// Set instance data to GUI to query/update.
-			pbtnLogicUserBrowse->m_ulUserInstance	= (U64)peditLogicFile;
+			pbtnLogicUserBrowse->m_ulUserInstance	= (uint64_t)peditLogicFile;
 
 			SetGuiToNotify(pGui->GetItemFromId(ID_GUI_EDIT_TEXTURES) );
 

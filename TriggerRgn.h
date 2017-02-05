@@ -94,7 +94,7 @@ struct TriggerRgn
 	int16_t		sX;
 	int16_t		sY;
 	RImage*	pimRgn;
-	U16		u16InstanceId;
+	uint16_t		u16InstanceId;
 
 	///////////////////////////////////////////////////////////////////////////
 	// Constructor.
@@ -183,7 +183,7 @@ struct TriggerRgn
 						(
 						250,	// u32ForeColor,				// Make it this color
 						TRUE,	// sTransparent = TRUE,		// 1 or 2 color?
-						0		//	u32BackColor = (U32)0	// matters only if sTransparent = FALSE
+						0		//	u32BackColor = (uint32_t)0	// matters only if sTransparent = FALSE
 						);
 
 					if (pimRgn->Convert(RImage::BMP8) != RImage::BMP8)

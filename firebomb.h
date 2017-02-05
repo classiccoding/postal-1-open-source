@@ -216,7 +216,7 @@ class CFirefrag : public CWeapon
 	protected:
 		int16_t m_sPrevHeight;										// Previous height
 		CFire*  m_pFire;											// Pointer to controlled fire object
-		U16	  m_u16FireID;										// ID for fire.
+		uint16_t	  m_u16FireID;										// ID for fire.
 		RImage* m_pImage;											// Pointer to only image (replace with 3d anim, soon)
 		CSprite2 m_sprite;										// 2D sprite to render this object.
 		int16_t		m_sNumExplosions;								// Total Number of explosions.

@@ -39,7 +39,7 @@
 typedef struct
 	{
 	char*	pszResName;	// Resource filename.
-	U8*	pau8Res;		// Resource data.
+	uint8_t*	pau8Res;		// Resource data.
 	int32_t	lResSize;	// Amount of resource data in bytes.
 	} FATEntry;
 

@@ -20,6 +20,9 @@
 // EVENT.H
 //
 //*****************************************************************************
+#ifndef TIME_TRAVEL_IS_REAL
+#error I AM ARCHAIC - DO NOT USE
+#endif
 
 #ifndef event_h
 #define event_h

@@ -2208,7 +2208,7 @@ int16_t CRealm::GetHeightAndNoWalk(	// Returns height at new location.
 	// Scale the Z based on the view angle.
 	::MapZ3DtoY2D(sZ, &sZ, sRotX);
 
-	U16	u16Attrib	= m_pTerrainMap->GetVal(sX, sZ, REALM_ATTR_NOT_WALKABLE);
+	uint16_t	u16Attrib	= m_pTerrainMap->GetVal(sX, sZ, REALM_ATTR_NOT_WALKABLE);
 
 	int16_t	sH = 4 * (u16Attrib & REALM_ATTR_HEIGHT_MASK); 
 

@@ -48,9 +48,9 @@ class RPrint
 public:
 	//-------------------------- Public members
 
-	U32	m_ForegroundColor;
-	U32	m_BackgroundColor;	// 0 = OFF
-	U32	m_ShadowColor;	// Used if offsets are not zero!
+	uint32_t	m_ForegroundColor;
+	uint32_t	m_BackgroundColor;	// 0 = OFF
+	uint32_t	m_ShadowColor;	// Used if offsets are not zero!
 	RImage*	m_pimDst;
 	RRect		m_rClip;	// used for wrapping..
 
@@ -130,8 +130,8 @@ public:
 
 	Mode	m_eModes;	// Set different text modes
 	// a 0 signals using the Height relative value
-	U8		m_aAbsFlag[NUM_OF_EFFECTS]; 
-	S16	m_aAbsEffect[NUM_OF_EFFECTS]; // go by this...
+	uint8_t		m_aAbsFlag[NUM_OF_EFFECTS]; 
+	int16_t	m_aAbsEffect[NUM_OF_EFFECTS]; // go by this...
 	float	m_aARelEffect[NUM_OF_EFFECTS]; 
 
 	//----------------------------- More parameters

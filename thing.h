@@ -533,7 +533,7 @@ class CThing
 
 		// Unique ID specific to this instance of CThing (set in constructor,
 		// released in destructor).
-		U16			m_u16InstanceId;
+		uint16_t			m_u16InstanceId;
 
 	//---------------------------------------------------------------------------
 	// Public member variables
@@ -568,14 +568,14 @@ class CThing
 			}
 
 		// Get object instance's unique ID.
-		U16 GetInstanceID(void)
+		uint16_t GetInstanceID(void)
 			{
 			return m_u16InstanceId;
 			}
 
 		// Set object instance's unique ID.
 		void SetInstanceID(	// Returns nothing.
-			U16	u16Id);		// New id for this instance.
+			uint16_t	u16Id);		// New id for this instance.
 
 		// Helper for processing your GUIs.
 		// Will be made visible by calling pguiRoot->SetVisible(TRUE).
@@ -604,7 +604,7 @@ class CThing
 												// to continue.                          
 			RInputEvent*	pie);			// Out: Next input event to process.     
 
-		int16_t SendThingMessage(pGameMessage pMessage, U16 u16ID)
+		int16_t SendThingMessage(pGameMessage pMessage, uint16_t u16ID)
 			{
 				return SendThingMessage(pMessage, pMessage->msg_Generic.sPriority, u16ID);
 			}
@@ -614,7 +614,7 @@ class CThing
 				return SendThingMessage(pMessage, pMessage->msg_Generic.sPriority, pThing);
 			}
 
-		int16_t SendThingMessage(pGameMessage pMessage, int16_t sPriority, U16 u16ID);
+		int16_t SendThingMessage(pGameMessage pMessage, int16_t sPriority, uint16_t u16ID);
 
 		int16_t SendThingMessage(pGameMessage pMessage, int16_t sPriority, CThing* pThing);
 

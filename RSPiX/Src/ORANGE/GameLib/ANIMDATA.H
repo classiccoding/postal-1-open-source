@@ -23,6 +23,9 @@
 // They should probably be put in the PROJECT.H (or similar) file.
 //
 //*****************************************************************************
+#ifndef TIME_TRAVEL_IS_REAL
+#error I AM ARCHAIC - DO NOT USE
+#endif
 
 #ifndef _ANIMDATA_H
 #define _ANIMDATA_H

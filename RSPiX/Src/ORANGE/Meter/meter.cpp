@@ -139,7 +139,7 @@ RMeter::RMeter()
 
 	m_guiMeter.SetParent(this);
 	m_guiMeter.m_bcUser				= BtnCall;
-	m_guiMeter.m_ulUserInstance	= (U64)this;
+	m_guiMeter.m_ulUserInstance	= (uint64_t)this;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -162,7 +162,7 @@ RMeter::~RMeter()
 //
 ////////////////////////////////////////////////////////////////////////
 inline int16_t Rectangle(		// Returns 0 on success.
-	U32 u32Color,				// Color.
+	uint32_t u32Color,				// Color.
 	RImage* pimDst,			// Destination.
 	int16_t sDstX,				// Destination x coordinate.
 	int16_t sDstY,				// Destination y coordinate.

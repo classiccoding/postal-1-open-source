@@ -65,7 +65,7 @@ class CChunk : public CThing
 
 		typedef struct
 			{
-			U8		u8ColorIndex;
+			uint8_t		u8ColorIndex;
 			int16_t	sLen;
 			} TypeInfo;
 

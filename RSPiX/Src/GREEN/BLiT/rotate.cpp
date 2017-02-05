@@ -15,7 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-I AM ARCHAIC !  REMOVE ME AT ONCE AND ADD ROTATE96.CPP!
+#error I AM ARCHAIC !  REMOVE ME AT ONCE AND ADD ROTATE96.CPP!
 
 // This should include RotShrink, RotOrtho, and R90
 //

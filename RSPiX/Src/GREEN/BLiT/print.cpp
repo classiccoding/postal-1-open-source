@@ -15,8 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-//THIS FILE IS ARCHAIC!  REMOVE IT FROM YOUR PROJECT AND
-//ADD FILE RPrint.cpp
+#error THIS FILE IS ARCHAIC!  REMOVE IT FROM YOUR PROJECT AND ADD FILE RPrint.cpp
 
 //***************  THIS SHOULD BE CALLED FNT.CPP  ***********************
 
@@ -36,9 +35,9 @@
 #endif
 
 #ifdef PATHS_IN_INCLUDES
-	#include "GREEN/BLiT/_ic.h"
+   #include "GREEN/BLiT/_ic.h"
 #else
-	#include "_ic.h" 
+   #include "_ic.h"
 #endif
 
 // Turn off warnings for assignments within expressions

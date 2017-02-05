@@ -451,12 +451,12 @@ inline void _Blit_HM_VS_C(
 //-----------------------------------------------------------------------------------
 // templated overloads for selecting different inlines...
 
-typedef U32 CHOOSE_MAGNIFY;
-typedef S32 CHOOSE_SHRINK;
-typedef U32 CHOOSE_HCLIP;
-typedef S32 CHOOSE_NO_HCLIP;
-typedef U32 CHOOSE_OPAQUE;
-typedef S32 CHOOSE_TRANSPARENT;
+typedef uint32_t CHOOSE_MAGNIFY;
+typedef int32_t CHOOSE_SHRINK;
+typedef uint32_t CHOOSE_HCLIP;
+typedef int32_t CHOOSE_NO_HCLIP;
+typedef uint32_t CHOOSE_OPAQUE;
+typedef int32_t CHOOSE_TRANSPARENT;
 
 //-----------------------------------------------------------------------------------
 

@@ -244,7 +244,7 @@ int16_t CItem3d::Load(										// Returns 0 if successfull, non-zero otherwise
 			case 1:
 				pFile->Read(m_szAnimBaseName);
 
-				U32	u32Temp;
+				uint32_t	u32Temp;
 				pFile->Read(&u32Temp);
 				m_type	= (ItemType)u32Temp;
 
@@ -303,7 +303,7 @@ int16_t CItem3d::Save(										// Returns 0 if successfull, non-zero otherwise
 
 		pFile->Write(m_szAnimBaseName);
 
-		pFile->Write((U32)m_type);
+		pFile->Write((uint32_t)m_type);
 
 		pFile->Write(m_u16IdParent);
 		
@@ -702,7 +702,7 @@ int16_t CItem3d::Setup(			// Returns 0 on success.
 	ItemType type,					// In:  Known item type or Custom.
 	char*	pszCustomBaseName /*= NULL*/,	// In:  Required if type == Custom.
 													// Base name for custom type resources.
-	U16	u16IdParentInstance /*= CIdBank::IdNil*/)	// In:  Parent instance ID.
+	uint16_t	u16IdParentInstance /*= CIdBank::IdNil*/)	// In:  Parent instance ID.
 	{
 	int16_t	sResult	= 0;
 

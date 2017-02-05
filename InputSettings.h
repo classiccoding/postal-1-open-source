@@ -39,7 +39,7 @@
 //
 //		07/03/97	JMI	Moved InputInfo and ms_ainputinfo into CInputSettings.
 //
-//		07/06/97	JMI	Changed m_au8PlayKeys[] from a U8 array to a short array,
+//		07/06/97	JMI	Changed m_au8PlayKeys[] from a uint8_t array to a short array,
 //							m_asPlayKeys[].
 //							Also, changed m_asPlayButtons to m_asPlayMouseButtons.
 //
@@ -155,9 +155,9 @@ class CInputSettings : CSettings
 			{
 			char*	pszDescription;	// Description of key.
 			char*	pszSaveName;		// Name for INI.
-			U8		u8DefaultKey;		// Default rspScanKeys val (RSP_SK_*).
-			int16_t	sDefMouseButtons;	// Default rspGetMouse psButtons mask (MouseButtons).
-			int16_t	sDefJoyButtons;	// Default rspGetJoyState buttons mask (JoyButtons).
+			uint8_t		u8DefaultKey;		// Default rspScanKeys val (RSP_SK_*).
+         uint32_t	sDefMouseButtons;	// Default rspGetMouse psButtons mask (MouseButtons).
+         uint32_t	sDefJoyButtons;	// Default rspGetJoyState buttons mask (JoyButtons).
 			} InputInfo;
 
 
@@ -202,11 +202,11 @@ class CInputSettings : CSettings
 
 		int16_t		m_sUseJoy;							// Allow joystick input.
 
-		U32	m_asPlayKeys[NumInputFunctions];				// Array of game play keys indexed
+		uint32_t	m_asPlayKeys[NumInputFunctions];				// Array of game play keys indexed
 																		// by an InputFunction value.
-		U32	m_asPlayMouseButtons[NumInputFunctions];	// Array of game play mouse buttons
+		uint32_t	m_asPlayMouseButtons[NumInputFunctions];	// Array of game play mouse buttons
 																		// indexed by an InputFunction value.
-		U32	m_asPlayJoyButtons[NumInputFunctions];		// Array of game play joystick buttons
+		uint32_t	m_asPlayJoyButtons[NumInputFunctions];		// Array of game play joystick buttons
 																		// indexed by an InputFunction value.
 		int16_t	m_sJoyStartButton;						// Default button to use as "Start"
 		int16_t	m_sJoyMenuUpButton;						// Default button to use as "Menu Up"

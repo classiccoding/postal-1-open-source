@@ -49,11 +49,11 @@ class CFlagbase : public CThing3d
 	//---------------------------------------------------------------------------
 	public:
 		CAnim3D*		m_panimCurBase;					// current animation for the base
-		U16			m_u16FlagID;						// ID to match flag and base
+		uint16_t			m_u16FlagID;						// ID to match flag and base
 
 	protected:
 		CAnim3D		m_animFlagWave;					// animation for the flag waving
-		U16			m_u16Color;							// Color of base
+		uint16_t			m_u16Color;							// Color of base
 
 
 		// Tracks file counter so we know when to load/save "common" data 

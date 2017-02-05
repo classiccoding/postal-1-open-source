@@ -240,7 +240,7 @@ class CBulletFest
 										// of 'forward' movement.
 
 		// Target info.  ***NYI***
-		U16	m_u16IdTarget;		// Last known target or IdNil.
+		uint16_t	m_u16IdTarget;		// Last known target or IdNil.
 		int16_t	m_sDirChanges;		// Direction changes (relative to source) over 
 										// last targeting duration.
 		int32_t	m_lSqrDistance;	// Squared distance traveled (relative to 
@@ -251,7 +251,7 @@ class CBulletFest
 	///////////////////////////////////////////////////////////////////////////
 	// Static data.
 	///////////////////////////////////////////////////////////////////////////
-		static U8	ms_u8TracerIndex;	// The color index to use for tracers.
+		static uint8_t	ms_u8TracerIndex;	// The color index to use for tracers.
 												// This value is gotten only once per
 												// execution of this program.
 

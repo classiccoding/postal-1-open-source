@@ -66,7 +66,7 @@ class CSndRelay : public CThing
 
 		State	m_state;								// Current state.
 
-		U16	m_idParent;							// Parent CSoundThing.
+		uint16_t	m_idParent;							// Parent CSoundThing.
 
 	protected:
 

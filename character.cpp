@@ -652,13 +652,13 @@ bool CCharacter::WhileDying(void)	// Returns true until state is complete.
 // weapon via ShootWeapon() when the event hits 2.
 ////////////////////////////////////////////////////////////////////////////////
 bool CCharacter::WhileHoldingWeapon(	// Returns true when weapon is released.
-	U32 u32BitsInclude,						// In:  Collision bits to pass to ShootWeapon
-	U32 u32BitsDontcare,						// In:  Collision bits to pass to ShootWeapon
-	U32 u32BitsExclude)						// In:  Collision bits to pass to ShootWeapon
+	uint32_t u32BitsInclude,						// In:  Collision bits to pass to ShootWeapon
+	uint32_t u32BitsDontcare,						// In:  Collision bits to pass to ShootWeapon
+	uint32_t u32BitsExclude)						// In:  Collision bits to pass to ShootWeapon
 	{
 	bool	bReleased	= false;	// Assume not released.
 
-	U8	u8Event	= *( (U8*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
+	uint8_t	u8Event	= *( (uint8_t*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
 	// Check for show point in animation . . .
 	if (u8Event > 0)
 		{
@@ -1548,7 +1548,7 @@ bool CCharacter::IsPathClear(	// Returns true, if the entire path is clear.
 	int16_t	sMinZ			= 0;
 
 	int16_t	sCurH;
-	U16	u16Attribute;
+	uint16_t	u16Attribute;
 
 	// Scan while in realm.
 	while (

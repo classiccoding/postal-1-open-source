@@ -20,6 +20,9 @@
 // ATTRIB.H
 //
 //*****************************************************************************
+#ifndef TIME_TRAVEL_IS_REAL
+#error I AM ARCHAIC - DO NOT USE
+#endif
 
 #ifndef attrib_h
 #define attrib_h

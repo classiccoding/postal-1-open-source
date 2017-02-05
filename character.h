@@ -152,13 +152,13 @@ class CCharacter : public CThing3d
 	// Variables
 	//---------------------------------------------------------------------------
 	public:
-		U16	m_u16IdWeapon;						// ID of your generic weapon.
+		uint16_t	m_u16IdWeapon;						// ID of your generic weapon.
 		CThing::ClassIDType m_eWeaponType;	// Type of weapon to be shot
 		CBulletFest	m_bullets;					// Generic bullet interface.
 
 		int32_t	m_lCharacterTimer;				// This timer is intended for use by
 														// CCharacter's On/While* functions.
-		U16	m_u16KillerId;						// ID of the person who killed you
+		uint16_t	m_u16KillerId;						// ID of the person who killed you
 		// Used to track the current channel
 		// playing our sound so we can update
 		// its looping parameters.
@@ -328,9 +328,9 @@ class CCharacter : public CThing3d
 		virtual			// Override to implement additional functionality.
 							// Call base class to get default functionality.
 		bool WhileHoldingWeapon(	// Returns true when weapon is released.
-			U32 u32BitsInclude,		// In:  Collision bits passed to ShootWeapon
-			U32 u32BitsDontcare,		// In:  Collision bits passed to ShootWeapon
-			U32 u32BitsExclude);		// In:  Collision bits passed to ShootWeapon
+			uint32_t u32BitsInclude,		// In:  Collision bits passed to ShootWeapon
+			uint32_t u32BitsDontcare,		// In:  Collision bits passed to ShootWeapon
+			uint32_t u32BitsExclude);		// In:  Collision bits passed to ShootWeapon
 
 		// Implements basic one-time functionality for each time State_Dead is
 		// entered.

@@ -28,7 +28,7 @@
 ---------------------  USEFUL BLUE EXTENSIONS ----------------------
 
 BASIC TYPES:  RRect, PRect = {sX,sY,sW,sH}
-INTEGER TYPES:  U64,S64,U128,S128 integer types
+INTEGER TYPES:  uint64_t,int64_t,uint128_t,int128_t integer types
 STANDARD TEMPLATE EXTENSIONS to blue MACROS:  SQR / ABS / ABS2 / MIN / MAX / SGN
 
 short	rspSetWindowColors()	- Restore Windows System Colors
@@ -224,9 +224,9 @@ extern	int16_t	rspBlitA(RImage* pimSrc,RImage* pimDst,int16_t sX,int16_t sY,
 	void rspClipPlot(PIXSIZE color, RImage* pimDst,int16_t sX,int16_t sY,const RRect* prClip);
 #endif
 
-extern	int16_t rspRect(U32 color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_t sH,RRect* prClip=NULL);
+extern	int16_t rspRect(uint32_t color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_t sH,RRect* prClip=NULL);
 
-extern	int16_t rspRect(int16_t sThickness,U32 color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_t sH,RRect* prClip=NULL);
+extern	int16_t rspRect(int16_t sThickness,uint32_t color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_t sH,RRect* prClip=NULL);
 
 extern	int16_t	rspLockBuffer();
 extern	int16_t	rspLockScreen();
@@ -329,7 +329,7 @@ typedef	struct tagFont
 	RImage*	pLetters[256];	// ptr to letters or NULL
 	tagFont* pNext;
 	}	FontNode;
-
+#if 0
 // put in header...
 class	RFontOld
 	{
@@ -352,7 +352,7 @@ public:
 	int16_t	Load(char* pszPath,char* pszName); // only 5 chars standard...
 	int16_t	Load(char* pszName); // only 5 chars standard...
 	};
-
+#endif
 // This IS currently 8=bit color hard wired!
 
 // flags for formatting: (FORMATTING NYI)

@@ -206,7 +206,7 @@ RTexture::Unmap(
 	if (m_pColors == 0)
 		AllocColors();
 
-	U8*			pu8	= m_pIndices;
+	uint8_t*			pu8	= m_pIndices;
 	RPixel32*	ppix	= m_pColors;
 	int16_t	sCount		= m_sNum;
 	while (sCount--)

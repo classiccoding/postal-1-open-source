@@ -489,9 +489,9 @@ int32_t CDoofus::ms_lHelpingTimeout = 1000;				// Only shoot every this often
 // passed to WhileHoldingWeapon() which passes them on to ShootWeapon(), but WhileHoldingWeapon()
 // is only used for non-bullet weapons.  In the bullet weapons case, it uses the default parameters
 // to ShootWeapon().
-U32 CDoofus::ms_u32CollideBitsInclude = CSmash::Character | CSmash::Barrel;
-U32 CDoofus::ms_u32CollideBitsDontcare = CSmash::Good | CSmash::Bad;
-U32 CDoofus::ms_u32CollideBitsExclude = CSmash::SpecialBarrel | CSmash::Ducking | CSmash::Bad | CSmash::Civilian;
+uint32_t CDoofus::ms_u32CollideBitsInclude = CSmash::Character | CSmash::Barrel;
+uint32_t CDoofus::ms_u32CollideBitsDontcare = CSmash::Good | CSmash::Bad;
+uint32_t CDoofus::ms_u32CollideBitsExclude = CSmash::SpecialBarrel | CSmash::Ducking | CSmash::Bad | CSmash::Civilian;
 
 int16_t CDoofus::ms_sStuckLimit = 3;						// Number of times to retry before attempting to
 																	// get free of whatever you are stuck on.
@@ -890,7 +890,7 @@ int16_t CDoofus::Load(										// Returns 0 if successfull, non-zero otherwise
 			case 2:
 			case 1:
 				// Get the instance ID for the NavNet
-				U16 u16Data;
+				uint16_t u16Data;
 				int16_t sres = pFile->Read(&u16Data);
 				m_u16NavNetID = u16Data;
 				break;
@@ -942,7 +942,7 @@ int16_t CDoofus::Save(										// Returns 0 if successfull, non-zero otherwise
 		// again after load
 		pFile->Write(&m_ucSpecialBouy0ID);
 		pFile->Write(&m_ucSpecialBouy1ID);
-		U16 u16Data = CIdBank::IdNil;	// Safety.
+		uint16_t u16Data = CIdBank::IdNil;	// Safety.
 		if (m_pNavNet)
 			u16Data	= m_pNavNet->GetInstanceID();
 		pFile->Write(&u16Data);
@@ -1095,7 +1095,7 @@ void CDoofus::Render(void)
 	if (m_panimCur->m_pevent)
 	{	
 		// Get current event.
-		U8	u8Event	= *( (U8*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
+		uint8_t	u8Event	= *( (uint8_t*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
 
 		// If gun not hidden by Randy . . .
 		if (u8Event < 10)
@@ -2707,7 +2707,7 @@ void CDoofus::Logic_Shoot(void)
 		case CSmallPistolID:
 		{
 			// Get event.
-			U8	u8Event	= *( (U8*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
+			uint8_t	u8Event	= *( (uint8_t*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
 			// We don't care about show point for these non-object weapon types.
 			// If it's time to fire the weapon . . .
 			if (u8Event > 0 && lThisTime > m_lShootTimer)
@@ -3998,9 +3998,9 @@ void CDoofus::PositionSmash(void)
 ////////////////////////////////////////////////////////////////////////////////
 
 bool CDoofus::WhileHoldingWeapon(	// Returns true when weapon is released.
-				U32 u32BitsInclude,		// In:  Collision bits passed to ShootWeapon
-				U32 u32BitsDontcare,		// In:  Collision bits passed to ShootWeapon
-				U32 u32BitsExclude)		// In:  Collision bits passed to ShootWeapon
+				uint32_t u32BitsInclude,		// In:  Collision bits passed to ShootWeapon
+				uint32_t u32BitsDontcare,		// In:  Collision bits passed to ShootWeapon
+				uint32_t u32BitsExclude)		// In:  Collision bits passed to ShootWeapon
 {
 	bool bResult = true;
 

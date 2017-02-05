@@ -30,6 +30,9 @@
 // Handles all Windows specific joystick stuff.
 //
 //////////////////////////////////////////////////////////////////////////////
+#ifndef TIME_TRAVEL_IS_REAL
+#error I AM ARCHAIC - DO NOT USE
+#endif
 
 #include "BLUE/win32/win.h"
 

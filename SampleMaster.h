@@ -319,7 +319,7 @@ class SampleMaster
 	{
 	public:
 		// Used as a unique idea for running sound sample manipulation -> includes channel number
-		typedef	U64	SoundInstance; // 0 indicates error condition.
+		typedef	uint64_t	SoundInstance; // 0 indicates error condition.
 
 		//////////////////////////////////////////////////////////////
 		// Use these tags to specify a sound volume category

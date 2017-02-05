@@ -15,7 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-I AM ARCHAIC - INCLUDE ORANGE/QUICKMATH/FIXEDPOINT.H instead!
+#error I AM ARCHAIC - INCLUDE ORANGE/QUICKMATH/FIXEDPOINT.H instead!
 
 // This is an internal BLiT header.  Don't get confused by it - it's not up to user level yet.
 #ifndef ic_h

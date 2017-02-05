@@ -561,7 +561,7 @@ int16_t RSphericalRegion::Collide(R3DLine* pline)
 			// JMI: Added Z component:
 			int32_t b = -2 * (lRelCenX * lDelX + /*lRelCenY * lDelY*/ + lDelZ * lRelCenZ);
 			int32_t c = lCirDist - SQR(sCirR);
-			S64 d = (S64(b)*S64(b) - S64(4*a)*S64(c));
+			int64_t d = (int64_t(b)*int64_t(b) - int64_t(4*a)*int64_t(c));
 
 			if (d >= 0)
 				{

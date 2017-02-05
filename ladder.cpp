@@ -34,12 +34,16 @@
 // to.
 //
 //////////////////////////////////////////////////////////////////////////////
+#ifndef TIME_TRAVEL_IS_REAL
+#error I AM ARCHAIC - DO NOT USE
+#endif
+
 #define LADDER_CPP
 
 #include "RSPiX.h"
 #include <math.h>
 
-#include "Ladder.h"
+#include "ladder.h"
 #include "game.h"
 #include "reality.h"
 

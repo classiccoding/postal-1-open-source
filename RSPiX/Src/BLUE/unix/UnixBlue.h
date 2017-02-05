@@ -211,7 +211,7 @@ extern int16_t rspIsKey(void);				// Returns 1 if key is available, 0 if not
 // be called for every use of the array.  As a matter of fact, you may only need
 // to call this function once for an entire program's execution of scans and 
 // clears of the array.
-extern U8* rspGetKeyStatusArray(void);	// Returns pointer to 128-byte key status array
+extern uint8_t* rspGetKeyStatusArray(void);	// Returns pointer to 128-byte key status array
 
 
 // Return the state of the toggle keys (caps lock, num lock, and scroll lock.)
@@ -344,10 +344,10 @@ extern void rspGetJoyPrevPos(
 // This function returns directions in a digital format (up, down, centered).
 extern void rspGetJoyState(
 	int16_t sJoy,					// In:  Joystick to query.
-	U32*	pu32Buttons,		// Out: Buttons that are down, if not NULL.
+	uint32_t*	pu32Buttons,		// Out: Buttons that are down, if not NULL.
 									// An RSP_JOY_BUT_## bit field that is set indicates
 									// that button is down.
-	U32*	pu32Axes = NULL);	// Out: Directions that are specificed, if not NULL.
+	uint32_t*	pu32Axes = NULL);	// Out: Directions that are specificed, if not NULL.
 									// An RSP_JOY_?_POS bit set indicates the ? axis is positive.
 									// An RSP_JOY_?_NEG bit set indicates the ? axis is negative.
 									// If neither is set for ? axis, that axis is 0.
@@ -356,10 +356,10 @@ extern void rspGetJoyState(
 // This function returns directions in a digital format (up, down, centered).
 extern void rspGetJoyPrevState(
 	int16_t sJoy,					// In:  Joystick to query.
-	U32*	pu32Buttons,		// Out: Buttons that are down, if not NULL.
+	uint32_t*	pu32Buttons,		// Out: Buttons that are down, if not NULL.
 									// An RSP_JOY_BUT_## bit field that is set indicates
 									// that button is down.
-	U32*	pu32Axes = NULL);	// Out: Directions that are specificed, if not NULL.
+	uint32_t*	pu32Axes = NULL);	// Out: Directions that are specificed, if not NULL.
 									// An RSP_JOY_?_POS bit set indicates the ? axis is positive.
 									// An RSP_JOY_?_NEG bit set indicates the ? axis is negative.
 									// If neither is set for ? axis, that axis is 0.
@@ -369,10 +369,10 @@ extern bool GetDudeFireAngle(double* d_Angle);
 extern void GetDudeVelocity(double* d_Velocity, double* d_Angle);
 
 // Functions to convert bitfields to joybutton numbers and back again.
-extern int16_t JoyBitfieldToIndex(U32 bitfield);
-extern U32 JoyIndexToBitfield(int16_t index);
-extern int16_t MouseBitfieldToIndex(U32 bitfield);
-extern U32 MouseIndexToBitfield(int16_t index);
+extern int16_t JoyBitfieldToIndex(uint32_t bitfield);
+extern uint32_t JoyIndexToBitfield(int16_t index);
+extern int16_t MouseBitfieldToIndex(uint32_t bitfield);
+extern uint32_t MouseIndexToBitfield(int16_t index);
 
 ////////////////////////////////////////////////////////////////////////////////
 // DISPLAY API
@@ -568,7 +568,7 @@ extern int32_t rspGetMicroseconds(			// Returns time in microseconds
 
 extern int32_t rspGetMilliseconds(void);	// Returns time in milliseconds
 
-extern S64 rspGetAppMicroseconds(void);	// Returns microseconds since app started
+extern int64_t rspGetAppMicroseconds(void);	// Returns microseconds since app started
 
 
 ////////////////////////////////////////////////////////////////////////////////

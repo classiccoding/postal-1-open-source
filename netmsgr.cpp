@@ -352,7 +352,7 @@ void CNetMsgr::SendMsg(
 	if (m_state == Connected)
 		{
 		// Get msg type.
-		U8	ucMsg = pmsg->msg.nothing.ucType;
+		uint8_t	ucMsg = pmsg->msg.nothing.ucType;
 
 		// Make sure it's a valid message type
 		if ((ucMsg >= 0) && (ucMsg < NetMsg::NumMessages))
@@ -462,7 +462,7 @@ void CNetMsgr::ReceiveData(void)
 			int32_t lReceivedBytes = 0;
 
 			// Lock the buffer so we can write directly into it
-			U8* pu8Put;
+			uint8_t* pu8Put;
 			int32_t lMaxPuttableBytes;
 			m_bufIn.LockPutPtr(&pu8Put, &lMaxPuttableBytes);
 
@@ -513,7 +513,7 @@ void CNetMsgr::SendData(void)
 			int32_t lSentBytes = 0;
 
 			// Lock the buffer so we can read directly from it
-			U8* pu8Get;
+			uint8_t* pu8Get;
 			int32_t lMaxGettableBytes;
 			m_bufOut.LockGetPtr(&pu8Get, &lMaxGettableBytes);
 

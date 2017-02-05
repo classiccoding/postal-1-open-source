@@ -25,13 +25,13 @@ This header depends on the rest QuickMath, but is not necessary
 for use of Quickmath, and deals primarily with high speed fraction
 operations.
 /*****************************************************************
-Hungarian:	fr = either generic fraction or signed 16 (S16 + S16 [ / U16] )
+Hungarian:	fr = either generic fraction or signed 16 (int16_t + int16_t [ / uint16_t] )
 				pfr = pointer to fraction
-				frS32 = (S32 + S32 [ / U32] )
+				frS32 = (int32_t + int32_t [ / uint32_t] )
 				type = RFracS32, members = "frac" and "mod" and "set"
 
-				frS16 = S16 + S16 [ / U16]
-				frU16 = S16 + U16 [ / U16]
+				frS16 = int16_t + int16_t [ / uint16_t]
+				frU16 = int16_t + uint16_t [ / uint16_t]
 				type = RFracU16, same members, etc., etc.
 
 				& = implicit pass by reference, do NOT use a pointer
@@ -71,10 +71,10 @@ inline void rspfrAdd32(&lVal,&lNum,&lDel,&lInc,&lDen,&lPixSize)
   typedef union
 	{
 	struct {
-	U16 mod;
-	U16 frac;
+	uint16_t mod;
+	uint16_t frac;
 			};
-	U32 set;
+	uint32_t set;
 	}	RFracU16;	// No denominator, unsigned values...
 
 //======================================= 
@@ -89,7 +89,7 @@ typedef union	{
 
 //=======================================
 typedef union	{
-	S64	set;
+	int64_t	set;
 	struct	
 		{
 		int32_t mod;
@@ -197,11 +197,11 @@ inline RFracU16* rspfrU16Strafe256(uint16_t usNum,uint16_t usDen)
 //-------------------------- 32 bit signed integer calculus stuff:
 //*********************** HIGH INTENSITY SPEED! ***********************
 
-typedef U32 POSITIVE;
-typedef S32 NEGATIVE;
+typedef uint32_t POSITIVE;
+typedef int32_t NEGATIVE;
 
-typedef U32 PROPER;
-typedef S32 IMPROPER;
+typedef uint32_t PROPER;
+typedef int32_t IMPROPER;
 
 // lDel is unused here...
 // all values are signed, including lInc & lDel ...

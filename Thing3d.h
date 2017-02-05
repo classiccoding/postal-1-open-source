@@ -329,7 +329,7 @@ class CThing3d : public CThing
 		int16_t  m_sPrevHeight;				// Previous height
 		int16_t  m_sSuspend;					// Suspend flag
 
-		U16	m_u16IdFire;					// ID of fire to carry around when you are burning.
+		uint16_t	m_u16IdFire;					// ID of fire to carry around when you are burning.
 
 		CSprite3 m_sprite;					// 3D Sprite used to render the 3D Thing.
 		CSprite2	m_spriteShadow;			// 2D shadow sprite to be shown on the ground
@@ -350,7 +350,7 @@ class CThing3d : public CThing
 
 		bool	m_bAboveTerrain;				// true, if in the air, false if on terrain.
 
-		U16	m_u16IdParent;					// Instance ID of parent.
+		uint16_t	m_u16IdParent;					// Instance ID of parent.
 
 		CStockPile	m_stockpile;			// Stockpile of ammo and health.
 
@@ -670,14 +670,14 @@ class CThing3d : public CThing
 		void GetFloorAttributes(	// Returns nothing
 			int16_t  sX,					// In:  X coord.
 			int16_t  sZ,					// In:  Z coord.
-			U16*   pu16Attrib,		// Out: Combined attributes, if not NULL
+			uint16_t*   pu16Attrib,		// Out: Combined attributes, if not NULL
 			int16_t* psHeight);			// Out: Max height, if not NULL
 
 		// Get Effect attributes (effects attributes like light, camera, oil, blood)
 		void GetEffectAttributes(	// Returns nothing
 			int16_t  sX,					// In:  X coord.
 			int16_t  sZ,					// In:  Z coord.
-			U16*   pu16Attrib,		// Out: Combined attributes, if not NULL
+			uint16_t*   pu16Attrib,		// Out: Combined attributes, if not NULL
 			int16_t* psLightBits);		// Out: Tally of light bits set, if not NULL.
 
 		// Get the layer based on the attribute points array.
@@ -690,7 +690,7 @@ class CThing3d : public CThing
 		virtual			// Override to implement additional functionality.
 							// Call base class to get default functionality.
 		CThing3d* DetachChild(			// Returns ptr to the child or NULL, if none.
-			U16*		pu16InstanceId,	// In:  Instance ID of child to detach.
+			uint16_t*		pu16InstanceId,	// In:  Instance ID of child to detach.
 												// Out: CIdBank::IdNil.
 			RTransform*	ptrans);			// In:  Transform for positioning child.
 

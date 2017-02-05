@@ -64,9 +64,9 @@ class CDeathWad : public CWeapon
 	//---------------------------------------------------------------------------
 	public:
 		// Collision bits
-		U32			m_u32CollideIncludeBits;
-		U32			m_u32CollideDontcareBits;
-		U32			m_u32CollideExcludeBits;
+		uint32_t			m_u32CollideIncludeBits;
+		uint32_t			m_u32CollideDontcareBits;
+		uint32_t			m_u32CollideExcludeBits;
 		CStockPile	m_stockpile;			// Arsenal.
 
 	protected:

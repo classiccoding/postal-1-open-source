@@ -184,8 +184,8 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 	// IN THIS IMPLEMENTATION, we must do LOCK, BLiT, UNLOCK, so I
 	// must record which UNLOCK (if any) needs to be done AFTER the BLiT
 	// has completed. (Lord help me if a blit gets interrupted)
-	if (pimSrc->m_type == RImage::IMAGE_STUB) sBlitTypeSrc = (int16_t)((S64)pimSrc->m_pSpecial);
-	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((S64)pimDst->m_pSpecial);
+	if (pimSrc->m_type == RImage::IMAGE_STUB) sBlitTypeSrc = (int16_t)((int64_t)pimSrc->m_pSpecial);
+	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((int64_t)pimDst->m_pSpecial);
 
 	switch ( (sBlitTypeSrc<<3) + sBlitTypeDst) // 0 = normal image
 		{
@@ -298,20 +298,20 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 		}
 
 	// Calculate memory offsets using signed pitch:
-	U8* pSrc = pimSrc->m_pData + sSrcX + pimSrc->m_lPitch * sSrcY;
-	U8* pDst = pimDst->m_pData + sDstX + pimDst->m_lPitch * sDstY;
+	uint8_t* pSrc = pimSrc->m_pData + sSrcX + pimSrc->m_lPitch * sSrcY;
+	uint8_t* pDst = pimDst->m_pData + sDstX + pimDst->m_lPitch * sDstY;
 	
 	// Copy based on pixel size:
 	switch (pimDst->m_sDepth)
 		{
 		case 8:
-			_BLiTT((uint8_t)ucTransparent,(U8*)pSrc,(U8*)pDst,pimSrc->m_lPitch,pimDst->m_lPitch,sH,sW); 
+			_BLiTT((uint8_t)ucTransparent,(uint8_t*)pSrc,(uint8_t*)pDst,pimSrc->m_lPitch,pimDst->m_lPitch,sH,sW); 
 		break;
 		case 16:
-			_BLiTT((uint16_t)ucTransparent,(U16*)pSrc,(U16*)pDst,(pimSrc->m_lPitch),(pimDst->m_lPitch),sH,int16_t(sW>>1)); 
+			_BLiTT((uint16_t)ucTransparent,(uint16_t*)pSrc,(uint16_t*)pDst,(pimSrc->m_lPitch),(pimDst->m_lPitch),sH,int16_t(sW>>1)); 
 		break;
 		case 32:
-			_BLiTT((uint32_t)ucTransparent,(U32*)pSrc,(U32*)pDst,(pimSrc->m_lPitch),(pimDst->m_lPitch),sH,int16_t(sW>>2)); 
+			_BLiTT((uint32_t)ucTransparent,(uint32_t*)pSrc,(uint32_t*)pDst,(pimSrc->m_lPitch),(pimDst->m_lPitch),sH,int16_t(sW>>2)); 
 		break;
 		default:
 			TRACE("rspBlitT: color depth not supported.\n");

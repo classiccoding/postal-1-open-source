@@ -406,7 +406,7 @@ void ScoreResetDisplay(void)
 // ScoreRegisterKill - Characters should call this when they die
 //////////////////////////////////////////////////////////////////////////////
 
-void ScoreRegisterKill(CRealm* pRealm, U16 u16DeadGuy, U16 u16Killer)
+void ScoreRegisterKill(CRealm* pRealm, uint16_t u16DeadGuy, uint16_t u16Killer)
 {
 	CThing* pShooter = NULL;
 	pRealm->m_idbank.GetThingByID(&pShooter, u16Killer);
@@ -925,7 +925,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 				else
 					{
 					// Really bad elapsed time.
-					lPlayerScore	= LONG_MAX;
+               lPlayerScore	= INT32_MAX;
 					}
 
 				vtScoringUnit	= Time;
@@ -941,7 +941,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 				else
 					{
 					// Really bad elapsed time.
-					lPlayerScore	= LONG_MAX;
+               lPlayerScore	= INT32_MAX;
 					}
 
 				vtScoringUnit	= Time;
@@ -957,7 +957,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 				else
 					{
 					// Really bad time.
-					lPlayerScore	= LONG_MIN;
+               lPlayerScore	= INT32_MIN;
 					}
 
 				vtScoringUnit	= Time;
@@ -973,7 +973,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 				else
 					{
 					// Really bad time.
-					lPlayerScore	= LONG_MIN;
+               lPlayerScore	= INT32_MIN;
 					}
 
 				vtScoringUnit	= Time;
@@ -1104,7 +1104,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 				else
 					{
 					astrTempNames[sIndex][0]	= '\0';
-					alTempScores[sIndex]			= LONG_MIN + 1;
+               alTempScores[sIndex]			= INT32_MIN + 1;
 					}
 				}
 
@@ -1122,7 +1122,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 			for (sDstIndex = 0;	sDstIndex < MAX_HIGH_SCORES; sDstIndex++)
 				{
 				sHighestScoreIndex	= -1;
-				lHighestScore			= LONG_MIN;
+            lHighestScore			= INT32_MIN;
 
 				// Find the highest score of the ones not yet copied.
 				for (sSrcIndex = 0; sSrcIndex < MAX_HIGH_SCORES; sSrcIndex++)
@@ -1333,7 +1333,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 //				rspSetMouseCursorShowLevel(1);
 
 				// Make sure there's no timeout on while player is adding their name.
-				ms_lScoreMaxTimeOut	= LONG_MAX;
+            ms_lScoreMaxTimeOut	= INT32_MAX;
 
 				// If we want a high score from this player . . .
 				if (sPlayersScorePosition >= 0 && pRealm->m_flags.bMultiplayer == false)
@@ -1367,7 +1367,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 					}
 				else
 					{
-					ms_lScoreMaxTimeOut	= LONG_MAX;
+               ms_lScoreMaxTimeOut	= INT32_MAX;
 					}
 
 				// Set the focus to the listbox's vertical scrollbar so that the arrows will work.

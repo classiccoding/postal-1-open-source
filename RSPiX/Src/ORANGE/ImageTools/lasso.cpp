@@ -151,7 +151,7 @@ typedef struct
 // ERROR is the result, if a bad situation is fed as an index.
 // There are several impossiblities that are also flagged by ERROR.
 
-static U16	ms_au16EdgeInfo[256]	=
+static uint16_t	ms_au16EdgeInfo[256]	=
 	{
 	ERROR,								// Index:  NEW00 | DIRRIGHT	| PIX0000 is an error b/c we lost the shape.
 	DIRDOWN	| PIX0010,				// Index:  NEW00 | DIRRIGHT	| PIX0001
@@ -490,7 +490,7 @@ int16_t suxRect(			// Returns 0 on success, 1 if clipped out entirely.
 				*pclrBlt++	= clr;
 				}
 
-			pclrRow	=	(COLOR*)((U8*)pclrRow + lPitch);
+			pclrRow	=	(COLOR*)((uint8_t*)pclrRow + lPitch);
 			}
 		}
 	else
@@ -528,9 +528,9 @@ int16_t EvalPixel(						// Returns TRUE if pixel is not clrDisjoin.
 		// If no callback . . .
 		if (fnEval == NULL)
 			{
-			// Note that sY * lPitch is added in U8 sized elements and
+			// Note that sY * lPitch is added in uint8_t sized elements and
 			// sX is added in COLOR sized elements.
-			if (*((COLOR*)((U8*)pclrData + (int32_t)sY * lPitch) + sX) != clrDisjoin)
+			if (*((COLOR*)((uint8_t*)pclrData + (int32_t)sY * lPitch) + sX) != clrDisjoin)
 				{
 				sNonDisjoin	= TRUE;
 				}
@@ -642,7 +642,7 @@ inline int16_t Add(					// Returns 0 on success.
 // shape in pimSrc so that the next rspLassoNext will scan right by it.
 //
 ///////////////////////////////////////////////////////////////////////////
-template <class COLOR>		// Can be U8, U16, or U32.
+template <class COLOR>		// Can be uint8_t, uint16_t, or uint32_t.
 #ifdef WIN32	// Mac assumes extern.
 	extern 
 #endif // WIN32
@@ -662,8 +662,8 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 	int16_t	sSrcH,				// In:  Height of sub region to search.
 	COLOR	clrDisjoin,			// In:  Color that separates shapes.  This is the
 									// color that, to this function.
-									// Cast or use U8 for 8 bit, U16 for 16 bit,
-									// or U32 for 32 bit.
+									// Cast or use uint8_t for 8 bit, uint16_t for 16 bit,
+									// or uint32_t for 32 bit.
 	COLOR	clrDstEmpty,		// In:  Color that will be used to initialize 
 									// pimDst, if pimDst is allocated by this function.
 									// Type must be same size as clrDisjoinColor/COLOR.
@@ -712,9 +712,9 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 			// Note that this addition takes COLOR's bits per pixel into
 			// account.
 			COLOR*	pclrRowStart	= (COLOR*)pimSrc->m_pData + sSrcX;
-			// Note that the height offset is computed at U8* and THEN it
+			// Note that the height offset is computed at uint8_t* and THEN it
 			// is casted to a COLOR*.
-			pclrRowStart				= (COLOR*)((U8*)pclrRowStart + (int32_t)sSrcY * lPitch);
+			pclrRowStart				= (COLOR*)((uint8_t*)pclrRowStart + (int32_t)sSrcY * lPitch);
 			// Our scanner.
 			COLOR*	pclrSrc			= pclrRowStart;
 
@@ -763,7 +763,7 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 
 				// Get next row.  Add pitch at byte depth since it is a count
 				// of bytes.
-				pclrRowStart	= (COLOR*)((U8*)pclrRowStart + lPitch);
+				pclrRowStart	= (COLOR*)((uint8_t*)pclrRowStart + lPitch);
 				}
 
 			// Either we've exhausted the image or we've found a shape.
@@ -793,7 +793,7 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 					EXTENTS	extents	= { 0x7FFF, 0x7FFF, 0, 0 };
 
 					// Default to the case we know will be for starting.
-					U16	u16Last	= NEW00 | DIRRIGHT | PIX0001;
+					uint16_t	u16Last	= NEW00 | DIRRIGHT | PIX0001;
 					
 					do
 						{
@@ -987,12 +987,12 @@ void InstantiateLasso(void);
 void InstantiateLasso(void)
 	{
 	RImage im;
-	// Instantiate U8 version.
-	rspLassoNext(&im, &im, 0, 0, 0, 0, (U8)0, (U8)0, (int16_t*)NULL, (int16_t*)NULL, (int16_t*)NULL, (int16_t*)NULL, (RLassoNextEvalCall)NULL);
-	// Instantiate U16 version.
-	rspLassoNext(&im, &im, 0, 0, 0, 0, (U16)0, (U16)0, (int16_t*)NULL, (int16_t*)NULL, (int16_t*)NULL, (int16_t*)NULL, (RLassoNextEvalCall)NULL);
-	// Instantiate U32 version.
-	rspLassoNext(&im, &im, 0, 0, 0, 0, (U32)0, (U32)0, (int16_t*)NULL, (int16_t*)NULL, (int16_t*)NULL, (int16_t*)NULL, (RLassoNextEvalCall)NULL);
+	// Instantiate uint8_t version.
+	rspLassoNext(&im, &im, 0, 0, 0, 0, (uint8_t)0, (uint8_t)0, (int16_t*)NULL, (int16_t*)NULL, (int16_t*)NULL, (int16_t*)NULL, (RLassoNextEvalCall)NULL);
+	// Instantiate uint16_t version.
+	rspLassoNext(&im, &im, 0, 0, 0, 0, (uint16_t)0, (uint16_t)0, (int16_t*)NULL, (int16_t*)NULL, (int16_t*)NULL, (int16_t*)NULL, (RLassoNextEvalCall)NULL);
+	// Instantiate uint32_t version.
+	rspLassoNext(&im, &im, 0, 0, 0, 0, (uint32_t)0, (uint32_t)0, (int16_t*)NULL, (int16_t*)NULL, (int16_t*)NULL, (int16_t*)NULL, (RLassoNextEvalCall)NULL);
 	}
 
 //////////////////////////////////////////////////////////////////////////////

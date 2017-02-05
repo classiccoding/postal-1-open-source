@@ -63,7 +63,7 @@ class CGameEditThing : public CThing
 
 		// Settings //////////////////////////////////////////////////////////////
 		
-		U16	m_u16CameraTrackId;	// ID of object for grip to track.
+		uint16_t	m_u16CameraTrackId;	// ID of object for grip to track.
 		int16_t	m_sViewPosX;			// View position.
 		int16_t	m_sViewPosY;			// View position.
 		RListBox* m_plbNavNetList; // Pointer to Nav Net List Box

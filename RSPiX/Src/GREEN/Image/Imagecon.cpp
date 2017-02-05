@@ -1449,8 +1449,8 @@ int16_t ConvertFromBMP8RLE(RImage* pImage)
 	ASSERT(pImage->m_type == RImage::BMP8RLE);
 
 	// Set up a pointer to the 8-bit compressed buffer before detaching
-	U8*	pu8Comp	= pImage->m_pData;
-	U8*	pu8End	= pu8Comp + pImage->m_ulSize;
+	uint8_t*	pu8Comp	= pImage->m_pData;
+	uint8_t*	pu8End	= pu8Comp + pImage->m_ulSize;
 
 	// Detach the 8-bit compressed buffer from the Image
 	void* pvDetachedMem = pImage->DetachData();
@@ -1459,18 +1459,18 @@ int16_t ConvertFromBMP8RLE(RImage* pImage)
 	// data.  Leave the current pitch.
 	if (pImage->CreateData(pImage->m_lPitch * (int32_t)pImage->m_sHeight) == 0)
 		{
-		U8*	pu8Uncomp	= pImage->m_pData;
+		uint8_t*	pu8Uncomp	= pImage->m_pData;
 
 		// We must flip the image during decompression.
 		// This should work for both negative and positive
 		// pitch buffers (i.e., upside down and right side up).
 		int32_t	lPitch	= -pImage->m_lPitch;
 		pu8Uncomp		= pu8Uncomp + pImage->m_lPitch * ((int32_t)pImage->m_sHeight - 1);
-		U8*	pu8Row	= pu8Uncomp;
+		uint8_t*	pu8Row	= pu8Uncomp;
 
 		// Actual decompression.  See function header for details.
-		U8	u8Num;	// Num pixels to run.
-		U8	u8Pixel;	// Pixel to run.
+		uint8_t	u8Num;	// Num pixels to run.
+		uint8_t	u8Pixel;	// Pixel to run.
 		int16_t	sDone	= FALSE;
 		while (sDone == FALSE && pu8Comp < pu8End)
 			{
@@ -1511,8 +1511,8 @@ int16_t ConvertFromBMP8RLE(RImage* pImage)
 						// This should only be used in the case of deltas and
 						// I cannot see how that could ever be since this isn't
 						// an animation format.
-						U8	u8Horz	= *pu8Comp++;
-						U8	u8Vert	= *pu8Comp++;
+						uint8_t	u8Horz	= *pu8Comp++;
+						uint8_t	u8Vert	= *pu8Comp++;
 						pu8Uncomp	+= u8Horz + (u8Vert * lPitch);
 						break;
 						}
@@ -1569,7 +1569,7 @@ int16_t ConvertToBMP8RLE(RImage* pImage)
 		case RImage::BMP8:
 			{
 			// Set up a pointer to the 8-bit uncompressed buffer before detaching
-			U8*	pu8Uncomp	= pImage->m_pData;
+			uint8_t*	pu8Uncomp	= pImage->m_pData;
 
 			// We must flip the image during compression.
 			// This should work for both negative and positive
@@ -1593,10 +1593,10 @@ int16_t ConvertToBMP8RLE(RImage* pImage)
 			// 2 * ulSize + lHeight * 2 + 2.
 			if (pImage->CreateData(2 * pImage->m_ulSize + (int32_t)pImage->m_sHeight * 2 + 2) == 0)
 				{
-				U8*	pu8Comp		= pImage->m_pData;
+				uint8_t*	pu8Comp		= pImage->m_pData;
 
 				// Actual compression.  See function header for details.
-				U8*	pu8Row	= pu8Uncomp;
+				uint8_t*	pu8Row	= pu8Uncomp;
 				int32_t	lRowRemain;
 				int32_t	lRun;
 
@@ -1634,7 +1634,7 @@ int16_t ConvertToBMP8RLE(RImage* pImage)
 								}
 							
 							// Number of pixels to run this color index.
-							*pu8Comp++	= (U8)lRun;
+							*pu8Comp++	= (uint8_t)lRun;
 							// Color index to run.
 							*pu8Comp++	= *pu8Uncomp;
 							// Advance past run.
@@ -1645,7 +1645,7 @@ int16_t ConvertToBMP8RLE(RImage* pImage)
 							// 0 indicates "absolute mode".
 							*pu8Comp++	= 0;
 							// Number of absolute pixels.
-							*pu8Comp++	= (U8)lRun;
+							*pu8Comp++	= (uint8_t)lRun;
 
 							// Verbatim run.
 							memcpy(pu8Comp, pu8Uncomp, lRun);
@@ -1744,7 +1744,7 @@ int16_t ConvertFromBMP1(RImage* pImage)
 	int16_t	sRes	= RImage::NOT_SUPPORTED;	// Assume failure.
 
 	// Set up a pointer to the 1-bit packed buffer before detaching.
-	U8*	pu8Src	= pImage->m_pData;
+	uint8_t*	pu8Src	= pImage->m_pData;
 
 	// Detach the 1-bit packed buffer from the Image
 	void* pvDetachedMem = pImage->DetachData();
@@ -1772,10 +1772,10 @@ int16_t ConvertFromBMP1(RImage* pImage)
 	if (pImage->CreateData(pImage->m_sHeight * ABS(pImage->m_lPitch)) == 0)
 		{
 		// Destination.
-		U8*	pu8Dst	= pImage->m_pData;
+		uint8_t*	pu8Dst	= pImage->m_pData;
 		// Row trackers.
-		U8*	pu8SrcRow	= pu8Src;
-		U8*	pu8DstRow	= pu8Dst;
+		uint8_t*	pu8SrcRow	= pu8Src;
+		uint8_t*	pu8DstRow	= pu8Dst;
 
 		int32_t	lRows	= (int32_t)pImage->m_sHeight;
 		int32_t	lCols;
@@ -1838,7 +1838,7 @@ int16_t ConvertToBMP1(RImage* pImage)
 		case RImage::BMP8:
 			{
 			// Set up a pointer to the 8-bit buffer before detaching.
-			U8*	pu8Src	= pImage->m_pData;
+			uint8_t*	pu8Src	= pImage->m_pData;
 
 			// Detach the 8-bit buffer from the Image
 			void* pvDetachedMem = pImage->DetachData();
@@ -1876,10 +1876,10 @@ int16_t ConvertToBMP1(RImage* pImage)
 			if (pImage->CreateData((int32_t)pImage->m_sHeight * ABS(pImage->m_lPitch)) == 0)
 				{
 				// Bit packed destination.
-				U8*	pu8Dst	= pImage->m_pData;
+				uint8_t*	pu8Dst	= pImage->m_pData;
 				// Row trackers.
-				U8*	pu8SrcRow	= pu8Src;
-				U8*	pu8DstRow	= pu8Dst;
+				uint8_t*	pu8SrcRow	= pu8Src;
+				uint8_t*	pu8DstRow	= pu8Dst;
 
 				// Converts non-zero values to a 1 and increments ptr.
 				#define CHECK_NONZERO_INC(p)	((*(p)++ == 0) ? 0 : 1)

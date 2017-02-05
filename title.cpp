@@ -322,18 +322,18 @@ static int16_t DisplayImage(	// Returns nothing.
 		ASSERT(pimTitle->m_pPalette->m_type == RPal::PDIB);
 
 		// Get the new palette.
-		U8*	pu8NewRed	= pimTitle->m_pPalette->Red(0);
-		U8*	pu8NewGreen	= pimTitle->m_pPalette->Green(0);
-		U8*	pu8NewBlue	= pimTitle->m_pPalette->Blue(0);
+		uint8_t*	pu8NewRed	= pimTitle->m_pPalette->Red(0);
+		uint8_t*	pu8NewGreen	= pimTitle->m_pPalette->Green(0);
+		uint8_t*	pu8NewBlue	= pimTitle->m_pPalette->Blue(0);
 
 		int16_t	sStartIndex	= pimTitle->m_pPalette->m_sStartIndex;
 		int16_t	sNumEntries	= pimTitle->m_pPalette->m_sNumEntries;
 		int16_t	sEntrySize	= pimTitle->m_pPalette->m_sPalEntrySize;
 
 		// Get the current palette.
-		U8		au8CurRed[256];
-		U8		au8CurGreen[256];
-		U8		au8CurBlue[256];
+		uint8_t		au8CurRed[256];
+		uint8_t		au8CurGreen[256];
+		uint8_t		au8CurBlue[256];
 		rspGetPaletteEntries(
 			sStartIndex,
 			sNumEntries,
@@ -345,12 +345,12 @@ static int16_t DisplayImage(	// Returns nothing.
 		// Compare.
 		bool	bSetPalette	= false;	// true to set new palette.
 		int16_t	i;
-		U8*	pu8NewRedEntry		= pu8NewRed;
-		U8*	pu8NewGreenEntry	= pu8NewGreen;
-		U8*	pu8NewBlueEntry	= pu8NewBlue;
-		U8*	pu8CurRedEntry		= au8CurRed;
-		U8*	pu8CurGreenEntry	= au8CurGreen;
-		U8*	pu8CurBlueEntry	= au8CurBlue;
+		uint8_t*	pu8NewRedEntry		= pu8NewRed;
+		uint8_t*	pu8NewGreenEntry	= pu8NewGreen;
+		uint8_t*	pu8NewBlueEntry	= pu8NewBlue;
+		uint8_t*	pu8CurRedEntry		= au8CurRed;
+		uint8_t*	pu8CurGreenEntry	= au8CurGreen;
+		uint8_t*	pu8CurBlueEntry	= au8CurBlue;
 		for (i = 0; i < sNumEntries; i++)
 			{
 			if (	*pu8CurRedEntry++		!= *pu8NewRedEntry

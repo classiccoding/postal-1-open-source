@@ -95,7 +95,7 @@ int16_t		SaveFSPR8(RImage* pImage, RFile* pcf)
 	//------------------
 
 	pcf->Write("__FSPR8__"); // image type
-	U16 version = (U16)(6); // Sprite incarnation 3, File Format 5
+	uint16_t version = (uint16_t)(6); // Sprite incarnation 3, File Format 5
 	pcf->Write(&version);
 
 	//------------------
@@ -103,12 +103,12 @@ int16_t		SaveFSPR8(RImage* pImage, RFile* pcf)
 	//------------------
 
 	// NOTE: Some font info is stored here:
-	pcf->Write((U16*)(&(pSpec->m_usSourceType)));
+	pcf->Write((uint16_t*)(&(pSpec->m_usSourceType)));
 	pcf->Write(&(pSpec->m_lBufSize));
 	pcf->Write(&(pSpec->m_lCodeSize));
 
 	// Reserved for future expansion
-	U32 reserved[4] = {0,0,0,0};
+	uint32_t reserved[4] = {0,0,0,0};
 	pcf->Write(reserved,4); // 16 bytes reserved as of version 3.5
 
 	// Write the pixel data:
@@ -119,18 +119,18 @@ int16_t		SaveFSPR8(RImage* pImage, RFile* pcf)
 	// Write the Line Array and Control array as 32-bit offsets:
 	// Both are (H+1) long:
 	int16_t i;
-	U32	lOffset;
+	uint32_t	lOffset;
 	// Do pointers into pixel data:
 	for (i=0;i <= pImage->m_sHeight;i++)
 		{
-		lOffset = U32(pSpec->m_pBufArry[i] - pSpec->m_pCompBuf);
+		lOffset = uint32_t(pSpec->m_pBufArry[i] - pSpec->m_pCompBuf);
 		pcf->Write(&lOffset);
 		}
 
 	// Do pointers into control data:
 	for (i=0;i <= pImage->m_sHeight;i++)
 		{
-		lOffset = U32(pSpec->m_pCodeArry[i] - pSpec->m_pCodeBuf);
+		lOffset = uint32_t(pSpec->m_pCodeArry[i] - pSpec->m_pCodeBuf);
 		pcf->Write(&lOffset);
 		}
 
@@ -158,7 +158,7 @@ int16_t		LoadFSPR8(RImage* pImage, RFile* pcf)
 		}
 
 	// Check Version:
-	U16 u16Temp;
+	uint16_t u16Temp;
 	pcf->Read(&u16Temp);
 
 	if (u16Temp != (6))
@@ -174,7 +174,7 @@ int16_t		LoadFSPR8(RImage* pImage, RFile* pcf)
 	RSpecialFSPR8* pSpec = new RSpecialFSPR8;
 	pImage->m_pSpecialMem = pImage->m_pSpecial = (uint8_t*)pSpec;
 
-	pcf->Read((U16*)(&pSpec->m_usSourceType));
+	pcf->Read((uint16_t*)(&pSpec->m_usSourceType));
 	pcf->Read(&pSpec->m_lBufSize);
 	pcf->Read(&pSpec->m_lCodeSize);
 
@@ -188,7 +188,7 @@ int16_t		LoadFSPR8(RImage* pImage, RFile* pcf)
 	//------------------
 	// Reserved Space
 	//------------------
-	U32 u32Temp[4];
+	uint32_t u32Temp[4];
 	pcf->Read(u32Temp,4); // 16 bytes reserved as of version 3.5
 
 	//------------------
@@ -203,7 +203,7 @@ int16_t		LoadFSPR8(RImage* pImage, RFile* pcf)
 	// Now restore the pointer list by adding them as offsets!
 	// (Pre ALLOCATED!)
 	int16_t i;
-	U32	lOffset;
+	uint32_t	lOffset;
 	// Do pointers into pixel data:
 	for (i=0;i <= pImage->m_sHeight;i++)
 		{
@@ -366,7 +366,7 @@ int16_t   ConvertToFSPR8(RImage*  pImage)
 	int32_t	lSizeEstimate = ((int32_t)(pImage->m_sHeight+1))*(pImage->m_sWidth*2+1) + 15;
 	pHeader->m_pCompMem = (uint8_t*)malloc((size_t)pImage->m_sHeight*(size_t)pImage->m_sWidth+15);
 
-	pHeader->m_pCompBuf = (uint8_t*)(( (S64)(pHeader->m_pCompMem) + 15) & ~ 15); // align it 128!
+	pHeader->m_pCompBuf = (uint8_t*)(( (int64_t)(pHeader->m_pCompMem) + 15) & ~ 15); // align it 128!
 	pHeader->m_pCodeBuf = (uint8_t*)malloc((size_t)lSizeEstimate);
 
 	//******** For convenience, generate the Compressed Buffer immediately:
@@ -411,7 +411,7 @@ int16_t   ConvertToFSPR8(RImage*  pImage)
 	// NOTE: pucCPos is an open stack!
 	pHeader->m_pCompMem = (uint8_t*)calloc(1,(size_t)(pucCPos - pHeader->m_pCompBuf + 15));
 	// And align it:
-	pHeader->m_pCompBuf = (uint8_t*)(( (S64)(pHeader->m_pCompMem) +15)&~15);
+	pHeader->m_pCompBuf = (uint8_t*)(( (int64_t)(pHeader->m_pCompMem) +15)&~15);
 	// Store the size of the Compressed Buffer:
 	pHeader->m_pBufArry[sH] = (uint8_t*)(size_t)(pucCPos - pHeader->m_pCompBuf);
 
@@ -421,7 +421,7 @@ int16_t   ConvertToFSPR8(RImage*  pImage)
 	free(pucOldMem);
 	
 	// Now update the indexes (m_pBufArry) which point into PCBuf:
-	for (y=0;y<sH;y++) pHeader->m_pBufArry[y] += (S64)(pHeader->m_pCompBuf);
+	for (y=0;y<sH;y++) pHeader->m_pBufArry[y] += (int64_t)(pHeader->m_pCompBuf);
 
 	//******** NOW, the challange... Create the Control Block!
 	pucBPos = pImage->m_pData;
@@ -492,7 +492,7 @@ int16_t   ConvertToFSPR8(RImage*  pImage)
 										(size_t)(pucConBlk - pHeader->m_pCodeBuf));	
 
 	// Move the indexes in (m_pCodeArry)
-	for (y=0;y<sH;y++) pHeader->m_pCodeArry[y] += (S64)(pHeader->m_pCodeBuf);
+	for (y=0;y<sH;y++) pHeader->m_pCodeArry[y] += (int64_t)(pHeader->m_pCodeBuf);
 
 	//******************************************************************
 
@@ -612,7 +612,7 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,const 
 	// must record which UNLOCK (if any) needs to be done AFTER the BLiT
 	// has completed. (Lord help me if a blit gets interrupted)
 	// NOT NECESSARY!!! THe SOURCE WILL ALWAYS BE A BUFFER!
-	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((S64)pimDst->m_pSpecial);
+	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((int64_t)pimDst->m_pSpecial);
 
 	switch (sBlitTypeDst) // 0 = normal image
 		{

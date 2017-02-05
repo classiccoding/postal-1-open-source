@@ -58,6 +58,9 @@
 //	11/08/96	JMI	Changed CList to RList in one location.
 //
 //////////////////////////////////////////////////////////////////////
+#ifndef TIME_TRAVEL_IS_REAL
+#error I AM ARCHAIC - DO NOT USE
+#endif
 
 //////////////////////////////////////////////////////////////////////
 // Includes
@@ -70,7 +73,7 @@
 	#include "ORANGE/MTask/mtask.h"
 
 #else
-	#include "MTASK.H"
+  #include "mtask.h"
 
 #endif	//PATHS_IN_INCLUDES
 

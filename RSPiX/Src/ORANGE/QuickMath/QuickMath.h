@@ -48,7 +48,7 @@ inline void rspMod(&sValue,&sRange)
 
 inline void rspDivMod(T num,T den,T &div, T &mod) // symmetric (methematical)
 inline void rspDivModA(T num,T den,T &div, T &mod) // asymmetric
-inline void rspDivModA64(S64 num,S32 den,S32 &div,S32 &mod) // asymmetric
+inline void rspDivModA64(int64_t num,int32_t den,int32_t &div,int32_t &mod) // asymmetric
 
 short rspATan(sDeltaY,sDeltaX);
 inline short rspDegDelta(sDegSrc,sDegDst)
@@ -185,7 +185,7 @@ inline void rspDivModA(T num,T den,T &div, T &mod) // does NOT check if (den == 
 	}
 
 // This is MACHINE specific and handles temporary overflows:
-inline void rspDivModA64(S64 num,S32 den,S32 &div,S32 &mod) // does NOT check if (den == 0)
+inline void rspDivModA64(int64_t num,int32_t den,int32_t &div,int32_t &mod) // does NOT check if (den == 0)
 	{	// Algorithm not verified for neqative denominator!!!!
 	div = num / den;
 	mod = num - div * den;

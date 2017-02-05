@@ -269,7 +269,7 @@ int16_t CPowerUp::Load(								// Returns 0 if successfull, non-zero otherwise
 				pFile->Read(&m_dX);
 				pFile->Read(&m_dY);
 				pFile->Read(&m_dZ);
-				U8	u8Type	= (U8)CStockPile::Bullets; 
+				uint8_t	u8Type	= (uint8_t)CStockPile::Bullets; 
 				pFile->Read(&u8Type);
 				int32_t	lPowerVal;
 				pFile->Read(&lPowerVal);

@@ -68,7 +68,7 @@ void	PlayWithMyOrgan()
 	int16_t sCurBank = 0;
 	ms_sContinue = 1;
 
-	U8*	pau8KeyStatus	= rspGetKeyStatusArray();
+	uint8_t*	pau8KeyStatus	= rspGetKeyStatusArray();
 	RInputEvent	ie;
 
 	// Clear status array.

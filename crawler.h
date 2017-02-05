@@ -457,11 +457,11 @@ class CCrawler
 
 				if (CanWalk(sx, sBaseY, sz, &sTerrainH) == true)
 					{
-//					Plot((U8)0xfa, sx, sBaseY, sz);
+//					Plot((uint8_t)0xfa, sx, sBaseY, sz);
 					}
 				else
 					{
-//					Plot((U8)0xf9, sx, sBaseY, sz);
+//					Plot((uint8_t)0xf9, sx, sBaseY, sz);
 					if (m_pnub[s].sHard)
 						bResult = false;
 					m_dPushX += m_pnub[s].dPushX;
@@ -516,7 +516,7 @@ class CCrawler
 		// Plot a point via the CScene.  
 		////////////////////////////////////////////////////////////////////////////////
 		void Plot(		// Returns nothing.
-			U8	u8Color,	// Color index.
+			uint8_t	u8Color,	// Color index.
 			int16_t	sx,	// In:  X position.
 			int16_t	sy,	// In:  Y position.
 			int16_t sz)	// In:  Z position.

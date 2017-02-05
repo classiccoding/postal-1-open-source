@@ -107,8 +107,8 @@ int16_t RPalFile::LoadNoVersion(	// Returns SUCCESS on success or FAILURE on
 	{
 	int16_t	sRes	= SUCCESS;	// Assume success.
 
-	// No RFile support for RPal::Type, so we used a U32.
-	U32	u32Temp	= 0;
+	// No RFile support for RPal::Type, so we used a uint32_t.
+	uint32_t	u32Temp	= 0;
 	pfile->Read(&u32Temp);
 	ppal->m_type	= (RPal::Type)u32Temp;
 	pfile->Read(&ppal->m_ulSize);
@@ -183,8 +183,8 @@ int16_t RPalFile::LoadVersion3(	// Returns SUCCESS on success or FAILURE on
 	{
 	int16_t	sRes	= SUCCESS;	// Assume success.
 
-	// No RFile support for RPal::Type, so we used a U32.
-	U32	u32Temp	= 0;
+	// No RFile support for RPal::Type, so we used a uint32_t.
+	uint32_t	u32Temp	= 0;
 	pfile->Read(&u32Temp);
 	ppal->m_type	= (RPal::Type)u32Temp;
 	pfile->Read(&ppal->m_ulSize);

@@ -56,16 +56,16 @@ class CFlag : public CThing3d
 	//---------------------------------------------------------------------------
 	public:
 		CAnim3D*		m_panimCurBase;					// current animation for the base
-		U16			m_u16FlagID;						// Used to match flag & base
+		uint16_t			m_u16FlagID;						// Used to match flag & base
 
 	protected:
 		CAnim3D		m_animFlagWave;					// animation for the flag waving
-		U32			m_u32IncludeBits;					// Bits to include for Smash collision
-		U32			m_u32DontcareBits;				// Bits to ignore for Smash collision
-		U32			m_u32ExcludeBits;					// Bits to exclude for Smash collision
+		uint32_t			m_u32IncludeBits;					// Bits to include for Smash collision
+		uint32_t			m_u32DontcareBits;				// Bits to ignore for Smash collision
+		uint32_t			m_u32ExcludeBits;					// Bits to exclude for Smash collision
 		int32_t			m_lTimeBonus;						// Flag stores a time bonus for
 																// special game play modes.
-		U16			m_u16FlagColor;					// Color of flag;
+		uint16_t			m_u16FlagColor;					// Color of flag;
 		int16_t			m_sSavedX;							// Save the position of the flagbase
 		int16_t			m_sSavedY;							// Save the position of the flagbase
 		int16_t			m_sSavedZ;							// Save the position of the flagbase

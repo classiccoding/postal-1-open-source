@@ -38,7 +38,7 @@ void test(void);
 void test(void)
 	{
 	CBufQ buf;
-	U8 val = 0;
+	uint8_t val = 0;
 	buf.Get(&val);
 	buf.Put(val);
 	}

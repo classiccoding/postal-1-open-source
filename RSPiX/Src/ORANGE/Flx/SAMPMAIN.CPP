@@ -22,6 +22,9 @@
 // regular Windows app or as a DOS app, too.
 //
 ///////////////////////////////////////////////////////////////////////////////
+#ifndef TIME_TRAVEL_IS_REAL
+#error I AM ARCHAIC - DO NOT USE
+#endif
 
 #include <graph.h>
 

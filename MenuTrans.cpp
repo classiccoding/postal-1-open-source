@@ -596,7 +596,7 @@ static void Remap(
 	// here, the end result would be no locking.  This is only a problem in
 	// debug mode.  We'll have to check into a better solution, but for now
 	// I'm just calling the "real" buffer lock.
-	U8* pu8VideoBuf;
+	uint8_t* pu8VideoBuf;
 	int32_t	lPitch;
 // Note that we only need to do this in the case that the buffer is not already
 // locked.  Since we keep it locked while the game is running now, we don't need

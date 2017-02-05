@@ -69,6 +69,9 @@
 // valid for larger than 320 x 200!
 //
 ///////////////////////////////////////////////////////////////////////////////
+#ifndef TIME_TRAVEL_IS_REAL
+#error I AM ARCHAIC - DO NOT USE
+#endif
 
 #include <string.h>
 #include <malloc.h>

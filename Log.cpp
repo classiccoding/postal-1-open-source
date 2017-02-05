@@ -92,7 +92,7 @@ int16_t WriteTimeStamp(char *pszCaller,						// Name of calling routine
 							Net::SEQ seqStart,					// Beginning sequent sent/received
 							int32_t sNum,								// Number of seq's sent/received
 							char bReceived,							// a received or a sent message? TRUE if received
-							U16 u16PackageID/*=0*/)				// Uniquely identifiable package id																		//		True if receiving, false if sending
+							uint16_t u16PackageID/*=0*/)				// Uniquely identifiable package id																		//		True if receiving, false if sending
 	{	
 	int16_t sResult = 0;
 	char *szCallerMsg;
@@ -293,7 +293,7 @@ int16_t WriteTimeStamp(char *pszCaller,						// Name of calling routine
 //		global variables used:		g_GameSettings
 ////////////////////////////////////////////////////////////////////////////////
 extern
-int16_t WriteInputData(U32 *input)
+int16_t WriteInputData(uint32_t *input)
 	{
 	int16_t sResult = 0;
 	char szInput[256]; 

@@ -28,6 +28,9 @@
 // to.
 //
 //////////////////////////////////////////////////////////////////////////////
+#ifndef TIME_TRAVEL_IS_REAL
+#error I AM ARCHAIC - DO NOT USE
+#endif
 
 #ifndef LADDER_H
 #define LADDER_H

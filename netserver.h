@@ -268,7 +268,7 @@ class CNetServer
 		// Send message to specified group of clients - only Joined clients are allowed!
 		////////////////////////////////////////////////////////////////////////////////
 		void SendMsg(
-			U16 mask,												// In:  Bit-mask indicating who to send to
+			uint16_t mask,												// In:  Bit-mask indicating who to send to
 			NetMsg* pmsg);											// In:  Message to send
 
 

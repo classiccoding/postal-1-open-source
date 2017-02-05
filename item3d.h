@@ -205,7 +205,7 @@ class CItem3d : public CThing3d
 			ItemType type,					// In:  Known item type or Custom.
 			char*	pszCustomBaseName = NULL,	// In:  Required if type == Custom.
 														// Base name for custom type resources.
-			U16	u16IdParentInstance = CIdBank::IdNil);	// In:  Parent instance ID.
+			uint16_t	u16IdParentInstance = CIdBank::IdNil);	// In:  Parent instance ID.
 
 		// Message handling functions ////////////////////////////////////////////
 

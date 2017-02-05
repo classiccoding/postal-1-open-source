@@ -1104,7 +1104,7 @@ class CRealm
 
 		static int16_t GetLayerViaAttrib(	// Returns the sprite layer indicated by
 													// the specified attribute.             
-			U16 u16Attrib)
+			uint16_t u16Attrib)
 			{
 			return ms_asAttribToLayer[u16Attrib & REALM_ATTR_LAYER_MASK];
 			}

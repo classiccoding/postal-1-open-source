@@ -371,8 +371,8 @@
 
 
 // Local function prototypes
-static int16_t sCreateMem(void **hMem,U64 ulSize);
-static int16_t sCreateAlignedMem(void **hMem, void **hData, U64 ulSize);
+static int16_t sCreateMem(void **hMem,uint64_t ulSize);
+static int16_t sCreateAlignedMem(void **hMem, void **hData, uint64_t ulSize);
 static int16_t sDestroyMem(void **hMem);
 
 
@@ -440,7 +440,7 @@ IMAGELINKLATE(NOT_SUPPORTED, ConvertNoSupport, NULL, NULL, NULL, NULL, NULL);
 //
 //////////////////////////////////////////////////////////////////////
 
-int16_t RImage::sCreateMem(void **hMem,U64 ulSize)
+int16_t RImage::sCreateMem(void **hMem,uint64_t ulSize)
 {
 	//	Make sure the data
 	//	hasn't already been allocated
@@ -497,7 +497,7 @@ int16_t RImage::sCreateMem(void **hMem,U64 ulSize)
 //
 //////////////////////////////////////////////////////////////////////
 
-int16_t RImage::sCreateAlignedMem(void **hMem, void **hData, U64 ulSize)
+int16_t RImage::sCreateAlignedMem(void **hMem, void **hData, uint64_t ulSize)
 {
  	// Make sure the data hasn't already been allocated
 	if (*hMem != NULL)
@@ -1420,7 +1420,7 @@ int16_t RImage::LoadDib(RFile* pcf)
 																			m_sWinX = m_sWinY = 0;
 
 																			// Pre calc width in bits.
-																			S64 lBitsWidth	= dh.lWidth * dh.usBitCount;
+																			int64_t lBitsWidth	= dh.lWidth * dh.usBitCount;
 																			m_lPitch		= WIDTH128(((lBitsWidth + 7) & ~7) / 8);
 																			lDibPitch	= WIDTHuint8_t(((lBitsWidth + 7) & ~7) / 8);
 
@@ -1467,7 +1467,7 @@ int16_t RImage::LoadDib(RFile* pcf)
 																						// If we read in the upside down way . . .
 																						// "Upside down" way.
 																						// Read the dib a line at a time and flip it upside down (which is really right side up)
-																						for (S32 l = dh.lHeight - 1L; l >= 0L; l--)
+																						for (int32_t l = dh.lHeight - 1L; l >= 0L; l--)
 																						{
 																							if (pcf->Read(m_pData + (l * m_lPitch), lDibPitch) != lDibPitch)
 																							{
@@ -2073,8 +2073,8 @@ int16_t RImage::Save(RFile* pcf) const
 		pcf->ClearError();
 		pcf->Write(&ulFileType);
 		pcf->Write(&ulCurrentVersion);
-		// No RFile support for RImage::Type, so we use a U32.
-		U32	u32Temp	= (uint32_t)m_type;
+		// No RFile support for RImage::Type, so we use a uint32_t.
+		uint32_t	u32Temp	= (uint32_t)m_type;
 		pcf->Write(&u32Temp);
 		u32Temp			= (uint32_t)m_typeDestination;
 		pcf->Write(&u32Temp);
@@ -2176,7 +2176,7 @@ int16_t RImage::WritePixelData(RFile* pcf) const
 				break;
 
 			case 16:
-				if (pcf->Write((U16*) m_pData, m_ulSize/2) != (int32_t) m_ulSize/2)
+				if (pcf->Write((uint16_t*) m_pData, m_ulSize/2) != (int32_t) m_ulSize/2)
 				{
 					TRACE("RImage::WritePixelData - Error writing 16-bit pixel data\n");
 					sReturn = FAILURE;
@@ -2192,7 +2192,7 @@ int16_t RImage::WritePixelData(RFile* pcf) const
 				break;
 
 			case 32:
-				if (pcf->Write((U32*) m_pData, m_ulSize/4) != (int32_t) m_ulSize/4)
+				if (pcf->Write((uint32_t*) m_pData, m_ulSize/4) != (int32_t) m_ulSize/4)
 				{
 					TRACE("RImage::WritePixelData - Error writing 32-bit pixel data\n");
 					sReturn = FAILURE;
@@ -2245,7 +2245,7 @@ int16_t RImage::WritePixelData(RFile* pcf) const
 				for (l = lYPos; l < lYPos + lHeight; l++)
 				{
 					pLineData = m_pData + (lYPos * m_lPitch) + ((lXPos * lDepth)/8);
-					if (pcf->Write((U16*) pLineData, lBytesPerLine/2) != lBytesPerLine/2)
+					if (pcf->Write((uint16_t*) pLineData, lBytesPerLine/2) != lBytesPerLine/2)
 					{
 						TRACE("RImage::WritePixelData - Error writing 16-bit line %d of image\n", l-lYPos);
 						sReturn = FAILURE;
@@ -2390,7 +2390,7 @@ int16_t RImage::ReadPixelData(RFile* pcf)
 				break;
 
 			case 16:
-				if (pcf->Read((U16*) m_pData, m_ulSize/2) != (int32_t) m_ulSize/2)
+				if (pcf->Read((uint16_t*) m_pData, m_ulSize/2) != (int32_t) m_ulSize/2)
 				{
 					TRACE("RImage::ReadPixelData - Error reading 16-bit pixel data\n");
 					sReturn = FAILURE;
@@ -2406,7 +2406,7 @@ int16_t RImage::ReadPixelData(RFile* pcf)
 				break;
 
 			case 32:
-				if (pcf->Read((U32*) m_pData, m_ulSize/4) != (int32_t) m_ulSize/4)
+				if (pcf->Read((uint32_t*) m_pData, m_ulSize/4) != (int32_t) m_ulSize/4)
 				{
 					TRACE("RImage::ReadPixelData - Error reading 32-bit pixel data\n");
 					sReturn = FAILURE;
@@ -2459,7 +2459,7 @@ int16_t RImage::ReadPixelData(RFile* pcf)
 				for (l = lYPos; l < lYPos + lHeight; l++)
 				{
 					pLineData = m_pData + (lYPos*m_lPitch) + ((lXPos*lDepth)/8);
-					if (pcf->Read((U16*) pLineData, lBytesPerLine/2) != lBytesPerLine/2)
+					if (pcf->Read((uint16_t*) pLineData, lBytesPerLine/2) != lBytesPerLine/2)
 					{
 						TRACE("RImage::ReadPixelData - Error reading 16-bit line %d of image\n", l-lYPos);
 						sReturn = FAILURE;

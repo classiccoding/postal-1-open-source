@@ -373,7 +373,7 @@ int16_t CSndRelay::EditModify(void)
 		if (DoGui(pgui) == 1)
 			{
 			// Get new values from dialog
-			m_idParent	= (U16)peditParentId->GetVal();
+			m_idParent	= (uint16_t)peditParentId->GetVal();
 			if (m_idParent == 0)
 				{
 				m_idParent	= CIdBank::IdNil;

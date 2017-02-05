@@ -194,11 +194,11 @@ class RMeter : public RDlg
 
 		// Set the colors.
 		void SetColors(			// Returns nothing.
-			U32 u32Background,	// Background color.
-			U32 u32Meter,			// Meter color.
-			U32 u32Needle,			// Needle, bar, etc. color.
-			U32 u32Text,			// Text foreground color.
-			U32 u32Overflow)		// Needle color for over/underflow.
+			uint32_t u32Background,	// Background color.
+			uint32_t u32Meter,			// Meter color.
+			uint32_t u32Needle,			// Needle, bar, etc. color.
+			uint32_t u32Text,			// Text foreground color.
+			uint32_t u32Overflow)		// Needle color for over/underflow.
 			{
 			m_u32BackColor		= u32Background;
 			m_u32Meter			= u32Meter;
@@ -250,9 +250,9 @@ class RMeter : public RDlg
 		int32_t				m_lMax;								// Maximum value on meter.
 		DisplayType		m_dtType;							// Type of meter display.
 		InfoType			m_itType;							// Type of meter info.
-		U32				m_u32Meter;							// Meter color.
-		U32				m_u32Needle;						// Needle, bar, etc. color.
-		U32				m_u32Overflow;						// Needle color for over/underflow.
+		uint32_t				m_u32Meter;							// Meter color.
+		uint32_t				m_u32Needle;						// Needle, bar, etc. color.
+		uint32_t				m_u32Overflow;						// Needle color for over/underflow.
 
 		int32_t				m_lDuration;						// Time between updates in
 																	// milliseconds.

@@ -186,7 +186,7 @@ class REdit : public RTxt
 		virtual				// Overridden here.
 		int16_t ReadMembers(			// Returns 0 on success.
 			RFile*	pfile,			// File to read from.
-			U32		u32Version);	// File format version to use.
+			uint32_t		u32Version);	// File format version to use.
 
 		// Write item's members to file.
 		virtual				// Overridden here.
@@ -200,7 +200,7 @@ class REdit : public RTxt
 
 	public:	// Member variables.
 		char	m_cCaretChar;		// Character to use as caret.
-		U32	m_u32CaretColor;	// Color to use for caret.
+		uint32_t	m_u32CaretColor;	// Color to use for caret.
 		int16_t	m_sCaretPos;		// Text position of caret.
 		int32_t	m_lCaretBlinkRate;// Rate at which character blinks in ms.  Can be
 										// 0 indicating no blinkage.

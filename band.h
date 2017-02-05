@@ -81,7 +81,7 @@ class CBand : public CDoofus
 		CAnim3D m_animBlownup;					// Blown up by explosion
 		CAnim3D m_animOnFire;					// Running while on fire
 
-		U16					m_idChildItem;		// ID of child item or CIdBank::IdNil.
+		uint16_t					m_idChildItem;		// ID of child item or CIdBank::IdNil.
 
 		// Tracks file counter so we know when to load/save "common" data 
 		static int16_t ms_sFileCount;
@@ -95,7 +95,7 @@ class CBand : public CDoofus
 		static int32_t ms_lMingleTime;			// How long to mingle before moving
 		static int16_t ms_sStartingHitPoints;	// How many hit points to start with
 		static SampleMaster::SoundInstance ms_siBandSongInstance;		// sound played during band march.
-		static U16	ms_idBandLeader;			// The person who adjusts the band sound
+		static uint16_t	ms_idBandLeader;			// The person who adjusts the band sound
 														// volume or IdNil.
 
 

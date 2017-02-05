@@ -30,7 +30,10 @@
 //	particular level of the game.
 //	
 //*****************************************************************************
-					
+#ifndef TIME_TRAVEL_IS_REAL
+#error I AM ARCHAIC - DO NOT USE
+#endif
+
 #include <stdio.h>
 #include <windows.h>
 #include <fstream.h>

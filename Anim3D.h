@@ -52,7 +52,7 @@ typedef RChannel<RP3d> ChanBounds;				// Channel of bounding
 typedef RChannel<REAL> ChanFloor;				// Channel of floor circles
 															// for attribute map..?
 typedef RChannel<RTransform> ChanTransform;	// Channel of transforms.
-typedef RChannel<U8> ChanEvent;					// Channel of event states.
+typedef RChannel<uint8_t> ChanEvent;					// Channel of event states.
 
 /////////////////////////////////////////////////////////////////////////
 // This class describes the components of any 3D animation.

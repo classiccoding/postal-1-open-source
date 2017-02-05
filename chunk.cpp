@@ -149,7 +149,7 @@ void CChunk::Update(void)
 					&& sY2d < pim->m_sHeight)
 					{
 					// Pixel.  8bpp only!
-					U8*	pu8Dst	= pim->m_pData + sX2d + sY2d * pim->m_lPitch;
+					uint8_t*	pu8Dst	= pim->m_pData + sX2d + sY2d * pim->m_lPitch;
 					
 					*pu8Dst	= rspBlendColor(						// Alpha color/index.
 						ALPHA_LEVEL,									// Alpha level.
@@ -165,7 +165,7 @@ void CChunk::Update(void)
 			case Shell:
 #if 0	// Looks bad.
 				rspPlot(
-					(U8)251,
+					(uint8_t)251,
 					m_pRealm->m_phood->m_pimBackground,
 					sX2d, 
 					sY2d);

@@ -457,7 +457,7 @@ class RScrollBar : public RGuiItem
 		virtual				// Overridden here.
 		int16_t ReadMembers(			// Returns 0 on success.
 			RFile*	pfile,			// File to read from.
-			U32		u32Version);	// File format version to use.
+			uint32_t		u32Version);	// File format version to use.
 
 		// Write item's members to file.
 		virtual				// Overridden here.

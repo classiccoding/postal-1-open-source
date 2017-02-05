@@ -90,9 +90,9 @@ class CSentry : public CDoofus
 		static int16_t ms_sBurntBrightness;	// Brightness level when burnt
 		static int32_t ms_lMaxShootTime;			// Maximum in ms of continuous shooting.
 		static int32_t ms_lReselectDudeTime;	// Time before looking for a closer dude.
-		static U32 ms_u32WeaponIncludeBits;	// Weapons shot from sentry can hit this
-		static U32 ms_u32WeaponDontcareBits;// Weapons shot from sentry ignore these bits
-		static U32 ms_u32WeaponExcludeBits;	// Weapons shot from sentry do not hit this
+		static uint32_t ms_u32WeaponIncludeBits;	// Weapons shot from sentry can hit this
+		static uint32_t ms_u32WeaponDontcareBits;// Weapons shot from sentry ignore these bits
+		static uint32_t ms_u32WeaponExcludeBits;	// Weapons shot from sentry do not hit this
 
 	//---------------------------------------------------------------------------
 	// Constructor(s) / destructor

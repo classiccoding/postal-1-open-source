@@ -698,7 +698,7 @@ int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
 		accessVector::iterator iFilename;
 //		typeVector::iterator iType = m_TypeList.begin();
 		RFile	fileRes;
-		U8	au8Transfer[TRANSFER_BUF_SIZE];
+		uint8_t	au8Transfer[TRANSFER_BUF_SIZE];
 		int32_t	lNumBytes;
 		pair <dupSet::iterator, bool> p(m_duplicateSet.begin(), false);
 		m_duplicateSet.erase(m_duplicateSet.begin(), m_duplicateSet.end());

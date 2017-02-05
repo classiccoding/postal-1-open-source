@@ -81,22 +81,22 @@ class	RSpecialFSPR1
 	{
 public:
 	uint8_t*	m_pCode;	// actual FSPR1 data
-	S32	m_lSize;		// actual size of FSPR1 data
-	U16	m_u16ASCII;	// allow extended character sets
-	S16	m_s16KernL;	// move left position
-	U16	m_u16Width;	// physical width of image, SHOULD = lWidth!
-	S16	m_s16KernR; // offset from right side
+	int32_t	m_lSize;		// actual size of FSPR1 data
+	uint16_t	m_u16ASCII;	// allow extended character sets
+	int16_t	m_s16KernL;	// move left position
+	uint16_t	m_u16Width;	// physical width of image, SHOULD = lWidth!
+	int16_t	m_s16KernR; // offset from right side
 	RImage::Type	m_OldType;// previous type
-	S16*	m_psKernList;// Used in printing only
+	int16_t*	m_psKernList;// Used in printing only
 	// When you implement m_psKernList, please augment the destructor!
 
 	RSpecialFSPR1()
 		{
 		m_pCode = NULL;
 		m_psKernList = NULL;
-		m_s16KernL = m_s16KernR = (S16)0;
-		m_u16ASCII = m_u16Width = (U16)0;
-		m_lSize = (S32)0;
+		m_s16KernL = m_s16KernR = (int16_t)0;
+		m_u16ASCII = m_u16Width = (uint16_t)0;
+		m_lSize = (int32_t)0;
 		}
 
 	~RSpecialFSPR1()
@@ -118,11 +118,11 @@ public:
 //
 extern void SetConvertToFSPR1
 	(	
-	U32	u32TransparentColor = 0, // Make transparent
-	S16	sX = -1,	// Convert only from this...
-	S16	sY = -1,	// rectangle.  Default values ...
-	S16	sW = -1,	// move to edges of image.
-	S16	sH = -1,	// Use (-1) to use image edge
+	uint32_t	u32TransparentColor = 0, // Make transparent
+	int16_t	sX = -1,	// Convert only from this...
+	int16_t	sY = -1,	// rectangle.  Default values ...
+	int16_t	sW = -1,	// move to edges of image.
+	int16_t	sH = -1,	// Use (-1) to use image edge
 	// If you make a copy, the original RImage will NOT be
 	// altered!  **pimCopy will 
 	RImage**	ppimCopy = NULL // To make a copy
@@ -130,9 +130,9 @@ extern void SetConvertToFSPR1
 
 extern	void SetConvertFromFSPR1
 	(
-	U32	u32ForeColor,				// Make it this color
-	S16	sTransparent = TRUE,		// 1 or 2 color?
-	U32	u32BackColor = (U32)0	// matters only if sTransparent = FALSE
+	uint32_t	u32ForeColor,				// Make it this color
+	int16_t	sTransparent = TRUE,		// 1 or 2 color?
+	uint32_t	u32BackColor = (uint32_t)0	// matters only if sTransparent = FALSE
 	);
 
 //*************************************************

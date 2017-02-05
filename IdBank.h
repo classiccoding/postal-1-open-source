@@ -94,8 +94,8 @@ class CIdBank
 		typedef struct
 			{
 			CThing*	pthing;		// CThing associate with this ID.
-			U16		u16IdNext;	// Next ID in used or free list.
-			U16		u16IdPrev;	// Prev ID in used or free list.
+			uint16_t		u16IdNext;	// Next ID in used or free list.
+			uint16_t		u16IdPrev;	// Prev ID in used or free list.
 			} IdNode;
 
 //////////////////////////////////////////////////////////////////////////////
@@ -124,22 +124,22 @@ class CIdBank
 		int16_t Get(				// Returns 0 on success.
 			CThing*	pthing,	// In:  Thing that wants to get an ID and be put in
 									// the ID table.
-			U16*		pu16ID);	// Out: ID for this particular CThing.
+			uint16_t*		pu16ID);	// Out: ID for this particular CThing.
 
 		// Take a unique ID and associate it with a thing (CThing).
 		int16_t Take(				// Returns 0 on success.
 			CThing*	pthing,	// In:  Thing that wants to take an ID and be put in
 									// the ID table.
-			U16		u16ID);	// In:  ID for this particular CThing.
+			uint16_t		u16ID);	// In:  ID for this particular CThing.
 
 		// Release ID and unregister thing associated with it.
 		void Release(			// Returns nothing.
-			U16		u16ID);	// ID to release.
+			uint16_t		u16ID);	// ID to release.
 
 		// Get a CThing via its ID.
 		int16_t GetThingByID(	// Returns 0 on success.
 			CThing**	ppthing,	// Out: Ptr to CThing identified by u16ID.
-			U16		u16ID);	// In:  ID of thing to get.
+			uint16_t		u16ID);	// In:  ID of thing to get.
 
 //////////////////////////////////////////////////////////////////////////////
 	protected:	// Internal calls.
@@ -147,19 +147,19 @@ class CIdBank
 
 		// Helper to insert an ID into a particular list.
 		void Insert(				// Returns nothing.
-			U16	u16Id,			// ID to insert.
-			U16*	pu16IdHead);	// Head of list to add to.
+			uint16_t	u16Id,			// ID to insert.
+			uint16_t*	pu16IdHead);	// Head of list to add to.
 		
 		// Helper to add an ID to a particular list.
 		void Add(					// Returns nothing.
-			U16	u16Id,			// ID to add.
-			U16*	pu16IdTail);	// Tail of list to add to.
+			uint16_t	u16Id,			// ID to add.
+			uint16_t*	pu16IdTail);	// Tail of list to add to.
 		
 		// Helper to remove an ID from a particular list.
 		void Remove(				// Returns nothing.
-			U16	u16Id,			// ID to remove.
-			U16*	pu16IdHead,		// Head of list to remove from.
-			U16*	pu16IdTail);	// Tail of list to remove from.
+			uint16_t	u16Id,			// ID to remove.
+			uint16_t*	pu16IdHead,		// Head of list to remove from.
+			uint16_t*	pu16IdTail);	// Tail of list to remove from.
 
 //////////////////////////////////////////////////////////////////////////////
 	protected:	// Internal variables.
@@ -169,9 +169,9 @@ class CIdBank
 		IdNode	m_aids[NumIds];
 
 		// Head of Free IDs.
-		U16		m_u16HeadFreeId;
+		uint16_t		m_u16HeadFreeId;
 		// Tail of Free IDs.
-		U16		m_u16TailFreeId;
+		uint16_t		m_u16TailFreeId;
 
 	};
 

@@ -79,10 +79,10 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 #ifdef _ROT64
 
 	// 64-bit version:
-	S64 l64PX = S64(lDen) * sR,l64PY = S64(lDen) * sR; // go into Denominator space
+	int64_t l64PX = int64_t(lDen) * sR,l64PY = int64_t(lDen) * sR; // go into Denominator space
 	// Stay in denominator space!
-	l64PX += S64(COSQ[sDegP] * sR * lDen + 0.5 * lDen); // offset to pixel center
-	l64PY += S64(SINQ[sDegP] * sR * lDen  + 0.5 * lDen); // offset to pixel center
+	l64PX += int64_t(COSQ[sDegP] * sR * lDen + 0.5 * lDen); // offset to pixel center
+	l64PY += int64_t(SINQ[sDegP] * sR * lDen  + 0.5 * lDen); // offset to pixel center
 	// Now MUST convert to an asymettrical signed proper fraction:
 	int32_t lPX,lPY;
 	rspDivModA64(l64PX,lDen,lPX,lLadNumX);

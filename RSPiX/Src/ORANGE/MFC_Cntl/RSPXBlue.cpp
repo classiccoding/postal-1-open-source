@@ -17,6 +17,9 @@
 //
 // RSPiXBlue.cpp : implementation file
 //
+#ifndef TIME_TRAVEL_IS_REAL
+#error I AM ARCHAIC - DO NOT USE
+#endif
 
 #include "stdafx.h"
 #include "MFC_CNTL/RSPXBlue.h"

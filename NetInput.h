@@ -150,7 +150,7 @@ class CNetInput
 	//------------------------------------------------------------------------------
 	protected:
 		UINPUT					m_aInputs[Size];						// Inputs
-		U8						m_aFrameTimes[Size];					// Game time for the frames *SPA
+		uint8_t						m_aFrameTimes[Size];					// Game time for the frames *SPA
 		Net::SEQ				m_seqFrame;								// Local player's current frame number
 		Net::SEQ				m_seqOldest;							// Oldest sequence we have
 
@@ -236,7 +236,7 @@ class CNetInput
 		////////////////////////////////////////////////////////////////////////////////
 		void PutFrameTime(
 			Net::SEQ seq,
-			U8 frameTime)
+			uint8_t frameTime)
 			{
 			// If the seq falls within the "new values" window, we use it.  Note that
 			// the "new values" window starts at the current frame.
@@ -295,7 +295,7 @@ class CNetInput
 		// Get the specified frame time value. *SPA
 		// A return value of CNetInput::Invalid means that input was not available.
 		////////////////////////////////////////////////////////////////////////////////
-		U8 GetFrameTime(
+		uint8_t GetFrameTime(
 			Net::SEQ seq)
 			{
 			// If the seq falls within the total window, we get it.  Note that this

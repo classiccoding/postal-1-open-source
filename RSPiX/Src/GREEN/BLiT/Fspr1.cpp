@@ -73,26 +73,26 @@ int16_t		SaveFSPR1(RImage* pImage, RFile* pcf);
 
 typedef	struct
 	{
-	U32	u32TransparentColor;	// ConvertTo 
-	S16	sX,sY,sW,sH;			// ConvertTo (-1 == don't use)
+	uint32_t	u32TransparentColor;	// ConvertTo 
+	int16_t	sX,sY,sW,sH;			// ConvertTo (-1 == don't use)
 	RImage** ppimNew;				// Create a separate CImage if not NULL!
-	U32	u32ForeColor;			// ConvertFrom
-	U32	u32BackColor;			// ConvertFrom (if s16Transparent==FALSE)
-	S16	s16Transparent;		// ConvertFrom (flag)
-	S16	sOverRun;				// Statistical info!
+	uint32_t	u32ForeColor;			// ConvertFrom
+	uint32_t	u32BackColor;			// ConvertFrom (if s16Transparent==FALSE)
+	int16_t	s16Transparent;		// ConvertFrom (flag)
+	int16_t	sOverRun;				// Statistical info!
 	} ConversionInfoFSPR1;
 
 ConversionInfoFSPR1 gFSPR1 = 
 	{
-	(U32) 0,
-	(S16) -1,
-	(S16) -1,
-	(S16) -1,
-	(S16) -1,
+	(uint32_t) 0,
+	(int16_t) -1,
+	(int16_t) -1,
+	(int16_t) -1,
+	(int16_t) -1,
 	(RImage**) NULL,
-	(U32)	0xffffff01,	// And the color to the correct depth
-	(U32)	0,
-	(S16) TRUE
+	(uint32_t)	0xffffff01,	// And the color to the correct depth
+	(uint32_t)	0,
+	(int16_t) TRUE
 	}; // Defaults...
 
 void ResetFSPR1();
@@ -112,11 +112,11 @@ int16_t GetOverRuns() { return gFSPR1.sOverRun; }
 
 void SetConvertToFSPR1
 	(	
-	U32	u32TransparentColor,
-	S16	sX,	// Use (-1) to use default value
-	S16	sY,	// Use (-1) to use default value
-	S16	sW,	// Use (-1) to use default value
-	S16	sH,	// Use (-1) to use default value
+	uint32_t	u32TransparentColor,
+	int16_t	sX,	// Use (-1) to use default value
+	int16_t	sY,	// Use (-1) to use default value
+	int16_t	sW,	// Use (-1) to use default value
+	int16_t	sH,	// Use (-1) to use default value
 	RImage**	ppimCopy
 	)
 	{
@@ -130,9 +130,9 @@ void SetConvertToFSPR1
 
 void SetConvertFromFSPR1
 	(
-	U32	u32ForeColor,
-	S16	sTransparent,
-	U32	u32BackColor	// matters only if sTransparent = FALSE
+	uint32_t	u32ForeColor,
+	int16_t	sTransparent,
+	uint32_t	u32BackColor	// matters only if sTransparent = FALSE
 	)
 	{
 	gFSPR1.u32ForeColor = u32ForeColor;
@@ -483,7 +483,7 @@ int16_t		LoadFSPR1(RImage* pImage, RFile* pcf)
 		}
 
 	// Check Version:
-	U16 u16Temp;
+	uint16_t u16Temp;
 	pcf->Read(&u16Temp);
 
 	if (u16Temp != ((3<<8) + 5) )
@@ -499,7 +499,7 @@ int16_t		LoadFSPR1(RImage* pImage, RFile* pcf)
 	RSpecialFSPR1* pSpec = new RSpecialFSPR1;
 	pImage->m_pSpecialMem = pImage->m_pSpecial = (uint8_t*)pSpec;
 
-	pcf->Read((U32*)(&pSpec->m_OldType));
+	pcf->Read((uint32_t*)(&pSpec->m_OldType));
 	pcf->Read(&pSpec->m_lSize);
 	pcf->Read(&pSpec->m_u16ASCII);
 	pcf->Read(&pSpec->m_s16KernL); // True type compatibilit
@@ -511,7 +511,7 @@ int16_t		LoadFSPR1(RImage* pImage, RFile* pcf)
 	//------------------
 
 	// Reserved for future expansion:
-	U32 u32Temp[4];
+	uint32_t u32Temp[4];
 
 	pcf->Read(u32Temp,4); // 16 bytes reserved as of version 3.5
 
@@ -520,8 +520,8 @@ int16_t		LoadFSPR1(RImage* pImage, RFile* pcf)
 	//------------------
 
 	// Now the actual data, which needs no alignment:
-	pSpec->m_pCode = (U8*) malloc(pSpec->m_lSize);    //+ Not freed!
-	pcf->Read((U8*)(pSpec->m_pCode),pSpec->m_lSize);
+	pSpec->m_pCode = (uint8_t*) malloc(pSpec->m_lSize);    //+ Not freed!
+	pcf->Read((uint8_t*)(pSpec->m_pCode),pSpec->m_lSize);
 
 	return SUCCESS;
 	}
@@ -544,7 +544,7 @@ int16_t		SaveFSPR1(RImage* pImage, RFile* pcf)
 	//------------------
 
 	pcf->Write("__FSPR1__"); // image type
-	U16 version = (U16)((3<<8) + 5); // Sprite incarnation 3, File Format 5
+	uint16_t version = (uint16_t)((3<<8) + 5); // Sprite incarnation 3, File Format 5
 	pcf->Write(&version);
 
 	//------------------
@@ -552,7 +552,7 @@ int16_t		SaveFSPR1(RImage* pImage, RFile* pcf)
 	//------------------
 
 	// NOTE: Some font info is stored here:
-	pcf->Write((U32*)(&(pSpec->m_OldType)));
+	pcf->Write((uint32_t*)(&(pSpec->m_OldType)));
 	pcf->Write(&(pSpec->m_lSize));
 	pcf->Write(&(pSpec->m_u16ASCII));
 	pcf->Write(&(pSpec->m_s16KernL)); // True type compatibilit
@@ -564,7 +564,7 @@ int16_t		SaveFSPR1(RImage* pImage, RFile* pcf)
 	//------------------
 
 	// Reserved for future expansion
-	U32 reserved[4] = {0,0,0,0};
+	uint32_t reserved[4] = {0,0,0,0};
 	pcf->Write(reserved,4); // 16 bytes reserved as of version 3.5
 
 	//------------------
@@ -572,7 +572,7 @@ int16_t		SaveFSPR1(RImage* pImage, RFile* pcf)
 	//------------------
 
 	// Now the actual data, which needs no alignment:
-	pcf->Write((U8*)pSpec->m_pCode,pSpec->m_lSize);
+	pcf->Write((uint8_t*)pSpec->m_pCode,pSpec->m_lSize);
 
 	return SUCCESS;
 	}
@@ -689,7 +689,7 @@ int16_t rspBlit(
 	// IN THIS IMPLEMENTATION, we must do LOCK, BLiT, UNLOCK, so I
 	// must record which UNLOCK (if any) needs to be done AFTER the BLiT
 	// has completed. (Lord help me if a blit gets interrupted)
-	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((S64)pimDst->m_pSpecial);
+	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((int64_t)pimDst->m_pSpecial);
 
 	switch (sBlitTypeDst) // 0 = normal image
 		{
@@ -987,7 +987,7 @@ int16_t rspBlit(
 	// IN THIS IMPLEMENTATION, we must do LOCK, BLiT, UNLOCK, so I
 	// must record which UNLOCK (if any) needs to be done AFTER the BLiT
 	// has completed. (Lord help me if a blit gets interrupted)
-	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((S64)pimDst->m_pSpecial);
+	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((int64_t)pimDst->m_pSpecial);
 
 	switch (sBlitTypeDst) // 0 = normal image
 		{
@@ -1239,7 +1239,7 @@ int16_t rspBlit(
 	// IN THIS IMPLEMENTATION, we must do LOCK, BLiT, UNLOCK, so I
 	// must record which UNLOCK (if any) needs to be done AFTER the BLiT
 	// has completed. (Lord help me if a blit gets interrupted)
-	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((S64)pimDst->m_pSpecial);
+	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((int64_t)pimDst->m_pSpecial);
 
 	switch (sBlitTypeDst) // 0 = normal image
 		{
@@ -1459,7 +1459,7 @@ int16_t rspBlit(
 	// IN THIS IMPLEMENTATION, we must do LOCK, BLiT, UNLOCK, so I
 	// must record which UNLOCK (if any) needs to be done AFTER the BLiT
 	// has completed. (Lord help me if a blit gets interrupted)
-	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((S64)pimDst->m_pSpecial);
+	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((int64_t)pimDst->m_pSpecial);
 
 	switch (sBlitTypeDst) // 0 = normal image
 		{

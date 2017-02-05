@@ -214,7 +214,7 @@ class CBouy : public CThing
 	// Types, enums, etc.
 	//---------------------------------------------------------------------------
 	public:
-		typedef RFList<U16> linkinstanceid;
+		typedef RFList<uint16_t> linkinstanceid;
 		typedef RList<CBouy> linklist;
 
 	//---------------------------------------------------------------------------
@@ -242,7 +242,7 @@ class CBouy : public CThing
 
 		linkinstanceid m_LinkInstanceID;		// Used to relink the network after a load
 
-		U16	m_u16ParentInstanceID;			// InstanceID used to relink to correct
+		uint16_t	m_u16ParentInstanceID;			// InstanceID used to relink to correct
 														// Network after a load			
 																		
 

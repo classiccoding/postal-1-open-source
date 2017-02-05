@@ -226,20 +226,20 @@ RScrollBar::RScrollBar()
 
 	m_btnThumb.SetParent(this);
 	m_btnThumb.m_hot.m_iecUser	= ThumbHotCall;
-	m_btnThumb.m_hot.m_ulUser	= (U64)this;
+	m_btnThumb.m_hot.m_ulUser	= (uint64_t)this;
 	m_btnThumb.m_targetFocus	= Parent;	// Passes focus to parent (this).
 
 	m_btnUp.SetParent(this);
 	m_btnUp.m_hot.m_iecUser		= UpHotCall;
-	m_btnUp.m_hot.m_ulUser		= (U64)this;
-	m_btnUp.m_ulUserInstance	= (U64)this;
+	m_btnUp.m_hot.m_ulUser		= (uint64_t)this;
+	m_btnUp.m_ulUserInstance	= (uint64_t)this;
 	m_btnUp.m_backcall			= DrawUpArrow;
 	m_btnUp.m_targetFocus		= Parent;	// Passes focus to parent (this).
 
 	m_btnDown.SetParent(this);
 	m_btnDown.m_hot.m_iecUser	= DownHotCall;
-	m_btnDown.m_hot.m_ulUser	= (U64)this;
-	m_btnDown.m_ulUserInstance	= (U64)this;
+	m_btnDown.m_hot.m_ulUser	= (uint64_t)this;
+	m_btnDown.m_ulUserInstance	= (uint64_t)this;
 	m_btnDown.m_backcall			= DrawDownArrow;
 	m_btnDown.m_targetFocus		= Parent;	// Passes focus to parent (this).
 
@@ -888,7 +888,7 @@ void RScrollBar::Do(	// Returns nothing.
 ////////////////////////////////////////////////////////////////////////
 inline void DrawArrow(	// Returns nothing.
 	int16_t	sDirection,		// Direction of arrow; see above.
-	U32 u32Color,			// Color or index to draw with.
+	uint32_t u32Color,			// Color or index to draw with.
 	RImage* pim,			// Destination image.
 	int16_t sX,				// Position at which to draw.
 	int16_t sY,				// Position at which to draw.
@@ -1218,7 +1218,7 @@ int16_t RScrollBar::SaveChildren(	// Returns 0 on success.
 ////////////////////////////////////////////////////////////////////////
 int16_t RScrollBar::ReadMembers(	// Returns 0 on success.
 	RFile*	pfile,					// File to read from.
-	U32		u32Version)				// File format version to use.
+	uint32_t		u32Version)				// File format version to use.
 	{
 	int16_t	sRes	= 0;	// Assume success.
 
@@ -1231,7 +1231,7 @@ int16_t RScrollBar::ReadMembers(	// Returns 0 on success.
 		ASSERT(pfile != NULL);
 		ASSERT(pfile->IsOpen() != FALSE);
 		
-		U32	u32Temp;
+		uint32_t	u32Temp;
 		
 		// Switch on version.
 		switch (u32Version)
@@ -1309,7 +1309,7 @@ int16_t RScrollBar::WriteMembers(	// Returns 0 on success.
 		pfile->Write(&m_lButtonIncDec);
 		pfile->Write(&m_lTrayIncDec);
 		pfile->Write(&m_sArrowBorderDistance);
-		pfile->Write((U32)m_oOrientation);
+		pfile->Write((uint32_t)m_oOrientation);
 		pfile->Write(&m_lMinThumbLength);
 		pfile->Write(&m_lMinPos);
 		pfile->Write(&m_lMaxPos);

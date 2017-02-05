@@ -256,7 +256,7 @@ class	CCutSceneInfo
 		int32_t m_lTotalBytes;
 		int32_t m_lTimeToUpdate;
 		int32_t m_lBytesSoFar;
-		U8 m_u8BloodColor;
+		uint8_t m_u8BloodColor;
 		int16_t m_sLastDistance;
 		SampleMasterID m_musicID;
 		//-----------------------------------------
@@ -783,10 +783,10 @@ extern void CutSceneStart(
 	// Get tables used for color matching
 	//------------------------------------------------------------------------------
 
-	U8	au8Red[256];
-	U8	au8Green[256];
-	U8	au8Blue[256];
-	rspGetPaletteEntries(0, 256, au8Red, au8Green, au8Blue, sizeof(U8));
+	uint8_t	au8Red[256];
+	uint8_t	au8Green[256];
+	uint8_t	au8Blue[256];
+	rspGetPaletteEntries(0, 256, au8Red, au8Green, au8Blue, sizeof(uint8_t));
 
 	//------------------------------------------------------------------------------
 	// Get multialpha
@@ -823,9 +823,9 @@ extern void CutSceneStart(
 
 	// Find closest matches for the desired colors
 	ms_pCut->m_ucForeText = rspMatchColorRGB(
-		FONT_FORE_R, FONT_FORE_G, FONT_FORE_B, 10, 236, au8Red, au8Green, au8Blue, sizeof(U8));
+		FONT_FORE_R, FONT_FORE_G, FONT_FORE_B, 10, 236, au8Red, au8Green, au8Blue, sizeof(uint8_t));
 	ms_pCut->m_ucShadowText = rspMatchColorRGB(
-		FONT_SHAD_R, FONT_SHAD_G, FONT_SHAD_B, 10, 236, au8Red, au8Green, au8Blue, sizeof(U8));
+		FONT_SHAD_R, FONT_SHAD_G, FONT_SHAD_B, 10, 236, au8Red, au8Green, au8Blue, sizeof(uint8_t));
 
 	// Setup print
 	RPrint print;
@@ -1011,7 +1011,7 @@ extern void CutSceneStart(
 
 	// Find good blood color
 	ms_pCut->m_u8BloodColor = rspMatchColorRGB(
-		BLOOD_FORE_R, BLOOD_FORE_G, BLOOD_FORE_B, 1, 254, au8Red, au8Green, au8Blue, sizeof(U8));
+		BLOOD_FORE_R, BLOOD_FORE_G, BLOOD_FORE_B, 1, 254, au8Red, au8Green, au8Blue, sizeof(uint8_t));
 	}
 
 
@@ -1158,7 +1158,7 @@ static void CutScene_RFileCallback(int32_t lBytes)
 							int16_t sY = PROGRESS_BAR_START_Y + sBaseY + RandomPlusMinus(PROGRESS_BAR_RANDOM_Y);
 
 							// Draw an alpha'd pixel at this location
-							U8 u8dst = *(ms_pCut->m_pimBGLayer->m_pData + (sY * ms_pCut->m_pimBGLayer->m_lPitch) + sX);
+							uint8_t u8dst = *(ms_pCut->m_pimBGLayer->m_pData + (sY * ms_pCut->m_pimBGLayer->m_lPitch) + sX);
 							rspPlot(
 								rspBlendColor(150, ms_pCut->m_pmaAlpha, ms_pCut->m_u8BloodColor, u8dst),
 								ms_pCut->m_pimBGLayer,

@@ -30,22 +30,22 @@ class CPixel
 		void Init(void)
 			{ for (int16_t i = 0; i < sizeof(m_au8); i++) m_au8[i] = 0; }
 
-		U8 GetU8Val(void)
+		uint8_t GetU8Val(void)
 			{ return m_au8[0]; }
-		U16 GetU16Val(void)
-			{ return *((U16*)m_au8); }
-		U32 GetU24Val(void)
-			{ return *((U32*)m_au8); }
-		U32 GetU32Val(void)
-			{ return *((U32*)m_au8); }
+		uint16_t GetU16Val(void)
+			{ return *((uint16_t*)m_au8); }
+		uint32_t GetU24Val(void)
+			{ return *((uint32_t*)m_au8); }
+		uint32_t GetU32Val(void)
+			{ return *((uint32_t*)m_au8); }
 
-		void SetVal(U8 val)
+		void SetVal(uint8_t val)
 			{ memcpy(m_au8, &val, sizeof(val)); }
-		void SetVal(U16 val)
+		void SetVal(uint16_t val)
 			{ memcpy(m_au8, &val, sizeof(val)); }
-		void SetVal24(U32 val)
+		void SetVal24(uint32_t val)
 			{ memcpy(m_au8, &val, 3); }
-		void SetVal(U32 val)
+		void SetVal(uint32_t val)
 			{ memcpy(m_au8, &val, sizeof(val)); }
 
 		void SetVal(uint8_t* puc)
@@ -66,7 +66,7 @@ class CPixel
 			}
 
 	public:
-		U8		m_au8[sizeof(U32)];
+		uint8_t		m_au8[sizeof(uint32_t)];
 		int16_t	m_sSize;
 	};
 
