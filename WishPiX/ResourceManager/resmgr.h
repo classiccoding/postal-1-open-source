@@ -343,7 +343,7 @@ class CResourceBlock
 			m_sAccessCount = 0;
 			m_vpRes = NULL;
 			m_pfnDestroy = 0;
-			};
+         }
 
 		~CResourceBlock()
 			{
@@ -352,7 +352,7 @@ class CResourceBlock
 			// Delete the function object
 			delete m_pfnDestroy;
 			m_pfnDestroy = 0;
-			};
+         }
 
 		void FreeResource(void)
 			{

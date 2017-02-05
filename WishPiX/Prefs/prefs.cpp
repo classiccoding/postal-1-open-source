@@ -379,7 +379,7 @@ int16_t RPrefs::Write()
 					pTmp = (pTmp != NULL) ? pTmp + 1 : acTmpFileName;
 					for (int32_t lCount = 0; !bGotTmp && (lCount < 9999999L); lCount++)
 						{
-                  sprintf(pTmp, "t%0.7d.tmp", lCount);
+                  sprintf(pTmp, "t%0.7i.tmp", lCount);
 						FILE* fpTmp = fopen(FindCorrectFile(acTmpFileName, "r"), "r");
 						if (fpTmp != NULL)
 							fclose(fpTmp);
