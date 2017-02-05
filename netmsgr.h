@@ -173,7 +173,7 @@ class NetMsg
 
 		// Message types.  Do NOT change the order without making the same changes
 		// to the CNetMsgr static array of info corersponding to these values!!!
-		typedef enum
+      enum
 			{
 			NOTHING,				// 0
 			STAT,					// 1
@@ -214,7 +214,7 @@ class NetMsg
 			};
 
 		// Reasons client can't join
-		typedef enum
+      enum
 			{
 			TooManyPlayers,
 			BandwidthTooLow,
@@ -222,7 +222,7 @@ class NetMsg
 			};
 
 		// Reasons why game was aborted
-		typedef enum
+      enum
 			{
 			UserAbortedGame,
 			ErrorAbortedGame
@@ -1263,7 +1263,7 @@ class CNetMsgr
 	//------------------------------------------------------------------------------
 	public:
 		// Miscellaneous values
-		typedef enum
+      enum
 			{
 			MagicNum				= 0x5655595a,					// Magic number
 			MacVersionBit		= 0x1000,						// Bit that indicates a Mac platform.

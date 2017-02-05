@@ -443,7 +443,7 @@ int16_t CCharacter::Load(									// Returns 0 if successfull, non-zero otherwis
 			{
 			default:
 			case 3:
-				pFile->Read(&m_eWeaponType);
+            pFile->Read(&m_eWeaponType);
 				break;
 
 			case 2:	// Versions 1 and 2, when CCharacter was not descended from

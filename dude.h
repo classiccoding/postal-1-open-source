@@ -440,10 +440,10 @@ class CDude : public CCharacter
 
 		typedef struct
 			{
-			char*	pszWeaponName;
-			char*	pszAmmoName;
-			char*	pszStatusFormat;
-			char*	pszWeaponResName;
+         const char*	pszWeaponName;
+         const char*	pszAmmoName;
+         const char*	pszStatusFormat;
+         const char*	pszWeaponResName;
 			int16_t	sMinAmmoRequired;
 			} WeaponDetails;
 
@@ -460,10 +460,10 @@ class CDude : public CCharacter
 				// specified in the provided array of pointers to strings.
 				virtual								// Overridden here.
 				int16_t Get(							// Returns 0 on success.
-					char*		pszBaseFileName,	// In:  Base string for resource filenames.
-					char*		pszRigidName,		// In:  String to add for rigid transform channel
+               const char*		pszBaseFileName,	// In:  Base string for resource filenames.
+               const char*		pszRigidName,		// In:  String to add for rigid transform channel
 														// or NULL for none.
-					char*		pszEventName,		// In:  String to add for event states channel
+               const char*		pszEventName,		// In:  String to add for event states channel
 														// or NULL for none.
 					int16_t		sLoopFlags);		// In:  Looping flags to apply to all channels
 														// in this anim.

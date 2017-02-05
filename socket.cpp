@@ -101,7 +101,7 @@ bool							RSocket::ms_bDidStartup = false;
 bool							RSocket::ms_bAutoShutdown = false;
 RSocket::ProtoType		RSocket::ms_prototype   = RSocket::NO_PROTOCOL;
 int16_t							RSocket::ms_sNumSockets = 0;
-char*							RSocket::ms_apszProtoNames[] = 
+const char*							RSocket::ms_apszProtoNames[] =
 									{
 									"",
 //									"Loopback",

@@ -713,20 +713,20 @@ int16_t	rspDither(
 	return sRet;
 	}
 
-//*************************************************************************
+// *************************************************************************
 //*  In 32-bit sourced versions of rspDither and rspDitherMatch,
 //*  this utilizes the concept of the alpha channel as representing 
 //*  transparency.  The user gives a value from 0-255 representing the 
 //*  most transparent pixel to dither.  Alpha values less than this
 //*  are considered the background, ,dithering will not occur, and the 
 //*  pixel will be mapped to the specified background index color.
-//*************************************************************************
+// *************************************************************************
 //*  Note that if dithering to background is DESIRED, setting the alpha
 //*  limit to zero prevents any of the image from being considered a 
 //*  background.
-//*************************************************************************
+// *************************************************************************
 
-//*************************************************************************
+// *************************************************************************
 //==============================================
 // You supply a general palette to match to, 
 // a SCREEN32_ARGB image as a TC source, and an 
@@ -1004,7 +1004,7 @@ int16_t	rspDither(
 	}
 
 
-//*************************************************************************
+// *************************************************************************
 //==============================================
 // You supply a general palette to match to, 
 // a SCREEN32_ARGB image as a TC source, and an 
@@ -1132,7 +1132,7 @@ int16_t	rspSimpleMap(
 
 					
 
-//*************************************************************************
+// *************************************************************************
 
 	
 

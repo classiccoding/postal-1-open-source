@@ -237,8 +237,8 @@ int16_t RMultiGridIndirect::AddFSPR1(RImage* pimSrc,int16_t sLogX,int16_t sLogY,
 		}
 
 	// 3) calculate the logical tile rects covered by the region:
-	//*************************************************** Use DIVMODS!
-	//************************** BETTER YET, USE POWERS OF 2!
+	// *************************************************** Use DIVMODS!
+	// ************************** BETTER YET, USE POWERS OF 2!
 
 	sX = sLogX & ~(m_sTileW-1); // look for powers of two!
 	sY = sLogY & ~(m_sTileH-1);

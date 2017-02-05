@@ -72,7 +72,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Array of key descriptors.
-extern char* g_apszKeyDescriptions[128]	=
+const char* g_apszKeyDescriptions[128]	=
 	{
 	"None",
 	"End",
@@ -205,7 +205,7 @@ extern char* g_apszKeyDescriptions[128]	=
 	};
 
 // Array of mouse button descriptors.
-extern char* g_apszMouseButtonDescriptions[8]	=
+const char* g_apszMouseButtonDescriptions[8]	=
 	{
 	"None",
 	"Left",
@@ -218,7 +218,7 @@ extern char* g_apszMouseButtonDescriptions[8]	=
 	};
 
 // Array of joy button descriptors.
-extern char* g_apszJoyButtonDescriptions[18] =
+const char* g_apszJoyButtonDescriptions[18] =
 {
 	"None",
 	"A",
@@ -240,7 +240,7 @@ extern char* g_apszJoyButtonDescriptions[18] =
 	"RT"
 };
 /*
-extern char* g_apszJoyButtonDescriptions[16]	=
+extern const char* g_apszJoyButtonDescriptions[16]	=
 	{
 	"None",								// 0000
 	"A",									// 0001
@@ -269,7 +269,7 @@ extern char* g_apszJoyButtonDescriptions[16]	=
 ////////////////////////////////////////////////////////////////////////////////
 extern int16_t KeyDescriptionToValue(	// Returns 0 on success.  Returns non-zero, if
 												// key not found.
-	char*		pszKeyDescriptor,			// In:  Description of key.
+   const char*		pszKeyDescriptor,			// In:  Description of key.
 	uint32_t*	psScanKey)					// Out: Key value.
 	{
 	int16_t	sRes	= 1;	// Assume failure.
@@ -296,7 +296,7 @@ extern int16_t KeyDescriptionToValue(	// Returns 0 on success.  Returns non-zero
 extern int16_t MouseButtonDescriptionToMask(	// Returns 0 on success.  Returns
 															// non-zero, if description not 
 															// found.
-	char*		pszButtonDescriptor,					// In:  Description of button.
+   const char*		pszButtonDescriptor,					// In:  Description of button.
 	uint32_t*	psButtonMask)							// Out: Button mask.
 	{
 	int16_t	sRes	= 1;	// Assume failure.
@@ -322,7 +322,7 @@ extern int16_t MouseButtonDescriptionToMask(	// Returns 0 on success.  Returns
 ////////////////////////////////////////////////////////////////////////////////
 extern int16_t JoyButtonDescriptionToMask(	// Returns 0 on success.  Returns 
 														// non-zero, if description not found.
-	char*		pszButtonDescriptor,				// In:  Description of button.
+   const char*		pszButtonDescriptor,				// In:  Description of button.
 	uint32_t*	psButtonMask)						// Out: Button mask.
 	{
 	int16_t	sRes	= 1;	// Assume failure.

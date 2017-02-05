@@ -100,7 +100,7 @@ class RMsgBox : public RDlg
 		RBtn* AddButton(		// Returns allocated GUI item on success.
 									// Do NOT delete this item; it will be deleted
 									// by a RemoveAll() call.
-			char* pszText,		// Text for btn item.
+         const char* pszText,		// Text for btn item.
 			int16_t	sX,			// X position in RMsgBox dlg.
 			int16_t	sY,			// Y position in RMsgBox dlg.
 			uint32_t	ulId,			// ID to return if this item is chosen.
@@ -113,7 +113,7 @@ class RMsgBox : public RDlg
 		RTxt* AddText(			// Returns allocated GUI item on success.
 									// Do NOT delete this item; it will be deleted
 									// by a RemoveAll() call.
-			char* pszText,		// Text for txt item.
+         const char* pszText,		// Text for txt item.
 			int16_t	sX,			// X position in RMsgBox dlg.
 			int16_t	sY,			// Y position in RMsgBox dlg.
 			uint32_t	ulId,			// ID to return if this item is chosen.
@@ -126,7 +126,7 @@ class RMsgBox : public RDlg
 		REdit* AddEdit(	// Returns allocated GUI item on success.
 								// Do NOT delete this item; it will be deleted
 								// by a RemoveAll() call.
-			char* pszText,	// Text for edit item.
+         const char* pszText,	// Text for edit item.
 			int16_t	sX,		// X position in RMsgBox dlg.
 			int16_t	sY,		// Y position in RMsgBox dlg.
 			uint32_t	ulId,			// ID to return if this item is chosen.
@@ -191,7 +191,7 @@ class RMsgBox : public RDlg
 		// Add a GUI item already allocated by this RMsgBox.
 		int16_t AddItem(			// Returns 0 on success.
 			RGuiItem* pgui,	// Item to add.
-			char* pszText,		// Text for item.
+         const char* pszText,		// Text for item.
 			int16_t	sX,			// X position in RMsgBox dlg.
 			int16_t	sY,			// Y position in RMsgBox dlg.
 			uint32_t	ulId,			// ID to return if this item is chosen.

@@ -352,7 +352,7 @@ int16_t RSndFx::SetFadeAccuracy(	// Returns 0 on success.
 				}
 			
 			default:
-				TRACE("SetFadeAccuracy(): %ld bits per sample not supported.\n", ms_lBitsPerSample);
+				TRACE("SetFadeAccuracy(): %i bits per sample not supported.\n", ms_lBitsPerSample);
 				break;
 			}
 		}

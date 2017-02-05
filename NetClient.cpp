@@ -1184,7 +1184,7 @@ void CNetClient::ReceiveFromPeers(void)
 				Get(pget, &id);
 
 				// Make sure id is valid
-				if ((id >= 0) && (id < Net::MaxNumIDs))
+            if (id < Net::MaxNumIDs)
 					{
 					// Make sure peer is joined (could be an old message from a dropped peer)
 					if (m_aPeers[id].m_state == CPeer::Joined)
@@ -1433,7 +1433,7 @@ void CNetClient::SendToPeer(Net::ID id,				// id of peer to send to
 	if (serr == 0)
 		{
 		if (lSent != lSize)
-			TRACE("Error sending message to peer -- should have sent %ld bytes but actually sent %ld.\n", (int32_t)lSize, (int32_t)lSent);
+			TRACE("Error sending message to peer -- should have sent %i bytes but actually sent %i.\n", (int32_t)lSize, (int32_t)lSent);
 		}
 	else
 		{

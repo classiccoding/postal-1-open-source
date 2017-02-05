@@ -170,7 +170,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Animations.
-char*	CPowerUp::ms_apszPowerUpResNames[CStockPile::NumStockPileItems + 2]	=
+const char*	CPowerUp::ms_apszPowerUpResNames[CStockPile::NumStockPileItems + 2]	=
 	{
 	"3d/ammo",							// Bullets.
 	"3d/grenadeicon",					// Grenades.

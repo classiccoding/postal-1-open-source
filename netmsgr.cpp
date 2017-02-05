@@ -267,7 +267,7 @@ bool CNetMsgr::GetMsg(									// True if message was available, false otherwise
 						else
 							{
 							m_error = NetMsg::ReceiveError;
-							TRACE("CNetMsgr::GetMsg(): Msg len should be %ld but was %ld !\n", lMsgSize, lGetable - lNewGetable);
+                     TRACE("CNetMsgr::GetMsg(): Msg len should be %i but was %i !\n", lMsgSize, lGetable - lNewGetable);
 							}
 						}
 					}
@@ -388,7 +388,7 @@ void CNetMsgr::SendMsg(
 				else
 					{
 					m_error = NetMsg::SendError;
-					TRACE("CNetMsgr::SendMsg(): Msg len should be %ld but was %ld !\n", lMsgSize, lPutable - lNewPutable);
+               TRACE("CNetMsgr::SendMsg(): Msg len should be %i but was %i !\n", lMsgSize, lPutable - lNewPutable);
 					}
 				}
 			else

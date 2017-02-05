@@ -253,7 +253,7 @@ static float	fSoundX = 0.,fSoundY = 0., fSoundZ = 0.;
 //////////////////////////////////////////////////////////////
 // These are the names for the corresponding SoundCategory
 // used as an index.
-char* SampleMaster::ms_apszSoundCategories[SampleMaster::MAX_NUM_SOUND_CATEGORIES]	=	
+const char* SampleMaster::ms_apszSoundCategories[SampleMaster::MAX_NUM_SOUND_CATEGORIES]	=
 	{
 	g_apszSoundCategories[Unspecified],
 	g_apszSoundCategories[BackgroundMusic],

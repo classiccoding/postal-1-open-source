@@ -82,9 +82,9 @@ class CDispenser : public CThing
 
 		typedef struct
 			{
-			char*	pszName;					// Name of logic (for list box).
-			char*	apszParms[NumParms];	// Parm descriptions or NULL for none.
-			char*	pszDescription;		// Description of logic (for text box).
+         const char*	pszName;					// Name of logic (for list box).
+         const char*	apszParms[NumParms];	// Parm descriptions or NULL for none.
+         const char*	pszDescription;		// Description of logic (for text box).
 			} LogicInfo;
 
 	//---------------------------------------------------------------------------

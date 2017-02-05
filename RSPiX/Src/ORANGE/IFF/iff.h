@@ -126,7 +126,7 @@ class RIff : public RFile
 
 		// Gets the string representation of the FCC for the current chunk.
 		int16_t GetChunk(	// Returns 0 on success.
-			char* pszFCC)	// Array of at least FIVE(5(V)) bytes for string.
+         char* pszFCC)	// Array of at least FIVE(5(V)) bytes for string.
 			{
 			// If this is a RIFF file . . .
 			if (m_endian == LittleEndian)
@@ -142,7 +142,7 @@ class RIff : public RFile
 
 		// Gets the FCC of the current chunk's FORM, if there is one.
 		int16_t GetForm(				// Returns non-zero if no form.
-			char* pszFCC)			// Array of at least FIVE(5(V)) bytes for string.
+         char* pszFCC)			// Array of at least FIVE(5(V)) bytes for string.
 			{
 			// If this is a RIFF file . . .
 			if (m_endian == LittleEndian)
@@ -191,7 +191,7 @@ class RIff : public RFile
 		// Examples: ".WAVE." puts you inside the "WAVE" FORM.  ".WAVE" 
 		// puts you at the "WAVE" FORM.  The path "." puts you above the "RIFF" 
 		// or "AIFF" chunk.
-		int16_t Find(char* pszPath);	// Returns 0 on success.
+      int16_t Find(const char* pszPath);	// Returns 0 on success.
 
 		// Move from current chunk to the next chunk at this level.  This must 
 		// be called before calling Get* functions after an Open.  You
@@ -234,18 +234,18 @@ class RIff : public RFile
 	public:	// Static
 		// Create FCC code for an IFF file based on a 4-character string
 		// Platform independent.  Open IFF files as ENDIAN_BIG.
-		static uint32_t IffStr2FCC(char* pszFCC)
+      static uint32_t IffStr2FCC(const char* pszFCC)
 			{ return (pszFCC[0] << 24) | (pszFCC[1] << 16) | (pszFCC[2] << 8) | (pszFCC[3]); }
 			
 		// Create FCC code for an RIFF file based on a 4-characater string
 		// Platform independent.  Open RIFF files as ENDIAN_LITTLE.
-		static uint32_t RiffStr2FCC(char* pszFCC)
+      static uint32_t RiffStr2FCC(const char* pszFCC)
 			{ return (pszFCC[3] << 24) | (pszFCC[2] << 16) | (pszFCC[1] << 8) | (pszFCC[0]); }
 
 		// Create 4-character string for an IFF file based on FCC.
 		// Platform independent.  Open IFF files as ENDIAN_BIG.
 		static void IffFCC2Str(	uint32_t ulFCC,	// FCC to convert.
-										char* pszFCC)	// String of at least 5 bytes.
+                              char* pszFCC)	// String of at least 5 bytes.
 			{	
 			pszFCC[0]	= (char)(ulFCC >> 24);
 			pszFCC[1]	= (char)(ulFCC >> 16);
@@ -257,7 +257,7 @@ class RIff : public RFile
 		// Create 4-character string for an RIFF file based on FCC.
 		// Platform independent.  Open RIFF files as ENDIAN_LITTLE.
 		static void RiffFCC2Str(uint32_t ulFCC,	// FCC to convert.            
-										char* pszFCC)	// String of at least 5 bytes.
+                              char* pszFCC)	// String of at least 5 bytes.
 			{	
 			pszFCC[3]	= (char)(ulFCC >> 24);
 			pszFCC[2]	= (char)(ulFCC >> 16);

@@ -190,7 +190,7 @@
 
 // This is the master list of person descriptions that can be used to describe
 // a CPerson.  See header comment for details of adding a person description.
-extern Personatorium g_apersons[Personatorium::NumPersons]	=
+Personatorium g_apersons[Personatorium::NumPersons]	=
 	{
 	
 	///////////////////////////////Grenader////////////////////////////////////

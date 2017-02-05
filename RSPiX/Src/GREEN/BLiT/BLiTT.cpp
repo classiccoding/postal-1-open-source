@@ -68,7 +68,7 @@ inline void _BLiTT(PIXSIZE ucTransparent,PIXSIZE* pSrc,PIXSIZE* pDst,int32_t lSr
 
 
 
-//*****************************************************************************
+// *****************************************************************************
 // This is the main controller... It clips in pixels, then thinks in bytes:
 // if prSrc == NULL, no source clipping will occure
 // if prDst == NULL, it will clip to the CImage
@@ -166,7 +166,7 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 		if ((sW <= 0) || (sH <= 0)) return -1; // fully clipped
 		}
 
-	//**************  INSERT BUFFER HOOKS HERE!  ************************
+	// **************  INSERT BUFFER HOOKS HERE!  ************************
 
 	// do OS based copying!
 	int16_t sNeedToUnlock = 0; // will be the name of a buffer to unlock.
@@ -266,7 +266,7 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 		}
 
 //BLIT_PRELOCKED:
-	//********************************************************************
+	// ********************************************************************
 
 	// Check for locking error:
 	if (!pimDst->m_pData)
@@ -324,9 +324,9 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 
 #endif
 
-	//********************
+	// ********************
 	// OS_SPECIFIC:
-	//********************  UNLOCK WHATEVER YOU NEED TO
+	// ********************  UNLOCK WHATEVER YOU NEED TO
 	switch (sNeedToUnlock)
 		{
 		case 0:

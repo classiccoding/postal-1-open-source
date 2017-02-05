@@ -154,7 +154,7 @@ extern void StartMenuTrans(
 	// Save total time
 	if (lTotalTime < 0)
 		{
-		TRACE("StartMenuTransIn(): Moronic time specified: %ld -- changed to 0!\n", lTotalTime);
+		TRACE("StartMenuTransIn(): Moronic time specified: %i -- changed to 0!\n", lTotalTime);
 		lTotalTime = 0;
 		}
 	m_lTotalTime = lTotalTime;

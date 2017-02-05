@@ -794,7 +794,7 @@ void CPerson::Update(void)
 					rspMsgBox(
 						RSP_MB_ICN_INFO | RSP_MB_BUT_OK,
 						g_pszAppName,
-						"The state is \"%s\" (%ld).\n"
+                  "The state is \"%s\" (%i).\n"
 						"%s",
 						ms_apszStateNames[m_state],
 						m_state,

@@ -122,9 +122,9 @@
 	PIXSIZE* pTemp = (PIXSIZE*) (pimDst->m_pData + sY * pimDst->m_lPitch) + sX;
 	*pTemp = color;
 
-	//********************
+	// ********************
 	// OS_SPECIFIC:
-	//********************  UNLOCK WHATEVER YOU NEED TO
+	// ********************  UNLOCK WHATEVER YOU NEED TO
 
 	//if (gsScreenLocked || gsBufferLocked) goto PLOT_DONTUNLOCK;
 
@@ -449,7 +449,7 @@ int16_t	rspBlitA(RImage* pimSrc,RImage* pimDst,int16_t sX,int16_t sY,
 	int16_t	sx2 = (sX + sW) << sDepthS;
 
 	// Optimize the 8-bit case:
-	//***********************************************************************
+	// ***********************************************************************
 	if (sDepth == 1)
 		{
 		if (sBestAlign & 15) // try for 128-bit alignment
@@ -514,7 +514,7 @@ int16_t	rspBlitA(RImage* pimSrc,RImage* pimDst,int16_t sX,int16_t sY,
 			}
 		}
 
-	//***********************************************************************
+	// ***********************************************************************
 	// Other color depths
 
 	if (sBestAlign & 15) // try for 128-bit alignment
@@ -605,7 +605,7 @@ int16_t	rspBlitA(RImage* pimSrc,RImage* pimDst,int16_t sX,int16_t sY,
 	return rspBlit(pimSrc,pimDst,sX,sY,sX,sY,sW,sH,prDst,prSrc);
 	}
 
-//*****************************************************************************
+// *****************************************************************************
 // This is the main controller... It clips in pixels, then thinks in bytes:
 //
 int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sSrcX,int16_t sSrcY,int16_t sDstX,
@@ -712,7 +712,7 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sSrcX,int16_t sSrcY,int16_
 		if ((sW <= 0) || (sH <= 0)) return -1; // fully clipped
 		}
 
-	//**************  INSERT BUFFER HOOKS HERE!  ************************
+	// **************  INSERT BUFFER HOOKS HERE!  ************************
 
 	// do OS based copying!
 	//short sNeedToUnlock = 0; // will be the name of a buffer to unlock.
@@ -816,7 +816,7 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sSrcX,int16_t sSrcY,int16_
 		return FAILURE;
 		}
 
-	//********************************************************************
+	// ********************************************************************
 	// Done clipping, convert to bytes to find best alignment:
 	// Currently based on source, assumes source = destination depth:
 	switch (pimSrc->m_sDepth)
@@ -875,7 +875,7 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sSrcX,int16_t sSrcY,int16_
 	else
 		{
 		// 8-bit copy
-		//*************  GAMBLE that misaligned 32-bit copies are faster than byte copies,
+		// *************  GAMBLE that misaligned 32-bit copies are faster than byte copies,
 		// then handle extra off the end:
 		if (sW < 16)
 			_BLiT(pSrc,pDst,pimSrc->m_lPitch,pimDst->m_lPitch,sH,sW);
@@ -892,9 +892,9 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sSrcX,int16_t sSrcY,int16_
 	#endif
 #endif
 
-	//********************
+	// ********************
 	// OS_SPECIFIC:
-	//********************  UNLOCK WHATEVER YOU NEED TO
+	// ********************  UNLOCK WHATEVER YOU NEED TO
 #if 0
 	switch (sNeedToUnlock)
 		{
@@ -927,9 +927,9 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sSrcX,int16_t sSrcY,int16_
 	return 0;
 	}
 
-//************************************************************************** 
-//************************************************************************** 
-//************************************************************************** 
+// ************************************************************************** 
+// ************************************************************************** 
+// ************************************************************************** 
 
 // Insert this into your functions... It assumes pre-clipped, pre-sorted,
 // pre-validated rect copy: (Pitch will be sign based!)
@@ -1031,7 +1031,7 @@ int16_t rspRect(uint32_t color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,i
 		if ((sW <= 0) || (sH <= 0)) return -1; // fully clipped
 		}
 
-	//**************  INSERT BUFFER HOOKS HERE!  ************************
+	// **************  INSERT BUFFER HOOKS HERE!  ************************
 
 	int16_t sNeedToUnlock = 0; // will be the name of a buffer to unlock.
 	int16_t sBlitTypeDst = 0;
@@ -1102,7 +1102,7 @@ int16_t rspRect(uint32_t color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,i
 		}
 //RECT_DONTLOCK:
 		
-	//********************************************************************
+	// ********************************************************************
 
 	// Done clipping, convert to bytes to find best alignment:
 	// Currently based on source, assumes source = destination depth:
@@ -1160,9 +1160,9 @@ int16_t rspRect(uint32_t color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,i
 		}
 
 
-	//********************
+	// ********************
 	// OS_SPECIFIC:
-	//********************  UNLOCK WHATEVER YOU NEED TO
+	// ********************  UNLOCK WHATEVER YOU NEED TO
 
 	// IN RELEASE MODE, GIVE THE USER A CHANCE:
 #ifndef _DEBUG
@@ -1314,7 +1314,7 @@ int16_t	rspCrop(RImage* pimSrc,int16_t sX,int16_t sY,int16_t sW,int16_t sH,
 	// Move the new buffer back to the original
 	imDst.DetachData((void**)&(pimSrc->m_pMem),(void**)&(pimSrc->m_pData));
 
-	//*******  IMPORTANT! COPY ALL NEW INFO OVER!
+	// *******  IMPORTANT! COPY ALL NEW INFO OVER!
 	pimSrc->m_ulSize = imDst.m_ulSize;
 	pimSrc->m_sWidth = imDst.m_sWidth;
 	pimSrc->m_sHeight = imDst.m_sHeight;
@@ -1422,7 +1422,7 @@ int16_t	rspPad(RImage* pimSrc,int16_t sX,int16_t sY, // where to move the old im
 	// Move the new buffer back to the original
 	imDst.DetachData((void**)&(pimSrc->m_pMem),(void**)&(pimSrc->m_pData));
 
-	//*******  IMPORTANT! COPY ALL NEW INFO OVER!
+	// *******  IMPORTANT! COPY ALL NEW INFO OVER!
 	pimSrc->m_ulSize = imDst.m_ulSize;
 	pimSrc->m_sWidth = imDst.m_sWidth;
 	pimSrc->m_sHeight = imDst.m_sHeight;

@@ -97,7 +97,7 @@ class CFire : public CThing
 
 	typedef uint8_t FireAnim;
 
-	typedef enum
+   enum
 	{
 		LargeFire,
 		SmallFire,

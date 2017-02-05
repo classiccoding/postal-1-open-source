@@ -24,7 +24,7 @@
 This header depends on the rest QuickMath, but is not necessary
 for use of Quickmath, and deals primarily with high speed fraction
 operations.
-/*****************************************************************
+ *****************************************************************
 Hungarian:	fr = either generic fraction or signed 16 (int16_t + int16_t [ / uint16_t] )
 				pfr = pointer to fraction
 				frS32 = (int32_t + int32_t [ / uint32_t] )
@@ -45,7 +45,7 @@ signed or unsigned.
 NOTE: Some functions can take a long AS an frS16.  Understand that this is
 a memory cast as a frS16 and does NOT represent the actual long "value"!
 Use Get and Set "Value" functions to translate integers to fixed point!
-/*****************************************************************
+ *****************************************************************
 RFracS32 { mod, frac, set }
 RFracS16 { mod, frac, set }
 RFracU16 { mod, frac, set }
@@ -59,14 +59,14 @@ inline void rspfrSetValue(&frDst,double dVal,short sDen)
 inline void rspMakeProper(&frU16Dst,usNum,usDen)
 inline RFracU16* rspfrU16Strafe256(usNum,usDen) // gives 0..255 * fraction!
 
-//*********************** HIGH INTENSITY SPEED! ***********************
+// *********************** HIGH INTENSITY SPEED! ***********************
 inline void rspfrAdd32(&lVal,&lNum,&lDel,&lInc,&lDen,&lAdd,PROPER,POSITIVE)
 inline void rspfrAdd32(&lVal,&lNum,&lDel,&lInc,&lDen,&lAdd,IMPROPER,POSITIVE)
 inline void rspfrAdd32(&lVal,&lNum,&lDel,&lInc,&lDen,&lAdd,IMPROPER,POSITIVE)
 inline void rspfrAdd32(&lVal,&lNum,&lDel,&lInc,&lDen,&lAdd,PROPER,NEGATIVE)
 inline void rspfrAdd32(&lVal,&lNum,&lDel,&lInc,&lDen,&lAdd,IMPROPER,NEGATIVE)
 inline void rspfrAdd32(&lVal,&lNum,&lDel,&lInc,&lDen,&lPixSize)
-/****************************************************************/
+ ****************************************************************/
 
   typedef union
 	{
@@ -97,7 +97,7 @@ typedef union	{
 		};
 	} RFracS32; // good for compound fractions
 
-//************* ALERT ALERT!!! FRACTION STUFF HERE!!!!!  *******************
+// ************* ALERT ALERT!!! FRACTION STUFF HERE!!!!!  *******************
 // There should be more functions to handle simplified cases!
 // sDen MUST be positive!
 inline void rspfrDiv(RFracS16& fr,int16_t sNum,int16_t sDen)
@@ -195,7 +195,7 @@ inline RFracU16* rspfrU16Strafe256(uint16_t usNum,uint16_t usDen)
 	}
 
 //-------------------------- 32 bit signed integer calculus stuff:
-//*********************** HIGH INTENSITY SPEED! ***********************
+// *********************** HIGH INTENSITY SPEED! ***********************
 
 typedef uint32_t POSITIVE;
 typedef int32_t NEGATIVE;

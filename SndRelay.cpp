@@ -305,7 +305,7 @@ inline void SetGuiItemVal(	// Returns nothing.
 	RGuiItem*	pgui	= pguiRoot->GetItemFromId(lId);
 	if (pgui)
 		{
-		pgui->SetText("%ld", lVal);
+      pgui->SetText("%i", lVal);
 		pgui->Compose();
 		}
 	}

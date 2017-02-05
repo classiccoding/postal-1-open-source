@@ -99,8 +99,8 @@ class CItem3d : public CThing3d
 		// "Constant" values that we want to be able to tune using the editor
 
 		// Array of known animation base names.
-		static char*	ms_apszKnownAnimBaseNames[NumTypes];
-		static char*	ms_apszKnownAnimDescriptions[NumTypes];
+      static const char*	ms_apszKnownAnimBaseNames[NumTypes];
+      static const char*	ms_apszKnownAnimDescriptions[NumTypes];
 
 	//---------------------------------------------------------------------------
 	// Constructor(s) / destructor
@@ -203,7 +203,7 @@ class CItem3d : public CThing3d
 			int16_t sY,						// In:  Starting Y position
 			int16_t sZ,						// In:  Starting Z position
 			ItemType type,					// In:  Known item type or Custom.
-			char*	pszCustomBaseName = NULL,	// In:  Required if type == Custom.
+         const char*	pszCustomBaseName = NULL,	// In:  Required if type == Custom.
 														// Base name for custom type resources.
 			uint16_t	u16IdParentInstance = CIdBank::IdNil);	// In:  Parent instance ID.
 

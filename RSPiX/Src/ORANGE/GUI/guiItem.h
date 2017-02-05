@@ -278,13 +278,13 @@ class RGuiItem : public RProps <uint32_t, uint32_t>
 
 		// Set the text that represents this item.
 		void SetText(	
-			char* pszFrmt,	// sprintf formatted format string.
+         const char* pszFrmt,	// sprintf formatted format string.
 			...);				// Corresponding good stuff.
 
 		// Set the text that represents the specified child item.
 		int16_t SetText(		// Returns 0 if item found, non-zero otherwise.
 			int32_t	lId,		// Child item ID (can identify this item).
-			char* pszFrmt,	// sprintf formatted format string.
+         const char* pszFrmt,	// sprintf formatted format string.
 			...);				// Corresponding good stuff.
 
 		// Set the justification of m_pprint to the current RGuiItem member 
@@ -1009,7 +1009,7 @@ class RGuiItem : public RProps <uint32_t, uint32_t>
 		static RGuiItem*	ms_pguiFocus;		// Higher level APIs can use this as
 														// their current point of input
 														// focus.
-		static char*		ms_apszTypes[NumGuiTypes];	// Array of strings 
+      static const char*		ms_apszTypes[NumGuiTypes];	// Array of strings
 																	// indexed by type.
 	};
 

@@ -373,94 +373,94 @@
 //////////////////////////////////////////////////////////////////////////////
 
 // Client-specific messages displayed in client dialog's status area
-char* g_pszClientStat_NameTooLongForChat		= "Name too long, can't chat";
-char* g_pszClientStat_YouWereDropped			= "Connection was lost";
-char* g_pszClientStat_SomeoneDropped_s			= "\"%s\" is no longer connected";
-char* g_pszClientStat_ServerAborted				= "Game aborted";
-char* g_pszClientStat_ServerStarted				= "Starting game";
-char* g_pszClientStat_Opened						= "Opened connection";
-char* g_pszClientStat_Connected					= "Connected";
-char* g_pszClientStat_JoinDenyTooMany			= "Can't join -- too many players";
-char* g_pszClientStat_JoinDenyLowBandwidth	= "Can't join -- your bandwidth is too low";
-char* g_pszClientStat_JoinDenyCantDropIn		= "Can't join -- game has already started";
-char* g_pszClientStat_JoinDenyUnknown			= "Can't join -- don't know why";
-char* g_pszClientStat_JoinAccepted				= "Joined";
-char* g_pszClientStat_LoginAccepted_hd			= "Logged in (ID = %hd)";
-char* g_pszClientStat_Startup						= "Trying to connect...";
-char* g_pszClientStat_Default						= "Ready";
-char* g_pszClientStat_Error_s						= "Network error (%s) -- aborting";
-char* g_pszClientStat_Retrying					= "Retry...";
+const char* g_pszClientStat_NameTooLongForChat		= "Name too long, can't chat";
+const char* g_pszClientStat_YouWereDropped			= "Connection was lost";
+const char* g_pszClientStat_SomeoneDropped_s			= "\"%s\" is no longer connected";
+const char* g_pszClientStat_ServerAborted				= "Game aborted";
+const char* g_pszClientStat_ServerStarted				= "Starting game";
+const char* g_pszClientStat_Opened						= "Opened connection";
+const char* g_pszClientStat_Connected					= "Connected";
+const char* g_pszClientStat_JoinDenyTooMany			= "Can't join -- too many players";
+const char* g_pszClientStat_JoinDenyLowBandwidth	= "Can't join -- your bandwidth is too low";
+const char* g_pszClientStat_JoinDenyCantDropIn		= "Can't join -- game has already started";
+const char* g_pszClientStat_JoinDenyUnknown			= "Can't join -- don't know why";
+const char* g_pszClientStat_JoinAccepted				= "Joined";
+const char* g_pszClientStat_LoginAccepted_hd			= "Logged in (ID = %hd)";
+const char* g_pszClientStat_Startup						= "Trying to connect...";
+const char* g_pszClientStat_Default						= "Ready";
+const char* g_pszClientStat_Error_s						= "Network error (%s) -- aborting";
+const char* g_pszClientStat_Retrying					= "Retry...";
 
 // Server-specific messages displayed in server dialog's status area
-char* g_pszServerStat_InvalidDropReq_hd		= "Ignored invalid drop request (ID = %hd)";
-char* g_pszServerStat_AcceptedClient			= "\"%s\" has joined";
-char* g_pszServerStat_CantAcceptJoinReq		= "Can't grant join request (too many players)";
-char* g_pszServerStat_InvalidChangeReq_hd		= "Ignored invalid change request (ID = %hd)";
-char* g_pszServerStat_LoginAccepted_hd			= "Login accepted (id = %hd)";
-char* g_pszServerStat_LoginDeniedVersion_ld	= "Login denied (obsolete client version %ld)";
-char* g_pszServerStat_LoginDeniedMagic			= "Login denied (invalid signature)";
-char* g_pszServerStat_Startup						= "Setting up connection...";
-char* g_pszServerStat_Default						= "Ready";
-char* g_pszServerStat_CantDropSelf				= "You can't drop yourself";
-char* g_pszServerStat_PlayerErr					= "Player was dropped (bad connection)";
+const char* g_pszServerStat_InvalidDropReq_hd		= "Ignored invalid drop request (ID = %hd)";
+const char* g_pszServerStat_AcceptedClient			= "\"%s\" has joined";
+const char* g_pszServerStat_CantAcceptJoinReq		= "Can't grant join request (too many players)";
+const char* g_pszServerStat_InvalidChangeReq_hd		= "Ignored invalid change request (ID = %hd)";
+const char* g_pszServerStat_LoginAccepted_hd			= "Login accepted (id = %hd)";
+const char* g_pszServerStat_LoginDeniedVersion_ld	= "Login denied (obsolete client version %i)";
+const char* g_pszServerStat_LoginDeniedMagic			= "Login denied (invalid signature)";
+const char* g_pszServerStat_Startup						= "Setting up connection...";
+const char* g_pszServerStat_Default						= "Ready";
+const char* g_pszServerStat_CantDropSelf				= "You can't drop yourself";
+const char* g_pszServerStat_PlayerErr					= "Player was dropped (bad connection)";
 
 // General messages displayed in client or server dialog's status area
-char* g_pszNetStat_Aborting						= "Aborting...";
-char* g_pszNetStat_Starting						= "Starting game...";
-char* g_pszNetStat_AttemptToDrop_s				= "Attempting to drop \"%s\"";
-char* g_pszNetStat_UnhandledMsg					= "Ignoring extraneous message";
+const char* g_pszNetStat_Aborting						= "Aborting...";
+const char* g_pszNetStat_Starting						= "Starting game...";
+const char* g_pszNetStat_AttemptToDrop_s				= "Attempting to drop \"%s\"";
+const char* g_pszNetStat_UnhandledMsg					= "Ignoring extraneous message";
 
-char* g_pszNetStat_NoError							= "No errors";
-char* g_pszNetStat_ReceiveError					= "Network error (can't receive data)";
-char* g_pszNetStat_InQFullError					= "Network error (input buffer is full)";
-char* g_pszNetStat_OutQFullError					= "Network error (output buffer is full)";
-char* g_pszNetStat_SendError						= "Network error (can't send data)";
-char* g_pszNetStat_InQReadError					= "Network error (can't read data)";
-char* g_pszNetStat_OutQWriteError				= "Network error (couldn't write data)";
-char* g_pszNetStat_ConnectionError				= "Network error (bad connection)";
-char* g_pszNetStat_TimeoutError					= "Network error (time-out)";
-char* g_pszNetStat_ListenError					= "Network error (can't listen)";
-char* g_pszNetStat_ConnectError					= "Network error (can't connect)";
-char* g_pszNetStat_ConnectTimeoutError			= "Network error (connection attempt timed-out)";
-char* g_pszNetStat_ClientVersionMismatchError_lu_lu	= "Version mismatch--dropping (Host ver is %lu -- Our ver is %lu)";
-char* g_pszNetStat_ServerVersionMismatchError_lu_lu	= "Version mismatch--dropping client (Client ver is %lu -- Our ver is %lu)";
-char* g_pszNetStat_CantOpenPeerSocketError	= "Network error (couldn't connect to other players)";
-char* g_pszNetStat_LoginDeniedError				= "Login failed";
-char* g_pszNetStat_JoinDeniedError				= "Host refused join request";
-char* g_pszNetStat_UnknownError					= "Network error (general failure)";
-char* g_pszNetStat_ProgramError					= "Network error (generic failure)";
+const char* g_pszNetStat_NoError							= "No errors";
+const char* g_pszNetStat_ReceiveError					= "Network error (can't receive data)";
+const char* g_pszNetStat_InQFullError					= "Network error (input buffer is full)";
+const char* g_pszNetStat_OutQFullError					= "Network error (output buffer is full)";
+const char* g_pszNetStat_SendError						= "Network error (can't send data)";
+const char* g_pszNetStat_InQReadError					= "Network error (can't read data)";
+const char* g_pszNetStat_OutQWriteError				= "Network error (couldn't write data)";
+const char* g_pszNetStat_ConnectionError				= "Network error (bad connection)";
+const char* g_pszNetStat_TimeoutError					= "Network error (time-out)";
+const char* g_pszNetStat_ListenError					= "Network error (can't listen)";
+const char* g_pszNetStat_ConnectError					= "Network error (can't connect)";
+const char* g_pszNetStat_ConnectTimeoutError			= "Network error (connection attempt timed-out)";
+const char* g_pszNetStat_ClientVersionMismatchError_lu_lu	= "Version mismatch--dropping (Host ver is %lu -- Our ver is %lu)";
+const char* g_pszNetStat_ServerVersionMismatchError_lu_lu	= "Version mismatch--dropping client (Client ver is %lu -- Our ver is %lu)";
+const char* g_pszNetStat_CantOpenPeerSocketError	= "Network error (couldn't connect to other players)";
+const char* g_pszNetStat_LoginDeniedError				= "Login failed";
+const char* g_pszNetStat_JoinDeniedError				= "Host refused join request";
+const char* g_pszNetStat_UnknownError					= "Network error (general failure)";
+const char* g_pszNetStat_ProgramError					= "Network error (generic failure)";
 #if defined(WIN32)
-	char* g_pszNetStat_ClientPlatformMismatchError	= "Cannot login to host because it is a Mac";
-	char* g_pszNetStat_ServerPlatformMismatchError	= "Cannot allow client to connect because it is a Mac";
+   const char* g_pszNetStat_ClientPlatformMismatchError	= "Cannot login to host because it is a Mac";
+   const char* g_pszNetStat_ServerPlatformMismatchError	= "Cannot allow client to connect because it is a Mac";
 #else
-	char* g_pszNetStat_ClientPlatformMismatchError	= "Cannot login to host because it is a PC";
-	char* g_pszNetStat_ServerPlatformMismatchError	= "Cannot allow client to connect because it is a PC";
+   const char* g_pszNetStat_ClientPlatformMismatchError	= "Cannot login to host because it is a PC";
+   const char* g_pszNetStat_ServerPlatformMismatchError	= "Cannot allow client to connect because it is a PC";
 #endif
 
 // This is  what we say when the user has chosen a protocol that is not supported.
 // There are two variations: one for if the user only has one choice (because we
 // only support that one) and the other for if the user can try another choice.
-char* g_pszNetOnlyProtocolUnsupported_s =
+const char* g_pszNetOnlyProtocolUnsupported_s =
 	"Your system does not support \"%s\", which is the required network protocol.\n"
 	"\n"
 	"This protocol must be added to your system before multiplayer mode can be used.";
 
-char* g_pszNetProtocolUnsupported_s =
+const char* g_pszNetProtocolUnsupported_s =
 	"Your system does not support \"%s\", which is the currently selected network protocol.\n"
 	"\n"
 	"Either add this protocol to your system or choose a different protocol from the "
 	"multiplayer options menu.";
 
 // Text which is used to dynamically update one of the text fields on the client or server dialog
-char* g_pszNetDlg_ConnectedPlayers_d			= "Connected Players: %d";
+const char* g_pszNetDlg_ConnectedPlayers_d			= "Connected Players: %d";
 
 // Text which is used for the net problems GUI.
 // WARNING: This is an EXTERN and is used by other modules!
-char*	g_pszNetProb_General =
+const char*	g_pszNetProb_General =
 	"Network not responding.\nYou can wait or\npress " NET_PROB_GUI_ABORT_KEY_TEXT" to abort";
 
 // Text to prefix net status messages, if any.
-char* g_pszNetStatusMsgPrefix						= "> ";
+const char* g_pszNetStatusMsgPrefix						= "> ";
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -702,7 +702,7 @@ void UploadLinkInteger(			// Returns nothing.
 			if ((Int)-1 < 0)
 				{
 				// Signed.
-				pgui->SetText("%ld", (long)i);
+            pgui->SetText("%i", (long)i);
 				}
 			else
 				{
@@ -713,7 +713,7 @@ void UploadLinkInteger(			// Returns nothing.
 			// Hardwire to signed b/c bool was displaying a warning regarding the
 			// above comparison to determine the [un]signed nature of the templated
 			// type.
-			pgui->SetText("%ld", (int32_t)i);
+         pgui->SetText("%i", (int32_t)i);
 #endif
 			break;
 		}
@@ -1762,7 +1762,7 @@ extern const char* NetErrorText(						// Returns pointer to text
 	NetMsg* pmsg)											// In:  Error message
 	{
 	static char szStaticErrorText[512];
-	char* pText = "";
+   const char* pText = "";
 	if (pmsg->msg.nothing.ucType == NetMsg::ERR)
 		{
 		switch (pmsg->msg.err.error)
@@ -1805,11 +1805,13 @@ extern const char* NetErrorText(						// Returns pointer to text
 				break;
 			case NetMsg::ServerVersionMismatchError:
 				pText = szStaticErrorText;
-				sprintf(pText, g_pszNetStat_ServerVersionMismatchError_lu_lu, pmsg->msg.err.ulParam, CNetMsgr::CurVersionNum & ~CNetMsgr::MacVersionBit);
+            // you may NOT overwrite string literals
+            //sprintf(pText, g_pszNetStat_ServerVersionMismatchError_lu_lu, pmsg->msg.err.ulParam, CNetMsgr::CurVersionNum & ~CNetMsgr::MacVersionBit);
 				break;
 			case NetMsg::ClientVersionMismatchError:
 				pText = szStaticErrorText;
-				sprintf(pText, g_pszNetStat_ClientVersionMismatchError_lu_lu, pmsg->msg.err.ulParam, CNetMsgr::CurVersionNum & ~CNetMsgr::MacVersionBit);
+            // you may NOT overwrite string literals
+            //sprintf(pText, g_pszNetStat_ClientVersionMismatchError_lu_lu, pmsg->msg.err.ulParam, CNetMsgr::CurVersionNum & ~CNetMsgr::MacVersionBit);
 				break;
 			case NetMsg::LoginDeniedError:
 				pText = g_pszNetStat_LoginDeniedError;

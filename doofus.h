@@ -260,8 +260,8 @@ class CDoofus : public CCharacter
 
 			typedef struct
 			{
-				char*			pszName;
-				char*			pszResName;
+            const char*			pszName;
+            const char*			pszResName;
 				ClassIDType	id;
 			} WeaponDetails;
 
@@ -410,7 +410,7 @@ class CDoofus : public CCharacter
 		static WeaponType		ms_awtId2Type[TotalIDs];			// Maps a CThing ID to a WeaponType enum.
 
 	public:
-		static char* ms_apszActionNames[];// Names of the logic actions
+      static const char* ms_apszActionNames[];// Names of the logic actions
 
 	//---------------------------------------------------------------------------
 	// Constructor(s) / destructor

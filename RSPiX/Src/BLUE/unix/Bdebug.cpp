@@ -88,11 +88,12 @@
 // Used to extract the filename from __FILE__.
 //
 ///////////////////////////////////////////////////////////////////////////////
-char* Debug_FileName(char* pszPath)
+const char* Debug_FileName(const char* pszPath)
 	{
 	// Start at end of string and work toward beginning or '\\'.
-	char *p;
-	for (p = pszPath + (strlen(pszPath) - 1); p > pszPath && *p != '\\'; p--);
+   const char *p = pszPath + strlen(pszPath) - 1;
+   while(p > pszPath && *p != '\\')
+     p--;
 
 	if (*p == '\\')
 		p++;
@@ -109,7 +110,7 @@ char* Debug_FileName(char* pszPath)
 // Output a formatted debug string to the debug terminal/window.
 //
 ///////////////////////////////////////////////////////////////////////////////
-void rspTrace(char *frmt, ... )
+void rspTrace(const char *frmt, ... )
 	{
 	static int16_t	sSem	= 0;
 

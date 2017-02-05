@@ -341,7 +341,7 @@
 #define SCREEN_DIAMETER_FOR_3D	(MODEL_DIAMETER * SCREEN2MODEL_RATIO)	
 
 int16_t	gsGlobalBrightnessPerLightAttribute = 5;  
-/* short gsGlobalLightingAdjustment = 128; /* neutral center */
+/* int16_t gsGlobalLightingAdjustment = 128; /* neutral center */
 // NOTE: This max value completely depends on the actual lighting effect curve:
 // it should be set near the bright spot of the curve.
 int16_t gsGlobalLightingAdjustment = 128; // NEUTRAL BABY!
@@ -975,8 +975,8 @@ if (g_bSceneDontBlit == false)
 
 			// Draw image.
 			rspRect(1, RSP_WHITE_INDEX, pimDst, 
-				sCenterX - (short)(SCREEN_DIAMETER_FOR_3D / 2), 
-				sCenterY - (short)(SCREEN_DIAMETER_FOR_3D / 2), 
+            sCenterX - (int16_t)(SCREEN_DIAMETER_FOR_3D / 2),
+            sCenterY - (int16_t)(SCREEN_DIAMETER_FOR_3D / 2),
 				m_pipeline.m_pimClipBuf->m_sWidth, 
 				m_pipeline.m_pimClipBuf->m_sHeight,
 				prcDstClip);
@@ -1362,13 +1362,13 @@ void CScene::Render2D(		// Returns nothing.
 #if 0			// The math equiv which appears to be slower than the confusing but
 				// similar compares.  Also, the math allows none of the short circuiting 
 				// that the C++ compares do.
-				short	sUseXRay		
+            int16_t	sUseXRay
 					=	(	(ps2Cur->m_sInFlags & CSprite::InAlpha) 
 						+	(	(ps2Cur->m_sInFlags & CSprite::InOpaque)
 							*	m_bXRayAll
 							)
 						)
-					*	(long)psprXRayee
+               *	(int32_t)psprXRayee
 					*	(	g_GameSettings.m_sXRayEffect
 						+	m_bXRayAll
 						)
@@ -1769,7 +1769,7 @@ void CScene::SetupPipeline(						// Returns nothing.
 
 	// OK, this is a bit more professional way to do it:
 	int16_t sScreenSize		= SCREEN_DIAMETER_FOR_3D; // diameter in pixels;
-//	short	sScreenRadius	= sScreenSize>>1;
+//	int16_t	sScreenRadius	= sScreenSize>>1;
 
 	double dModelSize		= MODEL_DIAMETER; // diameter in Randy's coordinates
 	double dModelRadius	= 0.5 * dModelSize;

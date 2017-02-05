@@ -259,7 +259,7 @@ int16_t RProtocolBSDIP::Startup(void)
 				else
 					{
 					sResult = -1;
-					TRACE("RProtocolBSDIP::Hook(): Error returned by WSASetBlockingHook(): %ld\n", WSAGetLastError());
+					TRACE("RProtocolBSDIP::Hook(): Error returned by WSASetBlockingHook(): %i\n", WSAGetLastError());
 					}
 				}
 			else
@@ -297,7 +297,7 @@ void RProtocolBSDIP::Shutdown(void)
 		{
 		// Remove blocking hook
 		if (WSAUnhookBlockingHook() == SOCKET_ERROR)
-			TRACE("RProtocolBSDIP::Unhook(): Error returned by WSAUnhookBlockingHook(): %ld\n", WSAGetLastError());
+			TRACE("RProtocolBSDIP::Unhook(): Error returned by WSAUnhookBlockingHook(): %i\n", WSAGetLastError());
 		
 		ms_bWSASetBlockingHook = false;
 		}
@@ -307,7 +307,7 @@ void RProtocolBSDIP::Shutdown(void)
 		{
 		// Cleanup winsock API
 		if (WSACleanup() == SOCKET_ERROR)
-			TRACE("RProtocolBSDIP::Shutdown(): Error returned by WSACleanup(): %ld\n", WSAGetLastError());
+			TRACE("RProtocolBSDIP::Shutdown(): Error returned by WSACleanup(): %i\n", WSAGetLastError());
 		
 		ms_bWSAStartup = false;
 		}
@@ -390,7 +390,7 @@ int16_t RProtocolBSDIP::Open(							// Returns 0 if successful, non-zero otherwi
 						if (ioctlsocket(m_sock, FIONBIO, &ulEnableNonBlockingMode) == SOCKET_ERROR)
 							{
 							sResult = -1;
-							TRACE("RProtocolBSDIP::Open(): Error setting non-blocking mode, error returned by ioctlsocket(): %ld\n", WSAGetLastError());
+							TRACE("RProtocolBSDIP::Open(): Error setting non-blocking mode, error returned by ioctlsocket(): %i\n", WSAGetLastError());
 							}
 						}
 
@@ -403,7 +403,7 @@ int16_t RProtocolBSDIP::Open(							// Returns 0 if successful, non-zero otherwi
 							if (setsockopt(m_sock, IPPROTO_TCP, TCP_NODELAY, (char*)&optval, sizeof(optval)) == SOCKET_ERROR)
 								{
 								sResult = -1;
-								TRACE("RProtocolBSDIP::Open(): Error setting TCP_NODELAY, error returned by setsockopt(): %ld\n", WSAGetLastError());
+								TRACE("RProtocolBSDIP::Open(): Error setting TCP_NODELAY, error returned by setsockopt(): %i\n", WSAGetLastError());
 								}
 							}
 						else
@@ -422,7 +422,7 @@ int16_t RProtocolBSDIP::Open(							// Returns 0 if successful, non-zero otherwi
 							if (setsockopt(m_sock, SOL_SOCKET, SO_DONTLINGER, (char*)&optval, sizeof(optval)) == SOCKET_ERROR)
 								{
 								sResult = -1;
-								TRACE("RProtocolBSDIP::Open(): Error setting SO_DONTLINGER, error returned by setsockopt(): %ld\n", WSAGetLastError());
+								TRACE("RProtocolBSDIP::Open(): Error setting SO_DONTLINGER, error returned by setsockopt(): %i\n", WSAGetLastError());
 								}
 							}
 						else
@@ -448,7 +448,7 @@ int16_t RProtocolBSDIP::Open(							// Returns 0 if successful, non-zero otherwi
 						else
 							{
 							sResult = -1;
-							TRACE("RProtocolBSDIP::Open(): Error returned by bind(): %ld\n", WSAGetLastError());
+							TRACE("RProtocolBSDIP::Open(): Error returned by bind(): %i\n", WSAGetLastError());
 							}
 						}
 
@@ -463,7 +463,7 @@ int16_t RProtocolBSDIP::Open(							// Returns 0 if successful, non-zero otherwi
 						sResult = RSocket::errNotSupported;
 					else
 						sResult = -1;
-					TRACE("RProtocolBSDIP::Open(): Error returned by socket(): %ld\n", iErr);
+					TRACE("RProtocolBSDIP::Open(): Error returned by socket(): %i\n", iErr);
 					}
 				}
 			}
@@ -512,7 +512,7 @@ int16_t RProtocolBSDIP::Close(							// Returns 0 if successfull, non-zero other
 			if (setsockopt(m_sock, SOL_SOCKET, SO_DONTLINGER, (char*)&optval, sizeof(optval)) == SOCKET_ERROR)
 				{
 				sResult = -1;
-				TRACE("RProtocolBSDIP::Close(): Error setting SO_DONTLINGER, error returned by setsockopt(): %ld\n", WSAGetLastError());
+				TRACE("RProtocolBSDIP::Close(): Error setting SO_DONTLINGER, error returned by setsockopt(): %i\n", WSAGetLastError());
 				}
 			}
 
@@ -541,7 +541,7 @@ int16_t RProtocolBSDIP::Close(							// Returns 0 if successfull, non-zero other
 				else
 					{
 					sResult = -1;
-					TRACE("RProtocolBSDIP::Close(): Error returned by closesocket(): %ld\n", iErr);
+					TRACE("RProtocolBSDIP::Close(): Error returned by closesocket(): %i\n", iErr);
 					}
 				}
 			}
@@ -574,7 +574,7 @@ int16_t RProtocolBSDIP::Broadcast(void)				// Returns 0 if successfull, non-zero
 			if (setsockopt(m_sock, SOL_SOCKET, SO_BROADCAST, (char*)&optval, sizeof(optval)) == SOCKET_ERROR)
 				{
 				sResult = -1;
-				TRACE("RProtocolBSDIP::Broadcast(): Error setting SO_BROADCAST, error returned by setsockopt(): %ld\n", WSAGetLastError());
+				TRACE("RProtocolBSDIP::Broadcast(): Error setting SO_BROADCAST, error returned by setsockopt(): %i\n", WSAGetLastError());
 				}
 			}
 		else
@@ -631,7 +631,7 @@ int16_t RProtocolBSDIP::Listen(							// Returns 0 if successfull, non-zero othe
 				else
 					{
 					sResult = -1;
-					TRACE("RProtocolBSDIP::Listen(): Error returned by listen(): %ld\n", WSAGetLastError());
+					TRACE("RProtocolBSDIP::Listen(): Error returned by listen(): %i\n", WSAGetLastError());
 					}
 				}
 			else
@@ -712,7 +712,7 @@ int16_t RProtocolBSDIP::Accept(						// Returns 0 on success, non-zero otherwise
 					else
 						{
 						sResult = -1;
-						TRACE("RProtocolBSDIP::AcceptClient(): Error returned by accept(): %ld\n", iErr);
+						TRACE("RProtocolBSDIP::AcceptClient(): Error returned by accept(): %i\n", iErr);
 						}
 					}
 				}
@@ -791,7 +791,7 @@ int16_t RProtocolBSDIP::Connect(						// Returns 0 if successfull, non-zero othe
 					else
 						{
 						sResult = -1;
-						TRACE("RProtocolBSDIP::Connect(): Error returned by connect(): %ld\n", iErr);
+						TRACE("RProtocolBSDIP::Connect(): Error returned by connect(): %i\n", iErr);
 						}
 					}
 				}
@@ -897,7 +897,7 @@ int16_t RProtocolBSDIP::Send(							// Returns 0 on success, non-zero otherwise
 					else
 						{
 						sResult = -1;
-						TRACE("RProtocolBSDIP::Send(): Error returned by send(): %ld\n", iErr);
+						TRACE("RProtocolBSDIP::Send(): Error returned by send(): %i\n", iErr);
 						}
 					}
 				}
@@ -958,7 +958,7 @@ int16_t RProtocolBSDIP::SendTo(							// Returns 0 on success, non-zero otherwis
 				else
 					{
 					sResult = -1;
-					TRACE("RProtocolBSDIP::SendTo(): Error returned by sendto(): %ld\n", iErr);
+					TRACE("RProtocolBSDIP::SendTo(): Error returned by sendto(): %i\n", iErr);
 					}
 				}
 			}
@@ -1031,7 +1031,7 @@ int16_t RProtocolBSDIP::Receive(						// Returns 0 on success, non-zero otherwis
 					else
 						{
 						sResult = -1;
-						TRACE("RProtocolBSDIP::Receive(): Error returned by recv(): %ld\n", iErr);
+						TRACE("RProtocolBSDIP::Receive(): Error returned by recv(): %i\n", iErr);
 						}
 					}
 				}
@@ -1106,7 +1106,7 @@ int16_t RProtocolBSDIP::ReceiveFrom(					// Returns 0 on success, non-zero other
 				else
 					{
 					sResult = -1;
-					TRACE("RProtocolBSDIP::ReceiveFrom(): Error returned by recvfrom(): %ld\n", iErr);
+					TRACE("RProtocolBSDIP::ReceiveFrom(): Error returned by recvfrom(): %i\n", iErr);
 					}
 				}
 			}
@@ -1300,7 +1300,7 @@ int32_t RProtocolBSDIP::CheckReceivableBytes(void)
 			if (ioctlsocket(m_sock, FIONREAD, (uint32_t*)&lResult) == SOCKET_ERROR)
 				{
 				lResult = 0;
-				TRACE("RProtocolBSDIP::GetAvailableForReceive(): Error returned by ioctrlsocket(): %ld\n", WSAGetLastError());
+				TRACE("RProtocolBSDIP::GetAvailableForReceive(): Error returned by ioctrlsocket(): %i\n", WSAGetLastError());
 				}
 			}
 		else
@@ -1487,7 +1487,7 @@ int16_t RProtocolBSDIP::GetAddress(					// Returns 0 if successfull, non-zero ot
 			else
 				{
 				sResult = -1;
-				TRACE("RProtocolBSDIP::GetAddress(): Error returned by gethostbyname(): %ld\n", WSAGetLastError());
+				TRACE("RProtocolBSDIP::GetAddress(): Error returned by gethostbyname(): %i\n", WSAGetLastError());
 				}
 			}
 		}

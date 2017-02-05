@@ -91,11 +91,14 @@ extern int32_t macReserveMemBytes;
 	#define STRACE			rspTrace
 	#define TRACE			STRACE("%s(%d):", __FILE__, __LINE__),STRACE
 
-	// ASSERT macro, the preferred method of asserting that expressions are true.
-	//#define ASSERT(a)		while (!(a))  \
-	//								if (rspAssert(__FILE__, __LINE__, #a) == 0)  \
-	//									break
+#if 0
+    ASSERT macro, the preferred method of asserting that expressions are true.
+   #define ASSERT(a)		while (!(a))  \
+                           if (rspAssert(__FILE__, __LINE__, #a) == 0)  \
+                              break
+#else
     #define ASSERT SDL_assert
+#endif
 #else
 	// This causes the compiler to "optimize" out the data and the function call.
 	// We can't simply define TRACE as nothing (like ASSERT) because it takes
@@ -110,16 +113,16 @@ extern int32_t macReserveMemBytes;
 // Trace works like printf, but sends output to debug window.  This is rarely
 // called directly.  Instead, use the TRACE() macro so that the TRACE is
 // automatically removed in "release" versions of the program.
-extern void rspTrace(char* szFrmt, ...);
+extern void rspTrace(const char* szFrmt, ...);
 
 // Assert checks the expression and, if it is zero, displays an alert box
 // and waits for the user to select ABORT, RETRY or IGNORE.  This is rarely
 // called directly.  Instead, use the ASSERT() macro so that the ASSERT is
 // automatically removed in "release" versions of the program.
 extern int16_t rspAssert(	// Returns result.
-	char* pszFile,			// Source file.
+   const char* pszFile,			// Source file.
 	int16_t sLine,			// Source line.
-	char* pszExpr);		// String representing expression.
+   const char* pszExpr);		// String representing expression.
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -629,7 +632,7 @@ extern void rspUnlockSound(void);
 ////////////////////////////////////////////////////////////////////////////////
 
 extern void rspSetApplicationName(
-	char* pszName);								// In: Application name
+   const char* pszName);								// In: Application name
 
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -111,11 +111,11 @@ int16_t	RPrint::FrameIt() // uses m_rClip, m_sCurX, m_sCurY, m_sCellH
 // in progress.
 // Assume the Y-values are kosher
 //
-char* RPrint::ScanLine(char* pszInput)
+const char* RPrint::ScanLine(const char* pszInput)
 	{
 	int16_t sFirst = TRUE;
 	if (m_eModes & FIELD) sFirst = FALSE;
-	char* pLast = pszInput;
+   const char* pLast = pszInput;
 	int16_t i=0,sWhiteSpace = 0;
 	int16_t sX = m_sCurX;
 	int16_t sLeft,sW,sRight;
@@ -213,10 +213,10 @@ char* RPrint::ScanLine(char* pszInput)
 // (ScanLine, for example, eats whitespace characters
 // and partial words which GetWidth would include!)
 //
-int16_t RPrint::GetWidth(char* pszInput)
+int16_t RPrint::GetWidth(const char* pszInput)
 	{
 	int16_t sFirst = TRUE;
-	char* pLast = pszInput;
+   const char* pLast = pszInput;
 	int16_t i=0;
 	int16_t sX = 0; // for this version
 	int16_t sLeft,sW,sRight;
@@ -406,7 +406,7 @@ void	RPrint::DrawText()
 	}
 
 // Attempting to pass on
-char* RPrint::print(char* pszFormat,...)
+const char* RPrint::print(const char* pszFormat,...)
 	{
 	//char szInput[4096];
 
@@ -419,7 +419,7 @@ char* RPrint::print(char* pszFormat,...)
 	}
 
 // Attempting to pass on
-char* RPrint::print(int16_t sX,int16_t sY,char* pszFormat,...)
+const char* RPrint::print(int16_t sX,int16_t sY, const char* pszFormat,...)
 	{
 	//char szInput[4096];
 
@@ -435,7 +435,7 @@ char* RPrint::print(int16_t sX,int16_t sY,char* pszFormat,...)
 	}
 
 // Attempting to pass on
-char* RPrint::print(RImage* pimDst,int16_t sX,int16_t sY,char* pszFormat,...)
+const char* RPrint::print(RImage* pimDst,int16_t sX,int16_t sY,const char* pszFormat,...)
 	{
 	//char szInput[4096];
 
@@ -457,7 +457,7 @@ char* RPrint::print(RImage* pimDst,int16_t sX,int16_t sY,char* pszFormat,...)
 // next column at if it goes off the bottom of the
 // screen.
 //
-char* RPrint::printInt(char* pszInput)
+const char* RPrint::printInt(const char* pszInput)
 	{
 
 #ifdef _DEBUG
@@ -489,7 +489,7 @@ char* RPrint::printInt(char* pszInput)
 
 	// BEGIN MULTILINE LOGIC!
 
-	char* pTest = pszInput;
+   const char* pTest = pszInput;
 	int16_t sStopped;
 	do	{
 		sStopped = FALSE;
@@ -877,7 +877,7 @@ int16_t RPrint::SetFont(int16_t sCellH,RFont* pFont)
 	m_pCurFontSet = pFontSet;
 	m_fWidthScale = m_fHeightScale = float(dScale);
 
-	//***************** RESIZE ALL THE TEXT EFFECTS:
+	// ***************** RESIZE ALL THE TEXT EFFECTS:
 	// (just re-adjust the relative values...)
 
 	for (int16_t i=0;i<NUM_OF_EFFECTS;i++)
@@ -894,7 +894,7 @@ int16_t RPrint::SetFont(int16_t sCellH,RFont* pFont)
 
 	// 1) make sure all relative 
 
-	//**********************************************
+	// **********************************************
 
 	m_sCellH = sCellH;
 	m_sCellW = int16_t(m_fWidthScale * m_pCurFontSet->m_sMaxWidth + .99);

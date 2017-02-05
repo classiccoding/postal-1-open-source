@@ -35,9 +35,9 @@
 
 // Here is a comand summary which hopefully is descriptive:
 
-//********************************************************************
+// ********************************************************************
 //--------------------- CONVENTIONAL ALPHA BLiTs ---------------------
-//********************************************************************
+// ********************************************************************
 //
 // All alpha blits need a MultiAlpha table set for the current palette
 // in order to translate true color transparency effects into 8-bit color
@@ -201,9 +201,9 @@ extern	void rspGeneralAlphaBlitT(
 							int16_t sDstY,
 							RRect &rDstClip);
 
-//********************************************************************
+// ********************************************************************
 //------------------------- FAST ALPHA BLiTs -------------------------
-//********************************************************************
+// ********************************************************************
 // Fast Multi Alphas are initially created from normal Multi Alphas.
 // They are touchy, because they only apply to a subset of source and 
 // destination colors, and if these ranges are not met, these
@@ -265,9 +265,9 @@ extern	void rspFastMaskAlphaBlitT(
 
 
 
-//********************************************************************
+// ********************************************************************
 //--------------  Color Blending Tools for Custom Functions  ---------
-//********************************************************************
+// ********************************************************************
 
 // THIS SHOULD MOVE TO OFFICIAL BLIT STATUS and not staty in alpha
 //
@@ -369,9 +369,9 @@ inline	uint8_t	rspBlendColor(uint8_t** ppucAlpha,RMultiAlpha* pX,uint8_t ucSrc,u
 	return ppucAlpha[ucSrc][ucDst];
 	}
 
-//********************************************************************
+// ********************************************************************
 //-----------  SPECIAL BLITs used in creation of X-RAY effect  -------
-//********************************************************************
+// ********************************************************************
 
 //====================================================================
 //	rspMaskBlit - a blit used to dynamically create an alpha mask

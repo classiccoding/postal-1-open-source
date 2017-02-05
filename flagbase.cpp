@@ -78,7 +78,7 @@ int16_t CFlagbase::ms_sFileCount;
 
 /// Throwing Animation Files ////////////////////////////////////////////////////
 // An array of pointers to resource names (one for each channel of the animation)
-static char* ms_apszRedResNames[] = 
+static const char* ms_apszRedResNames[] =
 {
 	"3d/rbase.sop",
 	"3d/rbase.mesh",
@@ -90,7 +90,7 @@ static char* ms_apszRedResNames[] =
 	NULL
 };
 
-static char* ms_apszBlueResNames[] = 
+static const char* ms_apszBlueResNames[] =
 {
 	"3d/bbase.sop",
 	"3d/bbase.mesh",

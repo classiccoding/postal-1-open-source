@@ -2236,7 +2236,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 				// Oooops
 				//------------------------------------------------------------------------------
 				default:
-					TRACE("GameCore(): Unrecognized action: %ld!\n", (int32_t)m_action);
+					TRACE("GameCore(): Unrecognized action: %i!\n", (int32_t)m_action);
 					break;
 				}
 
@@ -2346,12 +2346,12 @@ static int16_t GetRealmToRecord(	// Returns 0 on success, negative on error, 1 i
 ////////////////////////////////////////////////////////////////////////////////
 extern int16_t SubPathOpenBox(		// Returns 0 on success, negative on error, 1 if 
 											// not subpathable (i.e., returned path is full path).
-	char*	pszFullPath,				// In:  Full path to be relative to (system format).
-	char* pszBoxTitle,				// In:  Title of box.
-	char*	pszDefFileName,			// In:  Default filename (system format).
+   const char*	pszFullPath,				// In:  Full path to be relative to (system format).
+   const char* pszBoxTitle,				// In:  Title of box.
+   const char*	pszDefFileName,			// In:  Default filename (system format).
 	char* pszChosenFileName,		// Out: User's choice (system format).
 	int16_t sStrSize,					// In:  Amount of memory pointed to by pszChosenFileName.
-	char*	pszFilter /*= NULL*/)	// In:  If not NULL, '.' delimited extension based filename
+   const char*	pszFilter /*= NULL*/)	// In:  If not NULL, '.' delimited extension based filename
 											//	filter specification.  Ex: ".cpp.h.exe.lib" or "cpp.h.exe.lib"
 											// Note: Cannot use '.' in filter.  Preceding '.' ignored.
 	{
@@ -2477,7 +2477,7 @@ inline void GetSoundPaths(		// Returns nothing.
 	char	szAudioResDescriptor[256];
 	sprintf(
 		szAudioResDescriptor,
-		"%ld%c%ld",
+		"%i%c%ld",
 		lSamplesPerSec,
 		AUDIO_SAK_SEPARATOR_CHAR,
 		lBitsPerSample);
@@ -2621,7 +2621,7 @@ static int16_t OpenSaks(void)
 		lSamplesPerSec = 44100;
 	else
 		{
-		TRACE("OpenSaks(): Unsupported sample rate: %ld!\n", (int32_t)lSamplesPerSec);
+		TRACE("OpenSaks(): Unsupported sample rate: %i!\n", (int32_t)lSamplesPerSec);
 		ASSERT(0);
 		}
 
@@ -3613,11 +3613,11 @@ void GameEndingSequence(void)
 // Returns a ptr to just the portion of the file path that specifies the file
 // name (excluding the path).
 ////////////////////////////////////////////////////////////////////////////////
-static char* GetFileNameFromPath(	// Returns file name.
-	char*	pszFullPath)					// In:  File's full path.
+static const char* GetFileNameFromPath(	// Returns file name.
+   const char*	pszFullPath)					// In:  File's full path.
 	{
 	// Scan back for the separator or the beginning.
-	char*	pszIndex	= pszFullPath + (strlen(pszFullPath) - 1);
+   const char*	pszIndex	= pszFullPath + (strlen(pszFullPath) - 1);
 
 	while (pszIndex >= pszFullPath && *pszIndex != RSP_SYSTEM_PATH_SEPARATOR)
 		{
@@ -3717,7 +3717,7 @@ extern int SynchLog(	// Result of expr.
 				{
 				fprintf(
 					ms_fileSynchLog.m_fs, 
-					"[Seq: %ld] %s : %ld  <$%s$> == %0.8f; User == %lu\n", 
+					"[Seq: %i] %s : %i  <$%s$> == %0.8f; User == %lu\n", 
 					ms_lSynchLogSeq++,
 					GetFileNameFromPath(pszFile),
 					lLine,
@@ -3736,7 +3736,7 @@ extern int SynchLog(	// Result of expr.
 
 				if (fscanf(
 					ms_fileSynchLog.m_fs,
-					"[Seq: %ld] %s : %ld  <$%1024[^$]$> == %g; User == %lu\n", 
+					"[Seq: %i] %s : %i  <$%1024[^$]$> == %g; User == %lu\n", 
 					&lSeqIn,
 					szFileIn,
 					&lLineIn,
@@ -3753,9 +3753,9 @@ extern int SynchLog(	// Result of expr.
 						char	szOut[2048];
 						sprintf(
 							szOut,
-							"'If' sequence (%ld) mismatch!\n\n"
-							"   Was <<%s>> at %s(%ld) which got %g; User == %lu\n\n"
-							"   Now <<%s>> at %s(%ld) which got %g; User == %lu",
+							"'If' sequence (%i) mismatch!\n\n"
+							"   Was <<%s>> at %s(%i) which got %g; User == %lu\n\n"
+							"   Now <<%s>> at %s(%i) which got %g; User == %lu",
 							ms_lSynchLogSeq,
 							szExprIn,
 							szFileIn,
@@ -3882,7 +3882,7 @@ static void GameGetRegistry(void)
 
 	// Get the current time and convert it to a string so it can be encoded
 	time( &lTime );
-	sprintf(szTime, "%ld", lTime);
+	sprintf(szTime, "%i", lTime);
 
 	// Decrypte the registry key path so the key can be opened
 	Decrypt((char*) szKey, szName, sEncryptedKeyLength);
@@ -4095,7 +4095,7 @@ static void GameSetRegistry(void)
 
 	time( &lTime );
 	lTime = MAX(lTime, g_lRegTime);
-	sprintf(szTime, "%ld", lTime);
+	sprintf(szTime, "%i", lTime);
 
 	Decrypt((char*) szKey, szName, sEncryptedKeyLength);
 	szName[sEncryptedKeyLength-2] = 0;
@@ -4182,7 +4182,7 @@ extern void SeedRand(
 //
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(_DEBUG) || defined(TRACENASSERT)
-	extern int32_t GetRandomDebug(char* FILE_MACRO, int32_t LINE_MACRO)
+   extern int32_t GetRandomDebug(const char* FILE_MACRO, int32_t LINE_MACRO)
 		{
 		// Get next random number
 		int32_t lNewVal = (((m_lRandom = m_lRandom * 214013L + 2531011L) >> 16) & 0x7fff);
@@ -4193,7 +4193,7 @@ extern void SeedRand(
 				{
 				fprintf(
 					m_pfileRandom->m_fs,
-					"%s : %ld rand = %ld\n", 
+					"%s : %i rand = %i\n", 
 					GetFileNameFromPath(FILE_MACRO),
 					LINE_MACRO,
 					lNewVal);
@@ -4208,7 +4208,7 @@ extern void SeedRand(
 				char szSavedFile[1024];
 				fscanf(
 					m_pfileRandom->m_fs,
-					"%s : %ld rand = %ld\n", 
+					"%s : %i rand = %i\n", 
 					szSavedFile,
 					&lSavedLine,
 					&lSavedVal);
@@ -4222,8 +4222,8 @@ extern void SeedRand(
 						RSP_MB_ICN_INFO | RSP_MB_BUT_OK,
 						"Postal",
 						"Random number sequence mismatch!\n\n"
-						"   Was %s(%ld) which got %ld\n\n"
-						"   Now %s(%ld) which got %ld",
+						"   Was %s(%i) which got %i\n\n"
+						"   Now %s(%i) which got %i",
 						szSavedFile,
 						(int32_t)lSavedLine,
 						(int32_t)lSavedVal,
@@ -4458,7 +4458,7 @@ static char m_acFullPath[RSP_MAX_PATH + RSP_MAX_PATH];
 
 extern char* FullPath(									// Returns full path in system format
 	int16_t sPathType,										// In:  PATH_CD, PATH_HD, or PATH_VD
-	char* pszPartialPath)								// In:  Partial path in RSPiX format
+   const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with the specified base path (copy the string from the game settings)
 	if (sPathType == GAME_PATH_CD)
@@ -4486,7 +4486,7 @@ extern char* FullPath(									// Returns full path in system format
 
 
 extern char* FullPathCD(								// Returns full path in system format
-	char* pszPartialPath)								// In:  Partial path in RSPiX format
+   const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
 	ASSERT(strlen(g_GameSettings.m_pszCDPath) < RSP_MAX_PATH);
@@ -4538,7 +4538,7 @@ extern char* FullPathHD(								// Returns full path in system format
 
 
 extern char* FullPathVD(								// Returns full path in system format
-	char* pszPartialPath)								// In:  Partial path in RSPiX format
+   const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
 	ASSERT(strlen(g_GameSettings.m_pszVDPath) < RSP_MAX_PATH);
@@ -4564,7 +4564,7 @@ extern char* FullPathVD(								// Returns full path in system format
 
 
 extern char* FullPathSound(								// Returns full path in system format
-	char* pszPartialPath)								// In:  Partial path in RSPiX format
+   const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
 	ASSERT(strlen(g_GameSettings.m_pszSoundPath) < RSP_MAX_PATH);
@@ -4590,7 +4590,7 @@ extern char* FullPathSound(								// Returns full path in system format
 
 
 extern char* FullPathGame(								// Returns full path in system format
-	char* pszPartialPath)								// In:  Partial path in RSPiX format
+   const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
 	ASSERT(strlen(g_GameSettings.m_pszGamePath) < RSP_MAX_PATH);
@@ -4615,7 +4615,7 @@ extern char* FullPathGame(								// Returns full path in system format
 	}
 
 extern char* FullPathHoods(								// Returns full path in system format
-	char* pszPartialPath)								// In:  Partial path in RSPiX format
+   const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
 	ASSERT(strlen(g_GameSettings.m_pszHoodsPath) < RSP_MAX_PATH);
@@ -4641,8 +4641,8 @@ extern char* FullPathHoods(								// Returns full path in system format
 
 
 extern char* FullPathCustom(							// Returns full path in system format
-	char*	pszFullPath,									// In:  Full path in in RSPiX format.
-	char* pszPartialPath)								// In:  Partial path in RSPiX format.
+   const char*	pszFullPath,									// In:  Full path in in RSPiX format.
+   const char* pszPartialPath)								// In:  Partial path in RSPiX format.
 	{
 	char*	pszFullSystemPath	= rspPathToSystem(pszFullPath);
 	// Start with proper base path

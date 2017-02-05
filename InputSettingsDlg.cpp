@@ -207,7 +207,7 @@ extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
 	int16_t		sRes				= 0;		// Assume success.
 	int16_t		sInputIndex		= 0;		// Safety.
 	uint32_t*	pasPlayInputs	= NULL;	// Input value array.
-	char**	papszInputDescriptions	= NULL;	// Descriptions of input values.
+   const char**	papszInputDescriptions	= NULL;	// Descriptions of input values.
 	bool	bIsJoystick = false;
 
 	switch (pmenu->u32Id)
@@ -383,7 +383,7 @@ void InputSettingsDlg_Choice(	// Returns nothing.
 				|| sMenuItem == ms_sResetItemOld)
 				{
 				uint32_t*	pasPlayInputs	= NULL;				// Input value array.
-				char**	papszInputDescriptions	= NULL;	// Descriptions of input values.
+            const char**	papszInputDescriptions	= NULL;	// Descriptions of input values.
 
 				switch (pmenu->u32Id)
 					{

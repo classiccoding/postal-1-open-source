@@ -265,7 +265,7 @@ extern void Disp_Init(void)	// Returns nothing.
 }
 
 extern void rspSetApplicationName(
-	char* pszName)								// In: Application name
+   const char* pszName)								// In: Application name
 {
     SDL_free(sdlAppName);
     sdlAppName = SDL_strdup(pszName);

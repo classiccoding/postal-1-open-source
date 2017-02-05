@@ -380,7 +380,7 @@ RAlpha::~RAlpha()
 	Erase();
 	}
 
-//************ COMMENT THIS OUT TO REMOVE DEPENDENCY ON BLIT!
+// ************ COMMENT THIS OUT TO REMOVE DEPENDENCY ON BLIT!
 // For debugging an alpha, you should set the current palette to the
 // default one...
 void RAlpha::Dump(RImage* pimDst,int16_t sX,int16_t sY) 
@@ -400,7 +400,7 @@ void RAlpha::Dump(RImage* pimDst,int16_t sX,int16_t sY)
 			rspPlot((m_pAlphas[i][j]),pimDst,int16_t(sX+i),int16_t(sY+j));
 	}
 
-//************ COMMENT THIS OUT TO REMOVE DEPENDENCY ON BLIT!
+// ************ COMMENT THIS OUT TO REMOVE DEPENDENCY ON BLIT!
 // For debugging an alpha, you should set the current palette to the
 // default one...
 void RAlpha::DumpPalette(RImage* pimDst,int16_t sX,int16_t sY) 
@@ -536,11 +536,11 @@ int16_t RAlpha::CreateLightEffectRGB(int16_t sPalStart, int16_t sPalLen)
 	}
 
 
-//**************************************************************************
-//**************************************************************************
+// **************************************************************************
+// **************************************************************************
 // MultiAlpha!
-//**************************************************************************
-//**************************************************************************
+// **************************************************************************
+// **************************************************************************
 
 RMultiAlpha::RMultiAlpha()
 	{

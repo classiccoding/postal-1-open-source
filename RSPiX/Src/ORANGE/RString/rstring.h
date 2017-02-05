@@ -63,7 +63,7 @@ class RString
 	// Variables
 	//---------------------------------------------------------------------------
 	protected:
-		char* m_pBuf;				// Pointer to buffer memory, or ms_pszEmpty if none exists
+      char* m_pBuf;				// Pointer to buffer memory, or ms_pszEmpty if none exists
 		int32_t m_lBufSize;			// Size of buffer (0 means there is no buffer!)
 		int32_t m_lStrLen;			// Length of string (up to but not including the terminating null)
 
@@ -71,7 +71,7 @@ class RString
 		// there is no buffer, a string's buffer pointer is set equal to this
 		// value.  This makes it a bit faster to cast an RStrng as a char*.  Lots
 		// of work to go through for a small gain, but I liked the idea!
-		static char* ms_pszEmpty;
+      static char* ms_pszEmpty;
 
 	//---------------------------------------------------------------------------
 	// Private helpers
@@ -405,7 +405,7 @@ class RString
 		const RString& operator=(int16_t rhs)
 			{
 			Grow(MaxShortLen + 1); // size is always > 0, so this will always return with a valid buffer
-			m_lStrLen = sprintf(m_pBuf, "%hd", (int16_t)rhs);
+         m_lStrLen = sprintf(m_pBuf, "%hd", rhs);
 			return *this;
 			}
 
@@ -413,7 +413,7 @@ class RString
 		const RString& operator=(uint16_t rhs)
 			{
 			Grow(MaxUShortLen + 1); // size is always > 0, so this will always return with a valid buffer
-			m_lStrLen = sprintf(m_pBuf, "%hu", (uint16_t)rhs);
+         m_lStrLen = sprintf(m_pBuf, "%hu", rhs);
 			return *this;
 			}
 
@@ -421,7 +421,7 @@ class RString
 		const RString& operator=(int32_t rhs)
 			{
 			Grow(MaxLongLen + 1); // size is always > 0, so this will always return with a valid buffer
-			m_lStrLen = sprintf(m_pBuf, "%ld", (int32_t)rhs);
+         m_lStrLen = sprintf(m_pBuf, "%i", rhs);
 			return *this;
 			}
 
@@ -429,7 +429,7 @@ class RString
 		const RString& operator=(uint32_t rhs)
 			{
 			Grow(MaxULongLen + 1); // size is always > 0, so this will always return with a valid buffer
-			m_lStrLen = sprintf(m_pBuf, "%lu", (uint32_t)rhs);
+         m_lStrLen = sprintf(m_pBuf, "%u", rhs);
 			return *this;
 			}
 
@@ -496,7 +496,7 @@ class RString
 		const RString& operator+=(int16_t rhs)
 			{
 			Grow(m_lStrLen + MaxShortLen + 1); // size is always > 0, so this will always return with a valid buffer
-			m_lStrLen += sprintf(m_pBuf + m_lStrLen, "%hd", (int16_t)rhs);
+         m_lStrLen += sprintf(m_pBuf + m_lStrLen, "%hd", rhs);
 			return *this;
 			}
 
@@ -504,7 +504,7 @@ class RString
 		const RString& operator+=(uint16_t rhs)
 			{
 			Grow(m_lStrLen + MaxUShortLen + 1); // size is always > 0, so this will always return with a valid buffer
-			m_lStrLen += sprintf(m_pBuf + m_lStrLen, "%hu", (uint16_t)rhs);
+         m_lStrLen += sprintf(m_pBuf + m_lStrLen, "%hu", rhs);
 			return *this;
 			}
 
@@ -512,7 +512,7 @@ class RString
 		const RString& operator+=(int32_t rhs)
 			{
 			Grow(m_lStrLen + MaxLongLen + 1); // size is always > 0, so this will always return with a valid buffer
-			m_lStrLen += sprintf(m_pBuf + m_lStrLen, "%ld", (int32_t)rhs);
+         m_lStrLen += sprintf(m_pBuf + m_lStrLen, "%i", rhs);
 			return *this;
 			}
 
@@ -520,7 +520,7 @@ class RString
 		const RString& operator+=(uint32_t rhs)
 			{
 			Grow(m_lStrLen + MaxULongLen + 1); // size is always > 0, so this will always return with a valid buffer
-			m_lStrLen += sprintf(m_pBuf + m_lStrLen, "%lu", (uint32_t)rhs);
+         m_lStrLen += sprintf(m_pBuf + m_lStrLen, "%u", rhs);
 			return *this;
 			}
 

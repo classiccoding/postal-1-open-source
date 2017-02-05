@@ -2205,7 +2205,7 @@ class RChannel
 					break;
 				}
 
-			TRACE("RChannel::ConstructCore(): Unsupported type (%ld), using RChanCoreNothing<datat> instead!\n", (int32_t)type);
+			TRACE("RChannel::ConstructCore(): Unsupported type (%i), using RChanCoreNothing<datat> instead!\n", (int32_t)type);
 			return new RChanCoreNothing<datat>;
 			}
 	};

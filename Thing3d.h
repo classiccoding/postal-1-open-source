@@ -368,7 +368,7 @@ class CThing3d : public CThing
 		static double	ms_dDefaultSurfaceDrag;	// Default drag along surfaces.
 		static double	ms_dDefaultAirDrag;		// Default drag due to air friction.
 		static int16_t	ms_sBurntBrightness;		// Brightness level after being burnt
-		static char*	ms_apszStateNames[];		// Strings describing states, indexed by
+      static const char*	ms_apszStateNames[];		// Strings describing states, indexed by
 															// the state enum.
 
 		// These are arrays of pts to be checked on the attribute map for various
@@ -757,7 +757,7 @@ class CThing3d : public CThing
 
 		// Start a CAnimThing.
 		CAnimThing* StartAnim(					// Returns ptr to CAnimThing on success; NULL otherwise.
-			char* pszAnimResName,				// In:  Animation's resource name.
+         const char* pszAnimResName,				// In:  Animation's resource name.
 			int16_t	sX,								// In:  Position.
 			int16_t	sY,								// In:  Position.
 			int16_t	sZ,								// In:  Position.

@@ -403,7 +403,7 @@ int16_t RMultiGrid::Compress(
 			int16_t* psSrcBlock = psUncompressedData + int32_t(sBlockX) * (m_sMaskX + 1) +
 				int32_t(sFullY) * m_sWidth;
 
-			//*********************************************** ANALIZE BLOCK
+			// *********************************************** ANALIZE BLOCK
 			int16_t sMatch = 1; // homogeneous block?
 
 			// do slow, shameful way for now...
@@ -498,7 +498,7 @@ int16_t RMultiGrid::Compress(
 					}
 				}
 			
-			//*********************************************** 
+			// *********************************************** 
 			}
 		}
 

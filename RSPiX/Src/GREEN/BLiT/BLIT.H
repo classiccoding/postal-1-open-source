@@ -15,7 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-//********************  USER FUNCTION SUMMARY  **********************
+// ********************  USER FUNCTION SUMMARY  **********************
 //
 // BLiT.LIB depends on BLUE.LIB and IMAGE.LIB
 //
@@ -100,8 +100,7 @@ pntBuf.GetCell(sASCII,sW,sH); // Sets (sW,sH) to size of character
 ----------------
 pntBuf.SetColumn(sX,sY,sW,sH,pimDst); // Autowrap is crude right now
 pntBuf.Clear(); // Clear the print buffer early
-
-//******************************************************************/
+******************************************************************/
 
 // Depends only on image
 #ifndef BLIT_H
@@ -316,11 +315,11 @@ extern	short	_rspBlit(uint32_t ulForeColor,uint32_t ulBackColor,RImage* pimSrc,R
 extern	int16_t rspRectToMono(uint32_t ulColor,RImage* pimDst,int16_t sX,int16_t sY,
 						int16_t sW,int16_t sH);
 
-//****************************************************************************************
-//****************************************************************************************
+// ****************************************************************************************
+// ****************************************************************************************
 //=============================== Silly Font Test Stuff! =================================
-//****************************************************************************************
-//****************************************************************************************
+// ****************************************************************************************
+// ****************************************************************************************
 
 typedef	struct tagFont
 	{
@@ -405,8 +404,8 @@ public:
 
 	RPrint& print();
 
-	RPrint&	operator|(char* psz);
-	RPrint&	operator<<(char* psz);
+   RPrint&	operator|(const char* psz);
+   RPrint&	operator<<(const char* psz);
 	RPrint& operator|(short	in);
 	RPrint& operator|(long	in);
 	RPrint& operator|(float	in);
@@ -424,9 +423,9 @@ public:
 	void	GetCell(RImage* pimLetter,short* psCellH = NULL,
 		short* psCellW = NULL,short* psStretchW = NULL); // does NOT include AddW!
 
-	//***************************************
-	//******  The curent state of the font!
-	//***************************************
+   // ***************************************
+   // ******  The curent state of the font!
+   // ***************************************
 private:
 	short m_sTabW;
 	float m_fTabW;
@@ -476,7 +475,7 @@ public:
 
 	CStrafe()
 		{
-		sHotX = sHotY = NULL;
+      sHotX = sHotY = 0;
 		psLinkX = psLinkY = NULL;
 		pImage = NULL;
 		}
@@ -547,7 +546,7 @@ extern	int16_t rspBlitToMono(
 				  int16_t sDstH
 				  );
 
-//*****************************************************************************
+// *****************************************************************************
 // This is the main controller... It clips in pixels, then thinks in bytes:
 // if prSrc == NULL, no source clipping will occure
 // if prDst == NULL, it will clip to the RImage
@@ -599,7 +598,7 @@ extern	int16_t	rspMonoRectDarkenTo(int16_t sThickness,int16_t rspBrightness,RIma
 
 extern	int16_t rspGetBrightness(int16_t sIndex,uint8_t* pR,uint8_t* pG,uint8_t* pB,int32_t lInc = 4);
 
-//**********************************  FAST CONVERTS:  *******************************
+// **********************************  FAST CONVERTS:  *******************************
 //----- BYTE dpeth to shift amount:
 static const int16_t gsByteToShift[] = {0,0,1,0,2,0,0,0,3,0,0,0,0,0,0,0,4};
 //                         BYTES:     0 1 2 3 4 5 6 7 8 9 a b c d e f *
@@ -607,7 +606,7 @@ static const int16_t gsBitsToShift[] =
 	   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2};
 //BIT: 0 1 2 3 4 5 6 7 8 9 a b c d e f 0 1 2 3 4 5 6 7 8 9 a b c d e f *
 
-//***********************************************************************************
+// ***********************************************************************************
 
 // Safety code:
 #ifndef NULL

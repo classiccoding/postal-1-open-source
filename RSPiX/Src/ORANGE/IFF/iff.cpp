@@ -331,7 +331,7 @@ int16_t RIff::Close(void)
 // or "AIFF" chunk.
 //
 //////////////////////////////////////////////////////////////////////////////
-int16_t RIff::Find(char* pszPath)	// Returns 0 on success.
+int16_t RIff::Find(const char* pszPath)	// Returns 0 on success.
 	{
 	int16_t	sRes	= 0;	// Assume success.
 

@@ -1235,7 +1235,7 @@ extern bool GetDudeFireAngle(double* d_Angle);
 
 // Handy macro to define char* array with one 'base' name.
 #define CREATERESNAMES(var, base, rigid)		\
-	static char* var[]	=							\
+   static const char* var[]	=							\
 		{													\
 		"3d/main_" #base ".sop",					\
 		"3d/main_" #base ".mesh",					\
@@ -1533,10 +1533,10 @@ static CCrawler::Nub ms_anubs[] =
 ////////////////////////////////////////////////////////////////////////////////
 // virtual								// Overridden here.
 int16_t CDude::CDudeAnim3D::Get(	// Returns 0 on success.
-	char*		pszBaseFileName,		// In:  Base string for resource filenames.
-	char*		pszRigidName,			// In:  String to add for rigid transform channel
+   const char*		pszBaseFileName,		// In:  Base string for resource filenames.
+   const char*		pszRigidName,			// In:  String to add for rigid transform channel
 											// or NULL for none.
-	char*		pszEventName,			// In:  String to add for event states channel
+   const char*		pszEventName,			// In:  String to add for event states channel
 											// or NULL for none.
 	int16_t		sLoopFlags)				// In:  Looping flags to apply to all channels
 											// in this anim.
@@ -3586,7 +3586,7 @@ void SetText(					// Returns nothing.
 	RGuiItem*	pgui	= pguiRoot->GetItemFromId(lId);
 	if (pgui != NULL)
 		{
-		pgui->SetText("%ld", lVal);
+      pgui->SetText("%i", lVal);
 		pgui->Compose(); 
 		}
 	}

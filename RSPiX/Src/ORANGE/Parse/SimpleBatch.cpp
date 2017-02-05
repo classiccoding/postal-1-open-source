@@ -169,7 +169,7 @@ BEGIN_LOOP:
 			m_pszTokenList[m_sNumTokens][sTokenChar++] = c;
 			continue; // KEEP SCANNING!
 			}
-		//************************************* START A TOKEN
+		// ************************************* START A TOKEN
 		else // start a new token
 			{
 			sMidToken = TRUE;
@@ -204,7 +204,7 @@ char* RBatch::CreateError(int16_t sToken)
 			m_pszTokenList[sToken],m_sLinePos[sToken]);
 		}
 	
-	sprintf(ms_Error,"RBatch(%s):\n*   Parse error at line %ld\n*   %s",m_pszFileName,
+	sprintf(ms_Error,"RBatch(%s):\n*   Parse error at line %i\n*   %s",m_pszFileName,
 		m_lCurrentLine,temp);
 
 	return ms_Error;

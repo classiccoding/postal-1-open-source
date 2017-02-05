@@ -137,7 +137,7 @@ public:
 			}
 
 		*pszResult = 0;
-		return NULL;
+      return SUCCESS;
 		}
 
 	// Load a compressed data set from disk

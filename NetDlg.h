@@ -59,7 +59,7 @@
 
 // This is a general message for the "NetProb" gui that works for general
 // cases of "network not responding".
-extern char* g_pszNetProb_General;
+extern const char* g_pszNetProb_General;
 
 
 ////////////////////////////////////////////////////////////////////////////////
