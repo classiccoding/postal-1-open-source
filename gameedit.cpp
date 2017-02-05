@@ -1896,10 +1896,10 @@ extern void GameEdit(
 			ms_pguiNavNets->SetVisible(ms_pguiNavNets->m_sVisible);
 
 			// ---------- Show Attribs --------
-			SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_LAYERS, (uint64_t)(&ms_u16LayerMask), REALM_ATTR_LAYER_MASK, 1);
-			SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_HEIGHT, (uint64_t)(&ms_u16TerrainMask), REALM_ATTR_HEIGHT_MASK, 1);
-			SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_NOWALK, (uint64_t)(&ms_u16TerrainMask), REALM_ATTR_NOT_WALKABLE, 1);
-			SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_LIGHT, (uint64_t)(&ms_u16TerrainMask), REALM_ATTR_LIGHT_BIT, 1);
+         SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_LAYERS, (address_t)(&ms_u16LayerMask), REALM_ATTR_LAYER_MASK, 1);
+         SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_HEIGHT, (address_t)(&ms_u16TerrainMask), REALM_ATTR_HEIGHT_MASK, 1);
+         SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_NOWALK, (address_t)(&ms_u16TerrainMask), REALM_ATTR_NOT_WALKABLE, 1);
+         SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_LIGHT, (address_t)(&ms_u16TerrainMask), REALM_ATTR_LIGHT_BIT, 1);
 
 			ms_pguiShowAttribs->SetVisible(TRUE);
 
@@ -3789,7 +3789,7 @@ static int16_t LoadRealm(
 						rc.sH,							// Dimensions.
 						ThingHotCall,					// Callback.
 						TRUE,								// TRUE, if active.
-						(uint64_t)phood,						// User value (CThing*).
+                  (address_t)phood,						// User value (CThing*).
 						FRONTMOST_HOT_PRIORITY);	// New items towards front.
 					// If successful . . .
 					if (ms_photHood != NULL)
@@ -3834,7 +3834,7 @@ static int16_t LoadRealm(
 									rc.sH,							// Dimensions.
 									ThingHotCall,					// Callback.
 									sActivateHot,					// TRUE, if initially active.
-									(uint64_t)pthing,					// User value (CThing*).
+                           (address_t)pthing,					// User value (CThing*).
 									FRONTMOST_HOT_PRIORITY);	// New items towards front.
 
 								// If successful . . .
@@ -4877,7 +4877,7 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 							rc.sH,							// Dimensions.
 							ThingHotCall,					// Callback.
 							sActivateHot,					// TRUE, if initially active.
-							(uint64_t)*ppthing,					// User value (CThing*).
+                     (address_t)*ppthing,					// User value (CThing*).
 							FRONTMOST_HOT_PRIORITY);	// New items towards front.
 
 						if (*pphot != NULL)

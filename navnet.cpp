@@ -353,7 +353,7 @@ int16_t CNavigationNet::EditPostLoad(void)
 		RGuiItem* pgui = plb->AddString((char*) m_rstrNetName);
 		pgui->m_lId = GetInstanceID();
 		pgui->m_bcUser = NavNetListPressedCall;
-		pgui->m_ulUserInstance = (uint64_t) this;
+      pgui->m_ulUserInstance = (address_t) this;
 		plb->AdjustContents();
 		plb->SetSel(pgui);
 	}
@@ -394,7 +394,7 @@ int16_t CNavigationNet::EditNew(									// Returns 0 if successfull, non-zero o
 			RGuiItem* pgui = plb->AddString((char*) m_rstrNetName);
 			pgui->m_lId = GetInstanceID();
 			pgui->m_bcUser = NavNetListPressedCall;
-			pgui->m_ulUserInstance = (uint64_t) this;
+         pgui->m_ulUserInstance = (address_t) this;
 			plb->AdjustContents();
 			plb->SetSel(pgui);
 		}
