@@ -109,7 +109,7 @@
 // corresponding place in this array.  
 // Note that this uses END_REG_PAL enum item to size the array.
 
-char* RPal::ms_astrTypeNames[END_REG_PAL] = 
+const char* RPal::ms_astrTypeNames[END_REG_PAL] =
 {
 	"Same Type",
 	"PDIB BGRA 8888 (RGBQUAD)",

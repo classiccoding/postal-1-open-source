@@ -330,7 +330,7 @@ class RImage
 		// you need to also insert that name into the corresponding place
 		//	in this array in image.cpp.  
 		// Note that this uses END_OF_TYPES enum item to size the array.
-		static char* ms_astrTypeNames[END_OF_TYPES];
+      static const char* ms_astrTypeNames[END_OF_TYPES];
 
 	private:
 		RPal*			m_pPalMem;		// Pointer to Image allocated palette

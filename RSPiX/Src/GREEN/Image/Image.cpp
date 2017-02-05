@@ -369,13 +369,6 @@
 	#include "FILE.H"
 #endif // PATHS_IN_INCLUDES
 
-
-// Local function prototypes
-static int16_t sCreateMem(void **hMem,uint64_t ulSize);
-static int16_t sCreateAlignedMem(void **hMem, void **hData, uint64_t ulSize);
-static int16_t sDestroyMem(void **hMem);
-
-
 //////////////////////////////////////////////////////////////////////
 // Instantiate class statics.
 //////////////////////////////////////////////////////////////////////
@@ -386,7 +379,7 @@ static int16_t sDestroyMem(void **hMem);
 // corresponding place in this array.  
 // Note that this uses END_OF_TYPES enum item to size the array.
 
-char* RImage::ms_astrTypeNames[END_OF_TYPES] = 
+const char* RImage::ms_astrTypeNames[END_OF_TYPES] =
 {
 	"Same Type", 
 	"BMP8", 
