@@ -379,7 +379,7 @@ int16_t RPrefs::Write()
 					pTmp = (pTmp != NULL) ? pTmp + 1 : acTmpFileName;
 					for (int32_t lCount = 0; !bGotTmp && (lCount < 9999999L); lCount++)
 						{
-						sprintf(pTmp, "t%0.7ld.tmp", (int32_t)lCount);
+                  sprintf(pTmp, "t%0.7d.tmp", lCount);
 						FILE* fpTmp = fopen(FindCorrectFile(acTmpFileName, "r"), "r");
 						if (fpTmp != NULL)
 							fclose(fpTmp);
@@ -741,7 +741,7 @@ int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 
 	ASSERT(pszSection);
 	ASSERT(pszVariable);
-	sprintf(pszValue, "%ld", (int32_t) s32Value);
+	sprintf(pszValue, "%i", (int32_t) s32Value);
 	SetVal(pszSection, pszVariable, pszValue);
 
 	return m_sErrorStatus;
@@ -757,7 +757,7 @@ int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 
 	ASSERT(pszSection);
 	ASSERT(pszVariable);
-	sprintf(pszValue, "%lu", (uint32_t) u32Value);
+   sprintf(pszValue, "%u", (uint32_t) u32Value);
 	SetVal(pszSection, pszVariable, pszValue);
 
 	return m_sErrorStatus;
@@ -1109,7 +1109,7 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 	ASSERT(pszVariable);
 	ASSERT(s32Value);
 
-	sprintf(pszDefault, "%ld", (int)s32Default);
+	sprintf(pszDefault, "%i", (int)s32Default);
 	m_sErrorStatus = GetVal(pszSection, pszVariable, pszDefault, pszValue);
 	if (m_sErrorStatus == 0)
 		{
@@ -1140,7 +1140,7 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 	ASSERT(pszVariable);
 	ASSERT(u32Value);
 
-	sprintf(pszDefault, "%lu", (unsigned)u32Default);
+   sprintf(pszDefault, "%u", u32Default);
 	m_sErrorStatus = GetVal(pszSection, pszVariable, pszDefault, pszValue);
 	if (m_sErrorStatus == 0)
 		{

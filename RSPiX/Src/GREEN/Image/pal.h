@@ -143,7 +143,7 @@ class RPal
 		// you need to also insert that name into the corresponding place
 		//	in this array in pal.cpp.  
 		// Note that this uses END_REG_PAL enum item to size the array.
-		static char* ms_astrTypeNames[END_REG_PAL];
+      static const char* ms_astrTypeNames[END_REG_PAL];
 
 		// This array gives the size in bytes of each palette entry
 		// based on the palette type.  This is used by RPal::GetPalEntrySize

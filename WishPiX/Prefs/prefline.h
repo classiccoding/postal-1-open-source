@@ -53,7 +53,7 @@ typedef RFList<RPrefsLine*> RPrefsLineList;
 class RPrefsLine
 	{
 	public:
-		typedef enum ePrefsLineType
+      enum ePrefsLineType
 			{
 			Comment,
 			Section,

@@ -42,14 +42,14 @@
 #define SPECIAL_TYP_H
 // This currently depends only on "system.h"
 
-//*******************************************************************
-//*****  NOTE:  In the same convention as m_pData, 
-//*****  m_pSpecial points to the possibly aligned special
-//*****  data, and m_pSpecialMem refers EITHER to the 
-//*****  originally newed/calloced memory OR is NULL to 
-//*****  indicate that this Image is a COPY and should not free
-//*****  its own pSpecial.
-//*******************************************************************
+// *******************************************************************
+// *****  NOTE:  In the same convention as m_pData, 
+// *****  m_pSpecial points to the possibly aligned special
+// *****  data, and m_pSpecialMem refers EITHER to the 
+// *****  originally newed/calloced memory OR is NULL to 
+// *****  indicate that this Image is a COPY and should not free
+// *****  its own pSpecial.
+// *******************************************************************
 
 //===================================================================
 // Current Plug and Play list:
@@ -59,10 +59,10 @@
 
 //===================================================================
 
-//*************************************************
-//******  FSPR1 => high speed monochrome **********
-//******  used for text and masks        **********
-//*************************************************
+// *************************************************
+// ******  FSPR1 => high speed monochrome **********
+// ******  used for text and masks        **********
+// *************************************************
 
 //------------- Installed RImage Plugins: -------------------------
 // ConvertTo:		YES => from any 8-bit
@@ -135,10 +135,10 @@ extern	void SetConvertFromFSPR1
 	uint32_t	u32BackColor = (uint32_t)0	// matters only if sTransparent = FALSE
 	);
 
-//*************************************************
-//******  FSPR8 => high speed color		  **********
-//******  used for sprites               **********
-//*************************************************
+// *************************************************
+// ******  FSPR8 => high speed color		  **********
+// ******  used for sprites               **********
+// *************************************************
 
 //------------- Installed RImage Plugins: -------------------------
 // ConvertTo:		YES => from any 8-bit
@@ -187,10 +187,10 @@ public:
 
 // CURENTLY, NO EXTRA CONTROL IS GIVEN WITH FSPR8 CONVERSIONS
 
-//*************************************************
-//******  ROTBUF => texture buffer       **********
-//******  also used for rotation         **********
-//*************************************************
+// *************************************************
+// ******  ROTBUF => texture buffer       **********
+// ******  also used for rotation         **********
+// *************************************************
 // Curently, the normal extensions of Image are
 // being used for textures and such.
 
