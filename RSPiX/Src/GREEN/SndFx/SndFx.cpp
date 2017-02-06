@@ -102,9 +102,9 @@ RSndFx::PCMINFO	RSndFx::ms_apcminfo[RSP_SNDFX_MAX_BITSPERSAMPLE + 1] =	// Stores
 		{ 0x40000000, 0x7FFFFFFF	},	// 32 Bit.
 	};
 
-uint8_t*	RSndFx::ms_pu8Fade	= NULL;	// Unsigned 8 bit output
+uint8_t*	RSndFx::ms_pu8Fade	= nullptr;	// Unsigned 8 bit output
 												// fade table.
-int16_t*	RSndFx::ms_ps16Fade	= NULL;	// Signed 16 bit output
+int16_t*	RSndFx::ms_ps16Fade	= nullptr;	// Signed 16 bit output
 												// fade table.
 
 int16_t	RSndFx::ms_sNumFadeSteps	= 0;	// Number of fade steps.
@@ -210,16 +210,16 @@ void RSndFx::Clear(void)
 ///////////////////////////////////////////////////////////////////////////////
 void RSndFx::CleanUp(void)
 	{
-	if (ms_pu8Fade != NULL)
+	if (ms_pu8Fade != nullptr)
 		{
 		free(ms_pu8Fade);
-		ms_pu8Fade	= NULL;
+		ms_pu8Fade	= nullptr;
 		}
 
-	if (ms_ps16Fade != NULL)
+	if (ms_ps16Fade != nullptr)
 		{
 		free(ms_ps16Fade);
-		ms_ps16Fade	= NULL;
+		ms_ps16Fade	= nullptr;
 		}
 	}
 
@@ -261,7 +261,7 @@ void RSndFx::Reset(void)
 int16_t RSndFx::SetFadeAccuracy(	// Returns 0 on success.
 	int16_t sNumSteps)					// Number of steps to fades; see above.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	if (ms_lBitsPerSec != 0)
 		{
@@ -274,7 +274,7 @@ int16_t RSndFx::SetFadeAccuracy(	// Returns 0 on success.
 			case 8:
 				{
 				ms_pu8Fade	= (uint8_t*)malloc((int32_t)sNumSteps * 256L * sizeof(int16_t));
-				if (ms_pu8Fade != NULL)
+				if (ms_pu8Fade != nullptr)
 					{
 					int16_t	sStep;
 					int16_t	sSample;
@@ -306,7 +306,7 @@ int16_t RSndFx::SetFadeAccuracy(	// Returns 0 on success.
 				else
 					{
 					TRACE("SetFadeAccuracy(): Failed to allocate fade lookup table.\n");
-					sRes	= -1;
+					sResult	= -1;
 					}
 				break;
 				}
@@ -314,7 +314,7 @@ int16_t RSndFx::SetFadeAccuracy(	// Returns 0 on success.
 			case 16:
 				{
 				ms_ps16Fade	= (int16_t*)malloc((int32_t)sNumSteps * 256L * sizeof(int16_t));
-				if (ms_ps16Fade != NULL)
+				if (ms_ps16Fade != nullptr)
 					{
 					int16_t	sStep;
 					int16_t	sSample;
@@ -346,7 +346,7 @@ int16_t RSndFx::SetFadeAccuracy(	// Returns 0 on success.
 				else
 					{
 					TRACE("SetFadeAccuracy(): Failed to allocate fade lookup table.\n");
-					sRes	= -1;
+					sResult	= -1;
 					}
 				break;
 				}
@@ -359,10 +359,10 @@ int16_t RSndFx::SetFadeAccuracy(	// Returns 0 on success.
 	else
 		{
 		TRACE("SetFadeAccuracy(): No data type set.  Use SetDataType().\n");
-		sRes	= 1;
+		sResult	= 1;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -433,7 +433,7 @@ inline void UnsignedDecimate(	// Returns nothing.
 void RSndFx::Do(						// Returns nothing.
 	uint8_t* pucSrcData,				// Data to affect.
 	int32_t lBufSize,						// Amount of data.
-	uint8_t* pucDstData /*= NULL*/)	// Destination for data, defaults 
+	uint8_t* pucDstData /*= nullptr*/)	// Destination for data, defaults 
 											// to same as source.
 	{
 	if (ms_lBitsPerSec > 0)
@@ -442,7 +442,7 @@ void RSndFx::Do(						// Returns nothing.
 		if (m_fx != 0)
 			{
 			// If there is no destination . . .
-			if (pucDstData == NULL)
+			if (pucDstData == nullptr)
 				{
 				pucDstData	= pucSrcData;
 				}
@@ -550,7 +550,7 @@ void RSndFx::Do(						// Returns nothing.
 int16_t RSndFx::SetUpFadeIn(	// Returns 0 on success.
 	int32_t lDuration)			// Duration until silence in milliseconds.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// Must set data type before setting up effect . . .
 	if (ms_lBitsPerSec > 0)
@@ -568,10 +568,10 @@ int16_t RSndFx::SetUpFadeIn(	// Returns 0 on success.
 	else
 		{
 		TRACE("FadeIn(): Data type not set.  Use SetDataType().\n");
-		sRes	= 1;
+		sResult	= 1;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 /////////////////////////////////////////////////////////////////////////
@@ -602,7 +602,7 @@ void RSndFx::ActivateFadeIn(	// Returns nothing.
 int16_t RSndFx::SetUpFadeOut(	// Returns 0 on success.
 	int32_t lDuration)				// Duration until full volume in milliseconds.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// Must set data type before setting up effect . . .
 	if (ms_lBitsPerSec > 0)
@@ -620,10 +620,10 @@ int16_t RSndFx::SetUpFadeOut(	// Returns 0 on success.
 	else
 		{
 		TRACE("FadeOut(): Data type not set.  Use SetDataType().\n");
-		sRes	= 1;
+		sResult	= 1;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 /////////////////////////////////////////////////////////////////////////

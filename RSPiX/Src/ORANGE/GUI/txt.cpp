@@ -132,9 +132,9 @@ RTxt::~RTxt()
 //
 ////////////////////////////////////////////////////////////////////////
 void RTxt::Compose(			// Returns nothing.
-	RImage* pim /*= NULL*/)	// Dest image, uses m_im if NULL.
+	RImage* pim /*= nullptr*/)	// Dest image, uses m_im if nullptr.
 	{
-	if (pim == NULL)
+	if (pim == nullptr)
 		{
 		pim	= &m_im;
 		}

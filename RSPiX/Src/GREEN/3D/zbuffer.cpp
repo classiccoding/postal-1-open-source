@@ -30,7 +30,7 @@ void	RZBuffer::Init()
 	{
 	m_sW = m_sH = 0;
 	m_lP = 0;
-	m_pBuf = NULL;
+	m_pBuf = nullptr;
 	}
 
 RZBuffer::RZBuffer()
@@ -54,9 +54,9 @@ int16_t RZBuffer::Create(int16_t sW,int16_t sH)
 
 	m_sW = sW;
 	m_sH = sH;
-	m_lP = int32_t((sW+3)&~3); // keep for emergencies!
+   m_lP = (sW+3)&~3; // keep for emergencies!
 
-	int32_t lSize = m_lP * m_sH * sizeof(int16_t);
+   size_t lSize = m_lP * m_sH * sizeof(int16_t);
 	m_pBuf = (int16_t*) malloc(lSize);
 	// you then may clear it, buddy!
 

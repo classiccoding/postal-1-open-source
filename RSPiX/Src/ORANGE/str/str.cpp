@@ -362,30 +362,30 @@ extern int16_t rspStricmp(	// Returns 0 if equivalent.
 	const char* pszStr1,		// In:  First string to compare.
 	const char* pszStr2)		// In:  Second string to compare.
 	{
-	int16_t	sRes	= 0;	// Assume equivalent.
+	int16_t	sResult	= 0;	// Assume equivalent.
 
-	while (*pszStr1 != '\0' && *pszStr2 != '\0' && sRes == 0)
+	while (*pszStr1 != '\0' && *pszStr2 != '\0' && sResult == SUCCESS)
 		{
-      sRes	= ms_asUpper2Lower[*reinterpret_cast<const uint8_t*>(pszStr1++)]
+      sResult	= ms_asUpper2Lower[*reinterpret_cast<const uint8_t*>(pszStr1++)]
             - ms_asUpper2Lower[*reinterpret_cast<const uint8_t*>(pszStr2++)];
 		}
 
 	// If identical . . .
-	if (sRes == 0)
+	if (sResult == SUCCESS)
 		{
 		// If first string ended prematurely . . .
 		if (*pszStr1 == '\0' && *pszStr2 != '\0')
 			{
-			sRes	= -1;
+			sResult	= -1;
 			}
 		// Else, if second string ended prematurely . . .
 		else if (*pszStr1 != '\0' && *pszStr2 == '\0')
 			{
-			sRes	= 1;
+			sResult	= 1;
 			}
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -407,30 +407,30 @@ extern int16_t rspStrnicmp(	// Returns 0 if equivalent.
 	size_t count)				// In:  Number of characters to compare.
 	{
 
-	int16_t	sRes	= 0;	// Assume equivalent.
+	int16_t	sResult	= 0;	// Assume equivalent.
 
-	while (*pszStr1 != '\0' && *pszStr2 != '\0' && sRes == 0 && count--)
+	while (*pszStr1 != '\0' && *pszStr2 != '\0' && sResult == SUCCESS && count--)
 		{
-      sRes	= ms_asUpper2Lower[*reinterpret_cast<const uint8_t*>(pszStr1++)]
+      sResult	= ms_asUpper2Lower[*reinterpret_cast<const uint8_t*>(pszStr1++)]
             - ms_asUpper2Lower[*reinterpret_cast<const uint8_t*>(pszStr2++)];
 		}
 
 	// If identical . . .
-	if (sRes == 0 && count != 0)
+	if (sResult == SUCCESS && count != 0)
 		{
 		// If first string ended prematurely . . .
 		if (*pszStr1 == '\0' && *pszStr2 != '\0')
 			{
-			sRes	= -1;
+			sResult	= -1;
 			}
 		// Else, if second string ended prematurely . . .
 		else if (*pszStr1 != '\0' && *pszStr2 == '\0')
 			{
-			sRes	= 1;
+			sResult	= 1;
 			}
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ///////////////////////////////////////////////////////////////////////////////

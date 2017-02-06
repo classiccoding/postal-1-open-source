@@ -70,8 +70,8 @@ inline void _BLiTT(PIXSIZE ucTransparent,PIXSIZE* pSrc,PIXSIZE* pDst,int32_t lSr
 
 // *****************************************************************************
 // This is the main controller... It clips in pixels, then thinks in bytes:
-// if prSrc == NULL, no source clipping will occure
-// if prDst == NULL, it will clip to the CImage
+// if prSrc == nullptr, no source clipping will occure
+// if prDst == nullptr, it will clip to the CImage
 //
 int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sSrcX,int16_t sSrcY,int16_t sDstX,
 			  int16_t sDstY,int16_t sW,int16_t sH,const RRect* prDst,const RRect* prSrc)
@@ -81,7 +81,7 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 	// 1) preliminary parameter validation:
 #ifdef _DEBUG
 
-	if ((pimSrc == NULL) || (pimDst == NULL))
+	if ((pimSrc == nullptr) || (pimDst == nullptr))
 		{
 		TRACE("rspBlitT: null CImage* passed\n");
 		return -1;
@@ -184,8 +184,8 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 	// IN THIS IMPLEMENTATION, we must do LOCK, BLiT, UNLOCK, so I
 	// must record which UNLOCK (if any) needs to be done AFTER the BLiT
 	// has completed. (Lord help me if a blit gets interrupted)
-	if (pimSrc->m_type == RImage::IMAGE_STUB) sBlitTypeSrc = (int16_t)((int64_t)pimSrc->m_pSpecial);
-	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((int64_t)pimDst->m_pSpecial);
+   if (pimSrc->m_type == RImage::IMAGE_STUB) sBlitTypeSrc = (int16_t)((intptr_t)pimSrc->m_pSpecial);
+   if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((intptr_t)pimDst->m_pSpecial);
 
 	switch ( (sBlitTypeSrc<<3) + sBlitTypeDst) // 0 = normal image
 		{
@@ -308,10 +308,10 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 			_BLiTT((uint8_t)ucTransparent,(uint8_t*)pSrc,(uint8_t*)pDst,pimSrc->m_lPitch,pimDst->m_lPitch,sH,sW); 
 		break;
 		case 16:
-			_BLiTT((uint16_t)ucTransparent,(uint16_t*)pSrc,(uint16_t*)pDst,(pimSrc->m_lPitch),(pimDst->m_lPitch),sH,int16_t(sW>>1)); 
+         _BLiTT((uint16_t)ucTransparent,(uint16_t*)pSrc,(uint16_t*)pDst,(pimSrc->m_lPitch),(pimDst->m_lPitch),sH,sW>>1);
 		break;
 		case 32:
-			_BLiTT((uint32_t)ucTransparent,(uint32_t*)pSrc,(uint32_t*)pDst,(pimSrc->m_lPitch),(pimDst->m_lPitch),sH,int16_t(sW>>2)); 
+         _BLiTT((uint32_t)ucTransparent,(uint32_t*)pSrc,(uint32_t*)pDst,(pimSrc->m_lPitch),(pimDst->m_lPitch),sH,sW>>2);
 		break;
 		default:
 			TRACE("rspBlitT: color depth not supported.\n");

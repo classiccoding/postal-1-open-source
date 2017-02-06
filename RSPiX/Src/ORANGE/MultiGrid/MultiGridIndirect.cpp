@@ -196,7 +196,7 @@ int16_t RMultiGridIndirect::AddFSPR1(RImage* pimSrc,int16_t sLogX,int16_t sLogY,
 					(m_pimBuffer->m_sHeight != sMaxH))
 			{
 			delete m_pimBuffer;
-			m_pimBuffer = NULL;
+			m_pimBuffer = nullptr;
 			}
 		}
 

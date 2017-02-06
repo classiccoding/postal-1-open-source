@@ -215,7 +215,7 @@ class RLaymage
 		// a rectangle which needs to be mapped on to a full size CLamage layer.
 		int16_t ConvertToImage(int16_t sLayer, uint32_t ulTop, uint32_t ulBottom, uint32_t ulLeft, uint32_t ulRight);
 
-		// Deallocate channel buffers and reset the pointers to NULL
+		// Deallocate channel buffers and reset the pointers to nullptr
 		void ClearChannelBuffers(void);
 
 		// Allocate 4 standard channel buffers
@@ -224,7 +224,7 @@ class RLaymage
 		// Allocate an array of RImage pointers and
 		// char* pointers, one for each layer.
 		// Calls FreeLayerArrays if the pointers are not
-		// initially NULL
+		// initially nullptr
 		int16_t AllocateLayerArrays(int16_t sNumLayers);
 
 		// Deallocate RImage pointers and char* pointers

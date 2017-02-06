@@ -148,10 +148,6 @@ using namespace std;
 #define FALSE	0
 #endif
 
-#ifndef NULL
-#define NULL	0
-#endif
-
 #ifndef SUCCESS
 #define SUCCESS	0
 #endif

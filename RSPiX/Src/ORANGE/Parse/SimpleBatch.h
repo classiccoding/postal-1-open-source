@@ -57,7 +57,7 @@ public:
 //--------------- CONSTRUCTION -------------
 	void	clear() // NOT A RESET! Will hose memory!
 		{
-		m_fp = NULL;
+		m_fp = nullptr;
 		m_sNumTokens = m_sCharEOL = m_sLowFilter = m_sHighFilter = 0;
 		m_pszSeparators[0] = '\0';
 		m_pszFileName[0] = '\0';
@@ -73,11 +73,11 @@ public:
 		m_sCurToken = -2; // for user convenience!
 		}
 
-   void init(const char* pszFileName,const char* pszSeparators = " \t,",const char* pszSpecialCharacters=NULL,
+   void init(const char* pszFileName,const char* pszSeparators = " \t,",const char* pszSpecialCharacters=nullptr,
 		char	cString = '"',char cComment = '*',int16_t sCharEOL=1,int16_t sLowFilter=32,int16_t sHighFilter=128)
 		{
 		clear();
-		if ((m_fp = fopen(pszFileName,"r")) == NULL)
+		if ((m_fp = fopen(pszFileName,"r")) == nullptr)
 			{
 			TRACE("RBatch: file %s not found.\n",pszFileName);
 			return;
@@ -93,7 +93,7 @@ public:
 		if (pszSeparators) strcpy(m_pszSeparators,pszSeparators);
 		}
 
-   void configure(const char* pszSeparators = " \t,",const char* pszSpecialCharacters=NULL,
+   void configure(const char* pszSeparators = " \t,",const char* pszSpecialCharacters=nullptr,
 		char	cString = '"',char cComment = '*',int16_t sCharEOL=1,int16_t sLowFilter=32,int16_t sHighFilter=128)
 		{
 		m_sCharEOL = sCharEOL;
@@ -112,7 +112,7 @@ public:
 		configure();
 		}
 
-   RBatch(const char* pszFileName,const char* pszSeparators = " \t,",const char* pszSpecialCharacters = NULL,
+   RBatch(const char* pszFileName,const char* pszSeparators = " \t,",const char* pszSpecialCharacters = nullptr,
 		char	cString = '"',char cComment = '*',int16_t sCharEOL=1,int16_t sLowFilter=32,int16_t sHighFilter=128)
 		{
 		init(pszFileName,pszSeparators,pszSpecialCharacters,cString,cComment,sCharEOL,sLowFilter,sHighFilter);
@@ -120,9 +120,9 @@ public:
 
    int16_t open(const char* pszFileName)
 		{
-		if (m_fp == NULL)
+		if (m_fp == nullptr)
 			{
-			if ((m_fp = fopen(pszFileName,"r")) == NULL)
+			if ((m_fp = fopen(pszFileName,"r")) == nullptr)
 				{
 				TRACE("RBatch: file %s not found.\n",pszFileName);
 				return -1;
@@ -143,10 +143,10 @@ public:
 
 	int16_t close()
 		{
-		if (m_fp != NULL)
+		if (m_fp != nullptr)
 			{
 			fclose(m_fp);
-			m_fp = NULL;
+			m_fp = nullptr;
 			return 0;
 			}
 		else

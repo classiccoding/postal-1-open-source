@@ -61,8 +61,8 @@ RAnimSprite::RAnimSprite()
 	m_lTimer = 0;
 	m_sCurrFrame = -1;
 	m_ulAnimFlags = 0;
-	m_aFrames = NULL;
-	m_apPictures = NULL;
+	m_aFrames = nullptr;
+	m_apPictures = nullptr;
 	m_sAllocatedPics = 0;
 }
 
@@ -888,7 +888,7 @@ int16_t RAnimSprite::AllocatePictures(int16_t sNumPictures)
 	}
 
 	m_apPictures = new RImage*[sNumPictures];
-	if (m_apPictures == NULL)
+	if (m_apPictures == nullptr)
 		return FAILURE;
 	
 	int16_t i;
@@ -914,7 +914,7 @@ int16_t RAnimSprite::AllocatePictures(int16_t sNumPictures)
 //
 // Returns:
 //		SUCCESS if the pointer was valid
-//		FAILURE if the frame pointer was NULL
+//		FAILURE if the frame pointer was nullptr
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -923,7 +923,7 @@ int16_t RAnimSprite::FreeFrames()
 	if (m_aFrames)
 	{
 		delete []m_aFrames;
-		m_aFrames = NULL;
+		m_aFrames = nullptr;
 		return SUCCESS;
 	}
 	else	
@@ -958,7 +958,7 @@ int16_t RAnimSprite::FreePictures()
 		// free array of image pointers
 		delete []m_apPictures;
 		m_sAllocatedPics = 0;
-		m_apPictures = NULL;
+		m_apPictures = nullptr;
 		return SUCCESS;
 	}
 	else

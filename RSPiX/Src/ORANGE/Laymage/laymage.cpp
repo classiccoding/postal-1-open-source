@@ -125,11 +125,11 @@ RLaymage::RLaymage()
 	int16_t i;
 
 	for (i = 0; i < LAYMAGE_MAXCHANNELS; i++)
-		m_pcChannels[i] = NULL;
+		m_pcChannels[i] = nullptr;
 
 	m_sNumLayers = 0;
-	m_apImages = NULL;
-	m_apszLayerNames = NULL;
+	m_apImages = nullptr;
+	m_apszLayerNames = nullptr;
 	m_lTellLayers = 0;
 	m_lTellChannels = 0;
 } 
@@ -176,8 +176,8 @@ void RLaymage::Reset()
 	FreeLayerArrays();
 
 	m_sNumLayers = 0;
-	m_apImages = NULL;
-	m_apszLayerNames = NULL;
+	m_apImages = nullptr;
+	m_apszLayerNames = nullptr;
 	m_lTellLayers = 0;
 	m_lTellChannels = 0;
 }
@@ -205,7 +205,7 @@ void RLaymage::ClearChannelBuffers(void)
 		if (m_pcChannels[i])
 		{
 			free(m_pcChannels[i]);
-			m_pcChannels[i] = NULL;
+			m_pcChannels[i] = nullptr;
 		}
 }
 
@@ -849,7 +849,7 @@ int16_t RLaymage::ReadLayerInfo(int16_t sLayerNum, RFile* pcfLayer,
 	else
 		{
 		// If the layer name hasn't been set, set it to "background" to match the photoshop default name
-		if (m_apszLayerNames[sLayerNum] == 0)
+      if (m_apszLayerNames[sLayerNum] == nullptr)
 			{
 			m_apszLayerNames[sLayerNum] = new char[20+1];
 			strcpy(m_apszLayerNames[sLayerNum], "background");
@@ -935,8 +935,8 @@ int16_t RLaymage::ReadLayerName(int16_t sLayerNum, RFile* pcfLayer)
 	uint32_t ulData;
 	uint16_t usData;
 	uint8_t ucData;
-	uint32_t* pulChannelLength = NULL;
-	int16_t* psChannelID = NULL;
+	uint32_t* pulChannelLength = nullptr;
+	int16_t* psChannelID = nullptr;
 	uint16_t usNextChannel = 0;
 	uint16_t usNumChannels = 0;
 	uint32_t ulTop;
@@ -957,7 +957,7 @@ int16_t RLaymage::ReadLayerName(int16_t sLayerNum, RFile* pcfLayer)
 
 	pulChannelLength = (uint32_t*) calloc(usNumChannels, sizeof(uint32_t));
 	psChannelID = (int16_t*) calloc(usNumChannels, sizeof(int16_t));
-	if (pulChannelLength == NULL || psChannelID == NULL)
+	if (pulChannelLength == nullptr || psChannelID == nullptr)
 	{
 		TRACE("RLaymage::ReadLayerInfo - Error allocating buffers for channel data\n");
 		sReturn = FAILURE;
@@ -1309,21 +1309,21 @@ int16_t RLaymage::Save(RFile* /*pcf*/)
 //
 // Returns:
 //		pointer to RImage of the requested layer if found
-//		NULL if not found
+//		nullptr if not found
 //
 //////////////////////////////////////////////////////////////////////
 
 RImage* RLaymage::GetLayer(char* pszLayerName)
 {
 	int16_t i = 0;
-	RImage* pLayerImage = NULL;
+	RImage* pLayerImage = nullptr;
 
-	while (i < m_sNumLayers && pLayerImage == NULL)
+	while (i < m_sNumLayers && pLayerImage == nullptr)
 	{
 		if (strcmp(pszLayerName, m_apszLayerNames[i]) == 0)
 		{
 			pLayerImage = m_apImages[i];
-			if (pLayerImage == NULL)
+			if (pLayerImage == nullptr)
 			{
 				ReadLayer(i);
 				pLayerImage = m_apImages[i];
@@ -1351,19 +1351,19 @@ RImage* RLaymage::GetLayer(char* pszLayerName)
 //
 // Returns:
 //		pointer to RImage of the requested layer if found
-//		NULL if not found
+//		nullptr if not found
 //
 //////////////////////////////////////////////////////////////////////
 
 RImage* RLaymage::GetLayer(int16_t sLayerNumber)
 {
-	RImage* pLayerImage = NULL;
+	RImage* pLayerImage = nullptr;
 
 	if (sLayerNumber >= 0 && sLayerNumber < m_sNumLayers)
 	{
 		pLayerImage = m_apImages[sLayerNumber];
 		// If this layer is not in memory, load it in now
-		if (pLayerImage == NULL)
+		if (pLayerImage == nullptr)
 		{
 			ReadLayer(sLayerNumber);
 			pLayerImage = m_apImages[sLayerNumber];
@@ -1403,10 +1403,10 @@ void RLaymage::FreeLayer(char* pszLayerName)
 			i++;
 	}
 
-	if (bFound && m_apImages[i] != NULL)
+	if (bFound && m_apImages[i] != nullptr)
 	{
 			delete m_apImages[i];
-			m_apImages[i] = NULL;
+			m_apImages[i] = nullptr;
 	}
 }
 
@@ -1433,7 +1433,7 @@ void RLaymage::FreeLayer(int16_t sLayerNumber)
 		if (m_apImages[sLayerNumber])
 		{
 			delete m_apImages[sLayerNumber];
-			m_apImages[sLayerNumber] = NULL;
+			m_apImages[sLayerNumber] = nullptr;
 		}
 }
 
@@ -1461,7 +1461,7 @@ void RLaymage::FreeAllLayers(void)
 		if (m_apImages[i])
 		{
 			delete m_apImages[i];
-			m_apImages[i] = NULL;
+			m_apImages[i] = nullptr;
 		}
 	}
 }
@@ -1480,7 +1480,7 @@ void RLaymage::FreeAllLayers(void)
 // Returns:
 //		SUCCESS if the layer number given was valid
 //		FAILURE if that layer number does not exist or if the
-//				  buffer passed in was NULL
+//				  buffer passed in was nullptr
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -1521,7 +1521,7 @@ void RLaymage::FreeLayerArrays(void)
 	{
 		FreeAllLayers();
 		delete []m_apImages;
-		m_apImages = NULL;
+		m_apImages = nullptr;
 	}
 
 	if (m_apszLayerNames)
@@ -1531,7 +1531,7 @@ void RLaymage::FreeLayerArrays(void)
 			if (m_apszLayerNames[i])
 				delete []m_apszLayerNames[i];
 		delete []m_apszLayerNames;
-		m_apszLayerNames = NULL;
+		m_apszLayerNames = nullptr;
 	}
 }
 
@@ -1574,8 +1574,8 @@ int16_t RLaymage::AllocateLayerArrays(int16_t sNumLayers)
 	{
 		for (i = 0; i < sNumLayers; i++)
 		{
-			m_apImages[i] = NULL;
-			m_apszLayerNames[i] = NULL;
+			m_apImages[i] = nullptr;
+			m_apszLayerNames[i] = nullptr;
 		}
 	}
 

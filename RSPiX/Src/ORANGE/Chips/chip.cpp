@@ -67,8 +67,8 @@ RSList<CChip, float>	CChip::ms_slistChips;	// List of all
 															// chips sorted by
 															// each chip's Z
 															// position.
-RImage*	CChip::ms_pimView		= NULL;	// Background for all chips.
-RImage*	CChip::ms_pimStack		= NULL;	// Stack for all chips.
+RImage*	CChip::ms_pimView		= nullptr;	// Background for all chips.
+RImage*	CChip::ms_pimStack		= nullptr;	// Stack for all chips.
 
 //////////////////////////////////////////////////////////////////////
 // Functions.
@@ -88,7 +88,7 @@ CChip::CChip()
 	{
 	Init();
 
-	if (ms_slistChips.Insert(this, &m_fZ) == 0)
+	if (ms_slistChips.Insert(this, &m_fZ) == SUCCESS)
 		{
 		}
 	else
@@ -107,7 +107,7 @@ CChip::~CChip()
 	{
 	Reset();
 
-	if (ms_slistChips.Remove(this) == 0)
+	if (ms_slistChips.Remove(this) == SUCCESS)
 		{
 		}
 	else
@@ -153,7 +153,7 @@ void CChip::SetPosition(int32_t lX, int32_t lY, int32_t lZ)
 //////////////////////////////////////////////////////////////////////
 int16_t CChip::Slide(int32_t lX, int32_t lY, int32_t lZ, int32_t lRate)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// Store destination position.
 	m_sDestX	= (int16_t)lX;
@@ -165,7 +165,7 @@ int16_t CChip::Slide(int32_t lX, int32_t lY, int32_t lZ, int32_t lRate)
 	// Success.
 	m_sSliding	= TRUE;
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////
@@ -220,8 +220,8 @@ int16_t CChip::Update(void)
 //////////////////////////////////////////////////////////////////////
 void CChip::Draw(void)
 	{
-	ASSERT(ms_pimView != NULL);
-	ASSERT(m_pimChip != NULL);
+	ASSERT(ms_pimView != nullptr);
+	ASSERT(m_pimChip != nullptr);
 	
 	// If this is merely a chip . . .
 	if (m_sNumChips == 1)
@@ -279,12 +279,12 @@ void CChip::Critical(void)
 	// to be repositioned.
 	CChip*	pchip	= ms_slistChips.GetHead();
 	float		fOldZ;
-	while (pchip != NULL)
+	while (pchip != nullptr)
 		{
 		fOldZ	= pchip->m_fZ;
 
 		// If not deleted during update . . .
-		if (pchip->Update() == 0)
+		if (pchip->Update() == SUCCESS)
 			{
 			// If this chip changed its Z position . . .
 			if (fOldZ != pchip->m_fZ)
@@ -300,7 +300,7 @@ void CChip::Critical(void)
 
 	// Step 2: Empty the queue resorting each chip.
 	pchip	= qChips.DeQ();
-	while (pchip != NULL)
+	while (pchip != nullptr)
 		{
 		// Reposition this chip in the sorted list since its Z position
 		// changed.
@@ -311,7 +311,7 @@ void CChip::Critical(void)
 
 	// Step 3: Blt the chips in order.
 	pchip	= ms_slistChips.GetHead();
-	while (pchip != NULL)
+	while (pchip != nullptr)
 		{
 		pchip->Draw();
 
@@ -329,7 +329,7 @@ void CChip::DeleteAll(void)
 	{
 	CChip*	pchip	= ms_slistChips.GetHead();
 
-	while (pchip != NULL)
+	while (pchip != nullptr)
 		{
 		// Someday a chip may have data to allocate.
 		pchip->Reset();
@@ -355,7 +355,7 @@ int16_t CChip::Stack(void)
 		{
 		// If we are near a chip that's not sliding . . .
 		CChip* pchip	= IsColliding(FALSE);
-		if (pchip != NULL)
+		if (pchip != nullptr)
 			{
 			// Add this chip/stack to that stack.
 			pchip->Add(this);
@@ -385,23 +385,23 @@ int16_t CChip::Stack(void)
 //////////////////////////////////////////////////////////////////////
 int16_t CChip::Add(CChip*	pchip)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// Take stack's size and add to this one's.
 	m_sNumChips += pchip->GetSize();
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////
 //
 // Remove sNum chips from this stack.
-// Returns chip/stack on success; NULL on error.
+// Returns chip/stack on success; nullptr on error.
 //
 //////////////////////////////////////////////////////////////////////
 CChip* CChip::Sub(int16_t sNum)
 	{
-	CChip*	pchip	= NULL;	// Assume failure.
+	CChip*	pchip	= nullptr;	// Assume failure.
 
 	// If we have sNum to give up . . .
 	if (sNum < GetSize())
@@ -421,7 +421,7 @@ CChip* CChip::Sub(int16_t sNum)
 		}
 
 	// If successful . . . 
-	if (pchip != NULL)
+	if (pchip != nullptr)
 		{
 		// Add to new stack.
 		pchip->SetSize(pchip->GetSize() + sNum);
@@ -449,18 +449,18 @@ CChip* CChip::Sub(int16_t sNum)
 //////////////////////////////////////////////////////////////////////
 CChip* CChip::IsColliding(int16_t sTop/*	= FALSE*/)
 	{
-	CChip*	pchip	= NULL;				// Assume not found.
-	CChip*	pchipHighest	= NULL;	// If sTop is TRUE, this is used
+	CChip*	pchip	= nullptr;				// Assume not found.
+	CChip*	pchipHighest	= nullptr;	// If sTop is TRUE, this is used
 												// to store the chip with the
 												// lowest Y.
 
-	for (int16_t i = 0; i < 2 && (pchip == NULL || sTop == TRUE); i++)
+	for (int16_t i = 0; i < 2 && (pchip == nullptr || sTop == TRUE); i++)
 		{
 		// Search back from this one . . .
 		pchip	= (i == 0	? ms_slistChips.GetPrev(this) 
 								: ms_slistChips.GetNext(this));
 
-		while (pchip != NULL && pchip != this)
+		while (pchip != nullptr && pchip != this)
 			{
 			// Is it outside the Z range?
 			// NOTE: If this check stops the search, it can screw up in the
@@ -469,7 +469,7 @@ CChip* CChip::IsColliding(int16_t sTop/*	= FALSE*/)
 				||	pchip->m_fZ > m_fZ + (float)m_pimChip->m_sHeight)
 				{
 				// Outside.
-				pchip	= NULL;
+				pchip	= nullptr;
 				}
 			else
 				{
@@ -492,7 +492,7 @@ CChip* CChip::IsColliding(int16_t sTop/*	= FALSE*/)
 							}
 						else
 							{
-							if (pchipHighest == NULL)
+							if (pchipHighest == nullptr)
 								{
 								pchipHighest	= pchip;
 								}
@@ -519,7 +519,7 @@ CChip* CChip::IsColliding(int16_t sTop/*	= FALSE*/)
 
 
 	// If we're searching for the highest and we found one . . .
-	if (sTop == TRUE && pchipHighest != NULL)
+	if (sTop == TRUE && pchipHighest != nullptr)
 		{
 		pchip = pchipHighest;
 		}
@@ -530,14 +530,14 @@ CChip* CChip::IsColliding(int16_t sTop/*	= FALSE*/)
 //////////////////////////////////////////////////////////////////////
 //
 // Returns the first chip/stack in the given rectangle.
-// Returns NULL if none found.
+// Returns nullptr if none found.
 // (static)
 //
 //////////////////////////////////////////////////////////////////////
 CChip* CChip::GetChipIn(int32_t lX, int32_t lY, int32_t lW, int32_t lH)
 	{
 	CChip*	pchip	= ms_slistChips.GetHead();
-	while (pchip != NULL)
+	while (pchip != nullptr)
 		{
 		if (	(int32_t)pchip->m_fX < lX 
 			||	(int32_t)pchip->m_fX > lX + lW
@@ -578,7 +578,7 @@ void CChip::Init(void)
 
 	m_sRate	= 0;
 
-	m_pimChip	= NULL;
+	m_pimChip	= nullptr;
 
 	m_sSliding	= FALSE;
 

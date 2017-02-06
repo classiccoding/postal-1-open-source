@@ -157,10 +157,10 @@ void RSnd::Init(void)
 	// Initialize members.
 	m_lBufSize			= 0L;
 	m_sState				= Stopped;
-	m_psample			= NULL;
+   m_psample			= nullptr;
 	m_sOwnSample		= FALSE;
 	m_sLoop				= FALSE;
-	m_dcUser				= NULL;
+   m_dcUser				= nullptr;
 	m_lLoopStartPos	= 0;	
 	m_lLoopEndPos		= 0;
 	m_sTypeVolume		= 255;	// should be overwritten by Play
@@ -180,7 +180,7 @@ void RSnd::Reset(void)
 
 	if (GetState() == Stopped)
 		{
-		if (m_psample != NULL)
+      if (m_psample != nullptr)
 			{
 			// Unlock the sample.
 			m_psample->Unlock();
@@ -188,7 +188,7 @@ void RSnd::Reset(void)
 			if (m_sOwnSample == TRUE)
 				{
 				delete m_psample;
-				m_psample = NULL;
+            m_psample = nullptr;
 				}
 			}
 		
@@ -217,14 +217,14 @@ int16_t RSnd::Stream(	char* pszSampleName, int32_t lPlayBufSize, int32_t lReadBu
 						 uint8_t	ucMainVolume /* = 255 */, uint8_t ucVolume2 /* = 255 */)
 	{
   UNUSED(ucMainVolume, ucVolume2);
-	int16_t sRes = 0;
+   int16_t sResult = 0;
 	
 	// Reset variables and free data if any.
 	Reset();
 	
 	// Attempt to create RSample . . .
 	m_psample = new RSample;
-	if (m_psample != NULL)
+   if (m_psample != nullptr)
 		{
 		// Remember we're responsible for de-allocating this RSample.
 		m_sOwnSample	= TRUE;
@@ -233,12 +233,12 @@ int16_t RSnd::Stream(	char* pszSampleName, int32_t lPlayBufSize, int32_t lReadBu
 			// Attempt to open a sound channel . . .
 			if (m_mix.OpenChannel(	m_psample->m_lSamplesPerSec, 
 											m_psample->m_sBitsPerSample, 
-											m_psample->m_sNumChannels) == 0)
+                                 m_psample->m_sNumChannels) == SUCCESS)
 				{
 				// Store the buffer size to stream with.
 				m_lBufSize	= lPlayBufSize;
 				// Attempt to start the mixing . . .
-				if (m_mix.Start(StreamCallStatic, (uint64_t)this) == 0)
+            if (m_mix.Start(StreamCallStatic, reinterpret_cast<uintptr_t>(this)) == SUCCESS)
 					{
 					// Success.  Set state to starting.
 					m_sState	= Starting;
@@ -246,11 +246,11 @@ int16_t RSnd::Stream(	char* pszSampleName, int32_t lPlayBufSize, int32_t lReadBu
 				else
 					{
 					TRACE("Stream(\"%s\"): Unable to start mixer.\n", pszSampleName);
-					sRes = -7;
+               sResult = -7;
 					}
 
 				// If any failures . . .
-				if (sRes != 0)
+            if (sResult != 0)
 					{
 					if (m_mix.CloseChannel() != 0)
 						{
@@ -261,11 +261,11 @@ int16_t RSnd::Stream(	char* pszSampleName, int32_t lPlayBufSize, int32_t lReadBu
 			else
 				{
 				TRACE("Stream(\"%s\"): Unable to open sound channel.\n", pszSampleName);
-				sRes = -6;
+            sResult = -6;
 				}
 
 			// If any failures . . .
-			if (sRes != 0)
+         if (sResult != 0)
 				{
 				// Close sample.
 				m_psample->Close();
@@ -274,23 +274,23 @@ int16_t RSnd::Stream(	char* pszSampleName, int32_t lPlayBufSize, int32_t lReadBu
 		else
 			{
 			TRACE("Stream(\"%s\"): Unable to open sample file.\n", pszSampleName);
-			sRes = -5;
+         sResult = -5;
 			}
 
 		// If any failures . . .
-		if (sRes != 0)
+      if (sResult != 0)
 			{
 			delete m_psample;
-			m_psample = NULL;
+         m_psample = nullptr;
 			}
 		}
 	else
 		{
 		TRACE("Stream(\"%s\"): Unable to allocate RSample.\n", pszSampleName);
-		sRes = -3;
+      sResult = -3;
 		}
 
-	return sRes;
+   return sResult;
 	}
 	
 ///////////////////////////////////////////////////////////////////////////////
@@ -320,9 +320,9 @@ int16_t RSnd::Play(						// Returns 0 on success.
 	int32_t lLoopEndTime/* = 0*/)		// In:  Where to loop back from in milliseconds.
 											// In:  If less than 1, the end + lLoopEndTime is used.
 	{
-	int16_t sRes = 0; // Assume success.
+   int16_t sResult = 0; // Assume success.
 	
-	ASSERT(psample != NULL);
+   ASSERT(psample != nullptr);
 	ASSERT(GetState() == Stopped);
 
 	// Use supplied sample.
@@ -331,17 +331,17 @@ int16_t RSnd::Play(						// Returns 0 on success.
 	m_sOwnSample	= FALSE;
 
 	// Attempt to lock sample . . .
-	if (m_psample->Lock() == 0)
+   if (m_psample->Lock() == SUCCESS)
 		{
 		// Attempt to open a sound channel . . .
 		if (m_mix.OpenChannel(	m_psample->m_lSamplesPerSec, 
 										m_psample->m_sBitsPerSample,
-										m_psample->m_sNumChannels) == 0)
+                              m_psample->m_sNumChannels) == SUCCESS)
 			{
 			// Store the buffer size to stream with.
 			m_lBufSize = lPlayBufSize;
 			// Attempt to play buffer . . .
-			if (m_mix.Start(PlayCallStatic, (uint64_t)this,ucMainVolume,ucVolume2) == 0)
+         if (m_mix.Start(PlayCallStatic, reinterpret_cast<uintptr_t>(this),ucMainVolume,ucVolume2) == SUCCESS)
 				{
 				// Success.  Set state to starting.
 				m_sState				= Starting;
@@ -399,11 +399,11 @@ int16_t RSnd::Play(						// Returns 0 on success.
 			else
 				{
 				TRACE("Play(): Unable to play sound buffer.\n");
-				sRes = -3;
+            sResult = -3;
 				}
 
 			// If any failures . . .
-			if (sRes != 0)
+         if (sResult != 0)
 				{
 				if (m_mix.CloseChannel() != 0)
 					{
@@ -415,25 +415,25 @@ int16_t RSnd::Play(						// Returns 0 on success.
 			{
             // commented out due to spam from --nosound.  --ryan.
 			//TRACE("Play(): Unable to open sound output device.\n");
-			sRes = -2;
+         sResult = -2;
 			}
 
 		// If any failures . . .
-		if (sRes != 0)
+      if (sResult != 0)
 			{
 			// Unlock sample.
 			m_psample->Unlock();
 			// We have no more use for this sample.
-			m_psample = NULL;
+         m_psample = nullptr;
 			}
 		}
 	else
 		{
 		TRACE("Play(): Unable to lock supplied sample.\n");
-		sRes = -1;
+      sResult = -1;
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -445,18 +445,18 @@ int16_t RSnd::Play(						// Returns 0 on success.
 ///////////////////////////////////////////////////////////////////////////////
 int16_t RSnd::Abort(void)
 	{
-	int16_t sRes = 0; // Assume success.
+   int16_t sResult = 0; // Assume success.
 
 	ASSERT(GetState() != Stopped);
 
 	// If we have a sample (i.e., we are streaming/playing) . . .
-	if (m_psample != NULL)
+   if (m_psample != nullptr)
 		{
 		// Unlock the sample.
 		m_psample->Unlock();
 		
 		// Call callback, if specified.
-		if (m_dcUser != NULL)
+      if (m_dcUser != nullptr)
 			{
 			(*m_dcUser)(this);
 			}
@@ -470,10 +470,10 @@ int16_t RSnd::Abort(void)
 			}
 
 		// Clear the sample ptr.  This will cause streaming/playing to end.
-		m_psample = NULL;
+      m_psample = nullptr;
 
 		// Let RMix know we want to abort.
-		if (m_mix.Suspend() == 0)
+      if (m_mix.Suspend() == SUCCESS)
 			{
 			}
 		else
@@ -484,10 +484,10 @@ int16_t RSnd::Abort(void)
 	else
 		{
 //		TRACE("Abort(): No current RSample.\n");
-		sRes = -1;
+      sResult = -1;
 		}
 	
-	return sRes;
+   return sResult;
 	}
 	
 //////////////////////////////////////////////////////////////////////////////
@@ -516,7 +516,7 @@ int32_t RSnd::GetTime(void)
 //
 // Called from StreamCallStatic when Blue is done playing our buffer.
 // Returns current volume information back to the RMix
-// Returns pointer to next buffer to play or NULL to end.
+// Returns pointer to next buffer to play or nullptr to end.
 //
 //////////////////////////////////////////////////////////////////////////////
 void* RSnd::StreamCall(RMix::Msg	msg, 
@@ -531,7 +531,7 @@ void* RSnd::StreamCall(RMix::Msg	msg,
 		{
 		case RMix::Data:
 			// If not done . . .
-			if (m_psample != NULL)
+         if (m_psample != nullptr)
 				{
 				// If we were starting . . .
 				if (m_sState == Starting)
@@ -567,17 +567,17 @@ void* RSnd::StreamCall(RMix::Msg	msg,
 						}
 
 					// End streaming.
-					pData = NULL;
+               pData = nullptr;
 					}
 				}
 			else
 				{
 				// Aborted.
-				pData = NULL;
+            pData = nullptr;
 				}
 
 			// If abort, done, or error . . .
-			if (pData == NULL)
+         if (pData == nullptr)
 				{
 				// Set state to ending.
 				m_sState	= Ending;
@@ -587,7 +587,7 @@ void* RSnd::StreamCall(RMix::Msg	msg,
 		case RMix::Suspended:
 			// If sample still pointed to (this is the case when the sound ends
 			// normally (i.e., Abort() was NOT called) ). . .
-			if (m_psample != NULL)
+         if (m_psample != nullptr)
 				{
 				// Close the sample.
 				if (m_psample->Close() != 0)
@@ -596,7 +596,7 @@ void* RSnd::StreamCall(RMix::Msg	msg,
 					}
 
 				// Call callback, if specified.
-				if (m_dcUser != NULL)
+            if (m_dcUser != nullptr)
 					{
 					(*m_dcUser)(this);
 					}
@@ -610,7 +610,7 @@ void* RSnd::StreamCall(RMix::Msg	msg,
 					m_sOwnSample = FALSE;
 					}
 
-				m_psample = NULL;
+            m_psample = nullptr;
 				}
 
 			// Close the sound output channel.
@@ -636,7 +636,7 @@ void* RSnd::StreamCall(RMix::Msg	msg,
 //////////////////////////////////////////////////////////////////////////////
 //
 // Called from PlayCallStatic when Blue is done playing our buffer.
-// Returns pointer to next buffer to play or NULL to end.
+// Returns pointer to next buffer to play or nullptr to end.
 // Sends back current information back to RMix
 // Recursive 1 deep.
 //
@@ -651,7 +651,7 @@ void* RSnd::PlayCall(RMix::Msg	msg,
 		{
 		case RMix::Data:
 			// If not done . . .
-			if (m_psample != NULL)
+         if (m_psample != nullptr)
 				{
 				// If we were starting . . .
 				if (m_sState == Starting)
@@ -691,7 +691,7 @@ void* RSnd::PlayCall(RMix::Msg	msg,
 						if (m_ulSampleSize == (uint32_t)m_psample->m_lBufSize)
 							{
 							// Clear pointer.
-							pData		= NULL;
+                     pData		= nullptr;
 							}
 						else
 							{
@@ -721,11 +721,11 @@ void* RSnd::PlayCall(RMix::Msg	msg,
 			else
 				{
 				// Clear pointer.
-				pData	= NULL;
+            pData	= nullptr;
 				}
 
 			// If done or aborted . . .
-			if (pData == NULL)
+         if (pData == nullptr)
 				{
 				// Set state to ending.
 				m_sState	= Ending;
@@ -734,13 +734,13 @@ void* RSnd::PlayCall(RMix::Msg	msg,
 
 		case RMix::Suspended:
 
-			if (m_psample != NULL)
+         if (m_psample != nullptr)
 				{
 				// Unlock the sample.
 				m_psample->Unlock();
 
 				// Call callback, if specified.
-				if (m_dcUser != NULL)
+            if (m_dcUser != nullptr)
 					{
 					(*m_dcUser)(this);
 					}
@@ -767,7 +767,7 @@ void* RSnd::PlayCall(RMix::Msg	msg,
 			m_sState	= Stopped;
 
 			// Clear sample.  No longer needed.
-			m_psample = NULL;
+         m_psample = nullptr;
 
 			break;
 		}
@@ -786,7 +786,7 @@ void* RSnd::PlayCall(RMix::Msg	msg,
 //
 // Called from Blue when it is done playing our buffer.
 // Sends back up to the second volume information back to RMix
-// Returns pointer to next buffer to play or NULL to end.
+// Returns pointer to next buffer to play or nullptr to end.
 // (static)
 //
 //////////////////////////////////////////////////////////////////////////////
@@ -804,7 +804,7 @@ void* RSnd::StreamCallStatic(	RMix::Msg	msg,
 //
 // Called from Blue when it is done playing our buffer.
 // Sends back up to the second volume information back to RMix
-// Returns pointer to next buffer to play or NULL to end.
+// Returns pointer to next buffer to play or nullptr to end.
 // (static)
 //
 //////////////////////////////////////////////////////////////////////////////

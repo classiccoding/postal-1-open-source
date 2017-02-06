@@ -107,7 +107,7 @@ class RSndFx
 		void Do(								// Returns nothing.
 			uint8_t* pucSrcData,			// Data to affect.
 			int32_t lBufSize,					// Amount of data.
-			uint8_t* pucDstData = NULL);	// Destination for data, defaults to
+			uint8_t* pucDstData = nullptr);	// Destination for data, defaults to
 												// same as source.
 		
 		/////////////////////////////////////////////////////////////////////////

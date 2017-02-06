@@ -869,13 +869,13 @@ int16_t rspStrafeRotate(void *pReturnArray,	// Output
 
 	if (!pimSrc)
 		{
-		TRACE("rspStrafeRotate: NULL source passed!\n");
+      TRACE("rspStrafeRotate: nullptr source passed!\n");
 		return -1;
 		}
 
 	if (!pReturnArray)
 		{
-		TRACE("rspStrafeRotate: NULL receiver passed!\n");
+      TRACE("rspStrafeRotate: nullptr receiver passed!\n");
 		return -1;
 		}
 
@@ -919,7 +919,7 @@ int16_t rspStrafeRotate(void *pReturnArray,	// Output
 	int16_t sDstH = (sSrcH * dScale); // used for making a copy
 
 	// Make a copy of the input links so they can be center adjusted
-	int16_t *psLinkX = NULL, *psLinkY = NULL;
+   int16_t *psLinkX = nullptr, *psLinkY = nullptr;
 	int16_t j;
 
 	if (sNumLinks > 0)
@@ -968,8 +968,8 @@ int16_t rspStrafeRotate(void *pReturnArray,	// Output
 			
 
 		// Dpo the links, if any:
-		*(ppLinkX.ppL) = NULL;
-		*(ppLinkY.ppL) = NULL;
+      *(ppLinkX.ppL) = nullptr;
+      *(ppLinkY.ppL) = nullptr;
 
 		if (sNumLinks > 0)
 			{

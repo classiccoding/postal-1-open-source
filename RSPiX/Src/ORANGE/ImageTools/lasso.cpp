@@ -99,8 +99,8 @@ typedef struct
 // Macros.
 //////////////////////////////////////////////////////////////////////////////
 
-// Only set value if not NULL.
-#define SET(ptr, val)		( ((ptr) != NULL) ? *(ptr) = (val) : 0 )
+// Only set value if not nullptr.
+#define SET(ptr, val)		( ((ptr) != nullptr) ? *(ptr) = (val) : 0 )
 
 // The new table utilizes 3 entries:
 // 1) The two new pixel values, when used as an index.
@@ -449,7 +449,7 @@ int16_t suxRect(			// Returns 0 on success, 1 if clipped out entirely.
 	int16_t sW,			// Width for rectangle.
 	int16_t sH)			// Height for rectangle.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	if (sX < 0)
 		{
@@ -495,10 +495,10 @@ int16_t suxRect(			// Returns 0 on success, 1 if clipped out entirely.
 		}
 	else
 		{
-		sRes	= 1;
+		sResult	= 1;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ///////////////////////////////////////////////////////////////////////////
@@ -526,7 +526,7 @@ int16_t EvalPixel(						// Returns TRUE if pixel is not clrDisjoin.
 	if (sX >= sMinX && sY >= sMinY && sX <= sMaxX && sY <= sMaxY)
 		{
 		// If no callback . . .
-		if (fnEval == NULL)
+		if (fnEval == nullptr)
 			{
 			// Note that sY * lPitch is added in uint8_t sized elements and
 			// sX is added in COLOR sized elements.
@@ -558,16 +558,16 @@ inline int16_t Add(					// Returns 0 on success.
 	int16_t	sStartY,					// Y from which our rows are relative.
 	EXTENTS* pextents)			// Mins and maxes to update.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// Allocate item . . .
 	int16_t*	psX	= new int16_t;
-	if (psX != NULL)
+	if (psX != nullptr)
 		{
 		// Copy.
 		*psX	= sX;
 		// Insert item, *psX, with sort key *psX.
-		if (psls[sY - (sStartY + 1)].Insert(psX, psX) == 0)
+		if (psls[sY - (sStartY + 1)].Insert(psX, psX) == SUCCESS)
 			{
 			// Success.
 			if (sX > pextents->sMaxX)
@@ -593,11 +593,11 @@ inline int16_t Add(					// Returns 0 on success.
 		else
 			{
 			TRACE("Add(): Unable to insert short into list.\n");
-			sRes	= -2;
+			sResult	= -2;
 			}
 
 		// If an error occurred after allocation . . .
-		if (sRes != 0)
+		if (sResult != 0)
 			{
 			delete psX;
 			}
@@ -605,10 +605,10 @@ inline int16_t Add(					// Returns 0 on success.
 	else
 		{
 		TRACE("Add(): Unable to allocate short for list.\n");
-		sRes	= -1;
+		sResult	= -1;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ///////////////////////////////////////////////////////////////////////////
@@ -676,16 +676,16 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 	RLassoNextEvalCall	fnEval)	// In:  Specifies function to call to determine
 											// whether a pixel is part of a shape or not.
 											// Values will be clipped before calling this
-											// function.  If this is not NULL, it is used
+											// function.  If this is not nullptr, it is used
 											// instead of clrDisjoin.
 	{
-	int16_t	sRes	= 0;	// Assume none found.
+	int16_t	sResult	= 0;	// Assume none found.
 
 	// If source bit depth is equal to provided bit depth . . .
 	if (pimSrc->m_sDepth == sizeof(COLOR) * 8)
 		{
 		// If destination was preallocated . . .
-		if (pimDst->m_pData != NULL)
+		if (pimDst->m_pData != nullptr)
 			{
 			// Make sure bit depth matches . . .
 			if (pimDst->m_sDepth == sizeof(COLOR) * 8)
@@ -698,12 +698,12 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 					"preallocated pimDst has bit depth of %d.\n", 
 					sizeof(clrDisjoin) * 8, 
 					pimDst->m_sDepth);
-				sRes	= -2;
+				sResult	= -2;
 				}
 			}
 
 		// If successful so far . . .
-		if (sRes == 0)
+		if (sResult == SUCCESS)
 			{
 			//////////////////////////////////////////////////////////////////////
 			// Scan for first/next shape.
@@ -787,7 +787,7 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 				// Pointer to array of row lists of x coordinates.
 				SLIST_SHORTS*	plistRows	= new SLIST_SHORTS[sMaxRows];
 
-				if (plistRows != NULL)
+				if (plistRows != nullptr)
 					{
 					// Store bounding rectangle.
 					EXTENTS	extents	= { 0x7FFF, 0x7FFF, 0, 0 };
@@ -815,7 +815,7 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 								ASSERT(sY - (sStartY + 1) < sMaxRows);
 								ASSERT(sY - (sStartY + 1) >= 0);
 								// When we go down we must add a position.
-								sRes	= Add(plistRows, sX, sY, sStartY, &extents);
+								sResult	= Add(plistRows, sX, sY, sStartY, &extents);
 
 								break;
 							case DIRLEFT:
@@ -828,7 +828,7 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 								ASSERT(sY - (sStartY + 1) < sMaxRows);
 								ASSERT(sY - (sStartY + 1) >= 0);
 								// When we go up we must add a position.
-								sRes	= Add(plistRows, sX + 1, sY, sStartY, &extents);
+								sResult	= Add(plistRows, sX + 1, sY, sStartY, &extents);
 
 								sY--;
 
@@ -844,16 +844,16 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 						ASSERT((u16Last & ERROR) != ERROR);
 
 						// Continue until we are back at start.
-						} while ((sX != sStartX || sY != sStartY) && sRes == 0);
+						} while ((sX != sStartX || sY != sStartY) && sResult == SUCCESS);
 
 					// If successful so far . . .
-					if (sRes == 0)
+					if (sResult == SUCCESS)
 						{
 						/////////////////////////////////////////////////////////////
 						// Allocation destination if necessary.
 						/////////////////////////////////////////////////////////////
 						// If image not already allocated . . .
-						if (pimDst->m_pData == NULL)
+						if (pimDst->m_pData == nullptr)
 							{
 							if (pimDst->CreateImage(
 								extents.sMaxX - extents.sMinX + 1,	// Width: Use largest width of shape.
@@ -868,12 +868,12 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 							else
 								{
 								TRACE("rspLassoNext(): CreateImage failed for pimDst.\n");
-								sRes	= -3;
+								sResult	= -3;
 								}
 							}
 
 						// If successful so far . . .
-						if (sRes == 0)
+						if (sResult == SUCCESS)
 							{
 							//////////////////////////////////////////////////////////
 							// Duplicate shape and contents.
@@ -902,10 +902,10 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 								{
 								psX1	= plistRows[sRow].GetHead();
 								psX2	= plistRows[sRow].GetNext();
-								while (psX1 != NULL)
+								while (psX1 != nullptr)
 									{
 									// For every start there must be an end.
-									ASSERT(psX2 != NULL);
+									ASSERT(psX2 != nullptr);
 									
 									// Copy.
 									rspBlit(	pimSrc, 
@@ -961,13 +961,13 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 					{
 					TRACE("rspLassoNext(): Failed to allocate %d lists needed for processing.\n",
 						sMaxRows);
-					sRes	= -2;
+					sResult	= -2;
 					}
 				}
 			else
 				{
 				// None found.
-				sRes	= 1;
+				sResult	= 1;
 				}
 			}
 		}
@@ -977,10 +977,10 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 			"pimSrc has bit depth of %d.\n", 
 			sizeof(clrDisjoin) * 8, 
 			pimSrc->m_sDepth);
-		sRes	= -1;
+		sResult	= -1;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 void InstantiateLasso(void);
@@ -988,11 +988,11 @@ void InstantiateLasso(void)
 	{
 	RImage im;
 	// Instantiate uint8_t version.
-	rspLassoNext(&im, &im, 0, 0, 0, 0, (uint8_t)0, (uint8_t)0, (int16_t*)NULL, (int16_t*)NULL, (int16_t*)NULL, (int16_t*)NULL, (RLassoNextEvalCall)NULL);
+	rspLassoNext(&im, &im, 0, 0, 0, 0, (uint8_t)0, (uint8_t)0, (int16_t*)nullptr, (int16_t*)nullptr, (int16_t*)nullptr, (int16_t*)nullptr, (RLassoNextEvalCall)nullptr);
 	// Instantiate uint16_t version.
-	rspLassoNext(&im, &im, 0, 0, 0, 0, (uint16_t)0, (uint16_t)0, (int16_t*)NULL, (int16_t*)NULL, (int16_t*)NULL, (int16_t*)NULL, (RLassoNextEvalCall)NULL);
+	rspLassoNext(&im, &im, 0, 0, 0, 0, (uint16_t)0, (uint16_t)0, (int16_t*)nullptr, (int16_t*)nullptr, (int16_t*)nullptr, (int16_t*)nullptr, (RLassoNextEvalCall)nullptr);
 	// Instantiate uint32_t version.
-	rspLassoNext(&im, &im, 0, 0, 0, 0, (uint32_t)0, (uint32_t)0, (int16_t*)NULL, (int16_t*)NULL, (int16_t*)NULL, (int16_t*)NULL, (RLassoNextEvalCall)NULL);
+	rspLassoNext(&im, &im, 0, 0, 0, 0, (uint32_t)0, (uint32_t)0, (int16_t*)nullptr, (int16_t*)nullptr, (int16_t*)nullptr, (int16_t*)nullptr, (RLassoNextEvalCall)nullptr);
 	}
 
 //////////////////////////////////////////////////////////////////////////////

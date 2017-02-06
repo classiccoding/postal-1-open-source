@@ -31,7 +31,7 @@
 #include "Blue.h"
 #include <SDL2/SDL.h>
 
-static Uint32 MicrosecondsBase = 0;
+static uint32_t MicrosecondsBase = 0;
 
 //////////////////////////////////////////////////////////////////////////////
 // Functions.
@@ -54,9 +54,9 @@ extern void Time_Init(void)
 // Returns the time in a long.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern int32_t rspGetMilliseconds(void)
+extern uint32_t rspGetMilliseconds(void)
 	{
-        return (int32_t) (SDL_GetTicks());
+        return SDL_GetTicks();
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -68,14 +68,14 @@ extern int32_t rspGetMilliseconds(void)
 // Returns the time in a long.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern int32_t rspGetMicroseconds(	// Returns microseconds between now and
+extern uint64_t rspGetMicroseconds(	// Returns microseconds between now and
 											// last
 	int16_t sReset /*= FALSE*/)		// Set to TRUE to reset timer.  If you never
 											// reset the timer, it will wrap within
 											// just over 35 minutes.
 	{
-    Uint32 microsecs = SDL_GetTicks();
-    int32_t lTime = (int32_t) (microsecs - MicrosecondsBase);
+    uint32_t microsecs = SDL_GetTicks();
+    uint32_t lTime = microsecs - MicrosecondsBase; // sorry, no time travel allowed
 
 		// If reset requested . . .
 	if (sReset != FALSE)
@@ -96,9 +96,9 @@ extern int32_t rspGetMicroseconds(	// Returns microseconds between now and
 // Returns the time in an __int64.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern int64_t rspGetAppMicroseconds()
+extern uint64_t rspGetAppMicroseconds()
 	{
-        return ((int64_t) SDL_GetTicks()) * 1000;
+        return SDL_GetTicks() * 1000;
 	}
 
 //////////////////////////////////////////////////////////////////////////////

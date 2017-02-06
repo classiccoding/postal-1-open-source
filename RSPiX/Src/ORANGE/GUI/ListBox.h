@@ -158,20 +158,20 @@ class RListBox : public RGuiItem
 		// Compose item.
 		virtual					// If you override this, call this base if possible.
 		void Compose(			// Returns nothing.
-			RImage* pim = NULL);	// Dest image, uses m_im if NULL.
+			RImage* pim = nullptr);	// Dest image, uses m_im if nullptr.
 
 		// Add a string into the list box.
 		// Note that adding a string at the end is by far the fastest.
 		RGuiItem* AddString(					// Returns new GUI item on success.
          const char*	pszString,					// String to add.
-			RGuiItem* pguiAfter	= NULL);	// Gui to add after or NULL to add at
+			RGuiItem* pguiAfter	= nullptr);	// Gui to add after or nullptr to add at
 													// end.
 
 		// Insert a string into the list box.
 		// Note that adding a string at the end is by far the fastest.
 		RGuiItem* InsertString(				// Returns new GUI item on success.
          const char*	pszString,					// String to insert.
-			RGuiItem* pguiBefore	= NULL);	// Gui to insert before or NULL to 
+			RGuiItem* pguiBefore	= nullptr);	// Gui to insert before or nullptr to 
 													// insert at beginning.
 
 		// Add an item into the list box.
@@ -185,7 +185,7 @@ class RListBox : public RGuiItem
 													// If FALSE, this item will be a direct
 													// child of the listbox and will be
 													// returned on success.
-			RGuiItem* pguiAfter	= NULL);	// Gui to add after or NULL to add at
+			RGuiItem* pguiAfter	= nullptr);	// Gui to add after or nullptr to add at
 													// end.
 
 		// Note that adding an item at the end is by far the fastest.
@@ -199,7 +199,7 @@ class RListBox : public RGuiItem
 													// If FALSE, this item will be a direct
 													// child of the listbox and will be
 													// returned on success.
-			RGuiItem* pguiBefore	= NULL);	// Gui to insert before or NULL to 
+			RGuiItem* pguiBefore	= nullptr);	// Gui to insert before or nullptr to 
 													// insert at beginning.
 
 		// Remove an item from the list box and destroy encapsulator, if an
@@ -220,7 +220,7 @@ class RListBox : public RGuiItem
 
 		// Set the selection to the specified GUI item.
 		void SetSel(							// Returns nothing.
-			RGuiItem* pgui);					// Item to select or NULL for none.
+			RGuiItem* pgui);					// Item to select or nullptr for none.
 
 		// Set scroll visibility state for vertical scrollbar.
 		void SetVScrollVisibility(			// Returns nothing.
@@ -268,7 +268,7 @@ class RListBox : public RGuiItem
 			if (pguiChild == m_pguiSel)
 				{
 				// Unselect.
-				SetSel(NULL);
+				SetSel(nullptr);
 				}
 			}
 
@@ -278,20 +278,20 @@ class RListBox : public RGuiItem
 
 		// Get the currently selected GUI item.
 		RGuiItem* GetSel(void)				// Returns currently selected GUI item
-													// or NULL, if none.
+													// or nullptr, if none.
 			{
 			return m_pguiSel;
 			}
 
 		// Get the first child item.
-		RGuiItem* GetFirst(void);		// Returns the first child item or NULL.
+		RGuiItem* GetFirst(void);		// Returns the first child item or nullptr.
 
 		// Get the child item after the specified item.
-		RGuiItem* GetNext(				// Returns the next child item or NULL.
+		RGuiItem* GetNext(				// Returns the next child item or nullptr.
 			RGuiItem*	pgui);			// In:  Child item that precedes the next.
 
 		// Get the child item before the specified item.
-		RGuiItem* GetPrev(				// Returns the previous child item or NULL.
+		RGuiItem* GetPrev(				// Returns the previous child item or nullptr.
 			RGuiItem*	pgui);			// In:  Child item that follows the prev.
 
 		// Returns TRUE, if the specified item is a list item contained within
@@ -336,7 +336,7 @@ class RListBox : public RGuiItem
 			RScrollBar*	psb)			// Scroll bar.
 			{
 			RListBox*	plb	= (RListBox*)psb->m_ulUserInstance;
-			ASSERT(plb != NULL);
+			ASSERT(plb != nullptr);
 
 			int16_t	sPos	= psb->GetPos();
 
@@ -366,12 +366,12 @@ class RListBox : public RGuiItem
 
 		// Creates an item appropriate for the specified string and makes it
 		// a child of this listbox.
-		RGuiItem* CreateStringItem(	// Returns new item on success; NULL,
+		RGuiItem* CreateStringItem(	// Returns new item on success; nullptr,
 												// otherwise.
          const char* pszString);				// Text for new item.
 
 		// Creates an encapsulator object for the specified GUI.
-		RGuiItem* CreateEncapsulator(	// Returns new item on success; NULL,
+		RGuiItem* CreateEncapsulator(	// Returns new item on success; nullptr,
 												// otherwise.
 			RGuiItem*	pgui);			// Item to encapsulate.
 
@@ -379,14 +379,14 @@ class RListBox : public RGuiItem
 		// Under new pretenses, this should not fail.
 		void AddAfter(						// Returns nothing.
 			RGuiItem*	pgui,				// Item to add.
-			RGuiItem*	pguiAfter);		// Item to add after or NULL to add at
+			RGuiItem*	pguiAfter);		// Item to add after or nullptr to add at
 												// end.
 
 		// Place item at specified location in list of container's child items.
 		// Under new pretenses, this should not fail.
 		void InsertBefore(				// Returns nothing.
 			RGuiItem*	pgui,				// Item to insert.
-			RGuiItem*	pguiBefore);	// Item to insert before or NULL to insert
+			RGuiItem*	pguiBefore);	// Item to insert before or nullptr to insert
 												// at beginning.
 
 		// [Un]Select the specified item.
@@ -427,7 +427,7 @@ class RListBox : public RGuiItem
 		// The horizontal scrollbar.
 		RScrollBar				m_sbHorz;
 		
-		// The currently selected item or NULL.
+		// The currently selected item or nullptr.
 		RGuiItem*				m_pguiSel;
 
 		// Width of largest list item currently in listbox.

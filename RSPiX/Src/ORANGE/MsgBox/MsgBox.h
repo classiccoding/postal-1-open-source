@@ -149,8 +149,8 @@ class RMsgBox : public RDlg
 														// 0 on failure.
 			RInputEvent* pie,						// In:  Most recent user input event.
 														// Out: pie->sUsed = TRUE, if used.
-			RImage*	pimDst			= NULL);	// Where to draw dialog and rspBlit from.
-														// If this is NULL, the system buffer is
+			RImage*	pimDst			= nullptr);	// Where to draw dialog and rspBlit from.
+														// If this is nullptr, the system buffer is
 														// used.
 														// rspBlit is used to update this to the
 														// screen image unless pimDst is the screen
@@ -208,7 +208,7 @@ class RMsgBox : public RDlg
 	public:	// Member variables.
 		MsgBoxCall	m_mbcUser;	// User callback.  Called iteratively with 
 										// RGuiItem::m_ulUser as argument.
-										// If not defined (i.e., NULL), rspDoSystem
+										// If not defined (i.e., nullptr), rspDoSystem
 										// and CHot::Do() are called.
 		uint32_t			m_ulId;		// ID of control that caused DoModal to end.
 

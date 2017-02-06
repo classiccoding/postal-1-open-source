@@ -111,7 +111,7 @@ class RAnimSprite : public RSprite
 		int16_t		m_sNumPictures;	// Number of RImages in this animation
 		int16_t		m_sLoopToFrame;	// -1 if no loop, or frame number to start loop
 		uint32_t		m_ulAnimFlags;		// Animation flags and status
-		int32_t		m_lTimer;			// timer used for animating
+      uint32_t		m_lTimer;			// timer used for animating
 		int16_t		m_sCurrFrame;		// current frame in the animation
 		FRAME*	m_aFrames;			// Array of frame structures
 		RImage**	m_apPictures;		// Array of RImage*
@@ -175,8 +175,8 @@ class RAnimSprite : public RSprite
 			if (m_sCurrFrame >= 0 && m_sCurrFrame < m_sNumFrames)
 				return m_aFrames[m_sCurrFrame].pImage;
 			else
-				return NULL;
-		};
+				return nullptr;
+      }
 		
 		// Return a pointer to a specified frame's RImage
 		RImage* GetFrameImage(int16_t sFrameNumber)
@@ -184,20 +184,20 @@ class RAnimSprite : public RSprite
 			if (sFrameNumber >= 0 && sFrameNumber < m_sNumFrames)
 				return m_aFrames[sFrameNumber].pImage;
 			else
-				return NULL;
+				return nullptr;
 		}
 		
 		// Return a pointer to the current frame
 		FRAME* GetFrame(void)
 		{
 			return &(m_aFrames[m_sCurrFrame]);
-		};
+      }
 
 		// Get the current frame's hold time
 		int16_t GetFrameTime(void)
 		{
 			return m_aFrames[m_sCurrFrame].sHold;
-		};
+      }
 
 	private:
 		// Function used by Save to loop through and save all of the images

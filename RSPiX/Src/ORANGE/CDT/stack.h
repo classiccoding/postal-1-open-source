@@ -88,25 +88,25 @@ template <class T> class RStack
 		// Returns 0 on success.
 		int16_t Push(STACKDATA sd)
 			{
-			int16_t	sRes	= m_list.InsertHead(sd);
-			if (sRes == 0)
+			int16_t	sResult	= m_list.InsertHead(sd);
+			if (sResult == SUCCESS)
 				{
 				m_sNumItems++;
 				}
-			return sRes;
+			return sResult;
 			}
 
 		// Pop an item off the stack.
-		// Returns item on success; NULL otherwise.
+      // Returns item on success; nullptr otherwise.
 		int16_t Pop(PSTACKDATA psd)
 			{
-			int16_t	sRes	= m_list.GetHead(psd);
-			if (sRes == 0)
+			int16_t	sResult	= m_list.GetHead(psd);
+			if (sResult == SUCCESS)
 				{
 				m_sNumItems--;
 				m_list.Remove();
 				}
-			return sRes;
+			return sResult;
 			}
 
 //////////////////////////////////////////////////////////////////////////////

@@ -237,8 +237,8 @@ public:
 	int16_t Compress(
 		int16_t sTileW,				// Size of tiles to try on this data
 		int16_t sTileH,
-		int32_t* plSize = NULL,		// New Data Size (BYTES)
-		int32_t* lNumBlocks = NULL,// Number of unique tiles needed
+		int32_t* plSize = nullptr,		// New Data Size (BYTES)
+		int32_t* lNumBlocks = nullptr,// Number of unique tiles needed
 		int16_t sMatchSame = TRUE	// If false, NO TILE WILL BE REUSED
 										// which increases the speed of compresion
 		);
@@ -265,14 +265,14 @@ public:
 	void	ClearUncompressed()	
 		{
 		m_sWidth = m_sHeight = 0;
-		m_psGrid = NULL;
+		m_psGrid = nullptr;
 		}
 
 	void	ClearCompressed()	
 		{
 		m_sIsCompressed = m_sMaskX = m_sMaskY = m_sShiftX = m_sShiftY = 0;
-		m_psTiles = m_psTileLine = NULL;
-		m_ppsGridLines = m_ppsTileList = NULL;
+		m_psTiles = m_psTileLine = nullptr;
+		m_ppsGridLines = m_ppsTileList = nullptr;
 		}
 
 	void	FreeCompressed() 

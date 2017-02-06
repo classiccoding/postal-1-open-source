@@ -94,7 +94,7 @@ RMultiBtn::RMultiBtn()
 	// Initialize RMultiBtn members.
 	m_sState				= 0;		// The button's current state, 0..m_sNumStates - 1.
 	m_sNumStates		= 0;		// Number of button states.                        
-	m_papimStates		= NULL;	// Ptr to array of m_sNumStates ptrs to button     
+	m_papimStates		= nullptr;	// Ptr to array of m_sNumStates ptrs to button     
 										// state images.                                   
 	}
 
@@ -178,13 +178,13 @@ void RMultiBtn::CursorEvent(	// Returns nothing.
 // (virtual).
 ////////////////////////////////////////////////////////////////////////
 void RMultiBtn::DrawBackgroundRes(	// Returns nothing.
-	RImage* pim /*= NULL*/)				// Dest image, uses m_im, if NULL.
+	RImage* pim /*= nullptr*/)				// Dest image, uses m_im, if nullptr.
 	{
 	// Store old bkd res.
 	RImage*	pimBkdRes	= m_pimBkdRes;
 
 	// If we have any states . . .
-	if (m_papimStates != NULL)
+	if (m_papimStates != nullptr)
 		{
 		// Choose proper image.
 		if (m_sPressed == FALSE)
@@ -217,17 +217,17 @@ void RMultiBtn::DrawBackgroundRes(	// Returns nothing.
 int16_t RMultiBtn::SetNumStates(	// Returns 0 on success.
 	int16_t sNumStates)					// In:  New number of states.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// Allocate an array of image ptrs and clear them all . . .
 	RImage** papimNewStates	= new RImage*[sNumStates + 1];
-	if (papimNewStates != NULL)
+	if (papimNewStates != nullptr)
 		{
-		// Clear all the ptrs to NULL.
+		// Clear all the ptrs to nullptr.
 		memset(papimNewStates, 0, sizeof(RImage*) * (sNumStates + 1));
 
 		// If there was an old array . . .
-		if (m_papimStates != NULL)
+		if (m_papimStates != nullptr)
 			{
 			// Copy any currently valid ptrs within new range.
 			int16_t	i;
@@ -236,7 +236,7 @@ int16_t RMultiBtn::SetNumStates(	// Returns 0 on success.
 				// Copy entry.
 				papimNewStates[i]	= m_papimStates[i];
 				// Clear entry so it is not deleted.
-				m_papimStates[i]	= NULL;
+				m_papimStates[i]	= nullptr;
 				}
 
 			// Destroy any current states plus array.
@@ -251,10 +251,10 @@ int16_t RMultiBtn::SetNumStates(	// Returns 0 on success.
 	else
 		{
 		TRACE("SetNumStates(): Failed to allocate new array of Image ptrs.\n");
-		sRes	= -1;
+		sResult	= -1;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ////////////////////////////////////////////////////////////////////////
@@ -265,22 +265,22 @@ int16_t RMultiBtn::SetState(	// Returns 0 on success.
 	int16_t		sState)			// In:  State to update (0 == feedback state,
 									// 1..n == state number).
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
-	if (m_papimStates == NULL || sState >= m_sNumStates)
+	if (m_papimStates == nullptr || sState >= m_sNumStates)
 		{
-		sRes = SetNumStates(sState);
+		sResult = SetNumStates(sState);
 		}
 
 	// If successful so far . . .
-	if (sRes == 0)
+	if (sResult == SUCCESS)
 		{
 		// Clear current value.
 		delete m_papimStates[sState];
 
 		// Allocate new one . . .
 		m_papimStates[sState]	= new RImage;
-		if (m_papimStates[sState] != NULL)
+		if (m_papimStates[sState] != nullptr)
 			{
 			// Copy specified image.
 			*(m_papimStates[sState])	= *pim;
@@ -288,11 +288,11 @@ int16_t RMultiBtn::SetState(	// Returns 0 on success.
 		else
 			{
 			TRACE("SetState():  Failed to allocate new RImage.\n");
-			sRes	= -1;
+			sResult	= -1;
 			}
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -304,20 +304,20 @@ int16_t RMultiBtn::SetState(	// Returns 0 on success.
 	int16_t		sState)			// In:  State to update (0 == feedback state,
 									// 1..n == state number).
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	RImage	im;
-	if (RFileEZLoad(&im, pszImageName, "rb", RFile::LittleEndian) == 0)
+	if (RFileEZLoad(&im, pszImageName, "rb", RFile::LittleEndian) == SUCCESS)
 		{
-		sRes	= SetState(&im, sState);
+		sResult	= SetState(&im, sState);
 		}
 	else
 		{
 		TRACE("SetState():  RFileEZLoad() failed for \"%s\".\n", pszImageName);
-		sRes	= -1;
+		sResult	= -1;
 		}
 	
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -330,12 +330,12 @@ void RMultiBtn::ClearState(	// Returns nothing.
 	{
 	if (sState >= 0 && sState <= m_sNumStates)
 		{
-		if (m_papimStates != NULL)
+		if (m_papimStates != nullptr)
 			{
 			// State be gone.  Safe for already deallocated states as long as
-			// they're NULL.
+			// they're nullptr.
 			delete m_papimStates[sState];
-			m_papimStates[sState]	= NULL;
+			m_papimStates[sState]	= nullptr;
 			}
 		}
 	}
@@ -364,15 +364,15 @@ int16_t RMultiBtn::NextState(void)	// Returns new state.
 //////////////////////////////////////////////////////////////////////////////
 // Get the current image for the specified state.
 //////////////////////////////////////////////////////////////////////////////
-RImage* RMultiBtn::GetState(	// Returns image, if available; NULL, otherwise.
+RImage* RMultiBtn::GetState(	// Returns image, if available; nullptr, otherwise.
 	int16_t	sState)					// In:  State to get (0 == feedback state,
 										// 1..n == state number).
 	{
-	RImage*	pimRes	= NULL;	// Assume not available.
+	RImage*	pimRes	= nullptr;	// Assume not available.
 
 	if (sState >= 0 && sState <= m_sNumStates)
 		{
-		if (m_papimStates != NULL)
+		if (m_papimStates != nullptr)
 			{
 			pimRes	= m_papimStates[sState];
 			}
@@ -390,7 +390,7 @@ RImage* RMultiBtn::GetState(	// Returns image, if available; NULL, otherwise.
 //////////////////////////////////////////////////////////////////////////////
 void RMultiBtn::DestroyStates(void)	// Returns nothing.
 	{
-	if (m_papimStates != NULL)
+	if (m_papimStates != nullptr)
 		{
 		int16_t i;
 		for (i = 0; i <= m_sNumStates; i++)
@@ -412,15 +412,15 @@ int16_t RMultiBtn::ReadMembers(		// Returns 0 on success.
 	RFile*	pfile,					// File to read from.
 	uint32_t		u32Version)				// File format version to use.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// Invoke base class to read base members.
-	sRes	= RBtn::ReadMembers(pfile, u32Version);
+	sResult	= RBtn::ReadMembers(pfile, u32Version);
 
 	// If okay so far . . .
-	if (sRes == 0)
+	if (sResult == SUCCESS)
 		{
-		ASSERT(pfile != NULL);
+		ASSERT(pfile != nullptr);
 		ASSERT(pfile->IsOpen() != FALSE);
 		
 		// Switch on version.
@@ -442,35 +442,35 @@ int16_t RMultiBtn::ReadMembers(		// Returns 0 on success.
 				// Read this class's members.
 				pfile->Read(&sNumStates);
 				// Set number of states.
-				if (SetNumStates(sNumStates) == 0)
+				if (SetNumStates(sNumStates) == SUCCESS)
 					{
 					// Read all the images.
 					int16_t	sCurState;
 					int16_t	sImageForState;
-					for (sCurState = 0; sCurState <= m_sNumStates && sRes == 0; sCurState++)
+					for (sCurState = 0; sCurState <= m_sNumStates && sResult == SUCCESS; sCurState++)
 						{
 						pfile->Read(&sImageForState);
 						if (sImageForState != FALSE)
 							{
 							// There is an image.  Load it.
 							RImage	imState;
-							if (imState.Load(pfile) == 0)
+							if (imState.Load(pfile) == SUCCESS)
 								{
 								// Set that state.
-								if (SetState(&imState, sCurState) == 0)
+								if (SetState(&imState, sCurState) == SUCCESS)
 									{
 									// Successfully loaded and set state image.
 									}
 								else
 									{
 									TRACE("ReadMembers9): SetState() failed for state #%d.\n", sCurState);
-									sRes	= -3;
+									sResult	= -3;
 									}
 								}
 							else
 								{
 								TRACE("ReadMembers(): GetState() failed for state #%d.\n", sCurState);
-								sRes	= -2;
+								sResult	= -2;
 								}
 							}
 						else
@@ -483,7 +483,7 @@ int16_t RMultiBtn::ReadMembers(		// Returns 0 on success.
 				else
 					{
 					TRACE("ReadMembers(): SetNumStates() failed.\n");
-					sRes	= -1;
+					sResult	= -1;
 					}
 				}
 
@@ -497,13 +497,13 @@ int16_t RMultiBtn::ReadMembers(		// Returns 0 on success.
 				else
 					{
 					TRACE("ReadMembers(): Error reading RMultiBtn members.\n");
-					sRes	= -1;
+					sResult	= -1;
 					}
 				break;
 			}
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ////////////////////////////////////////////////////////////////////////
@@ -513,15 +513,15 @@ int16_t RMultiBtn::ReadMembers(		// Returns 0 on success.
 int16_t RMultiBtn::WriteMembers(	// Returns 0 on success.
 	RFile*	pfile)					// File to write to.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// Invoke base class to read base members.
-	sRes	= RBtn::WriteMembers(pfile);
+	sResult	= RBtn::WriteMembers(pfile);
 
 	// If okay so far . . .
-	if (sRes == 0)
+	if (sResult == SUCCESS)
 		{
-		ASSERT(pfile != NULL);
+		ASSERT(pfile != nullptr);
 		ASSERT(pfile->IsOpen() != FALSE);
 		
 		// Write this class's members.
@@ -529,16 +529,16 @@ int16_t RMultiBtn::WriteMembers(	// Returns 0 on success.
 		pfile->Write(m_sNumStates);
 		// Write all the images.
 		int16_t	sCurState;
-		for (sCurState = 0; sCurState <= m_sNumStates && sRes == 0; sCurState++)
+		for (sCurState = 0; sCurState <= m_sNumStates && sResult == SUCCESS; sCurState++)
 			{
 			// If there is a bitmap for this state . . .
 			RImage*	pimState	= GetState(sCurState);
-			if (pimState != NULL)
+			if (pimState != nullptr)
 				{
 				// There is an image.  Write flag indicating such.
 				pfile->Write((int16_t)TRUE);
 				// Write image.
-				sRes	= pimState->Save(pfile);
+				sResult	= pimState->Save(pfile);
 				}
 			else
 				{
@@ -555,11 +555,11 @@ int16_t RMultiBtn::WriteMembers(	// Returns 0 on success.
 		else
 			{
 			TRACE("WriteMembers(): Error writing RMultiBtn members.\n");
-			sRes	= -1;
+			sResult	= -1;
 			}
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////

@@ -104,14 +104,14 @@ template <class T, class K> class RPQueue : public RSList<RPQueueNode<T, K>, K>
 			}
 
 		
-		// Dequeue the next item (NULL = empty).
+      // Dequeue the next item (nullptr = empty).
 		bool DeQ(	// Returns true if item dequeued, false if empty.
 			T*	pT)	// Out: Item dequeued on success.
 			{
 			// Get value at head of queue (which is, for now, the tail of
 			// the list) and remove it.
 			Node* pnode	= this->GetTail();
-			if (pnode != NULL)
+         if (pnode != nullptr)
 				{
 				// Copy it.
 				*pT	= pnode->t;
@@ -126,13 +126,13 @@ template <class T, class K> class RPQueue : public RSList<RPQueueNode<T, K>, K>
 			return false;
 			}
 		
-		// Remove the item at the tail of the queue (NULL = empty).
+      // Remove the item at the tail of the queue (nullptr = empty).
 		bool RemoveTail(	// Returns true if item removed, false if empty.
 			T*	pT)			// Out: Item removed on success.
 			{
 			Node* pnode	= this->GetHead();
 			// Check if there's anything to remove . . .
-			if (pnode != NULL)
+         if (pnode != nullptr)
 				{
 				// Copy it.
 				*pT	= pnode->t;
@@ -168,7 +168,7 @@ template <class T, class K> class RPQueue : public RSList<RPQueueNode<T, K>, K>
 			// Get value at head of queue (which is, for now, the tail of
 			// the list) but don't remove it.
 			Node*	pnode	= this->GetTail();
-			if (pnode != NULL)
+         if (pnode != nullptr)
 				{
 				// Copy it.
 				*pT	= pnode->t;
@@ -186,7 +186,7 @@ template <class T, class K> class RPQueue : public RSList<RPQueueNode<T, K>, K>
 			// Get value at tail of queue (which is, for now, the head of
 			// the list) but don't remove it.
 			Node*	pnode	= this->GetHead();
-			if (pnode != NULL)
+         if (pnode != nullptr)
 				{
 				// Copy it.
 				*pT	= pnode->t;
@@ -204,9 +204,9 @@ template <class T, class K> class RPQueue : public RSList<RPQueueNode<T, K>, K>
 		int16_t Insert(		// Returns 0 on success.
 			Node* pnode)	// Pointer to add.
 			{
-			int16_t	sRes	= 0;	// Assume success.
+			int16_t	sResult	= 0;	// Assume success.
 			// If able to insert into RSList . . .
-			if (RSList<Node, K>::Insert(pnode, &(pnode->k)) == 0)
+			if (RSList<Node, K>::Insert(pnode, &(pnode->k)) == SUCCESS)
 				{
 				// Update count.
 				m_sNumItems++;
@@ -214,19 +214,19 @@ template <class T, class K> class RPQueue : public RSList<RPQueueNode<T, K>, K>
 			else
 				{
 				TRACE("Insert(): RSList()::Insert() failed.\n");
-				sRes	= -1;
+				sResult	= -1;
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 		// Hook Remove() to update count of items.
 		int16_t Remove(				// Returns 0 on success.
-			Node* pnode = NULL)	// Item to remove or NULL to remove current.
+         Node* pnode = nullptr)	// Item to remove or nullptr to remove current.
 			{
-			int16_t	sRes	= 0;	// Assume success.
+			int16_t	sResult	= 0;	// Assume success.
 			// If able to remove from RSList . . .
-			if (RSList<Node, K>::Remove(pnode) == 0)
+			if (RSList<Node, K>::Remove(pnode) == SUCCESS)
 				{
 				// Update count.
 				m_sNumItems--;
@@ -234,10 +234,10 @@ template <class T, class K> class RPQueue : public RSList<RPQueueNode<T, K>, K>
 			else
 				{
 				TRACE("Remove(): RSList::Remove() failed.\n");
-				sRes	= -1;
+				sResult	= -1;
 				}
 
-			return sRes;
+			return sResult;
 			}
 		
 	protected:

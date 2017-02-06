@@ -172,9 +172,9 @@ class RSnd
 			m_mix.ResumeChannel();
 			}
 
-		// Set or clear (if psndfx is NULL) a RSndFx for this.
+      // Set or clear (if psndfx is nullptr) a RSndFx for this.
 		void SetFx(				// Returns nothing.
-			RSndFx* psndfx)	// FX for this.  Clears current, if NULL.
+         RSndFx* psndfx)	// FX for this.  Clears current, if nullptr.
 			{
 			m_mix.SetFx(psndfx);
 			}
@@ -186,41 +186,41 @@ class RSnd
 
 		// Called from StreamCallStatic.
 		// Sends back current volume information to RMix
-		// Returns pointer to next buffer to play or NULL to end.
+      // Returns pointer to next buffer to play or nullptr to end.
 		void* StreamCall(	RMix::Msg msg, 
 								void* pData, 
 								uint32_t* pulNewBufSize,
                         uintptr_t	 ulUser,
-								uint8_t* pucVolume = NULL,
-								uint8_t* pucVol2 = NULL);
+                        uint8_t* pucVolume = nullptr,
+                        uint8_t* pucVol2 = nullptr);
 								
 
 		// Callback from blue regarding playing buffer(s).
-		// Returns pointer to next buffer to play or NULL to end.
+      // Returns pointer to next buffer to play or nullptr to end.
 		static void* StreamCallStatic(RMix::Msg msg, 
 												 void* pData,
 												 uint32_t* pulNewBufSize,
                                      uintptr_t ulUser,
-												 uint8_t* pucVolume = NULL,
-												 uint8_t* pucVol2 = NULL);
+                                     uint8_t* pucVolume = nullptr,
+                                     uint8_t* pucVol2 = nullptr);
 
 										// Called from PlayCallStatic.
-		// Returns pointer to next buffer to play or NULL to end.
+      // Returns pointer to next buffer to play or nullptr to end.
 		void* PlayCall(RMix::Msg msg, 
 							void* pData,
 							uint32_t* pulNewBufSize,
-							uint8_t*		pucVolume = NULL,
-							uint8_t*		pucVol2 = NULL);
+                     uint8_t*		pucVolume = nullptr,
+                     uint8_t*		pucVol2 = nullptr);
 
 		// Callback from blue regarding playing buffer(s).
 		// Sends back current volume information to RMix
-		// Returns pointer to next buffer to play or NULL to end
+      // Returns pointer to next buffer to play or nullptr to end
 		static void* PlayCallStatic(RMix::Msg msg, 
 											 void* pData,
 											 uint32_t* pulNewBufSize,
                                   uintptr_t ulUser,
-											 uint8_t* pucVolume = NULL,
-											 uint8_t* pucVol2 = NULL);
+                                  uint8_t* pucVolume = nullptr,
+                                  uint8_t* pucVol2 = nullptr);
 
 	////////////////////////// Member vars ////////////////////////////////////
 	public:

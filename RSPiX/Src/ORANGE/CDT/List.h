@@ -76,21 +76,21 @@ template <class T> class RList : public RBList<T*>
 		PLISTDATA GetHead(void)	// Returns data ptr of head of list.
 			{
 			PLISTDATA	pld;
-			return (RBList<T*>::GetHead(&pld) == 0) ? pld : NULL;
+			return (RBList<T*>::GetHead(&pld) == SUCCESS) ? pld : nullptr;
 			}
 
 		// Get Tail
 		PLISTDATA GetTail(void)	// Returns data ptr of tail of list.
 			{
 			PLISTDATA	pld;
-			return (RBList<T*>::GetTail(&pld) == 0) ? pld : NULL;
+			return (RBList<T*>::GetTail(&pld) == SUCCESS) ? pld : nullptr;
 			}
 
 		// Get node following last GetX
 		PLISTDATA GetNext(void)	// Returns data ptr of next in list.
 			{
 			PLISTDATA	pld;
-			return (RBList<T*>::GetNext(&pld) == 0) ? pld : NULL;
+			return (RBList<T*>::GetNext(&pld) == SUCCESS) ? pld : nullptr;
 			}
 
 		// Get node following pldData
@@ -98,14 +98,14 @@ template <class T> class RList : public RBList<T*>
 			PLISTDATA pldData)	// The data ptr to get the next of.  Blech.
 			{
 			PLISTDATA	pld;
-			return (RBList<T*>::GetNext(pldData, &pld) == 0) ? pld : NULL;
+			return (RBList<T*>::GetNext(pldData, &pld) == SUCCESS) ? pld : nullptr;
 			}
 
 		// Get node logically following last GetX
 		PLISTDATA GetLogicalNext(void)	// Returns data ptr of logical next in list.
 			{
 			PLISTDATA	pld;
-			return (RBList<T*>::GetLogicalNext(&pld) == 0) ? pld : NULL;
+			return (RBList<T*>::GetLogicalNext(&pld) == SUCCESS) ? pld : nullptr;
 			}
 
 		// Get node logically following pldData
@@ -113,14 +113,14 @@ template <class T> class RList : public RBList<T*>
 			PLISTDATA pldData)		// The data ptr to get the next of.  Blech.
 			{
 			PLISTDATA	pld;
-			return (RBList<T*>::GetLogicalNext(pldData, &pld) == 0) ? pld : NULL;
+			return (RBList<T*>::GetLogicalNext(pldData, &pld) == SUCCESS) ? pld : nullptr;
 			}
 
 		// Get node preceding last GetX
 		PLISTDATA GetPrev(void)	// Returns data ptr of prev in list.
 			{
 			PLISTDATA	pld;
-			return (RBList<T*>::GetPrev(&pld) == 0) ? pld : NULL;
+			return (RBList<T*>::GetPrev(&pld) == SUCCESS) ? pld : nullptr;
 			}
 
 		// Get node preceding pldData
@@ -128,14 +128,14 @@ template <class T> class RList : public RBList<T*>
 			PLISTDATA pldData)	// The data ptr to get the prev of.  Blech.
 			{
 			PLISTDATA	pld;
-			return (RBList<T*>::GetPrev(pldData, &pld) == 0) ? pld : NULL;
+			return (RBList<T*>::GetPrev(pldData, &pld) == SUCCESS) ? pld : nullptr;
 			}
 
 		// Get node logically preceding last GetX
 		PLISTDATA GetLogicalPrev(void)	// Returns data ptr of logical prev in list.
 			{
 			PLISTDATA	pld;
-			return (RBList<T*>::GetLogicalPrev(&pld) == 0) ? pld : NULL;
+			return (RBList<T*>::GetLogicalPrev(&pld) == SUCCESS) ? pld : nullptr;
 			}
 
 		// Get node logically preceding pldData
@@ -143,13 +143,13 @@ template <class T> class RList : public RBList<T*>
 			PLISTDATA pldData)		// The data ptr to get the prev of.  Blech.
 			{
 			PLISTDATA	pld;
-			return (RBList<T*>::GetLogicalPrev(pldData, &pld) == 0) ? pld : NULL;
+			return (RBList<T*>::GetLogicalPrev(pldData, &pld) == SUCCESS) ? pld : nullptr;
 			}
 
 		PLISTDATA GetCurrent(void)
 			{
 			PLISTDATA pld;
-			return (RBList<T*>::GetCurrent(&pld) == 0) ? pld : NULL; 
+			return (RBList<T*>::GetCurrent(&pld) == SUCCESS) ? pld : nullptr; 
 			}
 
 		int16_t IsEmpty(void)		// Returns TRUE if empty, FALSE otherwise.

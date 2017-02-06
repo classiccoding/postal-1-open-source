@@ -123,7 +123,7 @@ class REdit : public RTxt
 			int16_t sSrcY = 0,		// Y position in source.
 			int16_t sW = 0,			// Amount to draw.
 			int16_t sH = 0,			// Amount to draw.
-			RRect* prc = NULL);	// Clip to.
+			RRect* prc = nullptr);	// Clip to.
 
 		// Draw text in m_szText in m_u32TextColor with transparent
 		// background at sX, sY with sW and m_sJustification.
@@ -134,7 +134,7 @@ class REdit : public RTxt
 			int16_t sY,				// Y position in image.
 			int16_t sW = 0,			// Width of text area.
 			int16_t	sH = 0,			// Height of test area.
-			RImage* pim = NULL);	// Destination image.  NULL == use m_im.
+			RImage* pim = nullptr);	// Destination image.  nullptr == use m_im.
 
 		// Does REdit stuff like check for text, update caret, and draw new 
 		// text.
@@ -147,7 +147,7 @@ class REdit : public RTxt
 		virtual						// If you override this, call this base if 
 										// possible.
 		void NotifyCall(void)	// Returns nothing.
-			{ if (m_encCall != NULL) (*m_encCall)(this); }
+			{ if (m_encCall != nullptr) (*m_encCall)(this); }
 
 		// Cursor event notification.
 		// Events in event area.

@@ -105,7 +105,7 @@ int16_t RPalFile::LoadNoVersion(	// Returns SUCCESS on success or FAILURE on
 	RPal*		ppal,						// Pal to load into.
 	RFile*	pfile)					// File to load from.
 	{
-	int16_t	sRes	= SUCCESS;	// Assume success.
+	int16_t	sResult	= SUCCESS;	// Assume success.
 
 	// No RFile support for RPal::Type, so we used a uint32_t.
 	uint32_t	u32Temp	= 0;
@@ -123,16 +123,16 @@ int16_t RPalFile::LoadNoVersion(	// Returns SUCCESS on success or FAILURE on
 	else
 		{
 		TRACE("RPalFile::LoadNoVersion - Unable to allocate memory for the palette data\n");
-		sRes = FAILURE;
+		sResult = FAILURE;
 		}
 
 	if (pfile->Error())
 		{
 		TRACE("RPalFile::LoadNoVersion - Error reading palette\n");
-		sRes = FAILURE;
+		sResult = FAILURE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -145,12 +145,12 @@ int16_t RPalFile::LoadVersion1(	// Returns SUCCESS on success or FAILURE on
 	RPal*		/*ppal*/,			// Pal to load into.
 	RFile*	/*pfile*/)			// File to load from.
 	{
-	int16_t	sRes	= SUCCESS;	// Assume success.
+	int16_t	sResult	= SUCCESS;	// Assume success.
 
 	TRACE("LoadVersion1(): No current support for version 1 RPal.\n");
-	sRes	= FAILURE;
+	sResult	= FAILURE;
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -163,12 +163,12 @@ int16_t RPalFile::LoadVersion2(	// Returns SUCCESS on success or FAILURE on
 	RPal*		/*ppal*/,			// Pal to load into.
 	RFile*	/*pfile*/)			// File to load from.
 	{
-	int16_t	sRes	= SUCCESS;	// Assume success.
+	int16_t	sResult	= SUCCESS;	// Assume success.
 
 	TRACE("LoadVersion2(): No current support for version 2 RPal.\n");
-	sRes	= FAILURE;
+	sResult	= FAILURE;
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -181,7 +181,7 @@ int16_t RPalFile::LoadVersion3(	// Returns SUCCESS on success or FAILURE on
 	RPal*		ppal,					// Pal to load into.
 	RFile*	pfile)				// File to load from.
 	{
-	int16_t	sRes	= SUCCESS;	// Assume success.
+	int16_t	sResult	= SUCCESS;	// Assume success.
 
 	// No RFile support for RPal::Type, so we used a uint32_t.
 	uint32_t	u32Temp	= 0;
@@ -203,17 +203,17 @@ int16_t RPalFile::LoadVersion3(	// Returns SUCCESS on success or FAILURE on
 		else
 			{
 			TRACE("RPalFile::LoadVersion3 - Unable to allocate memory for the palette data\n");
-			sRes = FAILURE;
+			sResult = FAILURE;
 			}
 		}
 
 	if (pfile->Error())
 		{
 		TRACE("RPalFile::LoadVersion3 - Error reading palette\n");
-		sRes = FAILURE;
+		sResult = FAILURE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -229,7 +229,7 @@ int16_t RPalFile::Load(			// Returns SUCCESS on success or FAILURE on failure.
 	RPal*		ppal,					// Pal to load into.
 	RFile*	pfile)				// File to load from.
 	{
-	int16_t	sRes	= SUCCESS;	// Assume success.
+	int16_t	sResult	= SUCCESS;	// Assume success.
 
 	// Get finger print . . .
 	uint32_t	ulFinger;
@@ -244,19 +244,19 @@ int16_t RPalFile::Load(			// Returns SUCCESS on success or FAILURE on failure.
 					{
 					#if defined(PAL_LOAD_1) || defined(PAL_LOAD_ALL)
 						case 1:
-							sRes	= LoadVersion1(ppal, pfile);
+							sResult	= LoadVersion1(ppal, pfile);
 							break;
 					#endif	// PAL_LOAD_1
 
 					#if defined(PAL_LOAD_2) || defined(PAL_LOAD_ALL)
 						case 2:
-							sRes	= LoadVersion2(ppal, pfile);
+							sResult	= LoadVersion2(ppal, pfile);
 							break;
 					#endif	// PAL_LOAD_2
 
 //					#if defined(PAL_LOAD_3) || defined(PAL_LOAD_ALL)
 						case 3:
-							sRes	= LoadVersion3(ppal, pfile);
+							sResult	= LoadVersion3(ppal, pfile);
 							break;
 //					#endif	// PAL_LOAD_3
 
@@ -266,14 +266,14 @@ int16_t RPalFile::Load(			// Returns SUCCESS on success or FAILURE on failure.
 						TRACE("RPal::Load - This file's version %lu\n", ulVersion);
 						TRACE("RPal::Load - See PalFile.cpp for details on "
 							"supporting older RPal formats.\n");
-						sRes = FAILURE;
+						sResult = FAILURE;
 						break;
 					}
 				}
 			else
 				{
 				TRACE("RPal::Load - Error reading file version\n");
-				sRes = FAILURE;
+				sResult = FAILURE;
 				}
 			}
 		else
@@ -282,16 +282,16 @@ int16_t RPalFile::Load(			// Returns SUCCESS on success or FAILURE on failure.
 				"\"CPAL\"\n");
 			TRACE("RPal::Load - Note that some older RPal formats had no filetype, and,\n");
 			TRACE("therefore, can no longer be loaded unless in an RImage file.\n");
-			sRes	= FAILURE;
+			sResult	= FAILURE;
 			}
 		}
 	else
 		{
 		TRACE("ImageLoad(): Error reading RPal format finger print.\n");
-		sRes	= FAILURE;
+		sResult	= FAILURE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ///////////////////////////////////////////////////////////////////////////////

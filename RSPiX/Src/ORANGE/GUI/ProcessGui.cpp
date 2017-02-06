@@ -117,7 +117,7 @@ void DrawDirty(			// Returns nothing.
 		rspShieldMouseCursor();
 
 		pdr	= pdrl->GetHead();
-		while (pdr != NULL)
+		while (pdr != nullptr)
 			{
 			// Update screen.
 			rspBlit( pimDst, pimScr,
@@ -146,12 +146,12 @@ void DrawDirty(			// Returns nothing.
 //////////////////////////////////////////////////////////////////////////////
 int16_t RProcessGui::Prepare(			// Returns 0 on success.
 	RGuiItem* pguiRoot,					// In:  GUI to be processed.
-	RGuiItem* pguiOk/* = NULL*/,		// In:  If not NULL, specifies GUI 
+	RGuiItem* pguiOk/* = nullptr*/,		// In:  If not nullptr, specifies GUI 
 												// activated by ENTER key.
-	RGuiItem* pguiCancel/* = NULL*/)	// In:  If not NULL, specifies GUI
+	RGuiItem* pguiCancel/* = nullptr*/)	// In:  If not nullptr, specifies GUI
 												// activated by ESCAPE key.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+   int16_t	sResult	= 0;	// Assume success.
 
 	// Create erase buffer . . .
 	if (m_imEraser.CreateImage(
@@ -159,14 +159,14 @@ int16_t RProcessGui::Prepare(			// Returns 0 on success.
 		pguiRoot->m_im.m_sHeight,
 		RImage::BMP8,
 		0,	// Use default for this width/format/depth.
-		pguiRoot->m_im.m_sDepth) == 0)
+      pguiRoot->m_im.m_sDepth) == SUCCESS)
 		{
 		// Success.
 		}
 	else
 		{
 		TRACE("Prepare():  CreateImage() failed.\n");
-		sRes	= -1;
+      sResult	= -1;
 		}
 
 	m_pguiOk			= pguiOk;
@@ -191,18 +191,18 @@ int16_t RProcessGui::Prepare(			// Returns 0 on success.
 		if (RGuiItem::ms_pguiFocus->IsAncestor(pguiRoot) == FALSE)
 			{
 			// Clear focus.
-			RGuiItem::SetFocus(NULL);
+			RGuiItem::SetFocus(nullptr);
 			}
 		}
 
 	// If no current focus . . .
-	if (RGuiItem::ms_pguiFocus == NULL)
+	if (RGuiItem::ms_pguiFocus == nullptr)
 		{
 		// Set focus to first child control or none if there's none.
 		pguiRoot->SetFocus(pguiRoot->m_listguiChildren.GetHead());
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -212,10 +212,10 @@ int16_t RProcessGui::Prepare(			// Returns 0 on success.
 void RProcessGui::Unprepare(void)	// Returns nothing.
 	{
 	// If we're allowed . . .
-	if ( (m_sFlags & NoCleanScreen) == 0)
+   if ( (m_sFlags & NoCleanScreen) == FALSE)
 		{
 		RImage*	pimScr;
-		rspNameBuffers(NULL, &pimScr);
+		rspNameBuffers(nullptr, &pimScr);
 
 		// Draw remaining dirty areas.
 		DrawDirty(m_pimLastDst, pimScr, &m_drl);
@@ -245,10 +245,10 @@ void RProcessGui::SetGuisToNotify(	// Returns nothing.
 	{
 	// Enum GUIs directing unclaimed callbacks to PressedCall.
 	RGuiItem*	pguiChild	= pguiRoot->m_listguiChildren.GetHead();
-	while (pguiChild != NULL)
+	while (pguiChild != nullptr)
 		{
 		// If callback unclaimed . . .
-		if (pguiChild->m_bcUser == NULL)
+		if (pguiChild->m_bcUser == nullptr)
 			{
 			SetGuiToNotify(pguiChild);
 			}
@@ -269,13 +269,13 @@ void RProcessGui::SetGuisToNotify(	// Returns nothing.
 int32_t RProcessGui::DoModal(				// Returns ID of pressed GUI that terminated 
 												// modal loop or value returned from 
 												// m_fnUpdate, if any.
-	RGuiItem* pgui,						// In:  GUI to be processed or NULL.
-	RGuiItem* pguiOk/* = NULL*/,		// In:  If not NULL, specifies GUI 
+	RGuiItem* pgui,						// In:  GUI to be processed or nullptr.
+	RGuiItem* pguiOk/* = nullptr*/,		// In:  If not nullptr, specifies GUI 
 												// activated by ENTER key.
-	RGuiItem* pguiCancel/* = NULL*/,	// In:  If not NULL, specifies GUI
+	RGuiItem* pguiCancel/* = nullptr*/,	// In:  If not nullptr, specifies GUI
 												// activated by ESCAPE key.
-	RImage* pimDst /*= NULL*/)			// Where to draw dialog and rspBlit from.
-												// If this is NULL, the system buffer is
+	RImage* pimDst /*= nullptr*/)			// Where to draw dialog and rspBlit from.
+												// If this is nullptr, the system buffer is
 												// used.
 												// rspBlit is used to update this to the
 												// screen image unless pimDst is the screen
@@ -322,10 +322,10 @@ int32_t RProcessGui::DoModal(				// Returns ID of pressed GUI that terminated
 // GUI for only one iteration allowing the caller continuous control.
 //////////////////////////////////////////////////////////////////////////////
 int32_t RProcessGui::DoModeless(		// Returns ID of pressed GUI or value.
-	RGuiItem* pgui,					// In:  GUI to be processed or NULL.
+	RGuiItem* pgui,					// In:  GUI to be processed or nullptr.
 	RInputEvent* pie,					// In:  Input event to process.
-	RImage* pimDst /*= NULL*/)		// Where to draw dialog and rspBlit from.
-											// If this is NULL, the system buffer is
+	RImage* pimDst /*= nullptr*/)		// Where to draw dialog and rspBlit from.
+											// If this is nullptr, the system buffer is
 											// used.
 											// rspBlit is used to update this to the
 											// screen image unless pimDst is the screen
@@ -334,7 +334,7 @@ int32_t RProcessGui::DoModeless(		// Returns ID of pressed GUI or value.
 	RImage*	pimScr;
 
 	// We update these things every frame in case the video mode has changed.
-	if (pimDst == NULL)
+	if (pimDst == nullptr)
 		{
 		// Get both buffers.
 		rspNameBuffers(&pimDst, &pimScr);
@@ -342,7 +342,7 @@ int32_t RProcessGui::DoModeless(		// Returns ID of pressed GUI or value.
 	else
 		{
 		// Just need screen buffer.
-		rspNameBuffers(NULL, &pimScr);
+		rspNameBuffers(nullptr, &pimScr);
 		}
 
 	// Update dirty rect clipping in case video mode changed.
@@ -401,7 +401,7 @@ int32_t RProcessGui::DoModeless(		// Returns ID of pressed GUI or value.
 		0,								// Destination.
 		m_imEraser.m_sWidth,		// Both.
 		m_imEraser.m_sHeight,	// Both.
-		NULL,							// Destination.
+		nullptr,							// Destination.
 		&rect );	// Source.
 
 	// If direct to screen . . .
@@ -451,8 +451,8 @@ int32_t RProcessGui::DoModeless(		// Returns ID of pressed GUI or value.
 		pgui->m_sY,					// Destination.
 		m_imEraser.m_sWidth,		// Both.
 		m_imEraser.m_sHeight,	// Both.
-		NULL,							// Destination.
-		NULL);						// Source.
+		nullptr,							// Destination.
+		nullptr);						// Source.
 
 	// Done with buffer.
 	rspGeneralUnlock(pimDst);
@@ -496,10 +496,10 @@ int32_t RProcessGui::DoModeless(		// Returns ID of pressed GUI or value.
 ///////////////////////////////////////////////////////////////////////////
 void RProcessGui::Init(void)	// Returns nothing.
 	{
-	m_pguiOk			= NULL;
-	m_pguiCancel	= NULL;
-	m_fnUpdate		= NULL;
-	m_pimLastDst	= NULL;
+	m_pguiOk			= nullptr;
+	m_pguiCancel	= nullptr;
+	m_fnUpdate		= nullptr;
+	m_pimLastDst	= nullptr;
 	m_sFlags			= 0;
 	}
 
@@ -517,9 +517,9 @@ void RProcessGui::Kill(void)	// Returns nothing.
 	m_drl.Empty();
 
 	// Reset (don't call Init() it does more).
-	m_pguiOk			= NULL;
-	m_pguiCancel	= NULL;
-	m_pimLastDst	= NULL;
+	m_pguiOk			= nullptr;
+	m_pguiCancel	= nullptr;
+	m_pimLastDst	= nullptr;
 	}
 
 ///////////////////////////////////////////////////////////////////////////

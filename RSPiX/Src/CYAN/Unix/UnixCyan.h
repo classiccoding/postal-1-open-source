@@ -140,7 +140,7 @@ extern int16_t rspOpenBox(								// Returns 0 if successfull, non-zero otherwis
 	const char*	pszDefaultPath,						// In:  Default directory and file
 	char* pszSelectedFile,								// Out: File that user selected
 	int16_t sSelectedFileBufSize,						// In:  Size of buffer pointed to by pszSelectedFile
-	const char*	pszFilter = NULL);					// In:  Filename filter or NULL for none
+   const char*	pszFilter = nullptr);					// In:  Filename filter or nullptr for none
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -154,7 +154,7 @@ extern int16_t rspSaveBox(								// Returns 0 if successfull, non-zero otherwis
 	const char*	pszDefaultPath,						// In:  Default directory and file
 	char* pszSelectedFile,								// Out: File that user selected
 	int16_t sSelectedFileBufSize,						// In:  Size of buffer pointed to by pszSelectedFile
-	const char*	pszFilter = NULL);					// In:  Filename filter or NULL for none
+   const char*	pszFilter = nullptr);					// In:  Filename filter or nullptr for none
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -166,12 +166,12 @@ extern int16_t rspSaveBox(								// Returns 0 if successfull, non-zero otherwis
 // is only for the current directory for the rspExec'd process.
 extern int16_t rspExec(			// Returns 0 on success.
 	char*	pszExe,					// Executable (full path or relative to CURRENT).
-	char* pszDir = NULL,			// Current drive/directory for the child process,
-										// if not NULL.
+   char* pszDir = nullptr,			// Current drive/directory for the child process,
+                              // if not nullptr.
 	int16_t	sWait = FALSE,			// Waits for child execution to stop before
 										// returning if TRUE.
-	int16_t (*waitcall)(void)		// App callback to call during wait, if not NULL.
-					= NULL);			// Returns 0 to continue waiting, 
+   int16_t (*waitcall)(void)		// App callback to call during wait, if not nullptr.
+               = nullptr);			// Returns 0 to continue waiting,
 										// non-zero otherwise.
 
 ///////////////////////////////////////////////////////////////////////////////

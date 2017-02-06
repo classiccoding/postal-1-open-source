@@ -119,8 +119,8 @@
 
 RAttributeMap::RAttributeMap()
 {
-	m_pusDetailMap = NULL;
-	m_pusMap = NULL;
+	m_pusDetailMap = nullptr;
+	m_pusMap = nullptr;
 	m_lWidth = 0;
 	m_lHeight = 0;
 	m_ucFlags = 0;
@@ -152,8 +152,8 @@ RAttributeMap::RAttributeMap()
 
 RAttributeMap::RAttributeMap(char* pszFilename)
 {
-	m_pusDetailMap = NULL;
-	m_pusMap = NULL;
+	m_pusDetailMap = nullptr;
+	m_pusMap = nullptr;
 	m_lWidth = 0;
 	m_lHeight = 0;
 	m_ucFlags = 0;
@@ -208,12 +208,12 @@ void RAttributeMap::FreeMap()
 	if (m_pusMap)
 	{
 		delete []m_pusMap;
-		m_pusMap = NULL;
+		m_pusMap = nullptr;
 	}
 	if (m_pusDetailMap)
 	{
 		delete []m_pusDetailMap;
-		m_pusDetailMap = NULL;
+		m_pusDetailMap = nullptr;
 	}
 }
 
@@ -235,13 +235,13 @@ void RAttributeMap::FreeMap()
 
 int16_t RAttributeMap::AllocateMap(uint32_t ulSize, uint32_t ulDetailMapSize)
 {
-	if (m_pusMap == NULL)
+	if (m_pusMap == nullptr)
 		m_pusMap = new uint16_t[ulSize];
 
-	if (m_pusDetailMap == NULL)
+	if (m_pusDetailMap == nullptr)
 		m_pusDetailMap = new uint16_t[ulDetailMapSize];
 
-	if (m_pusMap == NULL || m_pusDetailMap == NULL)
+	if (m_pusMap == nullptr || m_pusDetailMap == nullptr)
 		return FAILURE;
 	else
 		return SUCCESS;

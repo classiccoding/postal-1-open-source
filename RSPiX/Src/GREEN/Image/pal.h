@@ -173,7 +173,7 @@ class RPal
 
 		// Create PAL's data using the specified values.
 		int16_t CreateData(	// Returns 0 if successful
-			uint32_t	ulSize);	// Size of data
+         size_t	ulSize);	// Size of data
 
 		int16_t CreateData(
 			uint32_t ulSize, 			// Size of data
@@ -235,7 +235,7 @@ class RPal
 				return pucDst+2;
 			else if (m_type == PFLX) // RGB888
 				return pucDst+0;
-			TRACE("RPal::Red(): Unsupported palette format - returning NULL!\n");
+			TRACE("RPal::Red(): Unsupported palette format - returning nullptr!\n");
 			return 0;
 			}
 
@@ -252,7 +252,7 @@ class RPal
 				return pucDst+1;
 			else if (m_type == PFLX) // RGB888
 				return pucDst+1;
-			TRACE("RPal::Green(): Unsupported palette format - returning NULL!\n");
+			TRACE("RPal::Green(): Unsupported palette format - returning nullptr!\n");
 			return 0;
 			}
 
@@ -269,7 +269,7 @@ class RPal
 				return pucDst+0;
 			else if (m_type == PFLX) // RGB888
 				return pucDst+2;
-			TRACE("RPal::Blue(): Unsupported palette format - returning NULL!\n");
+			TRACE("RPal::Blue(): Unsupported palette format - returning nullptr!\n");
 			return 0;
 			}
 

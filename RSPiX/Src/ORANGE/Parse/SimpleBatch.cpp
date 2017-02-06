@@ -30,7 +30,7 @@ int16_t RBatch::GetLine()
 		m_sLinePos[i] = 0;
 		}
 
-	if (m_fp == NULL)
+	if (m_fp == nullptr)
 		{
 		TRACE("RBatch:  File not open.\n");
 		return -1;
@@ -59,7 +59,7 @@ BEGIN_LOOP:
 				sTokenChar = 0;
 				}
 
-			m_fp = NULL;
+			m_fp = nullptr;
 
 			sRet =  -1;
 			sLoop = FALSE;
@@ -70,7 +70,7 @@ BEGIN_LOOP:
 		sLinePos++;
 
 		// 1) check for end of line:
-		if ( (c == '\n') || (c == '\r'))
+      if (c == '\n' || c == '\r')
 			{
 			m_lCurrentLine++;
 
@@ -191,7 +191,7 @@ BEGIN_LOOP:
 
 char* RBatch::CreateError(int16_t sToken)
 	{
-	if (m_fp == NULL)
+	if (m_fp == nullptr)
 		{
 		sprintf(ms_Error,"RBatch(%s):\n*   Premature end of file!\n",m_pszFileName);
 		return ms_Error;
@@ -213,7 +213,7 @@ char* RBatch::CreateError(int16_t sToken)
 	}
 
 // Use a command syntax that is completely not line based:
-// Returns NULL if EOF
+// Returns nullptr if EOF
 // MUST ADVANCE WHEN CALLED AND SIT THERE!!!!!
 //
 char* RBatch::NextToken()
@@ -222,7 +222,7 @@ char* RBatch::NextToken()
 		{
 		if (GetLine() == int16_t(-1)) 
 			{
-			return NULL;
+			return nullptr;
 			}
 		m_sCurToken = -1;
 		}
@@ -235,7 +235,7 @@ search:
 		{
 		if ((GetLine() == -1) && (m_sNumTokens==0))
 			{
-			return NULL;
+			return nullptr;
 			}
 		m_sCurToken = 0; // search for non null line
 		}

@@ -46,7 +46,7 @@
 // *****  NOTE:  In the same convention as m_pData, 
 // *****  m_pSpecial points to the possibly aligned special
 // *****  data, and m_pSpecialMem refers EITHER to the 
-// *****  originally newed/calloced memory OR is NULL to 
+// *****  originally newed/calloced memory OR is nullptr to
 // *****  indicate that this Image is a COPY and should not free
 // *****  its own pSpecial.
 // *******************************************************************
@@ -54,8 +54,8 @@
 //===================================================================
 // Current Plug and Play list:
 //
-//(FSPR8,ConvertToFSPR8,ConvertFromFSPR8,LoadFSPR8,SaveFSPR8,NULL,DeleteFSPR8)
-//(FSPR1,ConvertToFSPR1,ConvertFromFSPR1,LoadFSPR1,SaveFSPR1,NULL,DeleteFSPR1)
+//(FSPR8,ConvertToFSPR8,ConvertFromFSPR8,LoadFSPR8,SaveFSPR8,nullptr,DeleteFSPR8)
+//(FSPR1,ConvertToFSPR1,ConvertFromFSPR1,LoadFSPR1,SaveFSPR1,nullptr,DeleteFSPR1)
 
 //===================================================================
 
@@ -92,18 +92,18 @@ public:
 
 	RSpecialFSPR1()
 		{
-		m_pCode = NULL;
-		m_psKernList = NULL;
-		m_s16KernL = m_s16KernR = (int16_t)0;
-		m_u16ASCII = m_u16Width = (uint16_t)0;
-		m_lSize = (int32_t)0;
+      m_pCode = nullptr;
+      m_psKernList = nullptr;
+      m_s16KernL = m_s16KernR = 0;
+      m_u16ASCII = m_u16Width = 0;
+      m_lSize = 0;
 		}
 
 	~RSpecialFSPR1()
 		{
 		// using calloc / free!!!
 		if (m_pCode) free (m_pCode);
-		m_pCode = NULL;
+      m_pCode = nullptr;
 		}
 	};
 
@@ -125,7 +125,7 @@ extern void SetConvertToFSPR1
 	int16_t	sH = -1,	// Use (-1) to use image edge
 	// If you make a copy, the original RImage will NOT be
 	// altered!  **pimCopy will 
-	RImage**	ppimCopy = NULL // To make a copy
+   RImage**	ppimCopy = nullptr // To make a copy
 	);
 
 extern	void SetConvertFromFSPR1
@@ -167,8 +167,8 @@ public:
 	RSpecialFSPR8()
 		{
 		m_usCompType = m_usSourceType = 0;
-		m_pCompBuf = m_pCompMem = m_pCodeBuf = NULL;
-		m_pBufArry = m_pCodeArry = NULL;
+      m_pCompBuf = m_pCompMem = m_pCodeBuf = nullptr;
+      m_pBufArry = m_pCodeArry = nullptr;
 		m_lBufSize = m_lCodeSize = 0;
 		}
 

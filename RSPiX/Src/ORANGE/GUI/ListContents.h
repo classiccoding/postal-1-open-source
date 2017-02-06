@@ -95,7 +95,7 @@ class RListContents : public RFrame
 			// Let parent (RListBox know).
 			RGuiItem*	pguiParent	= GetParent();
 			// If there is a parent (safety) . . .
-			if (pguiParent != NULL)
+			if (pguiParent != nullptr)
 				{
 				// If it is a listbox (should be) . . .
 				if (pguiParent->m_type == ListBox)

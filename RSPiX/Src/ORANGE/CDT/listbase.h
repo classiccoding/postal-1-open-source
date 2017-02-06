@@ -73,18 +73,18 @@ template <class T> class RBList
 		// Add a node to the list at the tail (it will be the new tail)
 		int16_t AddTail(LISTDATA ldNew)
 			{
-			int16_t sRes = 0; // Assume success.
+			int16_t sResult = 0; // Assume success.
 			// Create new node.
 			PNODE pnNew = new NODE;
 			// If successful . . .
-			if (pnNew != NULL)
+			if (pnNew != nullptr)
 				{
 				// Point to provided data.
 				pnNew->ldData = ldNew;
-				pnNew->pNext = NULL;
+				pnNew->pNext = nullptr;
 
 				// If a tail exists . . .
-				if (m_pnTail != NULL)
+				if (m_pnTail != nullptr)
 					{
 					// Make the tail's next point to the new.
 					m_pnTail->pNext = pnNew;
@@ -93,8 +93,8 @@ template <class T> class RBList
 					}
 				else
 					{
-					// Make the new's previous NULL.
-					pnNew->pPrev	= NULL;
+					// Make the new's previous nullptr.
+					pnNew->pPrev	= nullptr;
 					// Make the head the tail, since, if no tail exists,
 					// there is no head.
 					m_pnHead			= pnNew;
@@ -109,26 +109,26 @@ template <class T> class RBList
 			else
 				{
 				TRACE("RBList::AddTail(): Unable to allocate new node.\n");
-				sRes = -1;
+				sResult = -1;
 				}
 
-			return sRes;
+			return sResult;
 			}
 		
 		// Insert a node at the Head (it will be the new head)
 		int16_t InsertHead(LISTDATA ldNew)
 			{
-			int16_t sRes = 0; // Assume success.
+			int16_t sResult = 0; // Assume success.
 			// Allocate new node.
 			PNODE pnNew = new NODE;
 			// If successful . . .
-			if (pnNew != NULL)
+			if (pnNew != nullptr)
 				{
 				// Point to data provided.
 				pnNew->ldData = ldNew;
-				pnNew->pPrev = NULL;
+				pnNew->pPrev = nullptr;
 				// If there is currently a head node . . .
-				if (m_pnHead != NULL)
+				if (m_pnHead != nullptr)
 					{
 					// Point the head's previous to the new.
 					m_pnHead->pPrev = pnNew;
@@ -137,8 +137,8 @@ template <class T> class RBList
 					}
 				else                     
 					{
-					// Make the new's next NULL.
-					pnNew->pNext    = NULL;
+					// Make the new's next nullptr.
+					pnNew->pNext    = nullptr;
 					// Make the tail the new since, if there is no head,
 					// there must not be a tail.
 					m_pnTail        = pnNew;
@@ -153,36 +153,36 @@ template <class T> class RBList
 			else
 				{
 				TRACE("RBList::InsertHead(): Unable to allocate new node.\n");
-				sRes = -1;
+				sResult = -1;
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 
 		// Insert ldNew after ldAfter
 		int16_t InsertAfter(LISTDATA ldAfter, LISTDATA ldNew)
 			{
-			int16_t sRes = 0; // Assume success.
+			int16_t sResult = 0; // Assume success.
 			// Make sure the list is not empty
 			if (IsEmpty() == FALSE)
 				{
 				// Find the node to insert after.
 				PNODE pnAfter = Find(ldAfter);
 				// If such a node exists . . .
-				if (pnAfter != NULL)
+				if (pnAfter != nullptr)
 					{
 					// Allocate new node.
 					PNODE pnNew  = new NODE;
 					// If successful . . .
-					if (pnNew != NULL)
+					if (pnNew != nullptr)
 						{
 						// Point to provided data.
 						pnNew->ldData = ldNew;
 						// Point next to node to insert after's next.
 						pnNew->pNext = pnAfter->pNext;
 						// If there is a next node . . .
-						if (pnNew->pNext != NULL)
+						if (pnNew->pNext != nullptr)
 							{
 							// Have the next's previous point to new.
 							pnNew->pNext->pPrev = pnNew;
@@ -205,47 +205,47 @@ template <class T> class RBList
 					else
 						{
 						TRACE("RBList::InsertAfter(): Unable to allocate new node.\n");
-						sRes = -3;
+						sResult = -3;
 						}
 					}
 				else
 					{
 					TRACE("RBList::InsertAfter():  Unable to locate node to insert after.\n");
-					sRes = -2;
+					sResult = -2;
 					}
 				}
 			else
 				{
 				TRACE("RBList::InsertAfter():  The list is empty.\n");
-				sRes = -1;
+				sResult = -1;
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 		// Insert pnNew before lnBefore
 		int16_t InsertBefore(LISTDATA ldBefore, LISTDATA ldNew)
 			{
-			int16_t sRes = 0; // Assume success.
+			int16_t sResult = 0; // Assume success.
 			// Make sure the list is not empty
 			if (IsEmpty() == FALSE)
 				{
 				// Find the node to insert before.
 				PNODE pnBefore = Find(ldBefore);
 				// If found a node . . .
-				if (pnBefore != NULL)
+				if (pnBefore != nullptr)
 					{
 					// Allocate new node.
 					PNODE pnNew = new NODE;
 					// If successful . . .
-					if (pnNew != NULL)
+					if (pnNew != nullptr)
 						{
 						// Point to supplied data.
 						pnNew->ldData = ldNew;
 						// Point previous to node to insert before's previous.
 						pnNew->pPrev = pnBefore->pPrev;
 						// If there is a previous . . .
-						if (pnNew->pPrev != NULL)
+						if (pnNew->pPrev != nullptr)
 							{
 							// Have previous' next point to new.
 							pnNew->pPrev->pNext = pnNew;
@@ -267,23 +267,23 @@ template <class T> class RBList
 						}
 					else
 						{
-						sRes = -3;
+						sResult = -3;
 						TRACE("RBList::InsertBefore():  Unable to allocate new node.\n");
 						}
 					}
 				else
 					{
-					sRes = -2;
+					sResult = -2;
 					TRACE("RBList::InsertBefore():  Unable to find node to insert before.\n");
 					}
 				}
 			else
 				{
-				sRes = -1;
+				sResult = -1;
 				TRACE("RBList::InsertBefore():  List is empty.\n");
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 		// Add pnNew after current
@@ -311,11 +311,11 @@ template <class T> class RBList
 		int16_t GetHead(			// Returns 0 on success.
 			PLISTDATA pldHead)	// Where to store head data.
 			{
-			int16_t	sRes	= 0;	// Assume success.
+			int16_t	sResult	= 0;	// Assume success.
 
 			m_pnCurrent = m_pnHead;
 			// If there is a head . . .
-			if (m_pnCurrent != NULL)
+			if (m_pnCurrent != nullptr)
 				{
 				m_pnPrev = m_pnCurrent->pPrev; 
 				m_pnNext = m_pnCurrent->pNext;
@@ -325,20 +325,20 @@ template <class T> class RBList
 				}
 			else
 				{
-				sRes = 1;
+				sResult = 1;
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 		int16_t GetTail(			// Returns 0 on success.
 			PLISTDATA pldTail)	// Where to store tail data.
 			{
-			int16_t	sRes	= 0;	// Assume success.
+			int16_t	sResult	= 0;	// Assume success.
 
 			// If there is a tail . . .
 			m_pnCurrent = m_pnTail;
-			if (m_pnCurrent != NULL)
+			if (m_pnCurrent != nullptr)
 				{
 				m_pnPrev = m_pnCurrent->pPrev; 
 				m_pnNext = m_pnCurrent->pNext;
@@ -347,20 +347,20 @@ template <class T> class RBList
 				}
 			else
 				{
-				sRes = 1;
+				sResult = 1;
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 		// Get node following last GetX
 		int16_t GetNext(			// Returns 0 on success.
 			PLISTDATA pldNext)	// Where to store next data.
 			{
-			int16_t	sRes	= 0;	// Assume success.
+			int16_t	sResult	= 0;	// Assume success.
 
 			m_pnCurrent = m_pnNext;
-			if (m_pnCurrent != NULL)
+			if (m_pnCurrent != nullptr)
 				{
 				m_pnPrev = m_pnCurrent->pPrev; 
 				m_pnNext = m_pnCurrent->pNext;
@@ -369,10 +369,10 @@ template <class T> class RBList
 				}
 			else
 				{
-				sRes = 1;
+				sResult = 1;
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 		// Get node following ldData
@@ -380,7 +380,7 @@ template <class T> class RBList
 			LISTDATA ldData, 	// Node to get next of.
 			PLISTDATA pldNext)	// Where to store next data.
 			{
-			int16_t	sRes	= 0;	// Assume success.
+			int16_t	sResult	= 0;	// Assume success.
 
 			// Make sure the list is not empty
 			if (IsEmpty() == FALSE)
@@ -388,14 +388,14 @@ template <class T> class RBList
 				// Attempt to find node.
 				PNODE pn = Find(ldData);
 				// If node found . . .
-				if (pn != NULL)
+				if (pn != nullptr)
 					{
 					// Make global previous node found.
 					m_pnPrev		= pn;
 					// Make global current node's next.
 					m_pnCurrent = pn->pNext;
 					// If new current exists . . .
-					if (m_pnCurrent != NULL)
+					if (m_pnCurrent != nullptr)
 						{
 						// Make global next current's next.
 						m_pnNext	= m_pnCurrent->pNext;       
@@ -405,35 +405,35 @@ template <class T> class RBList
 					else
 						{
 						// There is no next to supplied node.
-						sRes = 1;
+						sResult = 1;
 						}
 					}
 				else
 					{
 					TRACE("RBList::GetNext(): Unable to find supplied node.\n");
-					sRes = -2;
+					sResult = -2;
 					}
 				}
 			else
 				{
 				TRACE("RBList::GetNext():  The list is empty.\n");
-				sRes = -1;
+				sResult = -1;
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 		// Get node logically following last GetX
 		int16_t GetLogicalNext(	// Returns 0 on success.
 			PLISTDATA pldNext)	// Where to store next data.
 			{
-			int16_t	sRes	= GetNext(pldNext);
-			if (sRes != 0)
+			int16_t	sResult	= GetNext(pldNext);
+			if (sResult != 0)
 				{
-				sRes	= GetHead(pldNext);
+				sResult	= GetHead(pldNext);
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 		// Get node logically following ldData
@@ -441,23 +441,23 @@ template <class T> class RBList
 			LISTDATA ldData,	 	// Node to get next of.
 			PLISTDATA pldNext)	// Where to store next data.
 			{
-			int16_t	sRes	= GetNext(ldData, pldNext);
-			if (sRes != 0)
+			int16_t	sResult	= GetNext(ldData, pldNext);
+			if (sResult != 0)
 				{
-				sRes	= GetHead(pldNext);
+				sResult	= GetHead(pldNext);
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 		// Get node preceding last GetX
 		int16_t GetPrev(			// Returns 0 on success.
 			PLISTDATA pldPrev)	// Where to store previous data.
 			{
-			int16_t	sRes	= 0;	// Assume success.
+			int16_t	sResult	= 0;	// Assume success.
 
 			m_pnCurrent = m_pnPrev;
-			if (m_pnCurrent != NULL)
+			if (m_pnCurrent != nullptr)
 				{
 				m_pnPrev = m_pnCurrent->pPrev; 
 				m_pnNext = m_pnCurrent->pNext;
@@ -466,10 +466,10 @@ template <class T> class RBList
 				}
 			else
 				{
-				sRes = 1;
+				sResult = 1;
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 		// Get node preceding ldData
@@ -477,7 +477,7 @@ template <class T> class RBList
 			LISTDATA ldData,	// Node to get previous of.
 			PLISTDATA pldPrev)	// Where to store previous data.
 			{
-			int16_t	sRes	= 0;	// Assume success.
+			int16_t	sResult	= 0;	// Assume success.
 
 			// Make sure the list is not empty.
 			if (IsEmpty() == FALSE)
@@ -485,7 +485,7 @@ template <class T> class RBList
 				// Attempt to find node.
 				PNODE pn = Find(ldData);
 				// If node found . . .
-				if (pn != NULL)
+				if (pn != nullptr)
 					{
 					// Make global next found node.
 					m_pnNext		= pn;
@@ -502,22 +502,22 @@ template <class T> class RBList
 					else
 						{
 						// There is no previous to supplied node.
-						sRes	= 1;
+						sResult	= 1;
 						}
 					}
 				else
 					{
 					TRACE("RBList::GetPrev():  Unable to find supplied node.\n");
-					sRes	= -1;
+					sResult	= -1;
 					}
 				}
 			else
 				{
 				TRACE("RBList::GetPrev():  The list is empty.\n");
-				sRes	= -2;
+				sResult	= -2;
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 
@@ -525,13 +525,13 @@ template <class T> class RBList
 		int16_t GetLogicalPrev(	// Returns 0 on success.
 			PLISTDATA pldPrev)	// Where to store prev data.
 			{
-			int16_t	sRes	= GetPrev(pldPrev);
-			if (sRes != 0)
+			int16_t	sResult	= GetPrev(pldPrev);
+			if (sResult != 0)
 				{
-				sRes	= GetTail(pldPrev);
+				sResult	= GetTail(pldPrev);
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 		// Get node logically preceding ldData
@@ -539,35 +539,35 @@ template <class T> class RBList
 			LISTDATA ldData,	 	// Node to get prev of.
 			PLISTDATA pldPrev)	// Where to store prev data.
 			{
-			int16_t	sRes	= GetPrev(ldData, pldPrev);
-			if (sRes != 0)
+			int16_t	sResult	= GetPrev(ldData, pldPrev);
+			if (sResult != 0)
 				{
-				sRes	= GetTail(pldPrev);
+				sResult	= GetTail(pldPrev);
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 		int16_t GetCurrent(		// Returns 0 on success.
 			PLISTDATA	pldCur)	// Where to store current data.
 			{
-			int16_t	sRes	= 0;	// Assume success.
+			int16_t	sResult	= 0;	// Assume success.
 
-			if (m_pnCurrent != NULL)
+			if (m_pnCurrent != nullptr)
 				{
 				*pldCur	= m_pnCurrent->ldData;
 				}
 			else
 				{
-				sRes = 1;
+				sResult = 1;
 				}
 
-			return sRes; 
+			return sResult; 
 			}
 
 		int16_t IsEmpty(void)	// Returns TRUE if empty, FALSE otherwise.
 			{ 
-			return (m_pnHead == NULL) ? TRUE : FALSE; 
+			return (m_pnHead == nullptr) ? TRUE : FALSE; 
 			}
 
 		// Find the node with the value LISTDATA.
@@ -597,11 +597,11 @@ template <class T> class RBList
 			{
 			if (sInitialize != FALSE)
 				{
-				m_pnHead    = NULL;  
-				m_pnPrev		= NULL;
-				m_pnCurrent = NULL;
-				m_pnNext		= NULL;
-				m_pnTail    = NULL;
+				m_pnHead    = nullptr;  
+				m_pnPrev		= nullptr;
+				m_pnCurrent = nullptr;
+				m_pnNext		= nullptr;
+				m_pnTail    = nullptr;
 				}
 
 			m_sInitialize	= sInitialize;
@@ -622,16 +622,16 @@ template <class T> class RBList
 		int16_t Remove(			// Returns 0 on success.
 			NODE*	pn)			// In:  Node to remove.
 			{
-			int16_t	sRes	= 0;
+			int16_t	sResult	= 0;
 
 			// Make sure the list is not empty
 			if (IsEmpty() == FALSE)
 				{
 				// If we have a valid node to remove . . .
-				if (pn != NULL)
+				if (pn != nullptr)
 					{
 					// If there is a node previous to pn . . .
-					if (pn->pPrev != NULL)
+					if (pn->pPrev != nullptr)
 						{
 						// Make pn's previous' next point to pn's next.
 						pn->pPrev->pNext = pn->pNext;
@@ -643,7 +643,7 @@ template <class T> class RBList
 						}
 			
 					// If there is a node after pn . . .
-					if (pn->pNext != NULL)
+					if (pn->pNext != nullptr)
 						{
 						// Make pn's next's previous point to pn's previous.
 						pn->pNext->pPrev = pn->pPrev;
@@ -656,24 +656,24 @@ template <class T> class RBList
 			
 					// Update current info.
 					m_pnPrev		= pn->pPrev;
-					m_pnCurrent = NULL;     
+					m_pnCurrent = nullptr;     
 					m_pnNext		= pn->pNext;
 			
 					delete pn;
 					}
 				else
 					{
-					sRes = -2;
+					sResult = -2;
 					TRACE("RBList::Remove():  Unable to find supplied node or no current node.\n");
 					}
 				}
 			else
 				{
-				sRes = -1;
+				sResult = -1;
 				TRACE("RBList::Remove():  The list is empty.\n");
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 		// Free the entire list.
@@ -692,11 +692,11 @@ template <class T> class RBList
 				}                                            
 	
 			// Clear all node pointers.
-			m_pnHead    = NULL;  
-			m_pnPrev		= NULL;
-			m_pnCurrent = NULL;
-			m_pnNext		= NULL;
-			m_pnTail    = NULL;
+			m_pnHead    = nullptr;  
+			m_pnPrev		= nullptr;
+			m_pnCurrent = nullptr;
+			m_pnNext		= nullptr;
+			m_pnTail    = nullptr;
 			}
 
 		PNODE		m_pnHead;

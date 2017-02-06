@@ -36,8 +36,8 @@
 
 
 #define MAX_EVENTS	256
-// Only set value if not NULL.
-#define SET(ptr, val)		( ((ptr) != NULL) ? *(ptr) = (val) : 0 )
+// Only set value if not nullptr.
+#define SET(ptr, val)		( ((ptr) != nullptr) ? *(ptr) = (val) : 0 )
 #define INC_N_WRAP(i, max)	(i = (i + 1) % max)
 
 extern SDL_Window *sdlWindow;
@@ -191,17 +191,17 @@ extern void rspScanKeys(
 //////////////////////////////////////////////////////////////////////////////
 extern int16_t rspGetKey(			// Returns 1 if a key was available; 0 if not.
 	int32_t* plKey,					// Key info returned here (or 0 if no key available)
-	int32_t* plTime /*= NULL*/)	// Key's time stamp returned here (unless NULL)
+	int32_t* plTime /*= nullptr*/)	// Key's time stamp returned here (unless nullptr)
 	{
-	int16_t	sRes	= 0;	// Assume no key.
+	int16_t	sResult	= 0;	// Assume no key.
 
 	PRSP_SK_EVENT	pkeEvent	= ms_qkeEvents.DeQ();
-	if (pkeEvent != NULL)
+	if (pkeEvent != nullptr)
 		{
 		SET(plKey,	pkeEvent->lKey);
 		SET(plTime,	pkeEvent->lTime);
 		// Indicate a key was available.
-		sRes	= 1;
+		sResult	= 1;
 		}
 	else
 		{
@@ -209,7 +209,7 @@ extern int16_t rspGetKey(			// Returns 1 if a key was available; 0 if not.
 		SET(plTime, 0L);
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -457,7 +457,7 @@ extern int32_t rspGetToggleKeyStates(void)	// Returns toggle key state flags.
 	{
 	int32_t	lKeyStates	= 0;
 #if 0  // !!! FIXME
-    Uint8 *states = SDL_GetKeyState(NULL);
+    uint8_t *states = SDL_GetKeyState(nullptr);
     if (states[SDLK_CAPSLOCK]) lKeyStates |= RSP_CAPS_LOCK_ON;
     if (states[SDLK_NUMLOCKCLEAR]) lKeyStates |= RSP_NUM_LOCK_ON;
     if (states[SDLK_SCROLLLOCK]) lKeyStates |= RSP_SCROLL_LOCK_ON;

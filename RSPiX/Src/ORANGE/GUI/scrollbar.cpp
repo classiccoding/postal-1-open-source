@@ -245,7 +245,7 @@ RScrollBar::RScrollBar()
 
 	m_type							= ScrollBar;	// Indicates type of GUI item.
 
-	m_upcUser						= NULL;
+	m_upcUser						= nullptr;
 
 	m_scrollage						= Instant;
 	m_lScrollToPos					= m_lCurPos;
@@ -272,9 +272,9 @@ RScrollBar::~RScrollBar()
 //
 ////////////////////////////////////////////////////////////////////////
 void RScrollBar::Compose(			// Returns nothing.
-	RImage* pim /*= NULL*/)	// Dest image, uses m_im if NULL.
+	RImage* pim /*= nullptr*/)	// Dest image, uses m_im if nullptr.
 	{
-	if (pim == NULL)
+	if (pim == nullptr)
 		{
 		pim	= &m_im;
 		}
@@ -306,13 +306,13 @@ void RScrollBar::Compose(			// Returns nothing.
 	CopyBorderInfoTo(&m_btnUp);
 
 	// Create up/left button . . .
-	if (m_btnUp.Create(sX, sY, sBtnWidth, sBtnHeight, m_im.m_sDepth) == 0)
+	if (m_btnUp.Create(sX, sY, sBtnWidth, sBtnHeight, m_im.m_sDepth) == SUCCESS)
 		{
 		CopyBorderInfoTo(&m_btnDown);
 
 		// Create down/right button . . .
 		if (m_btnDown.Create(sX + sW - sBtnWidth, sY + sH - sBtnHeight, 
-			sBtnWidth, sBtnHeight, m_im.m_sDepth) == 0)
+			sBtnWidth, sBtnHeight, m_im.m_sDepth) == SUCCESS)
 			{
 			}
 		else
@@ -372,7 +372,7 @@ void RScrollBar::CursorEvent(	// Returns nothing.
 				|| pie->sPosY >= m_btnThumb.m_sY + m_btnThumb.m_im.m_sHeight)
 				{
 				int16_t	sTrayPosX, sTrayPosY, sTrayRelPosX, sTrayRelPosY;
-				GetTray(&sTrayPosX, &sTrayPosY, NULL, NULL);
+				GetTray(&sTrayPosX, &sTrayPosY, nullptr, nullptr);
 				sTrayRelPosX	= pie->sPosX - sTrayPosX;
 				sTrayRelPosY	= pie->sPosY - sTrayPosY;
 
@@ -515,7 +515,7 @@ void RScrollBar::SetRange(
 	m_btnThumb.Destroy();
 
 	// Create thumb . . .
-	if (m_btnThumb.Create(0, 0, MAX(sThumbW, (int16_t)1), MAX(sThumbH, (int16_t)1), m_im.m_sDepth) == 0)
+	if (m_btnThumb.Create(0, 0, MAX(sThumbW, (int16_t)1), MAX(sThumbH, (int16_t)1), m_im.m_sDepth) == SUCCESS)
 		{
 		// Set up hot.
 		m_btnThumb.SetHotArea();
@@ -704,9 +704,9 @@ void RScrollBar::Do(	// Returns nothing.
 			int16_t	sX, sY, sTrayX, sTrayY;
 			sX =  pie->sPosX;
 			sY =  pie->sPosY;
-			//rspGetMouse(&sX, &sY, NULL);
+			//rspGetMouse(&sX, &sY, nullptr);
 			TopPosToChild(&sX, &sY);
-			GetTray(&sTrayX, &sTrayY, NULL, NULL);
+			GetTray(&sTrayX, &sTrayY, nullptr, nullptr);
 			sX	-= + sTrayX;
 			//sX	+= (800-640);
 			//sY	-= m_sClickOffsetY + sTrayY;
@@ -720,9 +720,9 @@ void RScrollBar::Do(	// Returns nothing.
 	if (m_btnThumb.m_sPressed != FALSE)
 		{				
 		int16_t	sX, sY, sTrayX, sTrayY;
-		rspGetMouse(&sX, &sY, NULL);
+		rspGetMouse(&sX, &sY, nullptr);
 		TopPosToChild(&sX, &sY);
-		GetTray(&sTrayX, &sTrayY, NULL, NULL);
+		GetTray(&sTrayX, &sTrayY, nullptr, nullptr);
 		sX	-= m_sClickOffsetX + sTrayX;
 		sY	-= m_sClickOffsetY + sTrayY;
 
@@ -793,7 +793,7 @@ void RScrollBar::Do(	// Returns nothing.
 				}
 			}
 
-		RGuiItem*	pguiPressed	= NULL;
+		RGuiItem*	pguiPressed	= nullptr;
 		// If tray currently pressed . . .
 		if (m_sPressed != FALSE)
 			{
@@ -817,14 +817,14 @@ void RScrollBar::Do(	// Returns nothing.
 			}
 
 		// If we found a pressed repeatable GUI . . .
-		if (pguiPressed != NULL)
+		if (pguiPressed != nullptr)
 			{
 			int32_t	lCurTime	= rspGetMilliseconds();
 			if (lCurTime > ms_lNextEventTime)
 				{
 				// Get current mouse cursor position.
 				int16_t	sPosX, sPosY;
-				rspGetMouse(&sPosX, &sPosY, NULL);
+				rspGetMouse(&sPosX, &sPosY, nullptr);
 				// Convert to our coordinate system.
 				pguiPressed->TopPosToChild(&sPosX, &sPosY);
 				
@@ -1064,7 +1064,7 @@ void RScrollBar::DrawDownArrow(	// Returns nothing.
 int16_t RScrollBar::LoadChildren(	// Returns 0 on success.
 	RFile*	pfile)					// File to load from.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	ASSERT(pfile->IsOpen() != FALSE);
 
@@ -1076,11 +1076,11 @@ int16_t RScrollBar::LoadChildren(	// Returns 0 on success.
 	ASSERT(sNum >= 3);
 
 	// Load directly into these special children.
-	if (m_btnThumb.Load(pfile) == 0)
+	if (m_btnThumb.Load(pfile) == SUCCESS)
 		{
-		if (m_btnUp.Load(pfile) == 0)
+		if (m_btnUp.Load(pfile) == SUCCESS)
 			{
-			if (m_btnDown.Load(pfile) == 0)
+			if (m_btnDown.Load(pfile) == SUCCESS)
 				{
 				// Subtract these three children from total.
 				sNum	-= 3;
@@ -1088,41 +1088,41 @@ int16_t RScrollBar::LoadChildren(	// Returns 0 on success.
 			else
 				{
 				TRACE("LoadChildren(): m_btnDown.Load() failed.\n");
-				sRes	= -3;
+				sResult	= -3;
 				}
 			}
 		else
 			{
 			TRACE("LoadChildren(): m_btnUp.Load() failed.\n");
-			sRes	= -2;
+			sResult	= -2;
 			}
 		}
 	else
 		{
 		TRACE("LoadChildren(): m_btnThumb.Load() failed.\n");
-		sRes	= -1;
+		sResult	= -1;
 		}
 
 	// Instantiate rest of children.
 	RGuiItem* pgui;
 	int16_t	sCurChild;
 	for (	sCurChild	= 0; 
-			sCurChild < sNum && sRes == 0 && pfile->Error() == FALSE; 
+			sCurChild < sNum && sResult == SUCCESS && pfile->Error() == FALSE; 
 			sCurChild++)
 		{
 		pgui	= LoadInstantiate(pfile);
-		if (pgui != NULL)
+		if (pgui != nullptr)
 			{
 			pgui->SetParent(this);
 			}
 		else
 			{
 			TRACE("LoadChildren(): LoadInstantiate() failed.\n");
-			sRes	= -1;
+			sResult	= -1;
 			}
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ////////////////////////////////////////////////////////////////////////
@@ -1135,14 +1135,14 @@ int16_t RScrollBar::LoadChildren(	// Returns 0 on success.
 int16_t RScrollBar::SaveChildren(	// Returns 0 on success.
 	RFile*	pfile)					// File to save to.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	ASSERT(pfile->IsOpen() != FALSE);
 
 	// Determine number of child items.
 	int16_t	sNum	= 0;
 	RGuiItem*	pgui = m_listguiChildren.GetHead();
-	while (pgui != NULL)
+	while (pgui != nullptr)
 		{
 		sNum++;
 
@@ -1159,11 +1159,11 @@ int16_t RScrollBar::SaveChildren(	// Returns 0 on success.
 
 	// Always write our 3 buttons (arrows and thumb) first so we know
 	// where to get them on load.
-	if (m_btnThumb.Save(pfile) == 0)
+	if (m_btnThumb.Save(pfile) == SUCCESS)
 		{
-		if (m_btnUp.Save(pfile) == 0)
+		if (m_btnUp.Save(pfile) == SUCCESS)
 			{
-			if (m_btnDown.Save(pfile) == 0)
+			if (m_btnDown.Save(pfile) == SUCCESS)
 				{
 				// Subtract these three children from total.
 				// Currently this number is not used during save,
@@ -1173,38 +1173,38 @@ int16_t RScrollBar::SaveChildren(	// Returns 0 on success.
 			else
 				{
 				TRACE("SaveChildren(): m_btnDown.Save() failed.\n");
-				sRes	= -3;
+				sResult	= -3;
 				}
 			}
 		else
 			{
 			TRACE("SaveChildren(): m_btnUp.Save() failed.\n");
-			sRes	= -2;
+			sResult	= -2;
 			}
 		}
 	else
 		{
 		TRACE("SaveChildren(): m_btnThumb.Save() failed.\n");
-		sRes	= -1;
+		sResult	= -1;
 		}
 
 	// Save children.  Note that we go through the children in reverse
 	// order so they, on load, get added back to their parent in the
 	// order they were originally added to this parent.
 	pgui	= m_listguiChildren.GetTail();
-	while (pgui != NULL && sRes == 0 && pfile->Error() == FALSE)
+	while (pgui != nullptr && sResult == SUCCESS && pfile->Error() == FALSE)
 		{
 		// Don't write these 3 again . . .
 		if (pgui != &m_btnThumb && pgui != &m_btnUp && pgui != &m_btnDown)
 			{
 			// Save child.
-			sRes	= pgui->Save(pfile);
+			sResult	= pgui->Save(pfile);
 			}
 
 		pgui	= m_listguiChildren.GetPrev();
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ////////////////////////////////////////////////////////////////////////
@@ -1221,15 +1221,15 @@ int16_t RScrollBar::ReadMembers(	// Returns 0 on success.
 	RFile*	pfile,					// File to read from.
 	uint32_t		u32Version)				// File format version to use.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// Invoke base class to read base members.
-	sRes	= RGuiItem::ReadMembers(pfile, u32Version);
+	sResult	= RGuiItem::ReadMembers(pfile, u32Version);
 
 	// If okay so far . . .
-	if (sRes == 0)
+	if (sResult == SUCCESS)
 		{
-		ASSERT(pfile != NULL);
+		ASSERT(pfile != nullptr);
 		ASSERT(pfile->IsOpen() != FALSE);
 		
 		uint32_t	u32Temp;
@@ -1272,13 +1272,13 @@ int16_t RScrollBar::ReadMembers(	// Returns 0 on success.
 				else
 					{
 					TRACE("ReadMembers(): Error reading RScrollBar members.\n");
-					sRes	= -1;
+					sResult	= -1;
 					}
 				break;
 			}
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ////////////////////////////////////////////////////////////////////////
@@ -1290,15 +1290,15 @@ int16_t RScrollBar::ReadMembers(	// Returns 0 on success.
 int16_t RScrollBar::WriteMembers(	// Returns 0 on success.
 	RFile*	pfile)					// File to write to.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// Invoke base class to read base members.
-	sRes	= RGuiItem::WriteMembers(pfile);
+	sResult	= RGuiItem::WriteMembers(pfile);
 
 	// If okay so far . . .
-	if (sRes == 0)
+	if (sResult == SUCCESS)
 		{
-		ASSERT(pfile != NULL);
+		ASSERT(pfile != nullptr);
 		ASSERT(pfile->IsOpen() != FALSE);
 		
 		// Write this class's members.
@@ -1324,11 +1324,11 @@ int16_t RScrollBar::WriteMembers(	// Returns 0 on success.
 		else
 			{
 			TRACE("WriteMembers(): Error writing RScrollBar members.\n");
-			sRes	= -1;
+			sResult	= -1;
 			}
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ////////////////////////////////////////////////////////////////////////
@@ -1339,10 +1339,10 @@ int16_t RScrollBar::WriteMembers(	// Returns 0 on success.
 // Get position/size of tray relative to this item.
 ////////////////////////////////////////////////////////////////////////
 void RScrollBar::GetTray(	// Returns nothing.
-	int16_t* psX,					// Out: x coordinate of tray unless NULL.
-	int16_t* psY,					// Out: y coordinate of tray unless NULL.
-	int16_t* psW,					// Out: Width of tray unless NULL.
-	int16_t* psH)					// Out: Height of tray unless NULL.
+	int16_t* psX,					// Out: x coordinate of tray unless nullptr.
+	int16_t* psY,					// Out: y coordinate of tray unless nullptr.
+	int16_t* psW,					// Out: Width of tray unless nullptr.
+	int16_t* psH)					// Out: Height of tray unless nullptr.
 	{
 	GetClient(psX, psY, psW, psH);
 	if (m_oOrientation == Vertical)

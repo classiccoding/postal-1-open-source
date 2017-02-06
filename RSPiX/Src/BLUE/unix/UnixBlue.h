@@ -94,7 +94,7 @@ extern int32_t macReserveMemBytes;
 #if 0
     ASSERT macro, the preferred method of asserting that expressions are true.
    #define ASSERT(a)		while (!(a))  \
-                           if (rspAssert(__FILE__, __LINE__, #a) == 0)  \
+                           if (rspAssert(__FILE__, __LINE__, #a) == SUCCESS)  \
                               break
 #else
     #define ASSERT SDL_assert
@@ -142,27 +142,27 @@ extern int16_t rspAssert(	// Returns result.
 #define RSP_MB2_DOUBLECLICK	9	// Defined for compile-campatibility with PC!
 
 extern void rspGetMouse(
-	int16_t* psX,				// X position returned here (unless NULL)
-	int16_t* psY,				// Y position returned here (unless NULL)
-	int16_t* psButtons);	// button status returned here (unless NULL)
+	int16_t* psX,				// X position returned here (unless nullptr)
+	int16_t* psY,				// Y position returned here (unless nullptr)
+	int16_t* psButtons);	// button status returned here (unless nullptr)
 
 extern void rspSetMouse(
 	int16_t sX,				// New x position
 	int16_t sY);				// New y position
 
 extern int16_t rspGetMouseEvent(	// Returns 0 if no event was available, non-zero otherwise
-	int16_t* psX,							// Event's X position is returned here (unless NULL)
-	int16_t* psY,							// Event's Y position is returned here (unless NULL)
-	int16_t* psButton,					// Event's button status is returned here (unless NULL)
-	int32_t* plTime = NULL,					// Event's time stamp returned here (unless NULL)
-	int16_t* psType = NULL);			// Event's type (as per OS) is returned here (unless NULL)
+	int16_t* psX,							// Event's X position is returned here (unless nullptr)
+	int16_t* psY,							// Event's Y position is returned here (unless nullptr)
+	int16_t* psButton,					// Event's button status is returned here (unless nullptr)
+	int32_t* plTime = nullptr,					// Event's time stamp returned here (unless nullptr)
+	int16_t* psType = nullptr);			// Event's type (as per OS) is returned here (unless nullptr)
 
 extern int16_t rspGetLastMouseEvent(	// Returns 0 if no event was available, non-zero otherwise
-	int16_t* psX,								// Event's X position is returned here (unless NULL)
-	int16_t* psY,								// Event's Y position is returned here (unless NULL)
-	int16_t* psButton,						// Event's button status is returned here (unless NULL)
-	int32_t* plTime = NULL,					// Event's time stamp returned here (unless NULL)
-	int16_t* psType = NULL);				// Event's type (as per OS) is returned here (unless NULL)
+	int16_t* psX,								// Event's X position is returned here (unless nullptr)
+	int16_t* psY,								// Event's Y position is returned here (unless nullptr)
+	int16_t* psButton,						// Event's button status is returned here (unless nullptr)
+	int32_t* plTime = nullptr,					// Event's time stamp returned here (unless nullptr)
+	int16_t* psType = nullptr);				// Event's type (as per OS) is returned here (unless nullptr)
 
 extern void rspClearMouseEvents(void);
 
@@ -198,7 +198,7 @@ extern void rspClearKeyEvents(void);
 
 extern int16_t rspGetKey(						// Returns 1 if key was available, 0 if not
 	int32_t* plKey,								// Out: Key info (0 if no key was available)
-	int32_t* plTime = NULL);					// Out: Key's time stamp (unless NULL)
+	int32_t* plTime = nullptr);					// Out: Key's time stamp (unless nullptr)
 
 extern int16_t rspIsKey(void);				// Returns 1 if key is available, 0 if not
 
@@ -317,12 +317,12 @@ extern void rspUpdateJoy(
 // This function returns directions in an analog format (0..0xFFFF).
 extern void rspGetJoyPos(
 	int16_t sJoy,					// In:  Joystick to query.
-	int32_t *plX,					// Out: X axis position of joystick, if not NULL.
-	int32_t *plY = NULL,			// Out: Y axis position of joystick, if not NULL.
-	int32_t *plZ = NULL,			// Out: Z axis position of joystick, if not NULL.
-	int32_t *plW = NULL,			// Out: W axis position of joystick, if not NULL.
-	int32_t *plU = NULL,			// Out: U axis position of joystick, if not NULL.
-	int32_t *plV = NULL);		// Out: V axis position of joystick, if not NULL.
+	int32_t *plX,					// Out: X axis position of joystick, if not nullptr.
+	int32_t *plY = nullptr,			// Out: Y axis position of joystick, if not nullptr.
+	int32_t *plZ = nullptr,			// Out: Z axis position of joystick, if not nullptr.
+	int32_t *plW = nullptr,			// Out: W axis position of joystick, if not nullptr.
+	int32_t *plU = nullptr,			// Out: U axis position of joystick, if not nullptr.
+	int32_t *plV = nullptr);		// Out: V axis position of joystick, if not nullptr.
 
 extern void rspGetJoyPos(
 	int16_t sJoy,					// In:  Joystick to query.
@@ -332,12 +332,12 @@ extern void rspGetJoyPos(
 // This function returns directions in an analog format (0..0xFFFF).
 extern void rspGetJoyPrevPos(
 	int16_t sJoy,					// In:  Joystick to query.
-	int32_t *plX,					// Out: X axis position of joystick, if not NULL.
-	int32_t *plY = NULL,			// Out: Y axis position of joystick, if not NULL.
-	int32_t *plZ = NULL,			// Out: Z axis position of joystick, if not NULL.
-	int32_t *plW = NULL,			// Out: W axis position of joystick, if not NULL.
-	int32_t *plU = NULL,			// Out: U axis position of joystick, if not NULL.
-	int32_t *plV = NULL);		// Out: V axis position of joystick, if not NULL.
+	int32_t *plX,					// Out: X axis position of joystick, if not nullptr.
+	int32_t *plY = nullptr,			// Out: Y axis position of joystick, if not nullptr.
+	int32_t *plZ = nullptr,			// Out: Z axis position of joystick, if not nullptr.
+	int32_t *plW = nullptr,			// Out: W axis position of joystick, if not nullptr.
+	int32_t *plU = nullptr,			// Out: U axis position of joystick, if not nullptr.
+	int32_t *plV = nullptr);		// Out: V axis position of joystick, if not nullptr.
 
 extern void rspGetJoyPrevPos(
 	int16_t sJoy,					// In:  Joystick to query.
@@ -347,10 +347,10 @@ extern void rspGetJoyPrevPos(
 // This function returns directions in a digital format (up, down, centered).
 extern void rspGetJoyState(
 	int16_t sJoy,					// In:  Joystick to query.
-	uint32_t*	pu32Buttons,		// Out: Buttons that are down, if not NULL.
+	uint32_t*	pu32Buttons,		// Out: Buttons that are down, if not nullptr.
 									// An RSP_JOY_BUT_## bit field that is set indicates
 									// that button is down.
-	uint32_t*	pu32Axes = NULL);	// Out: Directions that are specificed, if not NULL.
+	uint32_t*	pu32Axes = nullptr);	// Out: Directions that are specificed, if not nullptr.
 									// An RSP_JOY_?_POS bit set indicates the ? axis is positive.
 									// An RSP_JOY_?_NEG bit set indicates the ? axis is negative.
 									// If neither is set for ? axis, that axis is 0.
@@ -359,10 +359,10 @@ extern void rspGetJoyState(
 // This function returns directions in a digital format (up, down, centered).
 extern void rspGetJoyPrevState(
 	int16_t sJoy,					// In:  Joystick to query.
-	uint32_t*	pu32Buttons,		// Out: Buttons that are down, if not NULL.
+	uint32_t*	pu32Buttons,		// Out: Buttons that are down, if not nullptr.
 									// An RSP_JOY_BUT_## bit field that is set indicates
 									// that button is down.
-	uint32_t*	pu32Axes = NULL);	// Out: Directions that are specificed, if not NULL.
+	uint32_t*	pu32Axes = nullptr);	// Out: Directions that are specificed, if not nullptr.
 									// An RSP_JOY_?_POS bit set indicates the ? axis is positive.
 									// An RSP_JOY_?_NEG bit set indicates the ? axis is negative.
 									// If neither is set for ? axis, that axis is 0.
@@ -403,20 +403,20 @@ extern void rspSetMacVideoUpdateOptions(
 extern void rspQueryVideoModeReset(void);
 
 extern int16_t rspQueryVideoMode(			// Returns 0 for each valid mode, then non-zero thereafter
-	int16_t* psDeviceDepth,					// Out: Device depth (unless NULL)
-	int16_t* psDeviceWidth = NULL,			// Out: Device width (unless NULL)
-	int16_t* psDeviceHeight = NULL,			// Out: Device height (unless NULL)
-	int16_t* psDevicePages = NULL);			// Out: Maximum number of pages supported (unless NULL)
+	int16_t* psDeviceDepth,					// Out: Device depth (unless nullptr)
+	int16_t* psDeviceWidth = nullptr,			// Out: Device width (unless nullptr)
+	int16_t* psDeviceHeight = nullptr,			// Out: Device height (unless nullptr)
+	int16_t* psDevicePages = nullptr);			// Out: Maximum number of pages supported (unless nullptr)
 
 extern int16_t rspGetVideoMode(				// Returns 0 if sucessfull, non-zero otherwise
-	int16_t* psDeviceDepth,					// Out: Device depth (unless NULL)
-	int16_t* psDeviceWidth = NULL,			// Out: Device width (unless NULL)
-	int16_t* psDeviceHeight = NULL,			// Out: Device height (unless NULL)
-	int16_t* psDevicePages = NULL,			// Out: Maximum number of pages supported (unless NULL)
-	int16_t* psWidth = NULL,					// Out: Window width or -1 (unless NULL)
-	int16_t* psHeight = NULL,					// Out: Window height or -1 (unless NULL)
-	int16_t* psPages = NULL,					// Out: Number of pages or -1 (unless NULL)
-	int16_t* psScaling = NULL);				// Out: Scaling flag or -1 (unless NULL)
+	int16_t* psDeviceDepth,					// Out: Device depth (unless nullptr)
+	int16_t* psDeviceWidth = nullptr,			// Out: Device width (unless nullptr)
+	int16_t* psDeviceHeight = nullptr,			// Out: Device height (unless nullptr)
+	int16_t* psDevicePages = nullptr,			// Out: Maximum number of pages supported (unless nullptr)
+	int16_t* psWidth = nullptr,					// Out: Window width or -1 (unless nullptr)
+	int16_t* psHeight = nullptr,					// Out: Window height or -1 (unless nullptr)
+	int16_t* psPages = nullptr,					// Out: Number of pages or -1 (unless nullptr)
+	int16_t* psScaling = nullptr);				// Out: Scaling flag or -1 (unless nullptr)
 
 extern int16_t rspSetVideoMode(				// Returns 0 if successfull, non-zero otherwise
 	int16_t sDeviceDepth,						// In:  Device depth
@@ -435,24 +435,24 @@ extern int16_t rspSuggestVideoMode(		// Returns 0 if successfull, non-zero other
 	int16_t		sHeight,							// In:  Requested height
 	int16_t		sPages,							// In:  Required pages
 	int16_t		sScaling,						// In:  Requested scaling
-	int16_t*	psDeviceWidth = NULL,		// Out: Suggested device width (unless NULL)
-	int16_t*	psDeviceHeight = NULL,		// Out: Suggested device height (unless NULL)
-	int16_t*	psScaling = NULL);			// Out: Suggested scaling (unless NULL)
+	int16_t*	psDeviceWidth = nullptr,		// Out: Suggested device width (unless nullptr)
+	int16_t*	psDeviceHeight = nullptr,		// Out: Suggested device height (unless nullptr)
+	int16_t*	psScaling = nullptr);			// Out: Suggested scaling (unless nullptr)
 
 extern int16_t rspLockVideoPage(			// Returns 0 if successfull, non-zero otherwise
-	void**	ppvMemory,						// Out: Pointer to video page or NULL
+	void**	ppvMemory,						// Out: Pointer to video page or nullptr
 	int32_t*		plPitch);						// Out: Pitch of video page
 
 extern void rspUnlockVideoPage(void);
 
 extern int16_t rspLockVideoFlipPage(		// Returns 0 if successfull, non-zero otherwise
-	void**	ppvMemory,						// Out: Pointer to video flip page or NULL
+	void**	ppvMemory,						// Out: Pointer to video flip page or nullptr
 	int32_t*		plPitch);						// Out: Pitch of video flip page
 
 extern void rspUnlockVideoFlipPage(void);
 
 extern int16_t rspLockVideoBuffer(			// Returns 0 if successfull, non-zero otherwise
-	void**	ppvBuffer,						// Out: Pointer to video buffer or NULL
+	void**	ppvBuffer,						// Out: Pointer to video buffer or nullptr
 	int32_t*		plPitch);						// Out: Pitch of video buffer
 
 extern void rspUnlockVideoBuffer(void);
@@ -566,12 +566,12 @@ extern void rspUnshieldMouseCursor(void);
 // Time API
 ////////////////////////////////////////////////////////////////////////////////
 
-extern int32_t rspGetMicroseconds(			// Returns time in microseconds
+extern uint64_t rspGetMicroseconds(			// Returns time in microseconds
 	int16_t sReset = FALSE);					// In:  TRUE to reset count, FALSE otherwise
 
-extern int32_t rspGetMilliseconds(void);	// Returns time in milliseconds
+extern uint32_t rspGetMilliseconds(void);	// Returns time in milliseconds
 
-extern int64_t rspGetAppMicroseconds(void);	// Returns microseconds since app started
+extern uint64_t rspGetAppMicroseconds(void);	// Returns microseconds since app started
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -598,11 +598,11 @@ extern int16_t rspSetSoundOutMode(				// Returns 0 if successfull, non-zero othe
    uintptr_t ulUser);									// In:  User-defined value to pass to callback
 	
 extern int16_t rspGetSoundOutMode(				// Returns 0 if successfull, non-zero otherwise
-	int32_t* plSampleRate,							// Out: Sample rate or -1 (unless NULL)
-	int32_t* plBitsPerSample = NULL,				// Out: Bits per sample or -1 (unless NULL)
-	int32_t* plChannels = NULL,					// Out: Channels (mono=1, stereo=2) or -1 (unless NULL)
-	int32_t* plCurBufferTime = NULL,				// Out: Current buffer time or -1 (unless NULL)
-	int32_t* plMaxBufferTime = NULL);			// Out: Maximum buffer time or -1 (unless NULL)
+	int32_t* plSampleRate,							// Out: Sample rate or -1 (unless nullptr)
+	int32_t* plBitsPerSample = nullptr,				// Out: Bits per sample or -1 (unless nullptr)
+	int32_t* plChannels = nullptr,					// Out: Channels (mono=1, stereo=2) or -1 (unless nullptr)
+	int32_t* plCurBufferTime = nullptr,				// Out: Current buffer time or -1 (unless nullptr)
+	int32_t* plMaxBufferTime = nullptr);			// Out: Maximum buffer time or -1 (unless nullptr)
 
 extern void rspSetSoundOutBufferTime(
 	int32_t lCurBufferTime);						// In:  New buffer time

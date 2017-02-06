@@ -121,9 +121,9 @@ class RProcessGui
 		// (DoModal() does this automatically).
 		int16_t Prepare(							// Returns 0 on success.
 			RGuiItem* pgui,					// In:  GUI to be processed.
-			RGuiItem* pguiOk = NULL,		// In:  If not NULL, specifies GUI 
+			RGuiItem* pguiOk = nullptr,		// In:  If not nullptr, specifies GUI 
 													// activated by ENTER key.
-			RGuiItem* pguiCancel = NULL);	// In:  If not NULL, specifies GUI
+			RGuiItem* pguiCancel = nullptr);	// In:  If not nullptr, specifies GUI
 													// activated by ESCAPE key.
 
 		// This should be called to clean up components when no more DoModeless()
@@ -149,13 +149,13 @@ class RProcessGui
 		int32_t DoModal(							// Returns ID of pressed GUI that terminated 
 													// modal loop or value returned from 
 													// m_fnUpdate, if any.
-			RGuiItem* pgui,					// In:  GUI to be processed or NULL.
-			RGuiItem* pguiOk = NULL,		// In:  If not NULL, specifies GUI 
+			RGuiItem* pgui,					// In:  GUI to be processed or nullptr.
+			RGuiItem* pguiOk = nullptr,		// In:  If not nullptr, specifies GUI 
 													// activated by ENTER key.
-			RGuiItem* pguiCancel = NULL,	// In:  If not NULL, specifies GUI
+			RGuiItem* pguiCancel = nullptr,	// In:  If not nullptr, specifies GUI
 													// activated by ESCAPE key.
-			RImage* pimDst = NULL);			// Where to draw dialog and rspBlit from.
-													// If this is NULL, the system buffer is
+			RImage* pimDst = nullptr);			// Where to draw dialog and rspBlit from.
+													// If this is nullptr, the system buffer is
 													// used.
 													// rspBlit is used to update this to the
 													// screen image unless pimDst is the screen
@@ -164,10 +164,10 @@ class RProcessGui
 		// Call this to process a GUI modelessly.  This function processes the
 		// GUI for only one iteration allowing the caller continuous control.
 		int32_t DoModeless(						// Returns ID of pressed GUI or value.
-			RGuiItem* pgui,					// In:  GUI to be processed or NULL.
+			RGuiItem* pgui,					// In:  GUI to be processed or nullptr.
 			RInputEvent* pie,					// In:  Input event to process.
-			RImage* pimDst = NULL);			// Where to draw dialog and rspBlit from.
-													// If this is NULL, the system buffer is
+			RImage* pimDst = nullptr);			// Where to draw dialog and rspBlit from.
+													// If this is nullptr, the system buffer is
 													// used.
 													// rspBlit is used to update this to the
 													// screen image unless pimDst is the screen

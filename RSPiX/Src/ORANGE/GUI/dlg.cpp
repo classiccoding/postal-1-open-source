@@ -128,8 +128,8 @@
 // Sets val to def if val is -1.
 #define DEF(val, def)	((val == -1) ? def : val)
 
-// Sets a value pointed to if ptr is not NULL.
-#define SET(pval, val)					((pval != NULL) ? *pval = val : val)
+// Sets a value pointed to if ptr is not nullptr.
+#define SET(pval, val)					((pval != nullptr) ? *pval = val : val)
 
 //////////////////////////////////////////////////////////////////////////////
 // Module specific typedefs.
@@ -192,12 +192,12 @@ void RDlg::Do(			// Returns nothing.
 			int16_t	sParentW, sParentH;
 
 			// Get mouse position RSPiX relative.
-			rspGetMouse(&sTopPosX, &sTopPosY, NULL);
+			rspGetMouse(&sTopPosX, &sTopPosY, nullptr);
 			sPosX	= sTopPosX;
 			sPosY	= sTopPosY;
 
 			RGuiItem*	pguiParent	= GetParent();
-			if (pguiParent != NULL)
+			if (pguiParent != nullptr)
 				{
 				pguiParent->TopPosToChild(&sPosX, &sPosY);
 				sParentW	= pguiParent->m_im.m_sWidth;
@@ -205,7 +205,7 @@ void RDlg::Do(			// Returns nothing.
 				}
 			else
 				{
-				rspGetVideoMode(NULL, NULL, NULL, NULL, &sParentW, &sParentH);
+				rspGetVideoMode(nullptr, nullptr, nullptr, nullptr, &sParentW, &sParentH);
 				}
 
 			// Stay within parent.
@@ -262,9 +262,9 @@ void RDlg::CursorEvent(	// Returns nothing.
 //
 ////////////////////////////////////////////////////////////////////////
 void RDlg::Compose(			// Returns nothing.
-	RImage* pim /*= NULL*/)	// Dest image, uses m_im if NULL.
+	RImage* pim /*= nullptr*/)	// Dest image, uses m_im if nullptr.
 	{
-	if (pim == NULL)
+	if (pim == nullptr)
 		{
 		pim	= &m_im;
 		}
@@ -329,10 +329,10 @@ void RDlg::SetEventArea(void)	// Returns nothing.
 //
 //////////////////////////////////////////////////////////////////////////////
 void RDlg::GetClient(	// Returns nothing.
-	int16_t* psX,				// Out: X position unless NULL.
-	int16_t* psY,				// Out: Y position unless NULL.
-	int16_t* psW,				// Out: Width unless NULL.
-	int16_t* psH)				// Out: Height unless NULL.
+	int16_t* psX,				// Out: X position unless nullptr.
+	int16_t* psY,				// Out: Y position unless nullptr.
+	int16_t* psW,				// Out: Width unless nullptr.
+	int16_t* psH)				// Out: Height unless nullptr.
 	{
 	// Call base.
 	RGuiItem::GetClient(psX, psY, psW, psH);

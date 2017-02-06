@@ -603,9 +603,9 @@ RMixBuf::~RMixBuf(void)
 //////////////////////////////////////////////////////////////////////////////
 void RMixBuf::Init(void)
 	{
-	m_pu8Dst			= NULL;
+	m_pu8Dst			= nullptr;
 	m_ulDstSize		= 0L;
-	m_pu8Mix			= NULL;
+	m_pu8Mix			= nullptr;
 	m_ulMixSize		= 0L;
 	m_sInUse			= FALSE;
 	m_sOwnMixBuf	= FALSE;
@@ -622,7 +622,7 @@ void RMixBuf::Reset(void)
 
 	if (m_sOwnMixBuf == TRUE)
 		{
-		if (m_pu8Mix != NULL)
+		if (m_pu8Mix != nullptr)
 			{
 			free(m_pu8Mix);
 			}
@@ -644,7 +644,7 @@ void RMixBuf::Silence(void)
 	{
 	ASSERT(m_sInUse == FALSE);
 
-	if (m_pu8Mix != NULL)
+	if (m_pu8Mix != nullptr)
 		{
 		switch (ms_lMixBitsPerSample)
 			{
@@ -676,7 +676,7 @@ void RMixBuf::Silence(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t RMixBuf::SetSize(uint32_t ulSize)
 	{
-	int16_t sRes = 0;	// Assume success.
+   int16_t sResult = 0;	// Assume success.
 
 	ASSERT(m_sInUse == FALSE);
 
@@ -699,7 +699,7 @@ int16_t RMixBuf::SetSize(uint32_t ulSize)
 	// Allocate new data chunk.
 	m_pu8Mix = (uint8_t*)malloc(ulSize);
 	// If successful . . .
-	if (m_pu8Mix != NULL)
+	if (m_pu8Mix != nullptr)
 		{
 		// Success.
 		m_sOwnMixBuf	= TRUE;
@@ -710,10 +710,10 @@ int16_t RMixBuf::SetSize(uint32_t ulSize)
 	else
 		{
 		TRACE("SetSize(%lu): Unable to allocate buffer.\n", ulSize);
-		sRes = -1;
+      sResult = -1;
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -729,7 +729,7 @@ void RMixBuf::SetDest(	// Returns nothing.
 	if (m_pu8Mix == m_pu8Dst)
 		{
 		// Clear it.
-		m_pu8Mix		= NULL;
+		m_pu8Mix		= nullptr;
 		m_ulMixSize	= 0;
 		}
 
@@ -755,7 +755,7 @@ void RMixBuf::SetDest(	// Returns nothing.
 			// Set mix size to the size of the playback buffer but at the mix quality.
 			int32_t	lNumSamples	= m_ulDstSize * 8 / ms_lDstBitsPerSample;
 			int32_t	lSize	= lNumSamples * ms_lMixBitsPerSample / 8;
-			if (SetSize(lSize) == 0)
+         if (SetSize(lSize) == SUCCESS)
 				{
 				// Note that SetSize() always Silence()s buffer.
 				}
@@ -858,7 +858,7 @@ int16_t RMixBuf::Mix(	uint32_t		ulStartPos,
 							uint8_t		ucVol2)
 	{
   UNUSED(lSampleRate, lNumChannels);
-	int16_t sRes	= 0;	// Assume success.
+   int16_t sResult	= 0;	// Assume success.
 
 	ASSERT(m_sInUse == FALSE);
 
@@ -895,8 +895,8 @@ int16_t RMixBuf::Mix(	uint32_t		ulStartPos,
 		sCurVolume = CDVA::ms_asHighByte
 			[DVA_SIZE + sCurVolume][ucVolume];
 
-		if (sCurVolume < DVA_RESOLUTION ) return sRes;	// sound is off
-		if (sCurVolume < ms_sCutOffVolume) return sRes; // Sound is clipped by user
+      if (sCurVolume < DVA_RESOLUTION ) return sResult;	// sound is off
+      if (sCurVolume < ms_sCutOffVolume) return sResult; // Sound is clipped by user
 
 		ASSERT(ulSize <= (m_ulMixSize - ulStartPos) );
 		
@@ -937,7 +937,7 @@ int16_t RMixBuf::Mix(	uint32_t		ulStartPos,
 					default:
 						TRACE("Mix(): Unsupported bits per sample: %i.\n",
 								lBitsPerSample);
-						sRes = -1;
+                  sResult = -1;
 						break;
 					}
 				}
@@ -987,7 +987,7 @@ int16_t RMixBuf::Mix(	uint32_t		ulStartPos,
 					default:
 						TRACE("Mix(): Unsupported bits per sample: %u.\n",
 								lBitsPerSample);
-						sRes = -1;
+                  sResult = -1;
 						break;
 					}
 				}
@@ -996,10 +996,10 @@ int16_t RMixBuf::Mix(	uint32_t		ulStartPos,
 	else
 		{
 		TRACE("Mix():  No mix buffer.\n");
-		sRes	= -2;
+      sResult	= -2;
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
