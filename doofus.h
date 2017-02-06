@@ -600,9 +600,9 @@ class CDoofus : public CCharacter
 
 		// Function to choose and play the writhing sound effect
 		virtual SampleMaster::SoundInstance PlaySoundWrithing(
-			int32_t* plDuration)					// Out:  Duration of sample, if not NULL.
+			int32_t* plDuration)					// Out:  Duration of sample, if not nullptr.
 			{
-			if (plDuration != NULL)
+			if (plDuration != nullptr)
 				{
 				*plDuration	= 0;
 				}
@@ -638,7 +638,7 @@ class CDoofus : public CCharacter
 		// This should be done when the character starts its shoot animation.
 		virtual			// Override to implement additional functionality.
 							// Call base class to get default functionality.
-		CWeapon* PrepareWeapon(void);	// Returns the weapon ptr or NULL.
+		CWeapon* PrepareWeapon(void);	// Returns the weapon ptr or nullptr.
 
 		// Implements basic functionality while holding and preparing to release
 		// a weapon.  Shows the weapon when the event hits 1 and releases the
@@ -737,7 +737,7 @@ class CDoofus : public CCharacter
 			if (g_lRegValue < 0 || g_lExpValue < 0 || g_lCookieMonster == SAFE_DATE)
 			{
 				GameMessage msg;
-				CThing* pThing = NULL;
+				CThing* pThing = nullptr;
 
 				msg.msg_Burn.eType = typeBurn;
 				msg.msg_Burn.sPriority = 0;
@@ -745,7 +745,7 @@ class CDoofus : public CCharacter
 				msg.msg_Burn.u16ShooterID = GetInstanceID();;
 
 				CListNode<CThing>* pNext = m_pRealm->m_everythingHead.m_pnNext;
-				while (pNext->m_powner != NULL)
+				while (pNext->m_powner != nullptr)
 				{
 					pThing = pNext->m_powner;
 					SendThingMessage(&msg, pThing);
@@ -756,12 +756,12 @@ class CDoofus : public CCharacter
 		}
 
 		// Look up a WeaponDetails by CThing class ID.
-		inline WeaponDetails* GetWeaponDetails(	// Returns ptr to details or NULL, if none.
+		inline WeaponDetails* GetWeaponDetails(	// Returns ptr to details or nullptr, if none.
 			ClassIDType	id)								// In:  ID to look up.
 			{
 			ASSERT(id <= TotalIDs);
 
-			WeaponDetails*	pwd	= NULL;
+			WeaponDetails*	pwd	= nullptr;
 
 			if (id < TotalIDs)
 				{
@@ -780,12 +780,12 @@ class CDoofus : public CCharacter
 			}
 
 		// Look up a weapon animation by CThing class ID.
-		inline CAnim3D* GetWeaponAnim(		// Returns ptr to anim or NULL, if none.
+		inline CAnim3D* GetWeaponAnim(		// Returns ptr to anim or nullptr, if none.
 			ClassIDType	id)						// In:  ID to look up.
 			{
 			ASSERT(id <= TotalIDs);
 
-			CAnim3D*	panim	= NULL;
+			CAnim3D*	panim	= nullptr;
 
 			if (id < TotalIDs)
 				{

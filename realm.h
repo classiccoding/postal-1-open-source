@@ -639,7 +639,7 @@ class CRealm
 		uint8_t		m_ucNextPylonID;
 
 		// Path index for 2D assets.
-		int16_t		m_s2dResPathIndex;
+      uint16_t		m_s2dResPathIndex;
 
 		// Process progress callback.  See ProgressCall typedef for details.
 		ProgressCall	m_fnProgress;
@@ -952,9 +952,9 @@ class CRealm
 													// where we'd assume a certain frame rate.
 			int16_t	sDistanceXZ,				// In:  Distance on X/Z plane.
 			int16_t sVerticalTolerance = 0,	// In:  Max traverser can step up.
-			int16_t* psX = NULL,				// Out: If not NULL, last clear point on path.
-			int16_t* psY = NULL,				// Out: If not NULL, last clear point on path.
-			int16_t* psZ = NULL,				// Out: If not NULL, last clear point on path.
+			int16_t* psX = nullptr,				// Out: If not nullptr, last clear point on path.
+			int16_t* psY = nullptr,				// Out: If not nullptr, last clear point on path.
+			int16_t* psZ = nullptr,				// Out: If not nullptr, last clear point on path.
 			bool bCheckExtents = true);	// In:  If true, will consider the edge of the realm a path
 													// inhibitor.  If false, reaching the edge of the realm
 													// indicates a clear path.
@@ -977,9 +977,9 @@ class CRealm
 			int16_t	sDstX,						// In:  Destination X.
 			int16_t	sDstZ,						// In:  Destination Z.
 			int16_t sVerticalTolerance = 0,	// In:  Max traverser can step up.
-			int16_t* psX = NULL,				// Out: If not NULL, last clear point on path.
-			int16_t* psY = NULL,				// Out: If not NULL, last clear point on path.
-			int16_t* psZ = NULL,				// Out: If not NULL, last clear point on path.
+			int16_t* psX = nullptr,				// Out: If not nullptr, last clear point on path.
+			int16_t* psY = nullptr,				// Out: If not nullptr, last clear point on path.
+			int16_t* psZ = nullptr,				// Out: If not nullptr, last clear point on path.
 			bool bCheckExtents = true);	// In:  If true, will consider the edge of the realm a path
 													// inhibitor.  If false, reaching the edge of the realm
 													// indicates a clear path.

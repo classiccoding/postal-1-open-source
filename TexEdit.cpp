@@ -478,7 +478,7 @@ CreatePalette(
 				&pgui->m_im,
 				sX, sY,
 				sCellW, sCellH,
-				NULL);
+				nullptr);
 			
 			sColor += c_sPalColorsPerSwatch;
 			}
@@ -524,13 +524,13 @@ ValidateTextures(
 	{
 	if (ptex->m_sNum < sNum)
 		{
-		int16_t	sRes = rspMsgBox(
+		int16_t	sResult = rspMsgBox(
 			RSP_MB_ICN_QUERY | RSP_MB_BUT_YESNO,
 			"Incorrect Texture File",
 			"This texture file does not have enough entries to cover the entire mesh.\n"
 			"Do you want this utility to recreate the texture scheme filling in the\n"
 			"empty entries with bright green?");
-		switch (sRes)
+		switch (sResult)
 			{
 			case RSP_MB_RET_YES:
 				{
@@ -586,12 +586,12 @@ ValidateTextures(
 ////////////////////////////////////////////////////////////////////////////////
 CTexEdit::CTexEdit(void)
 	{
-	m_pguiRoot			= NULL;
-	m_pguiAnim			= NULL;
-	m_pguiCurColor		= NULL;
-	m_pguiPal			= NULL;
+	m_pguiRoot			= nullptr;
+	m_pguiAnim			= nullptr;
+	m_pguiCurColor		= nullptr;
+	m_pguiPal			= nullptr;
 
-	m_scene.SetupPipeline(NULL, NULL, c_dScale);
+	m_scene.SetupPipeline(nullptr, nullptr, c_dScale);
 
 	m_manip	= Trans;
 
@@ -608,8 +608,8 @@ CTexEdit::CTexEdit(void)
 
 	m_lTriIndex	= -1;
 
-	m_ptexSrc		= NULL;
-	m_ptexchanSrc	= NULL;
+	m_ptexSrc		= nullptr;
+	m_ptexchanSrc	= nullptr;
 
 	m_bModified	= false;
 
@@ -727,7 +727,7 @@ CTexEdit::DoModal(
 		// Get up to two controls that can end the processing that can be
 		// passed on the DoModal() line.  More buttons can be set though.
 		// Set up ptrs and erase buffer.
-		gm.Prepare(m_pguiRoot, NULL, NULL);
+		gm.Prepare(m_pguiRoot, nullptr, nullptr);
 
 		RInputEvent	ie;
 
@@ -795,12 +795,12 @@ CTexEdit::DoModal(
 				if (m_bModified)
 					{
 					// Query if user wants to apply the work textures (and not lose changes).
-					int16_t	sRes	= rspMsgBox(
+					int16_t	sResult	= rspMsgBox(
 						RSP_MB_ICN_QUERY | RSP_MB_BUT_YESNOCANCEL,
 						g_pszAppName,
 						"Apply changes before exiting texture editor?");
 
-					switch (sRes)
+					switch (sResult)
 						{
 						case RSP_MB_RET_YES:		// Yes - apply.
 							Apply();
@@ -819,15 +819,15 @@ CTexEdit::DoModal(
 		// Clean up ptrs, erase buffer, and dirty rect list.
 		gm.Unprepare();
 
-		m_ptexSrc		= NULL;
-		m_ptexchanSrc	= NULL;
+		m_ptexSrc		= nullptr;
+		m_ptexchanSrc	= nullptr;
 		m_texWork.FreeIndices();
 
 		delete m_pguiRoot;
-		m_pguiRoot = NULL;
-		m_pguiAnim = NULL;
-		m_pguiCurColor = NULL;
-		m_pguiPal = NULL;
+		m_pguiRoot = nullptr;
+		m_pguiAnim = nullptr;
+		m_pguiCurColor = nullptr;
+		m_pguiPal = nullptr;
 		}
 	else
 		{
@@ -853,6 +853,7 @@ CTexEdit::DoOutput(
 	int16_t sOffsetY,		// In:  Y offset.
 	RRect& rcClip)			// In:  Dst clip rect.
 	{
+  UNUSED(trans);
 	m_scene.Render3D(
 		pimDst,			// Destination image.     
 		sOffsetX,		// Destination 2D x coord.
@@ -921,7 +922,7 @@ CTexEdit::ProcessManip(
 			}
 
 		int16_t sCursorX, sCursorY;
-		rspGetMouse(&sCursorX, &sCursorY, NULL);
+		rspGetMouse(&sCursorX, &sCursorY, nullptr);
 		rspSetMouse(m_sCursorResetX, m_sCursorResetY);
 
 		int16_t sDeltaX = sCursorX - m_sCursorResetX;
@@ -936,6 +937,7 @@ CTexEdit::ProcessManip(
 
 		switch (m_manip)
 			{
+        UNHANDLED_SWITCH;
 			case Trans:
 				m_fX += sDeltaX * c_fTransRate;
 				m_fY += sDeltaY * c_fTransRate;
@@ -973,7 +975,7 @@ CTexEdit::ProcessManip(
 		RP3d	linept1, linept2;
 
 		int16_t sMouseX, sMouseY;
-		rspGetMouse(&sMouseX, &sMouseY, NULL);
+		rspGetMouse(&sMouseX, &sMouseY, nullptr);
 		m_pguiAnim->TopPosToChild(&sMouseX, &sMouseY);
 
 		linept1.x	= sMouseX;
@@ -1036,7 +1038,7 @@ CTexEdit::ProcessManip(
 	if (m_pguiPal->m_sPressed)
 		{
 		int16_t sMouseX, sMouseY;
-		rspGetMouse(&sMouseX, &sMouseY, NULL);
+		rspGetMouse(&sMouseX, &sMouseY, nullptr);
 		m_pguiPal->TopPosToChild(&sMouseX, &sMouseY);
 
 		// Get color directly out of GUI.
@@ -1142,7 +1144,7 @@ CTexEdit::Save(void)
 
 	if (m_ptexchanSrc)
 		{
-		if (rspEZSave(m_ptexchanSrc, m_strFileName) == 0)
+		if (rspEZSave(m_ptexchanSrc, m_strFileName) == SUCCESS)
 			{
 			SetStatusText("Applied; Saved \"%s\".", (const char*)m_strFileName);
 			}
@@ -1192,7 +1194,7 @@ CTexEdit::SetColor(
 				&m_pguiCurColor->m_im,
 				sX, sY,
 				sW, sH,
-				NULL);
+				nullptr);
 			}
 		}
 	}
@@ -1403,7 +1405,7 @@ CTexEdit::AdjustCall(RGuiItem* pgui)
 	char	szText[GUI_MAX_STR];
 	m_pguiRoot->GetText(c_lIdAmount, szText, sizeof(szText) );
 
-	float	fAdjust	= strtod(szText, NULL);
+	float	fAdjust	= strtod(szText, nullptr);
 
 	// Get palette to work with.
 	uint8_t	au8Red[256];

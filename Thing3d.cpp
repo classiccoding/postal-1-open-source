@@ -233,8 +233,8 @@
 // Light level for burnt thing3d.
 #define BURNT_BRIGHTNESS		-40	// -128 to 127.
 
-// Sets a value pointed to if ptr is not NULL.
-#define SET(pval, val)					((pval != NULL) ? *pval = val : val)
+// Sets a value pointed to if ptr is not nullptr.
+#define SET(pval, val)					((pval != nullptr) ? *pval = val : val)
 
 // Multiply damage by this to get velocity (for absorbing momentum of
 // damage cause (e.g., bullets, etc.) ).
@@ -428,7 +428,7 @@ int16_t CThing3d::Load(									// Returns 0 if successfull, non-zero otherwise
 	{
 	// Call the CThing base class load to get the instance ID
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == 0)
+   if (sResult == SUCCESS)
 		{
 		// Load object data
 		switch (ulFileVersion)
@@ -489,7 +489,7 @@ int16_t CThing3d::Load(									// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+      if (!pFile->Error() && sResult == SUCCESS)
 			{
 			// Success.
 			}
@@ -513,7 +513,7 @@ int16_t CThing3d::Save(									// Returns 0 if successfull, non-zero otherwise
 	{
 	// Call the base class save to save the u16InstanceID
 	int16_t	sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == 0)
+   if (sResult == SUCCESS)
 		{
 		// Save object data
 		pFile->Write(&m_dX);
@@ -639,7 +639,7 @@ void CThing3d::Render(void)
 			m_spriteShadow.m_sInFlags |= CSprite::InHidden;
 
 		// If the shadow is enabled
-		if (!(m_spriteShadow.m_sInFlags & CSprite::InHidden) && m_spriteShadow.m_pImage != NULL)
+		if (!(m_spriteShadow.m_sInFlags & CSprite::InHidden) && m_spriteShadow.m_pImage != nullptr)
 			{
 			// Get the height of the terrain from the attribute map
 			int16_t sY = m_pRealm->GetHeight((int16_t) m_dX, (int16_t) m_dZ);
@@ -672,7 +672,7 @@ void CThing3d::Render(void)
 			}
 		}
 
-	ASSERT(m_panimCur != NULL);
+	ASSERT(m_panimCur != nullptr);
 
 	m_sprite.m_pmesh = (RMesh*) m_panimCur->m_pmeshes->GetAtTime(m_lAnimTime);
 	m_sprite.m_psop = (RSop*) m_panimCur->m_psops->GetAtTime(m_lAnimTime);
@@ -739,7 +739,7 @@ int16_t CThing3d::EditMove(							// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 void CThing3d::EditRect(RRect* pRect)
 	{
-	if (m_panimCur != NULL)
+	if (m_panimCur != nullptr)
 		{
 		if (m_panimCur->m_psops)
 			{
@@ -1410,7 +1410,7 @@ void CThing3d::OnBurnMsg(	// Returns nothing.
 	if (m_pRealm->m_idbank.GetThingByID((CThing**)&pfire, m_u16IdFire) != 0)
 		{
 		// Make a fire and remember its ID.
-		if (CThing::ConstructWithID(CThing::CFireID, m_pRealm, (CThing**) &pfire) == 0)
+      if (CThing::ConstructWithID(CThing::CFireID, m_pRealm, (CThing**) &pfire) == SUCCESS)
 			{
 			// Store its ID.
 			m_u16IdFire	= pfire->GetInstanceID();
@@ -1474,7 +1474,7 @@ void CThing3d::UpdateFirePosition(void)
 	{
 	CFire*	pfire;
 	// If there is a fire . . .
-	if (m_pRealm->m_idbank.GetThingByID((CThing**)&pfire, m_u16IdFire) == 0)
+   if (m_pRealm->m_idbank.GetThingByID((CThing**)&pfire, m_u16IdFire) == SUCCESS)
 		{
 		// Update its position.
 		pfire->m_dX	= m_dX;
@@ -1502,8 +1502,8 @@ void CThing3d::UpdateFirePosition(void)
 void CThing3d::GetFloorAttributes(	// Returns nothing.
 	int16_t		sX,						// In:  X coord.
 	int16_t		sZ,						// In:  Z coord.
-	uint16_t*		pu16Attrib,				// Out: Combined attribs, if not NULL.
-	int16_t*	psHeight)				// Out: Max height, if not NULL.
+	uint16_t*		pu16Attrib,				// Out: Combined attribs, if not nullptr.
+	int16_t*	psHeight)				// Out: Max height, if not nullptr.
 	{
 	uint16_t	u16CurAttrib;
 	uint16_t	u16CombinedAttrib	= 0;
@@ -1548,8 +1548,8 @@ void CThing3d::GetFloorAttributes(	// Returns nothing.
 void CThing3d::GetEffectAttributes(	// Returns nothing.
 	int16_t		sX,							// In:  X coord.
 	int16_t		sZ,							// In:  Z coord.
-	uint16_t*		pu16Attrib,					// Out: Combined attribs, if not NULL.
-	int16_t*	psLightBits)				// Out: Tally of light bits set, if not NULL.
+	uint16_t*		pu16Attrib,					// Out: Combined attribs, if not nullptr.
+	int16_t*	psLightBits)				// Out: Tally of light bits set, if not nullptr.
 	{
 	uint16_t	u16CurAttrib;
 	uint16_t	u16CombinedAttrib	= 0;
@@ -1627,13 +1627,13 @@ void CThing3d::GetLinkPoint(	// Returns nothing.
 // Detach the specified Thing3d.
 // (virtual).
 ////////////////////////////////////////////////////////////////////////////////
-CThing3d* CThing3d::DetachChild(	// Returns ptr to the child or NULL, if none.
+CThing3d* CThing3d::DetachChild(	// Returns ptr to the child or nullptr, if none.
 	uint16_t*		pu16InstanceId,		// In:  Instance ID of child to detach.
 											// Out: CIdBank::IdNil.
 	RTransform*	ptrans)				// In:  Transform for positioning child.
 	{
 	CThing3d*	pthing3d;
-	if (m_pRealm->m_idbank.GetThingByID((CThing**)&pthing3d, *pu16InstanceId) == 0)
+   if (m_pRealm->m_idbank.GetThingByID((CThing**)&pthing3d, *pu16InstanceId) == SUCCESS)
 		{
 		DetachChild(
 			&(pthing3d->m_sprite),		// In:  Child sprite to detach.
@@ -1651,7 +1651,7 @@ CThing3d* CThing3d::DetachChild(	// Returns ptr to the child or NULL, if none.
 		{
 		// No longer exists.
 		*pu16InstanceId	= CIdBank::IdNil;
-		pthing3d				= NULL;
+		pthing3d				= nullptr;
 		}
 
 	return pthing3d;
@@ -1793,7 +1793,7 @@ int16_t CThing3d::PrepareShadow(void)
 	int16_t sResult = SUCCESS;
 
 	// If the shadow doesn't have resource loaded yet, load the default
-	if (m_spriteShadow.m_pImage == NULL)
+	if (m_spriteShadow.m_pImage == nullptr)
 	{
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(SHADOW_FILE), &(m_spriteShadow.m_pImage), RFile::LittleEndian);
 	}
@@ -1818,8 +1818,8 @@ void CThing3d::PlaySample(									// Returns nothing.
 	int16_t	sInitialVolume	/*= -1*/,						// In:  Initial Sound Volume (0 - 255)
 																	// Negative indicates to use the distance to the
 																	// ear to determine the volume.
-	SampleMaster::SoundInstance*	psi /*= NULL*/,	// Out: Handle for adjusting sound volume
-	int32_t* plSampleDuration /*= NULL*/,					// Out: Sample duration in ms, if not NULL.
+	SampleMaster::SoundInstance*	psi /*= nullptr*/,	// Out: Handle for adjusting sound volume
+	int32_t* plSampleDuration /*= nullptr*/,					// Out: Sample duration in ms, if not nullptr.
 	int32_t lLoopStartTime /*= -1*/,							// In:  Where to loop back to in milliseconds.
 																	//	-1 indicates no looping (unless m_sLoop is
 																	// explicitly set).
@@ -1842,7 +1842,7 @@ void CThing3d::PlaySample(									// Returns nothing.
 									// Negative indicates to use the distance to the
 									// ear to determine the volume.
 		psi,						// Out: Handle for adjusting sound volume
-		plSampleDuration,		// Out: Sample duration in ms, if not NULL.
+		plSampleDuration,		// Out: Sample duration in ms, if not nullptr.
 		lLoopStartTime,		// In:  Where to loop back to in milliseconds.
 									//	-1 indicates no looping (unless m_sLoop is
 									// explicitly set).
@@ -1854,7 +1854,7 @@ void CThing3d::PlaySample(									// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 // Start a CAnimThing.
 ////////////////////////////////////////////////////////////////////////////////
-CAnimThing* CThing3d::StartAnim(		// Returns ptr to CAnimThing on success; NULL otherwise.
+CAnimThing* CThing3d::StartAnim(		// Returns ptr to CAnimThing on success; nullptr otherwise.
    const char* pszAnimResName,				// In:  Animation's resource name.
 	int16_t	sX,								// In:  Position.
 	int16_t	sY,								// In:  Position.
@@ -1862,8 +1862,8 @@ CAnimThing* CThing3d::StartAnim(		// Returns ptr to CAnimThing on success; NULL 
 	bool	bLoop)							// In:  true to loop animation.
 	{
 	// Create the animator . . .
-	CAnimThing*	pat	= NULL;
-	if (ConstructWithID(CAnimThingID, m_pRealm, (CThing**)&pat) == 0)
+	CAnimThing*	pat	= nullptr;
+   if (ConstructWithID(CAnimThingID, m_pRealm, (CThing**)&pat) == SUCCESS)
 		{
 		strcpy(pat->m_szResName, pszAnimResName);
 

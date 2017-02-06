@@ -228,7 +228,7 @@ void SetText(					// Returns nothing.
 	int32_t			lVal)			// In:  Value to set text to.
 	{
 	RGuiItem*	pgui	= pguiRoot->GetItemFromId(lId);
-	if (pgui != NULL)
+	if (pgui != nullptr)
 		{
 		pgui->SetText("%i", lVal);
 		pgui->Compose(); 
@@ -245,7 +245,7 @@ void CheckMultiBtn(			// Returns nothing.
 	int16_t			sChecked)	// In:  1 to check, 0 to uncheck.
 	{
 	RMultiBtn*	pmb	= (RMultiBtn*)pguiRoot->GetItemFromId(lId);
-	if (pmb != NULL)
+	if (pmb != nullptr)
 		{
 		ASSERT(pmb->m_type == RGuiItem::MultiBtn);
 
@@ -263,24 +263,24 @@ int16_t IsMultiBtnChecked(	// Returns multibtn's state.
 	RGuiItem*	pguiRoot,	// In:  Root GUI.
 	int32_t			lId)			// In:  ID of GUI to set text.
 	{
-	int16_t	sRes	= 0;	// Assume nothing;
+   int16_t	sResult	= 0;	// Assume nothing;
 
 	RMultiBtn*	pmb	= (RMultiBtn*)pguiRoot->GetItemFromId(lId);
-	if (pmb != NULL)
+	if (pmb != nullptr)
 		{
 		ASSERT(pmb->m_type == RGuiItem::MultiBtn);
 
-		sRes	= (pmb->m_sState == 1) ? 0 : 1;
+      sResult	= (pmb->m_sState == 1) ? 0 : 1;
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
 // Allow user to edit members.
 //////////////////////////////////////////////////////////////////////////////
 int16_t CStockPile::UserEdit(				// Returns 0 on success.
-	RGuiItem*	pguiChild /*= NULL*/)	// In: Optional child GUI to be placed at 
+	RGuiItem*	pguiChild /*= nullptr*/)	// In: Optional child GUI to be placed at 
 													// botom of Stockpile GUI.
 	{
 	int16_t	sResult	= 0;
@@ -320,7 +320,7 @@ int16_t CStockPile::UserEdit(				// Returns 0 on success.
 				pgui->m_sY,
 				sNewWidth,
 				sNewHeight,
-				pgui->m_im.m_sDepth) == 0)
+            pgui->m_im.m_sDepth) == SUCCESS)
 				{
 				// Parent and move the child GUI.
 				pguiChild->Move(
@@ -409,7 +409,7 @@ int16_t CStockPile::UserEdit(				// Returns 0 on success.
 		if (pguiChild)
 			{
 			// Get it outta there before we delete the tree.
-			pguiChild->SetParent(NULL);
+			pguiChild->SetParent(nullptr);
 			}
 
 		delete pgui;

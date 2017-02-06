@@ -108,7 +108,7 @@ class CSndRelay : public CThing
 			{
 			int16_t sResult = 0;
 			*ppNew = new CSndRelay(pRealm);
-			if (*ppNew == 0)
+			if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CSndRelay::Construct(): Couldn't construct CSndRelay (that's a bad thing)\n");

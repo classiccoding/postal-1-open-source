@@ -111,11 +111,11 @@ class CAnim3D
 		int16_t Get(								// Returns 0 on success.
          const char*		pszBaseFileName,		// In:  Base string for resource filenames.
          const char*		pszRigidName,			// In:  String to add for rigid transform channel,
-													// "", or NULL for none.
+													// "", or nullptr for none.
          const char*		pszEventName,			// In:  String to add for event states channel,
-													// "", or NULL for none.
+													// "", or nullptr for none.
          const char*		pszWeaponTransName,	// In:  String to add for weapon transforms channel,
-													// "", or NULL for none.
+													// "", or nullptr for none.
 			int16_t		sLoopFlags);			// In:  Looping flags to apply to all channels
 													// in this anim.
 
@@ -127,11 +127,11 @@ class CAnim3D
          const char*		pszBaseName,			// In:  Base string for resource filenames.
          const char*		pszVerb,					// In:  Action name to be appended to the base
          const char*		pszRigidName,			// In:  String to add for rigid transform channel,
-													// "", or NULL for none.
+													// "", or nullptr for none.
          const char*		pszEventName,			// In:  String to add for event states channel,
-													// "", or NULL for none.
+													// "", or nullptr for none.
          const char*		pszWeaponTransName,	// In:  String to add for weapon transforms channel,
-													// "", or NULL for none.
+													// "", or nullptr for none.
 			int16_t		sLoopFlags);			// In:  Looping flags to apply to all channels
 													// in this anim.
 
@@ -144,11 +144,11 @@ class CAnim3D
 			int16_t		sTextureScheme,		// In:  Number of texture file to be loaded
          const char*		pszVerb,					// In:  Action name to be appended to the base
          const char*		pszRigidName,			// In:  String to add for rigid transform channel,
-													// "", or NULL for none.
+													// "", or nullptr for none.
          const char*		pszEventName,			// In:  String to add for event states channel,
-													// "", or NULL for none.
+													// "", or nullptr for none.
          const char*		pszWeaponTransName,	// In:  String to add for weapon transforms channel,
-													// "", or NULL for none.
+													// "", or nullptr for none.
 			int16_t		sLoopFlags);			// In:  Looping flags to apply to all channels
 													// in this anim.
 

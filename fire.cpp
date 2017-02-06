@@ -250,7 +250,7 @@ int16_t CFire::Load(										// Returns 0 if successfull, non-zero otherwise
 	{
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -280,7 +280,7 @@ int16_t CFire::Load(										// Returns 0 if successfull, non-zero otherwise
 		}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 		{
 			// Get resources
 			sResult = GetResources();
@@ -308,7 +308,7 @@ int16_t CFire::Save(										// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 {
 	int16_t	sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		// Save common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -412,7 +412,7 @@ void CFire::Update(void)
 				// to see which things it should tell to burn.
 				if (m_bSendMessages && m_sCurrentAlphaLevel > SMOLDER_ALPHA && m_eFireAnim != Smoke && m_eFireAnim != SmallSmoke)
 				{
-					CSmash* pSmashed = NULL;
+					CSmash* pSmashed = nullptr;
 					GameMessage msg;
 					msg.msg_Burn.eType = typeBurn;
 					msg.msg_Burn.sPriority = 0;
@@ -629,10 +629,10 @@ int16_t CFire::Init(void)
 {
 	int16_t sResult = SUCCESS;
 #ifdef _DEBUG
-	CAlphaAnim* pAnim = NULL;
+	CAlphaAnim* pAnim = nullptr;
 #endif
 
-	if (m_pAnimChannel != NULL)
+	if (m_pAnimChannel != nullptr)
 	{
 		m_lTimer = GetRandom() % m_pAnimChannel->TotalTime();
 		m_lStartTime = m_lTimer;
@@ -640,7 +640,7 @@ int16_t CFire::Init(void)
 		m_lAlphaBreakPoint = m_lTimer + (m_lTimeToLive * BRIGHT_PERCENT);
 #ifdef _DEBUG
       pAnim = (CAlphaAnim*) m_pAnimChannel->GetAtTime(0);
-		ASSERT(pAnim != NULL);
+		ASSERT(pAnim != nullptr);
 #endif
 		m_lBrightAlphaInterval = (m_lTimeToLive * BRIGHT_PERCENT) / MAX(1, m_sCurrentAlphaLevel - DIEDOWN_ALPHA);
 		m_lDimAlphaInterval = (m_lTimeToLive * (100.0 - BRIGHT_PERCENT)) / MAX(1, DIEDOWN_ALPHA);
@@ -675,12 +675,12 @@ int16_t CFire::Init(void)
 			break;
 
 		case Smoke:
-			m_smash.m_pThing = NULL;			
+			m_smash.m_pThing = nullptr;			
 			m_bSendMessages = false;
 			break;
 
 		case SmallSmoke:
-			m_smash.m_pThing = NULL;			
+			m_smash.m_pThing = nullptr;			
 			m_bSendMessages = false;
 			m_lStartTime = m_lTimer = GetRandom() % m_pAnimChannel->TotalTime() / 3;
 			m_lBurnUntil = m_lTimer + m_lTimeToLive;
@@ -722,16 +722,16 @@ int16_t CFire::Smokeout(void)
 
 	// Reset timers
 #ifdef _DEBUG
-	CAlphaAnim* pAnim = NULL;
+	CAlphaAnim* pAnim = nullptr;
 #endif
 
-	if (m_pAnimChannel != NULL)
+	if (m_pAnimChannel != nullptr)
 	{
 		// Reset alpha level
 		m_sCurrentAlphaLevel = THICK_ALPHA;
 #ifdef _DEBUG
 		pAnim = (CAlphaAnim*) m_pAnimChannel->GetAtTime(0);
-		ASSERT(pAnim != NULL);
+		ASSERT(pAnim != nullptr);
 #endif
 //		m_lTimeToLive = m_pAnimChannel->TotalTime();
 		// use same time to live as the original

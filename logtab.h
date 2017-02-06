@@ -228,7 +228,7 @@ class CLogTabVar
 		int16_t ValToText(											// Returns 0 if successfull, non-zero otherwise
 			int16_t sVal,												// In:  Value to convert
 			char* pszText,											// Out: Text (only if successfull)
-			int16_t sMaxText);										// In:  Maximum text length (must be >= 10)
+         size_t sMaxText);										// In:  Maximum text length (must be >= 10)
 
 		////////////////////////////////////////////////////////////////////////////////
 		// Get maximum value (range is 0 to N, where this returns N)
@@ -372,7 +372,7 @@ int16_t CLogTabVar<usertype>::TextToVal(				// Returns 0 if successfull, non-zer
 				break;
 				}
 			}
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 			// Convert to value, then validate range
 			int16_t sTmp = (int16_t)atoi(pszText);
@@ -402,7 +402,7 @@ template <class usertype>
 int16_t CLogTabVar<usertype>::ValToText(				// Returns 0 if successfull, non-zero otherwise
 	int16_t sVal,												// In:  Value to convert
 	char* pszText,											// Out: Text (only if successfull)
-	int16_t sMaxText)										// In:  Maximum text length (must be >= 10)
+   size_t sMaxText)										// In:  Maximum text length (must be >= 10)
 	{
 	ASSERT(sMaxText >= 10);
 
@@ -504,7 +504,7 @@ class CLogTab
 			m_sTotalVars = 0;
 
 			m_bLogFileError = false;
-			m_fpLog = NULL;
+			m_fpLog = nullptr;
 			m_sLogLastRow = -1;
 			}
 
@@ -514,7 +514,7 @@ class CLogTab
 		~CLogTab()
 			{
 			// Close log file
-			if (m_fpLog != NULL)
+			if (m_fpLog != nullptr)
 				fclose(m_fpLog);
 
 			FreeVars();
@@ -583,10 +583,10 @@ int16_t CLogTab<usertype>::Evaluate(
 		bLog = false;
 
 	// If we're logging but we haven't started the log file yet, then do it now.
-	if (bLog && (m_fpLog == NULL))
+	if (bLog && (m_fpLog == nullptr))
 		{
 		m_fpLog = fopen(LOGTAB_LOGFILE, "wt");
-		if (m_fpLog != NULL)
+		if (m_fpLog != nullptr)
 			DumpToLog();
 		else
 			m_bLogFileError = true;
@@ -849,7 +849,7 @@ int16_t CLogTab<usertype>::Load(						// Returns 0 if successfull, non-zero othe
 	do	{
 		// Get next entry
 		sResult = ReadEntry(pFile, acText, sizeof(acText), &bEndOfTable, &bEndOfRow, &cSave);
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 			// Output separator is special case -- it separates output vars from input vars
 			if (rspStricmp(acText, LOGTAB_OUTPUT_SEPARATOR) == 0)
@@ -860,7 +860,7 @@ int16_t CLogTab<usertype>::Load(						// Returns 0 if successfull, non-zero othe
 			else if (rspStricmp(acText, LOGTAB_COMMENT_TOKEN) == 0)
 				{
 				// If we get a comment token, ignore everything that follows until the end of the row
-				while ((sResult == 0) && !bEndOfRow)
+				while ((sResult == SUCCESS) && !bEndOfRow)
 					sResult = ReadEntry(pFile, acText, sizeof(acText), &bEndOfTable, &bEndOfRow, &cSave);
 				bEndOfRow = false;
 				}
@@ -871,7 +871,7 @@ int16_t CLogTab<usertype>::Load(						// Returns 0 if successfull, non-zero othe
 					{
 					// Find the var with the specified name
 					CLogTabVar<usertype>* pVar;
-					if (CLogTabVar<usertype>::FindVar(acText, &pVar) == 0)
+					if (CLogTabVar<usertype>::FindVar(acText, &pVar) == SUCCESS)
 						{
 						// If this is an output, it must settable or it's an error
 						if (bOutput && !pVar->m_bSettable)
@@ -880,7 +880,7 @@ int16_t CLogTab<usertype>::Load(						// Returns 0 if successfull, non-zero othe
 							TRACE("CLogTab::Load(): '%s' cannot be used as an output!\n", pVar->m_pszName);
 							rspMsgBox(LOGTAB_MSG, "'%s' cannot be used as an output.", pVar->m_pszName);
 							}
-						if (sResult == 0)
+						if (sResult == SUCCESS)
 							{
 							// Add var to array and increment total number of vars
 							m_apVars[m_sTotalVars++] = pVar;
@@ -910,9 +910,9 @@ int16_t CLogTab<usertype>::Load(						// Returns 0 if successfull, non-zero othe
 					}
 				}
 			}
-		} while ((sResult == 0) && !bEndOfRow);
+		} while ((sResult == SUCCESS) && !bEndOfRow);
 
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		// Make sure we didn't hit the end of the table
 		if (bEndOfTable)
@@ -946,7 +946,7 @@ int16_t CLogTab<usertype>::Load(						// Returns 0 if successfull, non-zero othe
 				}
 			}
 
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 
 			// Read the remaining rows
@@ -956,13 +956,13 @@ int16_t CLogTab<usertype>::Load(						// Returns 0 if successfull, non-zero othe
 				do	{
 					// Get next entry
 					sResult = ReadEntry(pFile, acText, sizeof(acText), &bEndOfTable, &bEndOfRow, &cSave);
-					if (sResult == 0)
+					if (sResult == SUCCESS)
 						{
 						// Check for comment token
 						if (rspStricmp(acText, LOGTAB_COMMENT_TOKEN) == 0)
 							{
 							// If we get a comment token, ignore everything that follows until the end of the row
-							while ((sResult == 0) && !bEndOfRow)
+							while ((sResult == SUCCESS) && !bEndOfRow)
 								sResult = ReadEntry(pFile, acText, sizeof(acText), &bEndOfTable, &bEndOfRow, &cSave);
 							bEndOfRow = false;
 							}
@@ -1007,7 +1007,7 @@ int16_t CLogTab<usertype>::Load(						// Returns 0 if successfull, non-zero othe
 									int16_t sVal;
 									CLogTabVar<usertype>* pVar = m_apVars[sColumn];
 									sResult = pVar->TextToVal(&(acText[sOffset]), &sVal);
-									if (sResult == 0)
+									if (sResult == SUCCESS)
 										m_cellTable[m_sRows][sColumn].sEntry = sVal;
 									else
 										{
@@ -1018,7 +1018,7 @@ int16_t CLogTab<usertype>::Load(						// Returns 0 if successfull, non-zero othe
 									}
 
 								// Increment column count
-								if (sResult == 0)
+								if (sResult == SUCCESS)
 									sColumn++;
 								}
 							else
@@ -1029,10 +1029,10 @@ int16_t CLogTab<usertype>::Load(						// Returns 0 if successfull, non-zero othe
 								}
 							}
 						}
-					} while ((sResult == 0) && !bEndOfRow);
+					} while ((sResult == SUCCESS) && !bEndOfRow);
 
 				// Make sure there weren't too few columns
-				if ((sResult == 0) && (sColumn < m_sTotalVars))
+				if ((sResult == SUCCESS) && (sColumn < m_sTotalVars))
 					{
 					sResult = LOGTAB_ERR_TOO_FEW_COLUMNS;
 					TRACE("CLogTab::Load(): Row #%hd does not contain enough columns!\n", (int16_t)(m_sRows + 2));
@@ -1040,7 +1040,7 @@ int16_t CLogTab<usertype>::Load(						// Returns 0 if successfull, non-zero othe
 					}
 
 				// Increment row count
-				if (sResult == 0)
+				if (sResult == SUCCESS)
 					{
 					m_sRows++;
 
@@ -1054,10 +1054,10 @@ int16_t CLogTab<usertype>::Load(						// Returns 0 if successfull, non-zero othe
 						}
 					}
 
-				} while ((sResult == 0) && !bEndOfTable);
+				} while ((sResult == SUCCESS) && !bEndOfTable);
 
 			// Make sure there was at least one row
-			if ((sResult == 0) && (m_sRows < 1))
+			if ((sResult == SUCCESS) && (m_sRows < 1))
 				{
 				sResult = LOGTAB_ERR_NO_ROWS_AFTER_HEADINGS;
 				TRACE("CLogTab::Load(): Table has no rows following initial column headings!\n");
@@ -1213,7 +1213,7 @@ int16_t CLogTab<usertype>::ReadEntry(					// Returns 0 if successfull, non-zero 
 		// Read next char
 		pFile->Read(&ch, 1);
 
-		} while (sResult == 0);
+		} while (sResult == SUCCESS);
 
 	return sResult;
 	}

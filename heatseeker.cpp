@@ -200,8 +200,8 @@ static const char* ms_apszResNames[] =
 	"3d/Gmissile.hot",
 	"3d/Gmissile.bounds",
 	"3d/Gmissile.floor",
-	NULL,
-	NULL
+	nullptr,
+	nullptr
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -325,7 +325,7 @@ void CHeatseeker::Update(void)
 					SampleMaster::Weapon,	// In:  User volume adjustment category
 					DistanceToVolume(m_dX, m_dY, m_dZ, LaunchSndHalfLife), // In:  distance to dude
 					&m_siThrust,				// Out: Handle for adjusting sound volume
-					NULL,							// Out: Sample duration
+					nullptr,							// Out: Sample duration
 					2841,							// In:  Where to loop back to in ms
 					3090,							// In:  Where to loop fro in ms
 					false );	// In:  Initial Sound Volume (0 - 255)
@@ -398,9 +398,9 @@ void CHeatseeker::Update(void)
 						(int16_t) dNewX, 			// In:  Destination X.                                        
 						(int16_t) dNewZ,				// In:  Destination Z.                                        
 						0,								// In:  Max traverser can step up.                      
-						NULL,							// Out: If not NULL, last clear point on path.                
-						NULL,							// Out: If not NULL, last clear point on path.                
-						NULL,							// Out: If not NULL, last clear point on path.                
+						nullptr,							// Out: If not nullptr, last clear point on path.                
+						nullptr,							// Out: If not nullptr, last clear point on path.                
+						nullptr,							// Out: If not nullptr, last clear point on path.                
 						false) )						// In:  If true, will consider the edge of the realm a path
 														// inhibitor.  If false, reaching the edge of the realm    
 														// indicates a clear path.                                 
@@ -426,7 +426,7 @@ void CHeatseeker::Update(void)
 				// the weapon yet.
 				if (m_bArmed)
 				{
-					CSmash* pSmashed = NULL;
+					CSmash* pSmashed = nullptr;
 
 					// Change this to quick check closest
 					if (m_pRealm->m_smashatorium.QuickCheckClosest(&m_smashSeeker,
@@ -500,7 +500,7 @@ void CHeatseeker::Update(void)
 				else
 				{
 					// Check for collision with self and if no collision, then arm
-					CThing* pShooter = NULL;
+					CThing* pShooter = nullptr;
 					m_pRealm->m_idbank.GetThingByID(&pShooter, m_u16ShooterID);
 					// If the shooter is valid, then arm when it clears the shooter
 					if (pShooter)
@@ -530,8 +530,8 @@ void CHeatseeker::Update(void)
 				if (lThisTime > m_lSmokeTimer)
 				{
 					m_lSmokeTimer = lThisTime + ms_lSmokeTrailInterval;
-					CFire* pSmoke = NULL;
-					if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == 0)
+					CFire* pSmoke = nullptr;
+					if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == SUCCESS)
 					{
 						// This needs to be fixed by calculating the position of the back end of
 						// the rocket in 3D based on the rotation.  
@@ -557,7 +557,7 @@ void CHeatseeker::Update(void)
 				// Start an explosion object and then kill rocket
 				// object
 				CExplode* pExplosion;
-				if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == 0)
+				if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == SUCCESS)
 				{
 					pExplosion->Setup(m_dX, MAX(m_dY-30, 0.0), m_dZ, m_u16ShooterID);
 					PlaySample(
@@ -570,7 +570,7 @@ void CHeatseeker::Update(void)
 				CFire* pSmoke;
 				for (a = 0; a < 8; a++)
 				{
-					if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == 0)
+					if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == SUCCESS)
 					{
 						pSmoke->Setup(m_dX - 4 + GetRandom() % 9, m_dY-20, m_dZ - 4 + GetRandom() % 9, 4000, true, CFire::Smoke);
 						pSmoke->m_u16ShooterID = m_u16ShooterID;
@@ -657,7 +657,7 @@ void CHeatseeker::Render(void)
 		// FEEDBACK.
 		// Create a line sprite.
 		CSpriteLine2d*	psl2d	= new CSpriteLine2d;
-		if (psl2d != NULL)
+		if (psl2d != nullptr)
 			{
 			Map3Dto2D(
 				m_dX, 
@@ -747,10 +747,10 @@ int16_t CHeatseeker::GetResources(void)						// Returns 0 if successfull, non-ze
 	int16_t sResult = 0;
 
 	sResult = m_anim.Get(ms_apszResNames);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(SMALL_SHADOW_FILE), &(m_spriteShadow.m_pImage), RFile::LittleEndian);
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 		{
 			// add more gets
 		}

@@ -166,7 +166,7 @@ void CCamera::SetFilm(
 ////////////////////////////////////////////////////////////////////////////////
 void CCamera::SnapWithLensCoverOn(void)
 	{
-	ASSERT(m_pimFilm != NULL);
+	ASSERT(m_pimFilm != nullptr);
 
 	// Draw black rectangle (automatically clips to image size)
 	rspRect(RSP_BLACK_INDEX, m_pimFilm, m_sFilmViewX, m_sFilmViewY, m_sViewW, m_sViewH);
@@ -178,8 +178,8 @@ void CCamera::SnapWithLensCoverOn(void)
 ////////////////////////////////////////////////////////////////////////////////
 void CCamera::Snap(void)
 	{
-	ASSERT(m_pScene != NULL);
-	ASSERT(m_pimFilm != NULL);
+	ASSERT(m_pScene != nullptr);
+	ASSERT(m_pimFilm != nullptr);
 
 /*
 	// Init film clipping rect to view's location on the film

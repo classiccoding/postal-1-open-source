@@ -382,14 +382,14 @@ class CCharacter : public CThing3d
 		// This should be done when the character starts its shoot animation.
 		virtual			// Override to implement additional functionality.
 							// Call base class to get default functionality.
-		CWeapon* PrepareWeapon(void);	// Returns the weapon ptr or NULL.
+		CWeapon* PrepareWeapon(void);	// Returns the weapon ptr or nullptr.
 
 		// Shoot current weapon.
 		// This should be done when the character releases the weapon it's
 		// shooting.
 		virtual			// Override to implement additional functionality.
 							// Call base class to get default functionality.
-		CWeapon* ShootWeapon(	// Returns the weapon ptr or NULL.
+		CWeapon* ShootWeapon(	// Returns the weapon ptr or nullptr.
 					CSmash::Bits bitsInclude = 0,
 					CSmash::Bits bitsDontcare = CSmash::Bad | CSmash::Good,
 					CSmash::Bits bitsExclude = 0);
@@ -434,8 +434,8 @@ class CCharacter : public CThing3d
 			int16_t* psX,						// Out: Last clear point on path.
 			int16_t* psY,						// Out: Last clear point on path.
 			int16_t* psZ,						// Out: Last clear point on path.
-			CThing** ppthing,				// Out: Thing that intercepted us or NULL, if none.
-			CSmash*	psmashExclude = NULL);// In:  Optional CSmash to exclude or NULL, if none.
+			CThing** ppthing,				// Out: Thing that intercepted us or nullptr, if none.
+			CSmash*	psmashExclude = nullptr);// In:  Optional CSmash to exclude or nullptr, if none.
 
 			// Show a target sprite on whoever you would hit when aiming in the given
 			// direction.  This will probably only be used by the CDude to help give feedback
@@ -451,8 +451,8 @@ class CCharacter : public CThing3d
 			CSmash::Bits bitsInclude,	// In:  Mask of CSmash bits that would count as a hit
 			CSmash::Bits bitsDontCare,	// In:  Mask of CSmash bits that would not affect path
 			CSmash::Bits bitsExclude,	// In:  Mask of CSmash bits that cannot affect path
-			CThing** hThing,				// Out: Handle to thing that is the Target or NULL if none
-			CSmash* psmashExclude = NULL);// In: Optional CSmash to exclude or NULL, if none. 
+			CThing** hThing,				// Out: Handle to thing that is the Target or nullptr if none
+			CSmash* psmashExclude = nullptr);// In: Optional CSmash to exclude or nullptr, if none. 
 
 		// Give the angle from yourself to this x,z position
 		inline int16_t FindAngleTo(double dX, double dZ)

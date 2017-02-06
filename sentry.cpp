@@ -160,7 +160,7 @@ static const char* ms_apszShootResNames[] =
 	"3d/sentry_shoot.bounds",
 	"3d/sentry_shoot.floor",
 	"3d/sentry_shoot_tip.trans",
-	NULL
+	nullptr
 };
 
 static const char* ms_apszStandResNames[] =
@@ -172,7 +172,7 @@ static const char* ms_apszStandResNames[] =
 	"3d/sentry_still.bounds",
 	"3d/sentry_still.floor",
 	"3d/sentry_still_tip.trans",
-	NULL
+	nullptr
 };
 
 static const char* ms_apszDieResNames[] =
@@ -184,7 +184,7 @@ static const char* ms_apszDieResNames[] =
 	"3d/sentry_damaged.bounds",
 	"3d/sentry_damaged.floor",
 	"3d/sentry_damaged_tip.trans",
-	NULL
+	nullptr
 };
 
 static const char* ms_apszBaseStandResNames[] =
@@ -196,7 +196,7 @@ static const char* ms_apszBaseStandResNames[] =
 	"3d/stand_still.bounds",
 	"3d/stand_still.floor",
 	"3d/stand_still_stand.trans",
-	NULL
+	nullptr
 };
 
 static const char* ms_apszBaseDieResNames[] =
@@ -208,7 +208,7 @@ static const char* ms_apszBaseDieResNames[] =
 	"3d/stand_damaged.bounds",
 	"3d/stand_damaged.floor",
 	"3d/stand_damaged_stand.trans",
-	NULL
+	nullptr
 };
 
 #ifdef UNUSED_VARIABLES
@@ -236,7 +236,7 @@ int16_t CSentry::Load(				// Returns 0 if successfull, non-zero otherwise
 	int16_t sResult = 0;
 	// Call the base load function to get ID, position, etc.
 	sResult = CDoofus::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -283,7 +283,7 @@ int16_t CSentry::Load(				// Returns 0 if successfull, non-zero otherwise
 //		m_lShootDelay = 500;
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 		{
 			// Get resources
 			sResult = GetResources();
@@ -405,7 +405,7 @@ void CSentry::Render(void)
 		m_spriteBase.m_ptrans = &m_transBase;
 		}
 
-	ASSERT(m_panimCurBase != NULL);
+	ASSERT(m_panimCurBase != nullptr);
 
 	m_spriteBase.m_pmesh = (RMesh*) m_panimCurBase->m_pmeshes->GetAtTime(m_lAnimTime);
 	m_spriteBase.m_psop = (RSop*) m_panimCurBase->m_psops->GetAtTime(m_lAnimTime);
@@ -485,7 +485,7 @@ void CSentry::UpdatePosition(void)
 	m_dYBase = m_dY;
 	m_dZBase = m_dZ;
 
-	if (m_panimCurBase != NULL)
+	if (m_panimCurBase != nullptr)
 		{
 		// Below was copied from DetachChild in Thing3d
 
@@ -564,7 +564,9 @@ void CSentry::Resume(void)
 ////////////////////////////////////////////////////////////////////////////////
 void CSentry::Update(void)
 {
+#ifdef UNUSED_VARIABLE
 	int16_t sHeight = m_sPrevHeight;
+#endif
 	int32_t lThisTime;
 	int32_t lTimeDifference;
 	int32_t lSqDistanceToDude = 0;
@@ -590,6 +592,7 @@ void CSentry::Update(void)
 
 		switch(m_state)
 		{
+        UNHANDLED_SWITCH;
 			case CSentry::State_Wait:
 				if (lThisTime > m_lTimer)
 				{
@@ -656,7 +659,7 @@ void CSentry::Update(void)
 						m_panimCur = &m_animShoot;
 						m_lAnimTime += lTimeDifference;
 						CWeapon* pweapon = PrepareWeapon();
-						if (pweapon != NULL)
+						if (pweapon != nullptr)
 							pweapon->SetRangeToTarget(rspSqrt(lSqDistanceToDude));
 						ShootWeapon(ms_u32WeaponIncludeBits, ms_u32WeaponDontcareBits, ms_u32WeaponExcludeBits);
 						m_sNumRounds--;
@@ -844,7 +847,7 @@ void CSentry::EditHotSpot(			// Returns nothiing.
 int16_t CSentry::EditModify(void)
 {
 	int16_t sResult = 0;
-	RGuiItem* pGuiItem = NULL;
+	RGuiItem* pGuiItem = nullptr;
 	RGuiItem* pGui = RGuiItem::LoadInstantiate(FullPathVD("res/editor/sentry.gui"));
 	if (pGui)
 	{
@@ -883,7 +886,7 @@ int16_t CSentry::EditModify(void)
 						(i != BouncingBettyMine) )
 					{
 					pGuiItem	= pWeaponList->AddString(ms_awdWeapons[i].pszName);
-					if (pGuiItem != NULL)
+					if (pGuiItem != nullptr)
 						{
 						// Store class ID so we can determine user selection
 						pGuiItem->m_lId	= ms_awdWeapons[i].id;
@@ -954,19 +957,19 @@ int16_t CSentry::GetResources(void)						// Returns 0 if successfull, non-zero o
 	int16_t sResult = 0;
 
 	sResult = m_animShoot.Get(ms_apszShootResNames);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		sResult = m_animStand.Get(ms_apszStandResNames);
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 		{
 			sResult = m_animDie.Get(ms_apszDieResNames);
-			if (sResult == 0)
+			if (sResult == SUCCESS)
 			{
 				sResult = m_animBaseStand.Get(ms_apszBaseStandResNames);
-				if (sResult == 0)
+				if (sResult == SUCCESS)
 				{
 					sResult = m_animBaseDie.Get(ms_apszBaseDieResNames);
-					if (sResult == 0)
+					if (sResult == SUCCESS)
 					{
 						// Add new animation loads here
 					}
@@ -1095,6 +1098,7 @@ void CSentry::OnExplosionMsg(Explosion_Message* pMessage)
 
 void CSentry::OnBurnMsg(Burn_Message* pMessage)
 {
+  UNUSED(pMessage);
 	// For now we made the sentry fireproof, the only
 	// way it can be destroyed is by blowing it up.
 }

@@ -584,21 +584,21 @@ extern bool demoCompat; //Try to make demos not go out of sync
 class CPlayInfo
 	{
 	friend int16_t Play(										// Returns 0 if successfull, non-zero otherwise
-		CNetClient*	pclient,									// In:  Client object or NULL if not network game
-		CNetServer*	pserver,									// In:  Server object or NULL if not server or not network game
+		CNetClient*	pclient,									// In:  Client object or nullptr if not network game
+		CNetServer*	pserver,									// In:  Server object or nullptr if not server or not network game
 		INPUT_MODE inputMode,								// In:  Input mode
 		const int16_t sRealmNum,								// In:  Realm number to start on or -1 to use specified realm file
 		const char*	pszRealmFile,							// In:  Realm file to play (ignored if sRealmNum >= 0)
 		const bool bJustOneRealm,							// In:  Play just this one realm (ignored if sRealmNum < 0)
 		const bool bGauntlet,								// In:  Play challenge levels gauntlet - as selected on menu
 		const int16_t bAddOn,									// In:  Play new single player Add On levels
-		const int16_t sDifficulty,							// In:  Difficulty level
+      const uint16_t sDifficulty,							// In:  Difficulty level
 		const bool bRejuvenate,								// In:  Whether to allow players to rejuvenate (MP only)
-		const int16_t sTimeLimit,								// In:  Time limit for MP games (0 or negative if none)
-		const int16_t sKillLimit,								// In:  Kill limit for MP games (0 or negative if none)
+      const uint16_t sTimeLimit,								// In:  Time limit for MP games (0 if none)
+      const uint16_t sKillLimit,								// In:  Kill limit for MP games (0 if none)
 		const	int16_t	sCoopLevels,							// In:  Zero for deathmatch levels, non-zero for cooperative levels.
 		const	int16_t	sCoopMode,								// In:  Zero for deathmatch mode, non-zero for cooperative mode.
-		const int16_t sFrameTime,								// In:  Milliseconds per frame (MP only)
+      const uint16_t sFrameTime,								// In:  Milliseconds per frame (MP only)
 		RFile* pfileDemoModeDebugMovie);					// In:  File for loading/saving demo mode debug movie
 
 	//------------------------------------------------------------------------------
@@ -609,8 +609,8 @@ class CPlayInfo
 	// Variables
 	//------------------------------------------------------------------------------
 	private:
-		CNetClient*		m_pclient;						// Client object or NULL if not network game
-		CNetServer*		m_pserver;						// Server object or NULL if not server or not network game
+		CNetClient*		m_pclient;						// Client object or nullptr if not network game
+		CNetServer*		m_pserver;						// Server object or nullptr if not server or not network game
 
 		int16_t				m_sRealmNum;					// Realm number
 		char				m_szRealm[RSP_MAX_PATH+1];	// Realm file
@@ -1565,13 +1565,13 @@ class CPlayNet : public CPlay
 
 		bool				m_bCheckForAbortKey;				// Whether to check for user abort
 		bool				m_bTimeBombActive;				// Whether time bomb is active
-		int32_t				m_lTimeBomb;						// Time when bomb explodes
+      uint32_t				m_lTimeBomb;						// Time when bomb explodes
 
 		bool				m_bShowNetFeedback;				// Whether to show net feedback thingy
 
 		bool				m_bFirstCoreLoopUserInput;
 		REdit*			m_apeditChats[NUM_CHATS];		// Received chat edit fields.
-		int32_t				m_lLastChatMoveTime;				// Last time chats were adjusted.
+      uint32_t				m_lLastChatMoveTime;				// Last time chats were adjusted.
 
 	//------------------------------------------------------------------------------
 	// Functions
@@ -1583,8 +1583,7 @@ class CPlayNet : public CPlay
 		CPlayNet(void)
 			{
 			// Note that if any of this fails, we don't care (we just won't use them).
-			int16_t	sIndex;
-			for (sIndex = 0; sIndex < NUM_CHATS; sIndex++)
+         for (size_t sIndex = 0; sIndex < NUM_CHATS; sIndex++)
 				{
 				m_apeditChats[sIndex]	= (REdit*)RGuiItem::LoadInstantiate(FullPathHD(CHAT_GUI) );
 				if (m_apeditChats[sIndex])
@@ -1595,7 +1594,7 @@ class CPlayNet : public CPlay
 						REALM_STATUS_RECT_Y + REALM_STATUS_RECT_H + (m_apeditChats[sIndex]->m_im.m_sHeight * sIndex),
 						REALM_STATUS_RECT_W,
 						m_apeditChats[sIndex]->m_im.m_sHeight,
-						g_pimScreenBuf->m_sDepth) == 0)
+                  g_pimScreenBuf->m_sDepth) == SUCCESS)
 						{
 						m_apeditChats[sIndex]->SetText("");
 						m_apeditChats[sIndex]->SetVisible(FALSE);
@@ -1603,7 +1602,7 @@ class CPlayNet : public CPlay
 					else
 						{
 						delete m_apeditChats[sIndex];
-						m_apeditChats[sIndex]	= NULL;
+						m_apeditChats[sIndex]	= nullptr;
 						}
 					}
 				}
@@ -1620,7 +1619,7 @@ class CPlayNet : public CPlay
 			for (sIndex = 0; sIndex < NUM_CHATS; sIndex++)
 				{
 				delete m_apeditChats[sIndex];
-				m_apeditChats[sIndex]	= NULL;
+				m_apeditChats[sIndex]	= nullptr;
 				}
 			}
 
@@ -2499,7 +2498,7 @@ class CPlayStatus : public CPlay
 				//==============================================================================
 				CDude* pdudeLocal = pinfo->LocalDudePointer();
 				// If the local dude is dead . . .
-				if (pdudeLocal != NULL)
+				if (pdudeLocal != nullptr)
 					{
 					if (pdudeLocal->IsDead() )
 						{
@@ -2641,7 +2640,7 @@ static void EnumSaveGamesSlots(Menu *menu)
         else
         {
             struct tm *tm;
-            if ((tm = localtime((const time_t*)&statbuf.st_mtime)) != NULL)
+            if ((tm = localtime((const time_t*)&statbuf.st_mtime)) != nullptr)
             {
                 strftime(timebuf, sizeof (timebuf), "%m/%d/%y %H:%M", tm);
                 str = timebuf;
@@ -2656,7 +2655,7 @@ static void EnumSaveGamesSlots(Menu *menu)
         menu->ami[i].pszText = strdup(gamename);
 #endif
 
-        menu->ami[i].sEnabled = (menu->ami[i].pszText != NULL);
+        menu->ami[i].sEnabled = (menu->ami[i].pszText != nullptr);
         if (!menu->ami[i].sEnabled)
             break;
     }
@@ -2709,14 +2708,14 @@ class CPlayInput : public CPlay
 					DUDE_STATUS_RECT_Y - m_peditChatIn->m_im.m_sHeight,
 					DUDE_STATUS_RECT_W,
 					m_peditChatIn->m_im.m_sHeight,
-					g_pimScreenBuf->m_sDepth) == 0)
+               g_pimScreenBuf->m_sDepth) == SUCCESS)
 					{
 					m_peditChatIn->SetVisible(FALSE);
 					}
 				else
 					{
 					delete m_peditChatIn;
-					m_peditChatIn	= NULL;
+					m_peditChatIn	= nullptr;
 					}
 				}
 #ifdef MOBILE
@@ -2732,7 +2731,7 @@ class CPlayInput : public CPlay
 		~CPlayInput()
 			{
 			delete m_peditChatIn;
-			m_peditChatIn	= NULL;
+			m_peditChatIn	= nullptr;
 			}
 
 
@@ -2909,7 +2908,7 @@ class CPlayInput : public CPlay
 										g_GameSettings.m_sCrossHair = !g_GameSettings.m_sCrossHair;
 
 										// Toggle local dude's flag (if he exists)
-										if (pdudeLocal != NULL)
+										if (pdudeLocal != nullptr)
 											pdudeLocal->m_bTargetingHelpEnabled = (g_GameSettings.m_sCrossHair != FALSE) ? true : false;
 
 										pie->sUsed	= TRUE;
@@ -3162,7 +3161,7 @@ class CPlayInput : public CPlay
 					if (GetInputMode() != INPUT_MODE_LIVE)
 						{
 						// If the local dude dies, we wait a short period of time and then end the game.
-						if (pdudeLocal != NULL)
+						if (pdudeLocal != nullptr)
 							{
 							if (pdudeLocal->IsDead() == true)
 								{
@@ -3253,7 +3252,7 @@ class CPlayInput : public CPlay
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		void PauseGame(
-			CRealm*	prealm,			// In:  Realm to pause or NULL.
+			CRealm*	prealm,			// In:  Realm to pause or nullptr.
          const char*		pszMsg,			// In:  Message to be displayed.
 			int32_t		lKey)				// In:  Key to continue or 0 to wait for foreground status
 			{
@@ -3441,7 +3440,7 @@ class CPlayInput : public CPlay
 			menuClientGame.ami[1].sEnabled = (pinfo->IsMP() == true) ? FALSE : TRUE;
 
 			// Start the menu
-			if (::StartMenu(&menuClientGame, &g_resmgrShell, g_pimScreenBuf) == 0)
+         if (::StartMenu(&menuClientGame, &g_resmgrShell, g_pimScreenBuf) == SUCCESS)
 				{
 				// Disable autopump.
 				RMix::SetAutoPump(FALSE);
@@ -3505,7 +3504,7 @@ class CPlayInput : public CPlay
 
 					// Display open dialog to let user choose a file
 					#if 1 //PLATFORM_UNIX
-					if (PickFile("Choose Game Slot", EnumSaveGamesSlots, szFile, sizeof(szFile)) == 0)
+               if (PickFile("Choose Game Slot", EnumSaveGamesSlots, szFile, sizeof(szFile)) == SUCCESS)
                     {
 #ifdef MOBILE
 						//Android we have the format "1 - date"
@@ -3550,7 +3549,7 @@ class CPlayInput : public CPlay
 						#error You need to switch over from this code to the in-game file UI first.
 						#endif
                int16_t sResult = rspSaveBox(g_pszSaveGameTitle, szFile, szFile, sizeof(szFile), SAVEGAME_EXT);
-					if (sResult == 0)
+               if (sResult == SUCCESS)
 						{
 						if (Game_SavePlayersGame(szFile, pinfo->Realm()->m_flags.sDifficulty) != SUCCESS)
 							{
@@ -3645,7 +3644,7 @@ class CPlayInput : public CPlay
 			// If the user toggled the crosshair via the options menu,
 			// they'll want their changes to take effect immediately,
 			// so we update the Dude's value to the global value here.
-			if (pdudeLocal != NULL)
+			if (pdudeLocal != nullptr)
 				pdudeLocal->m_bTargetingHelpEnabled = (g_GameSettings.m_sCrossHair != FALSE) ? true : false;
 
 			// Clear flag
@@ -3781,10 +3780,10 @@ class CPlayRealm : public CPlay
 				if (prealm->DoesFileExist((char*)pinfo->RealmName()))
 					{
 					// Load realm (false indicates NOT edit mode)
-					if (prealm->Load((char*)pinfo->RealmName(), false) == 0)
+               if (prealm->Load((char*)pinfo->RealmName(), false) == SUCCESS)
 						{
 						// Startup the realm
-						if (prealm->Startup() == 0)
+                  if (prealm->Startup() == SUCCESS)
 							{
 
 							//==============================================================================
@@ -3958,7 +3957,7 @@ class CPlayRealm : public CPlay
 					// In demo mode (record or playback) we don't draw the results of the frame if
 					// we're falling behind.  However, we always draw when doing a demo-mode-movie .
 					pinfo->m_bDrawFrame = true;
-					if ((pinfo->DemoModeDebugMovie() == 0) && (GetInputMode() != INPUT_MODE_LIVE))
+               if ((pinfo->DemoModeDebugMovie() == nullptr) && (GetInputMode() != INPUT_MODE_LIVE))
 						{
 						// If we've fallen behind the demo frame rate by our max lag . . .
 						if (prealm->m_time.GetRealTime() - prealm->m_time.GetGameTime() > DEMO_MAX_LAG)
@@ -3978,7 +3977,7 @@ class CPlayRealm : public CPlay
 
 					// Track the local dude with the grip/camera and adjust the sound, too
 					CDude* pdudeLocal = pinfo->LocalDudePointer();
-					if (pdudeLocal != NULL)
+					if (pdudeLocal != nullptr)
 						{
 						// Update grip/camera
 						int16_t	sX, sY;
@@ -4110,7 +4109,7 @@ class CPlayRealm : public CPlay
 			LevelPersist*	palevelpersist)					// In:  Players' level persistent data.
 			{
 			// Union player's pre-existing stockpile with warped-in dude and give him his prior weapon
-			ASSERT(pdude != NULL);
+			ASSERT(pdude != nullptr);
 			pdude->m_stockpile.Union(&(palevelpersist[pdude->m_sDudeNum].stockpile));
 			pdude->SetWeapon(palevelpersist[pdude->m_sDudeNum].weapon, true);
 
@@ -4168,7 +4167,7 @@ class CPlayRealm : public CPlay
 				CListNode<CThing>*	plnNext	= pln->m_pnNext;
 
 				pdude	= (CDude*)pln->m_powner;
-				if (CWarp::CreateWarpFromDude(prealm, pdude, &pwarp, bFirst) == 0)
+            if (CWarp::CreateWarpFromDude(prealm, pdude, &pwarp, bFirst) == SUCCESS)
 					bFirst = false;
 				else
 					TRACE("SetupDudes(): CWarp::CreateWarpFromDude() failed.\n");
@@ -4205,7 +4204,7 @@ class CPlayRealm : public CPlay
 						;
 
 					// Warp in as many dude's as we need
-					for (Net::ID id = 0; (sResult == 0) && (id < Net::MaxNumIDs); id++)
+               for (Net::ID id = 0; (sResult == SUCCESS) && (id < Net::MaxNumIDs); id++)
 						{
 						// If this player needs a dude
 						if (pclient->DoesPlayerNeedDude(id))
@@ -4215,17 +4214,17 @@ class CPlayRealm : public CPlay
 								plnWarp	= plnWarpHead->m_pnNext;
 
 							pwarp	= (CWarp*)plnWarp->m_powner;
-							ASSERT(pwarp != NULL);
+							ASSERT(pwarp != nullptr);
 
-							// Warp in dude (creates a new dude since the pointer starts out NULL)
-							pdude	= NULL;
-							if (pwarp->WarpIn(&pdude, CWarp::CopyStockPile) == 0)
+							// Warp in dude (creates a new dude since the pointer starts out nullptr)
+							pdude	= nullptr;
+                     if (pwarp->WarpIn(&pdude, CWarp::CopyStockPile) == SUCCESS)
 								{
 								// SPECIAL CASE!!!  In multiplayer mode, we overwrite the dude numbers
 								// that are assigned by the CDude constructor, instead using the
 								// corresponding network ID.  This isn't a great solution, but it
 								// was the best we could do given the little time we have left.
-								ASSERT(pdude != NULL);
+								ASSERT(pdude != nullptr);
 								pdude->m_sDudeNum = (int16_t)id;
 
 								// Set general dude stuff
@@ -4251,11 +4250,11 @@ class CPlayRealm : public CPlay
 					{
 					// Use the first warp
 					pwarp	= (CWarp*)plnWarp->m_powner;
-					ASSERT(pwarp != NULL);
+					ASSERT(pwarp != nullptr);
 
-					// Warp in dude (creates a new dude since the pointer starts out NULL)
-					pdude	= NULL;
-					if (pwarp->WarpIn(&pdude, CWarp::CopyStockPile) == 0)
+					// Warp in dude (creates a new dude since the pointer starts out nullptr)
+					pdude	= nullptr;
+               if (pwarp->WarpIn(&pdude, CWarp::CopyStockPile) == SUCCESS)
 						{
 						// Set general dude stuff
 						SetupGeneralDude(pdude, g_GameSettings.m_sPlayerColorIndex, palevelpersist);
@@ -4444,7 +4443,7 @@ class CPlayRealm : public CPlay
 					if (GetInputMode() == INPUT_MODE_RECORD)
 						{
 						// In record mode, we create an image, copy the screen buffer to it, and save it
-						if (im.CreateImage(VIEW_W, VIEW_H, RImage::BMP8) == 0)
+                  if (im.CreateImage(VIEW_W, VIEW_H, RImage::BMP8) == SUCCESS)
 							{
 							// Must lock the buffer before reading from it.
 							rspLockBuffer();
@@ -4471,7 +4470,7 @@ class CPlayRealm : public CPlay
 					else
 						{
 						// In playback mode, we load the previously saved image and compare it to the screen bufer
-						if (im.Load(pfileDemoModeDebugMovie) == 0)
+                  if (im.Load(pfileDemoModeDebugMovie) == SUCCESS)
 							{
 							// Must lock the buffer before reading from it.
 							rspLockBuffer();
@@ -4536,17 +4535,17 @@ class CPlayRealm : public CPlay
 									{
 									int16_t sButtons;
 									do	{
-										rspGetMouse(NULL, NULL, &sButtons);
+										rspGetMouse(nullptr, nullptr, &sButtons);
 										UpdateSystem();
 										} while (sButtons);
 									do {
-										rspGetMouse(NULL, NULL, &sButtons);
+										rspGetMouse(nullptr, nullptr, &sButtons);
 										UpdateSystem();
 										} while (!sButtons);
 									if (sButtons & 2)
 										m_bMakeDemoMovie_WaitForClick = false;
 									do	{
-										rspGetMouse(NULL, NULL, &sButtons);
+										rspGetMouse(nullptr, nullptr, &sButtons);
 										UpdateSystem();
 										} while (sButtons);
 
@@ -4768,7 +4767,7 @@ class CPlayCutscene : public CPlay
 				RInputEvent	ie;
 				ie.type	= RInputEvent::None;
 				rspClearAllInputEvents();
-				while (rspGetQuitStatus() == 0)
+            while (rspGetQuitStatus() == FALSE)
 					{
 					CutSceneUpdate();
 					UpdateSystem();
@@ -4826,7 +4825,7 @@ inline void SynchronousSampleAbortion(void)
 	// scenario where a shitty sound driver causes us to think a sound is always
 	// playing.
 	// Wait for all samples to finish.
-	int32_t	lTimeOutTime	= rspGetMilliseconds() + TIME_OUT_FOR_ABORT_SOUNDS;
+   uint32_t	lTimeOutTime	= rspGetMilliseconds() + TIME_OUT_FOR_ABORT_SOUNDS;
 	// Wait for them to stop.
 	while (IsSamplePlaying() == true && rspGetMilliseconds() < lTimeOutTime)
 		{
@@ -4843,21 +4842,21 @@ inline void SynchronousSampleAbortion(void)
 //
 ////////////////////////////////////////////////////////////////////////////////
 extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
-	CNetClient*	pclient,									// In:  Client object or NULL if not network game
-	CNetServer*	pserver,									// In:  Server object or NULL if not server or not network game
+	CNetClient*	pclient,									// In:  Client object or nullptr if not network game
+	CNetServer*	pserver,									// In:  Server object or nullptr if not server or not network game
 	INPUT_MODE inputMode,								// In:  Input mode
 	const int16_t sRealmNum,								// In:  Realm number to start on or -1 to use specified realm file
 	const char*	pszRealmFile,							// In:  Realm file to play (ignored if sRealmNum >= 0)
 	const bool bJustOneRealm,							// In:  Play just this one realm (ignored if sRealmNum < 0)
 	const bool bGauntlet,								// In:  Play challenge levels gauntlet - as selected on menu
 	const int16_t bAddOn,									// In:  Play add on levels
-	const int16_t sDifficulty,							// In:  Difficulty level
+   const uint16_t sDifficulty,							// In:  Difficulty level
 	const bool bRejuvenate,								// In:  Whether to allow players to rejuvenate (MP only)
-	const int16_t sTimeLimit,								// In:  Time limit for MP games (0 or negative if none)
-	const int16_t sKillLimit,								// In:  Kill limit for MP games (0 or negative if none)
+   const uint16_t sTimeLimit,								// In:  Time limit for MP games (0 if none)
+   const uint16_t sKillLimit,								// In:  Kill limit for MP games (0 if none)
 	const	int16_t	sCoopLevels,							// In:  Zero for deathmatch levels, non-zero for cooperative levels.
 	const	int16_t	sCoopMode,								// In:  Zero for deathmatch mode, non-zero for cooperative mode.
-	const int16_t sFrameTime,								// In:  Milliseconds per frame (MP only)
+   const uint16_t sFrameTime,								// In:  Milliseconds per frame (MP only)
 	RFile* pfileDemoModeDebugMovie)					// In:  File for loading/saving demo mode debug movie
 	{
 	int16_t sResult = 0;
@@ -4871,7 +4870,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 
 
 	// If this is the last demo level, then load the mult alpha needed for the ending
-	RMultiAlpha* pDemoMultiAlpha = NULL;
+	RMultiAlpha* pDemoMultiAlpha = nullptr;
 
 	if (g_bLastLevelDemo)
 		{
@@ -4940,7 +4939,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 		}
 	else
 		{
-		if (Play_GetRealmInfo(info.IsMP(), info.CoopLevels(), info.Gauntlet(), info.AddOn(), info.m_sRealmNum, info.Realm()->m_flags.sDifficulty, info.m_szRealm, sizeof(info.m_szRealm)) == 0)
+      if (Play_GetRealmInfo(info.IsMP(), info.CoopLevels(), info.Gauntlet(), info.AddOn(), info.m_sRealmNum, info.Realm()->m_flags.sDifficulty, info.m_szRealm, sizeof(info.m_szRealm)) == SUCCESS)
 			{
 			info.m_bJustOneRealm = bJustOneRealm;
 			}
@@ -4967,7 +4966,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 	sResult = prefsRealm.Open(FullPathHD(g_GameSettings.m_pszRealmPrefsFile), "rt");
 	if (sResult != 0)
 		sResult = prefsRealm.Open(FullPathCD(g_GameSettings.m_pszRealmPrefsFile), "rt");
-	if (sResult == 0)
+   if (sResult == SUCCESS)
 		{
 		int16_t	sNumLevels;
 #if TARGET == POSTAL_2015
@@ -4996,7 +4995,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 				{
 				// Start game
 				sResult = playgroup.StartGame(&info);
-				if (sResult == 0)
+            if (sResult == SUCCESS)
 					{
 
 
@@ -5097,7 +5096,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 								}
 								// Start realm
 								sResult = playgroup.StartRealm(&info);
-								if (sResult == 0)
+                        if (sResult == SUCCESS)
 									{
 
 									// Init local input
@@ -5117,7 +5116,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 											SampleMaster::Unspecified,
 											255,
 											&g_siFinalScene,
-											NULL,
+											nullptr,
 											0,
 											0,
 											true);
@@ -5399,7 +5398,7 @@ extern void Play_SnapPicture(void)
 
 	// Set up palette for snap shots once.
 	RPal	palPicture;
-	if (palPicture.CreatePalette(RPal::PDIB) == 0)
+   if (palPicture.CreatePalette(RPal::PDIB) == SUCCESS)
 		{
 		palPicture.m_sStartIndex	= 0;
 		palPicture.m_sNumEntries	= 256;
@@ -5493,14 +5492,14 @@ extern int16_t Play_GetRealmInfo(						// Returns 0 if successfull, 1 if no such
 	bool  bGauntlet,										// In:  true if playing challenge mode
 	int16_t  bAddOn,											// In:  true if playing the new add on levels
 	int16_t sRealmNum,										// In:  Realm number
-	int16_t	sDifficulty,									// In:  Realm difficulty.
+   uint16_t	sDifficulty,									// In:  Realm difficulty.
 	char* pszFile,											// Out: Realm's file name
-	int16_t sMaxFileLen,									// In:  Max length of returned file name, including terminating null
-	char* pszTitle /*= 0*/,								// Out: Realm's title
-	int16_t sMaxTitleLen /*= NULL*/)					// In:  Max length of returned title, including terminating null
+   size_t sMaxFileLen,									// In:  Max length of returned file name, including terminating null
+   char* pszTitle /*= nullptr */,								// Out: Realm's title
+   size_t sMaxTitleLen /*= 0*/)					// In:  Max length of returned title, including terminating null
 	{
 	ASSERT(sRealmNum >= 0);
-	ASSERT(pszFile != NULL);
+	ASSERT(pszFile != nullptr);
 	ASSERT(sMaxFileLen > 0);
 
 	int16_t	sResult = 0;
@@ -5512,7 +5511,7 @@ extern int16_t Play_GetRealmInfo(						// Returns 0 if successfull, 1 if no such
 	sResult = prefsRealm.Open(FullPathHD(g_GameSettings.m_pszRealmPrefsFile), "rt");
 	if (sResult != 0)
 		sResult = prefsRealm.Open(FullPathCD(g_GameSettings.m_pszRealmPrefsFile), "rt");
-	if (sResult == 0)
+   if (sResult == SUCCESS)
 		{
 
 		// Get realm's section and entry strings
@@ -5534,7 +5533,7 @@ extern int16_t Play_GetRealmInfo(						// Returns 0 if successfull, 1 if no such
 			strcpy(pszFile, szText);
 
 			// Check if caller wants the title, too
-			if ((sMaxTitleLen > 0) && (pszTitle != NULL))
+			if ((sMaxTitleLen > 0) && (pszTitle != nullptr))
 				{
 				// Get title from prefs file
 				prefsRealm.GetVal((char*)strSection, "Title", "Untitled", szText);
@@ -5577,7 +5576,7 @@ extern void Play_GetRealmSectionAndEntry(
 	bool  bGauntlet,										// In:  true if playing challenge mode
 	int16_t  bAddOnLevels,									// In:  true if playing new add on levels
 	int16_t sRealmNum,										// In:  Realm number
-	int16_t	sDifficulty,									// In:  Realm difficulty.
+   uint16_t	sDifficulty,									// In:  Realm difficulty.
 	RString* pstrSection,								// Out: Section is returned here
 	RString* pstrEntry)									// Out: Entry is returned here
 	{
@@ -5693,7 +5692,7 @@ extern void Play_GetRealmSectionAndEntry(
 extern
 void Play_GetApplicationDescriptor(			// Returns nothing.
 	char* pszText,									// Out: Text descriptor.
-	int16_t	sMaxBytes)								// In:  Amount of writable 
+   size_t	sMaxBytes)								// In:  Amount of writable
 														// memory pointed to by pszText.
 	{
 	// Set default in case there's an error
@@ -5702,7 +5701,7 @@ void Play_GetApplicationDescriptor(			// Returns nothing.
 
 	#if defined(WIN32)
 		char	szModuleFileName[RSP_MAX_PATH];
-		if (GetModuleFileName(NULL, szModuleFileName, sizeof(szModuleFileName)) > 0)
+		if (GetModuleFileName(nullptr, szModuleFileName, sizeof(szModuleFileName)) > 0)
 			{
 			struct _stat statExe;
 			if (_stat(szModuleFileName, &statExe) == 0)
@@ -5749,7 +5748,7 @@ void Play_GetApplicationDescriptor(			// Returns nothing.
 extern int16_t Play_InitLevelSelectMenu(	// Returns 0 on success.
 	Menu* pmenu)									// In:  Menu to setup.
 	{
-	int16_t		sRes				= 0;		// Assume success.
+   int16_t		sResult				= 0;		// Assume success.
 	int16_t		sInputIndex		= 0;		// Safety.
 	char tempFile[256];
 	char tempText[256];
@@ -5761,7 +5760,7 @@ extern int16_t Play_InitLevelSelectMenu(	// Returns 0 on success.
 	//// Cell height doesn't matter since it is set by the GUIs themselves.
 	//RGuiItem::ms_print.SetFont(FONT_HEIGHT, &g_fontBig);
 
-	for (sInputIndex = 0; sInputIndex < JADDON_NUM && sRes == 0; sInputIndex++)
+   for (sInputIndex = 0; sInputIndex < JADDON_NUM && sResult == SUCCESS; sInputIndex++)
 		{
 		// Set text describing input function for this menu item.
 		Play_GetRealmInfo(false, false, false, 3, sInputIndex, 1, tempFile, 256, tempText, 256);
@@ -5771,7 +5770,7 @@ extern int16_t Play_InitLevelSelectMenu(	// Returns 0 on success.
 		pmenu->ami[sInputIndex].sEnabled	= TRUE;
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////

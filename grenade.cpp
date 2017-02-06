@@ -264,7 +264,7 @@ int16_t CGrenade::Load(				// Returns 0 if successfull, non-zero otherwise
 			}
 		
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 			{
 			// Get resources
 			sResult = GetResources();
@@ -535,7 +535,7 @@ void CGrenade::Update(void)
 					// Start an explosion object and then kill rocket
 					// object
 					CExplode* pExplosion;
-					if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == 0)
+					if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == SUCCESS)
 					{
 						pExplosion->Setup(m_dX, m_dY, m_dZ, m_u16ShooterID, 1);
 						PlaySample(g_smidGrenadeExplode, 
@@ -547,7 +547,7 @@ void CGrenade::Update(void)
 					CFire* pSmoke;
 					for (a = 0; a < 4; a++)
 					{
-						if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == 0)
+						if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == SUCCESS)
 						{
 							pSmoke->Setup(m_dX + GetRand() % 8, m_dY, m_dZ + GetRand() % 8, 2000, true, CFire::Smoke);
 							pSmoke->m_u16ShooterID = m_u16ShooterID;
@@ -667,11 +667,11 @@ int16_t CGrenade::GetResources(void)						// Returns 0 if successfull, non-zero 
 	{
 	int16_t sResult = 0;
 
-	sResult	= m_anim.Get(ms_apszResNames[m_style], NULL, NULL, NULL, RChannel_LoopAtStart | RChannel_LoopAtEnd);
-	if (sResult == 0)
+	sResult	= m_anim.Get(ms_apszResNames[m_style], nullptr, nullptr, nullptr, RChannel_LoopAtStart | RChannel_LoopAtEnd);
+	if (sResult == SUCCESS)
 		{
 			sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(SMALL_SHADOW_FILE), &(m_spriteShadow.m_pImage), RFile::LittleEndian);
-			if (sResult == 0)
+			if (sResult == SUCCESS)
 			{
 				// add more gets
 			}
@@ -719,7 +719,7 @@ int16_t CGrenade::Preload(
 	int16_t	sStyle;
 	for (sStyle = 0; sStyle < NumStyles; sStyle++)
 		{
-		if (anim.Get(ms_apszResNames[sStyle], NULL, NULL, NULL, RChannel_LoopAtStart | RChannel_LoopAtEnd) == 0)
+		if (anim.Get(ms_apszResNames[sStyle], nullptr, nullptr, nullptr, RChannel_LoopAtStart | RChannel_LoopAtEnd) == SUCCESS)
 			{
 			anim.Release();
 			}
@@ -775,7 +775,7 @@ void CGrenade::Smoke(void)
 		if (lCurTime > m_lNextSmokeTime)
 			{
 			CFire*	pSmoke;
-			if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == 0)
+			if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == SUCCESS)
 				{
 				pSmoke->Setup(m_dX + GetRand() % 8, m_dY, m_dZ + GetRand() % 8, 2000, true, CFire::SmallSmoke);
 				pSmoke->m_u16ShooterID = m_u16ShooterID;

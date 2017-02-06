@@ -137,7 +137,7 @@ class CWarp : public CThing
 			{
 			int16_t sResult = 0;
 			*ppNew = new CWarp(pRealm);
-			if (*ppNew == 0)
+         if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CWarp::Construct(): Couldn't construct CWarp (that's a bad thing)\n");
@@ -231,7 +231,7 @@ class CWarp : public CThing
 		// Stocks, rejuvenates, and places a CDude.  The dude can be passed to this
 		// function or allocated by this function.
 		int16_t WarpIn(			// Returns 0 on success.
-			CDude**	ppdude,	// In:  CDude to 'warp in', *ppdude = NULL to create one.
+			CDude**	ppdude,	// In:  CDude to 'warp in', *ppdude = nullptr to create one.
 									// Out: Newly created CDude, if no CDude passed in.
 			int16_t	sOptions);	// In:  Options for 'warp in'.
 
@@ -239,7 +239,7 @@ class CWarp : public CThing
 		// be passed to this function or allocated by this function.
 		static int16_t WarpInAnywhere(	// Returns 0 on success.
 			CRealm*	prealm,				// In:  Realm in which to choose CWarp.
-			CDude**	ppdude,				// In:  CDude to 'warp in', *ppdude = NULL to create one.
+			CDude**	ppdude,				// In:  CDude to 'warp in', *ppdude = nullptr to create one.
 												// Out: Newly created CDude, if no CDude passed in.
 			int16_t	sOptions);				// In:  Options for 'warp in'.
 

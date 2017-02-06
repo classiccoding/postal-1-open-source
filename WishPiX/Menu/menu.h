@@ -177,7 +177,7 @@ typedef struct
 
 typedef struct
 	{
-   const char*			pszFile;				// Filespec of image for background of menu or NULL.
+   const char*			pszFile;				// Filespec of image for background of menu or nullptr.
 	uint32_t			u32BackColor;		// Background color.
 	int16_t			sSetStartIndex;	// Starting index of palette entries to set.
 	int16_t			sSetNumEntries;	// Number of palette entries to set.
@@ -227,7 +227,7 @@ typedef struct
 	int16_t	sCancelItem;	// Menu item (index in ami[]) chosen on cancel.
 								// Negative indicates distance from number of items
 								// (e.g., -1 is the last item).
-	Menu*	pmenuBack;		// If not NULL, the menu to go back to in the case
+	Menu*	pmenuBack;		// If not nullptr, the menu to go back to in the case
 								// the cancel item (sCancelItem) is chosen.
 	int16_t	sBackItem;		// Last item selected on this menu.  Only use, if
 								// getting to this menu via pmenuBack.
@@ -254,7 +254,7 @@ typedef struct
 	{
    const char*			pszText;		// Text for menu item.
 	int16_t			sEnabled;	// TRUE if item is enabled, FALSE if disabled.
-	Menu*			pmenu;		// Menu this item leads to or NULL.
+	Menu*			pmenu;		// Menu this item leads to or nullptr.
 	RGuiItem*	pgui;			// GuiItem to appear after text.
 	} MenuItem;
 
@@ -290,7 +290,7 @@ struct Menu		// Structure defining a menu.
 	// Items chosen or selected automatically under certain conditions.
 	MenuAutoItems	menuautoitems;
 
-	// Menu item descriptors.  In order.  "" for empty lines.  NULL to end.
+	// Menu item descriptors.  In order.  "" for empty lines.  nullptr to end.
 	// Note: Metrowerks Codewarrior compiler doesn't like unsized arrays, so
 	//       this had to be given a size.  For now, 10 lines seems reasonable.
 	//	But, alas, that was not enough so I upped it to 4096 and then I thought
@@ -331,7 +331,7 @@ extern void DoMenuOutput(	// Returns nothing.
 
 // Get the current menu.
 extern Menu* GetCurrentMenu(void);	// Returns a pointer to the current
-												// menu or NULL if there is none.
+												// menu or nullptr if there is none.
 
 // Call this to release all memory being used by the menu system
 // It should be safe to call this function even if StartMenu()  
@@ -342,11 +342,11 @@ extern int16_t StopMenu(void);		// Returns 0 on success.
 // Get the Menu's background image.
 extern RImage* GetCurrentMenuBackground(void);	// Returns a pointer to the
 																// current background image
-																// or NULL, if none.
+																// or nullptr, if none.
 
 // Get the Menu's GUI.
 extern RGuiItem* GetCurrentMenuBox(void);	// Returns a pointer to the current
-														// menu GUI or NULL, if none.
+														// menu GUI or nullptr, if none.
 
 #endif	// MENU_H
 //////////////////////////////////////////////////////////////////////////////

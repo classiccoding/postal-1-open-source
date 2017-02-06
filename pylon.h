@@ -139,7 +139,7 @@ class CPylon : public CThing
 			if (pRealm->m_sNumPylons < PYLON_MAX_PYLONS)
 			{
 				*ppNew = new CPylon(pRealm);
-				if (*ppNew == 0)
+            if (*ppNew == nullptr)
 				{
 					sResult = -1;
 					TRACE("CPylon::Construct(): Couldn't construct CPylon (that's a bad thing)\n");
@@ -148,7 +148,7 @@ class CPylon : public CThing
 			else
 			{
 				TRACE("CPylon::CPylon() - No more pylon ID's available\n");
-				*ppNew = NULL;
+				*ppNew = nullptr;
 				sResult = -1;
 			}
 

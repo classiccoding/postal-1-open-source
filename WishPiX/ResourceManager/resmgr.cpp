@@ -262,7 +262,7 @@ int16_t RResMgr::Get(									// Returns 0 on success.
 	// or where it was inserted if it did not previously exist.
 	p = m_map.insert(resclassMap::value_type (strFilename, resBlock));
 	// If the requested resource does not already exist, create the resource now and load it
-	if ((*(p.first)).second.m_vpRes == NULL)
+	if ((*(p.first)).second.m_vpRes == nullptr)
 		{
 		sReturn = GetInstance(	// Returns 0 on success.
 				strFilename,		// In:  Resource name
@@ -307,8 +307,8 @@ int16_t RResMgr::Get(									// Returns 0 on success.
 		}
 	else
 		{
-		*hRes = NULL;
-		// In this case, m_vpRes is also NULL, so we don't have to worry about a 
+		*hRes = nullptr;
+		// In this case, m_vpRes is also nullptr, so we don't have to worry about a 
 		// double delete.
 		m_map.erase(strFilename);
 		}
@@ -353,15 +353,15 @@ int16_t RResMgr::GetInstance(						// Returns 0 on success.
 	{
 	int16_t	sReturn	= SUCCESS;	// Assume success for return.
 	// Assume failure for safety.
-	*hRes	= NULL;
+	*hRes	= nullptr;
 	NormalizeResName(&strFilename);
 
 	// Create resource using the specified "create" function
-	void* pvInstance = NULL;
-	if ((*pfnCreate)(&pvInstance) == 0)
+	void* pvInstance = nullptr;
+   if ((*pfnCreate)(&pvInstance) == SUCCESS)
 		{
 		RFile		fileNoSak;
-		RFile*	pfileSrc	= NULL;
+		RFile*	pfileSrc	= nullptr;
 		// If a SAK file is in use, load it from that, otherwise
 		// load it from the disk file.
 		if (m_rfSak.IsOpen())
@@ -370,7 +370,7 @@ int16_t RResMgr::GetInstance(						// Returns 0 on success.
 		// If SAK file fails try loading from disk.
 		if (!pfileSrc)
 			{
-			if (fileNoSak.Open(/*FromSystempath(strFilename)*/strFilename, "rb", endian ) == 0)
+         if (fileNoSak.Open(/*FromSystempath(strFilename)*/strFilename, "rb", endian ) == SUCCESS)
 				pfileSrc	= &fileNoSak;
 			else
 				{
@@ -380,7 +380,7 @@ int16_t RResMgr::GetInstance(						// Returns 0 on success.
 				}
 			}
 
-		if (pfileSrc != NULL)
+		if (pfileSrc != nullptr)
 			{
 			// Set endian for this file.
 			pfileSrc->SetEndian(endian);
@@ -678,8 +678,7 @@ int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
 			}
 /*
 			script >> line;
-			if (line[(long) 0] == ';' || line.GetLen() == 0)
-				script.getline(buffer, 256);
+         if (line[0] == ';' || line.GetLen() == 0)) == SUCCESScript.getline(buffer, 256);
 			else
 			{
 				resname = line;
@@ -718,8 +717,8 @@ int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
 				m_DirectoryMap[(*iFilename)] = sak.Tell();
 
 				// Open disk file . . .
-//				if (fileRes.Open( FromSystempath((char*) (*iFilename).c_str() ), "rb", SAK_FILE_ENDIAN) == 0)
-				if (fileRes.Open( FromSystempath((char*) (*iFilename) ), "rb", SAK_FILE_ENDIAN) == 0)
+//				if (fileRes.Open( FromSystempath((char*) (*iFilename).c_str() ), "rb", SAK_FILE_ENDIAN) == SUCCESS)
+            if (fileRes.Open( FromSystempath((char*) (*iFilename) ), "rb", SAK_FILE_ENDIAN) == SUCCESS)
 				{
 					do
 					{
@@ -1000,7 +999,7 @@ int16_t RResMgr::OpenSakAlt(RString strSakFile, RString strScriptFile)
 				script.getline(char_buffer, 256);
 				//clean the \r that can still be there
 				char* p;
-				if((p=strchr(char_buffer,'\r'))!=NULL)
+				if((p=strchr(char_buffer,'\r'))!=nullptr)
 					*p = '\0';
 				strFilename = char_buffer;
 				if (strFilename[(int32_t) 0] != ';' && strFilename[(int32_t) 0] != ' ' && strFilename.GetLen() > 0)
@@ -1011,7 +1010,7 @@ int16_t RResMgr::OpenSakAlt(RString strSakFile, RString strScriptFile)
 					script.getline(char_buffer, 256);
 					//clean the \r that can still be there
 					char* p;
-					if((p=strchr(char_buffer,'\r'))!=NULL)
+					if((p=strchr(char_buffer,'\r'))!=nullptr)
 						*p = '\0';
 					strFilename = char_buffer;
 					strFilename = char_buffer;
@@ -1023,7 +1022,7 @@ int16_t RResMgr::OpenSakAlt(RString strSakFile, RString strScriptFile)
 						script.getline(char_buffer, 256);
 						//clean the \r that can still be there
 						char* p;
-						if((p=strchr(char_buffer,'\r'))!=NULL)
+						if((p=strchr(char_buffer,'\r'))!=nullptr)
 							*p = '\0';
 						strFilename = char_buffer;
 						strFilename = char_buffer;

@@ -138,13 +138,13 @@ CSmash::CSmash()
 CSmash::~CSmash()
 	{
 	// Make sure we've been removed.
-	ASSERT(m_link1.m_pLast == NULL);
+	ASSERT(m_link1.m_pLast == nullptr);
 	ASSERT(m_sInGrid == FALSE);
 	
 	// As a back up, if not removed . . .
-	if (m_link1.m_pLast != NULL)
+	if (m_link1.m_pLast != nullptr)
 		{
-		if (m_pThing != NULL)
+		if (m_pThing != nullptr)
 			{
 			// Use the pthing to get to the realm and finally the smashatorium that
 			// we are in.
@@ -154,7 +154,7 @@ CSmash::~CSmash()
 			}
 		}
 
-	delete m_pFat; // Safe if NULL
+	delete m_pFat; // Safe if nullptr
 	Erase();
 	}
 
@@ -194,7 +194,7 @@ int16_t	CSmashatorium::CollideCyl(CSmash* pSmashee,R3DLine* pLine) // sphere of 
 	int32_t	lCylR = pSmashee->m_sphere.sphere.lRadius / 3;	// go with half the sphere radius
 	int32_t	lOldR = pSmashee->m_sphere.sphere.lRadius;
 	pSmashee->m_sphere.sphere.lRadius = lCylR;	// shrink it:
-	int16_t sCollide = pSmashee->m_sphere.Collide(pLine);
+   int16_t sCollide = pSmashee->m_sphere.Collide(pLine);
 	pSmashee->m_sphere.sphere.lRadius = lOldR;	// shrink it:
 
 	if (sCollide == COLLISION) return SUCCESS;	// a hit!
@@ -295,8 +295,8 @@ void	CSmashatorium::Reset()
 	{
 	//----------------------------------------------------------------
 	// Reset any search in progress: STEAL this code for a real func
-	m_pCurrentSmashee = NULL;
-	m_pSmasher = NULL;
+	m_pCurrentSmashee = nullptr;
+	m_pSmasher = nullptr;
 	m_sCurrentListX = m_sCurrentListY = m_sSearchW = m_sSearchH = 0;
 	//----------------------------------------------------------------
 	// Go down the list of CSmashatoriumList's:
@@ -354,7 +354,7 @@ void CSmashatorium::QuickCheckReset(// Returns true if collision detected, false
 			(lX >= m_sWorldW) || (lY >= m_sWorldH) )
 			{
 			// We have FULL CLIP OUT!
-			m_pSmasher = NULL; // this search has ended!
+			m_pSmasher = nullptr; // this search has ended!
 			
 			return; 
 			}
@@ -363,7 +363,7 @@ void CSmashatorium::QuickCheckReset(// Returns true if collision detected, false
 		m_pCurrentList = m_ppslClipY[lY] + m_psClipX[lX];
 		m_sCurrentListX = m_sCurrentListY = 0;
 		m_sSearchW = m_sSearchH = 2;
-		m_pCurrentSmashee = NULL; // Pending first request
+		m_pCurrentSmashee = nullptr; // Pending first request
 
 		if (m_lCurrentSearchCode < 0)	// unfortunate wrapping around...
 			{
@@ -390,13 +390,13 @@ void CSmashatorium::QuickCheckReset(// Returns true if collision detected, false
 	if ( (lX2 <= lX) || (lY2 <= lY) )
 		{
 		// Fully clipped out!
-		m_pSmasher = NULL; // this search has ended!
+		m_pSmasher = nullptr; // this search has ended!
 		
 		return; 
 		}
 
 	// Set up the search parameters:
-	m_pCurrentSmashee = NULL; // Pending first request
+	m_pCurrentSmashee = nullptr; // Pending first request
 	m_pCurrentList = m_ppslClipY[lY] + m_psClipX[lX];
 	m_sCurrentListX = 0; // m_psClipX[lX];	// CURRENTLY, these are used merely as iterators
 	m_sCurrentListY = 0; //m_psClipY[lY];
@@ -442,6 +442,7 @@ void CSmashatorium::QuickCheckReset(				// Returns true if collision detected, f
 	CSmash::Bits dontcare,								// In:  Bits that you don't care about
 	CSmash::Bits exclude)								// In:  Bits that must be 0 to collide with a given CSmash
 	{
+  UNUSED(include, dontcare, exclude);
 	TRACE("NEVER USED!\n");
 	ASSERT(0);
 	}
@@ -452,10 +453,11 @@ void CSmashatorium::QuickCheckReset(				// Returns true if collision detected, f
 // in some particular order.  The function will return false when there are no
 // more colisions.
 bool CSmashatorium::QuickCheckNext(					// Returns true if collision detected, false otherwise
-	R3DLine*	pline,										// In:  Line segment to collide against.
+   R3DLine*	pLine,										// In:  Line segment to collide against.
 	CSmash** pSmashee,								// Out: Thing being smashed into if any (unless 0)
 	CSmash*	pSmasher)								// Out: Smash that should be excluded from search.
 	{
+  UNUSED(pLine, pSmashee, pSmasher);
 	ASSERT(0);
 	return false;	// NEVER USED ANYMORE!
 	}
@@ -469,13 +471,13 @@ bool CSmashatorium::QuickCheckNext(					// Returns true if collision detected, f
 // ***  ppSmashee is ONLY for output!
 //
 // NOTE: YOU Must set up this call using QuickCheckReset
-// Returns NULL AND resets the QuickSearch if no more to find:
+// Returns nullptr AND resets the QuickSearch if no more to find:
 //
 ////////////////////////////////////////////////////////////////////////////////
 CSmash *CSmashatorium::GetNextSmash()
 	{
 	int16_t sNextList = FALSE;
-	CSmash *pReturn = NULL;
+	CSmash *pReturn = nullptr;
 	int16_t sSearching = TRUE;
 
 	while (sSearching)
@@ -498,7 +500,7 @@ CSmash *CSmashatorium::GetNextSmash()
 		
 		if (sNextList)
 			{
-			m_pCurrentSmashee = NULL;
+			m_pCurrentSmashee = nullptr;
 			sNextList = FALSE;
 
 			// Find the next list
@@ -516,10 +518,10 @@ CSmash *CSmashatorium::GetNextSmash()
 					m_sCurrentListX = m_sCurrentListY = m_sSearchW = 
 						m_sSearchH = 0;
 					
-					m_pCurrentList = NULL;
-					pReturn = NULL;
+					m_pCurrentList = nullptr;
+					pReturn = nullptr;
 					sSearching = FALSE;
-					m_pSmasher = NULL;  // The real deactivation
+					m_pSmasher = nullptr;  // The real deactivation
 					}
 				}
 			}
@@ -531,7 +533,7 @@ CSmash *CSmashatorium::GetNextSmash()
 bool CSmashatorium::QuickCheckNext(CSmash** ppSmashee) 
 	{ 
 	// First, handle the easy case of a guaranteed 2x2 object:
-	CSmash *pSmashee = NULL;
+	CSmash *pSmashee = nullptr;
 
 	// 1) Is a search in progress?
 	if (!m_pSmasher) return false; // reset at end of search
@@ -575,7 +577,7 @@ bool CSmashatorium::QuickCheckNext(CSmash** ppSmashee)
 // This function is like QuickCheckNext, except it just returns the 
 // FIRST thing it finds that is a hit.  (Arbitrary)
 // 
-// Returns NULL if nothing is colliding
+// Returns nullptr if nothing is colliding
 //
 ////////////////////////////////////////////////////////////////////////////////
 bool CSmashatorium::QuickCheck(						// Returns true if collision detected, false otherwise
@@ -607,7 +609,7 @@ bool CSmashatorium::QuickCheck(						// Returns true if collision detected, fals
 	lY = pSphere->Z - lR;
 
 	int16_t sW=0,sH=0,i,j;
-	CSmashatoriumList* pCurrentList = NULL;
+	CSmashatoriumList* pCurrentList = nullptr;
 
 	// Now do something different for a smashee that's in the 'torium
 	// and one that's not...
@@ -617,7 +619,7 @@ bool CSmashatorium::QuickCheck(						// Returns true if collision detected, fals
 			(lX >= m_sWorldW) || (lY >= m_sWorldH) )
 			{
 			// We have FULL CLIP OUT!
-			*ppSmashee = NULL;
+			*ppSmashee = nullptr;
 			return false;	// this search has ended!
 			}
 
@@ -644,7 +646,7 @@ bool CSmashatorium::QuickCheck(						// Returns true if collision detected, fals
 		if ( (lX2 <= lX) || (lY2 <= lY) )
 			{
 			// Fully clipped out!
-			*ppSmashee = NULL;
+			*ppSmashee = nullptr;
 			return false;	// this search has ended!
 			}
 
@@ -706,7 +708,7 @@ bool CSmashatorium::QuickCheck(						// Returns true if collision detected, fals
 // This function is like QuickCheckNext, except it just returns the 
 // CLOSEST thing it finds that is a hit.  (Front or back)
 // 
-// Returns NULL if nothing is colliding
+// Returns nullptr if nothing is colliding
 //
 ////////////////////////////////////////////////////////////////////////////////
 bool CSmashatorium::QuickCheckClosest(				// Returns true if collision detected, false otherwise
@@ -739,7 +741,7 @@ bool CSmashatorium::QuickCheckClosest(				// Returns true if collision detected,
 	int32_t lSmasherX = pSphere->X;
 	int32_t lSmasherY = pSphere->Z;
 
-	CSmash* pClosestSmash = NULL;
+	CSmash* pClosestSmash = nullptr;
 
 	// Find upper left & lower right position:
 	int32_t	lX,lY,lX2,lY2;
@@ -747,7 +749,7 @@ bool CSmashatorium::QuickCheckClosest(				// Returns true if collision detected,
 	lY = lSmasherY - lR;
 
 	int16_t sW=0,sH=0,i,j;
-	CSmashatoriumList* pCurrentList = NULL;
+	CSmashatoriumList* pCurrentList = nullptr;
 
 	// Now do something different for a smashee that's in the 'torium
 	// and one that's not...
@@ -757,7 +759,7 @@ bool CSmashatorium::QuickCheckClosest(				// Returns true if collision detected,
 			(lX >= m_sWorldW) || (lY >= m_sWorldH) )
 			{
 			// We have FULL CLIP OUT!
-			*ppSmashee = NULL;
+			*ppSmashee = nullptr;
 			return false;	// this search has ended!
 			}
 
@@ -784,7 +786,7 @@ bool CSmashatorium::QuickCheckClosest(				// Returns true if collision detected,
 		if ( (lX2 <= lX) || (lY2 <= lY) )
 			{
 			// Fully clipped out!
-			*ppSmashee = NULL;
+			*ppSmashee = nullptr;
 			return false;	// this search has ended!
 			}
 
@@ -855,13 +857,14 @@ bool CSmashatorium::QuickCheckClosest(				// Returns true if collision detected,
 //
 ////////////////////////////////////////////////////////////////////////////////
 bool CSmashatorium::QuickCheck(// Returns true if collision detected, false otherwise
-	R3DLine* pLine,				// In:  Line to check
+   R3DLine* pLine,				// In:  Line to check
 	CSmash::Bits include,		// In:  Bits that must be 1 to collide with a given CSmash
 	CSmash::Bits dontcare,		// In:  Bits that you don't care about
 	CSmash::Bits exclude,		// In:  Bits that must be 0 to collide with a given CSmash
 	CSmash** ppSmashee,			// Out: Thing being smashed into if any (unless 0)
 	CSmash*	pSmasher)			// Out: Smash that should be excluded from search.
-	{
+   {
+  UNUSED(pLine, include, dontcare, exclude, ppSmashee, pSmasher);
 	ASSERT(0);
 
 	return false;		// NEVER USED ANYMORE!
@@ -917,7 +920,7 @@ void	CSmashatorium::Debug()
 //
 ////////////////////////////////////////////////////////////////////////////////
 bool CSmashatorium::QuickCheckClosest(	// Returns true if collision detected, false otherwise
-	R3DLine* pline,							// In:  Line to check
+   R3DLine* pLine,							// In:  Line to check
 	CSmash::Bits include,					// In:  Bits that must be 1 to collide with a given CSmash
 	CSmash::Bits dontcare,					// In:  Bits that you don't care about
 	CSmash::Bits exclude,					// In:  Bits that must be 0 to collide with a given CSmash
@@ -928,7 +931,7 @@ bool CSmashatorium::QuickCheckClosest(	// Returns true if collision detected, fa
 	// ALL regions the line even glances through!  And cliping is a nightmare!
 
 	// This routine combines the logic of QuickCheckNext and QuickCheckReset into one!
-	// pSmasher can be NULL!
+	// pSmasher can be nullptr!
 	ASSERT(ppSmashee);
 
 	// Current Implementation:
@@ -941,18 +944,18 @@ bool CSmashatorium::QuickCheckClosest(	// Returns true if collision detected, fa
 	// ************************************************************************************
 	// Sort points left to right:
 
-	int32_t lLeft = pline->X1;
-	int32_t lRight = pline->X2;
-	int32_t lLeftY = pline->Z1;
-	int32_t lRightY = pline->Z2;
+   int32_t lLeft = pLine->X1;
+   int32_t lRight = pLine->X2;
+   int32_t lLeftY = pLine->Z1;
+   int32_t lRightY = pLine->Z2;
 
 	// Inverted case
 	if (lRight < lLeft)
 		{
-		lLeft = pline->X2;
-		lRight = pline->X1;
-		lLeftY = pline->Z2;		
-		lRightY = pline->Z1;
+      lLeft = pLine->X2;
+      lRight = pLine->X1;
+      lLeftY = pLine->Z2;
+      lRightY = pLine->Z1;
 		}
 	// ************************************************************************************
 	// Calculate y major line coefficients: (later, adapt to clipping values)
@@ -1156,7 +1159,7 @@ bool CSmashatorium::QuickCheckClosest(	// Returns true if collision detected, fa
 	// SET UP DISTANCE VARIABLES:
 	int32_t lClosestDist2 = 2000000000; // a large number
 	int32_t lCurDist2;
-	CSmash* pClosestSmash = NULL;
+	CSmash* pClosestSmash = nullptr;
 
 	m_lCurrentSearchCode++;			// prepare for a new searching code
 	if (m_lCurrentSearchCode < 0)	// unfortunate wrapping around...
@@ -1200,17 +1203,17 @@ bool CSmashatorium::QuickCheckClosest(	// Returns true if collision detected, fa
 						if (!(pSmashee->m_bits & exclude) && ((pSmashee->m_bits & ~dontcare) 
 							& include) && pSmashee != pSmasher)
 							{
-							if (pSmashee->m_sphere.Collide(pline) == COLLISION)
+                     if (pSmashee->m_sphere.Collide(pLine) == COLLISION)
 								{
-								if (CollideCyl(pSmashee,pline) == SUCCESS)
+                        if (CollideCyl(pSmashee,pLine) == SUCCESS)
 									{
 									// Is this hit the closest?
 									// Calculate distance from FIRST point in the line
 
 									lCurDist2 = ABS2(
-										pSmashee->m_sphere.sphere.X - pline->X1,
-										pSmashee->m_sphere.sphere.Y - pline->Y1,
-										pSmashee->m_sphere.sphere.Z - pline->Z1);
+                              pSmashee->m_sphere.sphere.X - pLine->X1,
+                              pSmashee->m_sphere.sphere.Y - pLine->Y1,
+                              pSmashee->m_sphere.sphere.Z - pLine->Z1);
 
 									// If there's not currently a closest or this one is closer . . .
 									if (lCurDist2 < lClosestDist2)
@@ -1284,14 +1287,14 @@ void	CSmashatorium::RemoveLimb(CSmashatoriumList* pList,CSmashLink* pLink)
 	//--------------------------------------
 	pList->m_sNum--;
 
-	pLink->m_pLast = NULL;
+	pLink->m_pLast = nullptr;
 
 	CSmashLink* pPrev = pLink->m_pPrev;
 	CSmashLink* pNext = pLink->m_pNext;
 
 	pPrev->m_pNext = pNext;
 	pNext->m_pPrev = pPrev;
-	pLink->m_pPrev = pLink->m_pNext = NULL;
+	pLink->m_pPrev = pLink->m_pNext = nullptr;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1368,7 +1371,7 @@ void CSmashatorium::Update(CSmash* pSmash)	// In:  CSmash to be updated
 				{
 				TRACE("CSmashatorium::Update: memory alloc error! Couldn't add to smashatorium!\n");
 				return;
-				}	// (all links are now NULL!
+				}	// (all links are now nullptr!
 
 			// Set all the SmashLinks to point to their parent:
 			for (int16_t i=0; i < pFat->m_sNumGrids; i++)
@@ -1640,9 +1643,9 @@ void	CFatSmash::Erase()
 	{
 	m_sClipX = m_sClipY = m_sClipW = m_sClipH = m_sW = 
 		m_sH = m_sNumGrids = 0;
-	m_pClippedGrid = NULL;
-	m_pLinks = m_pFirstLink = NULL; // Must be deleted first!
-	m_pParent = NULL;
+	m_pClippedGrid = nullptr;
+	m_pLinks = m_pFirstLink = nullptr; // Must be deleted first!
+	m_pParent = nullptr;
 	m_lX = m_lY = 0;
 	}
 

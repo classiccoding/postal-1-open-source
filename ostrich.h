@@ -99,7 +99,7 @@ class COstrich : public CDoofus
 			{
 			int16_t sResult = 0;
 			*ppNew = new COstrich(pRealm);
-			if (*ppNew == 0)
+         if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("COstrich::Construct(): Couldn't construct COstrich (that's a bad thing)\n");

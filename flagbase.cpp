@@ -86,8 +86,8 @@ static const char* ms_apszRedResNames[] =
 	"3d/rbase.hot",
 	"3d/rbase.bounds",
 	"3d/rbase.floor",
-	NULL,
-	NULL
+	nullptr,
+	nullptr
 };
 
 static const char* ms_apszBlueResNames[] =
@@ -98,8 +98,8 @@ static const char* ms_apszBlueResNames[] =
 	"3d/bbase.hot",
 	"3d/bbase.bounds",
 	"3d/bbase.floor",
-	NULL,
-	NULL
+	nullptr,
+	nullptr
 };
 
 #ifdef UNUSED_VARIABLES
@@ -127,7 +127,7 @@ int16_t CFlagbase::Load(				// Returns 0 if successfull, non-zero otherwise
 	int16_t sResult = 0;
 	// Call the base load function to get ID, position, etc.
 	sResult = CThing3d::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -201,7 +201,7 @@ int16_t CFlagbase::Load(				// Returns 0 if successfull, non-zero otherwise
 		}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 		{
 			// Get resources
 			sResult = GetResources();
@@ -331,7 +331,7 @@ void CFlagbase::Update(void)
 	int32_t lThisTime;
 	int32_t lTimeDifference;
 //	int32_t lSqDistanceToDude = 0;
-	CSmash* pSmashed = NULL;
+	CSmash* pSmashed = nullptr;
 
 	if (!m_sSuspend)
 	{
@@ -524,12 +524,12 @@ int16_t CFlagbase::EditModify(void)
 	int16_t sResult = 0;
 	uint16_t u16OrigColor = m_u16Color;
 	RGuiItem* pguiRoot = RGuiItem::LoadInstantiate(FullPathVD("res/editor/flagbase.gui"));
-	if (pguiRoot != NULL)
+	if (pguiRoot != nullptr)
 	{
 		REdit* peditFlagID = (REdit*) pguiRoot->GetItemFromId(GUI_FLAGID_EDIT_ID);
 		REdit* peditColor  = (REdit*) pguiRoot->GetItemFromId(GUI_COLOR_EDIT_ID);
 
-		if (peditFlagID != NULL && peditColor != NULL)
+		if (peditFlagID != nullptr && peditColor != nullptr)
 		{
 			ASSERT(peditFlagID->m_type == RGuiItem::Edit);
 			ASSERT(peditColor->m_type == RGuiItem::Edit);
@@ -579,7 +579,7 @@ int16_t CFlagbase::GetResources(void)						// Returns 0 if successfull, non-zero
 
 	}
 
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 						// Add new animation loads here
 	}

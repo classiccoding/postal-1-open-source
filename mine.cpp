@@ -223,7 +223,7 @@ int16_t CMine::Load(				// Returns 0 if successfull, non-zero otherwise
 		}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 		{
 			// Get resources
 			sResult = GetResources();
@@ -400,13 +400,13 @@ bool UpdateVelocity(		// Returns true if velocity reaches zero because of the
 ////////////////////////////////////////////////////////////////////////////////
 void CMine::Update(void)
 {
-	CSmash* pSmashed = NULL;
+	CSmash* pSmashed = nullptr;
 	double dDistance;
 	int16_t sShootAngle;
 	int16_t sShotX;
 	int16_t sShotY;
 	int16_t sShotZ;
-	CThing* pShotThing = NULL;
+	CThing* pShotThing = nullptr;
 	GameMessage msg;
 
 	if (!m_sSuspend)
@@ -467,8 +467,8 @@ void CMine::Update(void)
 					int16_t	sZ	= m_dZ;
 
 					// If we have a parent . . .
-					CThing*	pthing	= NULL;	// Initialized for safety.
-					if (m_pRealm->m_idbank.GetThingByID(&pthing, m_idParent) == 0)
+					CThing*	pthing	= nullptr;	// Initialized for safety.
+               if (m_pRealm->m_idbank.GetThingByID(&pthing, m_idParent) == SUCCESS)
 						{
 						// Add in its position.
 						sX	+= pthing->GetX();
@@ -574,7 +574,7 @@ void CMine::Update(void)
 													&sShotY,
 													&sShotZ,
 													&pShotThing);
-							if (pShotThing != NULL)
+							if (pShotThing != nullptr)
 							{
 								msg.msg_Shot.eType = typeShot;
 								msg.msg_Shot.sPriority = 0;
@@ -603,7 +603,7 @@ void CMine::Update(void)
 					// Start an explosion object and then kill rocket
 					// object
 					CExplode* pExplosion;
-					if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == 0)
+               if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == SUCCESS)
 					{
 						pExplosion->Setup(m_dX, m_dY, m_dZ, m_u16ShooterID);
 						PlaySample(
@@ -709,7 +709,7 @@ int16_t CMine::Setup(									// Returns 0 if successfull, non-zero otherwise
 		SampleMaster::Weapon,						// In:  user volume adjustment category
 		DistanceToVolume(sX, sY, sZ, MineSndHalfLife), // Position
 		&m_siMineBeep,									// Out: Handle to sound so it can be stopped
-		NULL,												// Out: Sample duration in ms
+		nullptr,												// Out: Sample duration in ms
 		0,													// In:  Where to loop to
 		-1,												// In:  Where to loop from
 															// In:  If less than 1, the end + lLoopEndTime is used.
@@ -717,7 +717,7 @@ int16_t CMine::Setup(									// Returns 0 if successfull, non-zero otherwise
 
 	
 	int16_t	sResult	=  CWeapon::Setup(sX, sY, sZ);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		sResult	= Init();
 		}
@@ -732,7 +732,7 @@ int16_t CMine::GetResources(void)						// Returns 0 if successfull, non-zero oth
 {
 	int16_t sResult = 0;
 
-	if (m_pImage == 0)
+   if (m_pImage == nullptr)
 	{
 		switch (m_id)
 		{	
@@ -778,7 +778,7 @@ void SetText(					// Returns nothing.
 	int32_t			lVal)			// In:  Value to set text to.
 	{
 	RGuiItem*	pgui	= pguiRoot->GetItemFromId(lId);
-	if (pgui != NULL)
+	if (pgui != nullptr)
 		{
 		pgui->SetText("%i", lVal);
 		pgui->Compose(); 
@@ -844,15 +844,15 @@ int16_t CMine::Preload(
 	RImage*	pim;
 
 	sResult = rspGetResource(&g_resmgrGame, prealm->Make2dResPath(TIMEDMINE_FILE), &pim, RFile::LittleEndian);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		rspReleaseResource(&g_resmgrGame, &pim);
 		sResult = rspGetResource(&g_resmgrGame, prealm->Make2dResPath(PROXIMITYMINE_FILE), &pim, RFile::LittleEndian);
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 			rspReleaseResource(&g_resmgrGame, &pim);
 			sResult = rspGetResource(&g_resmgrGame, prealm->Make2dResPath(BOUNCINGBETTYMINE_FILE), &pim, RFile::LittleEndian);
-			if (sResult == 0)
+			if (sResult == SUCCESS)
 				{
 				rspReleaseResource(&g_resmgrGame, &pim);
 				}

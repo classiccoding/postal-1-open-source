@@ -888,7 +888,7 @@ class NetMsg
 			char				acRealmFile[Net::MaxRealmNameSize];			// Name of realm file to load
 			int16_t				sDifficulty;										// Difficulty level
 			int16_t				sRejuvenate;
-			int16_t				sTimeLimit;
+         uint16_t				sTimeLimit;
 			int16_t				sKillLimit;
 			int16_t				sCoopLevels;										// Non-zero for cooperative levels, zero for deathmatch levels.
 			int16_t				sCoopMode;											// Non-zero for cooperative mode, zero for deathmatch mode.
@@ -1086,8 +1086,8 @@ class NetMsg
 			{
 			enum { Size = 1 + 4 + 4 };
 			uint8_t	ucType;								// Message type
-			int32_t				lTimeStamp;							// Timestap for this ping
-			int32_t				lLatestPingResult;				// Latest ping result (round trip time)
+         uint32_t				lTimeStamp;							// Timestap for this ping
+         uint32_t				lLatestPingResult;				// Latest ping result (round trip time)
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
 				{
@@ -1394,7 +1394,7 @@ class CNetMsgr
 				RSocket::typStream,
 				RSocket::optDontWaitOnClose | RSocket::optDontCoalesce | RSocket::optDontBlock,
 				callback);
-			if (sResult == 0)
+			if (sResult == SUCCESS)
 				{
 				m_state = Connecting;
 				}
@@ -1416,7 +1416,7 @@ class CNetMsgr
 			ASSERT(m_state == Disconnected);
 
 			int16_t sResult = psocketListen->Accept(&m_socket, &m_address);
-			if (sResult == 0)
+			if (sResult == SUCCESS)
 				{
 				m_socket.SetCallback(callback);
 				m_state = Connected;

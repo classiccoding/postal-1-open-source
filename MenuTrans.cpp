@@ -128,8 +128,8 @@ static RImage* m_pim;
 
 static int16_t m_sStep;
 static bool m_bFinishASAP;
-static int32_t m_lTotalTime;
-static int32_t m_lBaseTime;
+static uint32_t m_lTotalTime;
+static uint32_t m_lBaseTime;
 
 static double m_dReduce = 1.0;
 
@@ -173,7 +173,7 @@ extern void StartMenuTrans(
 		{
 
 		// Setup image to match screen buffer
-		if (m_pim->CreateImage(g_pimScreenBuf->m_sWidth, g_pimScreenBuf->m_sHeight, RImage::BMP8) == 0)
+      if (m_pim->CreateImage(g_pimScreenBuf->m_sWidth, g_pimScreenBuf->m_sHeight, RImage::BMP8) == SUCCESS)
 			{
 
 			// Everything's cool, so set for first step
@@ -604,10 +604,10 @@ static void Remap(
 // does the lock even in DEBUG mode)
 // IF you comment this back in, remember to comment in the unlock as well!
 #if 0
-	if (rspLockVideoBuffer((void**)&pu8VideoBuf, &lPitch) ) == 0)
+   if (rspLockVideoBuffer((void**)&pu8VideoBuf, &lPitch) ) == SUCCESS)
 		{
 #else
-	if (rspLockBuffer() == 0)
+   if (rspLockBuffer() == SUCCESS)
 		{
 		pu8VideoBuf	= g_pimScreenBuf->m_pData;
 		lPitch		= g_pimScreenBuf->m_lPitch;

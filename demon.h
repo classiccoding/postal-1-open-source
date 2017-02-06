@@ -176,7 +176,7 @@ class CDemon : public CThing
 			{
 			int16_t sResult = 0;
 			*ppNew = new CDemon(pRealm);
-			if (*ppNew == 0)
+			if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CExplode::Construct(): Couldn't construct CDemon (that's a bad thing)\n");

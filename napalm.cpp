@@ -173,8 +173,8 @@ static const char* ms_apszResNames[] =
 	"3d/napalmcan.hot",
 	"3d/napalmcan.bounds",
 	"3d/napalmcan.floor",
-	NULL,
-	NULL
+	nullptr,
+	nullptr
 };
 
 
@@ -219,7 +219,7 @@ int16_t CNapalm::Load(										// Returns 0 if successfull, non-zero otherwise
 			}
 		
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 			{
 			// Get resources
 			sResult = GetResources();
@@ -392,7 +392,7 @@ void CNapalm::Update(void)
 					m_dFireZ = m_dZ;
 					// Start a fire here
 					CFire* pFire;
-					if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pFire) == 0)
+               if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pFire) == SUCCESS)
 					{
 						if (pFire->Setup(m_dX - 20 + (GetRand() % 40), m_dY, m_dZ - 20 + (GetRand() % 40), 
 						                 4000 + (GetRand() % 9000), false, CFire::LargeFire) != SUCCESS)
@@ -574,10 +574,10 @@ int16_t CNapalm::GetResources(void)						// Returns 0 if successfull, non-zero o
 	int16_t sResult = 0;
 
 	sResult = m_anim.Get(ms_apszResNames);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(SMALL_SHADOW_FILE), &(m_spriteShadow.m_pImage), RFile::LittleEndian);
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 		{
 			// add more gets
 		}

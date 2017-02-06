@@ -119,8 +119,8 @@ static const char* ms_apszRedResNames[] =
 	"3d/rflag.hot",
 	"3d/rflag.bounds",
 	"3d/rflag.floor",
-	NULL,
-	NULL
+	nullptr,
+	nullptr
 };
 
 static const char* ms_apszBlueResNames[] =
@@ -131,8 +131,8 @@ static const char* ms_apszBlueResNames[] =
 	"3d/bflag.hot",
 	"3d/bflag.bounds",
 	"3d/bflag.floor",
-	NULL,
-	NULL
+	nullptr,
+	nullptr
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -147,7 +147,7 @@ int16_t CFlag::Load(				// Returns 0 if successfull, non-zero otherwise
 	int16_t sResult = 0;
 	// Call the base load function to get ID, position, etc.
 	sResult = CThing3d::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -222,7 +222,7 @@ int16_t CFlag::Load(				// Returns 0 if successfull, non-zero otherwise
 		}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 		{
 			// Get resources
 			sResult = GetResources();
@@ -356,7 +356,7 @@ void CFlag::Update(void)
 //	int16_t sHeight = m_sPrevHeight;
 	int32_t lThisTime;
 	int32_t lTimeDifference;
-	CSmash* pSmashed = NULL;
+	CSmash* pSmashed = nullptr;
 
 	if (!m_sSuspend)
 	{
@@ -437,13 +437,13 @@ void CFlag::Update(void)
 
 								m_pRealm->m_sFlagbaseCaptured++;
 
-								CThing3d* pParent = NULL;
+								CThing3d* pParent = nullptr;
 								GameMessage msg;
 								msg.msg_PutMeDown.eType = typePutMeDown;
 								msg.msg_PutMeDown.sPriority = 0;
 								msg.msg_PutMeDown.u16FlagInstanceID = GetInstanceID();
 
-								if (m_pRealm->m_idbank.GetThingByID((CThing**)&pParent, m_u16IdParent) == 0)
+								if (m_pRealm->m_idbank.GetThingByID((CThing**)&pParent, m_u16IdParent) == SUCCESS)
 								{
 									SendThingMessage(&msg, pParent);
 								}
@@ -637,7 +637,7 @@ int16_t CFlag::EditModify(void)
 	uint16_t u16OrigColor = m_u16FlagColor;
 
 	RGuiItem* pguiRoot = RGuiItem::LoadInstantiate(FullPathVD("res/editor/flag.gui"));
-	if (pguiRoot != NULL)
+	if (pguiRoot != nullptr)
 	{
 		REdit* peditMinutes = (REdit*) pguiRoot->GetItemFromId(GUI_MINUTES_EDIT_ID);
 		REdit* peditSeconds = (REdit*) pguiRoot->GetItemFromId(GUI_SECONDS_EDIT_ID);
@@ -646,7 +646,7 @@ int16_t CFlag::EditModify(void)
 		int32_t lMinutes;
 		int32_t lSeconds;
 
-		if (peditMinutes != NULL && peditSeconds != NULL && peditFlagID != NULL && peditColor != NULL)
+		if (peditMinutes != nullptr && peditSeconds != nullptr && peditFlagID != nullptr && peditColor != nullptr)
 		{
 			ASSERT(peditMinutes->m_type == RGuiItem::Edit);
 			ASSERT(peditSeconds->m_type == RGuiItem::Edit);
@@ -706,7 +706,7 @@ int16_t CFlag::GetResources(void)						// Returns 0 if successfull, non-zero oth
 			sResult = m_animFlagWave.Get(ms_apszBlueResNames, RChannel_LoopAtStart | RChannel_LoopAtEnd);
 			break;
 	}
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 						// Add new animation loads here
 	}

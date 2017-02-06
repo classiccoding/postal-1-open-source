@@ -327,7 +327,7 @@ int16_t CPerson::Load(				// Returns 0 if successfull, non-zero otherwise
 	int16_t sResult = 0;
 	sResult = CDoofus::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 	
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -410,7 +410,7 @@ int16_t CPerson::Load(				// Returns 0 if successfull, non-zero otherwise
 		m_bCivilian = (g_apersons[m_ePersonType].eLifestyle == Personatorium::Civilian);
 		
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 		{
 			// Get resources
 			sResult = GetResources();
@@ -588,7 +588,7 @@ int16_t CPerson::Init(void)
 ////////////////////////////////////////////////////////////////////////////////
 void CPerson::Update(void)
 {
-	CThing* pDemon = NULL;
+	CThing* pDemon = nullptr;
 
 	if (!m_sSuspend)
 	{
@@ -838,7 +838,7 @@ void CPerson::Render(void)
 //		m_sprite.m_pszText = ms_apszStateNames[m_state];
 	}
 	else
-		m_sprite.m_pszText		= NULL;
+		m_sprite.m_pszText		= nullptr;
 
 	CDoofus::Render();
 }
@@ -875,7 +875,7 @@ void CPerson::EditRender(void)
 			}
 		else
 			{
-			m_sprite.m_pszText	= NULL;
+			m_sprite.m_pszText	= nullptr;
 			}
 		}
 	}
@@ -1042,7 +1042,7 @@ static void LogicUserBrowse(	// Returns nothing
 	RGuiItem* pgui)				// In: GUI pressed.
 {
 	RGuiItem* pguiLogicFileName	= (RGuiItem*)pgui->m_ulUserInstance;
-	ASSERT(pguiLogicFileName != NULL);
+	ASSERT(pguiLogicFileName != nullptr);
 
 	// Get the logic file name . . .
 	char	szLogicFile[RSP_MAX_PATH];
@@ -1053,12 +1053,12 @@ static void LogicUserBrowse(	// Returns nothing
 		szLogicFile,
 		szLogicFile,
 		sizeof(szLogicFile),
-		"lgk.") == 0)
+      "lgk.") == SUCCESS)
 	{
 		char	szHDPath[RSP_MAX_PATH];
 		strcpy(szHDPath, FullPathHD(""));
 		// Attempt to remove HD path . . .
-		if (rspStrnicmp(szLogicFile, szHDPath, strlen(szHDPath) ) == 0)
+      if (rspStrnicmp(szLogicFile, szHDPath, strlen(szHDPath) ) == SUCCESS)
 			{
 			// Determine amount of path to ignore.
 			int32_t	lSubPathBegin	= strlen(szHDPath);
@@ -1077,7 +1077,7 @@ int16_t CPerson::EditModify(void)
 {
 	int16_t sResult = 0;
 	Personatorium::Index eCurrentType = m_ePersonType;
-	RGuiItem* pGuiItem = NULL;
+	RGuiItem* pGuiItem = nullptr;
 	RGuiItem* pGui = RGuiItem::LoadInstantiate(FullPathVD("res/editor/person.gui"));
 	if (pGui)
 	{
@@ -1109,7 +1109,7 @@ int16_t CPerson::EditModify(void)
 			for (i = 0; i < Personatorium::NumPersons; i++)
 			{
 				pGuiItem = pPersonalityList->AddString(g_apersons[i].pszDescription);
-				if (pGuiItem != NULL)
+				if (pGuiItem != nullptr)
 				{
 					pGuiItem->m_lId = PERSONALITY_ITEM_ID_BASE + i;
 					pGuiItem->m_ulUserData = (uint32_t) i;
@@ -1141,7 +1141,7 @@ int16_t CPerson::EditModify(void)
 						(i != BouncingBettyMine) )
 					{
 					pGuiItem	= pWeaponList->AddString(ms_awdWeapons[i].pszName);
-					if (pGuiItem != NULL)
+					if (pGuiItem != nullptr)
 						{
 						// Store class ID so we can determine user selection
 						pGuiItem->m_lId	= ms_awdWeapons[i].id;
@@ -1643,7 +1643,7 @@ int16_t CPerson::GetResources(void)						// Returns 0 if successfull, non-zero o
 	char	szExeTargetResName[RSP_MAX_PATH];
 	sprintf(szExeTargetResName, "%s_writhing_exe.trans", g_apersons[m_ePersonType].Anim.pszBaseName);
 	sLoadResult	= rspGetResource(&g_resmgrGame, szExeTargetResName, &m_ptransExecutionTarget);
-	if (sLoadResult == 0)
+   if (sLoadResult == SUCCESS)
 		{
 		m_ptransExecutionTarget->SetLooping(RChannel_LoopAtStart | RChannel_LoopAtEnd);
 		}
@@ -1698,7 +1698,7 @@ int16_t CPerson::FreeResources(void)						// Returns 0 if successfull, non-zero 
 ////////////////////////////////////////////////////////////////////////////////
 
 SampleMaster::SoundInstance CPerson::PlaySoundWrithing(
-			int32_t* plDuration)					// Out:  Duration of sample, if not NULL.
+			int32_t* plDuration)					// Out:  Duration of sample, if not nullptr.
 {
 	m_siPlaying = 0;
 	SampleMasterID*	psmid	= &g_smidNil;
@@ -1733,7 +1733,7 @@ SampleMaster::SoundInstance CPerson::PlaySoundWrithing(
 		-1,											// In:  Initial Sound Volume (0 - 255)
 														// Negative indicates to use the distance to the ear.
 		&m_siPlaying,								// Out: Handle for adjusting sound volume
-		plDuration);								// Out: Sample duration in ms, if not NULL.
+		plDuration);								// Out: Sample duration in ms, if not nullptr.
 //#ifdef MOBILE
 	}
 //#endif
@@ -1808,7 +1808,7 @@ SampleMaster::SoundInstance CPerson::PlaySoundShot(void)
 		-1,											// In:  Initial Sound Volume (0 - 255)
 														// Negative indicates to use the distance to the ear.
 		&m_siPlaying,								// Out: Handle for adjusting sound volume
-		&lSampleDuration);						// Out: Sample duration in ms, if not NULL.
+		&lSampleDuration);						// Out: Sample duration in ms, if not nullptr.
 
 	return m_siPlaying;
 }
@@ -1976,7 +1976,7 @@ SampleMaster::SoundInstance CPerson::PlaySoundRandom(void)
 		if (m_idDude != CIdBank::IdNil)
 		{
 			CDude* pdude;
-			if (m_pRealm->m_idbank.GetThingByID((CThing**) &pdude, m_idDude) == 0)
+         if (m_pRealm->m_idbank.GetThingByID((CThing**) &pdude, m_idDude) == SUCCESS)
 			{
 				if (pdude && pdude->m_state != State_Dead)
 				{

@@ -150,7 +150,7 @@ class RProtocolBSDIP : public RSocket::RProtocol
 			uint16_t usPort,								// In:  Port number on which to make a connection
 			int16_t sType,											// In:  Any one RSocket::typ* enum
 			int16_t sOptionFlags,									// In:  Any combo of RSocket::opt* enums
-			RSocket::BLOCK_CALLBACK callback = NULL);		// In:  Blocking callback (or NULL to keep current callback)
+			RSocket::BLOCK_CALLBACK callback = nullptr);		// In:  Blocking callback (or nullptr to keep current callback)
 
 		// Close a connection
 		virtual int16_t Close(										// Returns 0 if successfull, non-zero otherwise
@@ -182,27 +182,27 @@ class RProtocolBSDIP : public RSocket::RProtocol
 		// Send data - only valid with connected sockets
 		virtual int16_t Send(										// Returns 0 if data was sent
 			void * pBuf,											// In:  Pointer to data buffer
-			int32_t lNumBytes,										// In:  Number of bytes to send
-			int32_t *plActualBytes);								// Out: Acutal number of bytes sent
+         size_t lNumBytes,										// In:  Number of bytes to send
+         size_t *plActualBytes);								// Out: Acutal number of bytes sent
 
 		// SendTo - send data to specified address - for unconnected sockets
 		virtual int16_t SendTo(									// Returns 0 if data was sent
 			void* pBuf,												// In:  Pointer to data buffer
-			int32_t lNumBytes,										// In:  Number of bytes to send
-			int32_t* plActualBytes,									// Out: Actual number of bytes sent
+         size_t lNumBytes,										// In:  Number of bytes to send
+         size_t* plActualBytes,									// Out: Actual number of bytes sent
 			RSocket::Address* paddress);						// In:  Address to send to
 
 		// Receive data - only valid for connected sockets
 		virtual int16_t Receive(									// Returns 0 if data was received
 			void* pBuf,												// In:  Pointer to data buffer
-			int32_t lMaxBytes,										// In:  Maximum number of bytes that fit in the buffer
-			int32_t* plActualBytes);								// Out: Actual number of bytes received into buffer
+         size_t lMaxBytes,										// In:  Maximum number of bytes that fit in the buffer
+         size_t* plActualBytes);								// Out: Actual number of bytes received into buffer
 
 		// RecieveFrom - receive data from given address
 		virtual int16_t ReceiveFrom(								// Returns 0 if data was received
 			void* pBuf,												// In:  Pointer to data buffer
-			int32_t lMaxBytes,										// In:  Maximum bytes that can fit in buffer
-			int32_t* plActualBytes,									// Out:  Actual number of bytes received into buffer
+         size_t lMaxBytes,										// In:  Maximum bytes that can fit in buffer
+         size_t* plActualBytes,									// Out:  Actual number of bytes received into buffer
 			RSocket::Address* paddress);						// Out: Source address returned here
 
 		// Check if connection can be accepted without blocking
@@ -215,7 +215,7 @@ class RProtocolBSDIP : public RSocket::RProtocol
 		virtual bool CanReceiveWithoutBlocking(void);
 
 		// See how much data can be received without blocking
-		virtual int32_t CheckReceivableBytes(void);
+      virtual size_t CheckReceivableBytes(void);
 
 		// Report error status
 		virtual bool IsError(void);
@@ -235,11 +235,11 @@ class RProtocolBSDIP : public RSocket::RProtocol
 
 		// Get the maximum datagram size supported by this socket
 		static int16_t GetMaxDatagramSize(						// Returns 0 if info is available
-			int32_t* plSize);											// Out: Maximum datagram size (in bytes)
+         size_t* plSize);											// Out: Maximum datagram size (in bytes)
 
 		// Get maximum number of sockets
 		static int16_t GetMaxSockets(							// Returns 0 if successfull, non-zero otherwise
-			int32_t* plNum);
+         size_t* plNum);
 
 		// Get address from the socket
 		static int16_t GetAddress(								// Returns 0 if successfull, non-zero otherwise

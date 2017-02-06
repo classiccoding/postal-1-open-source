@@ -757,8 +757,8 @@ static uint32_t	ms_u32Cookie = COOKIE_VALUE;
 
 // These variables are generally controlled via the menu system
 static ACTION m_action;
-static int32_t m_lDemoBaseTime;
-static int32_t m_lDemoTimeOut;
+static uint32_t m_lDemoBaseTime;
+static uint32_t m_lDemoTimeOut;
 static char	m_szRealmFile[RSP_MAX_PATH+1];
 static char m_szDemoFile[RSP_MAX_PATH+1];
 static int16_t m_sRealmNum;
@@ -807,11 +807,11 @@ static void GameEndingSequence(void);
 
 static int16_t GetRealmToRecord(
 	char* pszRealmFile,
-	int16_t sMaxFileLen);
+   size_t sMaxFileLen);
 
 static int16_t GetDemoFile(
 	char* pszDemoFile,
-	int16_t sMaxFileLen);
+   size_t sMaxFileLen);
 
 // Callback gets called when OS is about to switch app into the background
 static void BackgroundCall(void);
@@ -886,7 +886,7 @@ static void EnumExistingSaveGames(Menu *menu)
     if (menu->ami[0].sEnabled)
     {
     	struct tm *tm;
-    	if ((tm = localtime((const time_t*)&statbuf.st_mtime)) == NULL)
+    	if ((tm = localtime((const time_t*)&statbuf.st_mtime)) == nullptr)
     		str = "unknown";
     	else
     	{
@@ -912,7 +912,7 @@ static void EnumExistingSaveGames(Menu *menu)
         if (menu->ami[i+1].sEnabled)
         {
             struct tm *tm;
-            if ((tm = localtime((const time_t*)&statbuf.st_mtime)) == NULL)
+            if ((tm = localtime((const time_t*)&statbuf.st_mtime)) == nullptr)
                 str = "unknown";
             else
             {
@@ -938,7 +938,7 @@ static void EnumExistingSaveGames(Menu *menu)
 		if (menu->ami[i].sEnabled)
 		{
 			struct tm *tm;
-			if ((tm = localtime(&statbuf.st_mtime)) == NULL)
+			if ((tm = localtime(&statbuf.st_mtime)) == nullptr)
 				str = "unknown";
 			else
 			{
@@ -1015,7 +1015,7 @@ extern void TheGame(void)
 	sResult = CSettings::LoadPrefs(g_pszPrefFileName);
 	RFile file;
 
-	if (sResult == 0)
+   if (sResult == SUCCESS)
 		{
 #ifdef PROMPT_FOR_ORIGINAL_CD
 		rspMsgBox(RSP_MB_ICN_INFO | RSP_MB_BUT_OK, g_pszAppName, g_pszPromptForOriginalCD);
@@ -1030,7 +1030,7 @@ extern void TheGame(void)
 			{
 			// We are looking for a disc that has a res.sak, but doesn't have ezmart.sak
 			// to insure that they have the original PostalCD in the drive
-			if (file.Open(FullPathCD(CHECK_FOR_ASSETS_FILENAME), "r", RFile::LittleEndian) == 0)
+         if (file.Open(FullPathCD(CHECK_FOR_ASSETS_FILENAME), "r", RFile::LittleEndian) == SUCCESS)
 				{
 				file.Close();
 				sCorrectCD++;
@@ -1060,9 +1060,9 @@ extern void TheGame(void)
 		
 		// Try loading special file that exists solely for the purpose of checking for
 		// valid paths in the prefs file.  We do this for each of the paths.
-		if (sResult == 0)
+      if (sResult == SUCCESS)
 			{
-			if (file.Open(FullPathHD(CHECK_FOR_ASSETS_FILENAME), "r", RFile::LittleEndian) == 0)
+         if (file.Open(FullPathHD(CHECK_FOR_ASSETS_FILENAME), "r", RFile::LittleEndian) == SUCCESS)
 				file.Close();
 			else
 				{
@@ -1071,9 +1071,9 @@ extern void TheGame(void)
 				rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszCriticalErrorTitle, g_pszCantFindAssets, "HD");
 				}
 			}
-		if (sResult == 0)
+      if (sResult == SUCCESS)
 			{
-			if (file.Open(FullPathVD(CHECK_FOR_ASSETS_FILENAME), "r", RFile::LittleEndian) == 0)
+         if (file.Open(FullPathVD(CHECK_FOR_ASSETS_FILENAME), "r", RFile::LittleEndian) == SUCCESS)
 				file.Close();
 			else
 				{
@@ -1082,9 +1082,9 @@ extern void TheGame(void)
 				rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszCriticalErrorTitle, g_pszCantFindAssets, "VD");
 				}
 			}
-		if (sResult == 0)
+      if (sResult == SUCCESS)
 			{
-			if (file.Open(FullPathSound(CHECK_FOR_ASSETS_FILENAME), "r", RFile::LittleEndian) == 0)
+         if (file.Open(FullPathSound(CHECK_FOR_ASSETS_FILENAME), "r", RFile::LittleEndian) == SUCCESS)
 				file.Close();
 			else
 				{
@@ -1093,9 +1093,9 @@ extern void TheGame(void)
 				rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszCriticalErrorTitle, g_pszCantFindAssets, "Sound");
 				}
 			}
-		if (sResult == 0)
+      if (sResult == SUCCESS)
 			{
-			if (file.Open(FullPathGame(CHECK_FOR_ASSETS_FILENAME), "r", RFile::LittleEndian) == 0)
+         if (file.Open(FullPathGame(CHECK_FOR_ASSETS_FILENAME), "r", RFile::LittleEndian) == SUCCESS)
 				file.Close();
 			else
 				{
@@ -1104,9 +1104,9 @@ extern void TheGame(void)
 				rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszCriticalErrorTitle, g_pszCantFindAssets, "Game");
 				}
 			}
-		if (sResult == 0)
+      if (sResult == SUCCESS)
 			{
-			if (file.Open(FullPathHoods(CHECK_FOR_ASSETS_FILENAME), "r", RFile::LittleEndian) == 0)
+         if (file.Open(FullPathHoods(CHECK_FOR_ASSETS_FILENAME), "r", RFile::LittleEndian) == SUCCESS)
 				file.Close();
 			else
 				{
@@ -1118,14 +1118,14 @@ extern void TheGame(void)
 
 
 		// Check for special file, COOKIE, and size.
-		if (sResult == 0)
+      if (sResult == SUCCESS)
 			{
 			ms_u32Cookie	^= COOKIE_XOR_MASK; 
 
-			if (file.Open(FullPathCD(CHECK_FOR_ASSETS_FILENAME), "rb", RFile::LittleEndian) == 0)
+         if (file.Open(FullPathCD(CHECK_FOR_ASSETS_FILENAME), "rb", RFile::LittleEndian) == SUCCESS)
 				{
 #if defined(CHECK_FOR_COOKIE)
-				if (file.Seek(COOKIE_FILE_POSITION, SEEK_SET) == 0)
+            if (file.Seek(COOKIE_FILE_POSITION, SEEK_SET) == SUCCESS)
 					{
 					uint32_t	u32Cookie	= 0;
 					if (file.Read(&u32Cookie) == 1)
@@ -1172,7 +1172,7 @@ extern void TheGame(void)
 			}
 
 		// Check for CDROM drive.
-		if (sResult == 0)
+      if (sResult == SUCCESS)
 			{
 #if defined(MUST_BE_ON_CD)
 			// Check for the special case where the path is the one we use for
@@ -1198,7 +1198,7 @@ extern void TheGame(void)
 #endif
 			}
 
-		if (sResult == 0)
+      if (sResult == SUCCESS)
 			{
 
 			// Set the gamma level to value indicated by settings.
@@ -1213,11 +1213,11 @@ extern void TheGame(void)
 
 			// Open SAKs or setup equivalent paths.
 			sResult = OpenSaks();
-			if (sResult == 0)
+         if (sResult == SUCCESS)
 				{
 				// Start title, passing the "total units" for its progress meter
 				sResult = StartTitle(1, true, &ms_siMusak);
-				if (sResult == 0)
+            if (sResult == SUCCESS)
 					{
 
 					// Load assets that we want to keep around at all times
@@ -1225,7 +1225,7 @@ extern void TheGame(void)
 					
 					// End title (regardless of previous result)
 					EndTitle();
-					if (sResult == 0)
+               if (sResult == SUCCESS)
 						{
 
 						// Set the font most GUIs will use (the menu system uses its own RPrint).
@@ -1282,7 +1282,7 @@ extern void TheGame(void)
 			// scenario where a shitty sound driver causes us to think a sound is always
 			// playing.
 			// Wait for all samples to finish.
-			int32_t	lTimeOutTime	= rspGetMilliseconds() + TIME_OUT_FOR_ABORT_SOUNDS;
+         uint32_t	lTimeOutTime	= rspGetMilliseconds() + TIME_OUT_FOR_ABORT_SOUNDS;
 			// Wait for them to stop.
 			while (IsSamplePlaying() == true && rspGetMilliseconds() < lTimeOutTime)
 				{
@@ -1316,8 +1316,8 @@ extern void TheGame(void)
 		}
 
 	// Remove the callbacks
-	rspSetBackgroundCallback(NULL);
-	rspSetForegroundCallback(NULL);
+	rspSetBackgroundCallback(nullptr);
+	rspSetForegroundCallback(nullptr);
 	}
 
 
@@ -1343,7 +1343,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 		uint32_t lTime = g_lExpTime + (((365 * 70UL) + 17) * 24 * 60 * 60); // time_fudge 1900->1970
 		strcpy(acTime, ctime(&lTime));
 		char* pCR = strchr(acTime, '\n');
-		if (pCR != NULL)
+		if (pCR != nullptr)
 			*pCR = 0;
 		#define NEXT_LINE "\r\r"
 	#endif	// WIN32
@@ -1409,7 +1409,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 	bool bMenuActive = false;
 	ACTION	actionNext	= ACTION_NOTHING;	// Initialized for safety.
 
-	Menu*	pmenuStart	= NULL;				// Next menu to start if not NULL.
+	Menu*	pmenuStart	= nullptr;				// Next menu to start if not nullptr.
 	bool	bPalTran		= true;				// true to PalTranOn() before next
 													// menu.
 	bool	bTitleImage	= true;				// true to display title image before
@@ -1424,7 +1424,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 	// certain amount of time, automatically run the self-playing demo.
 	RInputEvent ie;
 	memset(&ie, '\0', sizeof (ie));  // fix valgrind complaining... --ryan.
-	while (sResult == 0)
+   while (sResult == SUCCESS)
 		{
 		// Clear the end of game flag each time just to be safe, it only needs
 		// to be set within the last iteration
@@ -1455,11 +1455,11 @@ static int16_t GameCore(void)		// Returns 0 on success.
 				PalTranOn();
 
 			sResult = StartMenu(pmenuStart ? pmenuStart : &menuMain, &g_resmgrShell, g_pimScreenBuf);
-			if (sResult == 0)
+         if (sResult == SUCCESS)
 				{
 				bMenuActive = true;
 				// Restore defaults.
-				pmenuStart	= NULL;
+				pmenuStart	= nullptr;
 				bPalTran		= true;
 				bTitleImage	= true;
 				bTitleMusak	= true;
@@ -1520,8 +1520,8 @@ static int16_t GameCore(void)		// Returns 0 on success.
 					g_bLastLevelDemo = false;
 
 					Play(
-						NULL,									// No client (not network game)
-						NULL,									// No server (not network game)
+						nullptr,									// No client (not network game)
+						nullptr,									// No server (not network game)
 						INPUT_MODE_LIVE,					// Input mode
 						m_sRealmNum,						// Realm number OR -1 to use realm file
 						m_szRealmFile,						// Realm file
@@ -1535,7 +1535,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						0,										// Use cooperative levels (MP only)
 						0,										// Use cooperative mode (MP only)
 						0,										// Frame time (MP only)
-						NULL);								// Demo mode file
+						nullptr);								// Demo mode file
 
 #ifdef MOBILE
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
@@ -1563,7 +1563,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 					bool bBrowse = (m_action == ACTION_PLAY_BROWSE) ? true : false;
 
 					// Startup sockets with selected protocol
-					if (RSocket::Startup((RSocket::ProtoType)g_GameSettings.m_usProtocol, false) == 0)
+               if (RSocket::Startup((RSocket::ProtoType)g_GameSettings.m_usProtocol, false) == SUCCESS)
 						{
 						InitNetProbGUI();
 
@@ -1579,7 +1579,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						// Use the net game dialog to join a multiplayer game
 						CNetClient* pnetclient = new CNetClient;
 						NetMsg msg;
-						if (DoNetGameDialog(pnetclient, bBrowse, NULL, &msg) == 0)
+                  if (DoNetGameDialog(pnetclient, bBrowse, nullptr, &msg) == SUCCESS)
 							{
 							// If the game was actually started...
 							if (msg.msg.nothing.ucType == NetMsg::START_GAME)
@@ -1587,7 +1587,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 								PalTranOff();
 								// Go back to the main menu when done and do
 								// all the deluxe stuff.
-								pmenuStart	= NULL;
+								pmenuStart	= nullptr;
 								bPalTran		= true;
 								bTitleImage	= true;
 								bTitleMusak	= true;
@@ -1599,7 +1599,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 
 								Play(
 									pnetclient,								// Client
-									NULL,										// No server (not hosting game)
+									nullptr,										// No server (not hosting game)
 									INPUT_MODE_LIVE,						// Input mode
 									msg.msg.startGame.sRealmNum,		// Realm number OR -1 to use realm file
 									msg.msg.startGame.acRealmFile,	// Realm file
@@ -1613,7 +1613,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 									msg.msg.startGame.sCoopLevels,	// Cooperative or Deathmatch levels (MP only)
 									msg.msg.startGame.sCoopMode,		// Cooperative or Deathmatch mode (MP only)
 									msg.msg.startGame.sFrameTime,		// Frame time (MP only)
-									NULL);									// Demo mode file
+									nullptr);									// Demo mode file
 
 #ifdef MOBILE
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
@@ -1644,7 +1644,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 #ifndef MULTIPLAYER_DISABLED
 					{
 					// Startup sockets with selected protocol
-					if (RSocket::Startup((RSocket::ProtoType)g_GameSettings.m_usProtocol, false) == 0)
+               if (RSocket::Startup((RSocket::ProtoType)g_GameSettings.m_usProtocol, false) == SUCCESS)
 						{
 						InitNetProbGUI();
 
@@ -1661,7 +1661,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						CNetClient* pnetclient = new CNetClient;
 						CNetServer* pnetserver = new CNetServer;
 						NetMsg msg;
-						if (DoNetGameDialog(pnetclient, false, pnetserver, &msg) == 0)
+                  if (DoNetGameDialog(pnetclient, false, pnetserver, &msg) == SUCCESS)
 							{
 							// If the game was actually started...
 							if (msg.msg.nothing.ucType == NetMsg::START_GAME)
@@ -1669,7 +1669,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 								PalTranOff();
 								// Go back to the main menu when done and do
 								// all the deluxe stuff.
-								pmenuStart	= NULL;
+								pmenuStart	= nullptr;
 								bPalTran		= true;
 								bTitleImage	= true;
 								bTitleMusak	= true;
@@ -1695,7 +1695,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 									msg.msg.startGame.sCoopLevels,	// Cooperative or Deathmatch levels (MP only)
 									msg.msg.startGame.sCoopMode,		// Cooperative or Deathmatch mode (MP only)
 									msg.msg.startGame.sFrameTime,		// Frame time (MP only)
-									NULL);									// Demo mode file
+									nullptr);									// Demo mode file
 
 #ifdef MOBILE
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
@@ -1738,8 +1738,8 @@ static int16_t GameCore(void)		// Returns 0 on success.
 					// set via the callback, Game_StartChallengeGame().
 					// ***ADD FLAG(S) TO THIS CALL INDICATING THIS IS A CHALLENGE GAME***
 					Play(
-						NULL,									// No client (not network game)
-						NULL,									// No server (not network game)
+						nullptr,									// No client (not network game)
+						nullptr,									// No server (not network game)
 						INPUT_MODE_LIVE,					// Input mode
 						m_sRealmNum,						// Realm number OR -1 to use realm file
 						m_szRealmFile,						// Realm file
@@ -1753,7 +1753,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						0,										// Cooperative (MP only)
 						0,										// Use cooperative mode (MP only)
 						0,										// Frame time (MP only)
-						NULL);								// Demo mode file
+						nullptr);								// Demo mode file
 
 #ifdef MOBILE
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
@@ -1781,8 +1781,8 @@ static int16_t GameCore(void)		// Returns 0 on success.
 					// set via the callback, Game_StartChallengeGame().
 					// ***ADD FLAG(S) TO THIS CALL INDICATING THIS IS A CHALLENGE GAME***
 					Play(
-						NULL,									// No client (not network game)
-						NULL,									// No server (not network game)
+						nullptr,									// No client (not network game)
+						nullptr,									// No server (not network game)
 						INPUT_MODE_LIVE,					// Input mode
 						m_sRealmNum,						// Realm number OR -1 to use realm file
 						m_szRealmFile,						// Realm file
@@ -1796,7 +1796,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						0,										// Cooperative (MP only)
 						0,										// Use cooperative mode (MP only)
 						0,										// Frame time (MP only)
-						NULL);								// Demo mode file
+						nullptr);								// Demo mode file
 #ifdef MOBILE
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
 #endif
@@ -1821,8 +1821,8 @@ static int16_t GameCore(void)		// Returns 0 on success.
 					// set via the callback, Game_StartChallengeGame().
 					// ***ADD FLAG(S) TO THIS CALL INDICATING THIS IS A CHALLENGE GAME***
 					Play(
-						NULL,									// No client (not network game)
-						NULL,									// No server (not network game)
+						nullptr,									// No client (not network game)
+						nullptr,									// No server (not network game)
 						INPUT_MODE_LIVE,					// Input mode
 						m_sRealmNum,						// Realm number OR -1 to use realm file
 						m_szRealmFile,						// Realm file
@@ -1836,7 +1836,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						0,										// Cooperative (MP only)
 						0,										// Use cooperative mode (MP only)
 						0,										// Frame time (MP only)
-						NULL);								// Demo mode file
+						nullptr);								// Demo mode file
 #ifdef MOBILE
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
 #endif
@@ -1858,8 +1858,8 @@ static int16_t GameCore(void)		// Returns 0 on success.
 					// set via the callback, Game_StartChallengeGame().
 					// ***ADD FLAG(S) TO THIS CALL INDICATING THIS IS A CHALLENGE GAME***
 					Play(
-						NULL,									// No client (not network game)
-						NULL,									// No server (not network game)
+						nullptr,									// No client (not network game)
+						nullptr,									// No server (not network game)
 						INPUT_MODE_LIVE,					// Input mode
 						m_sRealmNum,						// Realm number OR -1 to use realm file
 						m_szRealmFile,						// Realm file
@@ -1873,7 +1873,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						0,										// Cooperative (MP only)
 						0,										// Use cooperative mode (MP only)
 						0,										// Frame time (MP only)
-						NULL);								// Demo mode file
+						nullptr);								// Demo mode file
 #ifdef MOBILE
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
 #endif
@@ -1915,7 +1915,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 					OpenSynchLogs(false);
 #endif
 
-					if (InputDemoInit() == 0)
+               if (InputDemoInit() == SUCCESS)
 						{
 						// If no specific filename has been set for the demo, then load one of 
 						// the default demos.
@@ -1933,7 +1933,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 							{
 							RFile	fileDemo;
 							usDemoCount++;
-							if (fileDemo.Open(m_szDemoFile, "rb", RFile::LittleEndian) == 0)
+                     if (fileDemo.Open(m_szDemoFile, "rb", RFile::LittleEndian) == SUCCESS)
 								{
 								// Read name of realm file
 								char szRealmFile[RSP_MAX_PATH];
@@ -1944,7 +1944,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 								if (!fileDemo.Error())
 									{
 									// Load input demo data (must be BEFORE setting playback mode)
-									if (InputDemoLoad(&fileDemo) == 0)
+                           if (InputDemoLoad(&fileDemo) == SUCCESS)
 										{
 										// End menu (now that we know there were no errors)
 										StopMenu();
@@ -1952,8 +1952,8 @@ static int16_t GameCore(void)		// Returns 0 on success.
 										bMenuActive = false;
 
 										Play(
-											NULL,									// No client (not network game)
-											NULL,									// No server (not network game)
+											nullptr,									// No client (not network game)
+											nullptr,									// No server (not network game)
 											INPUT_MODE_PLAYBACK,				// Input mode
 											-1,									// Always use specific realm file
 											szRealmFile,						// Realm file to be played
@@ -2046,7 +2046,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 					OpenSynchLogs(true);
 #endif
 
-					if (InputDemoInit() == 0)
+               if (InputDemoInit() == SUCCESS)
 						{
 
 						// Get name of realm to play
@@ -2066,11 +2066,11 @@ static int16_t GameCore(void)		// Returns 0 on success.
 							{
 							// Get name of demo file to save to
 							char szDemoFile[RSP_MAX_PATH];
-							if (GetDemoFile(szDemoFile, sizeof(szDemoFile)) == 0)
+                     if (GetDemoFile(szDemoFile, sizeof(szDemoFile)) == SUCCESS)
 								{
 								// Open demo file
 								RFile	fileDemo;
-								if (fileDemo.Open(szDemoFile, "wb", RFile::LittleEndian) == 0)
+                        if (fileDemo.Open(szDemoFile, "wb", RFile::LittleEndian) == SUCCESS)
 									{
 									// Write name of realm file
 									fileDemo.Write(szRealmFile);
@@ -2083,8 +2083,8 @@ static int16_t GameCore(void)		// Returns 0 on success.
 									bMenuActive = false;
 
 									Play(
-										NULL,									// No client (not network game)
-										NULL,									// No server (not network game)
+										nullptr,									// No client (not network game)
+										nullptr,									// No server (not network game)
 										INPUT_MODE_RECORD,				// Input mode
 										-1,									// Always use specific realm file
 										szRealmFile,						// Realm file to be played
@@ -2185,7 +2185,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 
 					// Display option dialog to let user choose a realm file
 					#if 1 //PLATFORM_UNIX
-					if (PickFile("Choose Game Slot", EnumExistingSaveGames, szFileSaved, sizeof(szFileSaved)) == 0)
+               if (PickFile("Choose Game Slot", EnumExistingSaveGames, szFileSaved, sizeof(szFileSaved)) == SUCCESS)
                     {
 #ifdef MOBILE
 						//Android we have the format "1 - date"
@@ -2209,7 +2209,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						m_bJustOneRealm = false;
                     }
 					#else
-					if (rspOpenBox(g_pszLoadGameTitle, szFileSaved, szFileSaved, sizeof(szFileSaved), ".gme") == 0)
+               if (rspOpenBox(g_pszLoadGameTitle, szFileSaved, szFileSaved, sizeof(szFileSaved), ".gme") == SUCCESS)
 						{
 						// This function will open the saved game file and set the correct game mode
 						// and settings.  Note that this modifies the m_action (that's how we get
@@ -2306,7 +2306,7 @@ static void ResetDemoTimer(void)
 static int16_t GetRealmToRecord(	// Returns 0 on success, negative on error, 1 if      
 											// not subpathable (i.e., returned path is full path).
 	char* pszRealmFile,				
-	int16_t sMaxFileLen)
+   size_t sMaxFileLen)
 	{
 	int16_t sResult = 0;
 
@@ -2349,8 +2349,8 @@ extern int16_t SubPathOpenBox(		// Returns 0 on success, negative on error, 1 if
    const char* pszBoxTitle,				// In:  Title of box.
    const char*	pszDefFileName,			// In:  Default filename (system format).
 	char* pszChosenFileName,		// Out: User's choice (system format).
-	int16_t sStrSize,					// In:  Amount of memory pointed to by pszChosenFileName.
-   const char*	pszFilter /*= NULL*/)	// In:  If not NULL, '.' delimited extension based filename
+   size_t sStrSize,					// In:  Amount of memory pointed to by pszChosenFileName.
+   const char*	pszFilter /*= nullptr*/)	// In:  If not nullptr, '.' delimited extension based filename
 											//	filter specification.  Ex: ".cpp.h.exe.lib" or "cpp.h.exe.lib"
 											// Note: Cannot use '.' in filter.  Preceding '.' ignored.
 	{
@@ -2393,7 +2393,7 @@ extern int16_t SubPathOpenBox(		// Returns 0 on success, negative on error, 1 if
 
 		// Display open dialog to let user choose a file
 		sResult = rspOpenBox(pszBoxTitle, pszDefFileName, szChosenFileName, sizeof(szChosenFileName), pszFilter);
-		if (sResult == 0)
+      if (sResult == SUCCESS)
 			{
 			// Attempt to remove path from the specified name
 			int32_t	lFullPathLen	= strlen(szBasePath);
@@ -2429,7 +2429,7 @@ extern int16_t SubPathOpenBox(		// Returns 0 on success, negative on error, 1 if
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t GetDemoFile(
 	char* pszDemoFile,
-	int16_t sMaxFileLen)
+   size_t sMaxFileLen)
 	{
 	int16_t sResult = 0;
 	
@@ -2442,7 +2442,7 @@ static int16_t GetDemoFile(
 
 	// Display save dialog to let user choose a file
 	sResult = rspSaveBox(g_pszSaveDemoTitle, szFile, szFile, sizeof(szFile), DEMO_EXT);
-	if (sResult == 0)
+   if (sResult == SUCCESS)
 		{
 		// Check if result will fit into specified buffer
 		if (strlen(szFile) < sMaxFileLen)
@@ -2512,7 +2512,7 @@ static int16_t OpenSaks(void)
 	time_t lTime;
 	struct tm * timeinfo;
 	RFile file;
-	if (file.Open(FullPathSound(XMAS_SAK_FILENAME), "r", RFile::LittleEndian) == 0) 
+   if (file.Open(FullPathSound(XMAS_SAK_FILENAME), "r", RFile::LittleEndian) == SUCCESS)
 	{
 		// file is there, test if date is correct
 		file.Close();
@@ -2530,21 +2530,21 @@ static int16_t OpenSaks(void)
 	g_resmgrRes.SetBasePath(FullPath(GAME_PATH_HD, "") );
 
 	// Attempt to load the Game SAK . . .
-	if (g_resmgrGame.OpenSak(FullPath(GAME_PATH_GAME, GAME_SAK_FILENAME) ) == 0)
+   if (g_resmgrGame.OpenSak(FullPath(GAME_PATH_GAME, GAME_SAK_FILENAME) ) == SUCCESS)
 		{
 		}
 
 #if TARGET == POSTAL_2015
 	// is XMas mode activated ?
 	if (sXmasMode)
-	if (g_resmgrGame.OpenSakAlt(FullPath(GAME_PATH_GAME, XMAS_SAK_FILENAME), FullPath(GAME_PATH_GAME, XMAS_SCRIPT_FILENAME) ) == 0)
+   if (g_resmgrGame.OpenSakAlt(FullPath(GAME_PATH_GAME, XMAS_SAK_FILENAME), FullPath(GAME_PATH_GAME, XMAS_SCRIPT_FILENAME) ) == SUCCESS)
 		{
 		}
 #endif
 
 	// Attempt to load the Shell SAK . . .
-	if ((g_resmgrShell.OpenSak(FullPath(GAME_PATH_HD, SHELL_SAK_FILENAME) ) == 0) ||
-		 (g_resmgrShell.OpenSak(FullPath(GAME_PATH_VD, SHELL_SAK_FILENAME) ) == 0))
+   if ((g_resmgrShell.OpenSak(FullPath(GAME_PATH_HD, SHELL_SAK_FILENAME) ) == SUCCESS) ||
+       (g_resmgrShell.OpenSak(FullPath(GAME_PATH_VD, SHELL_SAK_FILENAME) ) == SUCCESS))
 		{
 		}
 
@@ -2562,29 +2562,29 @@ static int16_t OpenSaks(void)
 	if (RMix::GetMode(				// Returns 0 on success;            
 											// nonzero if no mode.              
 			&lSamplesPerSec,			// Sample rate in samples per second
-											// returned here, if not NULL.
+											// returned here, if not nullptr.
 			&lDevBitsPerSample,		// Bits per sample of device,
-											// returned here, if not NULL.
-			NULL,							// Number of channels (1 == mono, 
+											// returned here, if not nullptr.
+			nullptr,							// Number of channels (1 == mono, 
 											// 2 == stereo) returned here, 
-											// if not NULL.
-			NULL,							// Amount of time in ms to lead the 
+											// if not nullptr.
+			nullptr,							// Amount of time in ms to lead the 
 											// current play cursor returned here,
-											// if not NULL.  This could also be 
+											// if not nullptr.  This could also be 
 											// described as the maximum amount of
 											// time in ms that can occur between 
 											// calls to rspDoSound.
-			NULL,							// Maximum buffer time.  This is the amt
+			nullptr,							// Maximum buffer time.  This is the amt
 											// that *plBufferTime can be increased to.
 											// This is indicative of how much space
 											// was/will-be allocated for the sound
 											// output device on rspLockSoundOut.
 			&lMixBitsPerSample,		// Bits per sample at which samples are
-											// mixed, if not NULL.
+											// mixed, if not nullptr.
 			&lSrcBitsPerSample)		// Bits per sample at which samples must
 											// be to be mixed (0 if no requirement), 
-											// if not NULL.
-		== 0)
+											// if not nullptr.
+      == SUCCESS)
 		{
 		// Sample quality values set by rspGetSoundOutMode().
 
@@ -2630,7 +2630,7 @@ static int16_t OpenSaks(void)
 	GetSoundPaths(lSamplesPerSec, lSrcBitsPerSample, szSamplesSakSubPath, szSamplesNoSakFullPath);
 
 	// Attempt to load the Sample SAK . . .
-	if (g_resmgrSamples.OpenSak(FullPath(GAME_PATH_SOUND, szSamplesSakSubPath) ) == 0)
+   if (g_resmgrSamples.OpenSak(FullPath(GAME_PATH_SOUND, szSamplesSakSubPath) ) == SUCCESS)
 		{
 		// Wahoo.  No worries.
 #if TARGET == POSTAL_2015
@@ -2638,7 +2638,7 @@ static int16_t OpenSaks(void)
 			if (sXmasMode)
 			{
 				if(lSamplesPerSec==22050 && lSrcBitsPerSample==16)
-				if (g_resmgrSamples.OpenSakAlt(FullPath(GAME_PATH_GAME, XMAS_SAK_SOUND), FullPath(GAME_PATH_GAME, XMAS_SCRIPT_SOUND) ) == 0)
+            if (g_resmgrSamples.OpenSakAlt(FullPath(GAME_PATH_GAME, XMAS_SAK_SOUND), FullPath(GAME_PATH_GAME, XMAS_SCRIPT_SOUND) ) == SUCCESS)
 					{
 					}
 			}
@@ -2697,7 +2697,7 @@ static int16_t OpenSaks(void)
 				GetSoundPaths(amodes[sModeIndex].lSamplesPerSec, amodes[sModeIndex].lBitsPerSample, szSamplesSakSubPath, szSamplesNoSakFullPath);
 			
 				// Attempt to load the Sample SAK . . .
-				if (g_resmgrSamples.OpenSak(FullPath(GAME_PATH_SOUND, szSamplesSakSubPath) ) == 0)
+            if (g_resmgrSamples.OpenSak(FullPath(GAME_PATH_SOUND, szSamplesSakSubPath) ) == SUCCESS)
 					{
 					// Set values to determine SampleMaster quality.
 					// This is probably not necessary when using no sound but let's be safe.
@@ -2710,7 +2710,7 @@ static int16_t OpenSaks(void)
 					if (sXmasMode)
 						{
 						if(lSamplesPerSec==22050 && lSrcBitsPerSample==16)
-						if (g_resmgrSamples.OpenSakAlt(FullPath(GAME_PATH_GAME, XMAS_SAK_SOUND), FullPath(GAME_PATH_GAME, XMAS_SCRIPT_SOUND) ) == 0)
+                  if (g_resmgrSamples.OpenSakAlt(FullPath(GAME_PATH_GAME, XMAS_SAK_SOUND), FullPath(GAME_PATH_GAME, XMAS_SCRIPT_SOUND) ) == SUCCESS)
 							{
 							}
 						}
@@ -2797,9 +2797,8 @@ static int16_t LoadAssets(void)
 		return -1;
 		}
 
-	int16_t i;
 	int32_t lTotalTime = 0;
-	for (i = 0; i < TitleGetNumTitles(); i++)
+   for (size_t i = 0; i < TitleGetNumTitles(); i++)
 		lTotalTime += g_GameSettings.m_alTitleDurations[i];
 
 	// Fake lots of loading with a simple timing loop
@@ -2913,7 +2912,7 @@ extern void Game_StartSinglePlayerGame(
 			if (szFile[0] == '\0')
 				strcpy(szFile, FullPathHD(LEVEL_DIR));
 
-			if (rspOpenBox("Load Realm", szFile, szFile, sizeof(szFile), ".rlm") == 0)
+         if (rspOpenBox("Load Realm", szFile, szFile, sizeof(szFile), ".rlm") == SUCCESS)
 				{
 				// Convert path from system format to rspix format so it matches the
 				// way we normally call Play(), which is with a rspix path.
@@ -3083,7 +3082,7 @@ extern void Game_StartDemoGame(
 	int16_t sMenuItem)
 	{
 #if TARGET != POSTAL_2015
-	char*	pszDemoFile	= NULL;
+	char*	pszDemoFile	= nullptr;
 	char	szLevelDir[RSP_MAX_PATH]	= "";
 	char  szTitle[256] = "";
 #endif
@@ -3117,7 +3116,7 @@ extern void Game_StartDemoGame(
 
 			// Display open dialog to let user choose a realm file
 			sprintf(szTitle, "%s", DEMO_OPEN_TITLE);
-			if (rspOpenBox(szTitle, pszDemoFile, m_szDemoFile, sizeof(m_szDemoFile), ".dmo") == 0)
+         if (rspOpenBox(szTitle, pszDemoFile, m_szDemoFile, sizeof(m_szDemoFile), ".dmo") == SUCCESS)
 			{
 				m_action = ACTION_DEMO_PLAYBACK;
 			}
@@ -3255,7 +3254,7 @@ extern void Game_AudioOptionsChoice(	// Returns nothing.
 extern void Game_StartChallengeGame(	// Returns nothing.
 	int16_t sMenuItem)							// In:  Chosen menu item.
 	{
-	char*	pszRealmFile	= NULL;
+	char*	pszRealmFile	= nullptr;
 	char	szLevelDir[RSP_MAX_PATH]	= "";
 	char	szTitle[256]					= "";
 
@@ -3327,7 +3326,7 @@ extern void Game_StartChallengeGame(	// Returns nothing.
 
 		// Display open dialog to let user choose a realm file
 
-		if (rspOpenBox(szTitle, pszRealmFile, m_szRealmFile, sizeof(m_szRealmFile), ".rlm") == 0)
+      if (rspOpenBox(szTitle, pszRealmFile, m_szRealmFile, sizeof(m_szRealmFile), ".rlm") == SUCCESS)
 			{
 
 			// Convert path from system format to rspix format so it matches the
@@ -3511,13 +3510,13 @@ void GameEndingSequence(void)
 			}
 		}
 
-	if (InputDemoInit() == 0)
+   if (InputDemoInit() == SUCCESS)
 		{
 		// This is the special end of game demo, so set up the demo name
 		sprintf(m_szDemoFile, "%s", FullPathCD(ENDING_DEMO_NAME));
 
 		RFile	fileDemo;
-		if (fileDemo.Open(m_szDemoFile, "rb", RFile::LittleEndian) == 0)
+      if (fileDemo.Open(m_szDemoFile, "rb", RFile::LittleEndian) == SUCCESS)
 			{
 			// Read name of realm file
 			char szRealmFile[RSP_MAX_PATH];
@@ -3528,7 +3527,7 @@ void GameEndingSequence(void)
 			if (!fileDemo.Error())
 				{
 				// Load input demo data (must be BEFORE setting playback mode)
-				if (InputDemoLoad(&fileDemo) == 0)
+            if (InputDemoLoad(&fileDemo) == SUCCESS)
 					{
 					// End menu (now that we know there were no errors)
 //					StopMenu();
@@ -3536,8 +3535,8 @@ void GameEndingSequence(void)
 //					bMenuActive = false;
 
 					Play(
-						NULL,									// No client (not network game)
-						NULL,									// No server (not network game)
+						nullptr,									// No client (not network game)
+						nullptr,									// No server (not network game)
 						INPUT_MODE_PLAYBACK,				// Input mode
 						-1,									// Always use specific realm file
 						szRealmFile,						// Realm file to be played
@@ -3660,7 +3659,7 @@ static void OpenSynchLogs(			// Returns nothing.
 			if (ms_fileSynchLog.Open(
 					g_GameSettings.m_szSynchLogFile, 
 					bWriteLogs ? "wb" : "rb", 
-					RFile::LittleEndian) == 0)
+               RFile::LittleEndian) == SUCCESS)
 				{
 				// Success.
 				}
@@ -3892,7 +3891,7 @@ static void GameGetRegistry(void)
 	Decrypt((char*) szKey, szName, sEncryptedKeyLength);
 	szName[sEncryptedKeyLength-2] = 0;
 	lError = RegCreateKeyEx(HKEY_LOCAL_MACHINE, szName, 0,
-	               "", 	REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL,
+	               "", 	REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr,
 						&hkResult, &dwDisposition);
 	// Destroy the source and result.
 	memset(szName, 0xeb, sEncryptedKeyLength);
@@ -3917,7 +3916,7 @@ static void GameGetRegistry(void)
 				g_lRegTime = EXPIRATION_DATE;
 			else
 			{
-				if (Decrypt(szData, szTime, dwSize) == 0)
+            if (Decrypt(szData, szTime, dwSize) == SUCCESS)
 				{
 					szTime[dwSize] = 0;
 					g_lRegTime = atol(szTime);
@@ -3938,12 +3937,12 @@ static void GameGetRegistry(void)
 
 		FormatMessage( 
 			 FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-			 NULL,
+			 nullptr,
 			 GetLastError(),
 			 MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
 			 (LPTSTR) &lpMsgBuf,
 			 0,
-			 NULL 
+			 nullptr 
 		);
 
 		// Display the string.
@@ -4001,7 +4000,7 @@ static void GameGetRegistry(void)
 		rfPref.Read(szData, dwSize);
 		rfPref.Close();	
 		
-		if (Decrypt(szData, (char*) &lTime, dwSize) == 0)
+      if (Decrypt(szData, (char*) &lTime, dwSize) == SUCCESS)
 		{
 			g_lRegTime = lTime;
 		}
@@ -4104,7 +4103,7 @@ static void GameSetRegistry(void)
 	Decrypt((char*) szKey, szName, sEncryptedKeyLength);
 	szName[sEncryptedKeyLength-2] = 0;
 	lError = RegCreateKeyEx(HKEY_LOCAL_MACHINE, szName, 0,
-	               "", 	REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL,
+	               "", 	REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr,
 						&hkResult, &dwDisposition);
 	memset(szName, 0xea, sEncryptedKeyLength);
 
@@ -4124,12 +4123,12 @@ static void GameSetRegistry(void)
 
 		FormatMessage( 
 			 FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-			 NULL,
+			 nullptr,
 			 GetLastError(),
 			 MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
 			 (LPTSTR) &lpMsgBuf,
 			 0,
-			 NULL 
+			 nullptr 
 		);
 
 		// Display the string.
@@ -4684,7 +4683,7 @@ extern char* FullPathCustom(							// Returns full path in system format
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CorrectifyBasePath(								// Returns 0 if successfull, non-zero otherwise
 	char* pszBasePath,									// I/O: Base path to be corrected
-	int16_t sMaxPathLen)									// In:  Maximum length of base path
+   size_t sMaxPathLen)									// In:  Maximum length of base path
 	{
 	int16_t sResult = 0;
 
@@ -4708,21 +4707,21 @@ int16_t CorrectifyBasePath(								// Returns 0 if successfull, non-zero otherwi
 			// 09/05/97, PPL
 			// Apparently, the getcwd function works completely (well, maybe not completely) different
 			// on the MAC.  We need to go ahead and allocate our own buffer and free it later because
-			// if a NULL is passed in, a NULL is returned.  This should not have any adverse effects
+			// if a nullptr is passed in, a nullptr is returned.  This should not have any adverse effects
 			// on the PC version.
-			//char* pszOrigDir = getcwd(NULL, RSP_MAX_PATH);
+			//char* pszOrigDir = getcwd(nullptr, RSP_MAX_PATH);
 			char* pszOrigDir = (char*)malloc(RSP_MAX_PATH);
-			if (pszOrigDir != NULL)
+			if (pszOrigDir != nullptr)
 				{
 				// Let's go ahead and get the current working directory here, once we're sure that
 				// the string to store it has been properly allocated.
 				pszOrigDir = getcwd(pszOrigDir, RSP_MAX_PATH);
 
 				// Change to specified directory, which may be relative or absolute
-				if (chdir(pszBasePath) == 0)
+            if (chdir(pszBasePath) == SUCCESS)
 					{
 					// Get directory, which is always returned as absolute
-					if (getcwd(pszBasePath, sMaxPathLen) == NULL)
+					if (getcwd(pszBasePath, sMaxPathLen) == nullptr)
 						{
 						sResult = -1;
 						TRACE("CorrectifyBasePath(): Couldn't get current directory (was set to '%s')!\n", pszBasePath);
@@ -4750,7 +4749,7 @@ int16_t CorrectifyBasePath(								// Returns 0 if successfull, non-zero otherwi
 			// Ensure that path ends properly, either with or without the system-specific
 			// separator character, depending on which system we're on.
 			//------------------------------------------------------------------------------
-			if (sResult == 0)
+         if (sResult == SUCCESS)
 				{
 				// Get index to last character
 				int16_t sLastIndex = strlen(pszBasePath);

@@ -108,7 +108,7 @@ class CBarrel : public CThing3d
 			m_dRot = 0;
 			m_dX = m_dY = m_dZ = m_dVel = m_dAcc = 0;
 			m_sScreenRadius = 20;
-			m_panimCur = m_pPreviousAnim = NULL;
+			m_panimCur = m_pPreviousAnim = nullptr;
 			m_sprite.m_pthing	= this;
 			m_bSpecial = false;
 			}
@@ -137,7 +137,7 @@ class CBarrel : public CThing3d
 			{
 			int16_t sResult = 0;
 			*ppNew = new CBarrel(pRealm);
-			if (*ppNew == 0)
+			if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CBarrel::Construct(): Couldn't construct CBarrel (that's a bad thing)\n");

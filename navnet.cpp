@@ -176,7 +176,7 @@ int16_t CNavigationNet::Load(							// Returns 0 if successfull, non-zero otherw
 	{
 	// Call the base class load to get the instance ID
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -210,7 +210,7 @@ int16_t CNavigationNet::Load(							// Returns 0 if successfull, non-zero otherw
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 			{
 			// Get resources
 			sResult = GetResources();
@@ -348,7 +348,7 @@ int16_t CNavigationNet::EditPostLoad(void)
 	CListNode<CThing>* pEditorList = m_pRealm->m_aclassHeads[CThing::CGameEditThingID].m_pnNext;
 	CGameEditThing* peditor = (CGameEditThing*) pEditorList->m_powner;
 	RListBox* plb = peditor->m_plbNavNetList;
-	if (plb != NULL)
+	if (plb != nullptr)
 	{
 		RGuiItem* pgui = plb->AddString((char*) m_rstrNetName);
 		pgui->m_lId = GetInstanceID();
@@ -389,7 +389,7 @@ int16_t CNavigationNet::EditNew(									// Returns 0 if successfull, non-zero o
 		CListNode<CThing>* pEditorList = m_pRealm->m_aclassHeads[CThing::CGameEditThingID].m_pnNext;
 		CGameEditThing* peditor = (CGameEditThing*) pEditorList->m_powner;
 		RListBox* plb = peditor->m_plbNavNetList;
-		if (plb != NULL)
+		if (plb != nullptr)
 		{
 			RGuiItem* pgui = plb->AddString((char*) m_rstrNetName);
 			pgui->m_lId = GetInstanceID();
@@ -413,7 +413,7 @@ void SetText(					// Returns nothing.
 	char*			str)			// In:  Value to set text to.
 	{
 	RGuiItem*	pgui	= pguiRoot->GetItemFromId(lId);
-	if (pgui != NULL)
+	if (pgui != nullptr)
 		{
 		pgui->SetText(str);
 		pgui->Compose(); 
@@ -456,7 +456,7 @@ int16_t CNavigationNet::EditModify(void)
 /*
 
 		RGuiItem*	pguiRemove;
-		if (pview != NULL)
+		if (pview != nullptr)
 			{
 			pguiRemove	= plb->GetItemFromId((long)pview);
 			}
@@ -465,7 +465,7 @@ int16_t CNavigationNet::EditModify(void)
 			pguiRemove	= plb->GetSel();
 			}
 
-		if (pguiRemove != NULL)
+		if (pguiRemove != nullptr)
 			{
 			KillView((View*)(pguiRemove->m_lId));
 			plb->RemoveItem(pguiRemove);
@@ -543,7 +543,7 @@ void CNavigationNet::EditRect(RRect* pRect)
 	pRect->sW	= 10;	// Safety.
 	pRect->sH	= 10;	// Safety.
 
-	if (m_pImage != NULL)
+	if (m_pImage != nullptr)
 		{
 		pRect->sW	= m_pImage->m_sWidth;
 		pRect->sH	= m_pImage->m_sHeight;
@@ -575,10 +575,10 @@ int16_t CNavigationNet::GetResources(void)						// Returns 0 if successfull, non
 	{
 	int16_t sResult = 0;
 
-	if (m_pImage == 0)
+   if (m_pImage == nullptr)
 		{
 		sResult	= rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(IMAGE_FILE), &m_pImage);
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 			// This is a questionable action on a resource managed item, but it's
 			// okay if EVERYONE wants it to be an FSPR8.
@@ -645,7 +645,7 @@ void CNavigationNet::RemoveBouy(uint8_t ucBouyID)
 
 CBouy* CNavigationNet::GetBouy(uint8_t ucBouyID)
 {
-	CBouy* pBouy = NULL;
+	CBouy* pBouy = nullptr;
 	nodeMap::iterator i;
 
 	i = m_NodeMap.find(ucBouyID);
@@ -670,8 +670,8 @@ uint8_t CNavigationNet::FindNearestBouy(int16_t sX, int16_t sZ)
 	double dX;
 	double dZ;
 	CBouy* pBouy;
-	TreeListNode* pRoot = NULL;
-	TreeListNode* pCurrent = NULL;
+	TreeListNode* pRoot = nullptr;
+	TreeListNode* pCurrent = nullptr;
 	uint8_t	ucNode = 0;
 
 	// Build the sorted list of bouys
@@ -683,7 +683,7 @@ uint8_t CNavigationNet::FindNearestBouy(int16_t sX, int16_t sZ)
 		dSqDist = (dX * dX) + (dZ * dZ);
 		pBouy->m_TreeNode.m_sortkey = dSqDist;
 		pBouy->m_TreeNode.m_powner = pBouy;
-		if (pRoot == NULL)
+		if (pRoot == nullptr)
 		{
 			pRoot = &pBouy->m_TreeNode;
 			//m_BouyTreeListHead.AddAfter(&pBouy->m_TreeNode);
@@ -703,7 +703,7 @@ uint8_t CNavigationNet::FindNearestBouy(int16_t sX, int16_t sZ)
 	while (pCurrent && bSearching)
 	{
 		pBouy = pCurrent->m_powner;
-//		ASSERT(pBouy != NULL);
+//		ASSERT(pBouy != nullptr);
 		if (pBouy)
 		{
 			if (m_pRealm->IsPathClear(sX, sY, sZ, 4.0, (int16_t) pBouy->GetX(), (int16_t) pBouy->GetZ()))
@@ -773,7 +773,7 @@ void CNavigationNet::UpdateRoutingTables(void)
 	char szLine[256];
 	FILE* fp;
 	fp = fopen("c:\\temp\\net.txt", "wt");
-	if (fp != NULL)
+	if (fp != nullptr)
 	{
 		for (i = m_NodeMap.begin(); i != m_NodeMap.end(); i++)
 		{
@@ -799,7 +799,7 @@ void CNavigationNet::PrintRoutingTables(void)
 	char szLine[256];
 	FILE* fp;
 	fp = fopen("c:\\temp\\links.txt", "wt");
-	if (fp != NULL)
+	if (fp != nullptr)
 	{
 		for (i = m_NodeMap.begin(); i != m_NodeMap.end(); i++)
 		{

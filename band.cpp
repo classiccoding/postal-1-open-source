@@ -228,7 +228,7 @@ static const char* ms_apszStandResNames[] =
 	"3d/bandg_stand.bounds",
 	"3d/bandg_stand.floor",
 	"3d/bandg_stand_instrument.trans",
-	NULL	
+	nullptr	
 };
 
 /// Running Animation Files
@@ -242,7 +242,7 @@ static const char* ms_apszRunResNames[] =
 	"3d/bandg_run.bounds",
 	"3d/bandg_run.floor",
 	"3d/bandg_run_instrument.trans",
-	NULL
+	nullptr
 };
 
 /// Throwing Animation Files 
@@ -256,7 +256,7 @@ static const char* ms_apszMarchResNames[] =
 	"3d/bandg_march.bounds",
 	"3d/bandg_march.floor",
 	"3d/bandg_march_instrument.trans",
-	NULL
+	nullptr
 };
 
 // Shot Animation Files
@@ -270,7 +270,7 @@ static const char* ms_apszShotResNames[] =
 	"3d/bandg_shot.bounds",
 	"3d/bandg_shot.floor",
 	"3d/bandg_shot_instrument.trans",
-	NULL
+	nullptr
 };
 
 /// Blown up Animation Files
@@ -284,7 +284,7 @@ static const char* ms_apszBlownupResNames[] =
 	"3d/bandg_blownup.bounds",
 	"3d/bandg_blownup.floor",
 	"3d/bandg_blownup_instrument.trans",
-	NULL
+	nullptr
 };
 
 /// OnFire Animation Files
@@ -298,7 +298,7 @@ static const char* ms_apszOnFireResNames[] =
 	"3d/bandg_onfire.bounds",
 	"3d/bandg_onfire.floor",
 	"3d/bandg_onfire_instrument.trans",
-	NULL
+	nullptr
 };
 
 #ifdef UNUSED_VARIABLES
@@ -327,7 +327,7 @@ int16_t CBand::Load(					// Returns 0 if successfull, non-zero otherwise
 
 	// Call the base class load to get the instance ID, position, motion etc.
 	sResult	= CDoofus::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -405,7 +405,7 @@ int16_t CBand::Load(					// Returns 0 if successfull, non-zero otherwise
 			}
 			
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 		{
 			// Get resources
 			sResult = GetResources();
@@ -495,8 +495,8 @@ int16_t CBand::Init(void)
 //	m_ucDestBouyID = 1;		// This is the end of the parade route bouy
 //	m_ucNextBouyID = m_pNavNet->FindNearestBouy(m_dX, m_dZ);
 	m_pNextBouy = m_pNavNet->GetBouy(m_ucNextBouyID);
-//	ASSERT(m_pNextBouy != NULL);
-	if (m_pNextBouy != NULL)
+//	ASSERT(m_pNextBouy != nullptr);
+	if (m_pNextBouy != nullptr)
 		{
 		m_sNextX = m_pNextBouy->GetX();
 		m_sNextZ = m_pNextBouy->GetZ();
@@ -552,7 +552,7 @@ void CBand::Update(void)
 	double dStartZ;
 	int32_t lThisTime;
 	int32_t lTimeDifference;
-	CThing* pDemon = NULL;
+	CThing* pDemon = nullptr;
 
 	if (!m_sSuspend)
 	{
@@ -588,7 +588,7 @@ void CBand::Update(void)
 						SampleMaster::Unspecified,				// In:  Sound Volume Category for user adjustment
 						255,											// In:  Initial Sound Volume (0 - 255)
 						&ms_siBandSongInstance,					// Out: Handle for adjusting sound volume
-						NULL,											// Out: Sample duration in ms, if not NULL.
+						nullptr,											// Out: Sample duration in ms, if not nullptr.
 						0,												// In:  Where to loop back to in milliseconds.
 																		//	-1 indicates no looping (unless m_sLoop is
 																		// explicitly set).
@@ -681,7 +681,7 @@ void CBand::Update(void)
 					m_ucNextBouyID = m_pNavNet->FindNearestBouy(m_dX, m_dZ);
 					m_pNextBouy = m_pNavNet->GetBouy(m_ucNextBouyID);
 					m_lTimer = lThisTime + ms_lMingleTime;
-					if (m_ucDestBouyID == 0 || m_pNextBouy == NULL)
+					if (m_ucDestBouyID == 0 || m_pNextBouy == nullptr)
 					{
 						m_state = State_Wait;
 					}
@@ -689,7 +689,7 @@ void CBand::Update(void)
 					{
 						m_ucNextBouyID = m_pNextBouy->NextRouteNode(m_ucDestBouyID);
 						m_pNextBouy = m_pNavNet->GetBouy(m_ucNextBouyID);
-						if (m_pNextBouy != NULL)
+						if (m_pNextBouy != nullptr)
 						{
 							m_sNextX = m_pNextBouy->GetX();
 							m_sNextZ = m_pNextBouy->GetZ();
@@ -870,7 +870,7 @@ void CBand::Update(void)
 					else
 					{
 						m_pNextBouy = m_pNavNet->GetBouy(m_ucNextBouyID);
-						if (m_pNextBouy != NULL)
+						if (m_pNextBouy != nullptr)
 						{
 							m_sNextX = m_pNextBouy->GetX();
 							m_sNextZ = m_pNextBouy->GetZ();
@@ -1043,7 +1043,7 @@ void CBand::Render(void)
 	if (m_idChildItem != CIdBank::IdNil)
 	{
 		CItem3d*	pitem;
-		if (m_pRealm->m_idbank.GetThingByID((CThing**)&pitem, m_idChildItem) == 0)
+		if (m_pRealm->m_idbank.GetThingByID((CThing**)&pitem, m_idChildItem) == SUCCESS)
 		{
 			// Set transform from our rigid body transfanimation for the child
 			// sprite.
@@ -1114,15 +1114,15 @@ int16_t CBand::EditModify(void)
 
 			CItem3d::ItemType	itChild	= CItem3d::None;
 			// If there's currently a child . . .
-			CItem3d*	pitem	= NULL;
-			if (m_pRealm->m_idbank.GetThingByID((CThing**)&pitem, m_idChildItem) == 0)
+			CItem3d*	pitem	= nullptr;
+			if (m_pRealm->m_idbank.GetThingByID((CThing**)&pitem, m_idChildItem) == SUCCESS)
 				{
 				// Get the type.
 				itChild	= pitem->m_type;
 				}
 
 			RListBox*	plbChildTypes	= (RListBox*)pGui->GetItemFromId(3);
-			if (plbChildTypes != NULL)
+			if (plbChildTypes != nullptr)
 				{
 				ASSERT(plbChildTypes->m_type == RGuiItem::ListBox);
 				
@@ -1135,7 +1135,7 @@ int16_t CBand::EditModify(void)
 					if (i != CItem3d::Custom)
 						{
 						pguiItem	= plbChildTypes->AddString(CItem3d::ms_apszKnownAnimDescriptions[i]);
-						if (pguiItem != NULL)
+						if (pguiItem != nullptr)
 							{
 							// Set item number.
 							pguiItem->m_ulUserData	= i;
@@ -1155,10 +1155,10 @@ int16_t CBand::EditModify(void)
 			{
 				m_ucNextBouyID = RSP_SAFE_GUI_REF(pguiStartBouy, GetVal());
 				m_ucDestBouyID = RSP_SAFE_GUI_REF(pguiDestBouy, GetVal());
-				if (plbChildTypes != NULL)
+				if (plbChildTypes != nullptr)
 					{
 					RGuiItem*	pguiSel	= plbChildTypes->GetSel();
-					if (pguiSel != NULL)
+					if (pguiSel != nullptr)
 						{
 						itChild	= (CItem3d::ItemType)pguiSel->m_ulUserData;
 						}
@@ -1168,7 +1168,7 @@ int16_t CBand::EditModify(void)
 						itChild	= CItem3d::None;
 						}
 
-					if (pitem != NULL)
+					if (pitem != nullptr)
 						{
 						// If it is not of the new type . . .
 						if (pitem->m_type != itChild)
@@ -1179,23 +1179,23 @@ int16_t CBand::EditModify(void)
 								(RTransform*) m_panimCur->m_ptransRigid->GetAtTime(m_lAnimTime) );
 							// Be gone.
 							delete pitem;
-							pitem	= NULL;
+							pitem	= nullptr;
 							}
 						}
 
 					// If there is no child item . . .
-					if (pitem == NULL)
+					if (pitem == nullptr)
 						{
 						// If a child is desired . . .
 						if (itChild != CItem3d::None)
 							{
 							// Have one.
-							if (ConstructWithID(CItem3dID, m_pRealm, (CThing**)&pitem) == 0)
+							if (ConstructWithID(CItem3dID, m_pRealm, (CThing**)&pitem) == SUCCESS)
 								{
 								// Remember who our child is.
 								m_idChildItem	= pitem->GetInstanceID();
 								// Setup the child.
-								pitem->Setup(0, 0, 0, itChild, NULL, m_u16InstanceId);
+								pitem->Setup(0, 0, 0, itChild, nullptr, m_u16InstanceId);
 								}
 							else
 								{
@@ -1226,22 +1226,22 @@ int16_t CBand::GetResources(void)						// Returns 0 if successfull, non-zero oth
 	int16_t sResult = 0;
 
 	sResult = m_animRun.Get(ms_apszRunResNames, RChannel_LoopAtStart | RChannel_LoopAtEnd);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		sResult = m_animStand.Get(ms_apszStandResNames, RChannel_LoopAtStart | RChannel_LoopAtEnd);
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 		{
 			sResult = m_animMarch.Get(ms_apszMarchResNames, RChannel_LoopAtStart | RChannel_LoopAtEnd);
-			if (sResult == 0)
+			if (sResult == SUCCESS)
 			{
 				sResult = m_animShot.Get(ms_apszShotResNames);
-				if (sResult == 0)
+				if (sResult == SUCCESS)
 				{
 					sResult = m_animBlownup.Get(ms_apszBlownupResNames);
-					if (sResult == 0)
+					if (sResult == SUCCESS)
 					{
 						sResult = m_animOnFire.Get(ms_apszOnFireResNames, RChannel_LoopAtStart | RChannel_LoopAtEnd);
-						if (sResult == 0)
+						if (sResult == SUCCESS)
 						{
 							// Add more anim gets here if necessary
 						}
@@ -1395,7 +1395,7 @@ void CBand::OnExplosionMsg(Explosion_Message* pMessage)
 			&m_idChildItem,
 			(RTransform*) m_panimCur->m_ptransRigid->GetAtTime(m_lAnimTime) );
 		// If we got something back . . . 
-		if (pthing3d != NULL)
+		if (pthing3d != nullptr)
 			{
 			// Let it know about the explosion.
 			GameMessage msg;
@@ -1587,7 +1587,7 @@ void CBand::AlertBand(void)
 	msg.msg_Panic.sZ = (int16_t) m_dZ;
 
 	CListNode<CThing>* pNext = m_pRealm->m_aclassHeads[CThing::CBandID].m_pnNext;
-	while (pNext->m_powner != NULL)
+	while (pNext->m_powner != nullptr)
 	{
 		pThing = pNext->m_powner;
 		if (pThing != this)
@@ -1659,7 +1659,7 @@ void CBand::DropItem(void)	// Returns nothing.
 			&m_idChildItem,
 			(RTransform*) m_panimCur->m_ptransRigid->GetAtTime(m_lAnimTime) );
 		// If we got something back . . . 
-		if (pthing3d != NULL)
+		if (pthing3d != nullptr)
 			{
 			// Send it spinning.
 			pthing3d->m_dExtRotVelY	= GetRand() % 720;

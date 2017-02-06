@@ -227,32 +227,32 @@ CHood::CHood(CRealm* pRealm)
 	: CThing(pRealm, CHoodID)
 	{
 	// Initialize ptrs to resources.
-	m_pimBackground	= NULL;
-	m_pTerrainMap		= NULL;
-	m_pLayerMap			= NULL;
+	m_pimBackground	= nullptr;
+	m_pTerrainMap		= nullptr;
+	m_pLayerMap			= nullptr;
 
 	int16_t i;
 	for (i = 0; i < MaxLayers; i++)
 		{
-		m_apspryAlphas[i]		= NULL;
-		m_apspryOpaques[i]	= NULL;
+		m_apspryAlphas[i]		= nullptr;
+		m_apspryOpaques[i]	= nullptr;
 		}
 
-	m_pimXRayMask		= NULL;
-	m_pmaTransparency	= NULL;
-	m_pltAmbient		= NULL;
-	m_pltSpot			= NULL;
+	m_pimXRayMask		= nullptr;
+	m_pmaTransparency	= nullptr;
+	m_pltAmbient		= nullptr;
+	m_pltSpot			= nullptr;
 
-	m_pimEmptyBar		= NULL;			
-	m_pimEmptyBarSelected= NULL;	
-	m_pimFullBar		= NULL;			
-	m_pimFullBarSelected	= NULL;	
-	m_pimTopBar = NULL;
+	m_pimEmptyBar		= nullptr;			
+	m_pimEmptyBarSelected= nullptr;	
+	m_pimFullBar		= nullptr;			
+	m_pimFullBarSelected	= nullptr;	
+	m_pimTopBar = nullptr;
 
-	m_pimNum			= NULL;		
-	m_pimNumLite	= NULL;
-	m_pimNumLow		= NULL;	
-	m_pimNumGone	= NULL;		
+	m_pimNum			= nullptr;		
+	m_pimNumLite	= nullptr;
+	m_pimNumLow		= nullptr;	
+	m_pimNumGone	= nullptr;		
 	
 	// Must flag resources as not yet existing
 	m_bResourcesExist = false;
@@ -288,7 +288,7 @@ CHood::~CHood()
 	{
 	Kill();
 	// Clear Realm's ptr.
-	m_pRealm->m_phood	= NULL;
+	m_pRealm->m_phood	= nullptr;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -304,7 +304,7 @@ int16_t CHood::Load(								// Returns 0 if successfull, non-zero otherwise
 
 	// In most cases, the base class Load() should be called.
 	sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		// Load object data
 		switch (ulFileVersion)
@@ -409,7 +409,7 @@ int16_t CHood::Load(								// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 			{
 			sResult = Init();
 			}
@@ -439,7 +439,7 @@ int16_t CHood::Save(								// Returns 0 if successfull, non-zero otherwise
 
 	// In most cases, the base class Save() should be called.
 	sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		// Save object data
 		pFile->Write(m_sScaleAttribHeights);
@@ -453,7 +453,7 @@ int16_t CHood::Save(								// Returns 0 if successfull, non-zero otherwise
 		pFile->Write(m_sShadowIntensity);
 
 		sResult	= pFile->Error();
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 			}
 		else
@@ -548,7 +548,7 @@ static void BrowseBtnUp(	// Returns nothing.  Called on button released in
 				szSystemPath,						// In:  Default filename (system format).            
 				szSystemPath,						// Out: User's choice (system format).               
 				sizeof(szSystemPath),			// In:  Amount of memory pointed to by pszChosenFileName.
-				"sak");								// In:  If not NULL, '.' delimited extension based filename
+				"sak");								// In:  If not nullptr, '.' delimited extension based filename
 														//	filter specification.  Ex: ".cpp.h.exe.lib" or "cpp.h.exe.lib"
 														// Note: Cannot use '.' in filter.  Preceding '.' ignored.
 
@@ -564,7 +564,7 @@ static void BrowseBtnUp(	// Returns nothing.  Called on button released in
 			} while (sResult > 0);
 
 		// If successful in getting a relative path . . .
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 			// Copy back from system format to RSPiX -- we're actually only looking for one word
 			// anyway (not a path).
@@ -608,7 +608,7 @@ int16_t CHood::EditNew(									// Returns 0 if successfull, non-zero otherwise
 
 	// Load the GUI for editting.
 	RGuiItem*	pguiEdit	= RGuiItem::LoadInstantiate(FullPath(GAME_PATH_HD, GUI_FILE_NAME) );
-	if (pguiEdit != NULL)
+	if (pguiEdit != nullptr)
 		{
 		// Get ptr to edit field . . .
 		RGuiItem*	pguiBaseName	= pguiEdit->GetItemFromId(GUI_ID_BASENAME);
@@ -623,7 +623,7 @@ int16_t CHood::EditNew(									// Returns 0 if successfull, non-zero otherwise
 		RGuiItem*	pgui2dResPaths			= pguiEdit->GetItemFromId(GUI_ID_2DRESPATHS);
 		RGuiItem*	pguiBrowse				= pguiEdit->GetItemFromId(GUI_ID_BROWSE);
 	
-		if (pguiBaseName != NULL)
+		if (pguiBaseName != nullptr)
 			{
 			// Set text to start with current base name.
 			pguiBaseName->SetText("%s", m_acBaseName);
@@ -754,14 +754,14 @@ int16_t CHood::EditNew(									// Returns 0 if successfull, non-zero otherwise
 						}
 					}
 
-				if (pguiKillsPercentGoal != NULL)
+				if (pguiKillsPercentGoal != nullptr)
 					{
-					m_pRealm->m_dKillsPercentGoal	= strtod(pguiKillsPercentGoal->m_szText, NULL);
+					m_pRealm->m_dKillsPercentGoal	= strtod(pguiKillsPercentGoal->m_szText, nullptr);
 					}
 
 				// Init the hood
 				sResult = Init();
-				if (sResult == 0)
+				if (sResult == SUCCESS)
 					{
 					// Start it.
 					Startup();
@@ -841,7 +841,7 @@ int16_t CHood::Init(void)									// Returns 0 if successfull, non-zero otherwis
 		{
 		// Get resources
 		sResult = GetResources();
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 			// Set the realm's pointer to point at our attribute map.  This is a
 			// shortcut to make it easier and faster for objects to access the map.
@@ -864,7 +864,7 @@ int16_t CHood::Init(void)									// Returns 0 if successfull, non-zero otherwis
 			for (lIndex	= 0; lIndex < MaxLayers; lIndex++)
 				{
 				// If this layer exists . . .
-				if (m_apspryAlphas[lIndex] != NULL)
+				if (m_apspryAlphas[lIndex] != nullptr)
 					{
 					RSpry::ListOfSprites::Pointer p = m_apspryAlphas[lIndex]->m_listSprites.GetHead();
 					while (p)
@@ -885,7 +885,7 @@ int16_t CHood::Init(void)									// Returns 0 if successfull, non-zero otherwis
 					}
 
 				// If this layer exists . . .
-				if (m_apspryOpaques[lIndex] != NULL)
+				if (m_apspryOpaques[lIndex] != nullptr)
 					{
 					RSpry::ListOfSprites::Pointer p = m_apspryOpaques[lIndex]->m_listSprites.GetHead();
 					while (p)
@@ -911,7 +911,7 @@ int16_t CHood::Init(void)									// Returns 0 if successfull, non-zero otherwis
 		#ifdef NEW_SMASH
 
 		// This requires success in the previous ops . . .
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 			// Jon has PROMISED me that there is an m_pRealm which is ACCURATE.
 			#define MAX_SMASHEE_W 72 // 40	once we deal with fat objects
@@ -928,7 +928,7 @@ int16_t CHood::Init(void)									// Returns 0 if successfull, non-zero otherwis
 		}
  
 	// If successful so far . . .
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		SetupPipeline();
 		}
@@ -982,35 +982,35 @@ int16_t SpryLoadConv(			// Returns 0 on success.
 	char*		pszFileName,	// In:  File/Res name of .SAY file.
 	RImage::Type	type)		// In:  Destination type.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+   int16_t	sResult	= 0;	// Assume success.
 
 	if (rspGetResource(
 		presmgr,
 		pszFileName,
-		ppspry) == 0)
+      ppspry) == SUCCESS)
 		{
 		// If conversion specified . . .
 		if (type != RImage::NOT_SUPPORTED)
 			{
 			// Convert . . .
-			if ((*ppspry)->Convert(type) == 0)
+         if ((*ppspry)->Convert(type) == SUCCESS)
 				{
 				// Success.
 				}
 			else
 				{
 				TRACE("SpryLoadConv(): (*ppspry)->Convert(type) failed.\n");
-				sRes	= -3;
+            sResult	= -3;
 				}
 			}
 		}
 	else
 		{
 //		TRACE("SpryLoadConv(): Failed to load SPRY \"%s\".\n", pszFileName);
-		sRes	= -1;
+      sResult	= -1;
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 extern int wideScreenWidth;
@@ -1041,13 +1041,13 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 		sprintf(szFileName, "res/hoods/%s.sak", m_acBaseName);
 
 		// Open SAK, if available . . .
-		if (m_pRealm->m_resmgr.OpenSak(FullPathHD(szFileName)) == 0)
+      if (m_pRealm->m_resmgr.OpenSak(FullPathHD(szFileName)) == SUCCESS)
 			{
 			// Using SAK from HD.
 			}
 		else
 			{
-			if (m_pRealm->m_resmgr.OpenSak(FullPathHoods(szFileName)) == 0)
+         if (m_pRealm->m_resmgr.OpenSak(FullPathHoods(szFileName)) == SUCCESS)
 				{
 				// Using SAK from hoods path.
 				}
@@ -1081,7 +1081,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 			// Make alpha layer name.
 			sprintf(szFileName, "%s%02da.say", szBasePath, lIndex);
 			// Load & convert . . .
-			if (SpryLoadConv(&(m_pRealm->m_resmgr), m_apspryAlphas + lIndex, szFileName, RImage::FSPR8) == 0)
+         if (SpryLoadConv(&(m_pRealm->m_resmgr), m_apspryAlphas + lIndex, szFileName, RImage::FSPR8) == SUCCESS)
 				{
 				sNumAlphaLayersLoaded++;
 				}
@@ -1089,7 +1089,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 			// Make opaque layer name.
 			sprintf(szFileName, "%s%02do.say", szBasePath, lIndex);
 			// Load & convert . . .
-			if (SpryLoadConv(&(m_pRealm->m_resmgr), m_apspryOpaques + lIndex, szFileName, RImage::FSPR8) == 0)
+         if (SpryLoadConv(&(m_pRealm->m_resmgr), m_apspryOpaques + lIndex, szFileName, RImage::FSPR8) == SUCCESS)
 				{
 				sNumOpaqueLayersLoaded++;
 				}
@@ -1267,43 +1267,43 @@ int16_t CHood::FreeResources(void)						// Returns 0 if successfull, non-zero ot
 	// those resources that were loaded.  The stuff being done here is safe
 	// regardless of whether or not the resource was actually loaded.
 	
-	if (m_pimBackground != NULL)
+	if (m_pimBackground != nullptr)
 		rspReleaseResource(&(m_pRealm->m_resmgr), &m_pimBackground);
 
 	int32_t	lIndex;
 	for (lIndex	= 0; lIndex < MaxLayers; lIndex++)
 		{
-		if (m_apspryAlphas[lIndex] != NULL)
+		if (m_apspryAlphas[lIndex] != nullptr)
 			rspReleaseResource(&(m_pRealm->m_resmgr), &(m_apspryAlphas[lIndex]));
 
-		if (m_apspryOpaques[lIndex] != NULL)
+		if (m_apspryOpaques[lIndex] != nullptr)
 			rspReleaseResource(&(m_pRealm->m_resmgr), &(m_apspryOpaques[lIndex]));
 		}
 
-	if (m_pTerrainMap != NULL)
+	if (m_pTerrainMap != nullptr)
 		{
 		rspReleaseResource(&(m_pRealm->m_resmgr), &m_pTerrainMap);
 		// Clear Realm's map ptr
-		m_pRealm->m_pTerrainMap = NULL;
+		m_pRealm->m_pTerrainMap = nullptr;
 		}
 
-	if (m_pLayerMap != NULL)
+	if (m_pLayerMap != nullptr)
 		{
 		rspReleaseResource(&(m_pRealm->m_resmgr), &m_pLayerMap);
 		// Clear Realm's map ptr
-		m_pRealm->m_pLayerMap = NULL;
+		m_pRealm->m_pLayerMap = nullptr;
 		}
 
-	if (m_pimXRayMask != NULL)
+	if (m_pimXRayMask != nullptr)
 		rspReleaseResource(&(m_pRealm->m_resmgr), &m_pimXRayMask);
 
-	if (m_pmaTransparency != NULL)
+	if (m_pmaTransparency != nullptr)
 		rspReleaseResource(&(m_pRealm->m_resmgr), &m_pmaTransparency);
 
-	if (m_pltAmbient != NULL)
+	if (m_pltAmbient != nullptr)
 		rspReleaseResource(&(m_pRealm->m_resmgr), &m_pltAmbient);
 
-	if (m_pltSpot != NULL)
+	if (m_pltSpot != nullptr)
 		rspReleaseResource(&(m_pRealm->m_resmgr), &m_pltSpot);
 
 	if (m_pimEmptyBar)
@@ -1332,7 +1332,7 @@ int16_t CHood::FreeResources(void)						// Returns 0 if successfull, non-zero ot
 ////////////////////////////////////////////////////////////////////////////////
 void CHood::SetPalette(void)	// Returns nothing.
 	{
-	ASSERT(m_pimBackground->m_pPalette != NULL);
+	ASSERT(m_pimBackground->m_pPalette != nullptr);
 	ASSERT(m_pimBackground->m_pPalette->m_type == RPal::PDIB);
 	
 	rspSetPaletteEntries(

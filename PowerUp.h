@@ -147,7 +147,7 @@ class CPowerUp : public CItem3d
 			{
 			int16_t sResult = 0;
 			*ppNew = new CPowerUp(pRealm);
-			if (*ppNew == 0)
+         if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CPowerUp::Construct(): Couldn't construct CPowerUp (that's a bad thing)\n");

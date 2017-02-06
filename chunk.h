@@ -148,7 +148,7 @@ class CChunk : public CThing
 			if (g_GameSettings.m_sParticleEffects)
 				{
 				*ppNew = new CChunk(pRealm);
-				if (*ppNew == 0)
+				if (*ppNew == nullptr)
 					{
 					sResult = -1;
 					TRACE("CChunk::Construct(): Couldn't construct CChunk (that's really "

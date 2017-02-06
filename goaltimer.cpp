@@ -70,7 +70,7 @@ int16_t CGoalTimer::Load(							// Returns 0 if successfull, non-zero otherwise
 {
 	// Call the base class load to get the instance ID
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -101,7 +101,7 @@ int16_t CGoalTimer::Load(							// Returns 0 if successfull, non-zero otherwise
 		}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 		{
 			// Get resources
 			sResult = GetResources();
@@ -235,7 +235,7 @@ int16_t CGoalTimer::EditNew(									// Returns 0 if successfull, non-zero other
 		CListNode<CThing>* pEditorList = m_pRealm->m_aclassHeads[CThing::CGameEditThingID].m_pnNext;
 		CGameEditThing* peditor = (CGameEditThing*) pEditorList->m_powner;
 		RListBox* plb = peditor->m_plbNavNetList;
-		if (plb != NULL)
+		if (plb != nullptr)
 		{
 			RGuiItem* pgui = plb->AddString((char*) m_rstrNetName);
 			pgui->m_lId = GetInstanceID();
@@ -260,7 +260,7 @@ void SetText(					// Returns nothing.
 	int32_t			lVal)			// In:  Value to set text to.
 	{
 	RGuiItem*	pgui	= pguiRoot->GetItemFromId(lId);
-	if (pgui != NULL)
+	if (pgui != nullptr)
 		{
 		pgui->SetText("%i", lVal);
 		pgui->Compose(); 
@@ -277,7 +277,7 @@ void CheckMultiBtn(			// Returns nothing.
 	int16_t			sChecked)	// In:  1 to check, 0 to uncheck.
 	{
 	RMultiBtn*	pmb	= (RMultiBtn*)pguiRoot->GetItemFromId(lId);
-	if (pmb != NULL)
+	if (pmb != nullptr)
 		{
 		ASSERT(pmb->m_type == RGuiItem::MultiBtn);
 
@@ -295,17 +295,17 @@ int16_t IsMultiBtnChecked(	// Returns multibtn's state.
 	RGuiItem*	pguiRoot,	// In:  Root GUI.
 	int32_t			lId)			// In:  ID of GUI to set text.
 	{
-	int16_t	sRes	= 0;	// Assume nothing;
+	int16_t	sResult	= 0;	// Assume nothing;
 
 	RMultiBtn*	pmb	= (RMultiBtn*)pguiRoot->GetItemFromId(lId);
-	if (pmb != NULL)
+	if (pmb != nullptr)
 		{
 		ASSERT(pmb->m_type == RGuiItem::MultiBtn);
 
-		sRes	= (pmb->m_sState == 1) ? 0 : 1;
+		sResult	= (pmb->m_sState == 1) ? 0 : 1;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 
@@ -408,7 +408,7 @@ void CGoalTimer::EditRect(RRect* pRect)
 	pRect->sW	= 10;	// Safety.
 	pRect->sH	= 10;	// Safety.
 
-	if (m_pImage != NULL)
+	if (m_pImage != nullptr)
 	{
 		pRect->sW	= m_pImage->m_sWidth;
 		pRect->sH	= m_pImage->m_sHeight;
@@ -440,10 +440,10 @@ int16_t CGoalTimer::GetResources(void)						// Returns 0 if successfull, non-zer
 {
 	int16_t sResult = 0;
 
-	if (m_pImage == 0)
+   if (m_pImage == nullptr)
 	{
 		sResult	= rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(IMAGE_FILE), &m_pImage);
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 		{
 			// This is a questionable action on a resource managed item, but it's
 			// okay if EVERYONE wants it to be an FSPR8.

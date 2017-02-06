@@ -309,7 +309,7 @@ class CScene
 			CSprite*		pSprite,			// Tree of sprites to render.
 			CHood*		phood,			// Da hood, homey.
 			RRect*		prcDstClip,		// Dst clip rect.
-			CSprite*		psXRayee);		// XRayee, if not NULL.
+			CSprite*		psXRayee);		// XRayee, if not nullptr.
 
 		// Render a 2D sprite.
 		void Render2D(					// Returns nothing.
@@ -319,7 +319,7 @@ class CScene
 			CSprite2*	ps2Cur,		// Tree of sprites to render.
 			CHood*		phood,		// Da hood, homey.
 			RRect*		prcDstClip,	// Dst clip rect.
-			CSprite*		psXRayee);	// XRayee, if not NULL.
+			CSprite*		psXRayee);	// XRayee, if not nullptr.
 
 		// Draw a 2D line.
 		void Line2D(							// Returns nothing.
@@ -365,8 +365,8 @@ class CScene
 		// If that's what you need, you should probably just do the entire setup for
 		// the pipe yourself or add a similar function to this one.
 		void SetupPipeline(								// Returns nothing.
-			RTransform* ptransScene = NULL,			// In:  Transform to apply before doing defaults.
-			RTransform* ptransScene2Realm = NULL,	// In:  Transform to convert from scene to realm.
+			RTransform* ptransScene = nullptr,			// In:  Transform to apply before doing defaults.
+			RTransform* ptransScene2Realm = nullptr,	// In:  Transform to convert from scene to realm.
 			double		dScale3d = 0.0)				// In:  New scaling to apply to pipeline (see
 																// m_dScale3d declaration).
 			;
@@ -397,7 +397,7 @@ class CScene
 			CHood*		phood,					// Da hood, homey.
 			int16_t			sDstX = 0,				// Destination 2D x coord.
 			int16_t			sDstY = 0,				// Destination 2D y coord.
-			RRect*		prcDstClip = NULL);	// Dst clip rect.
+			RRect*		prcDstClip = nullptr);	// Dst clip rect.
 
 		// Set all 'alpha' _and_ 'opaque' layers to xray.
 		void SetXRayAll(		// You see a door to the north.  Returns nothing.

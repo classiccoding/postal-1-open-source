@@ -136,7 +136,7 @@ class CHeatseeker : public CWeapon
 			{
 			int16_t sResult = 0;
 			*ppNew = new CHeatseeker(pRealm);
-			if (*ppNew == 0)
+         if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CHeatseeker::Construct(): Couldn't construct CHeatseeker (that's a bad thing)\n");

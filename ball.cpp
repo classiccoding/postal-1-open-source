@@ -126,8 +126,8 @@ static const char*	ms_apszAnimNames[]	=
 	"3d/main_bobbing.hot",
 	"3d/main_bobbing.bounds",
 	"3d/main_bobbing.floor",
-	NULL,						// No rigid body for this anim.
-	NULL						// For safety, this should ensure a crash if referenced
+	nullptr,						// No rigid body for this anim.
+	nullptr						// For safety, this should ensure a crash if referenced
 								// beyond useful portion of array.
 	};
 
@@ -145,7 +145,7 @@ int16_t CBall::Load(										// Returns 0 if successfull, non-zero otherwise
 
 	// In most cases, the base class Load() should be called.
 	sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -177,7 +177,7 @@ int16_t CBall::Load(										// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 			{
 			sResult = GetResources();
 			}
@@ -207,7 +207,7 @@ int16_t CBall::Save(										// Returns 0 if successfull, non-zero otherwise
 
 	// In most cases, the base class Save() should be called.
 	sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		// Save common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -416,10 +416,10 @@ int16_t CBall::EditNew(									// Returns 0 if successfull, non-zero otherwise
 
 	// Load resources.
 	sResult = GetResources();
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		sResult	= Shutdown();
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 			// Attempt to startup as if in a real play . . .
 			sResult	= Startup();
@@ -439,7 +439,7 @@ int16_t CBall::EditModify(void)
 
 	// Load GUI . . .
 	RGuiItem*	pguiRoot	= RGuiItem::LoadInstantiate(FullPath(GAME_PATH_VD, BALL_GUI_FILE) );
-	if (pguiRoot != NULL)
+	if (pguiRoot != nullptr)
 		{
 		// Modal loop.
 		rspClearAllInputEvents();
@@ -448,13 +448,13 @@ int16_t CBall::EditModify(void)
 		RGuiItem*	pguiOk		= pguiRoot->GetItemFromId(GUI_ID_OK);
 		RGuiItem*	pguiCancel	= pguiRoot->GetItemFromId(GUI_ID_CANCEL);
 		
-		if (pguiOk != NULL && pguiCancel != NULL)
+		if (pguiOk != nullptr && pguiCancel != nullptr)
 			{
 			// Prepare values.
 			// These should definitely check to make sure they exist.
 			// A nice inline helper function that takes varargs would do.
 			RGuiItem*	pguiEditX	= pguiRoot->GetItemFromId(GUI_ID_X_OFFSET);
-			if (pguiEditX != NULL)
+			if (pguiEditX != nullptr)
 				{
 				pguiEditX->SetText("%g", m_dDX);
 				// Compose with new text.
@@ -462,7 +462,7 @@ int16_t CBall::EditModify(void)
 				}
 
 			RGuiItem*	pguiEditY	= pguiRoot->GetItemFromId(GUI_ID_Y_OFFSET);
-			if (pguiEditY != NULL)
+			if (pguiEditY != nullptr)
 				{
 				pguiEditY->SetText("%g", m_dDY);
 				// Compose with new text.
@@ -470,7 +470,7 @@ int16_t CBall::EditModify(void)
 				}
 
 			RGuiItem*	pguiEditZ	= pguiRoot->GetItemFromId(GUI_ID_Z_OFFSET);
-			if (pguiEditZ != NULL)
+			if (pguiEditZ != nullptr)
 				{
 				pguiEditZ->SetText("%g", m_dDZ);
 				// Compose with new text.
@@ -483,25 +483,25 @@ int16_t CBall::EditModify(void)
 				FreeResources();
 
 				// Set values.
-				if (pguiEditX != NULL)
+				if (pguiEditX != nullptr)
 					{
-					m_dDX	= strtod(pguiEditX->m_szText, NULL);
+					m_dDX	= strtod(pguiEditX->m_szText, nullptr);
 					}
-				if (pguiEditY != NULL)
+				if (pguiEditY != nullptr)
 					{
-					m_dDY	= strtod(pguiEditY->m_szText, NULL);
+					m_dDY	= strtod(pguiEditY->m_szText, nullptr);
 					}
-				if (pguiEditZ != NULL)
+				if (pguiEditZ != nullptr)
 					{
-					m_dDZ	= strtod(pguiEditZ->m_szText, NULL);
+					m_dDZ	= strtod(pguiEditZ->m_szText, nullptr);
 					}
 				
 				// Load resources.
 				sResult = GetResources();
-				if (sResult == 0)
+				if (sResult == SUCCESS)
 					{
 					sResult	= Shutdown();
-					if (sResult == 0)
+					if (sResult == SUCCESS)
 						{
 						// Attempt to startup as if in a real play . . .
 						sResult	= Startup();

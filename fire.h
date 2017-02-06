@@ -185,7 +185,7 @@ class CFire : public CThing
 			m_u32CollideDontcareBits = 0;
 			m_u32CollideExcludeBits = 0;
 			m_sTotalAlphaChannels = 0;
-			m_smash.m_pThing = NULL;
+			m_smash.m_pThing = nullptr;
 			m_smash.m_bits = 0;
 			m_lStartTime = 0;
 			m_u16FireStarterID = CIdBank::IdNil;
@@ -199,7 +199,7 @@ class CFire : public CThing
 			m_pRealm->m_scene.RemoveSprite(&m_sprite);
 			// Remove yourself from the collision list if it was in use
 			// (switching to smoke removes it from the smashatorium and sets
-			// the m_pThing field to NULL)
+			// the m_pThing field to nullptr)
 			if (m_smash.m_pThing)
 				m_pRealm->m_smashatorium.Remove(&m_smash);
 
@@ -218,7 +218,7 @@ class CFire : public CThing
 			{
 			int16_t sResult = 0;
 			*ppNew = new CFire(pRealm);
-			if (*ppNew == 0)
+			if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CFire::Construct(): Couldn't construct CFire (that's a bad thing)\n");

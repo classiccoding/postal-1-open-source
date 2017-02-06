@@ -34,13 +34,13 @@
 
 
 // Display the credits, returns SUCCESS or FAILURE
-extern int16_t Credits(SampleMasterID* pMusic = NULL,
-							char*	pszBackground = NULL,
-							char* pszCredits = NULL);
+extern int16_t Credits(SampleMasterID* pMusic = nullptr,
+							char*	pszBackground = nullptr,
+							char* pszCredits = nullptr);
 
 // For general usage
 extern int16_t	ScrollPage(char* pszBackground,char* pszScrollScript,
-								  double dScrollRate = 0.0,RRect *prWindow = NULL);
+								  double dScrollRate = 0.0,RRect *prWindow = nullptr);
 
 
 

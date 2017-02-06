@@ -142,7 +142,7 @@ class CDeathWad : public CWeapon
 			{
 			int16_t sResult = 0;
 			*ppNew = new CDeathWad(pRealm);
-			if (*ppNew == 0)
+			if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CDeathWad::Construct(): Couldn't construct CDeathWad (that's a bad thing)\n");

@@ -523,7 +523,7 @@ class CCrawler
 			{
 			// Create a line sprite.
 			CSpriteLine2d*	psl2d	= new CSpriteLine2d;
-			if (psl2d != NULL)
+			if (psl2d != nullptr)
 				{
 				m_prealm->Map3Dto2D(
 					sx, 

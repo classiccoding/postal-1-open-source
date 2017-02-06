@@ -36,7 +36,7 @@ class CAlphaAnim
 	public:
 		CAlphaAnim()
 			{
-			m_pimAlphaArray = 0;
+         m_pimAlphaArray = nullptr;
 			Reset();
          }
 		
@@ -80,7 +80,7 @@ class CAlphaAnim
 			if (sNumAlphas > 0)
 				{
 				m_pimAlphaArray = new RImage[sNumAlphas];
-				ASSERT(m_pimAlphaArray != 0);
+            ASSERT(m_pimAlphaArray != nullptr);
 				}
 			m_sNumAlphas = sNumAlphas;
 			}
@@ -88,7 +88,7 @@ class CAlphaAnim
 		void Free(void)
 			{
 			delete []m_pimAlphaArray;
-			m_pimAlphaArray = 0;
+         m_pimAlphaArray = nullptr;
 			}
 
 		int16_t Load(RFile* pFile)

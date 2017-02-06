@@ -105,8 +105,8 @@ class CSentry : public CDoofus
 			m_sSuspend = 0;
 			m_dRot = 0;
 			m_dX = m_dY = m_dZ = m_dVel = m_dAcc = 0;
-			m_panimCur = m_panimPrev = NULL;
-			m_panimCurBase	= NULL;
+			m_panimCur = m_panimPrev = nullptr;
+			m_panimCurBase	= nullptr;
 			m_sprite.m_pthing	= this;
 			m_sNumRounds = 0;
 			m_sRoundsPerShot = 0;
@@ -139,7 +139,7 @@ class CSentry : public CDoofus
 			{
 			int16_t sResult = 0;
 			*ppNew = new CSentry(pRealm);
-			if (*ppNew == 0)
+         if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CSentry::Construct(): Couldn't construct CSentry (that's a bad thing)\n");

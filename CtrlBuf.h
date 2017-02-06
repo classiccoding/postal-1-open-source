@@ -114,7 +114,7 @@ class CCtrlBuf
 			for (int32_t l = 0; l < lNum; l++)
 				{
 				sResult = Add(lSeq++, *plCtrls++);
-				if (sResult == 0)
+				if (sResult == SUCCESS)
 					(*plNumAdded)++;
 				else
 					break;
@@ -196,7 +196,7 @@ class CCtrlBuf
 
 
 		////////////////////////////////////////////////////////////////////////////////
-		// Get pointer to specified entry.  If the returned value is 0 (NULL), then
+      // Get pointer to specified entry.  If the returned value is 0 (nullptr), then
 		// that entry was not available.
 		////////////////////////////////////////////////////////////////////////////////
 		int32_t* GetPtrTo(

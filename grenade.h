@@ -175,7 +175,7 @@ class CGrenade : public CWeapon
 			{
 			int16_t sResult = 0;
 			*ppNew = new CGrenade(pRealm);
-			if (*ppNew == 0)
+         if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CGrenade::Construct(): Couldn't construct CGrenade (that's a bad thing)\n");
@@ -188,13 +188,13 @@ class CGrenade : public CWeapon
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t	sRes	= Construct(pRealm, ppNew);
-			if (sRes == 0)
+			int16_t	sResult	= Construct(pRealm, ppNew);
+			if (sResult == SUCCESS)
 				{
 				( (CGrenade*)(*ppNew) )->m_style	= Dynamite;
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 	//---------------------------------------------------------------------------

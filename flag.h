@@ -87,7 +87,7 @@ class CFlag : public CThing3d
 			m_sSuspend = 0;
 			m_dRot = 0;
 			m_dX = m_dY = m_dZ = m_dVel = m_dAcc = 0;
-			m_panimCur = NULL;
+			m_panimCur = nullptr;
 			m_sprite.m_pthing	= this;
 			m_u16FlagID = 1;
 			m_lTimeBonus = 0;
@@ -120,7 +120,7 @@ class CFlag : public CThing3d
 			{
 			int16_t sResult = 0;
 			*ppNew = new CFlag(pRealm);
-			if (*ppNew == 0)
+         if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CFlag::Construct(): Couldn't construct CFlag (that's a bad thing)\n");

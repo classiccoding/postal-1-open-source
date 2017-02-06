@@ -151,7 +151,7 @@ class CItem3d : public CThing3d
 			{
 			int16_t sResult = 0;
 			*ppNew = new CItem3d(pRealm);
-			if (*ppNew == 0)
+			if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CItem3d::Construct(): Couldn't construct CItem3d!\n");
@@ -203,7 +203,7 @@ class CItem3d : public CThing3d
 			int16_t sY,						// In:  Starting Y position
 			int16_t sZ,						// In:  Starting Z position
 			ItemType type,					// In:  Known item type or Custom.
-         const char*	pszCustomBaseName = NULL,	// In:  Required if type == Custom.
+         const char*	pszCustomBaseName = nullptr,	// In:  Required if type == Custom.
 														// Base name for custom type resources.
 			uint16_t	u16IdParentInstance = CIdBank::IdNil);	// In:  Parent instance ID.
 

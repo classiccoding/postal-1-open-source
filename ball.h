@@ -122,7 +122,7 @@ class CBall : public CThing
 			{
 			int16_t sResult = 0;
 			*ppNew = new CBall(pRealm);
-			if (*ppNew == 0)
+			if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CBall::Construct(): Couldn't construct CBall!\n");

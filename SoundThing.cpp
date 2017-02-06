@@ -148,7 +148,7 @@ int16_t CSoundThing::Load(								// Returns 0 if successfull, non-zero otherwis
 	uint32_t	ulFileVersion)									// In:  Version of file format to load.
 	{
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		// If new file . . . 
 		if (sFileCount != ms_sFileCount)
@@ -228,7 +228,7 @@ int16_t CSoundThing::Load(								// Returns 0 if successfull, non-zero otherwis
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 			{
 			sResult = Init();
 			}
@@ -251,7 +251,7 @@ int16_t CSoundThing::Save(										// Returns 0 if successfull, non-zero otherw
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
 	int16_t	sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		pFile->Write(m_sAmbient);
 		pFile->Write(m_sPurgeSampleWhenDone	);
@@ -380,7 +380,7 @@ void CSoundThing::Update(void)
 						SampleMaster::Ambient,												// In:  Sound Volume Category for user adjustment
 						DistanceToVolume(m_dX, m_dY, m_dZ, m_lVolumeHalfLife),	// In:  Initial Sound Volume (0 - 255) 
 						&m_siChannel,															// Out: Handle for adjusting sound volume
-						&lSampleDuration,														// Out: Sample duration in ms, if not NULL.
+						&lSampleDuration,														// Out: Sample duration in ms, if not nullptr.
 						lLoopStartTime,														// In:  Where to loop back to in milliseconds.                
 																									//	-1 indicates no looping (unless m_sLoop is                 
 																									// explicitly set).                                           
@@ -596,7 +596,7 @@ static void BrowseCall(		// Returns nothing.
 				szSystemPath,						// In:  Default filename (system format).            
 				szSystemPath,						// Out: User's choice (system format).               
 				sizeof(szSystemPath),			// In:  Amount of memory pointed to by pszChosenFileName.
-				"wav");								// In:  If not NULL, '.' delimited extension based filename
+				"wav");								// In:  If not nullptr, '.' delimited extension based filename
 														//	filter specification.  Ex: ".cpp.h.exe.lib" or "cpp.h.exe.lib"
 														// Note: Cannot use '.' in filter.  Preceding '.' ignored.
 
@@ -612,7 +612,7 @@ static void BrowseCall(		// Returns nothing.
 			} while (sResult > 0);
 
 		// If successful in getting a relative path . . .
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 			// Udpate GUI.
 			pguiName->SetText("%s", rspPathFromSystem(szSystemPath) );
@@ -630,11 +630,11 @@ int16_t CSoundThing::EditModify(void)
 
 	// Load gui dialog
 	RGuiItem* pgui = RGuiItem::LoadInstantiate(FullPathVD(GUI_FILE_NAME));
-	if (pgui != NULL)
+	if (pgui != nullptr)
 		{
 		// Init "name" edit
 		REdit* pResName = (REdit*)pgui->GetItemFromId(3);
-		ASSERT(pResName != NULL);
+		ASSERT(pResName != nullptr);
 		ASSERT(pResName->m_type == RGuiItem::Edit);
 		pResName->SetText("%s", m_szResName);
 		pResName->Compose();
@@ -649,47 +649,47 @@ int16_t CSoundThing::EditModify(void)
 
 		// Init "first time" edit
 		REdit* pFirstTime = (REdit*)pgui->GetItemFromId(100);
-		ASSERT(pFirstTime != NULL);
+		ASSERT(pFirstTime != nullptr);
 		ASSERT(pFirstTime->m_type == RGuiItem::Edit);
 		pFirstTime->SetText("%i", m_lMinTime[0]);
 		pFirstTime->Compose();
 
 		// Init "first random time" edit
 		REdit* pFirstRndTime = (REdit*)pgui->GetItemFromId(101);
-		ASSERT(pFirstRndTime != NULL);
+		ASSERT(pFirstRndTime != nullptr);
 		ASSERT(pFirstRndTime->m_type == RGuiItem::Edit);
 		pFirstRndTime->SetText("%i", m_lRndTime[0]);
 		pFirstRndTime->Compose();
 
 		// Init "repeat time" edit
 		REdit* pRepeatTime = (REdit*)pgui->GetItemFromId(102);
-		ASSERT(pRepeatTime != NULL);
+		ASSERT(pRepeatTime != nullptr);
 		ASSERT(pRepeatTime->m_type == RGuiItem::Edit);
 		pRepeatTime->SetText("%i", m_lMinTime[1]);
 		pRepeatTime->Compose();
 
 		// Init "repeat random time" edit
 		REdit* pRepeatRndTime = (REdit*)pgui->GetItemFromId(103);
-		ASSERT(pRepeatRndTime != NULL);
+		ASSERT(pRepeatRndTime != nullptr);
 		ASSERT(pRepeatRndTime->m_type == RGuiItem::Edit);
 		pRepeatRndTime->SetText("%i", m_lRndTime[1]);
 		pRepeatRndTime->Compose();
 
 		// Init "enable" push button
 		RPushBtn* pEnable = (RPushBtn*)pgui->GetItemFromId(200);
-		ASSERT(pEnable != NULL);
+		ASSERT(pEnable != nullptr);
 		pEnable->m_state = m_bInitiallyEnabled ? RPushBtn::On : RPushBtn::Off;
 		pEnable->Compose();
 
 		// Init "repeat" push button
 		RPushBtn* pRepeat = (RPushBtn*)pgui->GetItemFromId(201);
-		ASSERT(pRepeat != NULL);
+		ASSERT(pRepeat != nullptr);
 		pRepeat->m_state = m_bInitiallyRepeats ? RPushBtn::On : RPushBtn::Off;
 		pRepeat->Compose();
 
 		// Init "volume half life" edit.
 		REdit* peditHalfLife = (REdit*)pgui->GetItemFromId(301);
-		ASSERT(peditHalfLife != NULL);
+		ASSERT(peditHalfLife != nullptr);
 		ASSERT(peditHalfLife->m_type == RGuiItem::Edit);
 		peditHalfLife->SetText("%i", m_lVolumeHalfLife);
 		peditHalfLife->Compose();
@@ -790,7 +790,7 @@ int16_t CSoundThing::EditModify(void)
 		}
 
 	// If everything's okay, init using new values
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		sResult = Init();
 
 	return sResult;
@@ -919,7 +919,7 @@ int16_t CSoundThing::Init(void)							// Returns 0 if successfull, non-zero othe
 	if (m_pImage == 0)
 		{
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(IMAGE_FILE), &m_pImage);
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 			// This is a questionable action on a resource managed item, but it's
 			// okay if EVERYONE wants it to be an FSPR8.

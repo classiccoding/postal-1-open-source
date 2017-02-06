@@ -306,7 +306,7 @@ class CListNode
 		void InsertBefore(
 			Node* pn)	// In:  Node to insert before.
 			{
-			ASSERT(m_pnNext == NULL && m_pnPrev == NULL);
+			ASSERT(m_pnNext == nullptr && m_pnPrev == nullptr);
 			m_pnNext					= pn;
 			m_pnPrev					= pn->m_pnPrev;
 			m_pnPrev->m_pnNext	= this;
@@ -318,7 +318,7 @@ class CListNode
 		void AddAfter(
 			Node* pn)	// In:  Node to add after.
 			{
-			ASSERT(m_pnNext == NULL && m_pnPrev == NULL);
+			ASSERT(m_pnNext == nullptr && m_pnPrev == nullptr);
 			m_pnNext					= pn->m_pnNext;
 			m_pnPrev					= pn;
 			m_pnNext->m_pnPrev	= this;
@@ -332,8 +332,8 @@ class CListNode
 			{
 			m_pnNext->m_pnPrev		= m_pnPrev;
 			m_pnPrev->m_pnNext		= m_pnNext;
-			m_pnNext						= NULL;
-			m_pnPrev						= NULL;
+			m_pnNext						= nullptr;
+			m_pnPrev						= nullptr;
 			}
 
 	public:
@@ -754,8 +754,8 @@ class CThing
 		// Get the sprite for this thing.  If there's more than one, pick one
 		// or none to return.
 		virtual	// If you override this, do NOT call this base class.
-		CSprite* GetSprite(void)	// Returns the sprite for this thing or NULL.
-			{ return NULL; }
+		CSprite* GetSprite(void)	// Returns the sprite for this thing or nullptr.
+			{ return nullptr; }
 
 		// Get the coordinates of this thing.  This implementation returns 
 		// InvalidPosition to indicate that it is not implemented for this 
@@ -771,9 +771,9 @@ class CThing
 		double GetZ(void)	{ return InvalidPosition; }
 
 		// Get the smash - for normal CThings that don't have a smash, it
-		// will return NULL, CThing3d's though always have a smash.
+		// will return nullptr, CThing3d's though always have a smash.
 		virtual 
-		CSmash* GetSmash(void) {return NULL;}
+		CSmash* GetSmash(void) {return nullptr;}
 
 		//////////////////////////////////////////////////////////////////////////
 		// These are defined merely to discourage their use within CThings.

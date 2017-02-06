@@ -99,7 +99,7 @@ class CGoalTimer : public CThing
 		{
 			int16_t sResult = 0;
 			*ppNew = new CGoalTimer(pRealm);
-			if (*ppNew == 0)
+         if (*ppNew == nullptr)
 			{
 				sResult = -1;
 				TRACE("CGoalTimer::Construct(): Couldn't construct CGoalTimer (that's a bad thing)\n");

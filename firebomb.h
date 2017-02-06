@@ -123,7 +123,7 @@ class CFirebomb : public CWeapon
 			{
 			int16_t sResult = 0;
 			*ppNew = new CFirebomb(pRealm);
-			if (*ppNew == 0)
+         if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CFirebomb::Construct(): Couldn't construct CFirebomb (that's a bad thing)\n");
@@ -244,7 +244,7 @@ class CFirefrag : public CWeapon
 			: CWeapon(pRealm, CFirefragID)
 			{
 			m_pImage = 0;
-			m_pFire = NULL;
+			m_pFire = nullptr;
 			m_u16FireID = CIdBank::IdNil;
 			m_sNumExplosions	= 0;
 			}
@@ -271,7 +271,7 @@ class CFirefrag : public CWeapon
 			{
 			int16_t sResult = 0;
 			*ppNew = new CFirefrag(pRealm);
-			if (*ppNew == 0)
+         if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CFirefrag::Construct(): Couldn't construct CFirefrag (that's a bad thing)\n");

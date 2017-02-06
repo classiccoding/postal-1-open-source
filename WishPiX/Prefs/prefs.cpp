@@ -117,7 +117,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 RPrefs::RPrefs(void)
 	{
-	m_pFile			= NULL;
+	m_pFile			= nullptr;
 	m_sReadOnly		= 0;
 	m_sModified		= 0;
 	m_sDidRead		= 0;
@@ -139,9 +139,9 @@ RPrefs::~RPrefs()
 
 	// Free the name and mode
 	delete []m_pszFileName;
-	m_pszFileName = NULL;
+	m_pszFileName = nullptr;
 	delete []m_pszFileMode;
-	m_pszFileMode = NULL;
+	m_pszFileMode = nullptr;
 
 	// Delete all lines and get rid of list nodes
 	while (m_pllLines.GetHead())
@@ -202,7 +202,7 @@ int16_t RPrefs::Open(					// Returns 0 if successfull, non-zero otherwise
 
 	// Attempt to open file
 	m_pFile = fopen(FindCorrectFile(pszFile, pszMode), pszMode);
-	if (m_pFile != NULL)
+	if (m_pFile != nullptr)
 		{
 		// Make a copy of the file name
 		delete []m_pszFileName;
@@ -242,7 +242,7 @@ int16_t RPrefs::Read()		// Returns 0 if successfull, non-zero otherwise
 		{
 		if (!m_sDidRead)
 			{
-			if (m_pFile != NULL)
+			if (m_pFile != nullptr)
 				{
 				// Seek to start of file
 				if (fseek(m_pFile, SEEK_SET, 0) == 0)
@@ -262,7 +262,7 @@ int16_t RPrefs::Read()		// Returns 0 if successfull, non-zero otherwise
 					// preserve the file's original format.
 					char pszLine[RPrefs::MaxStrLen+1];
 					RPrefsLine *plTemp;
-					while (fgets(pszLine, RPrefs::MaxStrLen, m_pFile) != NULL)
+					while (fgets(pszLine, RPrefs::MaxStrLen, m_pFile) != nullptr)
 						{
 						// Check for "/r".  This is only required by Mac code, but it can't
 						// hurt DOS/Windows code, where the fgets() should have converted the
@@ -355,10 +355,10 @@ int16_t RPrefs::Write()
 		// Make sure we can and should do a write
 		if (!m_sReadOnly && m_sModified)
 			{
-			if (m_pFile != NULL)
+			if (m_pFile != nullptr)
 				{
 				// Read file in case it wasn't already read
-				if(Read() == 0)
+            if(Read() == SUCCESS)
 					{
 					// Close file before it gets deleted (and replaced by a new file)
 					fclose(m_pFile);
@@ -376,12 +376,12 @@ int16_t RPrefs::Write()
 					char acTmpFileName[RSP_MAX_PATH + 20];
 					strcpy(acTmpFileName, m_pszFileName);
 					char* pTmp = strrchr(acTmpFileName, RSP_SYSTEM_PATH_SEPARATOR);
-					pTmp = (pTmp != NULL) ? pTmp + 1 : acTmpFileName;
+					pTmp = (pTmp != nullptr) ? pTmp + 1 : acTmpFileName;
 					for (int32_t lCount = 0; !bGotTmp && (lCount < 9999999L); lCount++)
 						{
                   sprintf(pTmp, "t%0.7i.tmp", lCount);
 						FILE* fpTmp = fopen(FindCorrectFile(acTmpFileName, "r"), "r");
-						if (fpTmp != NULL)
+						if (fpTmp != nullptr)
 							fclose(fpTmp);
 						else
 							bGotTmp = true;
@@ -390,7 +390,7 @@ int16_t RPrefs::Write()
 						{
 						// Create temp file that will contain new ini stuff
 						FILE *pfileTmp = fopen(FindCorrectFile(acTmpFileName, "w"), "w");
-						if (pfileTmp != NULL)
+						if (pfileTmp != nullptr)
 							{
 							// Write lines out to temp file
 							for (RPrefsLineList::Pointer i = m_pllLines.GetHead(); i != 0; i = m_pllLines.GetNext(i))
@@ -411,11 +411,11 @@ int16_t RPrefs::Write()
 							if (m_sErrorStatus == 0)
 								{
 								// Remove old file
-								if (remove(FindCorrectFile(m_pszFileName, "w")) == 0)
+                        if (remove(FindCorrectFile(m_pszFileName, "w")) == SUCCESS)
 									{
 									// Rename temp file to whatever old file was named
                                     // rename() isn't reliably across filesystems.  --ryan.
-									//if (rename(FindCorrectFile(acTmpFileName, "w"), FindCorrectFile(m_pszFileName, "w")) == 0)
+                           //if (rename(FindCorrectFile(acTmpFileName, "w"), FindCorrectFile(m_pszFileName, "w")) == SUCCESS)
     									FILE *in = fopen(FindCorrectFile(acTmpFileName, "w"), "r");
 	    								FILE *out = fopen(FindCorrectFile(m_pszFileName, "w"), "w");
                                         if (in && out)
@@ -435,7 +435,7 @@ int16_t RPrefs::Write()
 										{
 										// Open the new file using the original mode
 										m_pFile = fopen(FindCorrectFile(m_pszFileName, m_pszFileMode), m_pszFileMode);
-										if (m_pFile != NULL)
+										if (m_pFile != nullptr)
 											{
 											// Set flag to indicate ini file in memory is in sync with disk
 											m_sModified = 0;
@@ -495,7 +495,7 @@ int16_t RPrefs::Write()
 ////////////////////////////////////////////////////////////////////////////////
 int16_t RPrefs::Close()
 	{
-	if (m_pFile != NULL)
+	if (m_pFile != nullptr)
 		{
 		// If data was read and was modified and files is NOT read only then write it now!
 		if (m_sDidRead && !m_sReadOnly && m_sModified)
@@ -503,10 +503,10 @@ int16_t RPrefs::Close()
 
 		// Close the file.  We need to check if the file is still valid because
 		// something might have gone wrong in Write().
-		if (m_pFile != NULL)
+		if (m_pFile != nullptr)
 			{
 			fclose(m_pFile);
-			m_pFile = NULL;
+			m_pFile = nullptr;
 			}
 		}
 
@@ -529,7 +529,7 @@ int16_t RPrefs::DeleteVariable(			// Returns 0 if successfull, non-zero otherwis
 	if (!m_sErrorStatus)
 		{
 		// Make sure there's a copy in memory
-		if(Read() == 0)
+      if(Read() == SUCCESS)
 			{
 			// Get iterator to variable
 			RPrefsLineList::Pointer i;
@@ -566,7 +566,7 @@ int16_t RPrefs::DeleteSection(		// Returns 0 if successfull, non-zero otherwise
 	if (!m_sErrorStatus)
 		{
 		// Make sure there's a copy in memory
-		if(Read() == 0)
+      if(Read() == SUCCESS)
 			{
 			// Get iterator to section
 			RPrefsLineList::Pointer i;
@@ -625,14 +625,14 @@ int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 	ASSERT(pszValue);
 
 	// Make sure there's a copy in memory
-	if(Read() == 0)
+   if(Read() == SUCCESS)
 		{
 		// Determine if section exists by trying to get an iterator to the section
-		if (GetIteratorToSection(pszSection, &iSection) == 0)
+      if (GetIteratorToSection(pszSection, &iSection) == SUCCESS)
 			{
 			// Section exists.  No need to create a new one.
 			// Determine if variable exists by trying to get an iterator to the variable
-			if (GetIteratorToVariable(pszSection, pszVariable, &iVariable) == 0)
+         if (GetIteratorToVariable(pszSection, pszVariable, &iVariable) == SUCCESS)
 				// Found variable and section.  Must change value of existing variable
 				m_pllLines.GetData(iVariable)->SetVariableValue(pszValue);
 			else
@@ -807,7 +807,7 @@ int16_t	RPrefs::GetIteratorToSection(		// Returns 0 if successfull, non-zero oth
 
 	if (!m_sErrorStatus)
 		{
-		if (m_pllLines.GetHead() == 0)
+      if (m_pllLines.GetHead() == SUCCESS)
 			{
 			TRACE("RPrefs::GetIteratorToSection():m_pllLines.empty(): list is empty.\n");
 			m_sErrorStatus = 1;
@@ -824,10 +824,10 @@ int16_t	RPrefs::GetIteratorToSection(		// Returns 0 if successfull, non-zero oth
 				if (m_pllLines.GetData(*pi)->GetType() == RPrefsLine::Section)
 					{
 					// Get section name
-					if (m_pllLines.GetData(*pi)->GetSectionName(pszSectionName) == 0)
+               if (m_pllLines.GetData(*pi)->GetSectionName(pszSectionName) == SUCCESS)
 						{
 						// Is this the section name we are looking for?
-						if (rspStricmp(pszSectionName, pszSection) == 0)
+                  if (rspStricmp(pszSectionName, pszSection) == SUCCESS)
 							{
 							sFoundSection = 1;
 							break;
@@ -862,7 +862,7 @@ int16_t	RPrefs::GetIteratorToVariable(	// Returns 0 if successfull, non-zero oth
 
 	if (!m_sErrorStatus)
 		{
-		if (m_pllLines.GetHead() == 0)
+      if (m_pllLines.GetHead() == SUCCESS)
 			{
 			TRACE("RPrefs::GetIteratorToVariable():m_pllLines.empty(): list is empty.\n");
 			m_sErrorStatus = 1;
@@ -887,7 +887,7 @@ int16_t	RPrefs::GetIteratorToVariable(	// Returns 0 if successfull, non-zero oth
 					if (m_pllLines.GetData(*pi)->GetType() == RPrefsLine::Variable)
 						{
 						// Get variable name
-						if (m_pllLines.GetData(*pi)->GetVariableName(pszVariableName) == 0)
+                  if (m_pllLines.GetData(*pi)->GetVariableName(pszVariableName) == SUCCESS)
 							{
 							// Is this the variable name we are looking for
 							if (rspStricmp(pszVariableName, pszVariable) == 0)
@@ -939,7 +939,7 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 	ASSERT(pszValue);
 
 	//if (m_sDidRead != 1)
-	if (Read() == 0)
+   if (Read() == SUCCESS)
 		{
 		// Get iterator to variable
 		RPrefsLineList::Pointer i;
@@ -1221,9 +1221,9 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 
 int16_t RPrefs::Print()
 	{
-	if (Read() == 0)
+   if (Read() == SUCCESS)
 		{
-		if (m_pllLines.GetHead() == 0)
+      if (m_pllLines.GetHead() == SUCCESS)
 			m_sErrorStatus = 1;
 		else
 			{

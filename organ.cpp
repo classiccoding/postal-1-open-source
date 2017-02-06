@@ -60,7 +60,7 @@ static int16_t	ms_sContinue;
 void	PlayWithMyOrgan()
 	{
 	// only allow certain keys to be active:
-	char	acValidKeys[] = "1234567890QWERTYUIOPASDFGHJKLZXCVBNM";
+   const char acValidKeys[] = "1234567890QWERTYUIOPASDFGHJKLZXCVBNM";
 	int16_t	sNumValid = strlen(acValidKeys);
 	int16_t sNumSounds = CSoundCatalogue::NumSounds();
 	int16_t sNumBanks = (sNumSounds + sNumValid - 1) / sNumValid;
@@ -83,7 +83,7 @@ void	PlayWithMyOrgan()
 
 		for (i=0;i<sNumValid;i++)
 			{
-			if ( pau8KeyStatus[acValidKeys[i]] )
+         if ( pau8KeyStatus[static_cast<uint8_t>(acValidKeys[i])] )
 				{
 				// he just pressed this key - play the note:
 				// Play sample CSoundCatalogue::ms_ppcNameList[
@@ -100,7 +100,7 @@ void	PlayWithMyOrgan()
 					}
 
 				// Clear key.
-				pau8KeyStatus[acValidKeys[i]]	= 0;
+            pau8KeyStatus[static_cast<uint8_t>(acValidKeys[i])]	= 0;
 				}
 			}
 

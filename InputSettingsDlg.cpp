@@ -155,7 +155,7 @@ static int16_t		ms_sResetItemOld;					// Index of item that restores the old def
 static int16_t		ms_sMouseButtons;
 static int16_t		ms_sJoyButtons;
 
-static int32_t			ms_lFlashTimer;
+static uint32_t			ms_lFlashTimer;
 
 // This array contains RSP_SK_* macros for the keys that should be 
 // inaccessible to the user when it comes to mapping the input keys.
@@ -204,10 +204,10 @@ static uint8_t			ms_au8UnmappableKeys[]	=
 extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
 	Menu* pmenu)									// In:  Menu to setup.
 	{
-	int16_t		sRes				= 0;		// Assume success.
+	int16_t		sResult				= 0;		// Assume success.
 	int16_t		sInputIndex		= 0;		// Safety.
-	uint32_t*	pasPlayInputs	= NULL;	// Input value array.
-   const char**	papszInputDescriptions	= NULL;	// Descriptions of input values.
+	uint32_t*	pasPlayInputs	= nullptr;	// Input value array.
+   const char**	papszInputDescriptions	= nullptr;	// Descriptions of input values.
 	bool	bIsJoystick = false;
 
 	switch (pmenu->u32Id)
@@ -230,7 +230,7 @@ extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
 			break;
 		default:
 			TRACE("InptuSettingsDlg_InitMenu(): Unsupported menu.\n");
-			sRes	= -1;
+			sResult	= -1;
 			break;
 		}
 
@@ -242,7 +242,7 @@ extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
 	// Cell height doesn't matter since it is set by the GUIs themselves.
 	RGuiItem::ms_print.SetFont(FONT_HEIGHT, &g_fontBig);
 
-	for (sInputIndex = 0; sInputIndex < CInputSettings::NumInputFunctions && sRes == 0; sInputIndex++)
+   for (sInputIndex = 0; sInputIndex < CInputSettings::NumInputFunctions && sResult == SUCCESS; sInputIndex++)
 		{
 		// Set text describing input function for this menu item.
 		pmenu->ami[sInputIndex].pszText	= CInputSettings::ms_ainputinfo[sInputIndex].pszDescription;
@@ -251,7 +251,7 @@ extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
 		// Load GUI for input method description.
 
 		RGuiItem*	pgui;
-		if (rspGetResourceInstance(&g_resmgrShell, INPUT_ITEM_GUI, (RTxt**)(&pgui)) == 0)
+      if (rspGetResourceInstance(&g_resmgrShell, INPUT_ITEM_GUI, (RTxt**)(&pgui)) == SUCCESS)
 			{
 			// Let the menu know about the GUI.
 			pmenu->ami[sInputIndex].pgui	= pgui;
@@ -274,7 +274,7 @@ extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
 		else
 			{
 			TRACE("InputSettingsDlg_InitMenu(): LoadInstantiate() failed.\n");
-			sRes	= -1;
+			sResult	= -1;
 			}
 		}
 
@@ -303,7 +303,7 @@ extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
 	// Make the back the cancel item.
 	pmenu->menuautoitems.sCancelItem	= sInputIndex;
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -312,11 +312,11 @@ extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
 extern int16_t InputSettingsDlg_KillMenu(	// Returns 0 on success.
 	Menu* pmenu)									// In:  Menu to clean up.  
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	int16_t	sInputIndex;
 	// Delete the loaded GUIs.
-	for (sInputIndex = 0; sInputIndex < CInputSettings::NumInputFunctions && sRes == 0; sInputIndex++)
+   for (sInputIndex = 0; sInputIndex < CInputSettings::NumInputFunctions && sResult == SUCCESS; sInputIndex++)
 		{
 		// Clean up the GUI.
 		rspReleaseResourceInstance(&g_resmgrShell, &pmenu->ami[sInputIndex].pgui);
@@ -325,7 +325,7 @@ extern int16_t InputSettingsDlg_KillMenu(	// Returns 0 on success.
 	// Flag the looper that we're done.
 	ms_bMenuDone	= true;
 
-	return sRes;
+	return sResult;
 	}
 
 
@@ -382,8 +382,8 @@ void InputSettingsDlg_Choice(	// Returns nothing.
 			if (sMenuItem == ms_sResetItem
 				|| sMenuItem == ms_sResetItemOld)
 				{
-				uint32_t*	pasPlayInputs	= NULL;				// Input value array.
-            const char**	papszInputDescriptions	= NULL;	// Descriptions of input values.
+				uint32_t*	pasPlayInputs	= nullptr;				// Input value array.
+            const char**	papszInputDescriptions	= nullptr;	// Descriptions of input values.
 
 				switch (pmenu->u32Id)
 					{
@@ -717,7 +717,7 @@ inline void ListenForInput(	// Returns nothing.
 //////////////////////////////////////////////////////////////////////////////
 extern int16_t EditInputSettings(void)	// Returns nothing.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 	bool bDeleteKeybind = false;	// If true, we want to delete the keybind we're on.
 
 	// Menu is already started.
@@ -843,7 +843,7 @@ extern int16_t EditInputSettings(void)	// Returns nothing.
 		rspUpdateDisplay();
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////

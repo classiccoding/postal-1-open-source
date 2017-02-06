@@ -173,7 +173,7 @@ class CPerson : public CDoofus
 			m_dX = m_dY = m_dZ = m_dVel = m_dAcc = 0;
 			m_ePersonType = Personatorium::Grenader;
 			m_eWeaponType = CThing::CGrenadeID;
-			m_panimCur = m_panimPrev = NULL;
+			m_panimCur = m_panimPrev = nullptr;
 			m_sprite.m_pthing	= this;
 			m_rstrLogicFile = "res/logics/default.lgk";
 			m_sShowState		= FALSE;
@@ -204,7 +204,7 @@ class CPerson : public CDoofus
 			{
 			int16_t sResult = 0;
 			*ppNew = new CPerson(pRealm);
-			if (*ppNew == 0)
+         if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CPerson::Construct(): Couldn't construct CPerson (that's a bad thing)\n");
@@ -260,7 +260,7 @@ class CPerson : public CDoofus
 
 		// Function to choose and play the writhing sound effect
 		virtual SampleMaster::SoundInstance PlaySoundWrithing(
-			int32_t* plDuration);					// Out:  Duration of sample, if not NULL.
+			int32_t* plDuration);					// Out:  Duration of sample, if not nullptr.
 
 		// Function to choose and play the Shot sound effect
 		virtual SampleMaster::SoundInstance PlaySoundShot(void);

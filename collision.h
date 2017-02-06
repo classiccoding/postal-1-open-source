@@ -81,15 +81,15 @@ template <class Region>	// Must be a type supported by CThing::IsColliding(...)!
 bool GetNextCollision(	// Returns true if a collision is found, false otherwise.
 	CThing::Things*	pthings,		// In:  List of CThings to search within.
 	Region*				pregion,		// In:  Region OR shape to collide with.
-	CThing**				ppthing)		// In:  CThing to start with or NULL to start at beginning.
-											// Out: CThing collided with or NULL.
+	CThing**				ppthing)		// In:  CThing to start with or nullptr to start at beginning.
+											// Out: CThing collided with or nullptr.
 	{
 	bool	bCollision	= false;	// Assume no collision.
 
 	CThing::Things::iterator	i	= pthings->begin();
 
 	// If a beginning was specified . . .
-	if (*ppthing != NULL)
+	if (*ppthing != nullptr)
 		{
 		while (i != pthings->end() && *i != *ppthing)
 			{

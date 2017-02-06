@@ -74,14 +74,14 @@ class CTreeListNode
 	public:
 		CTreeListNode()	
 			{
-				m_pnNext = m_pnPrev = m_pnRight = m_pnLeft = NULL;
-				m_powner = NULL;
+				m_pnNext = m_pnPrev = m_pnRight = m_pnLeft = nullptr;
+				m_powner = nullptr;
 			}	// Do not use.
 
 	public:
 		CTreeListNode(Owner* powner)
 		{ m_powner	= powner;
-		  m_pnNext = m_pnPrev = m_pnRight = m_pnLeft = NULL; }
+		  m_pnNext = m_pnPrev = m_pnRight = m_pnLeft = nullptr; }
 
 		// Note:  This function can only be used with a list that has
 		// dummy nodes for head and tail.
@@ -97,7 +97,7 @@ class CTreeListNode
 		void InsertBefore(
 			Node* pn)	// In:  Node to insert before.
 		{
-			ASSERT(m_pnNext == NULL && m_pnPrev == NULL);
+			ASSERT(m_pnNext == nullptr && m_pnPrev == nullptr);
 			m_pnNext					= pn;
 			m_pnPrev					= pn->m_pnPrev;
 			m_pnPrev->m_pnNext	= this;
@@ -109,7 +109,7 @@ class CTreeListNode
 		void AddAfter(
 			Node* pn)	// In:  Node to add after.
 		{
-			ASSERT(m_pnNext == NULL && m_pnPrev == NULL);
+			ASSERT(m_pnNext == nullptr && m_pnPrev == nullptr);
 			m_pnNext					= pn->m_pnNext;
 			m_pnPrev					= pn;
 			m_pnNext->m_pnPrev	= this;
@@ -123,8 +123,8 @@ class CTreeListNode
 		{
 			m_pnNext->m_pnPrev		= m_pnPrev;
 			m_pnPrev->m_pnNext		= m_pnNext;
-			m_pnNext						= NULL;
-			m_pnPrev						= NULL;
+			m_pnNext						= nullptr;
+			m_pnPrev						= nullptr;
 		}
 
 		// Note:  This function adds the item into the tree in its
@@ -137,7 +137,7 @@ class CTreeListNode
 			// go right
 			{
 				// If this is the end of the line, add it here
-				if (m_pnRight == NULL)	
+				if (m_pnRight == nullptr)	
 				{
 					m_pnRight = pn;
 					//AddAfter(pn);
@@ -152,7 +152,7 @@ class CTreeListNode
 			// go left
 			{
 				// If this is the end of the line, add it here
-				if (m_pnLeft == NULL)
+				if (m_pnLeft == nullptr)
 				{
 					m_pnLeft = pn;
 					//InsertBefore(pn);
@@ -175,14 +175,14 @@ class CTreeListNode
 			if (m_pnLeft)
 			{
 				m_pnLeft->DeleteTree();
-				m_pnLeft = NULL;			
+				m_pnLeft = nullptr;			
 			}	
 
 			// Delete right branches
 			if (m_pnRight)
 			{
 				m_pnRight->DeleteTree();
-				m_pnRight = NULL;
+				m_pnRight = nullptr;
 			}
 
 			// Remove yourself from the list
@@ -263,8 +263,8 @@ class CBouy : public CThing
 			{
 			m_pImage = 0;
 			m_sSuspend = 0;
-			m_pParentNavNet = NULL;
-			m_paucRouteTable = NULL;
+			m_pParentNavNet = nullptr;
+			m_paucRouteTable = nullptr;
 			m_sRouteTableSize = 0;
 			m_sNumDirectLinks = 0;
 			}
@@ -276,7 +276,7 @@ class CBouy : public CThing
 			// Remove sprite from scene (this is safe even if it was already removed!)
 			m_pRealm->m_scene.RemoveSprite(&m_sprite);
 
-			if (m_paucRouteTable != NULL)
+			if (m_paucRouteTable != nullptr)
 				free(m_paucRouteTable);
 
 			// Free resources
@@ -294,7 +294,7 @@ class CBouy : public CThing
 			{
 			int16_t sResult = 0;
 			*ppNew = new CBouy(pRealm);
-			if (*ppNew == 0)
+			if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CBouy::Construct(): Couldn't construct CBouy (that's a bad thing)\n");
