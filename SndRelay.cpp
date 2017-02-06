@@ -75,7 +75,7 @@ int16_t CSndRelay::Load(								// Returns 0 if successfull, non-zero otherwise
 	uint32_t	ulFileVersion)									// In:  Version of file format to load.
 	{
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		// If new file . . . 
 		if (sFileCount != ms_sFileCount)
@@ -146,7 +146,7 @@ int16_t CSndRelay::Load(								// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 			{
 			sResult = Init();
 			}
@@ -169,7 +169,7 @@ int16_t CSndRelay::Save(										// Returns 0 if successfull, non-zero otherwis
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
 	int16_t	sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		pFile->Write(m_dX);
 		pFile->Write(m_dY);
@@ -232,8 +232,8 @@ void CSndRelay::Update(void)
 		if (m_bEnabled == true)
 			{
 			// Attempt to get ptr to our parent . . .
-			CSoundThing*	pst	= NULL;	// Safety.
-			if (m_pRealm->m_idbank.GetThingByID((CThing**)&pst, m_idParent) == 0)
+			CSoundThing*	pst	= nullptr;	// Safety.
+			if (m_pRealm->m_idbank.GetThingByID((CThing**)&pst, m_idParent) == SUCCESS)
 				{
 				// Make sure this is what we think it is . . .
 				if (pst->GetClassID() == CSoundThingID)
@@ -346,11 +346,11 @@ int16_t CSndRelay::EditModify(void)
 
 	// Load gui dialog
 	RGuiItem* pgui = RGuiItem::LoadInstantiate(FullPathVD(GUI_FILE_NAME));
-	if (pgui != NULL)
+	if (pgui != nullptr)
 		{
 		// Init "ID" edit
 		REdit* peditParentId = (REdit*)pgui->GetItemFromId(100);
-		ASSERT(peditParentId != NULL);
+		ASSERT(peditParentId != nullptr);
 		ASSERT(peditParentId->m_type == RGuiItem::Edit);
 		if (m_idParent != CIdBank::IdNil)
 			{
@@ -365,7 +365,7 @@ int16_t CSndRelay::EditModify(void)
 
 		// Init "enable" push button
 		RMultiBtn* pmbEnable = (RMultiBtn*)pgui->GetItemFromId(200);
-		ASSERT(pmbEnable != NULL);
+		ASSERT(pmbEnable != nullptr);
 		pmbEnable->m_sState = (m_bInitiallyEnabled == true) ? 2 : 1;
 		pmbEnable->Compose();
 
@@ -395,7 +395,7 @@ int16_t CSndRelay::EditModify(void)
 		}
 
 	// If everything's okay, init using new values
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		sResult = Init();
 
 	return sResult;
@@ -515,7 +515,7 @@ int16_t CSndRelay::Init(void)							// Returns 0 if successfull, non-zero otherw
 	if (m_sprite.m_pImage == 0)
 		{
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(IMAGE_FILE), &m_sprite.m_pImage);
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 			// This is a questionable action on a resource managed item, but it's
 			// okay if EVERYONE wants it to be an FSPR8.

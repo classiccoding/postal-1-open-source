@@ -79,7 +79,7 @@ int16_t CWeapon::Load(										// Returns 0 if successfull, non-zero otherwise
 
 	// Call the CThing base class load to get the instance ID
 	sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -121,7 +121,7 @@ int16_t CWeapon::Load(										// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 			{
 			// Get resources
 	//		sResult = GetResources();
@@ -493,7 +493,7 @@ int16_t CWeapon::PrepareShadow(void)
 	int16_t sResult = SUCCESS;
 
 	// If the shadow doesn't have resource loaded yet, load the default
-	if (m_spriteShadow.m_pImage == NULL)
+	if (m_spriteShadow.m_pImage == nullptr)
 	{
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(SHADOW_FILE), &(m_spriteShadow.m_pImage), RFile::LittleEndian);
 	}

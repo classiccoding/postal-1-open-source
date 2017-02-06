@@ -142,49 +142,49 @@ class CGameSettings : CSettings
 		char		m_szNoSakDir[RSP_MAX_PATH];			// NoSakDir path.  The root path to files in the absence of their SAK.
 		char		m_pszRealmPrefsFile[RSP_MAX_PATH+1];// Name of realm prefs file
 
-		int16_t		m_sDifficulty;								// Difficulty level (0 to 11)
-		int16_t		m_sViolence;								// Violence level (0 to 11)
+      uint16_t		m_sDifficulty;								// Difficulty level (0 to 11)
+      uint16_t		m_sViolence;								// Violence level (0 to 11)
 		int16_t		m_sCrossHair;								// TRUE, to use crosshair.
 
 		char		m_szServerName[RSP_MAX_PATH];			// Name of server for network game.
 		uint16_t	m_usServerPort;							// Port on server for network game.
 		uint16_t	m_usProtocol;								// Network protocol enum
 		char		m_szPlayerName[256];						// Player's name for multiplayer mode.
-		int16_t		m_sPlayerColorIndex;						// Player's color index for multiplayer mode.
-		int16_t		m_sNetBandwidth;							// Network bandwidth
-		int16_t		m_sHostMinBandwidth;						// Host's minimum network bandwidth
-		int16_t		m_sHostMaxPlayers;						// Host's max players
+      uint16_t		m_sPlayerColorIndex;						// Player's color index for multiplayer mode.
+      uint16_t		m_sNetBandwidth;							// Network bandwidth
+      uint16_t		m_sHostMinBandwidth;						// Host's minimum network bandwidth
+      uint16_t		m_sHostMaxPlayers;						// Host's max players
 		char		m_szHostName[RSP_MAX_PATH];			// Host name
 		int16_t		m_sHostResetScoresEachLevel;			// Host's reset-scores-each-level flag
 		int16_t		m_sHostRejuvenate;						// Host's rejuvenation flag
-		int16_t		m_sHostTimeLimit;							// Host's time limit
-		int16_t		m_sHostKillLimit;							// Host's kill limit
-		int16_t		m_sNetGetInputInterval;					// Interval between getting input
-		int16_t		m_sNetSendInputInterval;				// Interval between sending input
-		int16_t		m_sNetMaxFrameLag;						// Maximum lag between output frame and input seq
-		int16_t		m_sNetTimePerFrame;						// Time per frame
-		int32_t		m_lNetMaxBlockingTime;					// Maximum network blocking time
-		int32_t		m_lNetForceAbortTime;					// Maximum time after which to force abort
+      uint16_t		m_sHostTimeLimit;							// Host's time limit
+      uint16_t		m_sHostKillLimit;							// Host's kill limit
+      uint16_t		m_sNetGetInputInterval;					// Interval between getting input
+      uint16_t		m_sNetSendInputInterval;				// Interval between sending input
+      uint16_t		m_sNetMaxFrameLag;						// Maximum lag between output frame and input seq
+      uint16_t		m_sNetTimePerFrame;						// Time per frame
+      uint32_t		m_lNetMaxBlockingTime;					// Maximum network blocking time
+      uint32_t		m_lNetForceAbortTime;					// Maximum time after which to force abort
 /*** 12/5/97 AJC ***/
 		char		m_szNetSyncLogFile[RSP_MAX_PATH+1];	// Log file name for recording network syn time
 		RFile		m_rfNetSyncLog;							// Log file for network syn time
-		int32_t		m_lStartRealmTime;						// Time when a client receives START_REALM from server
+      uint32_t		m_lStartRealmTime;						// Time when a client receives START_REALM from server
 		char		m_bLogNetTime;								// True, if user wants to log net time
 /*** 12/5/97 AJC ***/
 /*** 01/14/98 SPA ***/
-		int32_t		m_lPeerDropMaxWaitTime;					// Maximum time to wait for peer data before
+      uint32_t		m_lPeerDropMaxWaitTime;					// Maximum time to wait for peer data before
 															// dropping peer (in seconds!!)
 /*** 01/14/98 SPA ***/
 
-		int32_t		m_lInitialDemoTimeOut;					// Initial demo timeout.
-		int32_t		m_lPersistentDemoTimeOut;				// Persistent demo timeout.
+      uint32_t		m_lInitialDemoTimeOut;					// Initial demo timeout.
+      uint32_t		m_lPersistentDemoTimeOut;				// Persistent demo timeout.
 		int16_t		m_sCanRecordDemos;						// TRUE, if the user can record demos.
 		char		m_szDemoDebugMovie[RSP_MAX_PATH];	// If supplied, turns on recording of demo movie to this file name
-		int16_t		m_sNumAvailableDemos;					// Number of available demos
+      uint16_t		m_sNumAvailableDemos;					// Number of available demos
 
 		int32_t		m_alTitleDurations[MAX_TITLE_SCREENS];// Time spent on title screen while "loading".
 																
-		int16_t		m_sGammaVal;								// Gamma brighten value for palette.
+      uint16_t		m_sGammaVal;								// Gamma brighten value for palette.
 		int16_t		m_sUseCurrentDeviceDimensions;		// If TRUE, the current display device dimensions are not changed.
 																	
 		int16_t		m_sAlphaBlend;								// TRUE, if alpha blending is on.
@@ -208,10 +208,10 @@ class CGameSettings : CSettings
 																	// For example, if 50, what was normally displayed on 640x480
 																	// would be 320x240.
 
-		int16_t		m_sEditorViewWidth;						// Initial display size for editor.
-		int16_t		m_sEditorViewHeight;						// Initial display size for editor.
+      uint16_t		m_sEditorViewWidth;						// Initial display size for editor.
+      uint16_t		m_sEditorViewHeight;						// Initial display size for editor.
 
-		int16_t		m_sGripZoneRadius;						// Radius of non scroll area to be specified to grip.
+      uint16_t		m_sGripZoneRadius;						// Radius of non scroll area to be specified to grip.
 
 		SampleMaster::SoundQuality	m_eCurSoundQuality;	// Current sound quality.
 
@@ -222,7 +222,7 @@ class CGameSettings : CSettings
 		// Player color descriptions.
       static const char*	ms_apszPlayerColorDescriptions[];
 		// Number of color descriptions.
-		static const int16_t	ms_sNumPlayerColorDescriptions;
+      static const uint16_t	ms_sNumPlayerColorDescriptions;
 
 	public:
 		// Set settings to default values

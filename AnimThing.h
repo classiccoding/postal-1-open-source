@@ -94,7 +94,7 @@ class CAnimThing : public CThing
 		CAnimThing(CRealm* pRealm)
 			: CThing(pRealm, CAnimThingID)
 			{
-			m_paachannel		= NULL;
+			m_paachannel		= nullptr;
 			m_sSuspend			= 0;
 			m_sLoop				= TRUE;
 			m_szResName[0]		= '\0';
@@ -125,7 +125,7 @@ class CAnimThing : public CThing
 			{
 			int16_t sResult = 0;
 			*ppNew = new CAnimThing(pRealm);
-			if (*ppNew == 0)
+         if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CExplode::Construct(): Couldn't construct CAnimThing (that's a bad thing)\n");

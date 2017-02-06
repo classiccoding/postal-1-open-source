@@ -53,7 +53,7 @@ CTrigger::CTrigger(CRealm* pRealm)
 	: CThing(pRealm, CTriggerID)
 	{
 	// Insert a default instance into the realm:
-	m_pmgi = NULL;
+	m_pmgi = nullptr;
 	m_pRealm->m_pTriggerMapHolder = this;
 	m_pRealm->m_pTriggerMap = m_pmgi;
 
@@ -71,11 +71,11 @@ CTrigger::CTrigger(CRealm* pRealm)
 CTrigger::~CTrigger()
 	{
 	if (m_pmgi) delete m_pmgi;
-	m_pmgi = NULL;
+	m_pmgi = nullptr;
 
 	// Clear it from the realm:
-	m_pRealm->m_pTriggerMap = NULL;
-	m_pRealm->m_pTriggerMapHolder = NULL;
+	m_pRealm->m_pTriggerMap = nullptr;
+	m_pRealm->m_pTriggerMapHolder = nullptr;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -91,15 +91,15 @@ int16_t CTrigger::Load(								// Returns 0 if successfull, non-zero otherwise
 
 	// In most cases, the base class Load() should be called.
 	sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		// Load object data
-		m_pRealm->m_pTriggerMap = NULL; // clear the shadow
+		m_pRealm->m_pTriggerMap = nullptr; // clear the shadow
 		// ASSUME THERE WILL ALREADY BE AN EMPTY TRIGGER MAP HOLDER!
-		if (m_pRealm->m_pTriggerMapHolder == NULL) m_pRealm->m_pTriggerMapHolder = new CTrigger(m_pRealm);
+		if (m_pRealm->m_pTriggerMapHolder == nullptr) m_pRealm->m_pTriggerMapHolder = new CTrigger(m_pRealm);
 
 		if (m_pmgi) delete m_pmgi;
-		m_pmgi = NULL;
+		m_pmgi = nullptr;
 
 		int16_t sData = 0;
 		pFile->Read(&sData);
@@ -137,7 +137,7 @@ int16_t CTrigger::Load(								// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 			{
 			}
 		else
@@ -166,12 +166,12 @@ int16_t CTrigger::Save(								// Returns 0 if successfull, non-zero otherwise
 
 	// In most cases, the base class Save() should be called.
 	sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		// Save object data
 		int16_t sData = 0; // NO DATA
 
-		if (m_pmgi == NULL) 
+		if (m_pmgi == nullptr) 
 			{
 			sData = 0;
 			pFile->Write(sData);
@@ -198,7 +198,7 @@ int16_t CTrigger::Save(								// Returns 0 if successfull, non-zero otherwise
 			}
 
 		sResult	= pFile->Error();
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 			}
 		else

@@ -146,7 +146,7 @@ class CBand : public CDoofus
 			{
 			int16_t sResult = 0;
 			*ppNew = new CBand(pRealm);
-			if (*ppNew == 0)
+			if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CBand::Construct(): Couldn't construct CBand (that's a bad thing)\n");

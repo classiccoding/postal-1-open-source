@@ -203,7 +203,7 @@ static int16_t SetupVideo(					// Returns 0 on success.
 	// If "use current settings" is specified, we get the current device settings
 	// instead of using those specified in the prefs file.
 	if (sUseCurrentDeviceDimensions != FALSE)
-		rspGetVideoMode(NULL, &sDeviceWidth, &sDeviceHeight);
+		rspGetVideoMode(nullptr, &sDeviceWidth, &sDeviceHeight);
 
 	// Try setting video mode using device size specified in prefs file
 	sResult = rspSetVideoMode(
@@ -246,8 +246,8 @@ static int16_t SetupVideo(					// Returns 0 on success.
 			MAIN_SCREEN_SCALING,
 			&sDeviceWidth,
 			&sDeviceHeight,
-			NULL);
-		if (sResult == 0)
+			nullptr);
+		if (sResult == SUCCESS)
 			{
 
 			// Try to set suggested mode
@@ -300,12 +300,12 @@ static int16_t SetupVideo(					// Returns 0 on success.
 					&sDeviceWidth,
 					&sDeviceHeight,
 					&sDevicePages);
-				} while ((sResult == 0) && (sDeviceDepth < MAIN_SCREEN_DEPTH));
-			if ((sResult == 0) && (sDeviceDepth == MAIN_SCREEN_DEPTH))
+				} while ((sResult == SUCCESS) && (sDeviceDepth < MAIN_SCREEN_DEPTH));
+			if ((sResult == SUCCESS) && (sDeviceDepth == MAIN_SCREEN_DEPTH))
 				{
 				// We got the depth, now find a mode with the requested resolution.  If
 				// there isn't one, then resolution at this depth is the problem.
-				while ( (sResult == 0) &&
+				while ( (sResult == SUCCESS) &&
 						  (sDeviceDepth == MAIN_SCREEN_DEPTH) &&
 						  ((sDeviceWidth < MAIN_WINDOW_WIDTH) || (sDeviceHeight < MAIN_WINDOW_HEIGHT)) )
 					{
@@ -315,7 +315,7 @@ static int16_t SetupVideo(					// Returns 0 on success.
 						&sDeviceHeight,
 						&sDevicePages);
 					}
-				if ( (sResult == 0) &&
+				if ( (sResult == SUCCESS) &&
 					  (sDeviceDepth == MAIN_SCREEN_DEPTH) &&
 					  (sDeviceWidth >= MAIN_WINDOW_WIDTH) &&
 					  (sDeviceHeight >= MAIN_WINDOW_HEIGHT) )
@@ -388,14 +388,14 @@ static char* CreateChunk(	// Returns the memory ptr that will hold the chunk
 
 static void assert_types_are_sane(void)
 {
-    ASSERT(sizeof (int8_t) == 1);
-    ASSERT(sizeof (uint8_t) == 1);
-    ASSERT(sizeof (int16_t) == 2);
-    ASSERT(sizeof (uint16_t) == 2);
-    ASSERT(sizeof (int32_t) == 4);
-    ASSERT(sizeof (uint32_t) == 4);
-    ASSERT(sizeof (int64_t) == 8);
-    ASSERT(sizeof (uint64_t) == 8);
+    static_assert(sizeof ( int8_t ) == 1, "your compiler is broken");
+    static_assert(sizeof (uint8_t ) == 1, "your compiler is broken");
+    static_assert(sizeof ( int16_t) == 2, "your compiler is broken");
+    static_assert(sizeof (uint16_t) == 2, "your compiler is broken");
+    static_assert(sizeof ( int32_t) == 4, "your compiler is broken");
+    static_assert(sizeof (uint32_t) == 4, "your compiler is broken");
+    static_assert(sizeof ( int64_t) == 8, "your compiler is broken");
+    static_assert(sizeof (uint64_t) == 8, "your compiler is broken");
 
     uint32_t val = 0x02000001;
 #if SYS_ENDIAN_BIG
@@ -413,7 +413,7 @@ static void assert_types_are_sane(void)
 
 // Global versions of argc/argv...
 int _argc = 0;
-char **_argv = NULL;
+char **_argv = nullptr;
 
 int32_t playthroughMS = 0;
 
@@ -463,7 +463,7 @@ static const char *GetAchievementName(const Achievement ach)
         case ACHIEVEMENT_MAX: break;  // not a real achievement, keep compiler happy.
     }
 
-    return NULL;
+    return nullptr;
 }
 
 class SteamworksEvents
@@ -529,7 +529,7 @@ static bool touchFile(const char *fname, const int64 stamp)
 {
 #ifdef WIN32
     HANDLE hFile = CreateFileA(fname, GENERIC_READ | FILE_WRITE_ATTRIBUTES,
-                               FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+                               FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
     if (hFile == INVALID_HANDLE_VALUE)
         return false;
 
@@ -540,14 +540,14 @@ static bool touchFile(const char *fname, const int64 stamp)
     FILETIME ft;
     ft.dwLowDateTime = val.LowPart;
     ft.dwHighDateTime = val.HighPart;
-    const BOOL rc = SetFileTime(hFile, NULL, NULL, &ft);
+    const BOOL rc = SetFileTime(hFile, nullptr, nullptr, &ft);
     CloseHandle(hFile);
     return (rc != 0);
 #else
     timeval ft[2];
     ft[0].tv_sec = ft[1].tv_sec = (time_t) stamp;
     ft[0].tv_usec = ft[1].tv_usec = 0;
-    return (utimes(fname, ft) == 0);
+    return (utimes(fname, ft) == SUCCESS);
 #endif
 }
 
@@ -556,7 +556,7 @@ static bool prepareSteamworks()
 {
     ISteamUtils *utils;
 
-    if ((!SteamAPI_Init()) || ((utils = SteamUtils()) == NULL))
+    if ((!SteamAPI_Init()) || ((utils = SteamUtils()) == nullptr))
     {
         rspMsgBox(RSP_MB_BUT_OK | RSP_MB_ICN_STOP,
                   "Error!", "%s", "Can't initialize Steamworks, aborting...");
@@ -623,7 +623,7 @@ static bool prepareSteamworks()
                 char fname[64];
                 snprintf(fname, sizeof (fname), "savegame/%d.gme", i);
                 FILE *io = fopen(FindCorrectFile(fname, "rb"), "rb");
-                if (io != NULL)
+                if (io != nullptr)
                 {
                     char buf[1024];
                     const size_t br = fread(buf, 1, sizeof (buf), io);
@@ -776,7 +776,7 @@ int main(int argc, char **argv)
 	// directory is the current directory.  This will be the case unless the
 	// user does something stupid.
 	RPrefs prefs;
-	if (prefs.Open(g_pszPrefFileName, "rt") == 0)
+   if (prefs.Open(g_pszPrefFileName, "rt") == SUCCESS)
 		{
 		// Get video preferences
 		int16_t sDeviceWidth;
@@ -800,13 +800,13 @@ int main(int argc, char **argv)
 		prefs.Close();
 
 		// Make sure no errors occurred
-		if (prefs.IsError() == 0)
+      if (prefs.IsError() == FALSE)
 			{
 
 			//---------------------------------------------------------------------------
 			// Init blue layer
 			//---------------------------------------------------------------------------
-			if (rspInitBlue() == 0)
+         if (rspInitBlue() == SUCCESS)
 				{
 
 // Turn on profile (if enabled via macro)
@@ -839,7 +839,7 @@ rspSetProfileOutput("profile.out");
 					sDeviceWidth,						// In:  Desired video hardware width.
 					sDeviceHeight);					// In:  Desired video hardware height.
 
-				if (sResult == 0)
+				if (sResult == SUCCESS)
 					{
 					// Set Win32 static colors and lock them.
 					rspSetWin32StaticColors(1);
@@ -910,7 +910,7 @@ rspSetProfileOutput("profile.out");
 							} while (bDone == false);
 
 						// If it worked, clear the retry flag
-						if (sResult == 0)
+						if (sResult == SUCCESS)
 							{
 							bRetry = false;
 							}
@@ -993,7 +993,7 @@ rspSetProfileOutput("profile.out");
 							}
 						}
 
-					if (sResult == 0)
+					if (sResult == SUCCESS)
 						{
 
 						//------------------------------------------------------------

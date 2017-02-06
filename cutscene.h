@@ -74,7 +74,7 @@ int16_t	MartiniDo(	RImage*	pimBackground,	// actually, this is the ONLY graphic
 						int16_t	sRadius = 24,		// Your tuning pleasure
 						int32_t	lSpinTime = 3600,	// in milliseconds
 						int32_t	lSwayTime = 4000,	// in milliseconds
-						RRect*  prCenter = NULL,// if not NULL, use this portion of the image only!
+						RRect*  prCenter = nullptr,// if not nullptr, use this portion of the image only!
 						int32_t	lFadeTime = 0,		// fade to black, in milliseconds. (INCL in total time!)
 						SampleMaster::SoundInstance siFade=0// to make sound fade out
 					);

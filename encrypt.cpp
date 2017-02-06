@@ -244,7 +244,7 @@ int16_t Decrypt(char* szInputString,char* szOutputString,int16_t sSourceLength)
 //	Description:	This is the file encryption function.
 //
 //	Input:			char*: name of file to encrypt to,
-//						char*: NULL terminated plaintext to encrypt
+//						char*: nullptr terminated plaintext to encrypt
 //
 //	Output:			0 on success.
 //

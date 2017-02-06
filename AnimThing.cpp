@@ -99,7 +99,7 @@ int16_t CAnimThing::Load(								// Returns 0 if successfull, non-zero otherwise
 	uint32_t	ulFileVersion)								// In:  Version of file format to load.
 	{
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		switch (ulFileVersion)
 			{
@@ -114,7 +114,7 @@ int16_t CAnimThing::Load(								// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 			{
 			// Get resources
 			sResult = GetResources();
@@ -138,7 +138,7 @@ int16_t CAnimThing::Save(										// Returns 0 if successfull, non-zero otherwi
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
 	int16_t	sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		pFile->Write(&m_dX);
 		pFile->Write(&m_dY);
@@ -240,7 +240,7 @@ void CAnimThing::Render(void)
 	m_lAnimPrevTime	= lCurTime;
 
 	CAlphaAnim* paa = (CAlphaAnim*)m_paachannel->GetAtTime(m_lAnimTime);
-	if (paa != NULL)
+	if (paa != nullptr)
 		{
 		// No special flags
 		m_sprite.m_sInFlags = 0;
@@ -368,17 +368,17 @@ int16_t CAnimThing::EditModify(void)
 	int16_t	sResult	= 0;
 
 	RGuiItem* pgui = RGuiItem::LoadInstantiate(FullPathVD(GUI_FILE_NAME));
-	if (pgui != NULL)
+	if (pgui != nullptr)
 		{
 		RListBox* plb = (RListBox*)pgui->GetItemFromId(GUI_ID_OPTIONS);
-		if (plb != NULL)
+		if (plb != nullptr)
 			{
 			ASSERT(plb->m_type == RGuiItem::ListBox);
 			// Select current setting.
 			plb->SetSel(pgui->GetItemFromId((m_sLoop == FALSE) ? GUI_ID_DONTLOOP : GUI_ID_DOLOOP) );
 
 			REdit* pedit = (REdit*)pgui->GetItemFromId(GUI_ID_RESOURCE);
-			if (pedit != NULL)
+			if (pedit != nullptr)
 				{
 				ASSERT(pedit->m_type == RGuiItem::Edit);
 
@@ -437,7 +437,7 @@ int16_t CAnimThing::EditModify(void)
 		}
 
 	// If successful so far . . .
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		// Load resources
 		sResult = GetResources();
@@ -479,10 +479,10 @@ void CAnimThing::EditRect(	// Returns nothiing.
 	prc->sW	= 10;	// Safety.
 	prc->sH	= 10;	// Safety.
 
-	if (m_paachannel != NULL)
+	if (m_paachannel != nullptr)
 		{
 		CAlphaAnim* paa = (CAlphaAnim*)m_paachannel->GetAtTime(m_lAnimTime);
-		if (paa != NULL)
+		if (paa != nullptr)
 			{
 			// Offset by hotspot.
 			prc->sX	+= paa->m_sX;
@@ -506,10 +506,10 @@ void CAnimThing::EditHotSpot(	// Returns nothiing.
 	*psX	= 0;	// Safety.
 	*psY	= 0;	// Safety.
 
-	if (m_paachannel != NULL)
+	if (m_paachannel != nullptr)
 		{
 		CAlphaAnim*	paa	= (CAlphaAnim*)m_paachannel->GetAtTime(m_lAnimTime);
-		if (paa != NULL)
+		if (paa != nullptr)
 			{
 			*psX	= -paa->m_sX;
 			*psY	= -paa->m_sY;
@@ -552,7 +552,7 @@ int16_t CAnimThing::GetResources(void)						// Returns 0 if successfull, non-zer
 		m_pRealm->Make2dResPath(m_szResName), 
 		&m_paachannel);
 
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		m_lAnimTime			= 0;
 		m_lAnimPrevTime	= m_pRealm->m_time.GetGameTime();
@@ -583,7 +583,7 @@ int16_t CAnimThing::FreeResources(void)						// Returns 0 if successfull, non-ze
 	{
 	int16_t sResult = 0;
 
-	if (m_paachannel != NULL)
+	if (m_paachannel != nullptr)
 		{
 		rspReleaseResource(&g_resmgrGame, &m_paachannel);
 		}

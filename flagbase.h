@@ -73,7 +73,7 @@ class CFlagbase : public CThing3d
 			m_sSuspend = 0;
 			m_dRot = 0;
 			m_dX = m_dY = m_dZ = m_dVel = m_dAcc = 0;
-			m_panimCur = NULL;
+			m_panimCur = nullptr;
 			m_sprite.m_pthing	= this;
 			m_u16FlagID = 1;
 			m_u16Color = 0;
@@ -102,7 +102,7 @@ class CFlagbase : public CThing3d
 			{
 			int16_t sResult = 0;
 			*ppNew = new CFlagbase(pRealm);
-			if (*ppNew == 0)
+         if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CFlagbase::Construct(): Couldn't construct CFlagbase (that's a bad thing)\n");

@@ -70,7 +70,7 @@ extern const char* g_pszNetProb_General;
 extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero otherwise.
 	CNetClient*	pclient,									// I/O: Client interface
 	bool bBrowse,											// In:  Whether to browse (true) or connect (false)
-	CNetServer*	pserver,									// I/O: Server interface or NULL if not server
+	CNetServer*	pserver,									// I/O: Server interface or nullptr if not server
 	NetMsg* pmsgOut);										// Out: NetMsg::NOTHING or NetMsg::START_GAME
 
 

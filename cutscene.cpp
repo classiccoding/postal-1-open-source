@@ -253,9 +253,9 @@ class	CCutSceneInfo
 		bool m_bDeleteFont;
 		int16_t m_sDelW;
 		int16_t m_sDelH;
-		int32_t m_lTotalBytes;
-		int32_t m_lTimeToUpdate;
-		int32_t m_lBytesSoFar;
+      size_t m_lTotalBytes;
+      uint32_t m_lTimeToUpdate;
+      size_t m_lBytesSoFar;
 		uint8_t m_u8BloodColor;
 		int16_t m_sLastDistance;
 		SampleMasterID m_musicID;
@@ -263,16 +263,16 @@ class	CCutSceneInfo
 
 		void	Clear()
 			{
-			m_pFont = NULL;
+			m_pFont = nullptr;
 			m_szTitle[0] = 0;
 			m_szText[0] = 0;
 			m_szMusic[0] = 0;
 			m_ucForeText = 0;
 			m_ucShadowText = 0;
-			m_pimBGLayer = NULL;
-			m_pimTextLayer = NULL;
-			m_pimDst = NULL;
-			m_pmaAlpha = NULL;
+			m_pimBGLayer = nullptr;
+			m_pimTextLayer = nullptr;
+			m_pimDst = nullptr;
+			m_pmaAlpha = nullptr;
 			m_bDeleteFont = true;
 			m_sDelW = 0;
 			m_sDelH = 0;
@@ -317,7 +317,7 @@ int16_t	MartiniDo(	RImage*	pimBackground,	// actually, this is the ONLY graphic
 						int16_t	sRadius,				// Your tuning pleasure
 						int32_t	lSpinTime,			// in milliseconds
 						int32_t	lSwayTime,			// in milliseconds
-						RRect*  prCenter,			// if not NULL, use this portion of the image only!
+						RRect*  prCenter,			// if not nullptr, use this portion of the image only!
 						int32_t	lFadeTime,			// fade to black, in milliseconds.
 						SampleMaster::SoundInstance siFade	// to make sound fade out
 					)
@@ -481,7 +481,7 @@ class	CSwirlMe
 					SampleMaster::Unspecified,				// In:  Sound Volume Category for user adjustment
 					255,											// In:  Initial Sound Volume (0 - 255)
 					&m_siSound,									// Out: Handle for adjusting sound volume
-					NULL,											// Out: Sample duration in ms, if not NULL.
+					nullptr,											// Out: Sample duration in ms, if not nullptr.
 					0,												// In:  Where to loop back to in milliseconds.
 																	//	-1 indicates no looping (unless m_sLoop is
 																	// explicitly set).
@@ -545,7 +545,7 @@ class	CSwirlMe
 						m_rClip.sW,m_rClip.sH,&rSafeClip);
 
 				// 2) Alpha Blit Upon it:
-				if (m_pCut->m_pmaAlpha != NULL)
+				if (m_pCut->m_pmaAlpha != nullptr)
 					{
 					rspAlphaBlitT(int16_t(255.9*dAlpha),m_pCut->m_pmaAlpha,m_pCut->m_pimBGLayer,m_pCut->m_pimDst,
 						m_rClip.sX + sOffX,m_rClip.sY + sOffY,&rSafeClip);
@@ -653,7 +653,7 @@ class	CSwirlMe
 			{
  			if (m_siSound != 0) AbortSample(m_siSound);
 			m_siSound = 0;
-			m_pCut = NULL;	// we don't free this - you do!
+			m_pCut = nullptr;	// we don't free this - you do!
 			}
 
 		////////////////////////////////////////////////////////////////////////////
@@ -679,15 +679,15 @@ class	CSwirlMe
 // Variables/data
 ////////////////////////////////////////////////////////////////////////////////
 
-static CCutSceneInfo* ms_pCut = NULL;
-static CSwirlMe* pSwirl = NULL;
+static CCutSceneInfo* ms_pCut = nullptr;
+static CSwirlMe* pSwirl = nullptr;
 
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function prototypes
 ////////////////////////////////////////////////////////////////////////////////
 
-static void CutScene_RFileCallback(int32_t lBytes);
+static void CutScene_RFileCallback(size_t lBytes);
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -759,11 +759,11 @@ extern void CutSceneStart(
 
 	// Load bg, but do NOT display yet!
 	ms_pCut->m_pimBGLayer = new RImage;
-	if ((ms_pCut->m_pimBGLayer->Load(FullPathHD(szText)) == 0) ||
-		 (ms_pCut->m_pimBGLayer->Load(FullPathVD(szText)) == 0))
+	if ((ms_pCut->m_pimBGLayer->Load(FullPathHD(szText)) == SUCCESS) ||
+		 (ms_pCut->m_pimBGLayer->Load(FullPathVD(szText)) == SUCCESS))
 		{
 		// Set palette
-		ASSERT(ms_pCut->m_pimBGLayer->m_pPalette != NULL);
+		ASSERT(ms_pCut->m_pimBGLayer->m_pPalette != nullptr);
 		ASSERT(ms_pCut->m_pimBGLayer->m_pPalette->m_type == RPal::PDIB);
 		rspSetPaletteEntries(
 			0, 256, ms_pCut->m_pimBGLayer->m_pPalette->Red(0), 
@@ -777,7 +777,7 @@ extern void CutSceneStart(
 		{
 		TRACE("CutScene(): Error loading bg image: '%s'\n", FullPathVD(szText));
 		delete ms_pCut->m_pimBGLayer;
-		ms_pCut->m_pimBGLayer	= NULL;
+		ms_pCut->m_pimBGLayer	= nullptr;
 		}
 
 	//------------------------------------------------------------------------------
@@ -796,15 +796,15 @@ extern void CutSceneStart(
 	ms_pCut->m_pmaAlpha = new RMultiAlpha;
 
 	prefsRealm.GetVal(*pstrSection, "Alpha", DEFAULT_MULTIALPHA, szText);
-	if ((ms_pCut->m_pmaAlpha->Load(FullPathHD(szText)) == 0) ||
-		 (ms_pCut->m_pmaAlpha->Load(FullPathVD(szText)) == 0))
+	if ((ms_pCut->m_pmaAlpha->Load(FullPathHD(szText)) == SUCCESS) ||
+		 (ms_pCut->m_pmaAlpha->Load(FullPathVD(szText)) == SUCCESS))
 		{
 		}
 	else
 		{
 		TRACE("CutScene(): Error loading multialpha: '%s'\n", FullPathVD(szText));
 		delete ms_pCut->m_pmaAlpha;
-		ms_pCut->m_pmaAlpha = NULL;
+		ms_pCut->m_pmaAlpha = nullptr;
 		}
 
 	//------------------------------------------------------------------------------
@@ -975,7 +975,7 @@ extern void CutSceneStart(
 			PROGRESS_BOX_X, PROGRESS_BOX_Y,					// Src.
 			PROGRESS_BOX_X, PROGRESS_BOX_Y,					// Dst.
 			PROGRESS_BOX_WIDTH, PROGRESS_BOX_HEIGHT,		// Both.
-			NULL,														// Dst.
+			nullptr,														// Dst.
 			&rcBGClipper);											// Src.
 		}
 
@@ -1061,7 +1061,7 @@ extern int16_t CutSceneConfig(
 			PROGRESS_BOX_X, PROGRESS_BOX_Y,					// Src.
 			PROGRESS_BOX_X, PROGRESS_BOX_Y,					// Dst.
 			PROGRESS_BOX_WIDTH, PROGRESS_BOX_HEIGHT,		// Both.
-			NULL,														// Dst.
+			nullptr,														// Dst.
 			&rcBGClipper);											// Src.
 
 		rspUnlockBuffer();
@@ -1119,7 +1119,7 @@ extern void CutSceneEnd(void)
 // Our RFile callback
 //
 ////////////////////////////////////////////////////////////////////////////////
-static void CutScene_RFileCallback(int32_t lBytes)
+static void CutScene_RFileCallback(size_t lBytes)
 	{
 	static int16_t asWavyY[] =
 		{
@@ -1137,7 +1137,7 @@ static void CutScene_RFileCallback(int32_t lBytes)
 				ms_pCut->m_lBytesSoFar += lBytes;
 
 				// Check if time for an update
-				int32_t lNow = rspGetMilliseconds();
+            uint32_t lNow = rspGetMilliseconds();
 				if ((lNow - ms_pCut->m_lTimeToUpdate) > PROGRESS_BAR_UPDATE_TIME)
 					{
 					// Get percentage that's been loaded so far (result is from 0 to 1)
@@ -1189,7 +1189,7 @@ static void CutScene_RFileCallback(int32_t lBytes)
 						PROGRESS_BOX_X, PROGRESS_BOX_Y,					// Src.
 						PROGRESS_BOX_X, PROGRESS_BOX_Y,					// Dst.
 						PROGRESS_BOX_WIDTH, PROGRESS_BOX_HEIGHT,		// Both.
-						NULL,														// Dst.
+						nullptr,														// Dst.
 						&rcBGClipper);											// Src.
 
 					rspUnlockBuffer();

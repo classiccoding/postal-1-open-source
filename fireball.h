@@ -145,7 +145,7 @@ class CFireball : public CWeapon
 			m_u32CollideDontcareBits = 0;
 			m_u32CollideExcludeBits = 0;
 			m_sTotalAlphaChannels = 0;
-			m_smash.m_pThing = NULL;
+			m_smash.m_pThing = nullptr;
 			m_smash.m_bits = 0;
 			m_bMoving = true;
 			m_lAnimTime = 0;
@@ -161,7 +161,7 @@ class CFireball : public CWeapon
 			m_pRealm->m_scene.RemoveSprite(&m_sprite);
 			// Remove yourself from the collision list if it was in use
 			// (switching to smoke removes it from the smashatorium and sets
-			// the m_pThing field to NULL)
+			// the m_pThing field to nullptr)
 			if (m_smash.m_pThing)
 				m_pRealm->m_smashatorium.Remove(&m_smash);
 
@@ -180,7 +180,7 @@ class CFireball : public CWeapon
 			{
 			int16_t sResult = 0;
 			*ppNew = new CFireball(pRealm);
-			if (*ppNew == 0)
+         if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CFireball::Construct(): Couldn't construct CFireball (that's a bad thing)\n");
@@ -420,7 +420,7 @@ class CFirestream : public CWeapon
 			{
 			int16_t sResult = 0;
 			*ppNew = new CFirestream(pRealm);
-			if (*ppNew == 0)
+         if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CFirestream::Construct(): Couldn't construct CFirestream (that's a bad thing)\n");

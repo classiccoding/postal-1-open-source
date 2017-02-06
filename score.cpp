@@ -245,7 +245,7 @@
 CScoreboard g_scoreboard;
 RPrint		ms_print;
 
-static int32_t	ms_lScoreMaxTimeOut;		// Optional score timeout (max time spent
+static uint32_t	ms_lScoreMaxTimeOut;		// Optional score timeout (max time spent
 												// on score screen).
 
 //////////////////////////////////////////////////////////////////////////////
@@ -298,10 +298,10 @@ static int16_t GuiGetRes(		// Returns 0 on success; non-zero on failure.
 	char szFile[RSP_MAX_PATH * 2];
 	sprintf(szFile, "%s%s", GUI_RES_DIR, pgui->m_szBkdResName);
 
-	if (rspGetResource(&g_resmgrShell, szFile, &pgui->m_pimBkdRes) == 0)
+	if (rspGetResource(&g_resmgrShell, szFile, &pgui->m_pimBkdRes) == SUCCESS)
 		{
 		// Set palette via resource.
-		ASSERT(pgui->m_pimBkdRes->m_pPalette != NULL);
+		ASSERT(pgui->m_pimBkdRes->m_pPalette != nullptr);
 		ASSERT(pgui->m_pimBkdRes->m_pPalette->m_type == RPal::PDIB);
 
 		rspSetPaletteEntries(
@@ -411,7 +411,7 @@ void ScoreResetDisplay(void)
 
 void ScoreRegisterKill(CRealm* pRealm, uint16_t u16DeadGuy, uint16_t u16Killer)
 {
-	CThing* pShooter = NULL;
+	CThing* pShooter = nullptr;
 	pRealm->m_idbank.GetThingByID(&pShooter, u16Killer);
 	if (pShooter && pShooter->GetClassID() == CThing::CDudeID)
 	{
@@ -876,7 +876,7 @@ void ScoreSetMode(CScoreboard::ScoringMode Mode)
 
 void ScoreDisplayHighScores(	// Returns nothing.
 	CRealm* pRealm,				// In:  Realm won.
-	CNetClient* pclient,			// In:  Client ptr for MP mode, or NULL in SP mode.
+	CNetClient* pclient,			// In:  Client ptr for MP mode, or nullptr in SP mode.
 	int32_t lMaxTimeOut)				// In:  Max time on score screen (quits after this
 										// duration, if not -1).
 {
@@ -1098,7 +1098,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 				if (sIndex < pRealm->m_asClassNumThings[CThing::CDudeID])
 					{
 					strncpy(astrTempNames[sIndex], pclient->GetPlayerName(sIndex), MAX_PLAYER_NAME_LEN);
-					// Strncpy does not NULL terminate if the 'n' is less than or equal to the length
+					// Strncpy does not nullptr terminate if the 'n' is less than or equal to the length
 					// of the src string.
 					astrTempNames[sIndex][MAX_PLAYER_NAME_LEN]	= '\0';
 
@@ -1169,7 +1169,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 
 		int16_t i;
 
-		if (rspGetResource(&g_resmgrShell, HIGHSCORE_DIALOG_FILE, (RDlg**)&pguiRoot) == 0)
+		if (rspGetResource(&g_resmgrShell, HIGHSCORE_DIALOG_FILE, (RDlg**)&pguiRoot) == SUCCESS)
 		{
 			RGuiItem* pguiOk			= pguiRoot->GetItemFromId(1);
 			RGuiItem* pguiCancel		= pguiRoot->GetItemFromId(2);
@@ -1179,7 +1179,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 			RListBox*	plbScores	= (RListBox*) pguiRoot->GetItemFromId(1000);
 
 			// Set to the input field if the player gets a high score.
-			RGuiItem*	pguiPlayersName	= NULL;
+			RGuiItem*	pguiPlayersName	= nullptr;
 
 			// Create and add all score items.
 			int16_t	sScoreIndex;
@@ -1195,7 +1195,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 					if (astrNames[sScoreIndex][0] != '\0' || sPlayersScorePosition == sScoreIndex)
 						{
 						RGuiItem*	pguiItem;
-						if (rspGetResourceInstance(&g_resmgrShell, HIGHSCORE_ITEM_FILE, &pguiItem) == 0)
+						if (rspGetResourceInstance(&g_resmgrShell, HIGHSCORE_ITEM_FILE, &pguiItem) == SUCCESS)
 							{
 							// Get the two settable items.
 							RGuiItem*	pguiName		= pguiItem->GetItemFromId(100);
@@ -1294,9 +1294,9 @@ void ScoreDisplayHighScores(	// Returns nothing.
 					}
 				}
 
-			if (ptextExplain1 != NULL &&
-				 ptextExplain2 != NULL &&
-				 plbScores		!= NULL &&
+			if (ptextExplain1 != nullptr &&
+				 ptextExplain2 != nullptr &&
+				 plbScores		!= nullptr &&
 				 bGotAllScoreItems == true)
 			{
 				// Get some colors free.
@@ -1350,7 +1350,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 					// Do the dialog once to get the name.
 					guiDialog.DoModal(pguiRoot, pguiOk, pguiCancel);
 					// Clear the focus.
-					RGuiItem::SetFocus(NULL);
+					RGuiItem::SetFocus(nullptr);
 
 					ASSERT(pguiPlayersName);
 					// Get the user's name for saving.

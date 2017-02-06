@@ -178,7 +178,7 @@ void CChunk::Update(void)
 					sY2d,
 					sX2d + RAND_SWAY(BLOOD_SWAY),
 					sY2d + RAND_SWAY(BLOOD_SWAY),
-					NULL);
+					nullptr);
 #endif
 				break;
 			}

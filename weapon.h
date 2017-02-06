@@ -122,7 +122,7 @@ class CWeapon : public CThing
 
 		uint16_t		m_idParent;					// Anyone can be this item's parent.
 													// It'd probably be a good idea to make
-													// sure this is NULL before setting it,
+                                       // sure this is nullptrfore setting it,
 													// though.
 
 		uint16_t		m_u16ShooterID;			// Instance ID of the shooter (so that credit
@@ -155,7 +155,7 @@ class CWeapon : public CThing
 			m_eState = State_Idle;
 			m_idParent = CIdBank::IdNil;
 			m_spriteShadow.m_sInFlags = CSprite::InHidden;
-			m_spriteShadow.m_pImage = NULL;
+         m_spriteShadow.m_pImage = nullptr;
 			m_spriteShadow.m_pthing = this;
 			m_lPrevTime = 0;  // valgrind fix.  --ryan.
 			}

@@ -186,8 +186,8 @@ static const char* ms_apszResNames[] =
 	"3d/grenade.hot",
 	"3d/grenade.bounds",
 	"3d/grenade.floor",
-	NULL,
-	NULL
+	nullptr,
+	nullptr
 };
 
 
@@ -228,7 +228,7 @@ int16_t CFirebomb::Load(				// Returns 0 if successfull, non-zero otherwise
 		}
 		
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 		{
 			// Get resources
 			sResult = GetResources();
@@ -369,7 +369,7 @@ void CFirebomb::Update(void)
 			case CFirebomb::State_Explode:
 
 				CFire* pFire;
-				if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pFire) == 0)
+				if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pFire) == SUCCESS)
 				{
 					pFire->Setup(m_dX, m_dY, m_dZ, PRIMARY_BURN_TIME, true, CFire::LargeFire);
 					pFire->m_u16ShooterID = m_u16ShooterID;
@@ -389,7 +389,7 @@ void CFirebomb::Update(void)
 				CFirefrag* pFrag;
 				for (i = 0; i < 8; i++)
 				{
-					if (CThing::Construct(CThing::CFirefragID, m_pRealm, (CThing**) &pFrag) == 0)
+					if (CThing::Construct(CThing::CFirefragID, m_pRealm, (CThing**) &pFrag) == SUCCESS)
 					{
 						pFrag->m_u16ShooterID = m_u16ShooterID;
 						pFrag->Setup(m_dX, m_dY, m_dZ);
@@ -509,10 +509,10 @@ int16_t CFirebomb::GetResources(void)						// Returns 0 if successfull, non-zero
 	int16_t sResult = 0;
 
 	sResult = m_anim.Get(ms_apszResNames);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(SMALL_SHADOW_FILE), &(m_spriteShadow.m_pImage), RFile::LittleEndian);
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 		{
 			// add more gets
 		}
@@ -657,7 +657,7 @@ int16_t CFirefrag::Load(				// Returns 0 if successfull, non-zero otherwise
 		}
 		
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 		{
 			// Get resources
 			sResult = GetResources();
@@ -780,7 +780,7 @@ void CFirefrag::Update(void)
 			case CWeapon::State_Explode:
 
 				CFire* pFire;
-				if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pFire) == 0)
+				if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pFire) == SUCCESS)
 				{
 					pFire->Setup(m_dX, m_dY, m_dZ, SECONDARY_BURN_TIME, true, CFire::SmallFire);
 					pFire->m_u16ShooterID = m_u16ShooterID;
@@ -852,8 +852,8 @@ void CFirefrag::Render(void)
 
 	// Layer should be based on info we get from attribute map, but is hardwired for now
 //	m_sprite.m_sLayer = 0;
-	ASSERT(m_pRealm					!= NULL);
-	ASSERT(m_pRealm->m_pAttribMap	!= NULL);
+	ASSERT(m_pRealm					!= nullptr);
+	ASSERT(m_pRealm->m_pAttribMap	!= nullptr);
 	// Layer should be based on info we get from attribute map.
 	m_sprite.m_sLayer = CRealm::GetLayerViaAttrib(m_pRealm->GetLayer((short) m_dX, (short) m_dZ));
 
@@ -887,7 +887,7 @@ int16_t CFirefrag::Setup(									// Returns 0 if successfull, non-zero otherwis
 	// Load resources
 //	sResult = GetResources();
 
-	if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &m_pFire) == 0)
+	if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &m_pFire) == SUCCESS)
 	{
 		m_pFire->Setup(m_dX, m_dY, m_dZ, SECONDARY_BURN_TIME, true, CFire::SmallFire);
 		m_pFire->m_u16ShooterID = m_u16ShooterID;
@@ -905,13 +905,13 @@ int16_t CFirefrag::GetResources(void)						// Returns 0 if successfull, non-zero
 {
 	int16_t sResult = 0;
 
-	if (m_pImage == 0)
+   if (m_pImage == nullptr)
 	{
 		m_pImage = new RImage;
 		if (m_pImage)
 		{
 			sResult = m_pImage->Load(FRAG_IMAGE_FILE);
-			if (sResult == 0)
+			if (sResult == SUCCESS)
 			{
 				if (m_pImage->Convert(RImage::FSPR8) != RImage::FSPR8)
 				{

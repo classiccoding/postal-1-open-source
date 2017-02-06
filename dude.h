@@ -462,9 +462,9 @@ class CDude : public CCharacter
 				int16_t Get(							// Returns 0 on success.
                const char*		pszBaseFileName,	// In:  Base string for resource filenames.
                const char*		pszRigidName,		// In:  String to add for rigid transform channel
-														// or NULL for none.
+														// or nullptr for none.
                const char*		pszEventName,		// In:  String to add for event states channel
-														// or NULL for none.
+														// or nullptr for none.
 					int16_t		sLoopFlags);		// In:  Looping flags to apply to all channels
 														// in this anim.
 
@@ -633,7 +633,7 @@ class CDude : public CCharacter
 			{
 			int16_t sResult = 0;
 			*ppNew = new CDude(pRealm);
-			if (*ppNew == 0)
+			if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CDude::Construct(): Couldn't construct CDude!\n");
@@ -732,12 +732,12 @@ class CDude : public CCharacter
 		// This should be done when the character releases the weapon it's
 		// shooting.
 		virtual			// Overriden here.
-		CWeapon* ShootWeapon(				// Returns the weapon ptr or NULL.
+		CWeapon* ShootWeapon(				// Returns the weapon ptr or nullptr.
 			CSmash::Bits bitsInclude,
 			CSmash::Bits bitsDontcare,
 			CSmash::Bits bitsExclude);
 
-		CWeapon* ShootWeapon(void);		// Returns the weapoin ptr or NULL.
+		CWeapon* ShootWeapon(void);		// Returns the weapoin ptr or nullptr.
 
 		// Determine if the dude is dead.
 		bool IsDead(void)	// Returns true, if dead; false otherwise.
@@ -873,13 +873,13 @@ class CDude : public CCharacter
 		void ShowTarget(void);
 
 		// Drop a powerup with the settings described by the specified stockpile.
-		CPowerUp* DropPowerUp(				// Returns new powerup on success; NULL on failure.
+		CPowerUp* DropPowerUp(				// Returns new powerup on success; nullptr on failure.
 			CStockPile*	pstockpile,			// In:  Settings for powerup.
 			bool			bCurWeaponOnly);	// In:  true, if only the current weapon should be
 													// in the powerup; false, if all.
 
 		// Create a cheat powerup.
-		CPowerUp* CreateCheat(			// Returns new powerup on success; NULL on failure.
+		CPowerUp* CreateCheat(			// Returns new powerup on success; nullptr on failure.
 			CStockPile*	pstockpile);	// In:  Settings for powerup.
 
 		// Play a step noise if the event is different from the last.
@@ -895,7 +895,7 @@ class CDude : public CCharacter
 		// Take a powerup.
 		void TakePowerUp(					// Returns nothing.
 			CPowerUp**	pppowerup);		// In:  Power up to take from.
-												// Out: Ptr to powerup, if it persisted; NULL otherwise.
+												// Out: Ptr to powerup, if it persisted; nullptr otherwise.
 
 		// Break a powerup open and toss it.
 		void TossPowerUp(					// Returns nothing.
@@ -915,7 +915,7 @@ class CDude : public CCharacter
 		// Get the next child flag item after the specified flag item.
 		CFlag* GetNextFlag(			// Returns the next flag item after pflag.
 			CFlag*	pflag);			// In:  The flag to get the follower of.
-											// NULL for first child flag.
+											// nullptr for first child flag.
 		
 		// Drop all child flag items.
 		void DropAllFlags(

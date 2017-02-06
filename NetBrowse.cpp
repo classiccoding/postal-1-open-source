@@ -84,11 +84,11 @@ int16_t CNetBrowse::Startup(							// Returns 0 if sucessfull, non-zero otherwis
 
 	// Create socket on which to broadcast
 	sResult = m_socketBrowse.Open(m_usBasePort + Net::BroadcastPortOffset, RSocket::typDatagram, RSocket::optDontBlock, callback);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		// Set socket to broadcast mode
 		sResult = m_socketBrowse.Broadcast();
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 
 			}
@@ -127,7 +127,7 @@ void CNetBrowse::Update(
 	Hosts* phostsRemoved)								// I/O:  List of hosts that were removed
 	{
 	// Check if it's time to broadcast
-	int32_t lTime = rspGetMilliseconds();
+   uint32_t lTime = rspGetMilliseconds();
 	if ((lTime - m_lLastBroadcast) > Net::BroadcastInterval)
 		{
 		// Create message
@@ -142,9 +142,9 @@ void CNetBrowse::Update(
 		RSocket::CreateBroadcastAddress(m_usBasePort + Net::AntennaPortOffset, &address);
 
 		// Broadcast the message
-		int32_t lBytesSent;
+      size_t lBytesSent;
 		int16_t serr = m_socketBrowse.SendTo(buf1, sizeof(buf1), &lBytesSent, &address);
-		if (serr == 0)
+		if (serr == SUCCESS)
 			{
 			if (lBytesSent != sizeof(buf1))
 				TRACE("CNetBrowse::Update(): Error sending broadcast (wrong size)!\n");
@@ -159,7 +159,7 @@ void CNetBrowse::Update(
 		// retry as soon as possible.  If the error is a recurring one that won't go
 		// away, we'll be retrying every time this is called, but what the hell -- if
 		// it isn't working, what are we gonna do instead?
-		if (serr == 0)
+		if (serr == SUCCESS)
 			m_lLastBroadcast = lTime;
 		}
 
@@ -170,10 +170,10 @@ void CNetBrowse::Update(
 	// using the same port as us.  If we do get a message, the address of the sender
 	// will be recorded -- this gives us the host's address!
 	CHost host;
-	int32_t lReceived;
+   size_t lReceived;
 	uint8_t buf[sizeof(host.m_acName) + 4 + 4];
 	int16_t serr = m_socketBrowse.ReceiveFrom(buf, sizeof(buf), &lReceived, &host.m_address);
-	if (serr == 0)
+	if (serr == SUCCESS)
 		{
 		// Validate the message to make sure it was sent by another app of this
 		// type, as opposed to some unknown app that happens to use the same port.

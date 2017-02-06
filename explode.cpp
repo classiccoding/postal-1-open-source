@@ -176,7 +176,7 @@ int16_t CExplode::Load(									// Returns 0 if successfull, non-zero otherwise
 	{
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -201,7 +201,7 @@ int16_t CExplode::Load(									// Returns 0 if successfull, non-zero otherwise
 		}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 		{
 			// Get resources
 			sResult = GetResources();
@@ -229,7 +229,7 @@ int16_t CExplode::Save(										// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 {
 	int16_t	sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		// Save common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -315,7 +315,7 @@ void CExplode::Update(void)
 			CFire* pSmoke;
 			for (a = 0; a < 8; a++)
 			{
-				if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == 0)
+				if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == SUCCESS)
 					pSmoke->Setup(m_dX - 4 + GetRandom() % 9, MAX(m_dY-20, 0.0), m_dZ - 4 + GetRandom() % 9, 4000, true, CFire::Smoke);
 			}
 
@@ -396,14 +396,14 @@ int16_t CExplode::Setup(									// Returns 0 if successfull, non-zero otherwise
 	m_smash.m_sphere.sphere.lRadius	= ms_sBlastRadius;
 
 	// Update the smash.
-	ASSERT (m_pRealm != NULL);
+	ASSERT (m_pRealm != nullptr);
 //	m_pRealm->m_smashatorium.Update(&m_smash);
 
 	m_smash.m_bits		= 0;
 	m_smash.m_pThing	= this;
 
 	// See who we blew up and send them a message
-	CSmash* pSmashed = NULL;
+	CSmash* pSmashed = nullptr;
 	GameMessage msg;
 	msg.msg_Explosion.eType = typeExplosion;
 	msg.msg_Explosion.sPriority = 0;

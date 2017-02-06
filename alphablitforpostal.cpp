@@ -267,7 +267,7 @@ void	Verify()
 
 	FILE* fp = fopen((char*)sCheckSum1,"r");
 
-	if (fp == NULL) return;
+	if (fp == nullptr) return;
 
 	if (fgetc(fp) != 74) { fclose(fp); return; }
 	if (fgetc(fp) != 69) { fclose(fp); return; }

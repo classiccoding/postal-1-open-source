@@ -344,7 +344,7 @@ class CResourceBlock
 			{
 			m_sRefCount = 0;
 			m_sAccessCount = 0;
-			m_vpRes = NULL;
+			m_vpRes = nullptr;
 			m_pfnDestroy = 0;
          }
 
@@ -512,7 +512,7 @@ class RResMgr
 		// for the file you are trying to get
 		RFile* FromSak(RString strResourceName)
 		{
-			RFile* prf = NULL;
+			RFile* prf = nullptr;
 			if (m_rfSakAlt.IsOpen()) 
 			  {
 				int32_t	lResSeekPos	= m_SakAltDirectory[strResourceName];
@@ -709,7 +709,7 @@ int16_t rspGetResource(									// Returns 0 on success
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Release a resource and set the specified pointer to NULL.
+// Release a resource and set the specified pointer to nullptr.
 //
 ///////////////////////////////////////////////////////////////////////////////
 template <class T>
@@ -718,7 +718,7 @@ void rspReleaseResource(								// Returns 0 on success
 	T** ppres)												// In:  Pointer to resource
 	{
 	presmgr->Release(*ppres);
-	*ppres = NULL;
+	*ppres = nullptr;
 	}
 
 
@@ -737,7 +737,7 @@ bool rspReleaseAndPurgeResource(	// Returns true if it was acutally purged,
 	T** ppres)
 	{
 	bool bPurged = presmgr->ReleaseAndPurge(*ppres);
-	*ppres = NULL;
+	*ppres = nullptr;
 	return bPurged;
 	}
 
@@ -771,7 +771,7 @@ int16_t rspGetResourceInstance(							// Returns 0 on success
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Release a resource instance and set the specified pointer to NULL.  
+// Release a resource instance and set the specified pointer to nullptr.  
 // The resource will be destroyed immediately.
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -786,7 +786,7 @@ void rspReleaseResourceInstance(						// Returns 0 on success
 	{
 	// Be gone.
 	delete *ppres;
-	*ppres = NULL;
+	*ppres = nullptr;
 	}
 
 #endif //RESMGR_H

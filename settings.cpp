@@ -95,9 +95,9 @@ CSettings::CSettings(void)
 	// which would be initialized first -- the container or an object that wants
 	// to use it.  This way, the first object that tries to use the container
 	// will create the container, so that problem goes away.
-	if (ms_pSettings == 0)
+   if (ms_pSettings == nullptr)
 		ms_pSettings = new SETTINGS;
-	if (ms_pSettings != 0)
+   if (ms_pSettings != nullptr)
 		{
 
 		// Add this object to container
@@ -124,7 +124,7 @@ CSettings::~CSettings()
 		ms_pSettings->Remove(m_pointer);
 
 		// If there are no more objects, then delete the container itself
-		if (ms_pSettings->GetHead() == 0)
+		if (ms_pSettings->GetHead() == SUCCESS)
 			{
 			delete ms_pSettings;
 			ms_pSettings = 0;
@@ -157,7 +157,7 @@ int16_t CSettings::LoadPrefs(					// Returns 0 if successfull, non-zero otherwis
 		// Open file for read access (text mode is default)
 		RPrefs prefs;
 		sResult = prefs.Open(pszFile, "r");
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 
 			// Do this for all CSettings objects
@@ -216,14 +216,14 @@ int16_t CSettings::SavePrefs(					// Returns 0 if successfull, non-zero otherwis
 		// we know the file exists, although it might be a read-only file.
 		RPrefs prefs;
 		sResult = prefs.Open(pszFile, "r");
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 			prefs.Close();
 
 			// Open file again, this time for read+ (read plus write/append) access.
 			// If this doesn't work, the file is most likely a read-only file.
 			sResult = prefs.Open(pszFile, "r+");
-			if (sResult == 0)
+			if (sResult == SUCCESS)
 				{
 
 				// Do this for all CSettings objects
@@ -282,7 +282,7 @@ int16_t CSettings::LoadGame(						// Returns 0 if successfull, non-zero otherwis
 		// Open file for read access in binary mode
 		RFile fileGame;
 		sResult = fileGame.Open(pszFile, "rb", RFile::LittleEndian);
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 
 			// Do this for all CSettings objects
@@ -336,7 +336,7 @@ int16_t CSettings::SaveGame(						// Returns 0 if successfull, non-zero otherwis
 		// Note: We don't care if the file already exists -- write mode will destroy it
 		RFile fileGame;
 		sResult = fileGame.Open(pszFile, "wb", RFile::LittleEndian);
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 
 			// Do this for all CSettings objects
@@ -394,7 +394,7 @@ int16_t CSettings::PreDemo(						// Returns 0 if successfull, non-zero otherwise
 			// Open memory file
 			RFile fileMem;
 			sResult = fileMem.Open(ms_pMem, CSettings::MemFileSize, RFile::LittleEndian);
-			if (sResult == 0)
+			if (sResult == SUCCESS)
 				{
 
 				// Do this for all CSettings objects
@@ -457,7 +457,7 @@ int16_t CSettings::PostDemo(						// Returns 0 if successfull, non-zero otherwis
 			// Open previously allocated memory file
 			RFile fileMem;
 			sResult = fileMem.Open(ms_pMem, CSettings::MemFileSize, RFile::LittleEndian);
-			if (sResult == 0)
+			if (sResult == SUCCESS)
 				{
 
 				// Do this for all CSettings objects

@@ -151,8 +151,8 @@ static const char* ms_apszStillResNames[] =
 	"3d/barrel_still.hot",
 	"3d/barrel_still.bounds",
 	"3d/barrel_still.floor",
-	NULL,
-	NULL
+	nullptr,
+	nullptr
 };
 
 /// Spinning Animation Files ///////////////////////////////////////////////////
@@ -165,8 +165,8 @@ static const char* ms_apszSpinResNames[] =
 	"3d/barrel_spin.hot",
 	"3d/barrel_spin.bounds",
 	"3d/barrel_spin.floor",
-	NULL,
-	NULL
+	nullptr,
+	nullptr
 };
 
 
@@ -184,7 +184,7 @@ int16_t CBarrel::Load(				// Returns 0 if successfull, non-zero otherwise
 	// Call the base load function to get ID, position, etc.
 	sResult = CThing3d::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -269,7 +269,7 @@ int16_t CBarrel::Load(				// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 		{
 			// Get resources
 			sResult = GetResources();
@@ -457,7 +457,7 @@ void CBarrel::Update(void)
 				if (lThisTime > m_lTimer)
 				{
 					CExplode* pExplosion;
-					if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == 0)
+					if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == SUCCESS)
 					{
 						pExplosion->Setup(m_dX, m_dY, m_dZ, m_u16ShooterID);
 						PlaySample(g_smidGrenadeExplode, SampleMaster::Destruction);
@@ -500,7 +500,7 @@ void CBarrel::Update(void)
 					CFire* pFire;
 					for (i = 0; i < ms_sNumFires; i++)
 					{
-						if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pFire) == 0)
+						if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pFire) == SUCCESS)
 						{
 							if (pFire->Setup(m_dX - 20 + (GetRandom() % 40), m_dY, m_dZ - 20 + (GetRandom() % 40), 
 											  4000 + (GetRandom() % 9000), false, CFire::LargeFire) != SUCCESS)
@@ -553,7 +553,7 @@ int16_t CBarrel::EditNew(									// Returns 0 if successfull, non-zero otherwis
 	{
 		// Load resources
 		sResult = GetResources();
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 			sResult	= Init();
 			}
@@ -615,7 +615,7 @@ int16_t CBarrel::GetResources(void)						// Returns 0 if successfull, non-zero o
 
 	sResult	= m_animStill.Get(ms_apszStillResNames, RChannel_LoopAtStart | RChannel_LoopAtEnd);
 	sResult	|= m_animSpin.Get(ms_apszSpinResNames, RChannel_LoopAtStart | RChannel_LoopAtEnd);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		// Add additional gets here
 	}
@@ -666,7 +666,7 @@ void CBarrel::OnShotMsg(Shot_Message* pMessage)
 			m_state = State_BlownUp;
 			m_lAnimTime = 0;
 			CExplode* pExplosion;
-			if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == 0)
+			if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == SUCCESS)
 			{
 				pExplosion->Setup(m_dX, m_dY, m_dZ, m_u16ShooterID);
 				PlaySample(g_smidGrenadeExplode, SampleMaster::Destruction);
@@ -748,7 +748,7 @@ void CBarrel::OnBurnMsg(Burn_Message* pMessage)
 			m_lTimer = m_pRealm->m_time.GetGameTime();
 			m_lAnimTime = 0;
 			CExplode* pExplosion;
-			if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == 0)
+			if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == SUCCESS)
 			{
 				pExplosion->Setup(m_dX, m_dY, m_dZ, m_u16ShooterID);
 				PlaySample(g_smidGrenadeExplode, SampleMaster::Destruction);

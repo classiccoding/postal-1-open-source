@@ -183,7 +183,7 @@ class CNetClient
 		State						m_state;							// My state
 		NetMsg					m_msgError;						// Error type
 		NetMsg::Status			m_status;						// Status type
-		int32_t						m_lTimeOut;						// Timer used to detect time-outs
+      uint32_t						m_lTimeOut;						// Timer used to detect time-outs
 
 		Net::ID					m_id;								// My id
 		Net::ID					m_idServer;						// Server's client's ID
@@ -199,21 +199,21 @@ class CNetClient
 		Net::SEQ					m_seqMaxAhead;					// Max ahead for input versus frame
 		Net::SEQ					m_seqInputNotYetSent;		// Input seq that we did NOT send yet
 		CNetInput					m_netinput;						// My input buffer
-		int32_t						m_lFrameTime;					// Current frame time
-		int32_t						m_lNextLocalInputTime;		// When to get next local input
+      uint32_t						m_lFrameTime;					// Current frame time
+      uint32_t						m_lNextLocalInputTime;		// When to get next local input
 		bool						m_bNextRealmPending;			// Whether next realm is pending
 
 		CPeer						m_aPeers[Net::MaxNumIDs];	// Array of peers
 		/** SPA **/
-		int32_t						m_lStartTime;					// The start from which time to calculate the frame delta
-		int32_t						m_alAvgFrameTimes[8];		// Array to hold the last several average frame times
+      uint32_t						m_lStartTime;					// The start from which time to calculate the frame delta
+      uint32_t						m_alAvgFrameTimes[8];		// Array to hold the last several average frame times
 		/** SPA **/
 
 		/** 12/16/97 AJC **/
 		uint16_t							m_u16PackageID;				// Unique number for every package sent
 		/** 12/16/97 AJC **/
 		bool						m_bSendNextFrame;		// 12/30/97 *SPA True if we have all the info to render the current frame (m_seqFrame)
-		int32_t						m_lMaxWaitTime;
+      uint32_t						m_lMaxWaitTime;
 		//------------------------------------------------------------------------------
 	// Functions
 	//------------------------------------------------------------------------------

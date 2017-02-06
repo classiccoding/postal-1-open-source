@@ -441,7 +441,7 @@ extern char* FullPathCustom(							// Returns full path in system format
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CorrectifyBasePath(								// Returns 0 if successfull, non-zero otherwise
 	char* pszBasePath,									// I/O: Base path to be corrected
-	int16_t sMaxPathLen);									// In:  Maximum length of base path
+   size_t sMaxPathLen);									// In:  Maximum length of base path
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -454,8 +454,8 @@ extern int16_t SubPathOpenBox(		// Returns 0 on success, negative on error, 1 if
    const char* pszBoxTitle,				// In:  Title of box.
    const char*	pszDefFileName,			// In:  Default filename.
 	char* pszChosenFileName,		// Out: User's choice.
-	int16_t sStrSize,					// In:  Amount of memory pointed to by pszChosenFileName.
-   const char*	pszFilter = NULL);		// In:  If not NULL, '.' delimited extension based filename
+   size_t sStrSize,					// In:  Amount of memory pointed to by pszChosenFileName.
+   const char*	pszFilter = nullptr);		// In:  If not nullptr, '.' delimited extension based filename
 											//	filter specification.  Ex: ".cpp.h.exe.lib" or "cpp.h.exe.lib"
 											// Note: Cannot use '.' in filter.  Preceding '.' ignored.
 

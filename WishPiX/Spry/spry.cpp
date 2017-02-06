@@ -103,7 +103,7 @@ int16_t RSpry::Load(
 	// Open file
 	RFile file;
 	sResult = file.Open(pszFile, "rb", RFile::LittleEndian);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 
 		// Load everything from file
@@ -157,7 +157,7 @@ int16_t RSpry::Load(
 						if (pSprite != 0)
 							{
 							sResult = pSprite->Load(pFile);
-							if (sResult == 0)
+							if (sResult == SUCCESS)
 								m_listSprites.InsertTail(pSprite);
 							}
 						else
@@ -207,7 +207,7 @@ int16_t RSpry::Save(
 	// Open file
 	RFile file;
 	sResult = file.Open(pszFile, "wb", RFile::LittleEndian);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 
 		// Save everything to file

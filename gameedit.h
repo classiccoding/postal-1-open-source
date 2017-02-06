@@ -99,7 +99,7 @@ class CGameEditThing : public CThing
 			{
 			int16_t sResult = 0;
 			*ppNew = new CGameEditThing(pRealm);
-			if (*ppNew == 0)
+         if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CGameEditThing::Construct(): Couldn't construct CGameEditThing!\n");
@@ -121,7 +121,7 @@ class CGameEditThing : public CThing
 			{
 			// Call base class.
 			int16_t	sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-			if (sResult == 0)
+			if (sResult == SUCCESS)
 				{
 				// Read settings.
 				switch (ulFileVersion)
@@ -135,7 +135,7 @@ class CGameEditThing : public CThing
 					}
 
 				// Make sure there were no format errors . . .
-				if (sResult == 0)
+				if (sResult == SUCCESS)
 					{
 					// File status indicates our success, or lack thereof.
 					sResult	= pFile->Error();
@@ -156,7 +156,7 @@ class CGameEditThing : public CThing
 			{
 			// Call base class.
 			int16_t	sResult	= CThing::Save(pFile, sFileCount);
-			if (sResult == 0)
+			if (sResult == SUCCESS)
 				{
 				// Write settings.
 				pFile->Write(m_u16CameraTrackId);

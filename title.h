@@ -55,7 +55,7 @@ extern int16_t StartTitle(						// Returns 0 if successfull, non-zero otherwise
 														// than 1 indicate a page relative to the
 														// end.
 	bool	bPlayMusak = false,					// In:  true to play title musak.
-	SampleMaster::SoundInstance* psi = 0);	// Out:  Sound instance of musak.
+   SampleMaster::SoundInstance* psi = nullptr);	// Out:  Sound instance of musak.
 														
 
 // Update the title sequence.  The specified number of units are added to a
@@ -70,7 +70,7 @@ extern int16_t DoTitle(						// Returns 0 if successfull, non-zero otherwise
 extern int16_t EndTitle(void);				// Returns 0 if successfull, non-zero otherwise
 
 // Return number of title screens in use
-extern int16_t TitleGetNumTitles(void);
+extern size_t TitleGetNumTitles(void);
 
 // Show end of game sequence when the player wins
 extern void Title_GameEndSequence(void);

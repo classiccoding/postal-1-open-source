@@ -108,7 +108,7 @@ int16_t CPylon::Load(										// Returns 0 if successfull, non-zero otherwise
 {
 	// Call the base load to get the u16InstanceID
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -158,7 +158,7 @@ int16_t CPylon::Load(										// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 		{
 			// ONLY IN EDIT MODE . . .
 			if (bEditMode == true)
@@ -339,7 +339,7 @@ void SetText(					// Returns nothing.
 	int32_t			lVal)			// In:  Value to set text to.
 	{
 	RGuiItem*	pgui	= pguiRoot->GetItemFromId(lId);
-	if (pgui != NULL)
+	if (pgui != nullptr)
 		{
       pgui->SetText("%i", lVal);
 		pgui->Compose(); 
@@ -353,7 +353,7 @@ int16_t CPylon::EditModify(void)
 {
 	int16_t sResult = 0;
 	RGuiItem* pGui = RGuiItem::LoadInstantiate(FullPathVD("res/editor/bouy.gui"));
-	RGuiItem* pSecondaryGui = NULL;
+	RGuiItem* pSecondaryGui = nullptr;
 	if (pGui)
 	{
 		RListBox* pList = (RListBox*) pGui->GetItemFromId(3);
@@ -425,7 +425,7 @@ int16_t CPylon::EditModify(void)
 										m_msg.msg_Popout.ucIDNext = pSecondaryGui->GetVal(3);
 										m_msg.msg_Popout.u16UniquePylonID = GetPylonUniqueID(m_msg.msg_Popout.ucIDNext);
 										CPylon* pPylon;
-										if (m_pRealm->m_idbank.GetThingByID((CThing**) &pPylon, m_msg.msg_Popout.u16UniquePylonID) == 0)
+                              if (m_pRealm->m_idbank.GetThingByID((CThing**) &pPylon, m_msg.msg_Popout.u16UniquePylonID) == SUCCESS)
 										{
 											m_msg.msg_Popout.sNextPylonX = pPylon->GetX();
 											m_msg.msg_Popout.sNextPylonZ = pPylon->GetZ();
@@ -453,7 +453,7 @@ int16_t CPylon::EditModify(void)
 										m_msg.msg_ShootCycle.ucIDNext = pSecondaryGui->GetVal(3);
 										m_msg.msg_ShootCycle.u16UniquePylonID = GetPylonUniqueID(m_msg.msg_ShootCycle.ucIDNext);
 										CPylon* pPylon;
-										if (m_pRealm->m_idbank.GetThingByID((CThing**) &pPylon, m_msg.msg_ShootCycle.u16UniquePylonID) == 0)
+                              if (m_pRealm->m_idbank.GetThingByID((CThing**) &pPylon, m_msg.msg_ShootCycle.u16UniquePylonID) == SUCCESS)
 										{
 											m_msg.msg_ShootCycle.sNextPylonX = pPylon->GetX();
 											m_msg.msg_ShootCycle.sNextPylonZ = pPylon->GetZ();
@@ -562,7 +562,7 @@ void CPylon::EditRect(RRect* pRect)
 	pRect->sW	= 10;	// Safety.
 	pRect->sH	= 10;	// Safety.
 
-	if (m_pImage != NULL)
+	if (m_pImage != nullptr)
 		{
 		pRect->sW	= m_pImage->m_sWidth;
 		pRect->sH	= m_pImage->m_sHeight;
@@ -594,21 +594,21 @@ int16_t CPylon::GetResources(void)						// Returns 0 if successfull, non-zero ot
 	{
 	int16_t sResult = 0;
 	
-	if (m_pImage == 0)
+   if (m_pImage == nullptr)
 		{
 		RImage*	pimBouyRes;
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(IMAGE_FILE), &pimBouyRes);
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 			// Allocate image . . .
 			m_pImage	= new RImage;
-			if (m_pImage != NULL)
+			if (m_pImage != nullptr)
 				{
 				// Allocate image data . . .
 				if (m_pImage->CreateImage(
 					pimBouyRes->m_sWidth,
 					pimBouyRes->m_sHeight,
-					RImage::BMP8) == 0)
+               RImage::BMP8) == SUCCESS)
 					{
 					// Blt bouy res.
 					rspBlit(
@@ -616,7 +616,7 @@ int16_t CPylon::GetResources(void)						// Returns 0 if successfull, non-zero ot
 						m_pImage,		// Dst.
 						0,					// Dst.
 						0,					// Dst.
-						NULL);			// Dst clip.
+						nullptr);			// Dst clip.
 
 					// Put in ID.
 					RPrint	print;
@@ -651,7 +651,7 @@ int16_t CPylon::GetResources(void)						// Returns 0 if successfull, non-zero ot
 				if (sResult != 0)
 					{
 					delete m_pImage;
-					m_pImage	= NULL;
+					m_pImage	= nullptr;
 					}
 				}
 			else
@@ -673,10 +673,10 @@ int16_t CPylon::GetResources(void)						// Returns 0 if successfull, non-zero ot
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPylon::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	if (m_pImage != NULL)
+	if (m_pImage != nullptr)
 		{
 		delete m_pImage;
-		m_pImage	= NULL;
+		m_pImage	= nullptr;
 		}
 
 	return 0;
@@ -707,7 +707,7 @@ uint8_t CPylon::GetFreePylonID(void)
 	if (m_pRealm->m_sNumPylons >= PYLON_MAX_PYLONS)
 		return 0;
 
-	CListNode<CThing>* pNext = NULL; 
+	CListNode<CThing>* pNext = nullptr; 
 	bool bIdInUse = false;
 
 	do
@@ -748,7 +748,7 @@ uint8_t CPylon::GetFreePylonID(void)
 
 CPylon* CPylon::GetPylon(uint8_t ucPylonID)
 {
-	CPylon* pPylon = NULL;;
+	CPylon* pPylon = nullptr;;
 
 	if (m_pRealm->m_idbank.GetThingByID((CThing**) &pPylon, GetPylonUniqueID(ucPylonID)) != SUCCESS)
 		pPylon = this;

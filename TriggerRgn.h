@@ -101,7 +101,7 @@ struct TriggerRgn
 	///////////////////////////////////////////////////////////////////////////
 	TriggerRgn()
 		{
-		pimRgn	= NULL;
+		pimRgn	= nullptr;
 		}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -118,7 +118,7 @@ struct TriggerRgn
 	void Destroy(void)
 		{
 		delete pimRgn;
-		pimRgn	= NULL;
+		pimRgn	= nullptr;
 		}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -128,20 +128,20 @@ struct TriggerRgn
 		int16_t	sWidth,	// In:  Max width of region (width of image).
 		int16_t	sHeight)	// In:  Max height of region (height of image).
 		{
-		int16_t	sRes	= 0;	// Assume success.
+		int16_t	sResult	= 0;	// Assume success.
 
 		Destroy();
 
 		pimRgn	= new RImage;
-		if (pimRgn != NULL)
+		if (pimRgn != nullptr)
 			{
-			sRes	= pimRgn->CreateImage(	// Returns 0 if successful.
+			sResult	= pimRgn->CreateImage(	// Returns 0 if successful.
 				sWidth,							// Width of new buffer.
 				sHeight,							// Height of new buffer.
 				RImage::BMP8);					// Type of new buffer.
 
 			// If any errors occurred after allocation . . .
-			if (sRes != 0)
+			if (sResult != 0)
 				{
 				Destroy();
 				}
@@ -149,10 +149,10 @@ struct TriggerRgn
 		else
 			{
 			TRACE("Create(): Failed to allocate new RImage.\n");
-			sRes	= -1;
+			sResult	= -1;
 			}
 
-		return sRes;
+		return sResult;
 		}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -163,16 +163,16 @@ struct TriggerRgn
 	int16_t SetMode(
 		Mode mode)	// In:  New mode { Edit, Storage }.
 		{
-		int16_t	sRes	= 0;	// Assume success.
+		int16_t	sResult	= 0;	// Assume success.
 
 		// If we have no image . . .
-		if (pimRgn == NULL)
+		if (pimRgn == nullptr)
 			{
-			sRes	= Create(MaxRgnWidth, MaxRgnHeight);
+			sResult	= Create(MaxRgnWidth, MaxRgnHeight);
 			}
 
 		// If successful so far . . .
-		if (sRes == 0)
+		if (sResult == SUCCESS)
 			{
 			switch (mode)
 				{
@@ -188,19 +188,19 @@ struct TriggerRgn
 
 					if (pimRgn->Convert(RImage::BMP8) != RImage::BMP8)
 						{
-						sRes	= -1;
+						sResult	= -1;
 						}
 					break;
 				case Storage:
 					if (pimRgn->Convert(RImage::FSPR1) != RImage::FSPR1)
 						{
-						sRes	= -1;
+						sResult	= -1;
 						}
 					break;
 				}
 			}
 
-		return sRes;
+		return sResult;
 		}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -209,7 +209,7 @@ struct TriggerRgn
 	int16_t Load(			// Returns 0 on success.
 		RFile* pfile)	// In:  File to load from.
 		{
-		int16_t	sRes	= 0;	// Assume success.
+		int16_t	sResult	= 0;	// Assume success.
 
 		Destroy();
 
@@ -220,7 +220,7 @@ struct TriggerRgn
 			if (sExist != FALSE)
 				{
 				pimRgn	= new RImage;
-				if (pimRgn != NULL)
+				if (pimRgn != nullptr)
 					{
 					// Read position.
 					pfile->Read(&sX);
@@ -228,8 +228,8 @@ struct TriggerRgn
 					// Read instance ID.
 					pfile->Read(&u16InstanceId);
 					// Load image.
-					sRes	= pimRgn->Load(pfile);
-					if (sRes == 0)
+					sResult	= pimRgn->Load(pfile);
+					if (sResult == SUCCESS)
 						{
 						// Success.
 						}
@@ -237,23 +237,23 @@ struct TriggerRgn
 						{
 						TRACE("Load(): RImage::Load() failed.\n");
 						delete pimRgn;
-						pimRgn	= NULL;
+						pimRgn	= nullptr;
 						}
 					}
 				else
 					{
 					TRACE("Load(): Failed to allocate new RImage.\n");
-					sRes	= -2;
+					sResult	= -2;
 					}
 				}
 			}
 		else
 			{
 			TRACE("Load(): Failed to read existence flag.\n");
-			sRes	= -1;
+			sResult	= -1;
 			}
 
-		return sRes;
+		return sResult;
 		}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -262,13 +262,13 @@ struct TriggerRgn
 	int16_t Save(			// Returns 0 on success.
 		RFile* pfile)	// In:  File to save to.
 		{
-		int16_t	sRes	= 0;	// Assume success.
+		int16_t	sResult	= 0;	// Assume success.
 
 		// Always a boolean indicating whether we exist . . .
-		int16_t	sExist	= (pimRgn != NULL) ? TRUE : FALSE;
+		int16_t	sExist	= (pimRgn != nullptr) ? TRUE : FALSE;
 		if (pfile->Write(sExist) == 1)
 			{
-			if (pimRgn != NULL)
+			if (pimRgn != nullptr)
 				{
 				// Write position.
 				pfile->Write(sX);
@@ -276,8 +276,8 @@ struct TriggerRgn
 				// Write instance ID.
 				pfile->Write(&u16InstanceId);
 				// Save image.
-				sRes	= pimRgn->Save(pfile);
-				if (sRes == 0)
+				sResult	= pimRgn->Save(pfile);
+				if (sResult == SUCCESS)
 					{
 					// Success.
 					}
@@ -290,10 +290,10 @@ struct TriggerRgn
 		else
 			{
 			TRACE("Save(): Failed to write existence flag.\n");
-			sRes	= -1;
+			sResult	= -1;
 			}
 
-		return sRes;
+		return sResult;
 		}
 
 	};

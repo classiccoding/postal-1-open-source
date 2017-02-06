@@ -75,10 +75,10 @@ int16_t CNetServer::Startup(								// Returns 0 if successfull, non-zero otherw
 		RSocket::typStream,
 		RSocket::optDontWaitOnClose | RSocket::optDontCoalesce | RSocket::optDontBlock,
 		callback);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		{
 		sResult = m_socketListen.Listen();
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 			{
 
 			// Setup antenna socket, on which we receive broadcasts from potential
@@ -88,12 +88,12 @@ int16_t CNetServer::Startup(								// Returns 0 if successfull, non-zero otherw
 				RSocket::typDatagram,
 				RSocket::optDontBlock,
 				callback);
-			if (sResult == 0)
+			if (sResult == SUCCESS)
 				{
 				// Must set broadcast mode even for sockets that are RECEIVING them.  Doesn't
 				// seem to make sense, but empericial results say we need to do this.
 				sResult = m_socketAntenna.Broadcast();
-				if (sResult == 0)
+				if (sResult == SUCCESS)
 					{
 
 					}
@@ -147,7 +147,7 @@ void CNetServer::Update(void)
 					{
 					// Try to accept client's connection
 					int16_t serr = m_aClients[id].m_msgr.Accept(&m_socketListen, m_callback);
-					if (serr == 0)
+					if (serr == SUCCESS)
 						{
 						// Upgrade state
 						m_aClients[id].m_state = CClient::Used;
@@ -189,10 +189,10 @@ void CNetServer::Update(void)
 		// using the same port as us.  If we do get a message, the address of the sender
 		// will be recorded -- this gives us the host's address!
 		uint8_t buf1[4];
-		int32_t lReceived;
+      size_t lReceived;
 		RSocket::Address address;
 		int16_t serr = m_socketAntenna.ReceiveFrom(buf1, sizeof(buf1), &lReceived, &address);
-		if (serr == 0)
+		if (serr == SUCCESS)
 			{
 			// Validate the message to make sure it was sent by another app of this
 			// type, as opposed to some unknown app that happens to use the same port.
@@ -220,9 +220,9 @@ void CNetServer::Update(void)
 				strncpy((char*)&buf2[8], m_acHostName, sizeof(m_acHostName));
 
 				// Send the message directly to the sender of the previous message
-				int32_t lBytesSent;
+            size_t lBytesSent;
 				int16_t serr = m_socketAntenna.SendTo(buf2, sizeof(buf2), &lBytesSent, &address);
-				if (serr == 0)
+				if (serr == SUCCESS)
 					{
 					if (lBytesSent != sizeof(buf2))
 						TRACE("CNetServer::Update(): Error sending broadcast (wrong size)!\n");

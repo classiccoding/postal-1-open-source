@@ -566,7 +566,7 @@ void CNetClient::Update(void)
 
 						// Open peer socket (this is an unconnected datagram socket, so all the peers
 						// simply hurl their data at this port, and we figure out who it came from).
-						if (m_socketPeers.Open(usPeerPort, RSocket::typDatagram, RSocket::optDontBlock, m_callback) == 0)
+						if (m_socketPeers.Open(usPeerPort, RSocket::typDatagram, RSocket::optDontBlock, m_callback) == SUCCESS)
 							{
 							// We are now fully joined.  HOWEVER, we don't adjust the m_sNumJoined here
 							// because we want to allow the server to be in direct control of that by
@@ -1170,9 +1170,9 @@ void CNetClient::ReceiveFromPeers(void)
 		// and the unreceived portion is automatically discarded.  Such a message
 		// could come from a foreign app that is using the same port as us.
 		uint8_t msg[PEER_MSG_MAX_SIZE];
-      int32_t lReceived;
-      int16_t serr = m_socketPeers.ReceiveFrom(msg, sizeof(msg), &lReceived, NULL);
-		if (serr == 0)
+      size_t lReceived;
+      int16_t serr = m_socketPeers.ReceiveFrom(msg, sizeof(msg), &lReceived, nullptr);
+		if (serr == SUCCESS)
 			{
 			// Make sure size is within proper range
 			if ((lReceived >= PEER_MSG_HEADER_SIZE) && (lReceived <= PEER_MSG_MAX_SIZE))
@@ -1418,8 +1418,9 @@ void CNetClient::SendToPeer(Net::ID id,				// id of peer to send to
 
 	// Calculate size of message.  The peer uses the message size to determine
 	// how many input values it contains.
-   ASSERT((pput - msg) <= PEER_MSG_MAX_SIZE);
-	int32_t lSize = pput - msg;
+   ASSERT(pput > msg);
+   ASSERT(static_cast<uintptr_t>(pput - msg) <= PEER_MSG_MAX_SIZE);
+   size_t lSize = pput - msg;
 
 	// Make sure maximum message size is <= maximum datagram size
 	ASSERT(PEER_MSG_MAX_SIZE <= Net::MaxDatagramSize);
@@ -1428,12 +1429,12 @@ void CNetClient::SendToPeer(Net::ID id,				// id of peer to send to
 	// hopes that the next time we try, it will work.  This may not be a good
 	// idea.  Although datagram messages are not guaranteed to arrive, getting
 	// a send error probably indicates a real problem that may not go away.
-	int32_t lSent;
+   size_t lSent;
 	int16_t serr = m_socketPeers.SendTo(msg, lSize, &lSent, &m_aPeers[id].m_address);
-	if (serr == 0)
+	if (serr == SUCCESS)
 		{
 		if (lSent != lSize)
-			TRACE("Error sending message to peer -- should have sent %i bytes but actually sent %i.\n", (int32_t)lSize, (int32_t)lSent);
+         TRACE("Error sending message to peer -- should have sent %i bytes but actually sent %i.\n", lSize, lSent);
 		}
 	else
 		{
@@ -1498,7 +1499,7 @@ bool CNetClient::CanDoFrame(							// Returns true if frame can be done, false o
 			}
 
 		// Check to see if we've not been able to render this frame for a while *SPA
-		int32_t lCurTime = rspGetMilliseconds();
+      uint32_t lCurTime = rspGetMilliseconds();
 		if (lCurTime > m_lMaxWaitTime)
 			{
 			for (Net::ID id = 0; id < Net::MaxNumIDs; id++)
@@ -1745,7 +1746,7 @@ Net::ID CNetClient::CheckForLostPeer(void)
 				{
 				if (id != m_id)
 					{
-					int32_t lElapsedTime = rspGetMilliseconds() - m_aPeers[id].m_lLastReceiveTime;
+               uint32_t lElapsedTime = rspGetMilliseconds() - m_aPeers[id].m_lLastReceiveTime;
 					if (lElapsedTime > g_GameSettings.m_lPeerDropMaxWaitTime)
 						return id;
 					}

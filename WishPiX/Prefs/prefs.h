@@ -50,7 +50,7 @@ class RPrefs
 			};
 
 	private:
-		FILE*						m_pFile;				// Currently open file, or NULL if none
+		FILE*						m_pFile;				// Currently open file, or nullptr if none
 		int16_t						m_sReadOnly;		// Read-only flag (1 = read-only, 0 = not)
 		int16_t						m_sErrorStatus;	// Error status (non-zero = error, 0 = not)
 		int16_t						m_sModified;		//	Indicates if ini in memory has been modified

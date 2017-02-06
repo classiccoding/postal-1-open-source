@@ -163,7 +163,7 @@ int16_t CFirestream::Load(										// Returns 0 if successfull, non-zero otherw
 	{
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -188,7 +188,7 @@ int16_t CFirestream::Load(										// Returns 0 if successfull, non-zero otherw
 		}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 		{
 		}
 		else
@@ -214,7 +214,7 @@ int16_t CFirestream::Save(										// Returns 0 if successfull, non-zero otherw
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 {
 	int16_t	sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		// Save common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -295,12 +295,12 @@ void CFirestream::Update(void)
 			return;
 			}
 
-		CFireball*	pfireball1	= NULL;
-		CFireball*	pfireball2	= NULL;
-		CFireball*	pfireball3	= NULL;
+		CFireball*	pfireball1	= nullptr;
+		CFireball*	pfireball2	= nullptr;
+		CFireball*	pfireball3	= nullptr;
 
 		// Update the other fireballs
-		if (m_pRealm->m_idbank.GetThingByID((CThing**)&pfireball1, m_idFireball1) == 0)
+		if (m_pRealm->m_idbank.GetThingByID((CThing**)&pfireball1, m_idFireball1) == SUCCESS)
 			{
 			pfireball1->m_dX		= m_dX;
 			pfireball1->m_dY		= m_dY;
@@ -312,7 +312,7 @@ void CFirestream::Update(void)
 			m_idFireball1	= CIdBank::IdNil;
 			}
 
-		if (m_pRealm->m_idbank.GetThingByID((CThing**)&pfireball2, m_idFireball2) == 0)
+		if (m_pRealm->m_idbank.GetThingByID((CThing**)&pfireball2, m_idFireball2) == SUCCESS)
 			{
 			pfireball2->m_dX		= m_dX + COSQ[(int16_t) m_dRot] * ms_sOffset1;
 			pfireball2->m_dY		= m_dY;
@@ -324,7 +324,7 @@ void CFirestream::Update(void)
 			m_idFireball2	= CIdBank::IdNil;
 			}
 
-		if (m_pRealm->m_idbank.GetThingByID((CThing**)&pfireball3, m_idFireball3) == 0)
+		if (m_pRealm->m_idbank.GetThingByID((CThing**)&pfireball3, m_idFireball3) == SUCCESS)
 			{
 			pfireball3->m_dX		= m_dX + COSQ[(int16_t) m_dRot] * ms_sOffset2;
 			pfireball3->m_dY		= m_dY;
@@ -364,7 +364,7 @@ void CFirestream::Render(void)
 		}
 
 	// This should never ever be rendered.
-	ASSERT(m_sprite.m_psprParent == NULL);
+	ASSERT(m_sprite.m_psprParent == nullptr);
 	ASSERT( (m_sprite.m_sInFlags & CSprite::PrivInserted) == 0);
 }
 
@@ -412,9 +412,9 @@ int16_t CFirestream::Setup(									// Returns 0 if successfull, non-zero otherw
 			(int16_t) dX,		 			// In:  Destination X.                                        
 			(int16_t) dZ,					// In:  Destination Z.                                        
 			0,								// In:  Max traverser can step up.                      
-			NULL,							// Out: If not NULL, last clear point on path.                
-			NULL,							// Out: If not NULL, last clear point on path.                
-			NULL,							// Out: If not NULL, last clear point on path.                
+			nullptr,							// Out: If not nullptr, last clear point on path.                
+			nullptr,							// Out: If not nullptr, last clear point on path.                
+			nullptr,							// Out: If not nullptr, last clear point on path.                
 			false) )						// In:  If true, will consider the edge of the realm a path
 											// inhibitor.  If false, reaching the edge of the realm    
 											// indicates a clear path.                                 
@@ -422,7 +422,7 @@ int16_t CFirestream::Setup(									// Returns 0 if successfull, non-zero otherw
 		m_lTimeToLive = m_pRealm->m_time.GetGameTime() + lTimeToLive;
 
 		CFireball*	pfireball;
-		if (CThing::ConstructWithID(CThing::CFireballID, m_pRealm, (CThing**) &pfireball) == 0)
+		if (CThing::ConstructWithID(CThing::CFireballID, m_pRealm, (CThing**) &pfireball) == SUCCESS)
 		{
 			pfireball->Setup(m_dX, m_dY, m_dZ, sDir, lTimeToLive, u16ShooterID);
 			m_idFireball1	= pfireball->GetInstanceID();
@@ -430,7 +430,7 @@ int16_t CFirestream::Setup(									// Returns 0 if successfull, non-zero otherw
 
 		dX = m_dX + COSQ[(int16_t) m_dRot] * ms_sOffset1;	// First interval
 		dZ = m_dZ - SINQ[(int16_t) m_dRot] * ms_sOffset1;	
-		if (CThing::ConstructWithID(CThing::CFireballID, m_pRealm, (CThing**) &pfireball) == 0)
+		if (CThing::ConstructWithID(CThing::CFireballID, m_pRealm, (CThing**) &pfireball) == SUCCESS)
 		{
 			pfireball->Setup(dX, m_dY, dZ, sDir, lTimeToLive, u16ShooterID);
 			m_idFireball2	= pfireball->GetInstanceID();
@@ -438,7 +438,7 @@ int16_t CFirestream::Setup(									// Returns 0 if successfull, non-zero otherw
 
 		dX = m_dX + COSQ[(int16_t) m_dRot] * ms_sOffset2;	// Second interval 
 		dZ = m_dZ - SINQ[(int16_t) m_dRot] * ms_sOffset2;	
-		if (CThing::ConstructWithID(CThing::CFireballID, m_pRealm, (CThing**) &pfireball) == 0)
+		if (CThing::ConstructWithID(CThing::CFireballID, m_pRealm, (CThing**) &pfireball) == SUCCESS)
 		{
 			pfireball->Setup(dX, m_dY, dZ, sDir, lTimeToLive, u16ShooterID);
 			m_idFireball3	= pfireball->GetInstanceID();
@@ -608,7 +608,7 @@ int16_t CFireball::Load(										// Returns 0 if successfull, non-zero otherwis
 	{
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -633,7 +633,7 @@ int16_t CFireball::Load(										// Returns 0 if successfull, non-zero otherwis
 		}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 		{
 			// Get resources
 			sResult = GetResources();
@@ -661,7 +661,7 @@ int16_t CFireball::Save(										// Returns 0 if successfull, non-zero otherwis
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 {
 	int16_t	sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		// Save common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -779,9 +779,9 @@ void CFireball::Update(void)
 							(int16_t) dNewX, 			// In:  Destination X.                                        
 							(int16_t) dNewZ,				// In:  Destination Z.                                        
 							0,								// In:  Max traverser can step up.                      
-							NULL,							// Out: If not NULL, last clear point on path.                
-							NULL,							// Out: If not NULL, last clear point on path.                
-							NULL,							// Out: If not NULL, last clear point on path.                
+							nullptr,							// Out: If not nullptr, last clear point on path.                
+							nullptr,							// Out: If not nullptr, last clear point on path.                
+							nullptr,							// Out: If not nullptr, last clear point on path.                
 							false) 						// In:  If true, will consider the edge of the realm a path
 															// inhibitor.  If false, reaching the edge of the realm    
 															// indicates a clear path.                                 
@@ -809,7 +809,7 @@ void CFireball::Update(void)
 							m_smash.m_sphere.sphere.Z = m_dZ;
 
 							// Check for collisions
-							CSmash* pSmashed = NULL;
+							CSmash* pSmashed = nullptr;
 							GameMessage msg;
 							msg.msg_Burn.eType = typeBurn;
 							msg.msg_Burn.sPriority = 0;
@@ -942,7 +942,7 @@ int16_t CFireball::Setup(									// Returns 0 if successfull, non-zero otherwis
 int16_t CFireball::Init(void)
 {
 	int16_t sResult = SUCCESS;
-//	CAlphaAnim* pAnim = NULL;
+//	CAlphaAnim* pAnim = nullptr;
 
 	// Update sphere
 	m_smash.m_sphere.sphere.X = m_dX;

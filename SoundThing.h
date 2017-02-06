@@ -209,7 +209,7 @@ class CSoundThing : public CThing
 			{
 			int16_t sResult = 0;
 			*ppNew = new CSoundThing(pRealm);
-			if (*ppNew == 0)
+			if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CExplode::Construct(): Couldn't construct CSoundThing (that's a bad thing)\n");

@@ -150,7 +150,7 @@ class CStockPile
 
 		// Allow user to edit the stockpile.
 		int16_t UserEdit(					// Returns 0 on success.
-			RGuiItem*	pgui = NULL);	// In: Optional child GUI to be placed at 
+			RGuiItem*	pgui = nullptr);	// In: Optional child GUI to be placed at 
 												// botom of Stockpile GUI.
 
 		// Save stockpile to the specified file.

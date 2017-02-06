@@ -98,7 +98,7 @@ int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
 	char szTime[256]; 
 	char szSeq[256];
 	char szNum[256];
-	int32_t lTime = rspGetMilliseconds();
+   uint32_t lTime = rspGetMilliseconds();
 
 	if ((ucMsgType == NetMsg::START_REALM)&&(bReceived))
 		{
@@ -139,7 +139,7 @@ int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
 		prfLog->Write(" Sent     ");
 
 	// Write name of person who will be receiving or has sent the message
-	if (pszCalleeName != NULL)
+	if (pszCalleeName != nullptr)
 		prfLog->Write(pszCalleeName);
 	else
 		prfLog->Write("Server");

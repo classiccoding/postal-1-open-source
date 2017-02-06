@@ -163,7 +163,7 @@ class CMine : public CWeapon
 			{
 			int16_t sResult = 0;
 			*ppNew = new CMine(pRealm, id);
-			if (*ppNew == 0)
+         if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CMine::Construct(): Couldn't construct CMine (that's a bad thing)\n");
@@ -210,7 +210,7 @@ class CMine : public CWeapon
 		// Resets members.
 		void Reset(void)
 			{
-			m_pImage = NULL;
+			m_pImage = nullptr;
 			m_sprite.m_pthing	= this;
 			m_lFuseTime = 0;
 			m_u16ShooterID = CIdBank::IdNil;

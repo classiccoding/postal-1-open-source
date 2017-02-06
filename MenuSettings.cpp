@@ -143,7 +143,7 @@ int16_t CMenuSettings::LoadPrefs(
 		// Create section name.
 		sprintf(szSection, "Menu %s", ms_apmenus[sMenu]->menuheader.pszHeaderText);
 
-      for (size_t sMenuItem = 0; ms_apmenus[sMenu]->ami[sMenuItem].pszText != NULL; sMenuItem++)
+      for (size_t sMenuItem = 0; ms_apmenus[sMenu]->ami[sMenuItem].pszText != nullptr; sMenuItem++)
 			{
 			// Check for var name.
 			pPrefs->GetVal(

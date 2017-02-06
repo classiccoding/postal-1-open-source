@@ -51,7 +51,7 @@ class CNetBrowse
 				RSocket::Address	m_address;								// Address
 				int32_t					m_lMagic;								// Magic number
 				int32_t					m_lLastHeardFrom;						// Time we last heard from this host
-				uint32_t					m_u32User;								// User-definable value
+            uintptr_t				m_u32User;								// User-definable value
 
 			public:
 				// Constructor
@@ -83,7 +83,7 @@ class CNetBrowse
 				bool IsSameHost(const CHost* rhs) const
 					{
 					// We ignore the user value in comparisons!!!!
-					if ((strcmp(m_acName, rhs->m_acName) == 0) &&
+               if ((strcmp(m_acName, rhs->m_acName ) == 0) &&
 						 (m_address == rhs->m_address) &&
 						 (m_lMagic == rhs->m_lMagic))
 						return true;
@@ -103,7 +103,7 @@ class CNetBrowse
 	//------------------------------------------------------------------------------
 	protected:
 		RSocket			m_socketBrowse;						// Socket used to browse for hosts
-		int32_t				m_lLastBroadcast;						// Last broadcast time
+      uint32_t				m_lLastBroadcast;						// Last broadcast time
 		uint16_t	m_usBasePort;							// Base port
 
 	//------------------------------------------------------------------------------

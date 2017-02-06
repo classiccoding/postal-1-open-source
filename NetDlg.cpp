@@ -331,7 +331,7 @@
 #define GUI_DIR						"menu/"
 
 // Note that this is evaluated at compile time, so even
-// if the ptr is NULL, it will work.
+// if the ptr is nullptr, it will work.
 #define MAX_STATUS_STR				GUI_MAX_STR
 
 // Maximum number of chat strings in the box.
@@ -531,44 +531,44 @@ typedef struct
 //////////////////////////////////////////////////////////////////////////////
 
 // Common.
-static RGuiItem*	ms_pguiRoot			= NULL;		// Root of GUI tree for network interface.
-static RGuiItem*	ms_pguiOk			= NULL;		// GUI that, once 'clicked', indicates acceptance.
-static RGuiItem*	ms_pguiCancel		= NULL;		// GUI that, once 'clicked', indicates rejection.
+static RGuiItem*	ms_pguiRoot			= nullptr;		// Root of GUI tree for network interface.
+static RGuiItem*	ms_pguiOk			= nullptr;		// GUI that, once 'clicked', indicates acceptance.
+static RGuiItem*	ms_pguiCancel		= nullptr;		// GUI that, once 'clicked', indicates rejection.
 
 // Client/Server common.
-static RListBox*	ms_plbPlayers		= NULL;		// Listbox used by both types of net dialogs.
-static RListBox*	ms_plbNetConsole	= NULL;		// List of net console (chat and status) strings.
-static RGuiItem*	ms_pguiChatText	= NULL;		// Chat text.
-static RGuiItem*	ms_pguiChatSend	= NULL;		// Chat send button.
+static RListBox*	ms_plbPlayers		= nullptr;		// Listbox used by both types of net dialogs.
+static RListBox*	ms_plbNetConsole	= nullptr;		// List of net console (chat and status) strings.
+static RGuiItem*	ms_pguiChatText	= nullptr;		// Chat text.
+static RGuiItem*	ms_pguiChatSend	= nullptr;		// Chat send button.
 
 // Server.
-static RListBox*	ms_plbLevelBrowse	= NULL;		// Level browse listbox.
-static RGuiItem*	ms_pguiDisconnectPlayer	= NULL;	// Disconnect a player button.
-static RMultiBtn*	ms_pmbCoopLevels	= NULL;		// Coop levels checkbox.
-static RMultiBtn*	ms_pmbCoopMode		= NULL;		// Coop mode checkbox.
+static RListBox*	ms_plbLevelBrowse	= nullptr;		// Level browse listbox.
+static RGuiItem*	ms_pguiDisconnectPlayer	= nullptr;	// Disconnect a player button.
+static RMultiBtn*	ms_pmbCoopLevels	= nullptr;		// Coop levels checkbox.
+static RMultiBtn*	ms_pmbCoopMode		= nullptr;		// Coop mode checkbox.
 
 // Client.
-static RGuiItem*	ms_pguiOptions		= NULL;		// Options shown on client dialog.
-static RGuiItem*	ms_pguiRetry		= NULL;		// Retry button on client dialog shown when needed.
+static RGuiItem*	ms_pguiOptions		= nullptr;		// Options shown on client dialog.
+static RGuiItem*	ms_pguiRetry		= nullptr;		// Retry button on client dialog shown when needed.
 
 // Browser.
-static RListBox*	ms_plbHostBrowse	= NULL;		// Browse for host listbox.
+static RListBox*	ms_plbHostBrowse	= nullptr;		// Browse for host listbox.
 
 // Other static vars.
 
-static int32_t			ms_lWatchdogTime = 0;			// Watchdog timer
+static uint32_t			ms_lWatchdogTime = 0;			// Watchdog timer
 static bool			ms_bNetBlockingAbort = false;	// Net blocking abort flag
 
-static int32_t			ms_lNumConsoleEntries		= 0;			// Track number of chat items.
+static uint32_t			ms_lNumConsoleEntries		= 0;			// Track number of chat items.
 
 static bool			ms_bGotSetupMsg = false;
-static int16_t		ms_sSetupRealmNum = 0;
+static uint16_t		ms_sSetupRealmNum = 0;
 static char			ms_szSetupRealmFile[Net::MaxRealmNameSize];
 //static int32_t			ms_lSetupLastChatComplaint = 0;
 
-static int32_t			ms_lNextOptionsUpdateTime;		// Next time to send an options update.
+static uint32_t			ms_lNextOptionsUpdateTime;		// Next time to send an options update.
 
-static RTxt*		ms_ptxtNetProb	= NULL;			// Net problem GUI.
+static RTxt*		ms_ptxtNetProb	= nullptr;			// Net problem GUI.
 static bool			m_bNetWatchdogExpired	= false;	// Whether net blocking expired
 static bool			ms_bCoopLevels	= false;			// true, to use cooperative levels.
 
@@ -647,7 +647,7 @@ void DlgReleaseRes(										// Returns 0 if successfull, non-zero otherwise
 static int16_t NetBlockingCallback(void);			// Returns 0 to continue normally, 1 to abort
 
 static int16_t BrowseForHost(
-	CNetServer*	pserver,									// I/O: Server interface or NULL if none
+   CNetServer*	pserver,									// I/O: Server interface or nullptr if none
 	RSocket::Address* paddress);						// Out: Address returned here (if successfull)
 
 static int16_t FindSpecificSystem(
@@ -756,7 +756,7 @@ void DownloadLinkInteger(		// Returns nothing.
 			else
 				{
 				// Unsigned.
-				*pi = strtoul(pgui->m_szText, NULL, 0);
+            *pi = strtoul(pgui->m_szText, nullptr, 0);
 				}
 #else
 			// Hardwire to signed b/c bool was displaying a warning regarding the
@@ -1004,9 +1004,9 @@ static void CleanClientDlg(
 //////////////////////////////////////////////////////////////////////////////
 static int16_t ShowLevels(void)						// Returns 0 on success.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+   int16_t	sResult	= 0;	// Assume success.
 
-	if (ms_plbLevelBrowse != NULL)
+   if (ms_plbLevelBrowse != nullptr)
 		{
 		// Must be listbox.
 		ASSERT(ms_plbLevelBrowse->m_type == RGuiItem::ListBox);
@@ -1018,21 +1018,21 @@ static int16_t ShowLevels(void)						// Returns 0 on success.
 			char	szRealm[RSP_MAX_PATH+1];
 			char	szTitle[512];
 			int16_t	i	= 0;
-			while (sRes == 0)
+         while (sResult == SUCCESS)
 				{
 				// Get realm name from realm prefs file
-				sRes = Play_GetRealmInfo(true, ms_bCoopLevels, false, false, i, g_GameSettings.m_sDifficulty, szRealm, sizeof(szRealm), szTitle, sizeof(szTitle));
-				if (sRes == 1)
+            sResult = Play_GetRealmInfo(true, ms_bCoopLevels, false, false, i, g_GameSettings.m_sDifficulty, szRealm, sizeof(szRealm), szTitle, sizeof(szTitle));
+            if (sResult == 1)
 					{
 					// That's it.
-					sRes	= 0;
+               sResult	= 0;
 					break;
 					}
-				else if (sRes == 0)
+            else if (sResult == SUCCESS)
 					{
 					// Add to listbox.
 					RGuiItem*	pguiLevel = ms_plbLevelBrowse->AddString(szTitle);
-					if (pguiLevel != NULL)
+               if (pguiLevel != nullptr)
 						{
 						// Activate shadow parameters.
 						MakeMoreReadable(pguiLevel);
@@ -1043,7 +1043,7 @@ static int16_t ShowLevels(void)						// Returns 0 on success.
 					else
 						{
 						TRACE("ShowLevels(): Failed to add string to listbox.\n");
-						sRes	= -1;
+                  sResult	= -1;
 						}
 					}
 				i++;
@@ -1053,7 +1053,7 @@ static int16_t ShowLevels(void)						// Returns 0 on success.
 
 			// Add the one and only level option.
 			RGuiItem*	pguiLevel = ms_plbLevelBrowse->AddString(SPECIFIC_MP_REALM_TEXT);
-			if (pguiLevel != NULL)
+         if (pguiLevel != nullptr)
 				{
 				// Activate shadow parameters.
 				MakeMoreReadable(pguiLevel);
@@ -1064,7 +1064,7 @@ static int16_t ShowLevels(void)						// Returns 0 on success.
 			else
 				{
 				TRACE("ShowLevels(): Failed to add string to listbox.\n");
-				sRes	= -1;
+            sResult	= -1;
 				}
 
 		#endif	// ENABLE_PLAY_SPECIFIC_REALMS_ONLY
@@ -1075,7 +1075,7 @@ static int16_t ShowLevels(void)						// Returns 0 on success.
 		ms_plbLevelBrowse->AdjustContents();
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -1088,25 +1088,25 @@ static void DlgBeGone(void)
 	// Clean up processor.
 	ms_pgDoGui.Unprepare();
 
-	if (ms_pguiRoot != NULL)
+   if (ms_pguiRoot != nullptr)
 		{
 		delete ms_pguiRoot;
 		}
 
-	ms_pguiRoot					= NULL;
-	ms_pguiOk					= NULL;
-	ms_pguiCancel				= NULL;
-	ms_plbPlayers				= NULL;
-	ms_plbNetConsole			= NULL;
-	ms_pguiChatText			= NULL;
-	ms_pguiChatSend			= NULL;
-	ms_plbLevelBrowse			= NULL;
-	ms_pguiOptions				= NULL;
-	ms_pguiDisconnectPlayer	= NULL;
-	ms_pmbCoopLevels			= NULL;
-	ms_pmbCoopMode				= NULL;
-	ms_plbHostBrowse			= NULL;
-	ms_pguiRetry				= NULL;
+   ms_pguiRoot					= nullptr;
+   ms_pguiOk					= nullptr;
+   ms_pguiCancel				= nullptr;
+   ms_plbPlayers				= nullptr;
+   ms_plbNetConsole			= nullptr;
+   ms_pguiChatText			= nullptr;
+   ms_pguiChatSend			= nullptr;
+   ms_plbLevelBrowse			= nullptr;
+   ms_pguiOptions				= nullptr;
+   ms_pguiDisconnectPlayer	= nullptr;
+   ms_pmbCoopLevels			= nullptr;
+   ms_pmbCoopMode				= nullptr;
+   ms_plbHostBrowse			= nullptr;
+   ms_pguiRetry				= nullptr;
 	}
 
 
@@ -1119,7 +1119,7 @@ static int16_t SetupDlg(		// Returns 0 on success.
 	char*	pszGuiFile,			// In:  Full path to GUI file.
 	DLG_TYPE	type)				// In:  Type of dialog.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+   int16_t	sResult	= 0;	// Assume success.
 
 	// Make sure everything is clean.
 	DlgBeGone();
@@ -1136,7 +1136,7 @@ static int16_t SetupDlg(		// Returns 0 on success.
 	// has already been loaded (or failed to load in this case because the
 	// gui stuff can't possibly know the correct path for loading it).
 	ms_pguiRoot = new RDlg;
-	if (ms_pguiRoot != NULL)
+   if (ms_pguiRoot != nullptr)
 		{
 		// Setup callbacks for getting and releasing resources
 		ms_pguiRoot->m_fnGetRes = DlgGetRes;
@@ -1147,8 +1147,8 @@ static int16_t SetupDlg(		// Returns 0 on success.
 		ms_pguiRoot->m_pprint->SetFont(15, &g_fontPostal);
 
 		// Load the gui description file
-		sRes = ms_pguiRoot->Load(pszGuiFile);
-		if (sRes == 0)
+      sResult = ms_pguiRoot->Load(pszGuiFile);
+      if (sResult == SUCCESS)
 			{
 
 			// Set focus to first child control or none if there's none.
@@ -1166,7 +1166,7 @@ static int16_t SetupDlg(		// Returns 0 on success.
 					UploadLinks(ms_aglClientServerLinkage, ms_pguiRoot);
 
 					// If exists . . .
-					if (ms_plbPlayers != NULL)
+               if (ms_plbPlayers != nullptr)
 						{
 						// Must be listbox.
 						ASSERT(ms_plbPlayers->m_type == RGuiItem::ListBox);
@@ -1175,7 +1175,7 @@ static int16_t SetupDlg(		// Returns 0 on success.
 						}
 
 					// If exists . . .
-					if (ms_pguiChatText != NULL)
+               if (ms_pguiChatText != nullptr)
 						{
 						// Must be edit.
 						ASSERT(ms_pguiChatText->m_type == RGuiItem::Edit);
@@ -1210,7 +1210,7 @@ static int16_t SetupDlg(		// Returns 0 on success.
 					UploadLinks(ms_aglClientServerLinkage, ms_pguiRoot);
 
 					// If exists . . .
-					if (ms_plbPlayers != NULL)
+               if (ms_plbPlayers != nullptr)
 						{
 						// Must be listbox.
 						ASSERT(ms_plbPlayers->m_type == RGuiItem::ListBox);
@@ -1219,7 +1219,7 @@ static int16_t SetupDlg(		// Returns 0 on success.
 						}
 
 					// If exists . . .
-					if (ms_pguiChatText != NULL)
+               if (ms_pguiChatText != nullptr)
 						{
 						// Must be edit.
 						ASSERT(ms_pguiChatText->m_type == RGuiItem::Edit);
@@ -1299,16 +1299,16 @@ static int16_t SetupDlg(		// Returns 0 on success.
 	else
 		{
 		TRACE("SetupDlg(): Failed to allocate RDlg!\n");
-		sRes = -1;
+      sResult = -1;
 		}
 
 	// If any errors . . .
-	if (sRes != 0)
+   if (sResult != 0)
 		{
 		DlgBeGone();
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 
@@ -1331,10 +1331,10 @@ int16_t DlgGetRes(											// Returns 0 if successfull, non-zero otherwise
 	char szFile[RSP_MAX_PATH * 2];
 	sprintf(szFile, "%s%s", GUI_DIR, pgui->m_szBkdResName);
 
-	if (rspGetResource(&g_resmgrShell, szFile, &pgui->m_pimBkdRes) == 0)
+   if (rspGetResource(&g_resmgrShell, szFile, &pgui->m_pimBkdRes) == SUCCESS)
 		{
 		// Set palette
-		ASSERT(pgui->m_pimBkdRes->m_pPalette != NULL);
+      ASSERT(pgui->m_pimBkdRes->m_pPalette != nullptr);
 		ASSERT(pgui->m_pimBkdRes->m_pPalette->m_type == RPal::PDIB);
 		rspSetPaletteEntries(
 			0,
@@ -1502,7 +1502,7 @@ static DLG_ACTION UpdateDialog(						// Returns dialog action
 	if (action == DLG_NOTHING)
 		{
 		// Temporarily timed based. ***
-		int32_t	lCurTime	= rspGetMilliseconds();
+      uint32_t	lCurTime	= rspGetMilliseconds();
 		if (lCurTime > ms_lNextOptionsUpdateTime)
 			{
 			if (bReset)
@@ -1578,9 +1578,9 @@ static int16_t UpdateListBox(					// Returns 0 on success.
 					MakeMoreReadable(pgui);
 					pgui->Compose();
 					// Point GUI at entry.
-					pgui->m_ulUserData	= (uint64_t)phost;
+               pgui->m_ulUserData = reinterpret_cast<uintptr_t>(phost);
 					// Successfully added entry.
-					phost->m_u32User	= (uint64_t)pgui;
+               phost->m_u32User = reinterpret_cast<uintptr_t>(pgui);
 					// Note that we updated the dialog and will need to re-adjust
 					// fields and recompose.
 					bRepaginate	= true;
@@ -1605,14 +1605,14 @@ static int16_t UpdateListBox(					// Returns 0 on success.
 		while (phostslistDropped->GetHead())
 			{
 			// Get pointer to first host in list
-			uint32_t u32User = phostslistDropped->GetHeadData().m_u32User;
+         uintptr_t u32User = phostslistDropped->GetHeadData().m_u32User;
 
 			// We should have already been using this.
 			ASSERT(u32User);
 			if (u32User)
 				{
 				// Remove the corresponding GUI list entry from the listbox.
-				plb->RemoveItem((RGuiItem*)(u32User));
+            plb->RemoveItem(reinterpret_cast<RGuiItem*>(u32User));
 				// Note that we updated the dialog and will need to re-adjust
 				// fields and recompose.
 				bRepaginate	= true;
@@ -1659,7 +1659,7 @@ static void AddConsoleMsg(	// Returns nothing.
 	const char* pszFrmt,		// In:  sprintf style formatting.
 	...)							// In:  Optional arguments based on context of pszFrmt.
 	{
-	if (ms_plbNetConsole != NULL)
+   if (ms_plbNetConsole != nullptr)
 		{
 		char szOutput[MAX_STATUS_STR];
 
@@ -1723,7 +1723,7 @@ static void AddConsoleMsg(	// Returns nothing.
 				// Subtract the border thickness since we don't use it but add 1 for text shadow effect.
 				pguiConsoleMsg->m_im.m_sWidth - sOrigTotalBorderThickness + 1,
 				pguiConsoleMsg->m_im.m_sHeight - sOrigTotalBorderThickness + 1,
-				pguiConsoleMsg->m_im.m_sDepth) == 0)
+            pguiConsoleMsg->m_im.m_sDepth) == SUCCESS)
 				{
 				// We cannot click on these.
 				pguiConsoleMsg->m_sActive	= FALSE;
@@ -1737,7 +1737,7 @@ static void AddConsoleMsg(	// Returns nothing.
 				{
 				// This is useless then.
 				delete pguiConsoleMsg;
-				pguiConsoleMsg	= NULL;
+            pguiConsoleMsg	= nullptr;
 				}
 			}
 		else
@@ -1933,8 +1933,8 @@ static void OnDroppedMsg(
 	RSP_SAFE_GUI_REF_VOID(pguiConnected, Compose());
 
 	// Get client's GUI . . .
-	RGuiItem* pguiClient = ms_plbPlayers->GetItemFromId( int32_t(pmsg->msg.dropped.id));
-	if (pguiClient != NULL)
+   RGuiItem* pguiClient = ms_plbPlayers->GetItemFromId(static_cast<uint32_t>(pmsg->msg.dropped.id));
+   if (pguiClient != nullptr)
 		{
 		// Remove the item.
 		ms_plbPlayers->RemoveItem(pguiClient);
@@ -1957,7 +1957,7 @@ static int16_t OnJoinedMsg(	// Returns 0 on success.
 	NetMsg*		pmsg,			// In:  Joined msg from client to add.
 	bool			bServer)		// In:  true if in server mode; false if client.
 	{
-   int16_t	sRes	= SUCCESS;	// Assume success.
+   int16_t	sResult	= SUCCESS;	// Assume success.
 
 	ASSERT(pmsg->msg.nothing.ucType == NetMsg::JOINED);
 	
@@ -1978,7 +1978,7 @@ static int16_t OnJoinedMsg(	// Returns 0 on success.
 	RSP_SAFE_GUI_REF_VOID(pguiConnected, Compose() );
 
 	RGuiItem* pguiClient = ms_plbPlayers->AddString(szPlayer);
-	if (pguiClient != NULL)
+   if (pguiClient != nullptr)
 		{
 		// Let's be able to identify this client by its net ID.
 		pguiClient->m_lId	= (int32_t)pmsg->msg.joined.id;
@@ -2000,10 +2000,10 @@ static int16_t OnJoinedMsg(	// Returns 0 on success.
 	else
 		{
 		TRACE("OnJoinedMsg(): ms_plbPlayers->AddString() failed.\n");
-      sRes = FAILURE;
+      sResult = FAILURE;
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 #ifdef UNUSED_FUNCTIONS
@@ -2017,13 +2017,13 @@ static int16_t OnChangedMsg(	// Returns 0 on success.
 	NetMsg*		pmsg)			// In:  Changed msg
 	{
   UNUSED(pnet);
-   int16_t	sRes	= SUCCESS;	// Assume success.
+   int16_t	sResult	= SUCCESS;	// Assume success.
 
 	ASSERT(pmsg->msg.nothing.ucType == NetMsg::CHANGED);
 
 	TRACE("OnChangedMsg(): Changes are not yet refelected in the gui's!\n");
 
-	return sRes;
+   return sResult;
 	}
 #endif
 
@@ -2110,7 +2110,7 @@ static void OnSetupGameMsg(
 					pmsg->msg.setupGame.sRealmNum,
 					pmsg->msg.setupGame.sDifficulty,
 					szFile,
-					sizeof(szFile)) == 0)
+               sizeof(szFile)) == SUCCESS)
 					{
 					// Check if file is available
 					if (CRealm::DoesFileExist(szFile))
@@ -2127,7 +2127,7 @@ static void OnSetupGameMsg(
 					pmsg->msg.setupGame.sCoopLevels ? true : false,	// Cooperative or Deathmatch levels
 					pmsg->msg.setupGame.acRealmFile,
 					szRealmFileName,
-					sizeof(szRealmFileName) ) == 0)
+               sizeof(szRealmFileName) ) == SUCCESS)
 					{
 					// Check if file is available
 					if (CRealm::DoesFileExist(szRealmFileName))
@@ -2266,10 +2266,10 @@ void ProtoNotSupported(void)
 extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero otherwise.
 	CNetClient*	pclient,									// I/O: Client interface
 	bool bBrowse,											// In:  Whether to browse (true) or connect (false)
-	CNetServer*	pserver,									// I/O: Server interface or NULL if not server
+   CNetServer*	pserver,									// I/O: Server interface or nullptr if not server
 	NetMsg* pmsgOut)										// Out: NetMsg::NOTHING or NetMsg::START_GAME
 	{
-	ASSERT(pclient != NULL);
+   ASSERT(pclient != nullptr);
 
 	int16_t	sResult = 0;									// Assume success.
 
@@ -2282,17 +2282,17 @@ extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero othe
 	rspSetDoSystemMode(RSP_DOSYSTEM_TOLERATEOS);
 
 	// Init globals
-	ms_pguiRoot			= NULL;
-	ms_pguiOk			= NULL;
-	ms_pguiCancel		= NULL;
-	ms_plbPlayers		= NULL;
-	ms_plbNetConsole	= NULL;
-	ms_pguiChatText	= NULL;
-	ms_pguiChatSend	= NULL;
-	ms_plbLevelBrowse	= NULL;
-	ms_pmbCoopLevels	= NULL;
-	ms_pmbCoopMode		= NULL;
-	ms_pguiRetry		= NULL;
+   ms_pguiRoot			= nullptr;
+   ms_pguiOk			= nullptr;
+   ms_pguiCancel		= nullptr;
+   ms_plbPlayers		= nullptr;
+   ms_plbNetConsole	= nullptr;
+   ms_pguiChatText	= nullptr;
+   ms_pguiChatSend	= nullptr;
+   ms_plbLevelBrowse	= nullptr;
+   ms_pmbCoopLevels	= nullptr;
+   ms_pmbCoopMode		= nullptr;
+   ms_pguiRetry		= nullptr;
 	ms_lWatchdogTime	= 0;
 	ms_bNetBlockingAbort = false;
 
@@ -2351,7 +2351,7 @@ extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero othe
 		// If there's a server, start it up
 		if (pserver)
 			sResult = pserver->Startup(g_GameSettings.m_usServerPort, g_GameSettings.m_szHostName,	&NetBlockingCallback);
-		if (sResult == 0)
+      if (sResult == SUCCESS)
 			{
 
 			// Host address
@@ -2360,12 +2360,12 @@ extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero othe
 			// If we're browsing, do it before the client dialog since it uses a dialog of its own
 			if (bBrowse)
 				sResult = BrowseForHost(pserver, &addressHost);
-			if (sResult == 0)
+         if (sResult == SUCCESS)
 				{
 
 				// Setup dialog in client or server mode, as appropriate
 				sResult	= SetupDlg(pserver ? FullPathHD(SERVER_GUI) : FullPathVD(CLIENT_GUI), pserver ? DLG_SERVER : DLG_CLIENT);
-				if (sResult == 0)
+            if (sResult == SUCCESS)
 					{
 					// Display "startup" messages
 					if (pserver)
@@ -2393,7 +2393,7 @@ extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero othe
 							sResult = FindSpecificSystem(&addressHost);
 							}
 						}
-					if (sResult == 0)
+               if (sResult == SUCCESS)
 						{
 
 						// This loop is used for when the user hits the "RETRY" button on the client dialog
@@ -2584,7 +2584,7 @@ extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero othe
 											if (!bStart && !bAbort)
 												{
 												// Make sure text field exists
-												if (ms_pguiChatText != NULL)
+                                    if (ms_pguiChatText != nullptr)
 													{
 													// See if there's any text
 													if (ms_pguiChatText->m_szText[0] != '\0')
@@ -2995,7 +2995,7 @@ extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero othe
 //
 //////////////////////////////////////////////////////////////////////////////
 static int16_t BrowseForHost(
-	CNetServer*	pserver,									// I/O: Server interface or NULL if none
+   CNetServer*	pserver,									// I/O: Server interface or nullptr if none
 	RSocket::Address* paddress)						// Out: Address returned here (if successfull)
 	{
 	int16_t sResult = 0;
@@ -3010,17 +3010,17 @@ static int16_t BrowseForHost(
 	// Create browser and start it up
 	CNetBrowse browse;
 	sResult = browse.Startup(g_GameSettings.m_usServerPort, &NetBlockingCallback);
-	if (sResult == 0)
+   if (sResult == SUCCESS)
 		{
 		sResult = SetupDlg(FullPathVD(BROWSER_GUI), DLG_BROWSER);
-		if (sResult == 0)
+      if (sResult == SUCCESS)
 			{
 			// Since we don't let RProcessGUI draw cleaned up the screen, we should.
 			rspUpdateDisplay();
 
 			DLG_ACTION action	= DLG_NOTHING;
 			// Loop until error, user abort, or user choice . . .
-			while ((sResult == 0) && action != DLG_OK && action != DLG_CANCEL)
+         while ((sResult == SUCCESS) && action != DLG_OK && action != DLG_CANCEL)
 				{
 				// Do default processing.
 				UpdateSystem();
@@ -3035,7 +3035,7 @@ static int16_t BrowseForHost(
 
 				// Update listbox via added and dropped hosts lists.
 				sResult = UpdateListBox(ms_plbHostBrowse, &hostsAll, &hostsAdded, &hostsDropped);
-				if (sResult == 0)
+            if (sResult == SUCCESS)
 					{
 					// Update the dialog (user input and GUI output).
 					action	= UpdateDialog(ms_pguiRoot, true);
@@ -3047,7 +3047,7 @@ static int16_t BrowseForHost(
 				}
 
 			// If no error . . .
-			if (sResult == 0)
+         if (sResult == SUCCESS)
 				{
 				switch (action)
 					{
@@ -3059,7 +3059,7 @@ static int16_t BrowseForHost(
 						// Get selection . . .
 						RGuiItem*	pguiSel	= ms_plbHostBrowse->GetSel();
 						// If there's no selection . . .
-						if (pguiSel == NULL)
+                  if (pguiSel == nullptr)
 							{
 							// Take the first.
 							pguiSel	= ms_plbHostBrowse->GetFirst();
@@ -3136,7 +3136,7 @@ static int16_t FindSpecificSystem(
 		g_GameSettings.m_szServerName,
 		g_GameSettings.m_usServerPort, 
 		paddress);
-	if (sResult == 0)
+   if (sResult == SUCCESS)
 		{
 		// Success!
 		}
@@ -3179,10 +3179,10 @@ static int16_t BrowseForSelf(
 	bool bFoundSelf = false;
 	CNetBrowse browse;
 	sResult = browse.Startup(g_GameSettings.m_usServerPort, &NetBlockingCallback);
-	if (sResult == 0)
+   if (sResult == SUCCESS)
 		{
 		// Wait for our own broadcast  
-		int32_t lTime = rspGetMilliseconds() + Net::BroadcastDropTime;
+      uint32_t lTime = rspGetMilliseconds() + Net::BroadcastDropTime;
 		while (!bFoundSelf && (rspGetMilliseconds() < lTime))
 			{
 			UpdateSystem();
@@ -3334,7 +3334,7 @@ static int16_t NetBlockingCallback(void)				// Returns 0 to continue normally, 1
 			// Create temporary image of what's currently in the buffer
 			bool bGotImage = false;
 			RImage image;
-			if (image.CreateImage(ptxt->m_im.m_sWidth, ptxt->m_im.m_sHeight, ptxt->m_im.m_type) == 0)
+         if (image.CreateImage(ptxt->m_im.m_sWidth, ptxt->m_im.m_sHeight, ptxt->m_im.m_type) == SUCCESS)
 				{
 				rspLockBuffer();
 				rspBlit(g_pimScreenBuf, &image, ptxt->m_sX, ptxt->m_sY, 0, 0, image.m_sWidth, image.m_sHeight);
@@ -3380,13 +3380,13 @@ static int16_t NetBlockingCallback(void)				// Returns 0 to continue normally, 1
 //////////////////////////////////////////////////////////////////////////////
 extern int16_t InitNetProbGUI(void)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+   int16_t	sResult	= 0;	// Assume success.
 
 	KillNetProbGUI();
 
-	sRes	= rspGetResource(&g_resmgrShell, NET_PROB_GUI_FILE, &ms_ptxtNetProb);
+   sResult	= rspGetResource(&g_resmgrShell, NET_PROB_GUI_FILE, &ms_ptxtNetProb);
 
-	if (sRes == 0)
+   if (sResult == SUCCESS)
 		{
 		// Set some intial stuff.
 		ms_ptxtNetProb->m_sTextEffects			= RGuiItem::Shadow;
@@ -3403,7 +3403,7 @@ extern int16_t InitNetProbGUI(void)
 			NET_PROB_GUI_FILE);
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////

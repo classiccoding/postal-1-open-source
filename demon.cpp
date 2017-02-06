@@ -408,7 +408,7 @@ int16_t CDemon::Load(								// Returns 0 if successfull, non-zero otherwise
 	uint32_t	ulFileVersion)									// In:  Version of file format to load.
 {
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		switch (ulFileVersion)
 		{
@@ -480,7 +480,7 @@ int16_t CDemon::Load(								// Returns 0 if successfull, non-zero otherwise
 		}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == 0)
+		if (!pFile->Error() && sResult == SUCCESS)
 		{
 			sResult = Init();
 		}
@@ -503,7 +503,7 @@ int16_t CDemon::Save(										// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 {
 	int16_t	sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 	{
 		pFile->Write(m_sSoundBank);
 		pFile->Write(&m_dX);
@@ -618,11 +618,11 @@ int16_t CDemon::EditModify(void)
 
 	// Load gui dialog
 	RGuiItem* pgui = RGuiItem::LoadInstantiate(FullPath(GAME_PATH_HD, GUI_FILE_NAME));
-	if (pgui != NULL)
+	if (pgui != nullptr)
 		{
 		// Init "bank" field.
 		RGuiItem* pguiBankName = pgui->GetItemFromId(GUI_ID_BANK);
-		ASSERT(pguiBankName != NULL);
+		ASSERT(pguiBankName != nullptr);
 		pguiBankName->SetText("%hd", m_sSoundBank);
 		pguiBankName->Compose();
 
@@ -657,7 +657,7 @@ int16_t CDemon::EditModify(void)
 
 #if 0	// No settins via dialog currently require re-Init()age.
 	// If everything's okay, init using new values
-	if (sResult == 0)
+	if (sResult == SUCCESS)
 		sResult = Init();
 #endif
 
@@ -778,7 +778,7 @@ int16_t CDemon::Init(void)							// Returns 0 if successfull, non-zero otherwise
 	if (m_pImage == 0)
 	{
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(IMAGE_FILE), &m_pImage);
-		if (sResult == 0)
+		if (sResult == SUCCESS)
 		{
 			// This is a questionable action on a resource managed item, but it's
 			// okay if EVERYONE wants it to be an FSPR8.

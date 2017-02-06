@@ -200,7 +200,7 @@ class CHood : public CThing
 			{
 			int16_t sResult = 0;
 			*ppNew = new CHood(pRealm);
-			if (*ppNew == 0)
+         if (*ppNew == nullptr)
 				{
 				sResult = -1;
 				TRACE("CHood::Construct(): Couldn't construct CHood!\n");

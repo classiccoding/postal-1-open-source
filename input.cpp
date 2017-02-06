@@ -439,10 +439,10 @@ extern int16_t InputDemoInit(void)
 	m_lBufEntries = 0;
 
 	// Allocate buffer
-	if (m_pBuf == 0)
+   if (m_pBuf == nullptr)
 		{
 		m_pBuf = new uint32_t[BUF_MAX_ENTRIES];
-		if (m_pBuf == 0)
+      if (m_pBuf == nullptr)
 			{
 			sResult = -1;
 			TRACE("InputDemoInit(): Error allocating buffer!\n");
@@ -592,7 +592,7 @@ extern void ClearLocalInput(void)
 static void FindCheatCombos(	// Returns nothing.
 	UINPUT*	pinput,				// In:  Input to augment.
 										// Out: Input with cheats.
-	RInputEvent* pie)				// In:  Latest input event or NULL.
+	RInputEvent* pie)				// In:  Latest input event or nullptr.
 	{
    int32_t		lNow		= rspGetMilliseconds();
 
@@ -708,7 +708,7 @@ bool CanCycleThroughWeapons()
 ////////////////////////////////////////////////////////////////////////////////
 extern UINPUT GetLocalInput(				// Returns local input.
 	CRealm* prealm,							// In:  Realm (used to access realm timer)
-	RInputEvent* pie	/*= NULL*/)			// In:  Latest input event.  NULL to 
+	RInputEvent* pie	/*= nullptr*/)			// In:  Latest input event.  nullptr to 
 													//	disable cheats in a way that will be
 													// harder to hack.
 	{
