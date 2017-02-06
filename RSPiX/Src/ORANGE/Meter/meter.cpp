@@ -367,7 +367,8 @@ int16_t RMeter::Draw(					// Returns 0 on success.
 			// Draw meter based on type.
 			switch (m_dtType)
 				{
-				case Digital:
+           UNHANDLED_SWITCH;
+            case Digital:
 					// Done.
 					break;
 				case Needle:
