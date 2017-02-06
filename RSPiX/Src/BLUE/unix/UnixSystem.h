@@ -91,10 +91,7 @@ using namespace std;
 #define UNUSED_IMPL(nargs) UNUSED_IMPL_(nargs)
 #define UNUSED(...) UNUSED_IMPL( VA_NUM_ARGS(__VA_ARGS__))(__VA_ARGS__ )
 
-#define UNHANDLED_SWITCH \
-  default: \
-  TRACE("Unhandled switch in %s on line %i\n", __FILE__,__LINE__); \
-    break
+#define UNHANDLED_SWITCH    default: TRACE("Unhandled switch\n"); break
 
 #define UINT8_MIN 0
 #define UINT16_MIN 0
