@@ -597,6 +597,7 @@ int16_t CHood::EditNew(									// Returns 0 if successfull, non-zero otherwise
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
+  UNUSED(sX, sY, sZ);
 	int16_t sResult = 0;
 	char	szScale3d[256];
 	char	szShadowLength[256];
@@ -738,7 +739,8 @@ int16_t CHood::EditNew(									// Returns 0 if successfull, non-zero otherwise
 
 				switch (pgui2dResPaths->m_type)
 					{
-					case RGuiItem::MultiBtn:
+              UNHANDLED_SWITCH;
+               case RGuiItem::MultiBtn:
 						m_pRealm->m_s2dResPathIndex	= RSP_SAFE_GUI_REF((RMultiBtn*)pgui2dResPaths, m_sState) - 1;
 						break;
 					case RGuiItem::ListBox:

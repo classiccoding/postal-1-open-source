@@ -452,8 +452,7 @@ static bool IsMappable(	// Returns true, if mappable, false otherwise.
 	{
 	bool	bMappable	= true;
 
-	int16_t	sIndex;
-	for (sIndex = 0; sIndex < NUM_ELEMENTS(ms_au8UnmappableKeys); sIndex++)
+   for (size_t sIndex = 0; sIndex < NUM_ELEMENTS(ms_au8UnmappableKeys); ++sIndex)
 		{
 		// If this is the specified key . . .
 		if (ms_au8UnmappableKeys[sIndex] == u8Key)
@@ -482,6 +481,7 @@ inline void ListenForInput(	// Returns nothing.
 
 	switch (pie->type)
 		{
+     UNHANDLED_SWITCH;
 		case RInputEvent::Key:
 			if (pie->lKey == 27)
 				{
@@ -532,6 +532,7 @@ inline void ListenForInput(	// Returns nothing.
 			case MOUSE_MENU_ID:
 				 switch (pie->type)
 					{
+               UNHANDLED_SWITCH;
 					case RInputEvent::Key:
 						if (pie->lKey == '\r')
 							{
@@ -576,6 +577,7 @@ inline void ListenForInput(	// Returns nothing.
 			case JOYSTICK_MENU_ID:
 				 switch (pie->type)
 					{
+               UNHANDLED_SWITCH;
 					case RInputEvent::Key:
 						if (pie->lKey == '\r')
 							{
@@ -736,6 +738,7 @@ extern int16_t EditInputSettings(void)	// Returns nothing.
 
 		switch (ie.type)
 			{
+        UNHANDLED_SWITCH;
 			case RInputEvent::Key:
 				if (ie.lKey == RSP_SK_BACKSPACE)
 					bDeleteKeybind = true;

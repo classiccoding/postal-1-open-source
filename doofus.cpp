@@ -1540,7 +1540,8 @@ void CDoofus::Update(void)
 	 
 		switch (m_state)
 		{
-			case State_Guard:
+        UNHANDLED_SWITCH;
+         case State_Guard:
 				Logic_Guard();
 				break;
 
@@ -1601,7 +1602,6 @@ void CDoofus::Update(void)
 				delete this;
 				return;
 				break;
-
 		}	
 
 		// Determine appropriate position for main smash.
@@ -2097,7 +2097,8 @@ void CDoofus::Logic_MoveNext(void)
 				m_state = m_eDestinationState;
 				switch (m_state)
 				{
-					case State_Engage:
+              UNHANDLED_SWITCH;
+               case State_Engage:
 						m_eCurrentAction = Action_Engage;
 						break;
 
@@ -3382,7 +3383,8 @@ bool CDoofus::ReevaluateState(void)
 	{
 		switch (m_eSuggestedAction)
 		{
-			case Action_Guard:	
+        UNHANDLED_SWITCH;
+         case Action_Guard:
 				if (m_panimCur != &m_animStand &&
 				    m_panimCur != &m_animCrouch &&
 					 m_panimCur != &m_animSearch)

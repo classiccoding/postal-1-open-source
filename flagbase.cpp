@@ -348,7 +348,8 @@ void CFlagbase::Update(void)
 
 		switch(m_state)
 		{
-			case CFlagbase::State_Wait:
+        UNHANDLED_SWITCH;
+         case CFlagbase::State_Wait:
 				if (lThisTime > m_lTimer)
 				{
 					m_state = CFlagbase::State_Guard;

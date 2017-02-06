@@ -243,7 +243,7 @@ class RProtocolBSDIP : public RSocket::RProtocol
 
 		// Get address from the socket
 		static int16_t GetAddress(								// Returns 0 if successfull, non-zero otherwise
-			char* pszName,											// In:  Host's name or dotted address
+         const char* pszName,											// In:  Host's name or dotted address
 			uint16_t usPort,											// In:  Host's port number
 			RSocket::Address* paddress);						// Out: Address
 

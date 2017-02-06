@@ -888,7 +888,7 @@ void	DrawTri(uint8_t* pDstOffset,int32_t lDstP,
 
 	// Draw the upper triangle! (Assuming fx2inc < fx3inc.....)
 	int16_t x,y;
-#ifdef _DEBUG
+#ifdef UNUSED_VARIABLES
 	int16_t xdel;
 #endif
 
@@ -934,9 +934,9 @@ void	DrawTri(uint8_t* pDstOffset,int32_t lDstP,
 			x2.val += fx2inc;
 			x1.val += fx1inc;
 
-#ifdef _DEBUG
+#ifdef UNUSED_VARIABLES
 			xdel = x2.mod - x1.mod;
-			// ***************8 flipped the inc value:!
+         // *************** flipped the inc value:!
 #endif
 
 			// Assume 2 to 3:
@@ -957,7 +957,7 @@ void	DrawTri(uint8_t* pDstOffset,int32_t lDstP,
 			x2.val += fx2inc;
 			x3.val += fx3inc;
 
-#ifdef _DEBUG
+#ifdef UNUSED_VARIABLES
          // Assume 2 to 3:
 			xdel = x3.mod - x2.mod;
 #endif
@@ -985,7 +985,7 @@ void	DrawTri(uint8_t* pDstOffset,int32_t lDstP,
 				x2.val += fx2inc;
 				x3.val += fx3inc;
 
-#ifdef _DEBUG
+#ifdef UNUSED_VARIABLES
             xdel = x3.mod - x2.mod;
 #endif
 
@@ -1011,7 +1011,7 @@ void	DrawTri(uint8_t* pDstOffset,int32_t lDstP,
 			x3.val += fx3inc;
 			// Assume 2 to 3:
 
-#ifdef _DEBUG
+#ifdef UNUSED_VARIABLES
          xdel = x2.mod - x3.mod; //+ x to z
 #endif
 
@@ -1038,7 +1038,7 @@ void	DrawTri(uint8_t* pDstOffset,int32_t lDstP,
 				x2.val += fx2inc;
 				x3.val += fx3inc;
 
-#ifdef _DEBUG
+#ifdef UNUSED_VARIABLES
 				xdel = x2.mod - x3.mod;
 #endif
 				// Full accuracy fxMul!

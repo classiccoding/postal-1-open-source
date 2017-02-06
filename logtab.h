@@ -426,14 +426,14 @@ int16_t CLogTabVar<usertype>::ValToText(				// Returns 0 if successfull, non-zer
 		else
 			{
 			sResult = LOGTAB_ERR_BAD_RANGE_VAR_TEXT;
-			TRACE("CLogTabVar::ValToText(): Value (%hd) is out of range for '%s'!\n", (int16_t)sVal, m_pszName);
+         TRACE("CLogTabVar::ValToText(): Value (%hd) is out of range for '%s'!\n", sVal, m_pszName);
 			}
 		}
 	else
 		{
 		// Convert value to text equivalent (we know that a short can't take up
 		// any more than 6 characters, and that's with a negative sign in front).
-		sprintf(pszText, "%hd", (int16_t)sVal);
+      sprintf(pszText, "%hd", sVal);
 		}
 	
 	return sResult;

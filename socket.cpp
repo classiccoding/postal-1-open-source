@@ -428,7 +428,7 @@ int16_t RSocket::SendTo(									// Return 0 on success, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t RSocket::Receive(									// Returns 0 on success, non-zero otherwise
 	void* pBuf,												// In:  Pointer to data buffer
-	int32_t lMaxBytes,										// In:  Maximum bytes that can fit in buffer
+   int32_t lMaxBytes,										// In:  Maximum bytes that can fit in buffer
 	int32_t* plActualBytes)									// Out: Actual number of bytes received
 	{
 	int16_t sResult = FAILURE;
@@ -450,7 +450,7 @@ int16_t RSocket::Receive(									// Returns 0 on success, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t RSocket::ReceiveFrom(							// Returns 0 on success, non-zero otherwise
 	void* pBuf,												// In:  Pointer to data buffer
-	int32_t lMaxBytes,										// In:  Maxiumm bytes that fit in buffer
+   int32_t lMaxBytes,										// In:  Maxiumm bytes that fit in buffer
 	int32_t* plActualBytes,									// Out: Actual number of bytes received into buffer
 	RSocket::Address* paddress)						// Out: Source address returned here
 	{

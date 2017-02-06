@@ -192,7 +192,7 @@ void RSample::Reset(void)
 		TRACE("Reset():  Attempt to Reset a locked RSample!\n");
 		}
 	}
-
+#ifdef UNUSED_FUNCTIONS
 ///////////////////////////////////////////////////////////////////////////////
 //
 // Read from file until we hit pcForm chunk, and then read size of chunk.
@@ -241,7 +241,7 @@ static int32_t IffReadUntil(char* pcForm, FILE* fsIn)
 
 	return lRes;
 	}
-
+#endif
 ///////////////////////////////////////////////////////////////////////////////
 //
 // Read WAVE info from fsIn.

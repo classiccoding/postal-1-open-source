@@ -52,7 +52,7 @@ namespace Net
 		1000000						// LAN100Mb
 		};
 
-	char* NETNAMESPACE BandwidthText[Net::NumBandwidths] =
+   const char* NETNAMESPACE BandwidthText[Net::NumBandwidths] =
 		{
 		"14.4 Modem",						// Analog14_4
 		"28.8 Modem",						// Analog28_8

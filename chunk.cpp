@@ -140,7 +140,8 @@ void CChunk::Update(void)
 
 		switch (m_type)
 			{
-			case Blood:
+        UNHANDLED_SWITCH;
+         case Blood:
 				{
 				RImage*	pim	= m_pRealm->m_phood->m_pimBackground;
 

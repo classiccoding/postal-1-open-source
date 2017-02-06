@@ -1655,6 +1655,7 @@ void RGuiItem::OnGainFocus(void)
 	// Does this item want the focus . . .
 	switch (m_targetFocus)
 		{
+     UNHANDLED_SWITCH;
 		case Self:
 			break;
 		case Parent:

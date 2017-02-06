@@ -366,7 +366,8 @@ extern int16_t rspStricmp(	// Returns 0 if equivalent.
 
 	while (*pszStr1 != '\0' && *pszStr2 != '\0' && sRes == 0)
 		{
-		sRes	= ms_asUpper2Lower[*pszStr1++] - ms_asUpper2Lower[*pszStr2++];
+      sRes	= ms_asUpper2Lower[*reinterpret_cast<const uint8_t*>(pszStr1++)]
+            - ms_asUpper2Lower[*reinterpret_cast<const uint8_t*>(pszStr2++)];
 		}
 
 	// If identical . . .
@@ -410,7 +411,8 @@ extern int16_t rspStrnicmp(	// Returns 0 if equivalent.
 
 	while (*pszStr1 != '\0' && *pszStr2 != '\0' && sRes == 0 && count--)
 		{
-		sRes	= ms_asUpper2Lower[*pszStr1++] - ms_asUpper2Lower[*pszStr2++];
+      sRes	= ms_asUpper2Lower[*reinterpret_cast<const uint8_t*>(pszStr1++)]
+            - ms_asUpper2Lower[*reinterpret_cast<const uint8_t*>(pszStr2++)];
 		}
 
 	// If identical . . .

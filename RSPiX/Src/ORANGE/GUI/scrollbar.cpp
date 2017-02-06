@@ -735,7 +735,8 @@ void RScrollBar::Do(	// Returns nothing.
 			{
 			switch (pie->type)
 				{
-				case RInputEvent::Key:
+           UNHANDLED_SWITCH;
+            case RInputEvent::Key:
 					{
 					int32_t*	plIncDec	= &m_lButtonIncDec;	// Amount to move thumb.
 					// If control held . . .

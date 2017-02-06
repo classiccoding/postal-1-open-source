@@ -213,16 +213,16 @@ class RSocket
 					= 0;
 
 				// Send data - only valid with connected sockets
-				virtual int16_t Send(										// Returns 0 if data was sent
+            virtual int16_t Send(										// Returns 0 if data was sent
 					void * pBuf,											// In:  Pointer to data buffer
-					int32_t lNumBytes,										// In:  Number of bytes to send
+               int32_t lNumBytes,										// In:  Number of bytes to send
 					int32_t *plActualBytes)									// Out: Acutal number of bytes sent
 					= 0;
 
 				// SendTo - send data to specified address - for unconnected sockets
 				virtual int16_t SendTo(									// Returns 0 if data was sent
 					void* pBuf,												// In:  Pointer to data buffer
-					int32_t lNumBytes,										// In:  Number of bytes to send
+               int32_t lNumBytes,										// In:  Number of bytes to send
 					int32_t* plActualBytes,									// Out: Actual number of bytes sent
 					Address* paddress)									// In:  Address to send to
 					= 0;
@@ -230,14 +230,14 @@ class RSocket
 				// Receive data - only valid for connected sockets
 				virtual int16_t Receive(									// Returns 0 if data was received
 					void* pBuf,												// In:  Pointer to data buffer
-					int32_t lMaxBytes,										// In:  Maximum number of bytes that fit in the buffer
+               int32_t lMaxBytes,										// In:  Maximum number of bytes that fit in the buffer
 					int32_t* plActualBytes)									// Out: Actual number of bytes received into buffer
 					= 0;
 
 				// RecieveFrom - receive data from given address
 				virtual int16_t ReceiveFrom(								// Returns 0 if data was received
 					void* pBuf,												// In:  Pointer to data buffer
-					int32_t lMaxBytes,										// In:  Maximum bytes that can fit in buffer
+               int32_t lMaxBytes,										// In:  Maximum bytes that can fit in buffer
 					int32_t* plActualBytes,									// Out:  Actual number of bytes received into buffer
 					Address* paddress)									// Out: Source address returned here
 					= 0;
@@ -383,7 +383,7 @@ class RSocket
 		////////////////////////////////////////////////////////////////////////////////
 		int16_t Send(													// Return 0 if successfull, non-zero otherwise
 			void* pBuf,												// In:  Pointer to data buffer
-			int32_t lNumBytes,										//	In:  Number of bytes to send
+         int32_t lNumBytes,										//	In:  Number of bytes to send
 			int32_t* plActualBytes);								// Out: Actual number of bytes sent
 
 
@@ -393,7 +393,7 @@ class RSocket
 		////////////////////////////////////////////////////////////////////////////////
 		int16_t SendTo(												// Return 0 if successfull, non-zero otherwise
 			void* pBuf,												// In:  Pointer to data buffer
-			int32_t lNumBytes,										//	In:  Number of bytes to send
+         int32_t lNumBytes,										//	In:  Number of bytes to send
 			int32_t* plActualBytes,									// Out: Actual number of bytes sent
 			Address* paddress);									// In:  Address to send to
 
@@ -419,7 +419,7 @@ class RSocket
 		////////////////////////////////////////////////////////////////////////////////
 		int16_t Receive(												// Returns 0 if successfull, non-zero otherwise
 			void* pBuf,												// In:  Pointer to data buffer
-			int32_t lMaxBytes,										// In:  Maximum bytes that can fit in buffer
+         int32_t lMaxBytes,										// In:  Maximum bytes that can fit in buffer
 			int32_t* plActualBytes);								// Out: Actual number of bytes received into buffer
 
 
@@ -428,7 +428,7 @@ class RSocket
 		////////////////////////////////////////////////////////////////////////////////
 		int16_t ReceiveFrom(										// Returns 0 if successfull, non-zero otherwise
 			void* pBuf,												// In:  Pointer to data buffer
-			int32_t lMaxBytes,										// In:  Maximum bytes that can fit in buffer
+         int32_t lMaxBytes,										// In:  Maximum bytes that can fit in buffer
 			int32_t* plActualBytes,									// Out: Actual number of bytes received into buffer
 			Address* paddress);									// Out: Source address returned here (unless this is NULL)
 
@@ -608,10 +608,11 @@ inline bool operator==(const RSocket::Address& lhs, const RSocket::Address& rhs)
 	{
 	switch (lhs.prototype)
 		{
-		case RSocket::TCPIP:
+      case RSocket::TCPIP:
 			return (*((const RProtocolBSDIP::AddressIP*)&lhs) == *((const RProtocolBSDIP::AddressIP*)&rhs));
 			break;
-		}
+         UNHANDLED_SWITCH;
+      }
 	TRACE("RSocket::Address::operator==(): Unknown protocol!\n");
 	return false;
 	}

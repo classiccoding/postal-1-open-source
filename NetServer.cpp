@@ -127,8 +127,6 @@ void CNetServer::Shutdown(void)
 ////////////////////////////////////////////////////////////////////////////////
 void CNetServer::Update(void)
 	{
-	int16_t sResult = 0;
-
 	//------------------------------------------------------------------------------
 	// Accept new clients
 	//------------------------------------------------------------------------------
@@ -921,7 +919,7 @@ void CNetServer::SetupGame(
 void CNetServer::StartGame(
 	Net::ID idServer,										// In:  Server's client's ID
 	int16_t sRealmNum,										// In:  Realm number
-	char* pszRealmFile,									// In:  Realm file name
+   const char* pszRealmFile,									// In:  Realm file name
 	int16_t sDifficulty,									// In:  Difficulty
 	int16_t sRejuvenate,									// In:  Rejuvenate flag
 	int16_t sTimeLimit,										// In:  Time limit in minutes, or negative if none

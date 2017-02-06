@@ -293,8 +293,10 @@ int16_t CHeatseeker::Save(										// Returns 0 if successfull, non-zero otherw
 ////////////////////////////////////////////////////////////////////////////////
 void CHeatseeker::Update(void)
 {
-	uint16_t usAttrib;
-	int16_t sHeight;
+#ifdef UNUSED_VARIABLES
+   uint16_t usAttrib;
+#endif
+   int16_t sHeight;
 	double dNewX;
 	double dNewZ;
 	double dPrevX;
@@ -354,8 +356,9 @@ void CHeatseeker::Update(void)
 
 				// Check for obstacles
 				sHeight = m_pRealm->GetHeight((int16_t) dNewX, (int16_t) dNewZ);
-				usAttrib = m_pRealm->GetFloorAttribute((int16_t) dNewX, (int16_t) dNewZ);
-
+#ifdef UNUSED_VARIABLES
+            usAttrib = m_pRealm->GetFloorAttribute((int16_t) dNewX, (int16_t) dNewZ);
+#endif
 				int16_t	sRealmH	= m_pRealm->GetRealmHeight();
 				int16_t	sRealmW	= m_pRealm->GetRealmWidth();
 

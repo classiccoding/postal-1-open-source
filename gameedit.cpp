@@ -1390,9 +1390,10 @@ static void DrawBouyLink(		// Returns nothing.
 // AddLine - add the newly drawn line to the set of lines.
 static void AddNewLine(int16_t sX0, int16_t sY0, int16_t sX1, int16_t sY1);
 
+#ifdef UNUSED_FUNCTIONS
 // Writes out a log of connected bouys.  This is for debugging only
 static void NetLog(CNavigationNet* pNavNet);
-
+#endif
 // UpdateNetLines - build the full list of link lines from the
 // navigation net.  This function can be used after the bouys have
 // been loaded for a realm before the first time the DrawNetwork is
@@ -1597,12 +1598,13 @@ static void InitFileCounter(			// Returns nothing.
 // Init().
 static void KillFileCounter(void);	// Returns nothing.
 
+#ifdef UNUSED_FUNCTIONS
 // Callback from realm during time intensive operations.
 static bool RealmOpProgress(			// Returns true to continue; false to
 												// abort operation.
 	int16_t	sLastItemProcessed,			// In:  Number of items processed so far.
 	int16_t	sTotalItemsToProcess);		// In:  Total items to process.
-
+#endif
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Set some basic stuff for specified item.
@@ -5789,7 +5791,7 @@ static void AddNewLine(int16_t sX0, int16_t sY0, int16_t sX1, int16_t sY1)
 ////////////////////////////////////////////////////////////////////////////////
 // Write a NavNet log file to display the connections.- for debugging purposes
 ////////////////////////////////////////////////////////////////////////////////
-
+#ifdef UNUSED_FUNCTIONS
 static void NetLog(CNavigationNet* pNavNet)
 {
   UNUSED(pNavNet);
@@ -5851,7 +5853,7 @@ static void NetLog(CNavigationNet* pNavNet)
 	}
 */
 }
-
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // UpdateNetLines
@@ -7547,6 +7549,7 @@ static int16_t TmpFileName(								// Returns 0 if successfull, non-zero otherwi
 	int16_t sResult = 0;
 
 	#if defined(WIN32)
+   UNUSED(sMaxSize);
 
 		char	szPath[RSP_MAX_PATH];
 		uint32_t	ulLen	= GetTempPath(sizeof(szPath), szPath);
@@ -7568,6 +7571,7 @@ static int16_t TmpFileName(								// Returns 0 if successfull, non-zero otherwi
 			}
 
 	#else
+   UNUSED(pszFileName, sMaxSize);
 
 		// Impliment for some other system!
 		ASSERT(0);
@@ -7712,7 +7716,7 @@ static int16_t ShowRealmStatistics(	// Returns 0 on success.
 
 	return sRes;
 	}
-
+#ifdef UNUSED_FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
 // Callback from realm during time intensive operations.
 ////////////////////////////////////////////////////////////////////////////////
@@ -7825,7 +7829,7 @@ static bool RealmOpProgress(			// Returns true to continue; false to
 
 	return bContinue;
 	}
-
+#endif
 
 #endif // !defined(EDITOR_DISABLED)
 

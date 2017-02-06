@@ -150,7 +150,7 @@ const char*	CItem3d::ms_apszKnownAnimDescriptions[CItem3d::NumTypes]	=
 	"Horn",
 	"Sax",
 	};
-
+#ifdef UNUSED_VARIABLES
 static const char* ms_apszResExtensions[NUM_RES_NAMES]	=
 	{
 	"sop",
@@ -160,6 +160,7 @@ static const char* ms_apszResExtensions[NUM_RES_NAMES]	=
 	"bounds",
 	"floor",
 	};
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // Load object (should call base class version!)
@@ -654,6 +655,7 @@ void CItem3d::FreeResources(void)
 void CItem3d::OnShotMsg(			// Returns nothing.
 	Shot_Message* pshotmsg)		// In:  Message to handle.
 	{
+  UNUSED(pshotmsg);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -679,6 +681,7 @@ void CItem3d::OnExplosionMsg(					// Returns nothing.
 void CItem3d::OnBurnMsg(			// Returns nothing.
 	Burn_Message* pburnmsg)		// In:  Message to handle.
 	{
+  UNUSED(pburnmsg);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////

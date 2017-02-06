@@ -1909,7 +1909,8 @@ void CDude::Update(void)
 					// Move to running.
 					switch (m_state)
 						{
-						case State_Stand:
+                 UNHANDLED_SWITCH;
+                  case State_Stand:
 						case State_Strafe:
 							SetState(State_Run);
 							break;
@@ -1917,7 +1918,7 @@ void CDude::Update(void)
 						case State_Shooting:
 							SetState(State_RunAndShoot);
 							break;
-						}
+                  }
 					}
 				else
 					{
@@ -1926,7 +1927,8 @@ void CDude::Update(void)
 						{
 						switch (m_state)
 							{
-							case State_Stand:
+                    UNHANDLED_SWITCH;
+                     case State_Stand:
 								SetState(State_Strafe);
 								break;
 							case State_Shooting:
@@ -1941,7 +1943,8 @@ void CDude::Update(void)
 						{
 						switch (m_state)
 							{
-							case State_Stand:
+                    UNHANDLED_SWITCH;
+                     case State_Stand:
 							case State_Shooting:
 								break;
 							case State_Strafe:
@@ -1973,7 +1976,8 @@ void CDude::Update(void)
 						// Move to standing.
 						switch (m_state)
 							{
-							case State_Run:
+                    UNHANDLED_SWITCH;
+                     case State_Run:
 								SetState(State_Stand);
 								break;
 							case State_RunAndShoot:
@@ -1988,7 +1992,8 @@ void CDude::Update(void)
 						// Move to standing.
 						switch (m_state)
 							{
-							case State_Run:
+                    UNHANDLED_SWITCH;
+                     case State_Run:
 								SetState(State_Strafe);
 								break;
 							case State_RunAndShoot:
@@ -2033,7 +2038,8 @@ void CDude::Update(void)
 		// Switch on state.
 		switch (m_state)
 			{
-			case State_Stand:
+        UNHANDLED_SWITCH;
+         case State_Stand:
 				{
 #if 1	// No idle anim currently.
 				// If we've been idle for a while . . .
@@ -2601,7 +2607,8 @@ void CDude::ProcessInput(		// Returns nothing.
 
 	switch (m_state)
 		{
-		case State_Dead:
+     UNHANDLED_SWITCH;
+      case State_Dead:
 			// Let's take jump as 'revive' . . .
 			if (input & INPUT_REVIVE)
 				{
@@ -3176,6 +3183,7 @@ if (!demoCompat)
 			case State_StrafeAndShoot:
 				SetState(State_Strafe);
 				break;
+         UNHANDLED_SWITCH;
 			}
 		}
 #ifdef MOBILE
@@ -3854,7 +3862,8 @@ bool CDude::SetState(	// Returns true if new state realized, false otherwise.
 	// See if the state can be realized.
 	switch (m_state)
 		{
-		case State_Idle:
+     UNHANDLED_SWITCH;
+      case State_Idle:
 			// Any new state is okay.
 			break;
 		case State_Stand:
@@ -3931,7 +3940,8 @@ bool CDude::SetState(	// Returns true if new state realized, false otherwise.
 		case State_Shooting:
 			switch (state)
 				{
-				case State_Duck:
+           UNHANDLED_SWITCH;
+            case State_Duck:
 					bRealizeNewState	= false;
 					break;
 				}
@@ -4050,7 +4060,8 @@ bool CDude::SetState(	// Returns true if new state realized, false otherwise.
 		// Clean up old state.
 		switch (stateOld)
 			{
-			case State_Idle:	// No cleaning necessary.
+        UNHANDLED_SWITCH;
+         case State_Idle:	// No cleaning necessary.
 			case State_Stand:
 			case State_Die:
 			case State_Run:
@@ -4161,7 +4172,8 @@ bool CDude::SetState(	// Returns true if new state realized, false otherwise.
 		m_state	= state;
 		switch (state)
 			{
-			case State_Idle:
+        UNHANDLED_SWITCH;
+         case State_Idle:
 				m_panimCur	= NULL;
 				// Make sure we're not in the render list.
 				m_pRealm->m_scene.RemoveSprite(&m_sprite);
@@ -4554,6 +4566,7 @@ void CDude::ArmWeapon(							// Returns nothing.
 		uint32_t weaponFlag = 0;
 		switch (weapon)
 			{
+        UNHANDLED_SWITCH;
 			case Grenade: weaponFlag = FLAG_USED_GRENADE; break;
 			case FireBomb: weaponFlag = FLAG_USED_MOLOTOV; break;
 			case Rocket: weaponFlag = FLAG_USED_ROCKET; break;
@@ -4574,7 +4587,8 @@ void CDude::ArmWeapon(							// Returns nothing.
 		State	stateShoot	= State_Throw;
 		switch (weapon)
 			{
-			case FlameThrower:
+        UNHANDLED_SWITCH;
+         case FlameThrower:
 			case SemiAutomatic:
 			case SprayCannon:
 				if ((m_dVel >= MIN_RUN_VEL || m_dVel <= -MIN_RUN_VEL || m_dAcc != 0.0))

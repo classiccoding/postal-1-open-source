@@ -420,6 +420,7 @@ void COstrich::Update(void)
 		// Check the current state
 		switch (m_state)
 		{
+        UNHANDLED_SWITCH;
 
 //-----------------------------------------------------------------------
 // Stand or Hide - Either one waits in the current position for the
@@ -892,6 +893,7 @@ void COstrich::OnBurnMsg(Burn_Message* pMessage)
 
 void COstrich::OnPanicMsg(Panic_Message* pMessage)
 {
+  UNUSED(pMessage);
 	if (m_state != State_Die &&
 	    m_state != State_Dead &&
 		 m_state != State_BlownUp &&

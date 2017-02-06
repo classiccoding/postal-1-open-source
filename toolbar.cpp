@@ -600,6 +600,7 @@ public:
 
 		switch (CurWeapon)
 			{
+        UNHANDLED_SWITCH;
 			case CDude::SemiAutomatic:
 				ms_aWeapons[MachineGun].m_bSelected = true;
 				ms_aAmmo[Bullets].m_bSelected = true;

@@ -954,7 +954,7 @@ extern const char g_pszPlayOneRealmOnlyMessage[]	=
 
 #if ENGLISH_LOCALE
 
-   extern const char* g_apszSoundCategories[]	=
+   const char* g_apszSoundCategories[]	=
 		{
 		"GENERAL",		
 		"SOUNDTRACK",			
@@ -970,7 +970,7 @@ extern const char g_pszPlayOneRealmOnlyMessage[]	=
 
 #elif LOCALE == GERMAN
 
-   extern const char* g_apszSoundCategories[]	=
+   const char* g_apszSoundCategories[]	=
 		{
 		"ALLGEMEIN",
 		"SOUNDTRACK",
@@ -986,7 +986,7 @@ extern const char g_pszPlayOneRealmOnlyMessage[]	=
 
 #elif LOCALE == FRENCH
 
-   extern const char* g_apszSoundCategories[]	=
+   const char* g_apszSoundCategories[]	=
 		{
 		"GENERAL",
 		"PISTE MUSICALE",
@@ -1008,7 +1008,7 @@ extern const char g_pszPlayOneRealmOnlyMessage[]	=
 
 #if ENGLISH_LOCALE // ScoreDisplayText
 
-extern const char* g_apszScoreDisplayText[CRealm::TotalScoringModes] =
+const char* g_apszScoreDisplayText[CRealm::TotalScoringModes] =
 	{
 	"      Population %d                        Hostiles %d   Killed %d (%d%% / %d%%)",	// Standard
 	" Time Remaining %d:%2.2d                                Kills %d",				// Timed
@@ -1029,7 +1029,7 @@ extern const char* g_apszScoreDisplayText[CRealm::TotalScoringModes] =
 	};
 
 #elif LOCALE == GERMAN
-extern const char* g_apszScoreDisplayText[CRealm::TotalScoringModes] =
+const char* g_apszScoreDisplayText[CRealm::TotalScoringModes] =
 	{
 	"      Leute %d                        Feinden %d   Totungen %d (%d%%)",	// Standard
 	" Verbleibende Zeit %d:%2.2d                                Totungen %d",				// Timed
@@ -1050,7 +1050,7 @@ extern const char* g_apszScoreDisplayText[CRealm::TotalScoringModes] =
 	};
 
 #elif LOCALE == FRENCH
-extern const char* g_apszScoreDisplayText[CRealm::TotalScoringModes] =
+const char* g_apszScoreDisplayText[CRealm::TotalScoringModes] =
 	{
 	"      Personnes %d                        Ennemis %d   Victimes %d (%d%%)",	// Standard
 	" Temps restant %d:%2.2d                                Victimes %d",				// Timed
@@ -1072,7 +1072,7 @@ extern const char* g_apszScoreDisplayText[CRealm::TotalScoringModes] =
 #endif // ScoreDisplayText
 
 #if ENGLISH_LOCALE // ScoreGoalText
-extern const char* g_apszScoreGoalText[CRealm::TotalScoringModes] =
+const char* g_apszScoreGoalText[CRealm::TotalScoringModes] =
 	{
 	"      You must kill %d%% of the hostiles.",												// Standard
 	" Score as many kills as possible in the time remaining.",							// Timed
@@ -1094,7 +1094,7 @@ extern const char* g_apszScoreGoalText[CRealm::TotalScoringModes] =
 	};
 
 #elif LOCALE == GERMAN
-extern const char* g_apszScoreGoalText[CRealm::TotalScoringModes] =
+const char* g_apszScoreGoalText[CRealm::TotalScoringModes] =
 	{
 	"      Sie mussen %d%% Feinde toten.",												// Standard
 	" Erzielen Sie in der verbleibenden Zeit su viele Totungen wie moglich.",							// Timed
@@ -1116,7 +1116,7 @@ extern const char* g_apszScoreGoalText[CRealm::TotalScoringModes] =
 	};
 
 #elif LOCALE == FRENCH
-extern const char* g_apszScoreGoalText[CRealm::TotalScoringModes] =
+const char* g_apszScoreGoalText[CRealm::TotalScoringModes] =
 	{
 	"      Vous devez tuer %d%% ennemis.",												// Standard
 	" Faites autant de victimes que possible dans le delai restant.",							// Timed
@@ -1140,7 +1140,7 @@ extern const char* g_apszScoreGoalText[CRealm::TotalScoringModes] =
 
 #if ENGLISH_LOCALE // ScoreUnits
 // Units for the various scoring types.
-extern const char* g_apszScoreUnits[]	=
+const char* g_apszScoreUnits[]	=
 		{
 		"",				// Standard.
 		"Kills",			// Timed.
@@ -1161,7 +1161,7 @@ extern const char* g_apszScoreUnits[]	=
 		};
 
 #elif LOCALE == GERMAN
-extern const char* g_apszScoreUnits[]	=
+const char* g_apszScoreUnits[]	=
 		{
 		"",				// Standard.
 		"Totungen",			// Timed.
@@ -1182,7 +1182,7 @@ extern const char* g_apszScoreUnits[]	=
 		};
 
 #elif LOCALE == FRENCH
-extern const char* g_apszScoreUnits[]	=
+const char* g_apszScoreUnits[]	=
 		{
 		"",				// Standard.
 		"tues",			// Timed.
@@ -1205,7 +1205,7 @@ extern const char* g_apszScoreUnits[]	=
 
 #if ENGLISH_LOCALE // ScoreExplanations
 // Explanations for the various scoring types.
-extern const char* g_apszScoreExplanations[]	=
+const char* g_apszScoreExplanations[]	=
 		{
 		"",												// Standard.
 		"Most kills in %s",							// Timed.
@@ -1226,7 +1226,7 @@ extern const char* g_apszScoreExplanations[]	=
 		};
 
 #elif LOCALE == GERMAN
-extern const char* g_apszScoreExplanations[]	=
+const char* g_apszScoreExplanations[]	=
 		{
 		"",												// Standard.
 		"Die meisten Totungen in %s",							// Timed.
@@ -1247,7 +1247,7 @@ extern const char* g_apszScoreExplanations[]	=
 		};
 
 #elif LOCALE == FRENCH
-extern const char* g_apszScoreExplanations[]	=
+const char* g_apszScoreExplanations[]	=
 		{
 		"",												// Standard.
 		"Maximum de victimes en %s",							// Timed.

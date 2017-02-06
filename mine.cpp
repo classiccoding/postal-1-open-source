@@ -875,6 +875,7 @@ int16_t CMine::Preload(
 
 void CMine::OnExplosionMsg(Explosion_Message* pMessage)
 {
+  UNUSED(pMessage);
 	// If we got blown up, go off in whatever manner this type
 	// of mine would normally go off.
 	switch (m_id)
@@ -908,6 +909,7 @@ void CMine::OnExplosionMsg(Explosion_Message* pMessage)
 
 void CMine::OnTriggerMsg(Trigger_Message* pMessage)
 {
+  UNUSED(pMessage);
 	// If we are a remote control mine & we got the trigger message,
 	// then blow up.
 	if (m_id == CRemoteControlMineID)
@@ -920,6 +922,7 @@ void CMine::OnTriggerMsg(Trigger_Message* pMessage)
 void CMine::OnDeleteMsg(					// Returns nothing.
 	ObjectDelete_Message* pdeletemsg)	// In:  Message to handle.
 	{
+  UNUSED(pdeletemsg);
 	// Go to deleted state.  Update() will delete us.
 	m_eState	= State_Deleted;
 	}

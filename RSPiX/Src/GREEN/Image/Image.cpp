@@ -1683,7 +1683,8 @@ int16_t RImage::LoadDib(RFile* pcf)
 		// The following formats are to be converted automagically.
 		switch (m_type)
 			{
-			case BMP8RLE:
+        UNHANDLED_SWITCH;
+         case BMP8RLE:
 				// Convert to BMP8.
 				if (Convert(BMP8) != BMP8)
 					{
@@ -1691,7 +1692,7 @@ int16_t RImage::LoadDib(RFile* pcf)
 					sRes = 2;
 					}
 				break;
-			}
+         }
 	}
 	else
 	{

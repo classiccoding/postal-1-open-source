@@ -484,7 +484,7 @@ int16_t	SetInstanceVolume(
 	SampleMaster::SoundInstance si,				// make sure it is YOUR sound
 	int16_t sVolume /* = 255 */)	// 0 - 255
 	{
-	if ( (si < 0) || (sVolume < 0) || (sVolume > 255) )
+   if (sVolume < 0 || sVolume > 255)
 		{
 		return FAILURE;
 		}
@@ -610,7 +610,9 @@ void PlaySample(												// Returns nothing.
 	bool bPurgeSample /* = false */)						// In:  Call ReleaseAndPurge rather than Release after playing
 	{
 	int16_t	sError	= 0;					// Assume no error.
+#ifdef UNUSED_VARIABLES
 	RSnd*		psnd	= &ms_sndFailure;	// Default to failure case.
+#endif
 	if (psi) *psi = 0;					// Default to failure case.
 
 	if (id.pszId != NULL && CAN_PLAY_SAMPLE(id) )
@@ -651,8 +653,10 @@ void PlaySample(												// Returns nothing.
 				if (ms_asndChannels[i].Play(psample, PLAY_BUF_SIZE, ms_asndChannels[i].m_sChannelVolume,
 					ms_asndChannels[i].m_sTypeVolume, lLoopStartTime, lLoopEndTime) == 0)
 					{
-					// Success.  Give user access to this channel.
-					psnd	= &(ms_asndChannels[i]);
+#ifdef UNUSED_VARIABLES
+               // Success.  Give user access to this channel.
+               psnd	= &(ms_asndChannels[i]);
+#endif
 					// Set return ID so user can tweak the volume:
 					ms_aSoundInstances[i] += NUM_CHANNELS;	// It is a new sound now!
 					// Reserve the lower mask bits for the channel number
@@ -902,6 +906,7 @@ void PurgeSamples(void)	// Returns nothing.
 void PurgeSample(			// Returns nothing.
 	SampleMasterID	id)	// Identifier of sample you want played.
 	{
+  UNUSED(id);
 	TRACE("PurgeSample(): NYI.\n");
 	}
 
