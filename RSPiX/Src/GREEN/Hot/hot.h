@@ -129,7 +129,7 @@ class RHot
 			int16_t sY,									// Y position of new hotbox.
 			int16_t sW,									// Width of new hotbox.
 			int16_t sH,									// Height of new hotbox.
-			REventCall fnEventCall = NULL,		// Callback on mouse event.
+			REventCall fnEventCall = nullptr,		// Callback on mouse event.
 			int16_t	sActive	= FALSE,					// Initially active, if TRUE.
          uintptr_t	ulUser	= 0,						// User value.
 			int16_t sPriority = RHOT_NO_PRIORITY);// Priority.  Default == non-prioritized.
@@ -181,7 +181,7 @@ class RHot
 		// This has the effect of having the hotbox scanned relative to the
 		// parent and only within the area of the parent.
 		void SetParent(			// Returns nothing.
-			RHot* photParent);	// Hotbox to be parent of this hotbox or NULL
+			RHot* photParent);	// Hotbox to be parent of this hotbox or nullptr
 										// for none.
 
 		// Activates/Deactivates capturing for this hotbox.
@@ -282,7 +282,7 @@ class RHot
 										// RHOT_NO_PRIORITY(default) indicates non-prioritized.
 										// See CPP comment header in regards to specifics
 										// of this value.
-		RHot*		m_photParent;	// Pointer to parent RHot or NULL, if none.
+		RHot*		m_photParent;	// Pointer to parent RHot or nullptr, if none.
 
 	
 	public:	// To be modified by the User.

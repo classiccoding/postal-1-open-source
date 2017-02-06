@@ -81,7 +81,7 @@ class RBtn : public RGuiItem
 		// Compose item.
 		virtual					// If you override this, call this base if possible.
 		void Compose(			// Returns nothing.
-			RImage* pim = NULL);	// Dest image, uses m_im if NULL.
+			RImage* pim = nullptr);	// Dest image, uses m_im if nullptr.
 
 		// Cursor event notification.
 		// Events in event area.

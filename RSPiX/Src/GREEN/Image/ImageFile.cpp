@@ -112,12 +112,12 @@ int16_t RImageFile::LoadVersion1(	// Returns SUCCESS on success or FAILURE on
 	RImage*	/*pim*/,					// Image to load into.
 	RFile*	/*pfile*/)				// File to load from.
 	{
-	int16_t	sRes	= SUCCESS;	// Assume success.
+	int16_t	sResult	= SUCCESS;	// Assume success.
 
 	TRACE("LoadVersion1(): No current support for version 1 RImage.\n");
-	sRes	= FAILURE;
+	sResult	= FAILURE;
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -130,7 +130,7 @@ int16_t RImageFile::LoadVersion2(	// Returns SUCCESS on success or FAILURE on
 	RImage*	pim,						// Image to load into.
 	RFile*	pfile)					// File to load from.
 	{
-	int16_t	sRes	= SUCCESS;	// Assume success.
+	int16_t	sResult	= SUCCESS;	// Assume success.
 
 	// No RFile support for RImage::Type, so we used a uint32_t.
 	uint32_t	u32Temp				= 0;
@@ -183,32 +183,32 @@ int16_t RImageFile::LoadVersion2(	// Returns SUCCESS on success or FAILURE on
 							{
 							TRACE("RImageFile::LoadVersion2 - Error loading palette\n");
 							pim->DestroyPalette();
-							sRes = FAILURE;
+							sResult = FAILURE;
 							}
 						}
 					}
 				else
 					{
 					TRACE("RImageFile::LoadVersion2 - Error checking for palette\n");
-					sRes = FAILURE;
+					sResult = FAILURE;
 					}
 				}
 			else
 				{
 				TRACE("RImageFile::LoadVersion2 - Error reading pixel data\n");
 				pim->DestroyData();
-				sRes = FAILURE;
+				sResult = FAILURE;
 				}
 			}
 		else
 			{
 			TRACE("RImageFile::LoadVersion2 - Error: Cannot create memory for "
 				"pixel data\n");
-			sRes = FAILURE;
+			sResult = FAILURE;
 			}
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -221,12 +221,12 @@ int16_t RImageFile::LoadVersion3(	// Returns SUCCESS on success or FAILURE on
 	RImage*	/*pim*/,					// Image to load into.
 	RFile*	/*pfile*/)				// File to load from.
 	{
-	int16_t	sRes	= SUCCESS;	// Assume success.
+	int16_t	sResult	= SUCCESS;	// Assume success.
 
 	TRACE("LoadVersion3(): No current support for version 3 RImage.\n");
-	sRes	= FAILURE;
+	sResult	= FAILURE;
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -238,12 +238,12 @@ int16_t RImageFile::LoadVersion4(	// Returns SUCCESS on success or FAILURE on fa
 	RImage*	/*pim*/,					// Image to load into.
 	RFile*	/*pfile*/)				// File to load from.
 	{
-	int16_t	sRes	= SUCCESS;	// Assume success.
+	int16_t	sResult	= SUCCESS;	// Assume success.
 
 	TRACE("LoadVersion4(): No current support for version 4 RImage.\n");
-	sRes	= FAILURE;
+	sResult	= FAILURE;
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -256,7 +256,7 @@ int16_t RImageFile::LoadVersion5(	// Returns SUCCESS on success or FAILURE on
 	RImage*	pim,						// Image to load into.
 	RFile*	pfile)					// File to load from.
 	{
-	int16_t	sRes	= SUCCESS;	// Assume success.
+	int16_t	sResult	= SUCCESS;	// Assume success.
 
 	// No RFile support for RImage::Type, so we used a uint32_t.
 	uint32_t	u32Temp				= 0;
@@ -338,7 +338,7 @@ int16_t RImageFile::LoadVersion5(	// Returns SUCCESS on success or FAILURE on
 				{
 				TRACE("RImageFile::LoadVersion5 - Error: Cannot allocate memory "
 					"for pixel data\n");
-				sRes = FAILURE;
+				sResult = FAILURE;
 				}
 			}
 		}
@@ -356,12 +356,12 @@ int16_t RImageFile::LoadVersion5(	// Returns SUCCESS on success or FAILURE on
 				{
 				TRACE("RImageFile::LoadVersion5 - Error loading palette\n");
 				pim->DestroyPalette();
-				sRes = FAILURE;
+				sResult = FAILURE;
 				}
 			}
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -377,7 +377,7 @@ int16_t RImageFile::Load(			// Returns SUCCESS on success or FAILURE on failure.
 	RImage*	pim,					// Image to load into.
 	RFile*	pfile)				// File to load from.
 	{
-	int16_t	sRes	= SUCCESS;	// Assume success.
+	int16_t	sResult	= SUCCESS;	// Assume success.
 
 	// Get finger print . . .
 	uint32_t	ulFinger;
@@ -392,31 +392,31 @@ int16_t RImageFile::Load(			// Returns SUCCESS on success or FAILURE on failure.
 					{
 					#if defined(IMAGE_LOAD_1) || defined(IMAGE_LOAD_ALL)
 						case 1:
-							sRes	= LoadVersion1(pim, pfile);
+							sResult	= LoadVersion1(pim, pfile);
 							break;
 					#endif	// IMAGE_LOAD_1
 
 					#if defined(IMAGE_LOAD_2) || defined(IMAGE_LOAD_ALL)
 						case 2:
-							sRes	= LoadVersion2(pim, pfile);
+							sResult	= LoadVersion2(pim, pfile);
 							break;
 					#endif	// IMAGE_LOAD_2
 
 					#if defined(IMAGE_LOAD_3) || defined(IMAGE_LOAD_ALL)
 						case 3:
-							sRes	= LoadVersion3(pim, pfile);
+							sResult	= LoadVersion3(pim, pfile);
 							break;
 					#endif	// IMAGE_LOAD_3
 
 					#if defined(IMAGE_LOAD_4) || defined(IMAGE_LOAD_ALL)
 						case 4:
-							sRes	= LoadVersion4(pim, pfile);
+							sResult	= LoadVersion4(pim, pfile);
 							break;
 					#endif	// IMAGE_LOAD_4
 
 //					#if defined(IMAGE_LOAD_5) || defined(IMAGE_LOAD_ALL)
 						case 5:
-							sRes	= LoadVersion5(pim, pfile);
+							sResult	= LoadVersion5(pim, pfile);
 							break;
 //					#endif	// IMAGE_LOAD_5
 
@@ -426,23 +426,23 @@ int16_t RImageFile::Load(			// Returns SUCCESS on success or FAILURE on failure.
 						TRACE("RImage::Load - This file's version %lu\n", ulVersion);
 						TRACE("RImage::Load - See ImageFile.cpp for details on "
 							"supporting older RImage formats.\n");
-						sRes = FAILURE;
+						sResult = FAILURE;
 						break;
 					}
 
 				// If no errors . . .
-				if (sRes == SUCCESS && !pfile->Error())
+				if (sResult == SUCCESS && !pfile->Error())
 					{
 					// Call the special load function for this type if any
 					LOADFUNC clf = GETLOADFUNC(pim->m_type);
-					if (clf != NULL)
-						sRes = (*clf)(pim, pfile/*, ulVersion*/);
+					if (clf != nullptr)
+						sResult = (*clf)(pim, pfile/*, ulVersion*/);
 					}
 				}
 			else
 				{
 				TRACE("RImage::Load - Error reading file version\n");
-				sRes = FAILURE;
+				sResult = FAILURE;
 				}
 			}
 		else
@@ -456,23 +456,23 @@ int16_t RImageFile::Load(			// Returns SUCCESS on success or FAILURE on failure.
 				pfile->Seek( - (int32_t)sizeof(ulFinger), SEEK_CUR);
 				
 				// Invoke LoadDib() . . .
-				sRes	= pim->LoadDib(pfile);
+				sResult	= pim->LoadDib(pfile);
 				}
 			else
 				{
 				TRACE("RImage::Load - Error: Wrong filetype, Image files should start with 'IM  ' and "
 					"DIB files should start with 'BM'.\n");
-				sRes	= FAILURE;
+				sResult	= FAILURE;
 				}
 			}
 		}
 	else
 		{
 		TRACE("ImageLoad(): Error reading RImage format finger print.\n");
-		sRes	= FAILURE;
+		sResult	= FAILURE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ///////////////////////////////////////////////////////////////////////////////

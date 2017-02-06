@@ -58,7 +58,7 @@ public:
 	//-------------------------------------
 	RPipeLine();
 	~RPipeLine();
-	int16_t Create(int32_t lScratchSpace=0,int16_t sZBufWidth=0);
+   int16_t Create(size_t lScratchSpace=0,int16_t sZBufWidth=0);
 	int16_t CreateShadow(int16_t sAngleY,double dTanDeclension,int16_t sBufSize = -1);
 	void Destroy(); // will NOT kill transform scratch space
 	void Init();
@@ -66,7 +66,7 @@ public:
 	int16_t NotCulled(RP3d *p1,RP3d *p2,RP3d *p3);
 	void Transform(RSop* pPts,RTransform& tObj);
 	void TransformShadow(RSop* pPts,RTransform& tObj,
-		int16_t sHeight = 0,int16_t *psOffX = NULL,int16_t *psOffY = NULL);
+		int16_t sHeight = 0,int16_t *psOffX = nullptr,int16_t *psOffY = nullptr);
 
 	// Do NOT use a z-buffer.  Return offset to current position to
 	// draw the image m_pimShadowBuf
@@ -156,9 +156,9 @@ public:
 	// static storage:
 
 	// Transformation buffer:
-	static int32_t ms_lNumPts;
+   static uint32_t ms_lNumPts;
 	static RP3d* ms_pPts;
-	static int32_t	ms_lNumPipes; // used to free ms_pPts
+   static uint32_t	ms_lNumPipes; // used to free ms_pPts
 	};
 
 //================================================== 

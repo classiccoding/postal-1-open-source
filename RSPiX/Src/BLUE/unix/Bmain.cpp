@@ -47,8 +47,8 @@
 #include <SDL2/SDL.h>
 #include "BLUE/Blue.h"
 
-SDL_Window *sdlWindow = NULL;
-SDL_Surface *sdlShadowSurface = NULL;
+SDL_Window *sdlWindow = nullptr;
+SDL_Surface *sdlShadowSurface = nullptr;
 
 bool mouse_grabbed = false;
 static int16_t ms_sQuit = 0;
@@ -68,10 +68,10 @@ extern void Joy_Init(void);
 
 int16_t rspInitBlue(void)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+   int16_t	sResult	= 0;	// Assume success.
 
 #ifdef BETAEXPIRE
-    if ( time(NULL) > (BETAEXPIRE + 30 * 24 * 60 * 60) )
+    if ( time(nullptr) > (BETAEXPIRE + 30 * 24 * 60 * 60) )
     {
         fprintf(stderr, "This beta has expired.\n\n");
         fflush(stderr);
@@ -82,14 +82,14 @@ int16_t rspInitBlue(void)
 	if (SDL_Init(SDL_INIT_VIDEO) == -1)
 	{
 		TRACE("SDL_Init() failed: %s.\n", SDL_GetError());
-		sRes = -1;
+      sResult = -1;
 	}
 
 	Disp_Init();
     Key_Init();
     Joy_Init();
 
-	return sRes;
+   return sResult;
 	}
 		
 
@@ -228,30 +228,30 @@ extern void rspPlatformInit(void)
     //  (FIXME: There _are_ Carbon APIs to determine this via process info...)
     const char *argv0 = _argv[0];
     char buf[MAXPATHLEN];
-    if ((argv0 != NULL) && (strchr(argv0, '/') != NULL)) // no path specifed?
+    if ((argv0 != nullptr) && (strchr(argv0, '/') != nullptr)) // no path specifed?
         strncpy(buf, argv0, sizeof (buf));
     else
     {
         // From the Finder, current working directory is "/", which sucks.
-        if ((getcwd(buf, sizeof (buf)) == NULL) || (strcmp(buf, "/") == 0))
+        if ((getcwd(buf, sizeof (buf)) == nullptr) || (strcmp(buf, "/") == 0))
             return;  // hail mary...probably fail elsewhere.
     }
 
     buf[sizeof (buf) - 1] = '\0';  // null terminate, just in case.
 
     char realbuf[MAXPATHLEN];
-    if (realpath(buf, realbuf) == NULL)
+    if (realpath(buf, realbuf) == nullptr)
         return;
 
     char *ptr = strstr(realbuf, "/Contents/MacOS/");
-    if (ptr != NULL)
+    if (ptr != nullptr)
         *ptr = '\0';  // chop off bundle bin dirs...
     else
     {
         // not an application bundle, but might be a symlink to elsewhere,
         //  so chdir to there, just in case.
         ptr = strrchr(realbuf, '/');  // chop off binary name.
-        if (ptr != NULL)
+        if (ptr != nullptr)
             *ptr = '\0';
     }
 

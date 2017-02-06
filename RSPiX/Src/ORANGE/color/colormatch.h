@@ -138,14 +138,14 @@ public:
 	// Find optimum # of alpha level for your cache
 	static int16_t QueryFastMultiAlpha(
 		int16_t sNumSrcCol, int16_t sNumDstCol,int32_t lTotMem, 
-		int32_t* plHeaderSize = NULL,int32_t* plDataSize = NULL);
+		int32_t* plHeaderSize = nullptr,int32_t* plDataSize = nullptr);
 
 	// Create a FastMultiAlpha which MUST be freed BY the USER
 	// USING the DeleteFastMultiAlpha command ising THIS MALPHA:
 	uint8_t*** pppucCreateFastMultiAlpha(
 		int16_t sStartSrc,int16_t sNumSrc,	// color indices
 		int16_t sStartDst,int16_t sNumDst,
-		int32_t*	plAlignedSize = NULL);
+		int32_t*	plAlignedSize = nullptr);
 
 	// USER MUST call this to free the fast multi alpha
 	static int16_t DeleteFastMultiAlpha(uint8_t ****pfmaDel);

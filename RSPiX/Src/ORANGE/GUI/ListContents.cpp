@@ -88,14 +88,14 @@
 int16_t RListContents::SaveChildren(	// Returns 0 on success.
 	RFile*	pfile)						// File to save to.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	ASSERT(pfile->IsOpen() != FALSE);
 
 	// Determine number of child items.
 	int16_t	sNum	= 0;
 	RGuiItem*	pgui = m_listguiChildren.GetHead();
-	while (pgui != NULL)
+	while (pgui != nullptr)
 		{
 		sNum++;
 
@@ -107,19 +107,19 @@ int16_t RListContents::SaveChildren(	// Returns 0 on success.
 
 	// Save children in reverse order.
 	pgui	= m_listguiChildren.GetTail();
-	while (pgui != NULL && sRes == 0 && pfile->Error() == FALSE)
+	while (pgui != nullptr && sResult == SUCCESS && pfile->Error() == FALSE)
 		{
 		// Before each item is a value indicating whether the item
 		// is an encapsulator.
 		pfile->Write((int16_t)pgui->IsProp(ENCAPSULATOR_PROP_KEY) );
 
 		// Save child.
-		sRes	= pgui->Save(pfile);
+		sResult	= pgui->Save(pfile);
 
 		pgui	= m_listguiChildren.GetPrev();
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -131,11 +131,11 @@ int16_t RListContents::SaveChildren(	// Returns 0 on success.
 int16_t RListContents::LoadChildren(	// Returns 0 on success.
 	RFile*	pfile)						// File to load from.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	ASSERT(pfile->IsOpen() != FALSE);
 	// Need to know parent.
-	ASSERT(GetParent() != NULL);
+	ASSERT(GetParent() != nullptr);
 
 	int16_t	sNum;
 	// Read number of children.
@@ -146,7 +146,7 @@ int16_t RListContents::LoadChildren(	// Returns 0 on success.
 	int16_t	sCurChild;
 	int16_t	sEncapsulator;
 	for (	sCurChild	= 0; 
-			sCurChild < sNum && sRes == 0 && pfile->Error() == FALSE; 
+			sCurChild < sNum && sResult == SUCCESS && pfile->Error() == FALSE; 
 			sCurChild++)
 		{
 		// Before each item is a value indicating whether the item
@@ -154,7 +154,7 @@ int16_t RListContents::LoadChildren(	// Returns 0 on success.
 		pfile->Read(&sEncapsulator);
 
 		pgui	= LoadInstantiate(pfile);
-		if (pgui != NULL)
+		if (pgui != nullptr)
 			{
 			pgui->SetParent(this);
 			// If the item is an encapsulator . . .
@@ -177,11 +177,11 @@ int16_t RListContents::LoadChildren(	// Returns 0 on success.
 		else
 			{
 			TRACE("LoadChildren(): LoadInstantiate() failed.\n");
-			sRes	= -1;
+			sResult	= -1;
 			}
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ///////////////////////////////////////////////////////////////////////////////

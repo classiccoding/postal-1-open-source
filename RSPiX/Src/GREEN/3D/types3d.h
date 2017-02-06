@@ -105,13 +105,13 @@ class RTexture
 
 			m_sNum = rhs.m_sNum;
 
-			if (rhs.m_pIndices != NULL)
+			if (rhs.m_pIndices != nullptr)
 				{
 				AllocIndices();
 				rspObjCpy(m_pIndices, rhs.m_pIndices, (size_t)m_sNum);
 				}
 
-			if (rhs.m_pColors != NULL)
+			if (rhs.m_pColors != nullptr)
 				{
 				AllocColors();
 				rspObjCpy(m_pColors, rhs.m_pColors, (size_t)m_sNum);
@@ -133,8 +133,8 @@ class RTexture
 						result = rspObjCmp(m_pIndices, rhs.m_pIndices, (size_t)m_sNum);
 					else
 						{
-						// If both pointers are not NULL then they obviously don't match
-						if ( !((m_pIndices == NULL) && (rhs.m_pIndices == NULL)) )
+						// If both pointers are not nullptr then they obviously don't match
+						if ( !((m_pIndices == nullptr) && (rhs.m_pIndices == nullptr)) )
 							result = false;
 						}
 
@@ -145,8 +145,8 @@ class RTexture
 							result = rspObjCmp(m_pColors, rhs.m_pColors, (size_t)m_sNum);
 						else
 							{
-							// If both pointers are not NULL then they obviously don't match
-							if ( !((m_pColors == NULL) && (rhs.m_pColors == NULL)) )
+							// If both pointers are not nullptr then they obviously don't match
+							if ( !((m_pColors == nullptr) && (rhs.m_pColors == nullptr)) )
 								result = false;
 							}
 						}
@@ -216,8 +216,8 @@ class RTexture
 		void Init(void)
 			{
 			m_sNum = 0;
-			m_pIndices = NULL;
-			m_pColors = NULL;
+			m_pIndices = nullptr;
+			m_pColors = nullptr;
 			}
 	};
 
@@ -272,7 +272,7 @@ class RMesh
 
 			m_sNum = rhs.m_sNum;
 
-			if (rhs.m_pArray != NULL)
+			if (rhs.m_pArray != nullptr)
 				{
 				Alloc(rhs.m_sNum);
 				rspObjCpy(m_pArray, rhs.m_pArray, (size_t)(m_sNum * 3));
@@ -294,8 +294,8 @@ class RMesh
 						result = rspObjCmp(m_pArray, rhs.m_pArray,  (size_t)(m_sNum * 3));
 					else
 						{
-						// If both pointers are not NULL then they obviously don't match
-						if ( !((m_pArray == NULL) && (rhs.m_pArray == NULL)) )
+						// If both pointers are not nullptr then they obviously don't match
+						if ( !((m_pArray == nullptr) && (rhs.m_pArray == nullptr)) )
 							result = false;
 						}
 					}
@@ -322,7 +322,7 @@ class RMesh
 		void Init(void)
 			{
 			m_sNum = 0;
-			m_pArray = NULL;
+			m_pArray = nullptr;
 			}
 	};
 
@@ -376,7 +376,7 @@ class RSop
 
 			m_lNum = rhs.m_lNum;
 
-			if (rhs.m_pArray != NULL)
+			if (rhs.m_pArray != nullptr)
 				{
 				Alloc(rhs.m_lNum);
 				rspObjCpy(m_pArray, rhs.m_pArray, (size_t)m_lNum);
@@ -398,8 +398,8 @@ class RSop
 						result = rspObjCmp(m_pArray, rhs.m_pArray, (size_t)m_lNum);
 					else
 						{
-						// If both pointers are not NULL then they obviously don't match
-						if ( !((m_pArray == NULL) && (rhs.m_pArray == NULL)) )
+						// If both pointers are not nullptr then they obviously don't match
+						if ( !((m_pArray == nullptr) && (rhs.m_pArray == nullptr)) )
 							result = false;
 						}
 					}
@@ -426,7 +426,7 @@ class RSop
 		void Init(void)
 			{
 			m_lNum = 0;
-			m_pArray = NULL;
+			m_pArray = nullptr;
 			}
 	};
 

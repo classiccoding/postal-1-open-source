@@ -45,9 +45,9 @@ COLOR PALETTE INTO THE BMP IF DESIRED!
 
 /* This extension was eeded for analysis:
 					short	lClip = 256,  // JEFF DEBUGGING!
-					short* ppsSaveErrorR = NULL,  // JEFF DEBUGGING!
-					short* ppsSaveErrorG = NULL,  // JEFF DEBUGGING!
-					short* ppsSaveErrorB = NULL  // JEFF DEBUGGING!
+					short* ppsSaveErrorR = nullptr,  // JEFF DEBUGGING!
+					short* ppsSaveErrorG = nullptr,  // JEFF DEBUGGING!
+					short* ppsSaveErrorB = nullptr  // JEFF DEBUGGING!
 */
 
 
@@ -73,7 +73,7 @@ int16_t	rspDither(
 					int32_t	lInc,
 					// User interaction
 					PDitherCallBack func,
-					int32_t  lMilli // milliseconds per callback
+               uint32_t  lMilli // milliseconds per callback
 					)
 	{
 	ASSERT(pimSrc);
@@ -88,14 +88,14 @@ int16_t	rspDither(
 	ASSERT(lMilli > 0);
 	ASSERT(sStartMap >= 0);
 	ASSERT(sNumMap > 0);
-	ASSERT(pimDst->m_pData == NULL); // we create it!
+	ASSERT(pimDst->m_pData == nullptr); // we create it!
 
 #ifdef _DEBUG
 #endif
 
    int16_t sRet = SUCCESS;
 //	int32_t	lPalOffset = lInc * sStartMap;
-	int32_t	lLastTime = rspGetMilliseconds();
+   uint32_t	lLastTime = rspGetMilliseconds();
 
 	//--------- Set up receiving vessel:
 	if (pimDst->CreateImage(pimSrc->m_sWidth,pimSrc->m_sHeight,
@@ -340,7 +340,7 @@ int16_t	rspSimpleMap(
 					int32_t	lInc,
 					// User interaction
 					PDitherCallBack func,
-					int32_t  lMilli // milliseconds per callback
+               uint32_t  lMilli // milliseconds per callback
 					)
 	{
 	ASSERT(pimSrc);
@@ -355,14 +355,14 @@ int16_t	rspSimpleMap(
 	ASSERT(lMilli > 0);
 	ASSERT(sStartMap >= 0);
 	ASSERT(sNumMap > 0);
-	ASSERT(pimDst->m_pData == NULL); // we create it!
+	ASSERT(pimDst->m_pData == nullptr); // we create it!
 
 #ifdef _DEBUG
 #endif
 
    int16_t sRet = SUCCESS;
 //	int32_t	lPalOffset = lInc * sStartMap;
-	int32_t	lLastTime = rspGetMilliseconds();
+   uint32_t	lLastTime = rspGetMilliseconds();
 
 	//--------- Set up receiving vessel:
 	if (pimDst->CreateImage(pimSrc->m_sWidth,pimSrc->m_sHeight,
@@ -456,7 +456,7 @@ int16_t	rspDither(
 					int32_t	lInc,
 					// User interaction
 					PDitherCallBack func,
-					int32_t  lMilli // milliseconds per callback
+               uint32_t  lMilli // milliseconds per callback
 					)
 	{
 	ASSERT(pimSrc);
@@ -471,14 +471,14 @@ int16_t	rspDither(
 	ASSERT(lMilli > 0);
 	ASSERT(sStartMap >= 0);
 	ASSERT(sNumMap > 0);
-	ASSERT(pimDst->m_pData == NULL); // we create it!
+	ASSERT(pimDst->m_pData == nullptr); // we create it!
 
 #ifdef _DEBUG
 #endif
 
    int16_t sRet = SUCCESS;
 //	int32_t	lPalOffset = lInc * sStartMap;
-	int32_t	lLastTime = rspGetMilliseconds();
+   uint32_t	lLastTime = rspGetMilliseconds();
 
 	//--------- Set up receiving vessel:
 	if (pimDst->CreateImage(pimSrc->m_sWidth,pimSrc->m_sHeight,
@@ -753,7 +753,7 @@ int16_t	rspDither(
 					int32_t	lInc,
 					// User interaction
 					PDitherCallBack func,
-					int32_t  lMilli // milliseconds per callback
+               uint32_t  lMilli // milliseconds per callback
 					)
 	{
 	ASSERT(pimSrc);
@@ -768,14 +768,14 @@ int16_t	rspDither(
 	ASSERT(lMilli > 0);
 	ASSERT(sStartMap >= 0);
 	ASSERT(sNumMap > 0);
-	ASSERT(pimDst->m_pData == NULL); // we create it!
+	ASSERT(pimDst->m_pData == nullptr); // we create it!
 
 #ifdef _DEBUG
 #endif
 
    int16_t sRet = SUCCESS;
 //	int32_t	lPalOffset = lInc * sStartMap;
-	int32_t	lLastTime = rspGetMilliseconds();
+   uint32_t	lLastTime = rspGetMilliseconds();
 
 	//--------- Set up receiving vessel:
 	if (pimDst->CreateImage(pimSrc->m_sWidth,pimSrc->m_sHeight,
@@ -1034,7 +1034,7 @@ int16_t	rspSimpleMap(
 					int32_t	lInc,
 					// User interaction
 					PDitherCallBack func,
-					int32_t  lMilli // milliseconds per callback
+               uint32_t  lMilli // milliseconds per callback
 					)
 	{
 	ASSERT(pimSrc);
@@ -1049,14 +1049,14 @@ int16_t	rspSimpleMap(
 	ASSERT(lMilli > 0);
 	ASSERT(sStartMap >= 0);
 	ASSERT(sNumMap > 0);
-	ASSERT(pimDst->m_pData == NULL); // we create it!
+	ASSERT(pimDst->m_pData == nullptr); // we create it!
 
 #ifdef _DEBUG
 #endif
 
    int16_t sRet = SUCCESS;
 //	int32_t	lPalOffset = lInc * sStartMap;
-	int32_t	lLastTime = rspGetMilliseconds();
+   uint32_t	lLastTime = rspGetMilliseconds();
 
 	//--------- Set up receiving vessel:
 	if (pimDst->CreateImage(pimSrc->m_sWidth,pimSrc->m_sHeight,

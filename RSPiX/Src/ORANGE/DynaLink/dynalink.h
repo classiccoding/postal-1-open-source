@@ -54,7 +54,7 @@
 #define LINKINSTANTIATE(FunctionTypedef, FriendClass, MaxElements)	\
 	FunctionTypedef																\
 		CDynaLink<FunctionTypedef, FriendClass, MaxElements>::ms_afp[MaxElements]	\
-			= { NULL, }
+			= { nullptr, }
 
 // Use this macro to create a macro for your users to use to link.
 // You can use this function so you don't have to remember any template 
@@ -103,7 +103,7 @@ template <class FUNCTYPEPTR, class FRIEND, int32_t lMax> class CDynaLink
 		CDynaLink(FUNCTYPEPTR pfn, int32_t lIndex)
 			{
 			ASSERT(lIndex < lMax);
-			ASSERT(ms_afp[lIndex] == NULL);
+			ASSERT(ms_afp[lIndex] == nullptr);
 			ms_afp[lIndex]	= pfn;
 			}
 

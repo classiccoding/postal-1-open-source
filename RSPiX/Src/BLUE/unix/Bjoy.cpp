@@ -235,7 +235,7 @@ extern bool GetDudeFireAngle(double* d_Angle)
 //////////////////////////////////////////////////////////////////////////////
 extern void rspUpdateJoy(int16_t sJoy)
 	{
-        if ((sJoy > NUM_JOYSTICKS) || (ms_Controllers[sJoy] == NULL))
+        if ((sJoy > NUM_JOYSTICKS) || (ms_Controllers[sJoy] == nullptr))
             return;
 
         SDL_GameController *controller = ms_Controllers[sJoy];
@@ -245,7 +245,7 @@ extern void rspUpdateJoy(int16_t sJoy)
         {
             // uhoh, controller was unplugged.
             SDL_GameControllerClose(controller);
-            ms_Controllers[sJoy] = NULL;
+            ms_Controllers[sJoy] = nullptr;
             SDL_memset(&ms_ajsCurr[sJoy], '\0', sizeof (JoyState));
             SDL_memset(&ms_ajsPrev[sJoy], '\0', sizeof (JoyState));
         }
@@ -302,10 +302,10 @@ extern void rspUpdateJoy(int16_t sJoy)
 //////////////////////////////////////////////////////////////////////////////
 extern void rspGetJoyState(
 	int16_t sJoy,						// In:  Joystick to query.
-	uint32_t*	pu32Buttons,			// Out: Buttons that are down, if not NULL.
+	uint32_t*	pu32Buttons,			// Out: Buttons that are down, if not nullptr.
 										// An RSP_JOY_BUT_## bit field that is set indicates
 										// that button is down.
-	uint32_t*	pu32Axes /*= NULL*/)	// Out: Directions that are specificed, if not NULL.
+	uint32_t*	pu32Axes /*= nullptr*/)	// Out: Directions that are specificed, if not nullptr.
 										// An RSP_JOY_?_POS bit set indicates the ? axis is positive.
 										// An RSP_JOY_?_NEG bit set indicates the ? axis is negative.
 										// If neither is set for ? axis, that axis is 0.
@@ -322,10 +322,10 @@ extern void rspGetJoyState(
 //////////////////////////////////////////////////////////////////////////////
 extern void rspGetJoyPrevState(
 	int16_t sJoy,						// In:  Joystick to query.
-	uint32_t*	pu32Buttons,			// Out: Buttons that are down, if not NULL.
+	uint32_t*	pu32Buttons,			// Out: Buttons that are down, if not nullptr.
 										// An RSP_JOY_BUT_## bit field that is set indicates
 										// that button is down.
-	uint32_t*	pu32Axes /*= NULL*/)	// Out: Directions that are specificed, if not NULL.
+	uint32_t*	pu32Axes /*= nullptr*/)	// Out: Directions that are specificed, if not nullptr.
 										// An RSP_JOY_?_POS bit set indicates the ? axis is positive.
 										// An RSP_JOY_?_NEG bit set indicates the ? axis is negative.
 										// If neither is set for ? axis, that axis is 0.

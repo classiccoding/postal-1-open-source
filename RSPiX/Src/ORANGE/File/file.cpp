@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License along
 // with this program; if not, write to the Free Software Foundation, Inc.,
-// 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+// 51 Franklin Street, Fifth Floor, Boston, MA 02110FAILURE301 USA
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -215,13 +215,13 @@ typedef HRESULT (WINAPI *fnSHGetFolderPathW)(HWND hwnd, int nFolder, HANDLE hTok
 // Called on every read and write with
 // the amount that is about to be
 // processed.
-RFile::CritiCall	RFile::ms_criticall		= NULL;
+RFile::CritiCall	RFile::ms_criticall		= nullptr;
 
 // For hooking Open(char*, ...) calls.
-RFile::OpenHook	RFile::ms_hOpen			= NULL;
-uintptr_t					RFile::ms_lOpenUser		= 0L;
-RFile::CloseHook	RFile::ms_hClose			= NULL;
-uintptr_t					RFile::ms_lCloseUser		= 0L;
+RFile::OpenHook	RFile::ms_hOpen			= nullptr;
+uintptr_t					RFile::ms_lOpenUser		= 0;
+RFile::CloseHook	RFile::ms_hClose			= nullptr;
+uintptr_t					RFile::ms_lCloseUser		= 0;
 
 // Used to byte swap by Write().
 uint8_t					RFile::ms_au8SwapBuf[RFILE_SWAP_SIZE];
@@ -251,19 +251,19 @@ static const char*	ms_apszEndian[]	=
 //////////////////////////////////////////////////////////////////////////////
 RFile::RFile(void)
 	{
-	m_fs				= NULL;
+	m_fs				= nullptr;
 	m_endian			= BigEndian;
 	m_flags			= NoFlags;
-	m_pucFile		= NULL;
+	m_pucFile		= nullptr;
 	m_sOwnMem		= FALSE;
-	m_pucCur			= NULL;
-	m_lSize			= 0L;
-	m_lGrowSize		= 0L;
+	m_pucCur			= nullptr;
+   m_lSize			= 0;
+   m_lGrowSize		= 0;
 	m_sMemError		= 0;
 	m_sOpenSem		= 0;
 	m_sCloseSem		= 0;
 	m_lUser			= 0;
-	m_pfileSynch	= NULL;
+	m_pfileSynch	= nullptr;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -273,7 +273,7 @@ RFile::RFile(void)
 //////////////////////////////////////////////////////////////////////////////
 RFile::~RFile(void)
 	{
-	if (m_fs != NULL || m_pucFile != NULL)
+	if (m_fs != nullptr || m_pucFile != nullptr)
 		{
 		Close();
 		TRACE("~RFile(): Closed the file that you forgot to, hoser!\n");
@@ -289,15 +289,15 @@ RFile::~RFile(void)
 //  (also zlib-licensed.)
 static int locateOneElement(char *buf)
 {
-	char *ptr = NULL;
-	DIR *dirp = NULL;
-	struct dirent *dent = NULL;
+	char *ptr = nullptr;
+	DIR *dirp = nullptr;
+	struct dirent *dent = nullptr;
 
 	if (access(buf, F_OK) == 0)
 		return 1;  /* quick rejection: exists in current case. */
 
 	ptr = strrchr(buf, '/');  /* find entry at end of path. */
-	if (ptr == NULL)
+	if (ptr == nullptr)
 	{
 		dirp = opendir(".");
 		ptr = buf;
@@ -310,7 +310,7 @@ static int locateOneElement(char *buf)
 		ptr++;  /* point past dirsep to entry itself. */
 	}
 
-	while ((dent = readdir(dirp)) != NULL)
+	while ((dent = readdir(dirp)) != nullptr)
 	{
 		if (strcasecmp(dent->d_name, ptr) == 0)
 		{
@@ -373,18 +373,18 @@ extern const char *FindCorrectFile(const char *_pszName, const char *pszMode)
              *  and apparently just wraps the new API. This is the new way to do it:
              *
              *     SHGetKnownFolderPath(FOLDERID_RoamingAppData, KF_FLAG_CREATE,
-             *                          NULL, &wszPath);
+             *                          nullptr, &wszPath);
              */
             strcpy(prefpath, ".\\");  // a default for failure case.
 
             HMODULE lib = LoadLibraryA("Shell32.dll");
-            if (lib != NULL)
+            if (lib != nullptr)
             {
                 fnSHGetFolderPathW pSHGetFolderPathW = (fnSHGetFolderPathW) GetProcAddress(lib, "SHGetFolderPathW");
-                if (pSHGetFolderPathW != NULL)
+                if (pSHGetFolderPathW != nullptr)
                 {
         			WCHAR path[MAX_PATH];
-                    if (SUCCEEDED(pSHGetFolderPathW(NULL, 0x001a/*CSIDL_APPDATA*/ | 0x8000/*CSIDL_FLAG_CREATE*/, NULL, 0, path)))
+                    if (SUCCEEDED(pSHGetFolderPathW(nullptr, 0x001a/*CSIDL_APPDATA*/ | 0x8000/*CSIDL_FLAG_CREATE*/, nullptr, 0, path)))
                     {
                         // !!! FIXME: screwed if there's a unicode path for now.
                         snprintf(prefpath, sizeof (prefpath), "%S\\RunningWithScissors", (const wchar_t *) path);
@@ -402,7 +402,7 @@ extern const char *FindCorrectFile(const char *_pszName, const char *pszMode)
                 homedir = "./";  // oh well.
 
             strcpy(prefpath, homedir);
-            if (prefpath[strlen(prefpath)-1] != '/') strcat(prefpath, "/");
+            if (prefpath[strlen(prefpath)FAILURE] != '/') strcat(prefpath, "/");
 
             strcat(prefpath, "Library/Application Support/Postal Plus/");
             #else
@@ -410,9 +410,9 @@ extern const char *FindCorrectFile(const char *_pszName, const char *pszMode)
             const char *xdghomedir = getenv("XDG_DATA_HOME");
             const char *append = "";
 
-            if (xdghomedir == NULL)
+            if (xdghomedir == nullptr)
             {
-                if (homedir == NULL)
+                if (homedir == nullptr)
                     xdghomedir = ".";  // oh well.
                 else
                 {
@@ -423,7 +423,7 @@ extern const char *FindCorrectFile(const char *_pszName, const char *pszMode)
 
             snprintf(prefpath, sizeof (prefpath), "%s%s/PostalPlus/", xdghomedir, append);
 
-            if (homedir != NULL)
+            if (homedir != nullptr)
             {
                 char oldpath[PATH_MAX];
                 snprintf(oldpath, sizeof (oldpath), "%s/.postal1", homedir);
@@ -481,7 +481,7 @@ extern const char *FindCorrectFile(const char *_pszName, const char *pszMode)
             if (((*ptr == '/') || (*ptr == '\\')) && (ptr != finalname))
             {
                 *ptr = '\0';
-                if (access(finalname, F_OK) == -1)
+                if (access(finalname, F_OK) == FAILURE)
                 {
                     TRACE("Making directory \"%s\"\n", finalname);
                     #ifdef WIN32
@@ -495,7 +495,7 @@ extern const char *FindCorrectFile(const char *_pszName, const char *pszMode)
         }
 
         // read AND write.  :/   Copy the file if it's not there.
-        if ((strchr(pszMode, '+')) && (access(finalname, F_OK) == -1))
+        if ((strchr(pszMode, '+')) && (access(finalname, F_OK) == FAILURE))
         {
             FILE *in = fopen(pszName, "rb");
             FILE *out = fopen(finalname, "wb");
@@ -518,7 +518,7 @@ extern const char *FindCorrectFile(const char *_pszName, const char *pszMode)
 
     else  // reading.
     {
-        if (access(finalname, R_OK) == -1)  // favor prefpath?
+        if (access(finalname, R_OK) == FAILURE)  // favor prefpath?
         {
             strcpy(finalname, pszName); // nope, use original name.
             locateCorrectCase(finalname);
@@ -542,10 +542,10 @@ int16_t RFile::Open(		// Returns 0 on success.
 	Endian endian,			// { BigEndian | LittleEndian | NeutralEndian }.
 	Flags flags)			// See comments in Typedefs & Enums section in .h.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+   int16_t	sResult	= SUCCESS;	// Assume success.
 
 	// If not already open . . .
-	if (m_fs == NULL && m_pucFile == NULL)
+	if (m_fs == nullptr && m_pucFile == nullptr)
 		{
 		int16_t sOpen	= TRUE;
 
@@ -558,7 +558,7 @@ int16_t RFile::Open(		// Returns 0 on success.
 		m_flags	= flags;
 		
 		// If hook defined . . .
-		if (ms_hOpen != NULL)
+		if (ms_hOpen != nullptr)
 			{
 			// If not re-entered . . .
 			if (m_sOpenSem == 0)
@@ -580,7 +580,7 @@ int16_t RFile::Open(		// Returns 0 on success.
 			// Attempt to open file.
 			m_fs	= fopen(FindCorrectFile(pszFileName, pszFlags), pszFlags);
 			// If successful . . .
-			if (m_fs != NULL)
+			if (m_fs != nullptr)
 				{
 				// Attempt to set a better buffer size
 				int setres = 0;
@@ -588,7 +588,7 @@ int16_t RFile::Open(		// Returns 0 on success.
 					size_t bufsize = BUFSIZ;
 					if (bufsize < 16384)
 						bufsize = (16384 / BUFSIZ) * BUFSIZ;
-					setres = setvbuf(m_fs, NULL, _IOFBF, bufsize);
+					setres = setvbuf(m_fs, nullptr, _IOFBF, bufsize);
 				#endif
 				if (setres == 0)
 					{
@@ -608,7 +608,7 @@ int16_t RFile::Open(		// Returns 0 on success.
 						m_sDisconnected	= FALSE;
 
 						// Add to open list.
-						if (ms_listOpen.Add(this) == 0)
+                  if (ms_listOpen.Add(this) == SUCCESS)
 							{
 							}
 						else
@@ -616,7 +616,7 @@ int16_t RFile::Open(		// Returns 0 on success.
 							TRACE("Open(\"%s\", \"%s\", %s): Unable to add to open list.\n",
 									pszFileName, pszFlags, 
 									ms_apszEndian[endian]);
-							sRes = -3;
+                     sResult = FAILURE - 2;
 							}
 					#endif // ALLOW_RFILE_REOPEN
 					}
@@ -625,14 +625,14 @@ int16_t RFile::Open(		// Returns 0 on success.
 					TRACE("Open(\"%s\", \"%s\", %s): Error returned by setvbuf()!\n",
 							pszFileName, pszFlags, 
 							ms_apszEndian[endian]);
-					sRes = -5; // Is there any REAL sense to these error numbers???
+               sResult = FAILURE - 4; // Is there any REAL sense to these error numbers???
 					}
 
 				// If an error occurrs after fopen . . .
-				if (sRes != 0)
+            if (sResult != SUCCESS)
 					{
 					fclose(m_fs);
-					m_fs	= NULL;
+					m_fs	= nullptr;
 					}
 				}
 			else
@@ -642,7 +642,7 @@ int16_t RFile::Open(		// Returns 0 on success.
 						pszFileName, pszFlags, 
 						ms_apszEndian[endian]);
 #endif // FILE_VERBOSE
-				sRes = -1;
+            sResult = FAILURE;
 				}
 			}
 		}
@@ -651,10 +651,10 @@ int16_t RFile::Open(		// Returns 0 on success.
 		TRACE("Open(\"%s\", \"%s\", %s): File already open.\n",
 				pszFileName, pszFlags,
 				ms_apszEndian[endian]);
-		sRes = -2;
+      sResult = FAILURE - 1;
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -666,13 +666,13 @@ int16_t RFile::Open(		// Returns 0 on success.
 //////////////////////////////////////////////////////////////////////////////
 int16_t RFile::Open(		// Returns 0 on success.
 	void* pFile,			// Pointer to memory to open.
-	int32_t lSize,				// Size of *pFile in bytes.
+   size_t lSize,				// Size of *pFile in bytes.
 	Endian endian)			// { BigEndian | LittleEndian | NeutralEndian }.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+   int16_t	sResult	= SUCCESS;	// Assume success.
 
 	// If not already open . . .
-	if (m_fs == NULL && m_pucFile == NULL)
+	if (m_fs == nullptr && m_pucFile == nullptr)
 		{
 		// Store flags for this file.
 		m_flags	= Binary;
@@ -695,10 +695,10 @@ int16_t RFile::Open(		// Returns 0 on success.
 		TRACE("Open(%08lX, %i, %s): File already open.\n",
 				pFile, lSize,
 				ms_apszEndian[endian]);
-		sRes = -2;
+      sResult = FAILURE - 1;
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -711,16 +711,16 @@ int16_t RFile::Open(		// Returns 0 on success.
 //
 //////////////////////////////////////////////////////////////////////////////
 int16_t RFile::Open(	// Returns 0 on success.
-	int32_t	lSize,		// Size in bytes to begin with.
-	int32_t	lGrowSize,	// Min amount in bytes to grow memory file when written passed end.
+   size_t	lSize,		// Size in bytes to begin with.
+   size_t	lGrowSize,	// Min amount in bytes to grow memory file when written passed end.
 							// Note: The larger of lGrowSize and the amount overwritten will
 							// be allocated in the case of an overrun.
 	Endian endian)		// { BigEndian | LittleEndian | NeutralEndian }.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+   int16_t	sResult	= SUCCESS;	// Assume success.
 
 	// If not already open . . .
-	if (m_fs == NULL && m_pucFile == NULL)
+	if (m_fs == nullptr && m_pucFile == nullptr)
 		{
 		// Store flags for this file.
 		m_flags	= Binary;
@@ -730,7 +730,7 @@ int16_t RFile::Open(	// Returns 0 on success.
 
 		// Open memory.
 		m_pucFile	= m_pucCur	= (uint8_t*)malloc(lSize);
-		if (m_pucFile != NULL)
+		if (m_pucFile != nullptr)
 			{
 			// Do own buffer.
 			m_sOwnMem	= TRUE;
@@ -747,7 +747,7 @@ int16_t RFile::Open(	// Returns 0 on success.
 			TRACE("Open(%i, %i, %s): File too large for free memory.\n",
 					lSize, lGrowSize,
 					ms_apszEndian[endian]);
-			sRes = -3;
+         sResult = FAILURE - 2;
 			}
 		}
 	else
@@ -755,10 +755,10 @@ int16_t RFile::Open(	// Returns 0 on success.
 		TRACE("Open(%i, %i, %s): File already open.\n",
 				lSize, lGrowSize,
 				ms_apszEndian[endian]);
-		sRes = -2;
+      sResult = FAILURE - 1;
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -774,9 +774,9 @@ int16_t RFile::Open(		// Returns 0 on success.
 	Flags flags	/*=		// See comments in Typedefs & Enums section 
 		Binary*/)			// above.
 	{
-	int16_t sRes	= 0;	// Assume success.
+   int16_t sResult	= SUCCESS;	// Assume success.
 
-	if (fs != NULL)
+	if (fs != nullptr)
 		{
 		// Store flags for this file.
 		// Make sure Ascii and Binary are not both specified.
@@ -797,10 +797,10 @@ int16_t RFile::Open(		// Returns 0 on success.
 		TRACE("Open(0x%08lX, %s): Invalid FILE*.\n",
 				fs,
 				ms_apszEndian[endian]);
-		sRes	= -1;
+      sResult	= FAILURE;
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -818,7 +818,7 @@ int16_t RFile::Open(		// Returns 0 on success.
 int16_t RFile::Open(		// Returns 0 on success.
 	RFile* pfile)			// RFile to open.
 	{
-	int16_t	sRes	= 0;
+   int16_t	sResult	= SUCCESS;
 
 	// Synchronize.
 	m_fs				= pfile->m_fs;
@@ -835,7 +835,7 @@ int16_t RFile::Open(		// Returns 0 on success.
 	// Remember who to Unsynch with.
 	m_pfileSynch	= pfile;
 
-	return sRes;
+   return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -858,12 +858,12 @@ void RFile::SetEndian(Endian endian)
 //////////////////////////////////////////////////////////////////////////////
 int16_t RFile::Close(void)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+   int16_t	sResult	= SUCCESS;	// Assume success.
 
-	ASSERT(m_fs != NULL || m_pucFile != NULL);
+	ASSERT(m_fs != nullptr || m_pucFile != nullptr);
 
 	// If we are synchronizing with another RFile . . .
-	if (m_pfileSynch != NULL)
+	if (m_pfileSynch != nullptr)
 		{
 		// De/Un/Resynch.
 		m_pfileSynch->m_fs				= m_fs;
@@ -878,20 +878,20 @@ int16_t RFile::Close(void)
 		m_pfileSynch->m_flags			= m_flags;
 
 		// Clear ("Close").
-		m_fs				= NULL;
-		m_pucFile		= NULL;
+		m_fs				= nullptr;
+		m_pucFile		= nullptr;
 		m_sOwnMem		= FALSE;
-		m_pucCur			= NULL;
+		m_pucCur			= nullptr;
 		m_sMemError		= FALSE;
 
-		m_pfileSynch	= NULL;
+		m_pfileSynch	= nullptr;
 		}
 	else
 		{
 		int16_t sClose	= TRUE;
 		
 		// If hook defined . . .
-		if (ms_hClose != NULL)
+		if (ms_hClose != nullptr)
 			{
 			// If not re-entered . . .
 			if (m_sCloseSem == 0)
@@ -913,24 +913,24 @@ int16_t RFile::Close(void)
 				if (fclose(m_fs) == 0)
 					{
 					// Success.
-					m_fs	= NULL;
+					m_fs	= nullptr;
 					
 					#ifdef ALLOW_RFILE_REOPEN
 						// Remove from open list.
-						if (ms_listOpen.Remove(this) == 0)
+                  if (ms_listOpen.Remove(this) == SUCCESS)
 							{
 							}
 						else
 							{
 							TRACE("Close(): Unable to remove this from open list.\n");
-							sRes = -3;
+                     sResult = FAILURE - 2;
 							}
 					#endif // ALLLOW_RFILE_REOPEN
 					}
 				else
 					{
 					TRACE("Close(): Unable to close file.\n");
-					sRes = -2;
+               sResult = FAILURE - 1;
 					}
 				}
 			else
@@ -941,30 +941,30 @@ int16_t RFile::Close(void)
 					if (m_sOwnMem != FALSE)
 						{
 						// Make sure we still have a buffer (a resize could have failed).
-						if (m_pucFile != NULL)
+						if (m_pucFile != nullptr)
 							{
 							// Be gone.
 							free(m_pucFile);
 							}
 						}
 
-					m_pucFile	= NULL;
+					m_pucFile	= nullptr;
 					m_sOwnMem	= FALSE;
-					m_pucCur		= NULL;
-					m_lSize		= 0L;
-					m_lGrowSize	= 0L;
+					m_pucCur		= nullptr;
+               m_lSize		= 0;
+               m_lGrowSize	= 0;
 					m_sMemError	= 0;
 					}
 				else
 					{
 					TRACE("Close(): Unable to close unopened file.\n");
-					sRes = -1;
+               sResult = FAILURE;
 					}
 				}
 			}
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -973,21 +973,21 @@ int16_t RFile::Close(void)
 // Returns number of bytes successfully read.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Read(void* pData, int32_t lNum)
+int32_t RFile::Read(void* pData, size_t lNum)
 	{
 	int32_t	lRes	= 0;	// Assume success.
 
 	if (IsFile() == TRUE)
 		{
-		int32_t	lToRead;
-		int32_t	lDidRead	= 1;
-		int32_t	lMaxRead	= ms_criticall ? MAX_CALLBACK_GRANULARITY_BYTES : lNum;
+      size_t	lToRead;
+      size_t	lDidRead	= 1;
+      size_t	lMaxRead	= ms_criticall ? MAX_CALLBACK_GRANULARITY_BYTES : lNum;
 		do
 			{
 			lToRead	= MIN(lMaxRead, lNum);
 
 			// If there is a CritiCall . . .
-			if (ms_criticall != NULL)
+			if (ms_criticall != nullptr)
 				{
 				// Call it.
 				(*ms_criticall)(lToRead);
@@ -1029,7 +1029,7 @@ int32_t RFile::Read(void* pData, int32_t lNum)
 		else
 			{
 			TRACE("Read(): File not open.\n");
-			lRes = -1L;
+         lRes = FAILURE;
 			}
 		}
 
@@ -1047,7 +1047,7 @@ inline					// Speed.
 int32_t ReadASCII(		// Returns number of complete TYPE items successfully read 
 							// and stored.
 	TYPE*		ptData,	// Out: Pointer to array of TYPE items for read data.
-	int32_t		lNum,		// In:  Number of TYPE items to read.
+   size_t		lNum,		// In:  Number of TYPE items to read.
 	FILE*		pfsIn,	// In:  File stream to use for input.
 	double	dMax)		// In:  Maximum value for this type.
 	{
@@ -1093,9 +1093,9 @@ int32_t ReadASCII(		// Returns number of complete TYPE items successfully read
 // Returns number of uint8_t values successfully written.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Read(uint8_t*	pu8Data, int32_t lNum /*= 1L*/)
+int32_t RFile::Read(uint8_t*	pu8Data, size_t lNum /*= 1*/)
 	{
-	int32_t	lRes	= 0L;	// Assume success.
+   int32_t	lRes	= 0;	// Assume success.
 
 	if ((m_flags & Ascii) != 0)
 		{
@@ -1117,9 +1117,9 @@ int32_t RFile::Read(uint8_t*	pu8Data, int32_t lNum /*= 1L*/)
 // Returns number of int8_t values successfully written.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Read(int8_t*	ps8Data, int32_t lNum /*= 1L*/)
+int32_t RFile::Read(int8_t*	ps8Data, size_t lNum /*= 1*/)
 	{
-	int32_t	lRes	= 0L;	// Assume success.
+   int32_t	lRes	= 0;	// Assume success.
 
 	if ((m_flags & Ascii) != 0)
 		{
@@ -1141,9 +1141,9 @@ int32_t RFile::Read(int8_t*	ps8Data, int32_t lNum /*= 1L*/)
 // Returns number of uint16_t values successfully read.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Read(uint16_t* pu16Data, int32_t lNum /*= 1L*/)
+int32_t RFile::Read(uint16_t* pu16Data, size_t lNum /*= 1*/)
 	{
-	int32_t	lRes	= 0L;	// Assume success.
+   int32_t	lRes	= 0;	// Assume success.
 
 	if ((m_flags & Ascii) != 0)
 		{
@@ -1165,9 +1165,9 @@ int32_t RFile::Read(uint16_t* pu16Data, int32_t lNum /*= 1L*/)
 // Returns number of int16_t values successfully read.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Read(int16_t* ps16Data, int32_t lNum /*= 1L*/)
+int32_t RFile::Read(int16_t* ps16Data, size_t lNum /*= 1*/)
 	{
-	int32_t	lRes	= 0L;	// Assume success.
+   int32_t	lRes	= 0;	// Assume success.
 
 	if ((m_flags & Ascii) != 0)
 		{
@@ -1189,9 +1189,9 @@ int32_t RFile::Read(int16_t* ps16Data, int32_t lNum /*= 1L*/)
 // Returns number of RPixel24 values successfully read.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Read(RPixel24* ppix24, int32_t lNum /*= 1L*/)
+int32_t RFile::Read(RPixel24* ppix24, size_t lNum /*= 1*/)
 	{
-	int32_t	lRes	= 0L;	// Assume success.
+   int32_t	lRes	= 0;	// Assume success.
 
 	if ((m_flags & Ascii) != 0)
 		{
@@ -1214,9 +1214,9 @@ int32_t RFile::Read(RPixel24* ppix24, int32_t lNum /*= 1L*/)
 // Returns number of uint32_t values successfully read.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Read(uint32_t* pu32Data, int32_t lNum /*= 1L*/)
+int32_t RFile::Read(uint32_t* pu32Data, size_t lNum /*= 1*/)
 	{
-	int32_t	lRes	= 0L;	// Assume success.
+   int32_t	lRes	= 0;	// Assume success.
 
 	if ((m_flags & Ascii) != 0)
 		{
@@ -1238,9 +1238,9 @@ int32_t RFile::Read(uint32_t* pu32Data, int32_t lNum /*= 1L*/)
 // Returns number of int32_t values successfully read.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Read(int32_t* ps32Data, int32_t lNum /*= 1L*/)
+int32_t RFile::Read(int32_t* ps32Data, size_t lNum /*= 1*/)
 	{
-	int32_t	lRes	= 0L;	// Assume success.
+   int32_t	lRes	= 0;	// Assume success.
 
 	if ((m_flags & Ascii) != 0)
 		{
@@ -1262,9 +1262,9 @@ int32_t RFile::Read(int32_t* ps32Data, int32_t lNum /*= 1L*/)
 // Returns number of uint64_t values successfully read.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Read(uint64_t* pu64Data, int32_t lNum /*= 1L*/)
+int32_t RFile::Read(uint64_t* pu64Data, size_t lNum /*= 1*/)
 	{
-	int32_t	lRes	= 0L;	// Assume success.
+   int32_t	lRes	= 0;	// Assume success.
 
 	if ((m_flags & Ascii) != 0)
 		{
@@ -1285,9 +1285,9 @@ int32_t RFile::Read(uint64_t* pu64Data, int32_t lNum /*= 1L*/)
 // Returns number of int64_t values successfully read.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Read(int64_t* ps64Data, int32_t lNum /*= 1L*/)
+int32_t RFile::Read(int64_t* ps64Data, size_t lNum /*= 1*/)
 	{
-	int32_t	lRes	= 0L;	// Assume success.
+   int32_t	lRes	= 0;	// Assume success.
 
 	if ((m_flags & Ascii) != 0)
 		{
@@ -1308,9 +1308,9 @@ int32_t RFile::Read(int64_t* ps64Data, int32_t lNum /*= 1L*/)
 // Returns number of float values successfully read.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Read(float* pfData, int32_t lNum /*= 1L*/)
+int32_t RFile::Read(float* pfData, size_t lNum /*= 1*/)
 	{
-	int32_t	lRes	= 0L;	// Assume success.
+   int32_t	lRes	= 0;	// Assume success.
 
 	if ((m_flags & Ascii) != 0)
 		{
@@ -1332,9 +1332,9 @@ int32_t RFile::Read(float* pfData, int32_t lNum /*= 1L*/)
 // Returns number of double values successfully read.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Read(double* pdData, int32_t lNum /*= 1L*/)
+int32_t RFile::Read(double* pdData, size_t lNum /*= 1*/)
 	{
-	int32_t	lRes	= 0L;	// Assume success.
+   int32_t	lRes	= 0;	// Assume success.
 
 	if ((m_flags & Ascii) != 0)
 		{
@@ -1362,12 +1362,12 @@ int32_t RFile::Read(double* pdData, int32_t lNum /*= 1L*/)
 // with quotes can only be ended by quotes, and a string beginning without
 // quotes can only be ended by whitespace).
 // Returns number of characters successfully stored (which may be less than
-// the amount read), NOT including the NULL terminator (like strlen()).
+// the amount read), NOT including the nullptr terminator (like strlen()).
 //
 // BINARY MODE:
-// Reads a NULL terminated string.
+// Reads a nullptr terminated string.
 // Returns number of characters successfully read,
-// including the NULL terminator (UNlike strlen()).
+// including the nullptr terminator (UNlike strlen()).
 //
 //
 // pszString must point to a memory block sufficiently large
@@ -1388,13 +1388,13 @@ int32_t RFile::Read(char* pszString)
 				}
 			else
 				{
-				TRACE("Read(): Failed to read to NULL terminator of string.\n");
+				TRACE("Read(): Failed to read to nullptr terminator of string.\n");
 				*pszString	= '\0';
 				}
 
 			lRes++;
 			
-			// Do this until we hit the NULL or an error occurs.
+			// Do this until we hit the nullptr or an error occurs.
 			} while (*pszString++ != '\0');
 		}
 	else
@@ -1410,7 +1410,7 @@ int32_t RFile::Read(char* pszString)
 				break;
 				}
 
-			} while (strchr(WHITE_SPACE, *pszString++) == NULL);
+			} while (strchr(WHITE_SPACE, *pszString++) == nullptr);
 
 		// Note whether started by qutoes.
 		int16_t	sInQuotes	= FALSE;
@@ -1461,7 +1461,7 @@ int32_t RFile::Read(char* pszString)
 						if (sInQuotes == FALSE)
 							{
 							// If this is whitespace . . .
-							if (strchr(WHITE_SPACE, *pszString) != NULL)
+							if (strchr(WHITE_SPACE, *pszString) != nullptr)
 								{
 								// Done.
 								*pszString	= '\0';
@@ -1487,21 +1487,21 @@ int32_t RFile::Read(char* pszString)
 // Returns number of bytes successfully written.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Write(const void* pData, int32_t lNum)
+int32_t RFile::Write(const void* pData, size_t lNum)
 	{
 	int32_t	lRes	= 0;	// Assume success.
 
 	if (IsFile() == TRUE)
 		{
-		int32_t	lToWrite;
+      size_t	lToWrite;
 		int32_t	lDidWrite	= 1;
-		int32_t	lMaxWrite	= ms_criticall ? MAX_CALLBACK_GRANULARITY_BYTES : lNum;
+      size_t	lMaxWrite	= ms_criticall ? MAX_CALLBACK_GRANULARITY_BYTES : lNum;
 		do
 			{
 			lToWrite	= MIN(lMaxWrite, lNum);
 
 			// If there is a CritiCall . . .
-			if (ms_criticall != NULL)
+			if (ms_criticall != nullptr)
 				{
 				// Call it.
 				(*ms_criticall)(lNum);
@@ -1545,12 +1545,12 @@ int32_t RFile::Write(const void* pData, int32_t lNum)
 					// overrun amount.
 					int32_t	lCurPos			= m_pucCur - m_pucFile;
 					int32_t	lDistanceToEOF	= m_lSize - lCurPos;
-					int32_t	lNewSize			= m_lSize + MAX(m_lGrowSize, (lNum - lDistanceToEOF) );
+               size_t	lNewSize			= m_lSize + MAX(m_lGrowSize, (lNum - lDistanceToEOF) );
 
 					// Enlarge . . .
 					uint8_t*	pucNewFile	= (uint8_t*)realloc(m_pucFile, lNewSize);
 					// If successful . . .
-					if (pucNewFile != NULL)
+					if (pucNewFile != nullptr)
 						{
 						// Set new buffer pointer.
 						m_pucFile	= pucNewFile;
@@ -1578,7 +1578,7 @@ int32_t RFile::Write(const void* pData, int32_t lNum)
 		else
 			{
 			TRACE("Write(): File not open.\n");
-			lRes = -1L;
+         lRes = FAILURE;
 			}
 		}
 
@@ -1628,9 +1628,9 @@ int32_t WriteASCII(		// Returns number of complete TYPE items successfully
 // Returns number of uint8_t values successfully written.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Write(const uint8_t*	pu8Data, int32_t lNum /*= 1L*/)
+int32_t RFile::Write(const uint8_t*	pu8Data, size_t lNum /*= 1*/)
 	{
-	int32_t	lRes	= 0L;	// Assume success.
+   int32_t	lRes	= 0;	// Assume success.
 
 	if ((m_flags & Ascii) != 0)
 		{
@@ -1652,9 +1652,9 @@ int32_t RFile::Write(const uint8_t*	pu8Data, int32_t lNum /*= 1L*/)
 // Returns number of int8_t values successfully written.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Write(const int8_t*	ps8Data, int32_t lNum /*= 1L*/)
+int32_t RFile::Write(const int8_t*	ps8Data, size_t lNum /*= 1*/)
 	{
-	int32_t	lRes	= 0L;	// Assume success.
+   int32_t	lRes	= 0;	// Assume success.
 
 	if ((m_flags & Ascii) != 0)
 		{
@@ -1676,9 +1676,9 @@ int32_t RFile::Write(const int8_t*	ps8Data, int32_t lNum /*= 1L*/)
 // Returns number of uint16_t values successfully written.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Write(const uint16_t* pu16Data, int32_t lNum /*= 1L*/)
+int32_t RFile::Write(const uint16_t* pu16Data, size_t lNum /*= 1*/)
 	{
-	int32_t	lRes	= 0L;	// Assume success.
+   int32_t	lRes	= 0;	// Assume success.
 
 	if ((m_flags & Ascii) != 0)
 		{
@@ -1700,9 +1700,9 @@ int32_t RFile::Write(const uint16_t* pu16Data, int32_t lNum /*= 1L*/)
 // Returns number of int16_t values successfully written.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Write(const int16_t* ps16Data, int32_t lNum /*= 1L*/)
+int32_t RFile::Write(const int16_t* ps16Data, size_t lNum /*= 1*/)
 	{
-	int32_t	lRes	= 0L;	// Assume success.
+   int32_t	lRes	= 0;	// Assume success.
 
 	if ((m_flags & Ascii) != 0)
 		{
@@ -1724,7 +1724,7 @@ int32_t RFile::Write(const int16_t* ps16Data, int32_t lNum /*= 1L*/)
 // Returns number of RPixel24 values successfully written.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Write(const RPixel24* ppix24, int32_t lNum /*= 1L*/)
+int32_t RFile::Write(const RPixel24* ppix24, size_t lNum /*= 1*/)
 	{
 	int32_t	lRes	= 0;	// Assume success.
 
@@ -1749,7 +1749,7 @@ int32_t RFile::Write(const RPixel24* ppix24, int32_t lNum /*= 1L*/)
 // Returns number of uint32_t values successfully written.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Write(const uint32_t* pu32Data, int32_t lNum /*= 1L*/)
+int32_t RFile::Write(const uint32_t* pu32Data, size_t lNum /*= 1*/)
 	{
 	int32_t	lRes	= 0;	// Assume success.
 
@@ -1773,7 +1773,7 @@ int32_t RFile::Write(const uint32_t* pu32Data, int32_t lNum /*= 1L*/)
 // Returns number of int32_t values successfully written.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Write(const int32_t* ps32Data, int32_t lNum /*= 1L*/)
+int32_t RFile::Write(const int32_t* ps32Data, size_t lNum /*= 1*/)
 	{
 	int32_t	lRes	= 0;	// Assume success.
 
@@ -1797,7 +1797,7 @@ int32_t RFile::Write(const int32_t* ps32Data, int32_t lNum /*= 1L*/)
 // Returns number of float values successfully written.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Write(const float* pfData, int32_t lNum /*= 1L*/)
+int32_t RFile::Write(const float* pfData, size_t lNum /*= 1*/)
 	{
 	int32_t	lRes	= 0;	// Assume success.
 
@@ -1821,7 +1821,7 @@ int32_t RFile::Write(const float* pfData, int32_t lNum /*= 1L*/)
 // Returns number of double values successfully written.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Write(const double* pdData, int32_t lNum /*= 1L*/)
+int32_t RFile::Write(const double* pdData, size_t lNum /*= 1*/)
 	{
 	int32_t	lRes	= 0;	// Assume success.
 
@@ -1845,7 +1845,7 @@ int32_t RFile::Write(const double* pdData, int32_t lNum /*= 1L*/)
 // Returns number of uint64_t values successfully written.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Write(const uint64_t* pu64Data, int32_t lNum /*= 1L*/)
+int32_t RFile::Write(const uint64_t* pu64Data, size_t lNum /*= 1*/)
 	{
 	int32_t	lRes	= 0;	// Assume success.
 
@@ -1868,7 +1868,7 @@ int32_t RFile::Write(const uint64_t* pu64Data, int32_t lNum /*= 1L*/)
 // Returns number of int64_t values successfully written.
 //
 //////////////////////////////////////////////////////////////////////////////
-int32_t RFile::Write(const int64_t* ps64Data, int32_t lNum /*= 1L*/)
+int32_t RFile::Write(const int64_t* ps64Data, size_t lNum /*= 1*/)
 	{
 	int32_t	lRes	= 0;	// Assume success.
 
@@ -1891,16 +1891,16 @@ int32_t RFile::Write(const int64_t* ps64Data, int32_t lNum /*= 1L*/)
 //////////////////////////////////////////////////////////////////////////////
 //
 // ASCII MODE:
-// Writes a NULL terminated string.  The string is surrounded by quotes in 
+// Writes a nullptr terminated string.  The string is surrounded by quotes in 
 // the file.  Quotes in your string will be converted to \".
 // Returns number of characters from your string successfully written (which 
 // is less than the total amount written) (this value should be the same
 // as that returned from strlen() on success).
 //
 // BINARY MODE:
-// Writes a NULL terminated string.
+// Writes a nullptr terminated string.
 // Returns number of characters successfully written,
-// including the NULL terminator (UNlike strlen()).
+// including the nullptr terminator (UNlike strlen()).
 //
 //////////////////////////////////////////////////////////////////////////////
 int32_t RFile::Write(const char* pszString)
@@ -1952,14 +1952,14 @@ int32_t RFile::Write(const char* pszString)
 // Returns 0 on success.
 //
 //////////////////////////////////////////////////////////////////////////////
-int16_t RFile::Seek(int32_t lPos, int32_t lOrigin)
-	{
-	int16_t	sRes	= 0;	// Assume success.
+int16_t RFile::Seek(ssize_t lPos, int32_t lOrigin)
+   {
+   int16_t	sResult	= SUCCESS;	// Assume success.
 
 	if (IsFile() == TRUE)
 		{
 		KEEPCONNECTEDANDUPDATELASTACCESS;
-		sRes = fseek(m_fs, lPos, lOrigin);
+      sResult = fseek(m_fs, lPos, lOrigin);
 		}
 	else
 		{
@@ -1969,7 +1969,7 @@ int16_t RFile::Seek(int32_t lPos, int32_t lOrigin)
 				{
 				case SEEK_SET:
 					// If w/i range . . .
-					if (lPos <= m_lSize && lPos >= 0)
+               if (lPos >= 0 && size_t(lPos) <= m_lSize)
 						{
 						m_pucCur	= m_pucFile + lPos;
 						}
@@ -1977,7 +1977,7 @@ int16_t RFile::Seek(int32_t lPos, int32_t lOrigin)
 						{
 						m_sMemError	= 1;
 						TRACE("Seek(): Attempt to seek passed end or before beginning of mem file.\n");
-						sRes = -3;
+                  sResult = FAILURE - 2;
 						}
 					break;
 				case SEEK_CUR:
@@ -1990,11 +1990,11 @@ int16_t RFile::Seek(int32_t lPos, int32_t lOrigin)
 						{
 						m_sMemError	= 1;
 						TRACE("Seek(): Attempt to seek passed end or before beginning of mem file.\n");
-						sRes = -3;
+                  sResult = FAILURE - 2;
 						}
 					break;
 				case SEEK_END:
-					if (lPos <= 0 && -lPos <= m_lSize)
+               if (lPos <= 0 && size_t(0 - lPos) <= m_lSize)
 						{
 						m_pucCur = m_pucFile + m_lSize + lPos;
 						}
@@ -2002,34 +2002,34 @@ int16_t RFile::Seek(int32_t lPos, int32_t lOrigin)
 						{
 						m_sMemError	= 1;
 						TRACE("Seek(): Attempt to seek passed end or before beginning of mem file.\n");
-						sRes = -3;
+                  sResult = FAILURE - 2;
 						}
 					break;
 				default:
 					TRACE("Seek(): Invalid origin flag provided.\n");
-					sRes = -2;
+               sResult = FAILURE - 1;
 					break;
 				}
 			}
 		else
 			{
 			TRACE("Seek(): File not open.\n");
-			sRes = -1;
+         sResult = FAILURE;
 			}
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
 //
-// Returns the current file position or -1 on error.
+// Returns the current file position or FAILURE on error.
 // Returns 0 on success.
 //
 //////////////////////////////////////////////////////////////////////////////
 int32_t RFile::Tell(void)
 	{
-	int32_t lRes	= -1L;	// Assume error.
+   int32_t lRes	= FAILURE;	// Assume error.
 	if (IsFile() == TRUE)
 		{
 		KEEPCONNECTEDANDUPDATELASTACCESS;
@@ -2061,35 +2061,35 @@ int32_t RFile::GetSize(void)
 
 	// Remember the current position.
 	int32_t	lPos	= Tell();
-	if (lPos >= 0L)
+   if (lPos >= 0)
 		{
 		// Attempt to seek to the end . . .
-		if (Seek(0L, SEEK_END) == 0)
+      if (Seek(0, SEEK_END) == SUCCESS)
 			{
 			// Current pos is size of file.
 			lRes = Tell();
 			
 			// Seek back.
-			if (Seek(lPos, SEEK_SET) == 0)
+         if (Seek(lPos, SEEK_SET) == SUCCESS)
 				{
 				// Success.
 				}
 			else
 				{
 				TRACE("GetSize(): Unable to seek back to start point.\n");
-				lRes = -3;
+            lRes = FAILURE - 2;
 				}
 			}
 		else
 			{
 			TRACE("GetSize(): Unable to seek to end of file.\n");
-			lRes = -2;
+         lRes = FAILURE - 1;
 			}
 		}
 	else
 		{
 		TRACE("GetSize(): Unable to tell position of file.\n");
-		lRes = -1;
+      lRes = FAILURE;
 		}
 
 	return lRes;
@@ -2106,7 +2106,7 @@ int32_t RFile::GetSize(void)
 //////////////////////////////////////////////////////////////////////////////
 int32_t RFile::Read8(	// Returns number of 8 bit items read.
 	uint8_t*	pu8,			// In:  8 bit data to read (swapping, if necessary).
-	int32_t	lNum)			// In:  Number of 8 bit items to read.
+   size_t lNum)			// In:  Number of 8 bit items to read.
 	{
 	int32_t	lRes	= 0;
 
@@ -2123,7 +2123,7 @@ int32_t RFile::Read8(	// Returns number of 8 bit items read.
 //////////////////////////////////////////////////////////////////////////////
 int32_t RFile::Read16(	// Returns number of 16 bit items read.
 	uint16_t*	pu16,			// In:  16 bit data to read (swapping, if necessary).
-	int32_t	lNum)			// In:  Number of 16 bit items to read.
+   size_t lNum)			// In:  Number of 16 bit items to read.
 	{
 	int32_t	lRes	= 0;
 
@@ -2140,7 +2140,7 @@ int32_t RFile::Read16(	// Returns number of 16 bit items read.
 		// Convert.
 		uint8_t		u8_0;
 		uint8_t*	pu8	= (uint8_t*)pu16;
-		for (int32_t l = 0L; l < lRes; l++, pu8 += sizeof(uint16_t))
+      for (int32_t l = 0; l < lRes; l++, pu8 += sizeof(uint16_t))
 			{
 			// Store end.
 			u8_0			= *(pu8 + 1);
@@ -2161,7 +2161,7 @@ int32_t RFile::Read16(	// Returns number of 16 bit items read.
 //////////////////////////////////////////////////////////////////////////////
 int32_t RFile::Read24(	// Returns number of 24 bit items read.
 	RPixel24* ppix24,	// In:  24 bit data to read (swapping, if necessary).
-	int32_t	lNum)			// In:  Number of 24 bit items to read.
+   size_t lNum)			// In:  Number of 24 bit items to read.
 	{
 	int32_t	lRes	= 0;
 
@@ -2178,7 +2178,7 @@ int32_t RFile::Read24(	// Returns number of 24 bit items read.
 		// Convert.
 		uint8_t		u8_0;
 		uint8_t*	pu8	= (uint8_t*)ppix24;
-		for (int32_t l = 0L; l < lRes; l++, pu8 += sizeof(RPixel24))
+      for (int32_t l = 0; l < lRes; l++, pu8 += sizeof(RPixel24))
 			{
 			// Store end.
 			u8_0			= *(pu8 + 2);
@@ -2200,7 +2200,7 @@ int32_t RFile::Read24(	// Returns number of 24 bit items read.
 //////////////////////////////////////////////////////////////////////////////
 int32_t RFile::Read32(	// Returns number of 32 bit items read.
 	uint32_t*	pu32,			// In:  32 bit data to read (swapping, if necessary).
-	int32_t	lNum)			// In:  Number of 32 bit items to read.
+   size_t	lNum)			// In:  Number of 32 bit items to read.
 	{
 	int32_t	lRes	= 0;
 
@@ -2218,7 +2218,7 @@ int32_t RFile::Read32(	// Returns number of 32 bit items read.
 		uint8_t		u8_0;
 		uint8_t		u8_1;
 		uint8_t*	pu8	= (uint8_t*)pu32;
-		for (int32_t l = 0L; l < lRes; l++, pu8 += sizeof(uint32_t))
+      for (int32_t l = 0; l < lRes; l++, pu8 += sizeof(uint32_t))
 			{
 			// Store end.
 			u8_0			= *(pu8 + 3);
@@ -2247,7 +2247,7 @@ int32_t RFile::Read32(	// Returns number of 32 bit items read.
 //////////////////////////////////////////////////////////////////////////////
 int32_t RFile::Read64(	// Returns number of 64 bit items read.
 	uint64_t*	pu64,			// In:  64 bit data to read (swapping, if necessary).
-	int32_t	lNum)			// In:  Number of 64 bit items to read.
+   size_t	lNum)			// In:  Number of 64 bit items to read.
 	{
 	int32_t	lRes	= 0;
 
@@ -2264,7 +2264,7 @@ int32_t RFile::Read64(	// Returns number of 64 bit items read.
 		// Convert.
 		uint8_t		u8Tmp;
 		uint8_t*	pu8	= (uint8_t*)pu64;
-		for (int32_t l = 0L; l < lRes; l++, pu8 += sizeof(uint64_t))
+      for (int32_t l = 0; l < lRes; l++, pu8 += sizeof(uint64_t))
 			{
 			u8Tmp			= *(pu8 + 0); 
 			*(pu8 + 0)	= *(pu8 + 7);
@@ -2294,7 +2294,7 @@ int32_t RFile::Read64(	// Returns number of 64 bit items read.
 //////////////////////////////////////////////////////////////////////////////
 int32_t RFile::Write8(	// Returns number of 8 bit items written.
 	const uint8_t*	pu8,			// In:  8 bit data to write (swapping, if necessary).
-	int32_t	lNum)			// In:  Number of 8 bit items to write.
+   size_t	lNum)			// In:  Number of 8 bit items to write.
 	{
 	int32_t	lRes	= 0;
 
@@ -2310,7 +2310,7 @@ int32_t RFile::Write8(	// Returns number of 8 bit items written.
 //////////////////////////////////////////////////////////////////////////////
 int32_t RFile::Write16(	// Returns number of 16 bit items written.
 	const uint16_t*	pu16,				// In:  16 bit data to write (swapping, if necessary).
-	int32_t	lNum)				// In:  Number of 16 bit items to write.
+   size_t	lNum)				// In:  Number of 16 bit items to write.
 	{
 	int32_t	lRes	= 0;
 
@@ -2332,16 +2332,16 @@ int32_t RFile::Write16(	// Returns number of 16 bit items written.
 		uint8_t*	pu8Src	= (uint8_t*)pu16;		// Source data.
 		uint8_t*	pu8Dst;							// Temp destination to be written after
 													// swapped to.
-		int32_t	lSrc;								// Number of source items swapped/written.
-		int32_t	lDst;								// Number of items swapped on current
+      size_t lSrc;								// Number of source items swapped/written.
+      size_t lDst;								// Number of items swapped on current
 													// iteration.
 		int32_t	lWritten	= 0;					// Number of items written on current
 													// iteration.
-		for (lSrc = 0L; lSrc < lNum && lWritten >= 0L; lRes += lWritten / sizeof(uint16_t))
+      for (lSrc = 0; lSrc < lNum && lWritten >= 0; lRes += lWritten / sizeof(uint16_t))
 			{
 			pu8Dst	= ms_au8SwapBuf;
 			for (
-				lDst = 0L; 
+            lDst = 0;
 				lSrc < lNum && lDst < sizeof(ms_au8SwapBuf); 
 				lDst += sizeof(uint16_t), lSrc++, pu8Src += sizeof(uint16_t), pu8Dst += sizeof(uint16_t) )
 				{
@@ -2364,7 +2364,7 @@ int32_t RFile::Write16(	// Returns number of 16 bit items written.
 //////////////////////////////////////////////////////////////////////////////
 int32_t RFile::Write24(	// Returns number of 24 bit items written.
 	const RPixel24*	ppix24,		// In:  24 bit data to write (swapping, if necessary).
-	int32_t	lNum)				// In:  Number of 24 bit items to write.
+   size_t	lNum)				// In:  Number of 24 bit items to write.
 	{
 	int32_t	lRes	= 0;
 
@@ -2386,16 +2386,16 @@ int32_t RFile::Write24(	// Returns number of 24 bit items written.
 		uint8_t*	pu8Src	= (uint8_t*)ppix24;		// Source data.
 		uint8_t*	pu8Dst;							// Temp destination to be written after
 													// swapped to.
-		int32_t	lSrc;								// Number of source items swapped/written.
-		int32_t	lDst;								// Number of items swapped on current
+      size_t lSrc;								// Number of source items swapped/written.
+      size_t lDst;								// Number of items swapped on current
 													// iteration.
 		int32_t	lWritten	= 0;					// Number of items written on current
 													// iteration.
-		for (lSrc = 0L; lSrc < lNum && lWritten >= 0L; lRes += lWritten / sizeof(RPixel24))
+      for (lSrc = 0; lSrc < lNum && lWritten >= 0; lRes += lWritten / sizeof(RPixel24))
 			{
 			pu8Dst	= ms_au8SwapBuf;
 			for (
-				lDst = 0L; 
+            lDst = 0;
 				lSrc < lNum && lDst < sizeof(ms_au8SwapBuf); 
 				lDst += sizeof(RPixel24), lSrc++, pu8Src += sizeof(RPixel24), pu8Dst += sizeof(RPixel24) )
 				{
@@ -2419,7 +2419,7 @@ int32_t RFile::Write24(	// Returns number of 24 bit items written.
 //////////////////////////////////////////////////////////////////////////////
 int32_t RFile::Write32(	// Returns number of 32 bit items written.
 	const uint32_t*	pu32,				// In:  32 bit data to write (swapping, if necessary).
-	int32_t	lNum)				// In:  Number of 32 bit items to write.
+   size_t	lNum)				// In:  Number of 32 bit items to write.
 	{
 	int32_t	lRes	= 0;
 
@@ -2441,16 +2441,16 @@ int32_t RFile::Write32(	// Returns number of 32 bit items written.
 		uint8_t*	pu8Src	= (uint8_t*)pu32;		// Source data.
 		uint8_t*	pu8Dst;							// Temp destination to be written after
 													// swapped to.
-		int32_t	lSrc;								// Number of source items swapped/written.
-		int32_t	lDst;								// Number of items swapped on current
+      size_t lSrc;								// Number of source items swapped/written.
+      size_t lDst;								// Number of items swapped on current
 													// iteration.
 		int32_t	lWritten	= 0;					// Number of items written on current
 													// iteration.
-		for (lSrc = 0L; lSrc < lNum && lWritten >= 0L; lRes += lWritten / sizeof(uint32_t))
+      for (lSrc = 0; lSrc < lNum && lWritten >= 0; lRes += lWritten / sizeof(uint32_t))
 			{
 			pu8Dst	= ms_au8SwapBuf;
 			for (
-				lDst = 0L; 
+            lDst = 0;
 				lSrc < lNum && lDst < sizeof(ms_au8SwapBuf); 
 				lDst += sizeof(uint32_t), lSrc++, pu8Src += sizeof(uint32_t), pu8Dst += sizeof(uint32_t) )
 				{
@@ -2475,7 +2475,7 @@ int32_t RFile::Write32(	// Returns number of 32 bit items written.
 //////////////////////////////////////////////////////////////////////////////
 int32_t RFile::Write64(	// Returns number of 64 bit items written.
 	const uint64_t*	pu64,				// In:  64 bit data to write (swapping, if necessary).
-	int32_t	lNum)				// In:  Number of 64 bit items to write.
+   size_t lNum)				// In:  Number of 64 bit items to write.
 	{
 	int32_t	lRes	= 0;
 
@@ -2496,16 +2496,16 @@ int32_t RFile::Write64(	// Returns number of 64 bit items written.
 		uint8_t*	pu8Src	= (uint8_t*)pu64;		// Source data.
 		uint8_t*	pu8Dst;							// Temp destination to be written after
 													// swapped to.
-		int32_t	lSrc;								// Number of source items swapped/written.
-		int32_t	lDst;								// Number of items swapped on current
+      size_t	lSrc;								// Number of source items swapped/written.
+      size_t	lDst;								// Number of items swapped on current
 													// iteration.
 		int32_t	lWritten	= 0;					// Number of items written on current
 													// iteration.
-		for (lSrc = 0L; lSrc < lNum && lWritten >= 0L; lRes += lWritten / sizeof(uint64_t))
+      for (lSrc = 0; lSrc < lNum && lWritten >= 0; lRes += lWritten / sizeof(uint64_t))
 			{
 			pu8Dst	= ms_au8SwapBuf;
 			for (
-				lDst = 0L; 
+            lDst = 0;
 				lSrc < lNum && lDst < sizeof(ms_au8SwapBuf); 
 				lDst += sizeof(uint64_t), lSrc++, pu8Src += sizeof(uint64_t), pu8Dst += sizeof(uint64_t) )
 				{
@@ -2536,7 +2536,7 @@ int32_t RFile::Write64(	// Returns number of 64 bit items written.
 	//////////////////////////////////////////////////////////////////////////////
 	int16_t RFile::Disconnect(void)
 		{
-		int16_t	sRes	= 0;	// Assume success.
+      int16_t	sResult	= SUCCESS;	// Assume success.
 		
 		// Must be disk file and must be connected.
 		ASSERT(IsFile()			== TRUE);
@@ -2544,7 +2544,7 @@ int32_t RFile::Write64(	// Returns number of 64 bit items written.
 
 		// Close this file. BUT DON'T CLEAR m_fs!!!!  Needed for calls to IsFile(),
 		// etc.
-		if (fclose(m_fs) == 0)
+      if (fclose(m_fs) == SUCCESS)
 			{
 			// Successfully disconnected.
 			}
@@ -2552,10 +2552,10 @@ int32_t RFile::Write64(	// Returns number of 64 bit items written.
 			{
 			TRACE("Disconnect(): Unable to close file for disconnection from "
 					"disk.\n");
-			sRes = -2;
+         sResult = FAILURE - 1;
 			}
 
-		return sRes;
+      return sResult;
 		}
 
 	//////////////////////////////////////////////////////////////////////////////
@@ -2567,7 +2567,7 @@ int32_t RFile::Write64(	// Returns number of 64 bit items written.
 	//////////////////////////////////////////////////////////////////////////////
 	int16_t RFile::Reconnect(void)
 		{
-		int16_t	sRes	= 0;	// Assume success.
+      int16_t	sResult	= SUCCESS;	// Assume success.
 
 		// Must be disk file.
 		ASSERT(IsFile()			== TRUE);
@@ -2577,28 +2577,28 @@ int32_t RFile::Write64(	// Returns number of 64 bit items written.
 			{
 			// Re open.
 			m_fs = fopen(m_szFileName, m_szFlags);
-			if (m_fs != NULL)
+			if (m_fs != nullptr)
 				{
 				// Reconnected.  Add to open list.
-				if (ms_listOpen.Add(this) == 0)
+            if (ms_listOpen.Add(this) == SUCCESS)
 					{
 					// Success.
 					}
 				else
 					{
 					TRACE("Reconnect(): Unable to add file to open files list!\n");
-					sRes = -2;
+               sResult = FAILURE - 1;
 					}
 				}
 			else
 				{
 				TRACE("Reconnect(): UNABLE TO RECONNECT FILE!  A FILE MAY HAVE BEEN "
 						"LOCKED BY ANOTHER USER/APP DURING DURATION OF DISCONNECT!\n");
-				sRes = -1;
+            sResult = FAILURE;
 				}
 			}
 
-		return sRes;
+      return sResult;
 		}
 
 	//////////////////////////////////////////////////////////////////////////////
@@ -2611,13 +2611,13 @@ int32_t RFile::Write64(	// Returns number of 64 bit items written.
 	//////////////////////////////////////////////////////////////////////////////
 	int16_t RFile::MakeStreamAvailable(void)
 		{
-		int16_t	sRes	= 0;	// Assume success.
+      int16_t	sResult	= SUCCESS;	// Assume success.
 
 		// Find the open RFile attached to disk that was accessed longest ago.
 		// All RFiles in the ms_listOpen list are attached to disk files.
 		RFile*	pfileOld	= ms_listOpen.GetHead();
 		RFile*	pfile		= ms_listOpen.GetNext();
-		while (pfile != NULL)
+		while (pfile != nullptr)
 			{
 			// If current was accessed longer ago than pfileOld . . .
 			if (pfile->m_lLastAccess < pfileOld->m_lLastAccess)
@@ -2629,13 +2629,13 @@ int32_t RFile::Write64(	// Returns number of 64 bit items written.
 			}
 
 		// If we got one . . .
-		if (pfileOld != NULL)
+		if (pfileOld != nullptr)
 			{
 			// Attempt to temporarily disconnect . . .
-			if (pfileOld->Disconnect() == 0)
+         if (pfileOld->Disconnect() == SUCCESS)
 				{
 				// Remove RFile from list.
-				if (ms_listOpen.Remove(pfileOld) == 0)
+            if (ms_listOpen.Remove(pfileOld) == SUCCESS)
 					{
 					}
 				else
@@ -2648,16 +2648,16 @@ int32_t RFile::Write64(	// Returns number of 64 bit items written.
 			else
 				{
 				TRACE("MakeStreamAvailable(): Unable to disconnect RFile.\n");
-				sRes = -2;
+            sResult = FAILURE - 1;
 				}
 			}
 		else
 			{
 			TRACE("MakeStreamAvailable(): No open RFiles attached to disk.\n");
-			sRes = -1;
+         sResult = FAILURE;
 			}
 
-		return sRes;
+      return sResult;
 		}
 
 #endif	// ALLOW_RFILE_REOPEN

@@ -141,7 +141,7 @@ extern int16_t rspOpenBox(								// Returns 0 if successfull, non-zero otherwis
 	const char*	pszDefaultPath,						// In:  Default directory and file
 	char* pszSelectedFile,								// Out: File that user selected
 	int16_t sSelectedFileBufSize,						// In:  Size of buffer pointed to by pszSelectedFile
-	const char*	pszFilter /*= NULL*/)				// In:  Filename filter or NULL for none
+   const char*	pszFilter /*= nullptr*/)				// In:  Filename filter or nullptr for none
 {
   UNUSED(pszBoxTitle, pszDefaultPath, pszSelectedFile, sSelectedFileBufSize, pszFilter);
     fprintf(stderr, "STUBBED: %s:%d\n", __FILE__, __LINE__);
@@ -154,7 +154,7 @@ extern int16_t rspSaveBox(			// Returns 0 on success.
 	const char*	pszDefFileName,			// In:  Default filename.
 	char* pszChosenFileName,		// Out: User's choice.
 	int16_t sStrSize,					// In:  Amount of memory pointed to by pszChosenFileName.
-	const char*	pszFilter /*= NULL*/)	// In:  If not NULL, '.' delimited extension based filename
+   const char*	pszFilter /*= nullptr*/)	// In:  If not nullptr, '.' delimited extension based filename
 											//	filter specification.  Ex: ".cpp.h.exe.lib" or "cpp.h.exe.lib"
 											// Note: Cannot use '.' in filter.  Preceding '.' ignored.
 {

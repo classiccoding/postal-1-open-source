@@ -75,7 +75,7 @@ typedef	struct
 	{
 	uint32_t	u32TransparentColor;	// ConvertTo 
 	int16_t	sX,sY,sW,sH;			// ConvertTo (-1 == don't use)
-	RImage** ppimNew;				// Create a separate CImage if not NULL!
+   RImage** ppimNew;				// Create a separate CImage if not nullptr!
 	uint32_t	u32ForeColor;			// ConvertFrom
 	uint32_t	u32BackColor;			// ConvertFrom (if s16Transparent==FALSE)
 	int16_t	s16Transparent;		// ConvertFrom (flag)
@@ -89,7 +89,7 @@ ConversionInfoFSPR1 gFSPR1 =
 	(int16_t) -1,
 	(int16_t) -1,
 	(int16_t) -1,
-	(RImage**) NULL,
+   (RImage**) nullptr,
 	(uint32_t)	0xffffff01,	// And the color to the correct depth
 	(uint32_t)	0,
 	(int16_t) TRUE
@@ -102,7 +102,7 @@ void ResetFSPR1()	// only traits DESIRABLE to reset between Converts
 	gFSPR1.sY=-1;
 	gFSPR1.sW=-1;
 	gFSPR1.sH=-1;
-	gFSPR1.ppimNew=NULL;
+   gFSPR1.ppimNew=nullptr;
 	}
 
 int16_t GetOverRuns();
@@ -142,7 +142,7 @@ void SetConvertFromFSPR1
 
 //-------------------  HOOK into the CImage world ------------------------
 IMAGELINKLATE(FSPR1,ConvertToFSPR1,ConvertFromFSPR1,
-				  LoadFSPR1,SaveFSPR1,NULL,DeleteFSPR1);
+              LoadFSPR1,SaveFSPR1,nullptr,DeleteFSPR1);
 
 int16_t		DeleteFSPR1(RImage* pImage) // from CImage ONLY
 	{
@@ -202,7 +202,7 @@ int16_t ConvertToFSPR1(RImage* pImage)
 	lMaxSize = (lMaxSize + 15) & ~15; // 128 bit alignment
 
 	uint8_t*	pCodeBuf = (uint8_t*) calloc(1,lMaxSize);
-	if (pCodeBuf == NULL)
+   if (pCodeBuf == nullptr)
 		{
 		TRACE("ConvertToFSPR1: Out of memory ERROR!");
 		ResetFSPR1();
@@ -315,7 +315,7 @@ int16_t ConvertToFSPR1(RImage* pImage)
 	int32_t lCompressedSize = pCode - pCodeBuf + 1;
 	int32_t lAlignSize = (lCompressedSize + 15) & ~15;
 	uint8_t* pNewCodeBuf = (uint8_t*) calloc(1,lAlignSize); //+ Free problem
-	if (pNewCodeBuf == NULL)
+   if (pNewCodeBuf == nullptr)
 		{
 		TRACE("ConvertToFSPR1: Out of memory ERROR!");
 		free(pCodeBuf);
@@ -350,7 +350,7 @@ int16_t ConvertToFSPR1(RImage* pImage)
 	pimNew->m_lPitch = (int32_t)pimNew->m_sWidth; // Pitch is meaningless here!
 
 	// *********************  should we transfer it over?  **************
-	if (gFSPR1.ppimNew != NULL) // make a copy:
+   if (gFSPR1.ppimNew != nullptr) // make a copy:
 		{
 		*(gFSPR1.ppimNew) = pimNew;
 		ResetFSPR1();
@@ -367,7 +367,7 @@ int16_t ConvertToFSPR1(RImage* pImage)
 	pImage->m_ulSize = 0;	// BLiT needs to deal with copying, etc....
 	pImage->m_type = RImage::FSPR1;
 	// free the copy header:
-	pimNew->m_pSpecialMem = NULL;
+   pimNew->m_pSpecialMem = nullptr;
 	delete pimNew; // it's gone!
 
 	return RImage::FSPR1;
@@ -385,7 +385,7 @@ void _rspBLiT(uint8_t ucColor,RImage* pimSrc,RImage* pimDst,
 
 #ifdef _DEBUG
 	
-	if (pimSrc->m_pSpecialMem == NULL)
+   if (pimSrc->m_pSpecialMem == nullptr)
 		{
 		TRACE("_rspBLiT (FSPR1): corrupted source image!\n");
 		return;
@@ -457,7 +457,7 @@ int16_t		ConvertFromFSPR1(RImage* pImage)
 
 	// Now jettison the FSPR1 data:
 	delete pHead;
-	pImage->m_pSpecial = pImage->m_pSpecialMem = NULL;
+   pImage->m_pSpecial = pImage->m_pSpecialMem = nullptr;
 
 	return (int16_t)pImage->m_type;
 	}
@@ -604,7 +604,7 @@ int16_t rspBlit(
 	{
 #ifdef _DEBUG
 
-	if ((pimSrc == NULL) || (pimDst == NULL))
+   if ((pimSrc == nullptr) || (pimDst == nullptr))
 		{
 		TRACE("BLiT: null CImage* passed\n");
 		return -1;
@@ -689,7 +689,7 @@ int16_t rspBlit(
 	// IN THIS IMPLEMENTATION, we must do LOCK, BLiT, UNLOCK, so I
 	// must record which UNLOCK (if any) needs to be done AFTER the BLiT
 	// has completed. (Lord help me if a blit gets interrupted)
-	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((int64_t)pimDst->m_pSpecial);
+   if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((intptr_t)pimDst->m_pSpecial);
 
 	switch (sBlitTypeDst) // 0 = normal image
 		{
@@ -746,7 +746,7 @@ int16_t rspBlit(
 	// Check for locking error:
 	if (!pimDst->m_pData)
 		{
-		TRACE("BLiT: NULL data - possible locking error.\n");
+      TRACE("BLiT: nullptr data - possible locking error.\n");
 		return FAILURE;
 		}
 
@@ -883,7 +883,7 @@ int16_t rspBlit(
 	{
 #ifdef _DEBUG
 
-	if ((pimSrc == NULL) || (pimDst == NULL))
+   if ((pimSrc == nullptr) || (pimDst == nullptr))
 		{
 		TRACE("BLiT: null CImage* passed\n");
 		return -1;
@@ -987,7 +987,7 @@ int16_t rspBlit(
 	// IN THIS IMPLEMENTATION, we must do LOCK, BLiT, UNLOCK, so I
 	// must record which UNLOCK (if any) needs to be done AFTER the BLiT
 	// has completed. (Lord help me if a blit gets interrupted)
-	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((int64_t)pimDst->m_pSpecial);
+   if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((intptr_t)pimDst->m_pSpecial);
 
 	switch (sBlitTypeDst) // 0 = normal image
 		{
@@ -1044,7 +1044,7 @@ int16_t rspBlit(
 	// Check for locking error:
 	if (!pimDst->m_pData)
 		{
-		TRACE("BLiT: NULL data - possible locking error.\n");
+      TRACE("BLiT: nullptr data - possible locking error.\n");
 		return FAILURE;
 		}
 
@@ -1061,7 +1061,7 @@ int16_t rspBlit(
 	RFracU16 frOldX = {0};
 	RFracU16 frOldY = {0},frY = {0};
 
-	RFracU16 *afrSkipX=NULL,*afrSkipY=NULL;
+   RFracU16 *afrSkipX=nullptr,*afrSkipY=nullptr;
 	afrSkipX = rspfrU16Strafe256(sDstW,sDenX);
 	afrSkipY = rspfrU16Strafe256(sDstH,sDenY);
 	// Make magnification possible:
@@ -1199,7 +1199,7 @@ int16_t rspBlit(
 	{
 #ifdef _DEBUG
 
-	if ((pimSrc == NULL) || (pimDst == NULL))
+   if ((pimSrc == nullptr) || (pimDst == nullptr))
 		{
 		TRACE("BLiT: null CImage* passed\n");
 		return -1;
@@ -1239,7 +1239,7 @@ int16_t rspBlit(
 	// IN THIS IMPLEMENTATION, we must do LOCK, BLiT, UNLOCK, so I
 	// must record which UNLOCK (if any) needs to be done AFTER the BLiT
 	// has completed. (Lord help me if a blit gets interrupted)
-	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((int64_t)pimDst->m_pSpecial);
+   if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((intptr_t)pimDst->m_pSpecial);
 
 	switch (sBlitTypeDst) // 0 = normal image
 		{
@@ -1296,7 +1296,7 @@ int16_t rspBlit(
 	// check for locking error:
 	if (!pimDst->m_pData)
 		{
-		TRACE("Blit: NULL data - possible locking error.\n");
+      TRACE("Blit: nullptr data - possible locking error.\n");
 		return FAILURE;
 		}
 
@@ -1410,7 +1410,7 @@ int16_t rspBlit(
 	{
 #ifdef _DEBUG
 
-	if ((pimSrc == NULL) || (pimDst == NULL))
+   if ((pimSrc == nullptr) || (pimDst == nullptr))
 		{
 		TRACE("BLiT: null CImage* passed\n");
 		return -1;
@@ -1459,7 +1459,7 @@ int16_t rspBlit(
 	// IN THIS IMPLEMENTATION, we must do LOCK, BLiT, UNLOCK, so I
 	// must record which UNLOCK (if any) needs to be done AFTER the BLiT
 	// has completed. (Lord help me if a blit gets interrupted)
-	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((int64_t)pimDst->m_pSpecial);
+   if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((intptr_t)pimDst->m_pSpecial);
 
 	switch (sBlitTypeDst) // 0 = normal image
 		{
@@ -1516,7 +1516,7 @@ int16_t rspBlit(
 	// Check for locking error:
 	if (!pimDst->m_pData)
 		{
-		TRACE("BLiT: NULL data - possible locking error.\n");
+      TRACE("BLiT: nullptr data - possible locking error.\n");
 		return FAILURE;
 		}
 
@@ -1533,7 +1533,7 @@ int16_t rspBlit(
 	RFracU16 frOldX = {0};
 	RFracU16 frOldY = {0},frY = {0};
 
-	RFracU16 *afrSkipX=NULL,*afrSkipY=NULL;
+   RFracU16 *afrSkipX=nullptr,*afrSkipY=nullptr;
 	afrSkipX = rspfrU16Strafe256(sDstW,sDenX);
 	afrSkipY = rspfrU16Strafe256(sDstH,sDenY);
 	// Make magnification possible:

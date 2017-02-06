@@ -167,7 +167,7 @@ RDirtyRects::~RDirtyRects()
 //////////////////////////////////////////////////////////////////////////////
 int16_t RDirtyRects::Add(RDRect* pdr)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+   int16_t	sResult	= 0;	// Assume success.
 
 	int16_t		sClippedOut	= FALSE;
 	RDRect	drTemp		= *pdr;	
@@ -175,7 +175,7 @@ int16_t RDirtyRects::Add(RDRect* pdr)
 	if (m_sClipX >= 0)
 		{
 		// If not clipped out in x direction . . .
-		if (Clip(&drTemp.sX, &drTemp.sW, m_sClipX) == 0)
+      if (Clip(&drTemp.sX, &drTemp.sW, m_sClipX) == SUCCESS)
 			{
 			}
 		else
@@ -187,7 +187,7 @@ int16_t RDirtyRects::Add(RDRect* pdr)
 	if (m_sClipY >= 0)
 		{
 		// If not clipped out in y direction . . .
-		if (Clip(&drTemp.sY, &drTemp.sH, m_sClipY) == 0)
+      if (Clip(&drTemp.sY, &drTemp.sH, m_sClipY) == SUCCESS)
 			{
 			}
 		else
@@ -198,7 +198,7 @@ int16_t RDirtyRects::Add(RDRect* pdr)
 	
 	if (sClippedOut == FALSE)
 		{
-		if (Combine(&drTemp) == 0)
+      if (Combine(&drTemp) == SUCCESS)
 			{
 			// Combined into an existing rectangle.
 			}
@@ -206,20 +206,20 @@ int16_t RDirtyRects::Add(RDRect* pdr)
 			{
 			// No existing rectangle was close enough.
 			RDRect*	pdrNew	= new RDRect;
-			if (pdrNew != NULL)
+			if (pdrNew != nullptr)
 				{
-				if (RList<RDRect>::Add(pdrNew) == 0)
+            if (RList<RDRect>::Add(pdrNew) == SUCCESS)
 					{
 					*pdrNew = drTemp;
 					}
 				else
 					{
 					TRACE("Add(): Unable to add *RDRect to list.\n");
-					sRes = -2;
+               sResult = -2;
 					}
 
 				// If any errors occurred after allocation . . .
-				if (sRes != 0)
+            if (sResult != 0)
 					{
 					delete pdrNew;
 					}
@@ -227,12 +227,12 @@ int16_t RDirtyRects::Add(RDRect* pdr)
 			else
 				{
 				TRACE("Add(): Unable to allocate new RDRect.\n");
-				sRes = -1;
+            sResult = -1;
 				}
 			}
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -257,7 +257,7 @@ int16_t RDirtyRects::Add(int16_t sX, int16_t sY, int16_t sW, int16_t sH)
 void RDirtyRects::Empty(void)
 	{
 	RDRect*	pdr	= GetHead();
-	while (pdr != NULL)
+	while (pdr != nullptr)
 		{
 		Remove();
 		delete pdr;
@@ -275,13 +275,13 @@ void RDirtyRects::Empty(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t RDirtyRects::Combine(RDRect* pdr)
 	{
-	int16_t	sRes	= 1;	// Assume not combined.
+   int16_t	sResult	= 1;	// Assume not combined.
 
 	// If combinable . . .
 	if (m_sMinDistanceX >= 0)
 		{
 		RDRect*	pdrExisting	= GetHead();
-		while (pdrExisting != NULL)
+		while (pdrExisting != nullptr)
 			{
 			if (pdrExisting->sX - (pdr->sX + pdr->sW) <= m_sMinDistanceX)
 				{
@@ -297,7 +297,7 @@ int16_t RDirtyRects::Combine(RDRect* pdr)
 							Remove();
 							// This new rectangle may combine further.
 							// If it does . . .
-							if (Combine(pdrExisting) == 0)
+                     if (Combine(pdrExisting) == SUCCESS)
 								{
 								// We can delete it.
 								delete pdrExisting;
@@ -305,7 +305,7 @@ int16_t RDirtyRects::Combine(RDRect* pdr)
 							else
 								{
 								// Re-insert . . .
-								if (RList<RDRect>::Add(pdrExisting) == 0)
+                        if (RList<RDRect>::Add(pdrExisting) == SUCCESS)
 									{
 									// Success.
 									}
@@ -316,7 +316,7 @@ int16_t RDirtyRects::Combine(RDRect* pdr)
 									}
 								}
 							
-							sRes = 0;
+                     sResult = 0;
 							break;
 							}
 						}
@@ -327,7 +327,7 @@ int16_t RDirtyRects::Combine(RDRect* pdr)
 			}
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -375,11 +375,11 @@ void RDirtyRects::Expand(RDRect* pdrExpand, RDRect* pdrNew)
 //////////////////////////////////////////////////////////////////////////////
 int16_t RDirtyRects::Clip(int16_t* psPos, int16_t* psDistance, int16_t sClipDistance)
 	{
-	int16_t	sRes	= 0;	// Assume not clipped out.
+   int16_t	sResult	= 0;	// Assume not clipped out.
 
 	if (*psPos > sClipDistance)
 		{
-		sRes = 1;
+      sResult = 1;
 		}
 	else
 		{
@@ -392,7 +392,7 @@ int16_t RDirtyRects::Clip(int16_t* psPos, int16_t* psDistance, int16_t sClipDist
 			// If clipped out . . .
 			if (*psDistance <= 0)
 				{
-				sRes	= 1;
+            sResult	= 1;
 				}
 			}
 
@@ -407,12 +407,12 @@ int16_t RDirtyRects::Clip(int16_t* psPos, int16_t* psDistance, int16_t sClipDist
 			// If clipped out . . .
 			if (*psDistance <= 0)
 				{
-				sRes	= 1;
+            sResult	= 1;
 				}
 			}
 		}
 
-	return sRes;
+   return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////

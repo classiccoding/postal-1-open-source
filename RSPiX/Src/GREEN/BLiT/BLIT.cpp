@@ -33,9 +33,9 @@
 
 #ifdef _DEBUG
 
-	if (pimDst == NULL)
+	if (pimDst == nullptr)
 		{
-		TRACE("rspPlot: NULL Image passed.\n");
+		TRACE("rspPlot: nullptr Image passed.\n");
 		return;
 		}
 
@@ -63,7 +63,7 @@
 
 	// removed locking and unlocking except where needed for special cases:
 
-	switch ((int16_t)(((int64_t)pimDst->m_pSpecial))) // 0 = normal image
+   switch ((int16_t)(((intptr_t)pimDst->m_pSpecial))) // 0 = normal image
 		{
 		case 0: // normal image, buffer in image
 		break;
@@ -114,7 +114,7 @@
 	// Special check for buffer not locked correctly:
 	if (!pimDst->m_pData)
 		{
-		TRACE("rspPlot: NULL image data - potential locking error\n");
+		TRACE("rspPlot: nullptr image data - potential locking error\n");
 		return;
 		}
 
@@ -162,7 +162,7 @@ template void rspClipPlot<uint32_t>(uint32_t color, RImage* pimDst,int16_t sX,in
 void instantiatePlot(void);
 void instantiatePlot()
 	{
-	RImage* pim = NULL;
+	RImage* pim = nullptr;
 
 	rspPlot((uint8_t)0,pim,(int16_t)0,(int16_t)0);
 	rspPlot((uint16_t)0,pim,(int16_t)0,(int16_t)0);
@@ -211,8 +211,8 @@ int16_t	rspLasso(PIXSIZE ignoreColor,RImage* pimSrc,int16_t &x,int16_t &y,int16_
 #endif
 
 	int16_t btos[] = {-1,0,1,-1,2};
-	PIXSIZE* pCursor = NULL;
-	PIXSIZE* pCursorLine = NULL;
+	PIXSIZE* pCursor = nullptr;
+	PIXSIZE* pCursorLine = nullptr;
 	int32_t	lSkipV;
 	int16_t i,j;
 
@@ -321,7 +321,7 @@ template int16_t rspLasso<uint32_t>(uint32_t ignoreColor,RImage* pimSrc,int16_t 
 void instantiateLasso(void);
 void instantiateLasso()
 	{
-	RImage* pim = NULL;
+	RImage* pim = nullptr;
 	int16_t i = 0;
 
 	rspLasso( (uint8_t)i, pim, i,i,i,i, 1,1,1,1);
@@ -347,7 +347,7 @@ inline void _BLiT(PIXSIZE* pSrc,PIXSIZE* pDst,int32_t lSrcPitch, int32_t lDstPit
 
 	const static int16_t SizeToShift[] = {0,0,1,0,2,0,0,0,3,0,0,0,0,0,0,0,4};
 	//                                  0 1 2 3 4 5 6 7 8 9 a b c d e f *
-	int16_t sWordWidth = int16_t(sByteWidth >> SizeToShift[sizeof(PIXSIZE)]);
+   int16_t sWordWidth = sByteWidth >> SizeToShift[sizeof(PIXSIZE)];
 
 	pSrcLine.w = pSrc;
 	pDstLine.w = pDst;
@@ -387,7 +387,7 @@ inline void _BLiT_MA(uint8_t* pSrc,uint8_t* pDst,int32_t lSrcPitch, int32_t lDst
 
 	int16_t i;
 	int16_t sWordWidth = int16_t (sWidth >> 2); //32 bit words....
-	int16_t sExtraWidth = sWidth - int16_t(sWordWidth << 2);
+   int16_t sExtraWidth = sWidth - (sWordWidth << 2);
 
 	pS.b = pSrcLine.b = pSrc;
 	pD.b = pDstLine.b = pDst;
@@ -616,7 +616,7 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sSrcX,int16_t sSrcY,int16_
 	// 1) preliminary parameter validation:
 #ifdef _DEBUG
 
-	if ((pimSrc == NULL) || (pimDst == NULL))
+	if ((pimSrc == nullptr) || (pimDst == nullptr))
 		{
 		TRACE("BLiT: null RImage* passed\n");
 		return -1;
@@ -725,8 +725,8 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sSrcX,int16_t sSrcY,int16_
 	// IN THIS IMPLEMENTATION, we must do LOCK, BLiT, UNLOCK, so I
 	// must record which UNLOCK (if any) needs to be done AFTER the BLiT
 	// has completed. (Lord help me if a blit gets interrupted)
-	if (pimSrc->m_type == RImage::IMAGE_STUB) sBlitTypeSrc = (int16_t)((int64_t)pimSrc->m_pSpecial);
-	if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((int64_t)pimDst->m_pSpecial);
+   if (pimSrc->m_type == RImage::IMAGE_STUB) sBlitTypeSrc = (int16_t)((intptr_t)pimSrc->m_pSpecial);
+   if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((intptr_t)pimDst->m_pSpecial);
 
 	switch ( (sBlitTypeSrc<<3) + sBlitTypeDst) // 0 = normal image
 		{
@@ -812,7 +812,7 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sSrcX,int16_t sSrcY,int16_
 	// Check for locking error:
 	if (!pimDst->m_pData)
 		{
-		TRACE("BLiT: NULL data - possible locking error.\n");
+		TRACE("BLiT: nullptr data - possible locking error.\n");
 		return FAILURE;
 		}
 
@@ -946,7 +946,7 @@ inline void _ClearRect(WORDSIZE color,WORDSIZE* pDst,int32_t lDstPitch,
 	int16_t i,sWordWidth = sByteWidth;
 	const static int16_t SizeToShift[] = {0,0,1,0,2,0,0,0,3,0,0,0,0,0,0,0,4};
 	//                                  0 1 2 3 4 5 6 7 8 9 a b c d e f *
-	sWordWidth = int16_t(sByteWidth >> SizeToShift[sizeof(WORDSIZE)]);
+   sWordWidth = sByteWidth >> SizeToShift[sizeof(WORDSIZE)];
 	pDstLine.w = pDst;
 
 	while (sHeight--)
@@ -973,7 +973,7 @@ int16_t rspRect(uint32_t color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,i
 	// 1) preliminary parameter validation:
 #ifdef _DEBUG
 
-	if (pimDst == NULL)
+	if (pimDst == nullptr)
 		{
 		TRACE("rspRect: null RImage* passed\n");
 		return -1;
@@ -1204,7 +1204,7 @@ int16_t rspRect(int16_t sThickness,uint32_t color,RImage* pimDst,int16_t sX,int1
 	// 1) preliminary parameter validation:
 #ifdef _DEBUG
 
-	if (pimDst == NULL)
+	if (pimDst == nullptr)
 		{
 		TRACE("rspRect: null RImage* passed\n");
 		return -1;
@@ -1260,9 +1260,9 @@ int16_t	rspCrop(RImage* pimSrc,int16_t sX,int16_t sY,int16_t sW,int16_t sH,
 	{
 #ifdef _DEBUG
 
-	if (pimSrc == NULL)
+	if (pimSrc == nullptr)
 		{
-		TRACE("rspCrop: NULL image passed\n");
+		TRACE("rspCrop: nullptr image passed\n");
 		return -1;
 		}
 
@@ -1292,10 +1292,12 @@ int16_t	rspCrop(RImage* pimSrc,int16_t sX,int16_t sY,int16_t sW,int16_t sH,
 	// 2) Create a new buffer with 128-bit alignment and pitch:
 
 	// Determine pixel size:
-//	int16_t	sPixSize = pimSrc->m_sDepth >> 3;
-//	int16_t sShift[] = {-1,0,1,-1,2};
+#ifdef UNUSED_VARIABLES
+  int16_t sPixSize = pimSrc->m_sDepth >> 3;
+  int16_t sShift[] = {-1,0,1,-1,2};
+  int16_t sPixShift = sShift[sPixSize];
+#endif
 	int16_t sAlignMask = sAlign - 1; // sAlign is in BYTES
-//	int16_t sPixShift = sShift[sPixSize];
 
 	// Determine Optimum Pitch...
 	lNewPitch = (sW + sAlignMask) & (~sAlignMask);
@@ -1341,9 +1343,9 @@ int16_t	rspPad(RImage* pimSrc,int16_t sX,int16_t sY, // where to move the old im
 	{
 #ifdef _DEBUG
 
-	if (pimSrc == NULL)
+	if (pimSrc == nullptr)
 		{
-		TRACE("rspPad: NULL image passed\n");
+		TRACE("rspPad: nullptr image passed\n");
 		return -1;
 		}
 
@@ -1384,10 +1386,12 @@ int16_t	rspPad(RImage* pimSrc,int16_t sX,int16_t sY, // where to move the old im
 	// 2) Create a new buffer with 128-bit alignment and pitch:
 
 	// Determine pixel size:
-//	int16_t	sPixSize = pimSrc->m_sDepth >> 3;
-//	int16_t sShift[] = {-1,0,1,-1,2};
+#ifdef UNUSED_VARIABLES
+  int16_t sPixSize = pimSrc->m_sDepth >> 3;
+  int16_t sShift[] = {-1,0,1,-1,2};
+  int16_t sPixShift = sShift[sPixSize];
+#endif
 	int16_t sAlignMask = sAlign - 1; // sAlign is in BYTES
-//	int16_t sPixShift = sShift[sPixSize];
 
 	// Determine Optimum Pitch...
 	lNewPitch = (sW + sAlignMask) & (~sAlignMask);

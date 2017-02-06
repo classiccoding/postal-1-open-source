@@ -132,11 +132,11 @@ void rspTrace(const char *frmt, ... )
 #endif
 
 #if defined(RSP_DEBUG_OUT_FILE)
-		static FILE*	fs	= NULL;	// NOTE that we never fclose this so we can get 
+		static FILE*	fs	= nullptr;	// NOTE that we never fclose this so we can get 
 											// EVERY LAST TRACE -- so this may show up as
 											// a leak.  The system will close it though.
 		// If not yet open . . . 
-		if (fs == NULL)
+		if (fs == nullptr)
 			{
 			// Attempt to open (Note that we never close this -- the system does).
 			// This will probably show up as a leak.
@@ -144,7 +144,7 @@ void rspTrace(const char *frmt, ... )
 			if (fs)
 			{
 				fprintf(fs, "======== Postal Plus build %s %s ========\n", __DATE__, __TIME__);
-				time_t sysTime = time(NULL);
+				time_t sysTime = time(nullptr);
 				fprintf(fs, "Debug log file initialized: %s\n", ctime(&sysTime));
 			}
 			}

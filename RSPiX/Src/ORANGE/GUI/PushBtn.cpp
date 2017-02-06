@@ -117,9 +117,9 @@ RPushBtn::~RPushBtn()
 //
 ////////////////////////////////////////////////////////////////////////
 void RPushBtn::Compose(			// Returns nothing.
-	RImage* pim /*= NULL*/)	// Dest image, uses m_im if NULL.
+	RImage* pim /*= nullptr*/)	// Dest image, uses m_im if nullptr.
 	{
-	if (pim == NULL)
+	if (pim == nullptr)
 		{
 		pim	= &m_im;
 		}
@@ -214,7 +214,7 @@ void RPushBtn::CursorEvent(	// Returns nothing.
 //
 //////////////////////////////////////////////////////////////////////////////
 void RPushBtn::DrawBorder(			// Returns nothing.
-	RImage* pim	/*= NULL*/,			// Dest image, uses m_im if NULL.
+	RImage* pim	/*= nullptr*/,			// Dest image, uses m_im if nullptr.
 	int16_t sInvert	/*= FALSE*/)	// Inverts border if TRUE.
 	{
 	int16_t	sVertShadowPos;
@@ -227,7 +227,7 @@ void RPushBtn::DrawBorder(			// Returns nothing.
 	int16_t	sEdgeThickness			= m_sBorderThickness;
 	int16_t	sHighlightThickness	= m_sBorderThickness;
 
-	if (pim == NULL)
+	if (pim == nullptr)
 		{
 		pim	= &m_im;
 		}

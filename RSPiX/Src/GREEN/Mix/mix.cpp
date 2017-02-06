@@ -196,7 +196,7 @@ uint32_t				RMix::ms_ulBufSize	= 0xFFFFFFFF;	// The size to use when al-
 int16_t				RMix::ms_sReset	= FALSE;				// If TRUE, current user
 																	// buffers are returned.
 
-RSndFx*			RMix::ms_psndfx	= NULL;				// Pointer to a global 
+RSndFx*			RMix::ms_psndfx	= nullptr;				// Pointer to a global
 																	// RSndFx.
 
 int16_t				RMix::ms_sKeepPumping	= FALSE;		// Keep Blue pumped with
@@ -262,15 +262,15 @@ void RMix::Init(void)
 
 	m_lLastDataPos		= 0L;
 
-	m_mcUser				= NULL;
+   m_mcUser				= nullptr;
 	m_ulUser				= 0L;
-	m_pucData			= NULL;
+   m_pucData			= nullptr;
 	m_ulAmount			= 0L;
 
 	m_lStartTime		= -1L;
 	m_lStartPos			= -1L;
 
-	m_psndfx				= NULL;
+   m_psndfx				= nullptr;
 
 	if (ms_ulBufSize == 0xFFFFFFFF)
 		{
@@ -292,7 +292,7 @@ int16_t RMix::BlueCall(	// Returns FALSE when done.
 	int32_t		lDataPos,	// Position that this buffer represents in stream.
 	PMIXBUF	pmb)			// Mix buffer to mix into.
 	{
-	int16_t	sRes	= FALSE;	// Assume no sound mixed in.
+	int16_t	sResult	= FALSE;	// Assume no sound mixed in.
 
 	// If this channel is not suspending and not paused . . .
 	if (m_sSuspending == FALSE && m_sPauseLevel == 0)
@@ -331,20 +331,20 @@ int16_t RMix::BlueCall(	// Returns FALSE when done.
 				}
 			
 			// If not done . . .
-			if (m_pucData != NULL)
+         if (m_pucData != nullptr)
 				{
 				// Amount to mix in now.
 				ulCurMix = MIN(m_ulAmount, ulMixBufSize - ulTotalMixedIn);
 
 				// If an effect is defined . . .
-				if (m_psndfx != NULL)
+            if (m_psndfx != nullptr)
 					{
 					// If there is an active effect . . .
 					if (m_psndfx->GetCurrentFX() != 0)
 						{
 						// Attempt to allocate temp buffer . . .
 						uint8_t*	pu8	= (uint8_t*)malloc(ulCurMix);
-						if (pu8 != NULL)
+                  if (pu8 != nullptr)
 							{
 							// Perform effect into buffer.
 							m_psndfx->Do(m_pucData, ulCurMix, pu8);
@@ -377,7 +377,7 @@ int16_t RMix::BlueCall(	// Returns FALSE when done.
 				m_pucData += ulCurMix;
 
 				// Let caller know we used buffer.
-				sRes = TRUE;
+				sResult = TRUE;
 				}
 			else
 				{
@@ -388,7 +388,7 @@ int16_t RMix::BlueCall(	// Returns FALSE when done.
 			} while (ulTotalMixedIn < ulMixBufSize);
 
 		// If we've exhausted this stream . . .
-		if (m_pucData == NULL)
+      if (m_pucData == nullptr)
 			{
 			// Suspend this channel.  What we mixed in this iteration will still get
 			// played, though.
@@ -401,10 +401,10 @@ int16_t RMix::BlueCall(	// Returns FALSE when done.
 	else
 		{
 		// We did not use buffer.
-		sRes	= FALSE;
+		sResult	= FALSE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -427,11 +427,11 @@ int16_t RMix::BlueCallStatic(	// Returns TRUE to continue mixing in this
 	RMix*	pmix	= ms_listActive.GetHead();
 
 	// If there are any active channels or we are auto-pumping . . .
-	if (pmix != NULL || ms_sKeepPumping != FALSE)
+   if (pmix != nullptr || ms_sKeepPumping != FALSE)
 		{
 		ms_mixbuf.SetDest(pucData, lBufSize);
 
-		while (pmix != NULL)
+      while (pmix != nullptr)
 			{
 			// Call mix channel.  If data mixed into buffer . . .
 			if (pmix->BlueCall(lDataPos, &ms_mixbuf) != FALSE)
@@ -448,7 +448,7 @@ int16_t RMix::BlueCallStatic(	// Returns TRUE to continue mixing in this
 		ms_mixbuf.PrepareForDest();
 
 		// Clear buffer from mixer.
-		ms_mixbuf.SetDest(NULL, 0);
+      ms_mixbuf.SetDest(nullptr, 0);
 
 		// If we were reset recently, we are done processing the reset.
 		ms_sReset = FALSE;
@@ -466,7 +466,7 @@ int16_t RMix::BlueCallStatic(	// Returns TRUE to continue mixing in this
 			// Buffer is going back into queue.
 			
 			// If there are sound fx . . .
-			if (ms_psndfx != NULL)
+         if (ms_psndfx != nullptr)
 				{
 				// Perform them on buffer.
 				ms_psndfx->Do(pucData, lBufSize);
@@ -508,7 +508,7 @@ int16_t RMix::SetMode(				// Returns 0 on success.
 	int32_t	lSrcBitsPerSample)	// Bit depth at which samples must be to be
 										// mixed or 0 for no preference.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	if (ms_sSetMode == FALSE)
 		{
@@ -523,7 +523,7 @@ int16_t RMix::SetMode(				// Returns 0 on success.
 		ms_lCurPos	= 0L;
 
 		// Set the mode to this data type.
-		sRes	= rspSetSoundOutMode(
+		sResult	= rspSetSoundOutMode(
 			lSamplesPerSec, 
 			lDstBitsPerSample, 
 			lNumChannels, 
@@ -532,7 +532,7 @@ int16_t RMix::SetMode(				// Returns 0 on success.
 			BlueCallStatic, 
 			0L);
 
-		if (sRes == 0)
+		if (sResult == SUCCESS)
 			{
 			// Remember we set the mode, so we know to kill the mode.
 			ms_sSetMode	= TRUE;
@@ -545,10 +545,10 @@ int16_t RMix::SetMode(				// Returns 0 on success.
 	else
 		{
 		TRACE("SetMode(): Already in a mode.\n");
-		sRes = 1;
+		sResult = 1;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -583,26 +583,26 @@ void RMix::KillMode(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t RMix::Pause(void)	// Returns 0 on success.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	if (ms_sSetMode != FALSE)
 		{
-		if (rspPauseSoundOut() == 0)
+		if (rspPauseSoundOut() == SUCCESS)
 			{
 			}
 		else
 			{
 			TRACE("Pause(): rspPauseSoundOut() failed.\n");
-			sRes	= -1;
+			sResult	= -1;
 			}
 		}
 	else
 		{
 		TRACE("Pause(): Not in a mode.\n");
-		sRes	= 1;
+		sResult	= 1;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -614,26 +614,26 @@ int16_t RMix::Pause(void)	// Returns 0 on success.
 //////////////////////////////////////////////////////////////////////////////
 int16_t RMix::Resume(void)	// Returns 0 on success.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	if (ms_sSetMode != FALSE)
 		{
-		if (rspResumeSoundOut() == 0)
+		if (rspResumeSoundOut() == SUCCESS)
 			{
 			}
 		else
 			{
 			TRACE("Resume(): rspResumeSoundOut() failed.\n");
-			sRes	= -1;
+			sResult	= -1;
 			}
 		}
 	else
 		{
 		TRACE("Resume(): Not in a mode.\n");
-		sRes	= 1;
+		sResult	= 1;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -678,7 +678,7 @@ int32_t RMix::Do(void)	// Returns value returned by rspDoSound() that
 		}
 
 	PMIX	pmix	= ms_listActive.GetHead();
-	while (pmix != NULL)
+   while (pmix != nullptr)
 		{
 		// If pmix is suspending . . .
 		if (pmix->m_sSuspending != FALSE)
@@ -690,7 +690,7 @@ int32_t RMix::Do(void)	// Returns value returned by rspDoSound() that
 				// Finish this channel.  Note that this function removes pmix
 				// from the list, but since it is pmix that gets removed, when
 				// we do a GetNext() we get the one after pmix.
-				if (pmix->ChannelFinished() == 0)
+				if (pmix->ChannelFinished() == SUCCESS)
 					{
 					// Successfully suspended.
 					}
@@ -727,7 +727,7 @@ int16_t RMix::OpenChannel(int32_t	lSampleRate,
 								int32_t	lBitsPerSample,
 								int32_t	lNumChannels)
 	{
-	int16_t		sRes	= 0;	// Assume success.
+	int16_t		sResult	= 0;	// Assume success.
 
 	// There must be a mode . . .
 	if (ms_sSetMode != FALSE)
@@ -745,16 +745,16 @@ int16_t RMix::OpenChannel(int32_t	lSampleRate,
 		else
 			{
 			TRACE("OpenChannel(): Already open.\n");
-			sRes = -1;
+			sResult = -1;
 			}
 		}
 	else
 		{
 		// No current mode.
-		sRes	= 1;
+		sResult	= 1;
 		}
 
-	return sRes;
+	return sResult;
 	}
 		
 //////////////////////////////////////////////////////////////////////////////
@@ -765,7 +765,7 @@ int16_t RMix::OpenChannel(int32_t	lSampleRate,
 //////////////////////////////////////////////////////////////////////////////
 int16_t RMix::CloseChannel(void)
 	{
-	int16_t		sRes	= 0;	// Assume success.
+	int16_t		sResult	= 0;	// Assume success.
 	
 	if (m_sOpen == TRUE)
 		{
@@ -777,16 +777,16 @@ int16_t RMix::CloseChannel(void)
 		else
 			{
 			TRACE("CloseChannel(): Channel is active.\n");
-			sRes = -2;
+			sResult = -2;
 			}
 		}
 	else
 		{
 		TRACE("CloseChannel(): Not open.\n");
-		sRes = -1;
+		sResult = -1;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -799,20 +799,20 @@ int16_t RMix::CloseChannel(void)
 int16_t RMix::Start(RMixCall mcUser, uintptr_t ulUser,
 					uint8_t	ucVolume /* = 255 */, uint8_t ucVol2 /* = 255 */)
 	{						 
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	ASSERT(m_sOpen == TRUE);
-	ASSERT(mcUser	!= NULL);
+   ASSERT(mcUser	!= nullptr);
 
 	// Add to active list . . .
-	if (ms_listActive.Add(this) == 0)
+	if (ms_listActive.Add(this) == SUCCESS)
 		{
 		// Set user parms.
 		m_mcUser	= mcUser;
 		m_ulUser	= ulUser;
 		
 		// Init user data.
-		m_pucData			= NULL;
+      m_pucData			= nullptr;
 		m_ulAmount			= 0L;
 
 		// Flag start time/pos to be set later.
@@ -823,9 +823,9 @@ int16_t RMix::Start(RMixCall mcUser, uintptr_t ulUser,
 		m_sSuspending		= FALSE;
 
 		// If any errors occurred . . .
-		if (sRes != 0)
+		if (sResult != 0)
 			{
-			if (ms_listActive.Remove(this) == 0)
+			if (ms_listActive.Remove(this) == SUCCESS)
 				{
 				}
 			else
@@ -849,10 +849,10 @@ int16_t RMix::Start(RMixCall mcUser, uintptr_t ulUser,
 	else
 		{
 		TRACE("Start(): Unable to add to active list.\n");
-		sRes = -1;
+		sResult = -1;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -863,7 +863,7 @@ int16_t RMix::Start(RMixCall mcUser, uintptr_t ulUser,
 //////////////////////////////////////////////////////////////////////////////
 int16_t RMix::Suspend(void)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	if (m_sActive == TRUE)
 		{
@@ -875,7 +875,7 @@ int16_t RMix::Suspend(void)
 		ChannelFinished();
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -921,10 +921,10 @@ int16_t RMix::IsChannelPaused(void)	// Returns TRUE, if sound output is paused; 
 //////////////////////////////////////////////////////////////////////////////
 int16_t RMix::Reset(void)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// Attempt to reset sound output . . .
-	if (rspClearSoundOut() == 0)
+	if (rspClearSoundOut() == SUCCESS)
 		{
 		// Get the current position.
 		// Update ms_lCurPos appropriately.
@@ -936,10 +936,10 @@ int16_t RMix::Reset(void)
 	else
 		{
 		TRACE("Reset(): Unable to reset Blue's Sound Out.\n");
-		sRes = -1;
+		sResult = -1;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -950,10 +950,10 @@ int16_t RMix::Reset(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t RMix::SuspendAll(void)	// Returns 0 on success.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	RMix*	pmix		= ms_listActive.GetHead();
-	while (pmix != NULL)
+   while (pmix != nullptr)
 		{
 		// Finish this channel.  Note that this function removes pmix
 		// from the list, but since it is pmix that gets removed, when
@@ -963,7 +963,7 @@ int16_t RMix::SuspendAll(void)	// Returns 0 on success.
 		pmix	= ms_listActive.GetNext();
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -974,16 +974,16 @@ int16_t RMix::SuspendAll(void)	// Returns 0 on success.
 //////////////////////////////////////////////////////////////////////////////
 int16_t RMix::ChannelFinished(void)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	ASSERT(m_sActive == TRUE);
 
-	if (ms_listActive.Remove(this) == 0)
+	if (ms_listActive.Remove(this) == SUCCESS)
 		{
 		m_sActive = FALSE;
 
 		// Call user callback to let it know we're suspended.
-		(*m_mcUser)(Suspended, NULL, NULL, m_ulUser, NULL, NULL);
+      (*m_mcUser)(Suspended, nullptr, nullptr, m_ulUser, nullptr, nullptr);
 
 		// If there are no more buffers . . 
 		if (ms_listActive.IsEmpty() != FALSE)
@@ -993,11 +993,11 @@ int16_t RMix::ChannelFinished(void)
 		}
 	else
 		{
-		sRes = -1;
+		sResult = -1;
 		TRACE("ChannelFinished(): Unable to remove Mixer from active list.\n");
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -1073,15 +1073,15 @@ int32_t RMix::GetPos(void)
 int16_t RMix::GetMode(							// Returns 0 on success; 
 													// nonzero if no mode.
 	int32_t*		plSamplesPerSec,				// Sample rate in samples per second
-													// returned here, if not NULL.
+                                       // returned here, if not nullptr.
 	int32_t*		plDevBitsPerSample,			// Bits per sample of device,
-													// returned here, if not NULL.
+                                       // returned here, if not nullptr.
 	int32_t*		plNumChannels,					// Number of channels (1 == mono, 
 													// 2 == stereo) returned here, 
-													// if not NULL.
+                                       // if not nullptr.
 	int32_t*		plBufferTime,					// Amount of time in ms to lead the 
 													// current play cursor returned here,
-													// if not NULL.  This could also be 
+                                       // if not nullptr.  This could also be
 													// described as the maximum amount of
 													// time in ms that can occur between 
 													// calls to rspDoSound.
@@ -1091,12 +1091,12 @@ int16_t RMix::GetMode(							// Returns 0 on success;
 													// was/will-be allocated for the sound
 													// output device on rspLockSoundOut.
 	int32_t*		plMixBitsPerSample,			// Bits per sample at which samples are
-													// mixed, if not NULL.
+                                       // mixed, if not nullptr.
 	int32_t*		plSrcBitsPerSample)			// Bits per sample at which samples must
 													// be to be mixed (0 if no requirement), 
-													// if not NULL.
+                                       // if not nullptr.
 	{
-	int16_t	sRes	= rspGetSoundOutMode(
+	int16_t	sResult	= rspGetSoundOutMode(
 		plSamplesPerSec, 
 		plDevBitsPerSample,
 		plNumChannels,
@@ -1113,7 +1113,7 @@ int16_t RMix::GetMode(							// Returns 0 on success;
 		*plSrcBitsPerSample	= RMixBuf::ms_lSrcBitsPerSample;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////

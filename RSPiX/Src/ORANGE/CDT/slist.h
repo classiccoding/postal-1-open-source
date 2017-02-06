@@ -71,13 +71,13 @@ template <class T, class K> class RSList
 			PNODE	pnMin	= m_pnHead;	// The minimum from insertion position on.
 			PNODE pnTmp;				// The index.
 
-			while (pnCur != NULL)
+			while (pnCur != nullptr)
 				{
 				pnTmp = pnCur->pNext;
 				pnMin = pnCur;
 
 				// Look for smallest.
-				while (pnTmp != NULL)
+				while (pnTmp != nullptr)
 					{
 					if (Compare(pnTmp, pnMin) < 0)
 						{
@@ -93,13 +93,13 @@ template <class T, class K> class RSList
 					// Disconnect min.
 					pnMin->pPrev->pNext = pnMin->pNext;
 
-					if (pnMin->pNext != NULL)
+					if (pnMin->pNext != nullptr)
 						pnMin->pNext->pPrev = pnMin->pPrev;
 					else	// pnMin was the tail.
 						m_pnTail = pnMin->pPrev;
 
 					// Connect min.
-					if (pnCur->pPrev != NULL)
+					if (pnCur->pPrev != nullptr)
 						pnCur->pPrev->pNext = pnMin;
 					
 					pnMin->pPrev = pnCur->pPrev;
@@ -119,18 +119,18 @@ template <class T, class K> class RSList
 		// Returns 0 on success.
 		int16_t Reposition(LISTDATA ld)
 			{
-			int16_t	sRes	= 0;	// Assume success.
+			int16_t	sResult	= 0;	// Assume success.
 
 			// Find node.
 			PNODE pn = Find(ld);
 			// If found . . .
-			if (pn != NULL)
+			if (pn != nullptr)
 				{
 				// Remove from links.
-				if (pn->pPrev != NULL)
+				if (pn->pPrev != nullptr)
 					pn->pPrev->pNext = pn->pNext;
 				
-				if (pn->pNext != NULL)
+				if (pn->pNext != nullptr)
 					pn->pNext->pPrev = pn->pPrev;
 
 				if (pn == m_pnHead)
@@ -145,21 +145,21 @@ template <class T, class K> class RSList
 			else
 				{
 				TRACE("Reposition(): Node not found.\n");
-				sRes = -1;
+				sResult = -1;
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 		// Insert pnNew 
 		// Returns 0 on success.
-		int16_t Insert(LISTDATA ldNew, PSORTKEY psk	= NULL)
+		int16_t Insert(LISTDATA ldNew, PSORTKEY psk	= nullptr)
 			{
-			int16_t sRes = 0; // Assume success.
+			int16_t sResult = 0; // Assume success.
 			// Allocate new node.
 			PNODE pnNew = new NODE;
 			// If successful . . .
-			if (pnNew != NULL)
+			if (pnNew != nullptr)
 				{
 				// Point to supplied data.
 				pnNew->ldData	= ldNew;
@@ -170,17 +170,17 @@ template <class T, class K> class RSList
 				}
 			else
 				{
-				sRes = -1;
+				sResult = -1;
 				TRACE("RSList::Insert():  Unable to allocate new node.\n");
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 		// Remove a node from the list.  If no node specified, remove current
-		int16_t Remove(LISTDATA ldRem = NULL)
+		int16_t Remove(LISTDATA ldRem = nullptr)
 			{
-			int16_t sRes = 0; // Assume success.
+			int16_t sResult = 0; // Assume success.
 			// Make sure the list is not empty
 			if (IsEmpty() == FALSE)
 				{
@@ -198,10 +198,10 @@ template <class T, class K> class RSList
 					}
 
 				// If we have a valid node to remove . . .
-				if (pn != NULL)
+				if (pn != nullptr)
 					{
 					// If there is a node previous to pn . . .
-					if (pn->pPrev != NULL)
+					if (pn->pPrev != nullptr)
 						{
 						// Make pn's previous' next point to pn's next.
 						pn->pPrev->pNext = pn->pNext;
@@ -213,7 +213,7 @@ template <class T, class K> class RSList
 						}
 			
 					// If there is a node after pn . . .
-					if (pn->pNext != NULL)
+					if (pn->pNext != nullptr)
 						{
 						// Make pn's next's previous point to pn's previous.
 						pn->pNext->pPrev = pn->pPrev;
@@ -226,24 +226,24 @@ template <class T, class K> class RSList
 			
 					// Update current info.
 					m_pnPrev		= pn->pPrev;
-					m_pnCurrent = NULL;     
+					m_pnCurrent = nullptr;     
 					m_pnNext		= pn->pNext;
 			
 					delete pn;
 					}
 				else
 					{
-					sRes = -2;
+					sResult = -2;
 					TRACE("RSList::Remove():  Unable to find supplied node or no current node.\n");
 					}
 				}
 			else
 				{
-				sRes = -1;
+				sResult = -1;
 				TRACE("RSList::Remove():  The list is empty.\n");
 				}
 
-			return sRes;
+			return sResult;
 			}  
 
 		// Get Head
@@ -255,7 +255,7 @@ template <class T, class K> class RSList
 				m_pnPrev = m_pnCurrent->pPrev; 
 				m_pnNext = m_pnCurrent->pNext;
 				}
-			return (m_pnCurrent ? m_pnCurrent->ldData : NULL);
+			return (m_pnCurrent ? m_pnCurrent->ldData : nullptr);
 			}
 
 		// Get Tail
@@ -267,7 +267,7 @@ template <class T, class K> class RSList
 				m_pnPrev = m_pnCurrent->pPrev; 
 				m_pnNext = m_pnCurrent->pNext;
 				}
-			return (m_pnCurrent ? m_pnCurrent->ldData : NULL);
+			return (m_pnCurrent ? m_pnCurrent->ldData : nullptr);
 			}
 
 		// Get node following last GetX
@@ -279,27 +279,27 @@ template <class T, class K> class RSList
 				m_pnPrev = m_pnCurrent->pPrev; 
 				m_pnNext = m_pnCurrent->pNext;
 				}
-			return (m_pnCurrent ? m_pnCurrent->ldData : NULL);
+			return (m_pnCurrent ? m_pnCurrent->ldData : nullptr);
 			}
 
 		// Get node following ldData
 		LISTDATA GetNext(LISTDATA ldData)
 			{
-			LISTDATA lnRes = NULL; // Assume failure.
+			LISTDATA lnRes = nullptr; // Assume failure.
 			// Make sure the list is not empty
 			if (IsEmpty() == FALSE)
 				{
 				// Attempt to find node.
 				PNODE pn = Find(ldData);
 				// If node found . . .
-				if (pn != NULL)
+				if (pn != nullptr)
 					{
 					// Make global previous node found.
 					m_pnPrev		= pn;
 					// Make global current node's next.
 					m_pnCurrent = pn->pNext;
 					// If new current exists . . .
-					if (m_pnCurrent != NULL)
+					if (m_pnCurrent != nullptr)
 						{
 						// Make global next current's next.
 						m_pnNext	= m_pnCurrent->pNext;       
@@ -333,20 +333,20 @@ template <class T, class K> class RSList
 				m_pnPrev = m_pnCurrent->pPrev; 
 				m_pnNext = m_pnCurrent->pNext;
 				}
-			return (m_pnCurrent ? m_pnCurrent->ldData : NULL);
+			return (m_pnCurrent ? m_pnCurrent->ldData : nullptr);
 			}
 
 		// Get node preceding ldData
 		LISTDATA GetPrev(LISTDATA ldData)
 			{
-			LISTDATA lnRes = NULL; // Assume failure.
+			LISTDATA lnRes = nullptr; // Assume failure.
 			// Make sure the list is not empty
 			if (IsEmpty() == FALSE)
 				{
 				// Attempt to find node.
 				PNODE pn = Find(ldData);
 				// If node found . . .
-				if (pn != NULL)
+				if (pn != nullptr)
 					{
 					// Make global next found node.
 					m_pnNext		= pn;
@@ -381,11 +381,11 @@ template <class T, class K> class RSList
 		// Get node from last GetX/Insert/etc.
 		LISTDATA GetCurrent() 
 			{
-			return (m_pnCurrent ? m_pnCurrent->ldData : NULL);
+			return (m_pnCurrent ? m_pnCurrent->ldData : nullptr);
 			}
 
 		int16_t IsEmpty()
-		{ return (int16_t)(m_pnHead == NULL); }
+		{ return (int16_t)(m_pnHead == nullptr); }
 
 		// Find the item with the key value skFind for its key or the
 		// item that would follow, if that key does not exist.
@@ -401,7 +401,7 @@ template <class T, class K> class RSList
 	
 			PNODE	pn = FindKey(&nFind);
 
-			return (pn != NULL ? pn->ldData : NULL);
+			return (pn != nullptr ? pn->ldData : nullptr);
 			}
 
 		// Find the node with the value LISTDATA.
@@ -411,7 +411,7 @@ template <class T, class K> class RSList
 	
 			// Start at head.
 			pn = m_pnHead;
-			while (pn != NULL && pn->ldData != ldFind)
+			while (pn != nullptr && pn->ldData != ldFind)
 				{
 				pn = pn->pNext;
 				}                             
@@ -426,7 +426,7 @@ template <class T, class K> class RSList
 			PNODE pn		= m_pnHead;
 
 			// Search forward.
-			while (pn != NULL && Compare(pn, pnFind) < 0)
+			while (pn != nullptr && Compare(pn, pnFind) < 0)
 				{
 				pn = pn->pNext;
 				}
@@ -444,13 +444,13 @@ template <class T, class K> class RSList
 		int16_t Compare(PNODE pn1, PNODE pn2)
 			{
 			// If user function provided . . .
-			if (m_fncmp != NULL)
+			if (m_fncmp != nullptr)
 				{
 				return (*m_fncmp)(pn1->ldData, pn2->ldData);
 				}
 
-			ASSERT(pn1->psk != NULL);
-			ASSERT(pn2->psk != NULL);
+			ASSERT(pn1->psk != nullptr);
+			ASSERT(pn2->psk != nullptr);
 
 			return	((*pn1->psk) < (*pn2->psk))	? -1	:
 						((*pn1->psk) > (*pn2->psk))	?  1	: 0;
@@ -468,12 +468,12 @@ template <class T, class K> class RSList
 			{
 			if (sInitialize != FALSE)
 				{
-				m_pnHead    = NULL;  
-				m_pnPrev		= NULL;
-				m_pnCurrent = NULL;
-				m_pnNext		= NULL;
-				m_pnTail    = NULL;
-				m_fncmp		= NULL;
+				m_pnHead    = nullptr;  
+				m_pnPrev		= nullptr;
+				m_pnCurrent = nullptr;
+				m_pnNext		= nullptr;
+				m_pnTail    = nullptr;
+				m_fncmp		= nullptr;
 				}
 
 			m_sInitialize	= sInitialize;
@@ -497,18 +497,18 @@ template <class T, class K> class RSList
 			// Find the node to insert before.
 			PNODE pnBefore = FindKey(pnPlace);
 			// Move to last of this key.
-			while (pnBefore != NULL && Compare(pnBefore, pnPlace) == 0)
+			while (pnBefore != nullptr && Compare(pnBefore, pnPlace) == SUCCESS)
 				{
 				pnBefore	= pnBefore->pNext;
 				}
 
 			// If node found . . .
-			if (pnBefore != NULL)
+			if (pnBefore != nullptr)
 				{
 				// Point previous to node to insert before's previous.
 				pnPlace->pPrev = pnBefore->pPrev;
 				// If there is a previous . . .
-				if (pnPlace->pPrev != NULL)
+				if (pnPlace->pPrev != nullptr)
 					{
 					// Have previous' next point to new.
 					pnPlace->pPrev->pNext = pnPlace;
@@ -526,10 +526,10 @@ template <class T, class K> class RSList
 			else
 				{
 				// Make new tail.
-				pnPlace->pNext = NULL;
+				pnPlace->pNext = nullptr;
 
 				// If a tail exists . . .
-				if (m_pnTail != NULL)
+				if (m_pnTail != nullptr)
 					{
 					// Make the tail's next point to the new.
 					m_pnTail->pNext = pnPlace;
@@ -538,8 +538,8 @@ template <class T, class K> class RSList
 					}
 				else
 					{
-					// Make the new's previous NULL.
-					pnPlace->pPrev	= NULL;
+					// Make the new's previous nullptr.
+					pnPlace->pPrev	= nullptr;
 					// Make the head the tail, since, if no tail exists,
 					// there is no head.
 					m_pnHead			= pnPlace;
@@ -570,11 +570,11 @@ template <class T, class K> class RSList
 				}                                            
 	
 			// Clear all node pointers.
-			m_pnHead    = NULL;  
-			m_pnPrev		= NULL;
-			m_pnCurrent = NULL;
-			m_pnNext		= NULL;
-			m_pnTail    = NULL;
+			m_pnHead    = nullptr;  
+			m_pnPrev		= nullptr;
+			m_pnCurrent = nullptr;
+			m_pnNext		= nullptr;
+			m_pnTail    = nullptr;
 			}
 
 		PNODE		m_pnHead;

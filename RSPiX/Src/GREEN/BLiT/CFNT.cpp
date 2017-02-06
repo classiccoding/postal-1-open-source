@@ -34,7 +34,7 @@
 //========================================================
 RFont::RFont()
 	{
-	m_pFontSets = NULL;
+	m_pFontSets = nullptr;
 	m_sMaxCellHeight = m_sMaxCellWidth = m_sNumberOfScales = 0;
 	}
 
@@ -165,7 +165,7 @@ int16_t RFont::AddLetter(RImage* pimLetter,int16_t sASCII,
 
 	// First find if a font exists:
 	RFontSet* pFont = m_pFontSets;
-	RSpecialFSPR1*	pInfo = NULL;
+	RSpecialFSPR1*	pInfo = nullptr;
 
 	// try to handle a generic type efficiently:
 	if (pimLetter->m_type == RImage::FSPR1)
@@ -297,7 +297,7 @@ int16_t RFont::Load(char* pszFileName)
 		return -1;
 		}
 
-	if (Load(pfileTemp) == 0)
+	if (Load(pfileTemp) == SUCCESS)
 		{
 		// TRACE("RFont::LoadFont: %s loaded!\n",pszFileName);
 		pfileTemp->Close();
@@ -421,7 +421,7 @@ int16_t RFont::Load(RFile* pcf)
 			pcf->Read((uint8_t*)&c);
 			RImage* pimLetter = new RImage;
 			pimLetter->Load(pcf);
-			if (pimLetter == NULL)
+			if (pimLetter == nullptr)
 				{
 				TRACE("RFont::Load: Bad Letter %c in file!\n",char(c));
 				}
@@ -451,15 +451,15 @@ int16_t RFont::Load(RFile* pcf)
 //
 RFont::RFontSet* RFont::FindSize(int16_t sCellH,double *pdScale)
 	{
-	RFontSet* pFont = NULL;
-	RFontSet* pfntRet = NULL;
+	RFontSet* pFont = nullptr;
+	RFontSet* pfntRet = nullptr;
 	*pdScale = 0.0;
 
 	// Assumes fonts are stored largest first.
-	if (m_pFontSets == NULL)
+	if (m_pFontSets == nullptr)
 		{
 		TRACE("RFont::FindSize: No fonts cached!\n");
-		return NULL;
+		return nullptr;
 		}
 
 	pFont = m_pFontSets;
@@ -489,7 +489,7 @@ int16_t	RFont::DeleteSet(RFontSet* pRemove)
 
 	// Find a match:
 	int16_t sMatch = FALSE;
-	RFontSet* pPrevFont = NULL;
+	RFontSet* pPrevFont = nullptr;
 
 	while (pFont)
 		{
@@ -510,7 +510,7 @@ int16_t	RFont::DeleteSet(RFontSet* pRemove)
 	if (!pRemove->m_pNext)
 		{
 		// remove the tail
-		pPrevFont->m_pNext = NULL;
+		pPrevFont->m_pNext = nullptr;
 		m_sMaxCellHeight = pPrevFont->m_sCellHeight;
 		m_sMaxCellWidth = pPrevFont->m_sMaxWidth;
 		}
@@ -535,7 +535,7 @@ int16_t	RFont::DeleteSet(RFontSet* pRemove)
 RFont::RFontSet::RFontSet()
 	{
 	m_sMaxWidth = m_sCellHeight = 0;
-	m_pNext = NULL;
+	m_pNext = nullptr;
 	m_ppimCharacters = (RImage**) calloc(256,sizeof(RImage*));
 	}
 
@@ -545,7 +545,7 @@ RFont::RFontSet::~RFontSet()
 	for (i=0;i<256;i++) if(m_ppimCharacters[i]) 
 		delete m_ppimCharacters[i];
 	m_sMaxWidth = m_sCellHeight = 0;
-	m_pNext = NULL;
+	m_pNext = nullptr;
 	free(m_ppimCharacters);
 	}
 //========================================================

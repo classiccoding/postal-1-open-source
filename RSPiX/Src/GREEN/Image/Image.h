@@ -293,7 +293,7 @@ class RImage
 			FLX8_888,				// 8-bit buffer indexing a 256 color 
 										// R, G, B (in that order) palette.  JMI	03/06/96
 			IMAGE_STUB,				// Use to make anything APPEAR to be an image
-										// special field = per stub info, buffers = NULL
+                              // special field = per stub info, buffers = nullptr
 			BMP8RLE,					// 8-bit compressed (Windows RLE8 bitmap) format.
 										// Uses PDIB for palette.  JMI	07/22/96
 			BMP1,						// Monochrome bitmap.  No palette 
@@ -480,12 +480,12 @@ class RImage
 		void InitMembers(void);
 
 		//	To allocate memory for the data buffers of CPal
-		static int16_t sCreateMem(void **hMem,uint64_t ulSize);
+      static int16_t sCreateMem(void **hMem, size_t ulSize);
 
 		//	To allocate memory and return a pointer aligned to 128-bits
 		//	for optimum blit speed.  This is the function used by
 		//	CImage when it creates memory for the image buffers.
-		static int16_t sCreateAlignedMem(void **hMem, void **hData, uint64_t ulSize);
+      static int16_t sCreateAlignedMem(void **hMem, void **hData, size_t ulSize);
 
 		//	To free the data buffers of CPal and CImage that were created 
 		//	using either sCreateMem() or sCreateAlignedMem()
@@ -545,22 +545,22 @@ class RImageSpecialFunc : public RImage
 								DELETEFUNC pfnDelete)
 			{
 				ASSERT(type < END_OF_TYPES);
-				ASSERT(ms_apfnConvTo[type] == NULL);
+            ASSERT(ms_apfnConvTo[type] == nullptr);
 				ms_apfnConvTo[type] = pfnConvertTo;
 
-				ASSERT(ms_apfnConvFrom[type] == NULL);
+            ASSERT(ms_apfnConvFrom[type] == nullptr);
 				ms_apfnConvFrom[type] = pfnConvertFrom;
 
-				ASSERT(ms_apfnLoad[type] == NULL);
+            ASSERT(ms_apfnLoad[type] == nullptr);
 				ms_apfnLoad[type] = pfnLoad;
 
-				ASSERT(ms_apfnSave[type] == NULL);
+            ASSERT(ms_apfnSave[type] == nullptr);
 				ms_apfnSave[type] = pfnSave;
 
-				ASSERT(ms_apfnAlloc[type] == NULL);
+            ASSERT(ms_apfnAlloc[type] == nullptr);
 				ms_apfnAlloc[type] = pfnAlloc;
 
-				ASSERT(ms_apfnDelete[type] == NULL);
+            ASSERT(ms_apfnDelete[type] == nullptr);
 				ms_apfnDelete[type] = pfnDelete;
 			};
 
@@ -601,27 +601,27 @@ class RImageSpecialFunc : public RImage
 
 // This macro needs to be called at file scope of RImage.cpp so that
 // the arrays of special function pointers are allocated and initialized
-// to NULL.  It will instantiate the RImageSpecialFunc class and its
+// to nullptr.  It will instantiate the RImageSpecialFunc class and its
 // arrays of function pointers.  
 //
 // The arrays are set to the size END_OF_TYPES since the special
 // function pointers will be indexed by the image type.
 
 #define IMAGELINKINSTANTIATE() \
-	CONVTOFUNC RImageSpecialFunc::ms_apfnConvTo[END_OF_TYPES] = { NULL, }; \
-	CONVFROMFUNC RImageSpecialFunc::ms_apfnConvFrom[END_OF_TYPES] = { NULL, }; \
-	LOADFUNC RImageSpecialFunc::ms_apfnLoad[END_OF_TYPES] = { NULL, }; \
-	SAVEFUNC RImageSpecialFunc::ms_apfnSave[END_OF_TYPES] = { NULL, }; \
-	ALLOCFUNC RImageSpecialFunc::ms_apfnAlloc[END_OF_TYPES] = { NULL, }; \
-	DELETEFUNC RImageSpecialFunc::ms_apfnDelete[END_OF_TYPES] = { NULL, }
+   CONVTOFUNC RImageSpecialFunc::ms_apfnConvTo[END_OF_TYPES] = { nullptr, }; \
+   CONVFROMFUNC RImageSpecialFunc::ms_apfnConvFrom[END_OF_TYPES] = { nullptr, }; \
+   LOADFUNC RImageSpecialFunc::ms_apfnLoad[END_OF_TYPES] = { nullptr, }; \
+   SAVEFUNC RImageSpecialFunc::ms_apfnSave[END_OF_TYPES] = { nullptr, }; \
+   ALLOCFUNC RImageSpecialFunc::ms_apfnAlloc[END_OF_TYPES] = { nullptr, }; \
+   DELETEFUNC RImageSpecialFunc::ms_apfnDelete[END_OF_TYPES] = { nullptr, }
 
 // This macro is used to add the special functions to the image's 
 // list.  You must specify a function pointer for each of the 6 special
-// types or NULL if your special type does not require or support one
+// types or nullptr if your special type does not require or support one
 // or more types.  For example, if you support convert to/from and 
 //	save/load but do not require any additional buffers or data structures
 // then you must provide the functions for convert to/from and load/save 
-// and then specify NULL, NULL for the alloc and delete functions.
+// and then specify nullptr, nullptr for the alloc and delete functions.
 //
 // ulImageType = one of the enumerated image types registered in image.h
 // pTo = function pointer to your ConvertTo function
@@ -690,37 +690,37 @@ class RImageSpecialFunc : public RImage
 #define CONVTOTOUCH(TYPE)		extern void ReferenceConvTo##TYPE(void)		\
 											{														\
 											extern short ConvertTo##TYPE(RImage*);		\
-											ConvertTo##TYPE(NULL);							\
+                                 ConvertTo##TYPE(nullptr);							\
 											}
 
 #define CONVFROMTOUCH(TYPE)	extern void ReferenceConvFrom##TYPE(void)		\
 											{														\
 											extern short ConvertFrom##TYPE(RImage*);	\
-											ConvertFrom##TYPE(NULL);						\
+                                 ConvertFrom##TYPE(nullptr);						\
 											}
 
 #define SAVETOUCH(TYPE)			extern void ReferenceSave##TYPE(void)			\
 											{														\
 											extern short Save##TYPE(RImage*, RFile*); \
-											Save##TYPE(NULL, NULL); 						\
+                                 Save##TYPE(nullptr, nullptr); 						\
 											}
 
 #define LOADTOUCH(TYPE)			extern void ReferenceLoad##TYPE(void)			\
 											{ 														\
 											extern short Load##TYPE(RImage*, RFile*); \
-											Load##TYPE(NULL, NULL); 						\
+                                 Load##TYPE(nullptr, nullptr); 						\
 											}
 
 #define ALLOCTOUCH(TYPE)		extern void ReferenceAlloc##TYPE(void)			\
 											{ 														\
 											extern short Alloc##TYPE(RImage*); 			\
-											Alloc##TYPE(NULL); 								\
+                                 Alloc##TYPE(nullptr); 								\
 											}
 
 #define DELETETOUCH(TYPE)		extern void ReferenceDelete##TYPE(void)		\
 											{ 														\
 											extern short Delete##TYPE(RImage*); 		\
-											Delete##TYPE(NULL);								\
+                                 Delete##TYPE(nullptr);								\
 											}
 
 #endif //IMAGE_H

@@ -138,7 +138,7 @@ extern	void rspAlphaBlitT(
 						RImage* pimSrc,			// BMP8 source image
 						RImage* pimDst,			// BMP8 destination
 						int16_t sDstX,int16_t sDstY,
-						RRect* prDst = NULL);
+                  RRect* prDst = nullptr);
 
 //====================================================================
 //	rspGeneralAlphaBlit - "opaque blit" which uses a BMP8 per pixel
@@ -230,7 +230,7 @@ extern	void rspFastAlphaBlitT(
 						RImage* pimSrc,		// BMP8 source	
 						RImage* pimDst,		// BMP8 destination
 						int16_t sDstX,int16_t sDstY,
-						RRect* prDst = NULL);
+                  RRect* prDst = nullptr);
 
 
 //====================================================================
@@ -343,7 +343,7 @@ inline uint8_t	rspBlendColor(int16_t sLevel,RMultiAlpha* pX,uint8_t ucSrc,uint8_
 //
 //	UINPUT:	sLevel -> the alpha level (0-255) you wish to work with
 //	OUTPUT:	psOpaque -> a special case flag, is TRUE if FULLY opaque (normal BLiT)
-// RETURN:	ppuc, a short cut to the fast blend function, or NULL if you hit the
+// RETURN:	ppuc, a short cut to the fast blend function, or nullptr if you hit the
 //				extreme cases of fully opaque of fully transparent.
 //===========================================================================
 inline uint8_t**	rspFindBlend(int16_t sLevel,RMultiAlpha* pX,int16_t* psOpaque)
@@ -352,12 +352,12 @@ inline uint8_t**	rspFindBlend(int16_t sLevel,RMultiAlpha* pX,int16_t* psOpaque)
 	ASSERT(psOpaque);
 	*psOpaque = FALSE;
 	
-	if (sLevel <= *(pX->m_pLevelOpacity)) return NULL;	// fully transparent
+   if (sLevel <= *(pX->m_pLevelOpacity)) return nullptr;	// fully transparent
 	uint8_t** ppucAlpha = pX->m_pGeneralAlpha[sLevel]; 
 
 	if (ppucAlpha) return ppucAlpha;
 	*psOpaque = TRUE;
-	return NULL;
+   return nullptr;
 	}
 
 // A fast way to do repeated blits of the same alpha level, once you've used rspFindBlend:

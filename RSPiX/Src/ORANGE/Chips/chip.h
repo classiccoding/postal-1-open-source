@@ -95,7 +95,7 @@ class CChip
 		int16_t Add(CChip*	pchip);
 
 		// Remove sNum chips from this stack.
-		// Returns chip/stack on success; NULL on error.
+		// Returns chip/stack on success; nullptr on error.
 		CChip* Sub(int16_t sNum);
 
 		void SetSize(int16_t sNum)
@@ -128,7 +128,7 @@ class CChip
 			{ return m_sNumChips; }
 
 		// Returns the first chip/stack in the given rectangle.
-		// Returns NULL if none found.
+		// Returns nullptr if none found.
 		static CChip* GetChipIn(int32_t lX, int32_t lY, int32_t lW, int32_t lH);
 
 	protected:	// Internal.

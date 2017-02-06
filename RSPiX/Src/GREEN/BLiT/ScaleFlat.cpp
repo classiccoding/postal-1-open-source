@@ -481,7 +481,7 @@ int16_t rspBlitT(RImage* pimSrc,RImage* pimDst,RRect* prSrc,const RRect* prDst,
 
 	if (!pimSrc || !pimDst)
 		{
-		TRACE("rspBlitT: NULL images passed!\n");
+      TRACE("rspBlitT: nullptr images passed!\n");
 		return -1;
 		}
 
@@ -639,7 +639,7 @@ int16_t rspBlitT(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,
 
 	if (!pimSrc || !pimDst)
 		{
-		TRACE("rspBlitT: NULL images passed!\n");
+      TRACE("rspBlitT: nullptr images passed!\n");
 		return -1;
 		}
 
@@ -671,7 +671,7 @@ int16_t rspBlitT(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,
 
 	if (!pimSrc || !pimDst)
 		{
-		TRACE("rspBlitT: NULL images passed!\n");
+      TRACE("rspBlitT: nullptr images passed!\n");
 		return -1;
 		}
 

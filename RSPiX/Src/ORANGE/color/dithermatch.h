@@ -63,8 +63,8 @@ extern	int16_t	rspDither(
 					uint8_t*	pBlue,
 					int32_t	lInc = 4,
 					// User interaction
-					PDitherCallBack func = NULL,
-					int32_t  lMilli = 500 // time between callbacks
+					PDitherCallBack func = nullptr,
+               uint32_t  lMilli = 500 // time between callbacks
 					);
 	
 //==============================================
@@ -90,8 +90,8 @@ extern	int16_t	rspSimpleMap(
 					uint8_t*	pBlue,
 					int32_t	lInc = 4,
 					// User interaction
-					PDitherCallBack func = NULL,
-					int32_t  lMilli = 500 // time between callbacks
+					PDitherCallBack func = nullptr,
+               uint32_t  lMilli = 500 // time between callbacks
 					);
 
 //==============================================
@@ -119,8 +119,8 @@ extern	int16_t	rspDither(
 					uint8_t*	pBlue,
 					int32_t	lInc = 4,
 					// User interaction
-					PDitherCallBack func = NULL,
-					int32_t  lMilli = 500 // time between callbacks
+					PDitherCallBack func = nullptr,
+               uint32_t  lMilli = 500 // time between callbacks
 					);
 
 //==============================================
@@ -148,8 +148,8 @@ int16_t	rspDither(
 					uint8_t*	pBlue,
 					int32_t	lInc = 4,
 					// User interaction
-					PDitherCallBack func = NULL,
-					int32_t  lMilli = 500 // time between callbacks
+					PDitherCallBack func = nullptr,
+               uint32_t  lMilli = 500 // time between callbacks
 					);
 
 //==============================================
@@ -180,8 +180,8 @@ int16_t	rspSimpleMap(
 					uint8_t*	pBlue,
 					int32_t	lInc = 4,
 					// User interaction
-					PDitherCallBack func = NULL,
-					int32_t  lMilli = 500 // time between callbacks
+					PDitherCallBack func = nullptr,
+               uint32_t  lMilli = 500 // time between callbacks
 					);
 
 //==============================================

@@ -137,21 +137,21 @@ class RProps
 			KeyType	key,	// Key to identify item.
 			ItemType	item)	// Item to add.
 			{
-			int16_t	sRes	= 0;	// Assume success.
+			int16_t	sResult	= 0;	// Assume success.
 
 			// Verify key does not exist . . .
-			if (Find(&key) == NULL)
+			if (Find(&key) == nullptr)
 				{
 				// Insert item . . .
-				sRes	= Add(key, item);
+				sResult	= Add(key, item);
 				}
 			else
 				{
 				TRACE("AddProp(): Key already exists.  Not adding prop.\n");
-				sRes	= 1;
+				sResult	= 1;
 				}
 
-			return sRes;
+			return sResult;
 			}
 								
 		// Replaces an existing or adds a new property.
@@ -164,7 +164,7 @@ class RProps
 			{
 			// If the key already exists . . .
 			Node*	pnode	= Find(&key);
-			if (pnode != NULL)
+			if (pnode != nullptr)
 				{
 				// Change the value.
 				pnode->item	= item;
@@ -192,7 +192,7 @@ class RProps
 		int16_t IsProp(				// Returns TRUE if item exists, FALSE otherwise.
 			KeyType		key)		// Key of item to query.
 			{
-			return (int16_t)(Find(&key) != NULL);
+			return (int16_t)(Find(&key) != nullptr);
 			}
 
 		// Get a property.
@@ -201,11 +201,11 @@ class RProps
 			KeyType		key,		// Key of item to get.
 			ItemType*	pitem)	// Where to put item.
 			{
-			int16_t	sRes	= 0;	// Assume success.
+			int16_t	sResult	= 0;	// Assume success.
 
 			// Find node by key . . .
 			Node*	pnode	= Find(&key);
-			if (pnode != NULL)
+			if (pnode != nullptr)
 				{
 				// Get item.
 				*pitem	= pnode->item;
@@ -213,10 +213,10 @@ class RProps
 			else
 				{
 				TRACE("GetProp(): Key does not exist.\n");
-				sRes	= 1;
+				sResult	= 1;
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -229,7 +229,7 @@ class RProps
 			KeyType* pkey)	// In:  Ptr to the key to search for.
 			{
 			Node*	pn	= m_container.GetHead();
-			while (pn != NULL)
+			while (pn != nullptr)
 				{
 				if (pn->key == *pkey)
 					break;
@@ -246,26 +246,26 @@ class RProps
 			KeyType	key,	// Key to identify item.
 			ItemType	item)	// Item to add.
 			{
-			int16_t	sRes	= 0;	// Assume success.
+			int16_t	sResult	= 0;	// Assume success.
 
 			// Allocate node to add . . .
 			Node*	pn	= new Node;
-			if (pn != NULL)
+			if (pn != nullptr)
 				{
 				pn->key	= key;
 				pn->item	= item;
-				if (m_container.AddTail(pn) == 0)
+				if (m_container.AddTail(pn) == SUCCESS)
 					{
 					// Success.
 					}
 				else
 					{
 					TRACE("Add(): m_container.AddTail() failed.\n");
-					sRes	= -2;
+					sResult	= -2;
 					}
 
 				// If any errors occurred after allocation . . .
-				if (sRes != 0)
+				if (sResult != 0)
 					{
 					delete pn;
 					}
@@ -273,10 +273,10 @@ class RProps
 			else
 				{
 				TRACE("Add(): Unable to allocate new Node.\n");
-				sRes	= -1;
+				sResult	= -1;
 				}
 
-			return sRes;
+			return sResult;
 			}
 
 		// Remove the node identified by the supplied key.
@@ -284,13 +284,13 @@ class RProps
 								// Returns -1 if error.
 			KeyType	key)	// Key to identify item to remove.
 			{
-			int16_t	sRes	= 0;	// Assume success.
+			int16_t	sResult	= 0;	// Assume success.
 
 			Node*	pn	= Find(&key);
-			if (pn != NULL)
+			if (pn != nullptr)
 				{
 				// The container's current item is the one we want to remove.
-				if (m_container.Remove() == 0)
+				if (m_container.Remove() == SUCCESS)
 					{
 					// Success.
 					delete pn;
@@ -298,23 +298,23 @@ class RProps
 				else
 					{
 					TRACE("Remove(): m_container.Remove() failed.\n");
-					sRes	= -1;
+					sResult	= -1;
 					}
 				}
 			else
 				{
 				// No such node.
-				sRes	= 1;
+				sResult	= 1;
 				}
 			
-			return sRes;
+			return sResult;
 			}
 
 		// Empty container of current contents.
 		void Reset(void)
 			{
 			Node*	pn	= m_container.GetHead();
-			while (pn != NULL)
+			while (pn != nullptr)
 				{
 				m_container.Remove();
 				

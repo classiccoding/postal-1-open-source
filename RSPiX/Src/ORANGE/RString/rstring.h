@@ -378,8 +378,8 @@ class RString
 		// Assign specified C-style string
 		const RString& operator=(const char* rhs)
 			{
-			ASSERT(rhs != NULL);
-			if (rhs != NULL)
+			ASSERT(rhs != nullptr);
+			if (rhs != nullptr)
 				{
 				int32_t lLen = strlen(rhs);
 				Grow(lLen + 1); // size is always > 0, so this will always return with a valid buffer
@@ -602,47 +602,46 @@ class RString
 // RString -vs- RString
 ////////////////////////////////////////////////////////////////////////////////
 inline int operator==(const RString& lhs, const RString& rhs)
-	{ if (strcmp(lhs, rhs) == 0) return 1; return 0; }
+  { return strcmp(lhs, rhs) == 0 ? TRUE : FALSE; }
 inline int operator!=(const RString& lhs, const RString& rhs)
-	{ if (strcmp(lhs, rhs) != 0) return 1; return 0; }
+  { return strcmp(lhs, rhs) != 0 ? TRUE : FALSE; }
 inline int operator<=(const RString& lhs, const RString& rhs)
-	{ if (strcmp(lhs, rhs) <= 0) return 1; return 0; }
+  { return strcmp(lhs, rhs) <= 0 ? TRUE : FALSE; }
 inline int operator>=(const RString& lhs, const RString& rhs)
-	{ if (strcmp(lhs, rhs) >= 0) return 1; return 0; }
+  { return strcmp(lhs, rhs) >= 0 ? TRUE : FALSE; }
 inline bool operator<(const RString& lhs, const RString& rhs)
-	{ if (strcmp(lhs, rhs) < 0) return true; return false; }
+  { return strcmp(lhs, rhs) < 0; }
 inline int operator>(const RString& lhs, const RString& rhs)
-	{ if (strcmp(lhs, rhs) > 0) return 1; return 0; }
+  { return strcmp(lhs, rhs) > 0 ? TRUE : FALSE; }
 
 ////////////////////////////////////////////////////////////////////////////////
 // RString -vs- const char*
 ////////////////////////////////////////////////////////////////////////////////
 inline int operator==(const RString& lhs, const char* rhs)
-	{ if (strcmp(lhs, rhs) == 0) return 1; return 0; }
+  { return strcmp(lhs, rhs) == 0 ? TRUE : FALSE; }
 inline int operator!=(const RString& lhs, const char* rhs)
-	{ if (strcmp(lhs, rhs) != 0) return 1; return 0; }
+  { return strcmp(lhs, rhs) != 0 ? TRUE : FALSE; }
 inline int operator<=(const RString& lhs, const char* rhs)
-	{ if (strcmp(lhs, rhs) <= 0) return 1; return 0; }
+  { return strcmp(lhs, rhs) <= 0 ? TRUE : FALSE; }
 inline int operator>=(const RString& lhs, const char* rhs)
-	{ if (strcmp(lhs, rhs) >= 0) return 1; return 0; }
-//inline int operator<(const RString& lhs, const char* rhs)
-//	{ if (strcmp(lhs, rhs) < 0) return 1; return 0; }
+  { return strcmp(lhs, rhs) >= 0 ? TRUE : FALSE; }
+//inline bool operator<(const RString& lhs, const char* rhs)
+//  { return strcmp(lhs, rhs) < 0; }
 inline int operator>(const RString& lhs, const char* rhs)
-	{ if (strcmp(lhs, rhs) > 0) return 1; return 0; }
+  { return strcmp(lhs, rhs) > 0 ? TRUE : FALSE; }
 
-inline int operator==(const char* rhs, const RString& lhs)
-	{ if (strcmp(lhs, rhs) == 0) return 1; return 0; }
-inline int operator!=(const char* rhs, const RString& lhs)
-	{ if (strcmp(lhs, rhs) != 0) return 1; return 0; }
-inline int operator<=(const char* rhs, const RString& lhs)
-	{ if (strcmp(lhs, rhs) <= 0) return 1; return 0; }
-inline int operator>=(const char* rhs, const RString& lhs)
-	{ if (strcmp(lhs, rhs) >= 0) return 1; return 0; }
-//inline int operator<(const char* rhs, const RString& lhs)
-//	{ if (strcmp(lhs, rhs) < 0) return 1; return 0; }
-inline int operator>(const char* rhs, const RString& lhs)
-	{ if (strcmp(lhs, rhs) > 0) return 1; return 0; }
-
+inline int operator==(const char* lhs, const RString& rhs)
+  { return strcmp(lhs, rhs) == 0 ? TRUE : FALSE; }
+inline int operator!=(const char* lhs, const RString& rhs)
+  { return strcmp(lhs, rhs) != 0 ? TRUE : FALSE; }
+inline int operator<=(const char* lhs, const RString& rhs)
+  { return strcmp(lhs, rhs) <= 0 ? TRUE : FALSE; }
+inline int operator>=(const char* lhs, const RString& rhs)
+  { return strcmp(lhs, rhs) >= 0 ? TRUE : FALSE; }
+//inline bool operator<(const char* lhs, const RString& rhs)
+//  { return strcmp(lhs, rhs) < 0; }
+inline int operator>(const char* lhs, const RString& rhs)
+  { return strcmp(lhs, rhs) > 0 ? TRUE : FALSE; }
 
 #endif // RSTRING_H
 ////////////////////////////////////////////////////////////////////////////////

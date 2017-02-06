@@ -101,7 +101,7 @@ class RDlg : public RGuiItem
 		// Compose item.
 		virtual					// If you override this, call this base if possible.
 		void Compose(			// Returns nothing.
-			RImage* pim = NULL);	// Dest image, uses m_im if NULL.
+			RImage* pim = nullptr);	// Dest image, uses m_im if nullptr.
 
 		////////////////////////////////////////////////////////////////////////
 		// Querries.
@@ -110,10 +110,10 @@ class RDlg : public RGuiItem
 		// Get the "client" area (i.e., non-border/title area) relative to this
 		// item.  Calls base class version.
 		void GetClient(		// Returns nothing.
-			int16_t* psX,			// Out: X position unless NULL.
-			int16_t* psY,			// Out: Y position unless NULL.
-			int16_t* psW,			// Out: Width unless NULL.
-			int16_t* psH);		// Out: Height unless NULL.
+			int16_t* psX,			// Out: X position unless nullptr.
+			int16_t* psY,			// Out: Y position unless nullptr.
+			int16_t* psW,			// Out: Width unless nullptr.
+			int16_t* psH);		// Out: Height unless nullptr.
 
 //////////////////////////////////////////////////////////////////////////////
 

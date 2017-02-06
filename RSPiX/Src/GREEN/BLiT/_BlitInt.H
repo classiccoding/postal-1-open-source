@@ -87,7 +87,7 @@ public:
 	CCompressedMono()
 		{
 		usASCII = usSourceType = 0;
-		pCode = NULL;
+		pCode = nullptr;
 		ulSize = 0;
 		}
 

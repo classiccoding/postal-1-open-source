@@ -100,7 +100,7 @@ extern int16_t   DeleteFSPR1(RImage* pImage);
 void	LinkImage();
 void	LinkImage()
 	{
-	RImage* pim = NULL;
+	RImage* pim = nullptr;
 	ConvertFromFSPR8(pim);
 	ConvertToFSPR8(pim);
 	DeleteFSPR8(pim);
@@ -117,7 +117,9 @@ RInitBLiT::RInitBLiT()
 	pimScreenBackPlane = new RImage;
 
 	// trick the compiler into instantiating the BLiT Image types...
-	if (((int64_t)pimScreenBuffer + (int64_t)pimScreenVisible + (int64_t)pimScreenBackPlane) == 0)
+   if (pimScreenBuffer    == nullptr &&
+       pimScreenVisible   == nullptr &&
+       pimScreenBackPlane == nullptr)
 		{
 		LinkImage(); // NEVER Really do this!
 		}
@@ -155,9 +157,9 @@ RInitBLiT::~RInitBLiT()
 //	TRACE("BLiT has deceased\n");
 	}
 
-RImage*	RInitBLiT::pimScreenBuffer = NULL;
-RImage*  RInitBLiT::pimScreenVisible = NULL;
-RImage*	RInitBLiT::pimScreenBackPlane = NULL;
+RImage*	RInitBLiT::pimScreenBuffer = nullptr;
+RImage*  RInitBLiT::pimScreenVisible = nullptr;
+RImage*	RInitBLiT::pimScreenBackPlane = nullptr;
 
 // this function is a way to refer to buffers in the new BLiT:
 // Note that a dib buffer MUST return a negative pitch!
@@ -166,9 +168,9 @@ void rspNameBuffers(RImage** ppimMemBuf,RImage** ppimVidBuf,RImage** ppimBackBuf
 	{
 	// Set aliases to the buffers and get the most current values possible.
 	int16_t sVidW,sVidH,sVidD,sMemW,sMemH;
-	rspGetVideoMode(&sVidD,&sVidW,&sVidH,NULL,&sMemW,&sMemH);
+	rspGetVideoMode(&sVidD,&sVidW,&sVidH,nullptr,&sMemW,&sMemH);
 
-	if (ppimMemBuf != NULL) 
+	if (ppimMemBuf != nullptr) 
 		{
 		*ppimMemBuf = RInitBLiT::pimScreenBuffer;
 		(*ppimMemBuf)->m_sWidth = sMemW;	// assume same  for all...
@@ -182,7 +184,7 @@ void rspNameBuffers(RImage** ppimMemBuf,RImage** ppimVidBuf,RImage** ppimBackBuf
 								// this the way we used to).
 
 			// Really all we get out of this is the pitch.
-			if (rspLockVideoBuffer(&pvTmp, &((*ppimMemBuf)->m_lPitch)) == 0)
+			if (rspLockVideoBuffer(&pvTmp, &((*ppimMemBuf)->m_lPitch)) == SUCCESS)
 				{
 				rspUnlockVideoBuffer();
 				}
@@ -194,7 +196,7 @@ void rspNameBuffers(RImage** ppimMemBuf,RImage** ppimVidBuf,RImage** ppimBackBuf
 			}
 		}
 
-	if (ppimVidBuf != NULL) 
+	if (ppimVidBuf != nullptr) 
 		{
 		*ppimVidBuf = RInitBLiT::pimScreenVisible;
 		(*ppimVidBuf)->m_sWidth = sMemW;	//double if pixel doubled
@@ -208,7 +210,7 @@ void rspNameBuffers(RImage** ppimMemBuf,RImage** ppimVidBuf,RImage** ppimBackBuf
 								// this the way we used to).
 
 			// Really all we get out of this is the pitch.
-			if (rspLockVideoPage(&pvTmp,&((*ppimVidBuf)->m_lPitch)) == 0)
+			if (rspLockVideoPage(&pvTmp,&((*ppimVidBuf)->m_lPitch)) == SUCCESS)
 				{
 				rspUnlockVideoPage(); // pitch is correct (unscaled)
 				}
@@ -220,7 +222,7 @@ void rspNameBuffers(RImage** ppimMemBuf,RImage** ppimVidBuf,RImage** ppimBackBuf
 			}
 		}
 
-	if (ppimBackBuf != NULL)
+	if (ppimBackBuf != nullptr)
 		{
 		*ppimBackBuf = RInitBLiT::pimScreenBackPlane;
 		(*ppimBackBuf)->m_sWidth = sMemW;	// assume same  for all...
@@ -234,7 +236,7 @@ void rspNameBuffers(RImage** ppimMemBuf,RImage** ppimVidBuf,RImage** ppimBackBuf
 								// this the way we used to).
 
 			// Really all we get out of this is the pitch.
-			if (rspLockVideoFlipPage(&pvTmp, &((*ppimBackBuf)->m_lPitch)) == 0)
+			if (rspLockVideoFlipPage(&pvTmp, &((*ppimBackBuf)->m_lPitch)) == SUCCESS)
 				{
 				rspUnlockVideoFlipPage(); // pitch is correct (unscaled)
 				}
@@ -300,7 +302,7 @@ class RCompressedImageData
 public:
 	uint16_t	usCompType;	// = FSPR8 image type
 	uint16_t	usSourceType;	// uncompressed Image pre-compressed type
-	uint8_t*	pCBuf;		// Start of compressed picture data, 128-aligned, NULL for monochrome
+	uint8_t*	pCBuf;		// Start of compressed picture data, 128-aligned, nullptr for monochrome
 	uint8_t*	pCMem;
 	uint8_t* pControlBlock;// 32-aligned run length code for compressed BLiT
 	uint8_t** pLineArry;	// 32-aligned, arry of ptrs to pCBuf scanlines, 32-bit align assumed
@@ -309,8 +311,8 @@ public:
 	RCompressedImageData()
 		{
 		usCompType = usSourceType = 0;
-		pCBuf = pCMem = pControlBlock = NULL;
-		pLineArry = pCtlArry = NULL;
+		pCBuf = pCMem = pControlBlock = nullptr;
+		pLineArry = pCtlArry = nullptr;
 		}
 
 	~RCompressedImageData()
@@ -379,7 +381,7 @@ int16_t	rspLockBuffer()
 			{
 			// Get the up to date dimensions as well!
 			int16_t sVidW,sVidH,sVidD,sMemW,sMemH;
-			rspGetVideoMode(&sVidD,&sVidW,&sVidH,NULL,&sMemW,&sMemH);
+			rspGetVideoMode(&sVidD,&sVidW,&sVidH,nullptr,&sMemW,&sMemH);
 
 			RInitBLiT::pimScreenBuffer->m_sWidth = sMemW;	// assume same  for all...
 			RInitBLiT::pimScreenBuffer->m_sHeight = sMemH;	// assume same  for all...
@@ -410,7 +412,7 @@ int16_t	rspUnlockBuffer()
 	if (!gsBufferLocked) // need to actually DO the unlock
 		{
 		rspUnlockVideoBuffer();
-		RInitBLiT::pimScreenBuffer->m_pData = NULL;
+		RInitBLiT::pimScreenBuffer->m_pData = nullptr;
 		}
 
 
@@ -433,7 +435,7 @@ int16_t	rspLockScreen()
 			{
 			// Set aliases to the buffers and get the most current values possible.
 			int16_t sVidW,sVidH,sVidD,sMemW,sMemH;
-			rspGetVideoMode(&sVidD,&sVidW,&sVidH,NULL,&sMemW,&sMemH);
+			rspGetVideoMode(&sVidD,&sVidW,&sVidH,nullptr,&sMemW,&sMemH);
 
 			// Get up to date dimensions:
 			RInitBLiT::pimScreenVisible->m_sWidth = sMemW;	//double if pixel doubled
@@ -465,7 +467,7 @@ int16_t	rspUnlockScreen()
 	if (!gsScreenLocked) // need to actually DO the unlock
 		{
 		rspUnlockVideoPage();
-		RInitBLiT::pimScreenVisible->m_pData = NULL;
+		RInitBLiT::pimScreenVisible->m_pData = nullptr;
 		}
 
 	return 0;
@@ -487,7 +489,7 @@ int16_t	rspGeneralLock(RImage* pimDst)
 	// If it is a stub . . .
 	if (pimDst->m_type == RImage::IMAGE_STUB)
 		{
-		switch (((int16_t)(((int64_t)pimDst->m_pSpecial)))) // 0 = normal image
+      switch (((int16_t)(((intptr_t)pimDst->m_pSpecial)))) // 0 = normal image
 			{
 			case 0:	// it's YOUR IMAGE!
 				return SUCCESS;
@@ -522,7 +524,7 @@ int16_t	rspGeneralUnlock(RImage* pimDst)
 	// If it is a stub . . .
 	if (pimDst->m_type == RImage::IMAGE_STUB)
 		{
-		switch (((int16_t)(((int64_t)pimDst->m_pSpecial)))) // 0 = normal image
+      switch (((int16_t)(((intptr_t)pimDst->m_pSpecial)))) // 0 = normal image
 			{
 			case 0:	// it's YOUR IMAGE!
 				return SUCCESS;

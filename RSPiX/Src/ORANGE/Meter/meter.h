@@ -104,7 +104,7 @@ class RMeter : public RDlg
 			int16_t sSrcY = 0,		// Y position in source.
 			int16_t sW = 0,			// Amount to draw.
 			int16_t sH = 0,			// Amount to draw.
-			RRect* prc = NULL);	// Clip to.
+			RRect* prc = nullptr);	// Clip to.
 
 		// Activate or deactivate mouse reaction.
 		void SetActive(		// Returns nothing.
@@ -210,7 +210,7 @@ class RMeter : public RDlg
 		// Compose the static portions.  Fills the parts of the image
 		// that don't change.
 		void Compose(						// Returns 0 nothing.
-			RImage*	pimDst = NULL);	// In: Destination.  NULL == use internal m_im.
+			RImage*	pimDst = nullptr);	// In: Destination.  nullptr == use internal m_im.
 
 		// Advance to next meter type.  Called by btn callback.
 		void NextType(void)

@@ -37,12 +37,12 @@
 #include <SDL2/SDL.h>
 #include "Blue.h"
 
-// Only set value if not NULL.
-#define SET(ptr, val)		( ((ptr) != NULL) ? *(ptr) = (val) : 0)
+// Only set value if not nullptr.
+#define SET(ptr, val)		( ((ptr) != nullptr) ? *(ptr) = (val) : 0)
 
 static uint32_t callback_data = 0;
 
-static void sdl_audio_callback(void *userdata, Uint8 *stream, int len)
+static void sdl_audio_callback(void *userdata, uint8_t *stream, int len)
 {
     RSP_SND_CALLBACK callback = (RSP_SND_CALLBACK) userdata;
     SDL_memset(stream, '\0', len);
@@ -117,7 +117,7 @@ extern int16_t rspSetSoundOutMode(				// Returns 0 if successfull, non-zero othe
             return BLU_ERR_NO_DEVICE;
     }
 
-    if (SDL_OpenAudio(&desired, NULL) == -1)
+    if (SDL_OpenAudio(&desired, nullptr) == -1)
     {
 		TRACE("rspSetSoundOutMode(): SDL_OpenAudio failed: %s.\n", SDL_GetError());
         SDL_QuitSubSystem(SDL_INIT_AUDIO);
@@ -131,11 +131,11 @@ extern int16_t rspSetSoundOutMode(				// Returns 0 if successfull, non-zero othe
 }
 
 extern int16_t rspGetSoundOutMode(				// Returns 0 if successfull, non-zero otherwise
-	int32_t* plSampleRate,							// Out: Sample rate or -1 (unless NULL)
-	int32_t* plBitsPerSample,				// Out: Bits per sample or -1 (unless NULL)
-	int32_t* plChannels,					// Out: Channels (mono=1, stereo=2) or -1 (unless NULL)
-	int32_t* plCurBufferTime,				// Out: Current buffer time or -1 (unless NULL)
-	int32_t* plMaxBufferTime)			// Out: Maximum buffer time or -1 (unless NULL)
+   int32_t* plSampleRate,							// Out: Sample rate or -1 (unless nullptr)
+   int32_t* plBitsPerSample,				// Out: Bits per sample or -1 (unless nullptr)
+   int32_t* plChannels,					// Out: Channels (mono=1, stereo=2) or -1 (unless nullptr)
+   int32_t* plCurBufferTime,				// Out: Current buffer time or -1 (unless nullptr)
+   int32_t* plMaxBufferTime)			// Out: Maximum buffer time or -1 (unless nullptr)
 {
   UNUSED(plChannels);
     SET(plSampleRate, desired.freq);

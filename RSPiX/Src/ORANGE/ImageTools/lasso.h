@@ -117,7 +117,7 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 	RLassoNextEvalCall	fnEval);	// In:  Specifies function to call to determine
 											// whether a pixel is part of a shape or not.
 											// Values will be clipped before calling this
-											// function.  If this is not NULL, it is used
+											// function.  If this is not nullptr, it is used
 											// instead of clrDisjoin.
 
 

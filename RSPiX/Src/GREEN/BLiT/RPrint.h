@@ -26,7 +26,7 @@
 	short SetEffectAbs(Effect eEffect,short sVal); // absolute:
 	short SetEffect(Effect eEffect,double dVal); // relative:
 	short SetColor(uint32_t ulForeColor,uint32_t ulBackColor=0,uint32_t ulShadowColor=0);
-	short SetDestination(RImage* pimDst,RRect* prColumn = NULL);
+   short SetDestination(RImage* pimDst,RRect* prColumn = nullptr);
 	void SetJustifyRight();
 	void SetJustifyCenter();
 	void SetJustifyLeft();
@@ -34,7 +34,7 @@
 	void ResetEffects(); // includes tab and to relative
 	void ResetMode(); // all zero
 	void SetMode(Mode eMode,short sVal); // 0 = off
-	short SetFont(short sCellH,RFont* pFont = NULL);
+   short SetFont(short sCellH,RFont* pFont = nullptr);
 	void	GetPos(short *psX,short *psY,short *psW,short *psH);
 	short	GetWidth(char* pszString); // see m_sNumChar,ms_szLineText,ms_sCharPosX
 	RFont* GetFont() { return m_pfnCurFont; }
@@ -85,7 +85,7 @@ public:
 	int16_t SetEffectAbs(Effect eEffect,int16_t sVal); // absolute:
 	int16_t SetEffect(Effect eEffect,double dVal); // relative:
 	int16_t SetColor(uint32_t ulForeColor,uint32_t ulBackColor=0,uint32_t ulShadowColor=0);
-	int16_t SetDestination(RImage* pimDst,RRect* prColumn = NULL);
+   int16_t SetDestination(RImage* pimDst,RRect* prColumn = nullptr);
 	int16_t SetColumn(int16_t sX,int16_t sY,int16_t sW,int16_t sH);
 	void SetJustifyRight();
 	void SetJustifyCenter();
@@ -95,18 +95,18 @@ public:
 	void ResetEffects(); // includes tab and to relative
 	void ResetMode(); // all zero
 	void SetMode(Mode eMode,int16_t sVal); // 0 = off
-	int16_t SetFont(int16_t sCellH,RFont* pFont = NULL);
-	void	GetPos(int16_t *psX,int16_t *psY = NULL,int16_t *psW = NULL,int16_t *psH = NULL);
+   int16_t SetFont(int16_t sCellH,RFont* pFont = nullptr);
+   void	GetPos(int16_t *psX,int16_t *psY = nullptr,int16_t *psW = nullptr,int16_t *psH = nullptr);
    int16_t	GetWidth(const char* pszString);
 	RFont* GetFont() { return m_pfnCurFont; }
 	//-------------------------- Lower Level
 	//void OffsetShadow();
    const char* printInt(const char* pszInput);
 	void GetPropEffX(int16_t sX,int16_t sE,int16_t sNext,
-								  int16_t *psEffX = NULL,int16_t *psEffE = NULL,
-								  int16_t *psEffNext = NULL);
-	int16_t GetPropCellX(int16_t sChar,int16_t *psX = NULL,int16_t *psE = NULL,
-			int16_t *psNext = NULL,int16_t sFirst = FALSE);
+                          int16_t *psEffX = nullptr,int16_t *psEffE = nullptr,
+                          int16_t *psEffNext = nullptr);
+   int16_t GetPropCellX(int16_t sChar,int16_t *psX = nullptr,int16_t *psE = nullptr,
+         int16_t *psNext = nullptr,int16_t sFirst = FALSE);
    const char* ScanLine(const char* pszInput);
 	void  FormatText();
 	void	DrawText();
@@ -115,7 +115,7 @@ public:
 	void	printLine();
 	void ClearTabs(); // both types
 	int16_t IsClipped(int16_t sX,int16_t sY,int16_t sW,int16_t sH);
-	char*	GetNextLine(); // characters from inputted text to be line formatted, NULL = done.
+   char*	GetNextLine(); // characters from inputted text to be line formatted, nullptr = done.
 	int16_t IsWhiteSpace(int16_t sChar)
 		{ if ((sChar == ' ')||(sChar == '\t')) return 1; return 0;}
 	int16_t SetCellW();
@@ -143,7 +143,7 @@ public:
 	int16_t *m_psDecStops;
 
 	//----------------------------- Working variables
-	RFont::RFontSet* m_pCurFontSet; // set to NULL initially.
+   RFont::RFontSet* m_pCurFontSet; // set to nullptr initially.
 	float	m_fWidthScale;				// Compared to current font
 	float m_fHeightScale;			// Compared to current font
 

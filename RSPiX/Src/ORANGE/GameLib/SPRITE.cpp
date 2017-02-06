@@ -107,7 +107,7 @@ RSprite::RSprite()
 //		and adds itself to the static list of sprites
 //
 // Parameters:
-//		pImage = pointer to RImage that goes with this image (NULL if none yet)
+//		pImage = pointer to RImage that goes with this image (nullptr if none yet)
 //		ulFlags = sprite flags you want set
 //
 // Returns:
@@ -189,7 +189,7 @@ RSprite::RSprite(int16_t sX, int16_t sY, int16_t sZ, int16_t sAngle,
 
 void RSprite::Init(void)
 {
-	m_pImage = NULL;
+	m_pImage = nullptr;
 	m_sOwnImage	= FALSE;
 	m_ulFlags = 0;
 	m_sX = m_sY = m_sZ = m_sAngle = 0;
@@ -256,10 +256,10 @@ RSprite::~RSprite()
 
 int16_t RSprite::CreateImage(void)	// Returns 0 on success.
 {
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	m_pImage	= new RImage;
-	if (m_pImage != NULL)
+	if (m_pImage != nullptr)
 	{
 		// Succesfully allocated an image.
 		// Remember we allocated it.
@@ -268,10 +268,10 @@ int16_t RSprite::CreateImage(void)	// Returns 0 on success.
 	else
 	{
 		TRACE("CreateImage(): Failed to allocate new RImage.\n");
-		sRes	= -1;
+		sResult	= -1;
 	}
 
-	return sRes;
+	return sResult;
 }
 
 // *****************************************************************************
@@ -280,7 +280,7 @@ int16_t RSprite::CreateImage(void)	// Returns 0 on success.
 //
 // Description:
 //		Destroys an image previously allocated by CreateImage().  If m_pImage
-//		is NULL or m_sOwnImage is FALSE, this function does nothing.
+//		is nullptr or m_sOwnImage is FALSE, this function does nothing.
 //
 // Parameters:
 //		none
@@ -295,10 +295,10 @@ int16_t RSprite::CreateImage(void)	// Returns 0 on success.
 
 void RSprite::DestroyImage(void)	// Returns nothing.
 {
-	if (m_pImage != NULL && m_sOwnImage != FALSE)
+	if (m_pImage != nullptr && m_sOwnImage != FALSE)
 	{
 		delete m_pImage;
-		m_pImage		= NULL;
+		m_pImage		= nullptr;
 		m_sOwnImage	= FALSE;
 	}
 }
@@ -696,7 +696,7 @@ int16_t RSprite::Load(RFile* pcf)
 																									{
 																										if (ulImageFlag == 1)
 																										{
-																											if (CreateImage() == 0)
+																											if (CreateImage() == SUCCESS)
 																											{
 																												sReturn = m_pImage->Load(pcf);
 																											}

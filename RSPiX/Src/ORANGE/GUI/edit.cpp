@@ -231,7 +231,7 @@ REdit::REdit()
 												// GUI_MAX_STR.
 	m_sBehavior			= 0;		// Flags.  See enums in header.
 
-	m_encCall			= NULL;	// Callback when a user input notification 
+	m_encCall			= nullptr;	// Callback when a user input notification 
 										// should occur such as too much input or 
 										// invalid character generated (e.g., alphas 
 										// in NUMBERS_ONLY mode).  A good place to 
@@ -278,15 +278,15 @@ int16_t REdit::Draw(			// Returns 0 on success.
 	int16_t sSrcY /*= 0*/,		// Y position in source.
 	int16_t sW /*= 0*/,			// Amount to draw.
 	int16_t sH /*= 0*/,			// Amount to draw.
-	RRect* prc /*= NULL*/)	// Clip to.
+	RRect* prc /*= nullptr*/)	// Clip to.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// If visible . . .
 	if (m_sVisible != FALSE)
 		{
 		// Call the base class.
-		sRes = RGuiItem::Draw(	pimDst, sDstX, sDstY,
+		sResult = RGuiItem::Draw(	pimDst, sDstX, sDstY,
 										sSrcX, sSrcY, sW, sH, prc);
 
 		// If the caret is shown . . .
@@ -367,7 +367,7 @@ int16_t REdit::Draw(			// Returns 0 on success.
 			}
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ////////////////////////////////////////////////////////////////////////
@@ -387,11 +387,11 @@ int16_t REdit::DrawText(		// Returns 0 on success.
 	int16_t sY,					// Y position in image.
 	int16_t sW /*= 0*/,			// Width of text area.
 	int16_t	sH /*= 0*/,			// Height of test area.
-	RImage* pim /*= NULL*/)	// Destination image.  NULL == use m_im.
+	RImage* pim /*= nullptr*/)	// Destination image.  nullptr == use m_im.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
-	if (pim == NULL)
+	if (pim == nullptr)
 		{
 		// Use internal image.
 		pim	= &m_im;
@@ -520,10 +520,10 @@ int16_t REdit::DrawText(		// Returns 0 on success.
 		{
 		TRACE("DrawText(): Only left justification supported by REdit "
 			"currently.\n");
-		sRes	= -1;
+		sResult	= -1;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ////////////////////////////////////////////////////////////////////////
@@ -907,15 +907,15 @@ int16_t REdit::ReadMembers(			// Returns 0 on success.
 	RFile*	pfile,					// File to read from.
 	uint32_t		u32Version)				// File format version to use.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// Invoke base class to read base members.
-	sRes	= RTxt::ReadMembers(pfile, u32Version);
+	sResult	= RTxt::ReadMembers(pfile, u32Version);
 
 	// If okay so far . . .
-	if (sRes == 0)
+	if (sResult == SUCCESS)
 		{
-		ASSERT(pfile != NULL);
+		ASSERT(pfile != nullptr);
 		ASSERT(pfile->IsOpen() != FALSE);
 		
 		// Switch on version.
@@ -944,13 +944,13 @@ int16_t REdit::ReadMembers(			// Returns 0 on success.
 				else
 					{
 					TRACE("ReadMembers(): Error reading REdit members.\n");
-					sRes	= -1;
+					sResult	= -1;
 					}
 				break;
 			}
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ////////////////////////////////////////////////////////////////////////
@@ -962,15 +962,15 @@ int16_t REdit::ReadMembers(			// Returns 0 on success.
 int16_t REdit::WriteMembers(			// Returns 0 on success.
 	RFile*	pfile)					// File to write to.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// Invoke base class to read base members.
-	sRes	= RTxt::WriteMembers(pfile);
+	sResult	= RTxt::WriteMembers(pfile);
 
 	// If okay so far . . .
-	if (sRes == 0)
+	if (sResult == SUCCESS)
 		{
-		ASSERT(pfile != NULL);
+		ASSERT(pfile != nullptr);
 		ASSERT(pfile->IsOpen() != FALSE);
 		
 		// Write this class's members.
@@ -988,11 +988,11 @@ int16_t REdit::WriteMembers(			// Returns 0 on success.
 		else
 			{
 			TRACE("WriteMembers(): Error writing REdit members.\n");
-			sRes	= -1;
+			sResult	= -1;
 			}
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ////////////////////////////////////////////////////////////////////////

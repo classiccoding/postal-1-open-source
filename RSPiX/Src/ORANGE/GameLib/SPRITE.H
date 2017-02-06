@@ -78,8 +78,8 @@
 
 // Define the pre-display callback function.  This user-definable function
 // is called from DisplayAll() before the sprites are actually displayed.
-// The callback pointer defaults to NULL, and is automatically called if
-// it is any value except NULL.
+// The callback pointer defaults to nullptr, and is automatically called if
+// it is any value except nullptr.
 class RSprite;	// Forward declaration of class
 typedef void (*SPRITE_PREDISP)(RSprite* psprite);
 
@@ -145,7 +145,7 @@ class RSprite
 		int16_t CreateImage(void);	// Returns 0 on success.
 
 		// Destroys an image previously allocated by CreateImage().  If m_pImage
-		// is NULL or m_sOwnImage is FALSE, this function does nothing.
+		// is nullptr or m_sOwnImage is FALSE, this function does nothing.
 		void DestroyImage(void);	// Returns nothing.
 
 		// Save sprite information and its image.  This version of the save

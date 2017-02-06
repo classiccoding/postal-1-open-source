@@ -96,7 +96,7 @@ class RMultiBtn : public RBtn
 		// Utilizes m_*BkdRes* parameters to get, place, and BLiT the resource.
 		virtual							// Overridden here.
 		void DrawBackgroundRes(		// Returns nothing.
-			RImage* pim = NULL);		// Dest image, uses m_im, if NULL.
+			RImage* pim = nullptr);		// Dest image, uses m_im, if nullptr.
 
 		// Set number of states.
 		// This will clear all existing state images including the feedback
@@ -133,7 +133,7 @@ class RMultiBtn : public RBtn
 		////////////////////////////////////////////////////////////////////////
 
 		// Get the current image for the specified state.
-		RImage* GetState(			// Returns image, if available; NULL, otherwise.
+		RImage* GetState(			// Returns image, if available; nullptr, otherwise.
 			int16_t	sState);			// In:  State to get (0 == feedback state,
 										// 1..n == state number).
 

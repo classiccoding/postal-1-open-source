@@ -118,8 +118,8 @@
 													? (sPixY) \
 													: (sPixX) )
 
-// Sets a value pointed to if ptr is not NULL.
-#define SET_IF_NOT_NULL(pval, val)	(((pval) != NULL) \
+// Sets a value pointed to if ptr is not nullptr.
+#define SET_IF_NOT_NULL(pval, val)	(((pval) != nullptr) \
 															? *(pval) = (val) \
 															: (0) )
 
@@ -176,7 +176,7 @@ class RScrollBar : public RGuiItem
 		// Compose item.
 		virtual					// If you override this, call this base if possible.
 		void Compose(			// Returns nothing.
-			RImage* pim = NULL);	// Dest image, uses m_im if NULL.
+			RImage* pim = nullptr);	// Dest image, uses m_im if nullptr.
 
 		// Cursor event notification.
 		// Events in event area.
@@ -261,7 +261,7 @@ class RScrollBar : public RGuiItem
 			m_btnThumb.Move(sX + HPOS2PIXEL(m_lCurPos), sY + VPOS2PIXEL(m_lCurPos));
 
 			// If there's a callback . . .
-			if (m_upcUser != NULL)
+			if (m_upcUser != nullptr)
 				{
 				// Let user know.
 				(*m_upcUser)(this);
@@ -375,8 +375,8 @@ class RScrollBar : public RGuiItem
 
 		// Gets the range of the scroll bar.
 		void GetRange(		// Returns nothing.
-			int32_t* plMin,	// Out: Minimum position unless NULL.
-			int32_t* plMax)	// Out: Maximum position unless NULL.
+			int32_t* plMin,	// Out: Minimum position unless nullptr.
+			int32_t* plMax)	// Out: Maximum position unless nullptr.
 			{
 			SET_IF_NOT_NULL(plMin, m_lMinPos);
 			SET_IF_NOT_NULL(plMax, m_lMaxPos);
@@ -384,18 +384,18 @@ class RScrollBar : public RGuiItem
 
 		// Get position/size of tray relative to this item.
 		void GetTray(	// Returns nothing.
-			int16_t* psX,	// Out: x coordinate of tray unless NULL.
-			int16_t* psY,	// Out: y coordinate of tray unless NULL.
-			int16_t* psW,	// Out: Width of tray unless NULL.
-			int16_t* psH);	// Out: Height of tray unless NULL.
+			int16_t* psX,	// Out: x coordinate of tray unless nullptr.
+			int16_t* psY,	// Out: y coordinate of tray unless nullptr.
+			int16_t* psW,	// Out: Width of tray unless nullptr.
+			int16_t* psH);	// Out: Height of tray unless nullptr.
 
 		// Get the "hot" area (i.e., clickable area) relative to this item.
 		virtual					// If you override this, call this base if possible.
 		void GetHot(			// Returns nothing.
-			int16_t* psX,			// Out: X position unless NULL.
-			int16_t* psY,			// Out: Y position unless NULL.
-			int16_t* psW,			// Out: Width unless NULL.
-			int16_t* psH)			// Out: Height unless NULL.
+			int16_t* psX,			// Out: X position unless nullptr.
+			int16_t* psY,			// Out: Y position unless nullptr.
+			int16_t* psW,			// Out: Width unless nullptr.
+			int16_t* psH)			// Out: Height unless nullptr.
 			{
 			// Use tray area.
 			GetTray(psX, psY, psW, psH);

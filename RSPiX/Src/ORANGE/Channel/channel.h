@@ -818,7 +818,7 @@ class RChanCoreArray : public RChanCore<datat>
 
 			// Call base class implimentation
 			sResult = RChanCore<datat>::Load(pFile, sFileVersion);
-			if (sResult == 0)
+			if (sResult == SUCCESS)
 				{
 				// Read a bunch 'o stuff
 				pFile->Read(&m_lTotalTime);
@@ -831,7 +831,7 @@ class RChanCoreArray : public RChanCore<datat>
 					ASSERT(m_pArray != 0);
 
 					// Let each item load itself
-					for (int32_t l = 0; (l < m_lNumItems) && (sResult == 0); l++)
+					for (int32_t l = 0; (l < m_lNumItems) && (sResult == SUCCESS); l++)
 						sResult = rspAnyLoad(&(m_pArray[l]), pFile);
 					}
 				else
@@ -858,7 +858,7 @@ class RChanCoreArray : public RChanCore<datat>
 
 			// Call base class implimentation
 			sResult = RChanCore<datat>::Save(pFile);
-			if (sResult == 0)
+			if (sResult == SUCCESS)
 				{
 				// Save a bunch 'o stuff
 				pFile->Write(&m_lTotalTime);
@@ -866,7 +866,7 @@ class RChanCoreArray : public RChanCore<datat>
 				pFile->Write(&m_lNumItems);
 
 				// Let each item save itself
-				for (int32_t l = 0; (l < m_lNumItems) && (sResult == 0); l++)
+				for (int32_t l = 0; (l < m_lNumItems) && (sResult == SUCCESS); l++)
 					sResult = rspAnySave(&(m_pArray[l]), pFile);
 				}
 
@@ -1233,7 +1233,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 
 			// Call base class implimentation
 			sResult = RChanCore<datat>::Load(pFile, sFileVersion);
-			if (sResult == 0)
+			if (sResult == SUCCESS)
 				{
 				// Read a bunch 'o stuff
 				pFile->Read(&m_lTotalTime);
@@ -1257,7 +1257,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 					// pointer that index specifies.  This way, multiple pointers can
 					// refer to the same data item, which is how this data is compressed.
 					m_lRealNumItems = 0;
-					for (int32_t l = 0; (l < m_lNumItems) && (sResult == 0); l++)
+					for (int32_t l = 0; (l < m_lNumItems) && (sResult == SUCCESS); l++)
 						{
 						int32_t lValue;
 						if (pFile->Read(&lValue) == 1)
@@ -1314,7 +1314,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 
 			// Call base class implimentation
 			sResult = RChanCore<datat>::Save(pFile);
-			if (sResult == 0)
+			if (sResult == SUCCESS)
 				{
 				// Save a bunch 'o stuff
 				pFile->Write(&m_lTotalTime);
@@ -1329,14 +1329,14 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 				// the data item we're pointing at, and we write that index.  Of course,
 				// in that case, we don't write the data item itself since it was already
 				// saved ealier.
-				for (int32_t l = 0; (l < m_lNumItems) && (sResult == 0); l++)
+				for (int32_t l = 0; (l < m_lNumItems) && (sResult == SUCCESS); l++)
 					{
-					if (m_pArrayOfFlags[l] == 0)
+               if (m_pArrayOfFlags[l] == 0)
 						{
 						// Write -1 followed by data item
 						pFile->Write((int32_t)-1);
 						sResult = pFile->Error();
-						if (sResult == 0)
+						if (sResult == SUCCESS)
 							sResult = rspAnySave(m_pArrayOfPtrs[l], pFile);
 						}
 					else
@@ -1424,12 +1424,12 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 			for (int32_t i = 0; i < m_lNumItems; i++)
 				{
 				// Only if this isn't already compressed
-				if (m_pArrayOfFlags[i] == 0)
+            if (m_pArrayOfFlags[i] == 0)
 					{
 					for (int32_t j = i + 1; j < m_lNumItems; j++)
 						{
 						// Only if this isn't already compressed
-						if (m_pArrayOfFlags[j] == 0)
+                  if (m_pArrayOfFlags[j] == 0)
 							{
 							// Compare items
 							if (*m_pArrayOfPtrs[i] == *m_pArrayOfPtrs[j])
@@ -1496,7 +1496,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 			int32_t lNum)												// In:  Item number
 			{
 			// If flag is 0 then item is real
-			if (m_pArrayOfFlags[lNum] == 0)
+         if (m_pArrayOfFlags[lNum] == 0)
 				return true;
 			// Otherwise item if a copy
 			return false;
@@ -1677,19 +1677,19 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 				{
 				for(int32_t l = 0; l < m_lNumItems; l++)
 					{
-					if (m_pArrayOfFlags[l] == 0)
+               if (m_pArrayOfFlags[l] == 0)
 						delete m_pArrayOfPtrs[l];
-					m_pArrayOfPtrs[l] = 0;
+               m_pArrayOfPtrs[l] = nullptr;
 					}
 				}
 
 			// Delete array of pointers to data items
 			delete []m_pArrayOfPtrs;
-			m_pArrayOfPtrs = 0;
+         m_pArrayOfPtrs = nullptr;
 
 			// Delete array of flags
 			delete []m_pArrayOfFlags;
-			m_pArrayOfFlags = 0;
+         m_pArrayOfFlags = nullptr;
 			}
 	};
 
@@ -1759,9 +1759,9 @@ class RChannel
 		~RChannel()
 			{
 			Reset();
-			// If not NULL, this is safe.
+			// If not nullptr, this is safe.
 			delete m_pcore;
-			// No need to set to NULL, this object is done.
+			// No need to set to nullptr, this object is done.
 			}
 
 
@@ -1820,7 +1820,7 @@ class RChannel
 
 		////////////////////////////////////////////////////////////////////////////////
 		//
-		// Get channel name (could return NULL if no name has been assigned)
+		// Get channel name (could return nullptr if no name has been assigned)
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		const char* Name(void)									// Returns pointer to channel's name
@@ -1889,7 +1889,7 @@ class RChannel
 							sResult = m_strName.Load(pFile);
 
 							// Let the core load the rest of the file
-							if (sResult == 0)
+							if (sResult == SUCCESS)
 								sResult = m_pcore->Load(pFile, m_sFileVersion);
 							}
 						else
@@ -1929,7 +1929,7 @@ class RChannel
 					m_pcore = ConstructCore(m_type);
 
 					// Let the core load the rest of the file
-					if (sResult == 0)
+					if (sResult == SUCCESS)
 						sResult = m_pcore->Load(pFile, m_sFileVersion);
 					}
 				}
@@ -1961,11 +1961,11 @@ class RChannel
 			pFile->Write((int16_t)m_type);
 
 			sResult = pFile->Error();
-			if (sResult == 0)
+			if (sResult == SUCCESS)
 				{
 				// Write data common to all channel types
 				sResult = m_strName.Save(pFile);
-				if (sResult == 0)
+				if (sResult == SUCCESS)
 					{
 					// Let the core save the rest of the file
 					sResult = m_pcore->Save(pFile);
