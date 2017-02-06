@@ -534,7 +534,7 @@ static bool touchFile(const char *fname, const int64 stamp)
         return false;
 
     ULARGE_INTEGER val;
-    val.QuadPart = (uint32_tLONG) stamp;
+    val.QuadPart = (uint64_t) stamp;
     val.QuadPart += 11644473600LL;  // epoch difference. Ignoring leap seconds, oh well.
     val.QuadPart *= 10000000LL;  // convert to nanoseconds.
     FILETIME ft;
