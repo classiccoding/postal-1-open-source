@@ -548,7 +548,9 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszOptionsMenu_Performance[]				= "PERFORMANCE";
 	extern char g_pszOptionsMenu_Difficulty[]					= "DIFFICULTY";
 	extern char g_pszOptionsMenu_Crosshair[]					= "CROSSHAIR";
-
+#ifdef KID_FRIENDLY_OPTION
+	extern char g_pszOptionsMenu_KidMode[]						= "KID MODE";
+#endif
 	extern char g_pszDifficultyMenu_Title[]					= "DIFFICULTY";
 	extern char g_pszDifficultyMenu_SetDifficulty[]			= "SET";
 
@@ -705,7 +707,9 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszOptionsMenu_Multiplayer[]				= "MEHRERE SPIELER";
 	extern char g_pszOptionsMenu_Performance[]				= "LEISTUNG";
 	extern char g_pszOptionsMenu_Difficulty[]					= "SCHWIERIGKEIT";
-
+#ifdef KID_FRIENDLY_OPTION
+	extern char g_pszOptionsMenu_KidMode[]						= "KID-MODUS";  // FIXME: Google translated, again. But does it matter this time?
+#endif
 	extern char g_pszDifficultyMenu_Title[]					= "SCHWIERIGKEIT";
 	extern char g_pszDifficultyMenu_SetDifficulty[]			= "";
 
@@ -843,7 +847,9 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszOptionsMenu_Multiplayer[]				= "JOUEURS MULTIPLES";
 	extern char g_pszOptionsMenu_Performance[]				= "PERFORMANCE";
 	extern char g_pszOptionsMenu_Difficulty[]					= "DIFFICULTE";
-
+#ifdef KID_FRIENDLY_OPTION
+	extern char g_pszOptionsMenu_KidMode[]						= "MODE ENFANT"; // FIXME: Google Translated, again.
+#endif
 	extern char g_pszDifficultyMenu_Title[]					= "DIFFICULTE";
 	extern char g_pszDifficultyMenu_SetDifficulty[]			= "DEFINIR";
 

@@ -105,6 +105,9 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
+
+#include "CompileOptions.h"
+
 #ifndef LOCALIZE_H
 #define LOCALIZE_H
 
@@ -226,6 +229,9 @@ extern char g_pszOptionsMenu_Multiplayer[];
 extern char g_pszOptionsMenu_Performance[];
 extern char g_pszOptionsMenu_Difficulty[];
 extern char g_pszOptionsMenu_Crosshair[];
+#ifdef KID_FRIENDLY_OPTION
+extern char g_pszOptionsMenu_KidMode[];
+#endif
 
 extern char g_pszDifficultyMenu_Title[];
 extern char g_pszDifficultyMenu_SetDifficulty[];

@@ -689,6 +689,13 @@ static CSwirlMe* pSwirl = NULL;
 
 static void CutScene_RFileCallback(int32_t lBytes);
 
+////////////////////////////////////////////////////////////////////////////////
+// This allows us to use switch case on strings.
+////////////////////////////////////////////////////////////////////////////////
+constexpr unsigned int str2int(const char* str, int h = 0)
+{
+	return !str[h] ? 5381 : (str2int(str, h+1) * 33) ^ str[h];
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -749,6 +756,44 @@ extern void CutSceneStart(
 	else
 		{
 		prefsRealm.GetVal(*pstrSection, "Bg", DEFAULT_BG, szText);
+		#ifdef KID_FRIENDLY_OPTION
+		if (g_GameSettings.m_sKidMode == TRUE)
+		{
+			switch (str2int(szText))
+			{
+				case str2int("res/cutscene/jacketbg.bmp"):
+					strcpy(szText, "res/unicorn/jacketbg.bmp");
+					break;
+				case str2int("res/cutscene/baboon.bmp"):
+				case str2int("res/cutscene/bluehead.bmp"):
+				case str2int("res/cutscene/dblood.bmp"):
+				case str2int("res/cutscene/dholo.bmp"):
+				case str2int("res/cutscene/dredeye.bmp"):
+				case str2int("res/cutscene/flash.bmp"):
+				case str2int("res/cutscene/forest.bmp"):
+				case str2int("res/cutscene/glassguy.bmp"):
+				case str2int("res/cutscene/guy.bmp"):
+				case str2int("res/cutscene/hellbrth.bmp"):
+				case str2int("res/cutscene/maskfire.bmp"):
+				case str2int("res/cutscene/monster.bmp"):
+				case str2int("res/cutscene/pit.bmp"):
+				case str2int("res/cutscene/texbeast.bmp"):
+				case str2int("res/cutscene/texteeth.bmp"):
+				case str2int("res/cutscene/tossle.bmp"):
+				case str2int("res/cutscene/war.bmp"):
+					strcpy(szText, "res/unicorn/baboon.bmp");
+					break;
+				case str2int("res/cutscene/abstract.bmp"):
+				case str2int("res/cutscene/real2.bmp"):
+				case str2int("res/cutscene/ttlmorex.bmp"):
+					strcpy(szText, "res/unicorn/abstract.bmp");
+					break;
+				case str2int("res/cutscene/red2.bmp"):
+					strcpy(szText, "res/unicorn/red2.bmp");
+					break;
+			}
+		}
+		#endif
 		if ((strlen(szText) + 1) >= RSP_MAX_PATH)
 			{
 			TRACE("CutScene(): Bg file name/path too long: '%s'!\n", szText);
@@ -1205,7 +1250,6 @@ static void CutScene_RFileCallback(int32_t lBytes)
 			}
 		}
 	}
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // EOF

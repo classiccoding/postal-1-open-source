@@ -277,6 +277,7 @@
 #define NEAR_DEATH_HITPOINTS	20
 #define MS_BETWEEN_SAMPLES		100
 #define PERSONALITY_ITEM_ID_BASE 200
+#define NUM_ELEMENTS(a)		(sizeof(a) / sizeof(a[0]) )
 
 ////////////////////////////////////////////////////////////////////////////////
 // Variables/data
@@ -384,6 +385,8 @@ int16_t CPerson::Load(				// Returns 0 if successfull, non-zero otherwise
 		}
 
 		// Cache the samples that this type of person uses
+		TRACE("m_ePersonType = %d\n", m_ePersonType);
+		TRACE("NUM_ELEMENTS(g_apersons) = %d\n", NUM_ELEMENTS(g_apersons));
 		CacheSample(*(g_apersons[m_ePersonType].Sample.psmidSuffering1));
 		CacheSample(*(g_apersons[m_ePersonType].Sample.psmidSuffering2));
 		CacheSample(*(g_apersons[m_ePersonType].Sample.psmidSuffering3));

@@ -543,7 +543,6 @@ int16_t RFile::Open(		// Returns 0 on success.
 	Flags flags)			// See comments in Typedefs & Enums section in .h.
 	{
 	int16_t	sRes	= 0;	// Assume success.
-
 	// If not already open . . .
 	if (m_fs == NULL && m_pucFile == NULL)
 		{

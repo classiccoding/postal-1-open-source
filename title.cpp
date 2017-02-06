@@ -310,7 +310,18 @@ static int16_t DisplayImage(	// Returns nothing.
 	ms_lTitleRFileCallbackTime = rspGetMilliseconds();
 
 	RImage*	pimTitle;
-	int16_t sResult = rspGetResource(&g_resmgrShell, pszImageFile, &pimTitle);
+	int16_t sResult;
+	
+	#ifdef KID_FRIENDLY_OPTION
+	if (g_GameSettings.m_sKidMode == TRUE && strcmp(pszImageFile, "Title/Postal.bmp") == 0)
+	{
+		sResult = rspGetResource(&g_resmgrShell, "res/unicorn/postal.bmp", &pimTitle);
+	} else {
+	#endif
+		sResult = rspGetResource(&g_resmgrShell, pszImageFile, &pimTitle);
+	#ifdef KID_FRIENDLY_OPTION
+	}
+	#endif
 	if (sResult == 0)
 		{
 		// Determine position for new image.

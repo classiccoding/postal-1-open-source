@@ -1265,6 +1265,11 @@ extern Menu	menuOptions =
 			{ g_pszOptionsMenu_Difficulty,	TRUE,			&menuPlayOptions,		NULL,	},
 			{ g_pszOptionsMenu_Crosshair,	TRUE,			NULL,		NULL,	},
 			{ g_pszMultiplayerSetupMenu_Color,			TRUE,			NULL,				NULL, },
+			#ifdef KID_FRIENDLY_OPTION
+			// Please note that this should always be the last option in the list,
+			// otherwise we can't remove it.
+			{ g_pszOptionsMenu_KidMode,		TRUE,		NULL,		NULL, },
+			#endif
 			{ "",										FALSE,		NULL,						NULL,	},
 			NULL							// Terminates list.
 		},
@@ -3679,6 +3684,27 @@ static int16_t OptionsInit(		// Returns 0 on success, non-zero to cancel menu.
 			TRACE("MultiOptionsInit(): rspGetResource() failed.\n");
 			sRes	= 2;
 			}
+		#ifdef KID_FRIENDLY_OPTION
+		if (g_GameSettings.m_sCompletedAllLevelsMode == TRUE || g_GameSettings.m_sAprilFools == TRUE)
+		{
+			RMultiBtn**	kidMode	= (RMultiBtn**)&(pmenuCur->ami[sMenuItem++].pgui);
+			if (rspGetResourceInstance(&g_resmgrShell, GUI_CHECKBOX_FILE, kidMode) == 0)
+				{
+				// Set the initial state.
+				(*kidMode)->m_sState	= (g_GameSettings.m_sKidMode != FALSE) ? 1 : 2;
+				(*kidMode)->Compose();
+				}
+			else
+				{
+				TRACE("ControlsInit(): rspGetResource() failed.\n");
+				sRes	= 3;
+				}
+		} else {
+			// Hide option.
+			pmenuCur->ami[sMenuItem].sEnabled = FALSE;
+			pmenuCur->ami[sMenuItem++].pszText = "\0";
+		}
+		#endif
 		}
 	else
 		{
@@ -3708,9 +3734,22 @@ static int16_t OptionsInit(		// Returns 0 on success, non-zero to cancel menu.
 			pmenuCur->ami[sMenuItem++].pgui	= NULL;
 			TRACE("After ms_ptxtColor assignment. sMenuItem = %d\n", sMenuItem);
 			}
-			
+		#ifdef KID_FRIENDLY_OPTION
+		if (g_GameSettings.m_sCompletedAllLevelsMode == TRUE || g_GameSettings.m_sAprilFools == TRUE)
+		{
+			RMultiBtn**	kidMode	= (RMultiBtn**)&(pmenuCur->ami[sMenuItem++].pgui);
+			if (*kidMode)
+				{
+				// Store new kidmode setting.
+				g_GameSettings.m_sKidMode = ((*kidMode)->m_sState == 1) ? TRUE : FALSE;
+				
+				// Release resource.
+				rspReleaseResourceInstance(&g_resmgrShell, kidMode);
+				}
+				
+			}
+		#endif
 		}
-
 	return sRes;
 	}
 
@@ -3759,6 +3798,20 @@ static bool OptionsChoice(		// Returns true to accept, false to deny choice.
 			ms_ptxtColor->SetText("%s", CGameSettings::ms_apszPlayerColorDescriptions[g_GameSettings.m_sPlayerColorIndex]);
 			ms_ptxtColor->Compose();
 			break;
+#ifdef KID_FRIENDLY_OPTION
+#ifndef MULTIPLAYER_REMOVED
+		case 7:
+#else
+		case 6:
+#endif
+			// Toggle blood.
+			g_GameSettings.m_sKidMode = !g_GameSettings.m_sKidMode;
+			RMultiBtn*	kidMode	= (RMultiBtn*)pmenuCurrent->ami[sMenuItem].pgui;
+			ASSERT(kidMode->m_type == RGuiItem::MultiBtn);
+			kidMode->NextState();
+			kidMode->Compose();
+			break;
+#endif
 		}
 
 	// Audible Feedback.

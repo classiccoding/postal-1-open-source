@@ -3110,8 +3110,8 @@ class CPlayInput : public CPlay
 							// Set so we'll go to the next realm
 							pinfo->SetGameState_NextRealm();
 
-#ifdef MOBILE //Disble scores for now, don't work
-							// Display high scoers
+#ifndef DISABLE_SP_CHALLENGE_SCORES
+							// Display high scores
 							ScoreDisplayHighScores(prealm);
 #endif
 							}
@@ -3407,7 +3407,7 @@ class CPlayInput : public CPlay
 				menuClientGame.ami[0].sEnabled = FALSE;
 #endif
 			// Disable 'Play Options' on 'Options' menu.
-			menuOptions.ami[5].sEnabled	= FALSE;
+			// menuOptions.ami[5].sEnabled	= FALSE;
 			// Disable 'Organ' on 'Audio Options' menu.
 			menuAudioOptions.ami[1].sEnabled	= FALSE;
 			// Disable 'Save' IF in multiplayer.
@@ -5083,6 +5083,12 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 									// Start the music:
 									if (g_bLastLevelDemo)
 										{
+#ifdef KID_FRIENDLY_OPTION
+										if (bAddOn == 3)
+										{
+											g_GameSettings.m_sCompletedAllLevelsMode = TRUE;
+										}
+#endif
 										// Begin Final Scene Music:
 										PlaySample(
 											g_smidFinalScene,

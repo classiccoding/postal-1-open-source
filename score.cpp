@@ -190,6 +190,7 @@
 #include "dude.h"
 #include "toolbar.h"
 #include "update.h"
+#include "postal_limits.h"
 
 //////////////////////////////////////////////////////////////////////////////
 // Macros
@@ -219,7 +220,12 @@
 #define HIGHSCORE_DIALOG_FILE			"menu/hiscore.gui"
 #define HIGHSCORE_ITEM_FILE			"menu/HiScoreItem.gui"
 
-#define HIGHSCORE_SCORES_FILE			"res/savegame/high.ini"
+#if WITH_STEAMWORKS
+extern bool EnableSteamCloud;
+#define HIGHSCORE_SCORES_FILE						(EnableSteamCloud ? "steamcloud/high.ini" : "savegame/high.ini")
+#else
+#define HIGHSCORE_SCORES_FILE						"savegame/high.ini"
+#endif
 
 #define TEXT_SHADOW_COLOR				220
 
@@ -237,6 +243,9 @@
 
 
 #define MAX_HIGH_SCORES					16
+
+// defaults to -1 for some reason
+// #define LONG_MAX 0x7FFFFFFFL
 
 //////////////////////////////////////////////////////////////////////////////
 // Variables
@@ -349,7 +358,6 @@ static int32_t SysUpdate(			// Returns a non-zero ID to abort or zero
 
 	UpdateSystem();
 	rspGetNextInputEvent(pie);
-
 	// If timeout has expired . . .
 	if (rspGetMilliseconds() > ms_lScoreMaxTimeOut)
 		{
@@ -895,7 +903,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 
 	ValType	vtScoringUnit	= Value;
 
-
+	TRACE("LONG_MAX = %d\n", LONG_MAX);
 	// Let's just not do any of this for modes that have no scoring . . .
 	if (pRealm->m_ScoringMode >= CRealm::Timed && pRealm->m_ScoringMode <= CRealm::MPLastManTimedFrag && GetInputMode() != INPUT_MODE_PLAYBACK)
 	{
@@ -1017,14 +1025,15 @@ void ScoreDisplayHighScores(	// Returns nothing.
 			{
 			// Try to open the file, but if it doesn't exist, then we simply won't be
 			// getting any values from it.
-			int16_t sOpenRes = scores.Open(FullPathHD(HIGHSCORE_SCORES_FILE), "r");
-			
+			int16_t sOpenRes = scores.Open(FindCorrectFile(HIGHSCORE_SCORES_FILE, "aAwW+"), "r"); // Say we're writing so that FindCorrectFile will give us the prefpath.
+			TRACE("sOpenRes = %d\n", sOpenRes);
 			// Read in the scores file
 			int16_t	sSrcIndex;
 			int16_t	sDstIndex;
 			for (sSrcIndex = 0, sDstIndex = 0; sDstIndex < MAX_HIGH_SCORES; sDstIndex++)
 				{
 				sprintf(szKeyName, "Player%d", sSrcIndex);
+
 				if (sOpenRes == 0)
 					scores.GetVal((char*) pRealm->m_rsRealmString, szKeyName, "<Empty>", astrNames[sDstIndex]);
 				else
@@ -1166,8 +1175,10 @@ void ScoreDisplayHighScores(	// Returns nothing.
 
 		int16_t i;
 
+		#ifdef HIGH_SCORE_DLG
 		if (rspGetResource(&g_resmgrShell, HIGHSCORE_DIALOG_FILE, (RDlg**)&pguiRoot) == 0)
 		{
+			TRACE("Bazooper.\n");
 			RGuiItem* pguiOk			= pguiRoot->GetItemFromId(1);
 			RGuiItem* pguiCancel		= pguiRoot->GetItemFromId(2);
 
@@ -1177,20 +1188,21 @@ void ScoreDisplayHighScores(	// Returns nothing.
 
 			// Set to the input field if the player gets a high score.
 			RGuiItem*	pguiPlayersName	= NULL;
-
+		#endif
 			// Create and add all score items.
 			int16_t	sScoreIndex;
 			bool	bGotAllScoreItems	= true;
-
+		#ifdef HIGH_SCORE_DLG
 			if (plbScores)
 				{
 				ASSERT(plbScores->m_type == RGuiItem::ListBox);
-
+		#endif
 				for (sScoreIndex = 0; sScoreIndex < MAX_HIGH_SCORES && bGotAllScoreItems; sScoreIndex++)
 					{
 					// If there's an associated name or this is the one we're adding . . .
 					if (astrNames[sScoreIndex][0] != '\0' || sPlayersScorePosition == sScoreIndex)
 						{
+						#ifdef HIGH_SCORE_DLG
 						RGuiItem*	pguiItem;
 						if (rspGetResourceInstance(&g_resmgrShell, HIGHSCORE_ITEM_FILE, &pguiItem) == 0)
 							{
@@ -1277,9 +1289,15 @@ void ScoreDisplayHighScores(	// Returns nothing.
 								HIGHSCORE_ITEM_FILE);
 							bGotAllScoreItems	= false;
 							}
+						#else
+							if (sPlayersScorePosition == sScoreIndex)
+							{
+								strcpy(astrNames[sScoreIndex], "Dude");
+							}
+						#endif
 						}
 					}
-
+				#ifdef HIGH_SCORE_DLG
 				// Repaginate now.
 				plbScores->AdjustContents();
 
@@ -1289,6 +1307,9 @@ void ScoreDisplayHighScores(	// Returns nothing.
 					// Make sure it's visible . . .
 					plbScores->EnsureVisible(pguiPlayersName, RListBox::Bottom);
 					}
+				} else
+				{
+					TRACE("plbScores is false or something.\n");
 				}
 
 			if (ptextExplain1 != NULL &&
@@ -1338,6 +1359,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 				// If we want a high score from this player . . .
 				if (sPlayersScorePosition >= 0 && pRealm->m_flags.bMultiplayer == false)
 					{
+					TRACE("High score! Good job. You must've killed at least one enemy to beat the default score.\n");
 					// Ask the player for their name.
 					ptextExplain1->SetText("Please enter your name.\n");
 					ptextExplain1->Compose();
@@ -1376,11 +1398,14 @@ void ScoreDisplayHighScores(	// Returns nothing.
 				// This time we want the screen cleared.
 				guiDialog.m_sFlags	= 0;
 				// Display the high scores.
+				TRACE("Do you know what 'modal' means?\n");
 				guiDialog.DoModal(pguiRoot, pguiOk, pguiCancel);
+				TRACE("Hooray!\n");
 
 				// Restore mouse cursor show level.
 				rspSetMouseCursorShowLevel(sOrigShowLevel);
-
+				#endif
+				TRACE("sPlayersScorePosition = %d, pRealm->m_flags.bMultiplayer = %s\n", sPlayersScorePosition, pRealm->m_flags.bMultiplayer ? "true" : "false");
 				// If we got a high score . . .
 				if (sPlayersScorePosition >= 0 && pRealm->m_flags.bMultiplayer == false)
 					{
@@ -1389,9 +1414,9 @@ void ScoreDisplayHighScores(	// Returns nothing.
 					// safe if the file already exists.  If that fails, we assume the file does
 					// NOT exist and we try to open it in write+ mode, which will clobber the
 					// contents of the file if it does exist.
-					sResult = prefsScores.Open(FullPathHD(HIGHSCORE_SCORES_FILE), "r+");
+					sResult = prefsScores.Open(HIGHSCORE_SCORES_FILE, "r+");
 					if (sResult != SUCCESS)
-						sResult = prefsScores.Open(FullPathHD(HIGHSCORE_SCORES_FILE), "w+");
+						sResult = prefsScores.Open(HIGHSCORE_SCORES_FILE, "w+");
 					if (sResult == SUCCESS)
 						{
 						for (i = 0; i < MAX_HIGH_SCORES; i++)
@@ -1405,11 +1430,11 @@ void ScoreDisplayHighScores(	// Returns nothing.
 					prefsScores.Close();
 					}
 
+#ifdef HIGH_SCORE_DLG
 				// Put the colors back.
 				PalTranOff();
 
 			}
-
 			if (plbScores)
 				{
 #if 0
@@ -1430,9 +1455,12 @@ void ScoreDisplayHighScores(	// Returns nothing.
 				plbScores->RemoveAll();
 #endif
 				}
-		
+			TRACE("Whew, that was a wild ride.\n");
 			rspReleaseResource(&g_resmgrShell, &pguiRoot);
+		} else {
+			TRACE("failed to load GUI resource\n");
 		}
+#endif
 	}
 }
 
@@ -1458,6 +1486,14 @@ int16_t ScoreHighestKills(CRealm* pRealm)
 	
 	return sHighest;	
 }
+
+//////////////////////////////////////////////////////////////////////////////
+// Score_GetBestForLvl
+//
+// Return the highest number of kills among all of the players.  This will
+// be called to determine if a frag limit level is over.
+//
+//////////////////////////////////////////////////////////////////////////////
 
 
 //////////////////////////////////////////////////////////////////////////////

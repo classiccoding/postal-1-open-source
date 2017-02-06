@@ -127,6 +127,8 @@
 #include "localize.h"
 #include "SampleMaster.h"
 
+#include "CompileOptions.h"
+
 #define MAX_TITLE_SCREENS	10
 
 // Game settings
@@ -145,6 +147,11 @@ class CGameSettings : CSettings
 		int16_t		m_sDifficulty;								// Difficulty level (0 to 11)
 		int16_t		m_sViolence;								// Violence level (0 to 11)
 		int16_t		m_sCrossHair;								// TRUE, to use crosshair.
+#ifdef KID_FRIENDLY_OPTION
+		int16_t 	m_sKidMode;
+		int16_t		m_sCompletedAllLevelsMode;
+		int16_t		m_sAprilFools;
+#endif
 
 		char		m_szServerName[RSP_MAX_PATH];			// Name of server for network game.
 		uint16_t	m_usServerPort;							// Port on server for network game.

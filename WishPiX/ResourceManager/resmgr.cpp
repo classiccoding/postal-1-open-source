@@ -179,6 +179,7 @@
 #include <fstream>
 
 #include "resmgr.h"
+#include "CompileOptions.h"
 
 
 //////////////////////////////////////////////////////////////////////
@@ -247,13 +248,23 @@ int16_t RResMgr::Get(									// Returns 0 on success.
 	GenericLoadResFunc* pfnLoad)					// In:  Pointer to "load" function object
 	{
 	int16_t sReturn = SUCCESS;
+	#ifdef DEBUG
+		int16_t nowheretogo = 0;
+	#endif // DEBUG
 	// Map iterator (one of the best things about STL is how readable it is)
 	pair<resclassMap::iterator, bool> p(m_map.begin(), false);
-
+	#ifdef DEBUG
+	if (strcmp((char *) strFilename, "menu/menu_md.bmp") == 0)
+	{
+		TRACE("It's the final countdown!\n");
+		nowheretogo = 1;
+	}
+	#endif // DEBUG
 	// Create a temporary resource block.  Be carefull to set ONLY THE NAME
 	// at this point.  Any other values should be set only if it turns out
 	// that we need to create and load the requested resource!
 	CResourceBlock resBlock;
+	// TRACE("Getting %s\n", (char*)strFilename);
 	NormalizeResName(&strFilename);
 	resBlock.m_strFilename	= strFilename;
 
@@ -273,6 +284,12 @@ int16_t RResMgr::Get(									// Returns 0 on success.
 				pfnLoad);			// In:  Pointer to "load" function object
 		if (sReturn == 0)		
 			{
+			#ifdef DEBUG
+				if (nowheretogo == 1)
+				{
+					TRACE("Tito Dick 'Dickman', baby!\n");
+				}
+			#endif
 			// Fill in the resource block.
 			(*(p.first)).second.m_vpRes = *hRes;
 			(*(p.first)).second.m_pfnDestroy	= pfnDestroy;
@@ -290,14 +307,35 @@ int16_t RResMgr::Get(									// Returns 0 on success.
 			}
 		else
 			{
+			#ifdef DEBUG
+				if (nowheretogo == 1)
+				{
+					TRACE("He raised Phil and loves the ladies.\n");
+				}
+			#endif // DEBUG
 			#ifdef RESMGR_VERBOSE
 				TRACE("RResMgr::Get - Break Yo Selfen hosen!  GetInstance() failed.\n");
 			#endif // RESMGR_VERBOSE
 			}
 		}
+		#ifdef DEBUG
+		else {
+			
+				if (nowheretogo == 1)
+				{
+					TRACE("It's the Al Peck's Quality Used Fruitshack\n");
+				}
+		}
+		#endif // DEBUG
 
 	if (sReturn == SUCCESS)
 		{
+		#ifdef DEBUG
+			if (nowheretogo == 1)
+			{
+				TRACE("Hoo-ugh!\n");
+			}
+		#endif // DEBUG
 		(*(p.first)).second.m_sRefCount++;
 		(*(p.first)).second.m_sAccessCount++;
 		*hRes = (*(p.first)).second.m_vpRes;

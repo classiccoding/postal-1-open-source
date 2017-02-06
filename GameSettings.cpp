@@ -143,6 +143,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
+#include <time.h>
 #include "RSPiX.h"
 #include "GameSettings.h"
 #include "game.h"
@@ -210,6 +211,22 @@ CGameSettings::CGameSettings(void)
 	m_sDifficulty					= 5;
 	m_sViolence						= 11;
 	m_sCrossHair					= TRUE;
+#ifdef KID_FRIENDLY_OPTION
+	m_sCompletedAllLevelsMode		= FALSE;
+	time_t lTime;
+	struct tm * timeinfo;
+	RFile file;
+	time(&lTime);
+	timeinfo = localtime (&lTime);
+	if (timeinfo->tm_mon == 1 && timeinfo->tm_mday == 6)
+	{
+		m_sAprilFools = TRUE;
+		m_sKidMode = TRUE;
+	} else {
+		m_sAprilFools = FALSE;
+		m_sKidMode = FALSE;
+	}
+#endif
 										
 	m_szServerName[0]				= 0;
 	m_usServerPort					= 61663;
@@ -390,6 +407,15 @@ int16_t CGameSettings::LoadPrefs(
 	if (m_sViolence > 11)
 		m_sViolence = 11;
 	pPrefs->GetVal("Game", "UseCrossHair", m_sCrossHair, &m_sCrossHair);
+	#ifdef KID_FRIENDLY_OPTION
+	if (m_sAprilFools == TRUE)
+	{
+		pPrefs->GetVal("Game", "KidModeAprilFools", m_sKidMode, &m_sKidMode);
+	} else {
+		pPrefs->GetVal("Game", "KidMode", m_sKidMode, &m_sKidMode);
+	}
+	pPrefs->GetVal("Game", "CompletedAllLevelsMode", m_sCompletedAllLevelsMode, &m_sCompletedAllLevelsMode);
+	#endif
 
 	pPrefs->GetVal("Multiplayer", "Server", m_szServerName, m_szServerName);
 	pPrefs->GetVal("Multiplayer", "Port", m_usServerPort, &m_usServerPort);
@@ -506,6 +532,15 @@ int16_t CGameSettings::SavePrefs(
 	pPrefs->SetVal("Game", "RecentDifficulty", m_sDifficulty);
 	pPrefs->SetVal("Game", "RecentViolence", m_sViolence);
 	pPrefs->SetVal("Game", "UseCrossHair", m_sCrossHair);
+	#ifdef KID_FRIENDLY_OPTION
+	if (m_sAprilFools == TRUE)
+	{
+		pPrefs->SetVal("Game", "KidModeAprilFools", m_sKidMode);
+	} else {
+		pPrefs->SetVal("Game", "KidMode", m_sKidMode);
+	}
+	pPrefs->SetVal("Game", "CompletedAllLevelsMode", m_sCompletedAllLevelsMode);
+	#endif
 
 	pPrefs->SetVal("Multiplayer", "Server", m_szServerName);
 	pPrefs->SetVal("Multiplayer", "Port", m_usServerPort);
