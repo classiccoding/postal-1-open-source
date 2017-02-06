@@ -363,7 +363,7 @@ class CLogTabVar_DudeHealth : CLogTabVar<CPerson*>
 			if (pPerson->SelectDude() == SUCCESS)
 			{
 				CDude*	pdude;
-				if (pPerson->m_pRealm->m_idbank.GetThingByID((CThing**)&pdude, pPerson->m_idDude) == 0)
+				if (pPerson->m_pRealm->m_idbank.GetThingByID((CThing**)&pdude, pPerson->m_idDude) == SUCCESS)
 				{
 					int16_t sHitPoints = pdude->GetHealth();
 					if (sHitPoints > 80)
@@ -409,7 +409,7 @@ class CLogTabVar_IsTriggered : CLogTabVar<CPerson*>
 
 		int16_t GetVal(CPerson* pPerson)
 			{
-			return (pPerson->m_pPylonStart != NULL && pPerson->m_pPylonStart->Triggered());
+			return (pPerson->m_pPylonStart != nullptr && pPerson->m_pPylonStart->Triggered());
 			}
 
 		void SetVal(CPerson* pPerson, int16_t sVal)
