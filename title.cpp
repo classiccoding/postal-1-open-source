@@ -237,7 +237,7 @@ static const char*	ms_apszFiles[]	=
 	#ifdef TITLE_SHOW_DISTRIBUTOR
 		"Title/distrib.bmp",
 	#endif
-	"Title/Logo2.bmp",
+   "Title/Logo.bmp",
 	"Title/Postal.bmp"
 	};				 
 
