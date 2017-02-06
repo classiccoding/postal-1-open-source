@@ -1398,6 +1398,7 @@ void CScene::Render2D(		// Returns nothing.
 					int16_t	sXRayeeY	= psprXRayee->m_sY2;	// Default to 2D blit location.
 					switch (psprXRayee->m_type)
 						{
+                 UNHANDLED_SWITCH;
 						case CSprite::Standard2d:
 							// Use default sXRayeeX, sXRayeeY.
 							break;

@@ -313,7 +313,9 @@ int16_t CRocket::Save(										// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 void CRocket::Update(void)
 {
+#ifdef UNUSED_VARIABLES
 	uint16_t usAttrib;
+#endif
 	int16_t sHeight;
 	double dNewX;
 	double dNewZ;
@@ -394,7 +396,9 @@ void CRocket::Update(void)
 
 				// Check for obstacles
 				sHeight = m_pRealm->GetHeight((int16_t) dNewX, (int16_t) dNewZ);
-				usAttrib = m_pRealm->GetFloorAttribute((int16_t) dNewX, (int16_t) dNewZ);
+#ifdef UNUSED_VARIABLES
+            usAttrib = m_pRealm->GetFloorAttribute((int16_t) dNewX, (int16_t) dNewZ);
+#endif
 
 				// If the new position's height is too high, the new position is a ways
 				// off screen, or the path to the new position is not clear of terrain . . .

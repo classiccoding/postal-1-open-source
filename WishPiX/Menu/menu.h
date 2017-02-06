@@ -192,7 +192,7 @@ typedef struct
 
 typedef struct
 	{
-	char*	pszFile;				// Filespec of font to use for menu item text.
+   const char*	pszFile;				// Filespec of font to use for menu item text.
 	int16_t	sHeight;				// Height to use for menu item text.
 	uint32_t	u32ForeColor;		// Color or color index for font to use for menu item
 									// text.

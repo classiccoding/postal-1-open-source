@@ -362,7 +362,7 @@ static int16_t SetupVideo(					// Returns 0 on success.
 
 	return sResult;
 	}
-
+#ifdef UNUSED_FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
 // Allocates a chunk and resizes so that we may be able to have some large
 // blocks of contiguous memory.
@@ -384,7 +384,7 @@ static char* CreateChunk(	// Returns the memory ptr that will hold the chunk
 		return pcOrig;
 		}
 	}
-
+#endif
 
 static void assert_types_are_sane(void)
 {

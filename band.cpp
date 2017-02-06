@@ -572,6 +572,7 @@ void CBand::Update(void)
 		// Check the current state
 		switch (m_state)
 		{
+        UNHANDLED_SWITCH;
 
 //-----------------------------------------------------------------------
 // March - follow the parade route until you get to the end
@@ -1009,7 +1010,6 @@ void CBand::Update(void)
 				return;
 
 				break;
-
 		}
 
 		m_smash.m_sphere.sphere.X			= m_dX;

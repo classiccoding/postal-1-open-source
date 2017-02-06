@@ -402,6 +402,7 @@ int16_t CInputSettings::SavePrefs(
 int16_t CInputSettings::LoadGame(
 	RFile* pFile)
 	{
+  UNUSED(pFile);
 	return 0;
 	}
 
@@ -412,6 +413,7 @@ int16_t CInputSettings::LoadGame(
 int16_t CInputSettings::SaveGame(
 	RFile* pFile)
 	{
+  UNUSED(pFile);
 	return 0;
 	}
 
@@ -422,6 +424,7 @@ int16_t CInputSettings::SaveGame(
 int16_t CInputSettings::PreDemo(
 	RFile* pFile)
 	{
+  UNUSED(pFile);
 	// Store current keys?
 
 	return 0;
@@ -434,6 +437,7 @@ int16_t CInputSettings::PreDemo(
 int16_t CInputSettings::PostDemo(
 	RFile* pFile)
 	{
+  UNUSED(pFile);
 	// Restore user keys?
 
 	return 0;

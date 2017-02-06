@@ -190,7 +190,7 @@ bool CNetMsgr::GetMsg(									// True if message was available, false otherwise
 			if (m_bufIn.Get(&ucMsg) == 1)
 				{
 				// Make sure it's a valid message type
-				if ((ucMsg >= 0) && (ucMsg < NetMsg::NumMessages))
+            if (ucMsg < NetMsg::NumMessages)
 					{
 					// Get the expected message length.  A value of -1 indicates a
 					// variable-sized message, in which case the next 2 bytes (if
@@ -355,7 +355,7 @@ void CNetMsgr::SendMsg(
 		uint8_t	ucMsg = pmsg->msg.nothing.ucType;
 
 		// Make sure it's a valid message type
-		if ((ucMsg >= 0) && (ucMsg < NetMsg::NumMessages))
+      if (ucMsg < NetMsg::NumMessages)
 			{
 			// Determine message size.  A size of -1 indicates a variable-sized message,
 			// in which case the actual size is stored within the message itself.

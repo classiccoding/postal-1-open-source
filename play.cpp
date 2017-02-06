@@ -802,13 +802,15 @@ class CPlayInfo
 		void SetGameState_NextRealm(
 			bool bServerToldMe = false)
 			{
+        UNUSED(bServerToldMe);
 			m_gamestate = Game_NextRealm;
 			}
 
 		void SetGameState_GameOver(
 			bool bServerToldMe = false)
 			{
-			// This should NEVER occur in MP mode
+        UNUSED(bServerToldMe);
+         // This should NEVER occur in MP mode
 			// 09/12/97 MJR -- This USED TO BE TRUE, but now that we re-enabled the
 			// use of the "just one realm" mode in MP in the case where the server
 			// only has a single realm available, we need this again in MP mode,
@@ -820,7 +822,8 @@ class CPlayInfo
 		void SetGameState_GameAborted(
 			bool bServerToldMe = false)
 			{
-			m_gamestate = Game_GameAborted;
+        UNUSED(bServerToldMe);
+         m_gamestate = Game_GameAborted;
 			}
 
 
@@ -890,7 +893,8 @@ class CPlay
 		int16_t PrepareGame(										// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			return 0;
+        UNUSED(pinfo);
+         return 0;
 			}
 
 
@@ -902,7 +906,8 @@ class CPlay
 			CPlayInfo* pinfo,										// I/O: Play info
 			bool* pbGameReady)									// Out: Whether game is ready
 			{
-			*pbGameReady = true;
+        UNUSED(pinfo);
+         *pbGameReady = true;
 			return 0;
 			}
 
@@ -914,7 +919,8 @@ class CPlay
 		int16_t StartGame(											// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			return 0;
+        UNUSED(pinfo);
+         return 0;
 			}
 
 
@@ -925,7 +931,8 @@ class CPlay
 		void StartCutscene(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			}
+        UNUSED(pinfo);
+         }
 
 
 		////////////////////////////////////////////////////////////////////////////////
@@ -935,7 +942,8 @@ class CPlay
 		int16_t PrepareRealm(										// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			return 0;
+        UNUSED(pinfo);
+         return 0;
 			}
 
 
@@ -947,7 +955,8 @@ class CPlay
 			CPlayInfo* pinfo,										// I/O: Play info
 			bool* pbRealmReady)									// Out: Whether realm is ready
 			{
-			*pbRealmReady = true;
+        UNUSED(pinfo);
+         *pbRealmReady = true;
 			return 0;
 			}
 
@@ -959,7 +968,8 @@ class CPlay
 		void DoCutscene(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			}
+        UNUSED(pinfo);
+         }
 
 
 		////////////////////////////////////////////////////////////////////////////////
@@ -969,7 +979,8 @@ class CPlay
 		void EndCutscene(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			}
+        UNUSED(pinfo);
+         }
 
 
 		////////////////////////////////////////////////////////////////////////////////
@@ -979,7 +990,8 @@ class CPlay
 		int16_t StartRealm(											// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			return 0;
+        UNUSED(pinfo);
+         return 0;
 			}
 
 
@@ -991,7 +1003,8 @@ class CPlay
 			CPlayInfo* pinfo,										// I/O: Play info
 			RInputEvent* pie)										// I/O: Input event
 			{
-			}
+        UNUSED(pinfo, pie);
+         }
 
 
 		////////////////////////////////////////////////////////////////////////////////
@@ -1001,6 +1014,7 @@ class CPlay
 		void CoreLoopUpdate(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
+        UNUSED(pinfo);
 			}
 
 
@@ -1012,7 +1026,8 @@ class CPlay
 		void CoreLoopRender(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			}
+        UNUSED(pinfo);
+         }
 
 
 		////////////////////////////////////////////////////////////////////////////////
@@ -1023,7 +1038,8 @@ class CPlay
 		void CoreLoopRenderOnTop(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			}
+        UNUSED(pinfo);
+         }
 
 
 		////////////////////////////////////////////////////////////////////////////////
@@ -1033,7 +1049,8 @@ class CPlay
 		void CoreLoopDraw(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			}
+        UNUSED(pinfo);
+         }
 
 
 		////////////////////////////////////////////////////////////////////////////////
@@ -1054,7 +1071,8 @@ class CPlay
 		void EndRealm(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			}
+        UNUSED(pinfo);
+         }
 
 
 		////////////////////////////////////////////////////////////////////////////////
@@ -1064,7 +1082,8 @@ class CPlay
 		void UnprepareGame(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			}
+        UNUSED(pinfo);
+         }
 
 
 		////////////////////////////////////////////////////////////////////////////////
@@ -1074,7 +1093,8 @@ class CPlay
 		void StartRealmErr(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			}
+        UNUSED(pinfo);
+         }
 
 
 		////////////////////////////////////////////////////////////////////////////////
@@ -1084,6 +1104,7 @@ class CPlay
 		void IsRealmReadyErr(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
+        UNUSED(pinfo);
 			}
 
 
@@ -1094,6 +1115,7 @@ class CPlay
 		void PrepareRealmErr(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
+        UNUSED(pinfo);
 			}
 
 
@@ -1104,7 +1126,8 @@ class CPlay
 		void StartGameErr(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			}
+        UNUSED(pinfo);
+         }
 
 
 		////////////////////////////////////////////////////////////////////////////////
@@ -1114,7 +1137,8 @@ class CPlay
 		void IsGameReadyErr(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			}
+        UNUSED(pinfo);
+         }
 
 
 		////////////////////////////////////////////////////////////////////////////////
@@ -1124,7 +1148,8 @@ class CPlay
 		void PrepareGameErr(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			}
+        UNUSED(pinfo);
+         }
 	};
 
 
@@ -2718,6 +2743,7 @@ class CPlayInput : public CPlay
 		int16_t StartRealm(											// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
+        UNUSED(pinfo);
 			// Reset time he's been dead ('cause he isn't dead yet)
 			m_lDemoDeadTime = -1;
 			
@@ -2735,6 +2761,7 @@ class CPlayInput : public CPlay
 		void EndRealm(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
+        UNUSED(pinfo);
 			}
 
 		////////////////////////////////////////////////////////////////////////////////
@@ -3227,7 +3254,7 @@ class CPlayInput : public CPlay
 		////////////////////////////////////////////////////////////////////////////////
 		void PauseGame(
 			CRealm*	prealm,			// In:  Realm to pause or NULL.
-			char*		pszMsg,			// In:  Message to be displayed.
+         const char*		pszMsg,			// In:  Message to be displayed.
 			int32_t		lKey)				// In:  Key to continue or 0 to wait for foreground status
 			{
 			// Suspend realm.
@@ -3468,8 +3495,7 @@ class CPlayInput : public CPlay
 					break;
 				// User save choice.
 				case MenuActionSaveGame:
-					{
-					int16_t sResult;
+               {
 					// Static so dialog will "remember" the previously-used name
 					static char	szFile[RSP_MAX_PATH]	= "";
 
@@ -3523,7 +3549,7 @@ class CPlayInput : public CPlay
 						#if WITH_STEAMWORKS
 						#error You need to switch over from this code to the in-game file UI first.
 						#endif
-					sResult = rspSaveBox(g_pszSaveGameTitle, szFile, szFile, sizeof(szFile), SAVEGAME_EXT);
+               int16_t sResult = rspSaveBox(g_pszSaveGameTitle, szFile, szFile, sizeof(szFile), SAVEGAME_EXT);
 					if (sResult == 0)
 						{
 						if (Game_SavePlayersGame(szFile, pinfo->Realm()->m_flags.sDifficulty) != SUCCESS)
@@ -4595,6 +4621,7 @@ class CPlayScore : public CPlay
 		int16_t PrepareGame(										// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
+        UNUSED(pinfo);
 			// Init and reset score module
 			ScoreInit();
 			ScoreReset();
@@ -4760,6 +4787,7 @@ class CPlayCutscene : public CPlay
 		void EndCutscene(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
+        UNUSED(pinfo);
 			// End cutscene
 			CutSceneEnd();
 
@@ -5418,6 +5446,7 @@ extern bool Play_VerifyQuitMenuChoice(				// Returns true to accept, false to de
 	Menu*	pmenuCurrent,									// In:  Current menu.
 	int16_t	sMenuItem)										// In:  Item chosen or -1 for change of focus.
 	{
+  UNUSED(pmenuCurrent);
 	bool	bAcceptChoice	= true;	// Assume accepting choice.
 
 	switch (sMenuItem)

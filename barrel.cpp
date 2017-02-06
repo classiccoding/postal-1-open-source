@@ -440,6 +440,7 @@ void CBarrel::Update(void)
 		// Check the current state
 		switch (m_state)
 		{
+        UNHANDLED_SWITCH;
 
 //-----------------------------------------------------------------------
 // Idle - just sitting around waiting to be hit
@@ -515,7 +516,6 @@ void CBarrel::Update(void)
 				}
 
 				break;
-
 		}
 
 		// Update sphere.

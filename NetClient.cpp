@@ -1170,8 +1170,8 @@ void CNetClient::ReceiveFromPeers(void)
 		// and the unreceived portion is automatically discarded.  Such a message
 		// could come from a foreign app that is using the same port as us.
 		uint8_t msg[PEER_MSG_MAX_SIZE];
-		int32_t lReceived;
-		int16_t serr = m_socketPeers.ReceiveFrom(msg, sizeof(msg), &lReceived, NULL);
+      int32_t lReceived;
+      int16_t serr = m_socketPeers.ReceiveFrom(msg, sizeof(msg), &lReceived, NULL);
 		if (serr == 0)
 			{
 			// Make sure size is within proper range
@@ -1190,7 +1190,7 @@ void CNetClient::ReceiveFromPeers(void)
 					if (m_aPeers[id].m_state == CPeer::Joined)
 						{
 						// Calculate the number of input values the message contains. *SPA add sizeof frame time
-						int32_t lNumInputs = (lReceived - PEER_MSG_HEADER_SIZE) / (sizeof(UINPUT) + sizeof(uint8_t));
+                  int32_t lNumInputs = (lReceived - PEER_MSG_HEADER_SIZE) / (sizeof(UINPUT) + sizeof(uint8_t));
 
 						// Get the rest of the message
 //						uint16_t u16SenderPing;
@@ -1227,7 +1227,7 @@ void CNetClient::ReceiveFromPeers(void)
 						// Add input values to peer's input buffer
 						UINPUT input;
 						uint8_t frameTime;
-						for (int16_t s = 0; s < lNumInputs; s++)
+                  for (int16_t s = 0; s < lNumInputs; s++)
 							{
 							// Add input to peer's buffer
 							Get(pget, &input);
@@ -1418,7 +1418,7 @@ void CNetClient::SendToPeer(Net::ID id,				// id of peer to send to
 
 	// Calculate size of message.  The peer uses the message size to determine
 	// how many input values it contains.
-	ASSERT((pput - msg) <= PEER_MSG_MAX_SIZE);
+   ASSERT((pput - msg) <= PEER_MSG_MAX_SIZE);
 	int32_t lSize = pput - msg;
 
 	// Make sure maximum message size is <= maximum datagram size

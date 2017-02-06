@@ -556,7 +556,8 @@ void CDispenser::Update(void)
 			// Logic on when to dispense next.
 			switch (m_logictype)
 				{
-				case Timed:
+           UNHANDLED_SWITCH;
+            case Timed:
 					if (lCurTime >= m_lNextUpdate)
 						{
 						// Create a thing . . .
@@ -740,7 +741,7 @@ inline void SetupLogicParms(	// Returns nothing.
 void LogicItemCall(
 	RGuiItem*	pguiLogicItem)	// In:  Logic item that was pressed.
 	{
-	ASSERT(pguiLogicItem->m_ulUserInstance != NULL);
+   ASSERT(pguiLogicItem->m_ulUserInstance);
 	RListBox*	plb	= (RListBox*)pguiLogicItem->m_ulUserInstance;
 	ASSERT(plb->m_type == RGuiItem::ListBox);
 

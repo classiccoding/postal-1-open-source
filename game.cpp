@@ -2358,13 +2358,13 @@ extern int16_t SubPathOpenBox(		// Returns 0 on success, negative on error, 1 if
 	int16_t	sResult;
 
 	char	szBasePath[RSP_MAX_PATH];
-	int32_t	lBasePathLen	= strlen(pszFullPath);
+   size_t	lBasePathLen	= strlen(pszFullPath);
 	if (lBasePathLen < sizeof(szBasePath) )
 		{
 		strcpy(szBasePath, pszFullPath);
 
 		// Get index to last character
-		int16_t sLastIndex = lBasePathLen;
+      size_t sLastIndex = lBasePathLen;
 		if (sLastIndex > 0)
 			sLastIndex--;
 
@@ -3720,7 +3720,7 @@ extern int SynchLog(	// Result of expr.
 				{
 				fprintf(
 					ms_fileSynchLog.m_fs, 
-					"[Seq: %i] %s : %i  <$%s$> == %0.8f; User == %lu\n", 
+               "[Seq: %i] %s : %i  <$%s$> == %0.8f; User == %u\n",
 					ms_lSynchLogSeq++,
 					GetFileNameFromPath(pszFile),
 					lLine,
@@ -3735,17 +3735,17 @@ extern int SynchLog(	// Result of expr.
 				int32_t		lLineIn;
 				int32_t		lSeqIn;
 				double	exprIn;
-				uint32_t		u32UserIn;
+            uint32_t		u32UserIn = 0;
 
 				if (fscanf(
 					ms_fileSynchLog.m_fs,
-					"[Seq: %i] %s : %i  <$%1024[^$]$> == %g; User == %lu\n", 
+               "[Seq: %i] %s : %i  <$%1024[^$]$> == %lg; User == %u\n",
 					&lSeqIn,
 					szFileIn,
 					&lLineIn,
 					szExprIn,
 					&exprIn,
-					&u32UserIn) == 6)
+               &u32UserIn) == 6)
 					{
 					// Verify . . .
 					if (	(rspStricmp(szFileIn, GetFileNameFromPath(pszFile) ) != 0)
@@ -3757,8 +3757,8 @@ extern int SynchLog(	// Result of expr.
 						sprintf(
 							szOut,
 							"'If' sequence (%i) mismatch!\n\n"
-							"   Was <<%s>> at %s(%i) which got %g; User == %lu\n\n"
-							"   Now <<%s>> at %s(%i) which got %g; User == %lu",
+                     "   Was <<%s>> at %s(%i) which got %g; User == %u\n\n"
+                     "   Now <<%s>> at %s(%i) which got %g; User == %u",
 							ms_lSynchLogSeq,
 							szExprIn,
 							szFileIn,

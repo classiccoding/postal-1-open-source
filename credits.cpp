@@ -698,15 +698,17 @@ int16_t	CFileTextInput::ParseTextInput(FILE* fp)
 		if (!strcmp(pszToken+1,"tab"))
 			{
 			pCurPhrase->m_sLocalX = sCurTabX = atoi(m_bf.NextToken());
+
+         switch	(*pszToken)
+            {
+           case 'l': pCurPhrase->m_eJust = CTextPhrase::Left; break;
+           case 'r': pCurPhrase->m_eJust = CTextPhrase::Right; break;
+           case 'c': pCurPhrase->m_eJust = CTextPhrase::Center; break;
+            }
 #ifdef UNUSED_VARIABLES
-			switch	(*pszToken)
-				{
-				case 'l': eCurJust = pCurPhrase->m_eJust = CTextPhrase::Left; break;
-				case 'r': eCurJust = pCurPhrase->m_eJust = CTextPhrase::Right; break;
-				case 'c': eCurJust = pCurPhrase->m_eJust = CTextPhrase::Center; break;
-				}
+         eCurJust = pCurPhrase->m_eJust;
 #endif
-			continue;
+         continue;
 			}
 		//-----------------------------------------------------
 		if (!strcmp(pszToken,";")) // means new line (& should benew phrase)

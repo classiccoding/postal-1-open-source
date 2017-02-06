@@ -564,7 +564,7 @@ static int32_t			ms_lNumConsoleEntries		= 0;			// Track number of chat items.
 static bool			ms_bGotSetupMsg = false;
 static int16_t		ms_sSetupRealmNum = 0;
 static char			ms_szSetupRealmFile[Net::MaxRealmNameSize];
-static int32_t			ms_lSetupLastChatComplaint = 0;
+//static int32_t			ms_lSetupLastChatComplaint = 0;
 
 static int32_t			ms_lNextOptionsUpdateTime;		// Next time to send an options update.
 
@@ -1849,14 +1849,15 @@ static int16_t GetRealmFileFromRealmTitle(	// Returns 0, if found; non-zero
 	int16_t sMaxLen)									// In:  Max space available at 
 														// pszRealmFileName.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+  UNUSED(sMaxLen);
+   int16_t	sResult	= SUCCESS;	// Assume success.
 
 	RPrefs prefsRealm;
 	// Try opening the realms.ini file on the HD path first, if that fails go to the CD
 	sResult = prefsRealm.Open(FullPathHD(g_GameSettings.m_pszRealmPrefsFile), "rt");
-	if (sResult != 0)
+   if (sResult != SUCCESS)
 		sResult = prefsRealm.Open(FullPathCD(g_GameSettings.m_pszRealmPrefsFile), "rt");
-	if (sResult == 0)
+   if (sResult == SUCCESS)
 		{
 		// Try each realm section until we find the title we're looking for
 		// or we find an empty entry.
@@ -1899,7 +1900,7 @@ static int16_t GetRealmFileFromRealmTitle(	// Returns 0, if found; non-zero
 		if (bFound == false)
 			{
 			// Let the caller know.
-			sResult	= 1;
+         sResult	= FAILURE;
 			}
 		}
 
@@ -1956,7 +1957,7 @@ static int16_t OnJoinedMsg(	// Returns 0 on success.
 	NetMsg*		pmsg,			// In:  Joined msg from client to add.
 	bool			bServer)		// In:  true if in server mode; false if client.
 	{
-	int16_t	sRes	= 0;	// Assume success.
+   int16_t	sRes	= SUCCESS;	// Assume success.
 
 	ASSERT(pmsg->msg.nothing.ucType == NetMsg::JOINED);
 	
@@ -1999,13 +2000,13 @@ static int16_t OnJoinedMsg(	// Returns 0 on success.
 	else
 		{
 		TRACE("OnJoinedMsg(): ms_plbPlayers->AddString() failed.\n");
-		sRes = -1;
+      sRes = FAILURE;
 		}
 
 	return sRes;
 	}
 
-
+#ifdef UNUSED_FUNCTIONS
 //////////////////////////////////////////////////////////////////////////////
 //
 // Player has changed info
@@ -2015,7 +2016,8 @@ static int16_t OnChangedMsg(	// Returns 0 on success.
 	CNetClient*	pnet,			// In:  Network interface.
 	NetMsg*		pmsg)			// In:  Changed msg
 	{
-	int16_t	sRes	= 0;	// Assume success.
+  UNUSED(pnet);
+   int16_t	sRes	= SUCCESS;	// Assume success.
 
 	ASSERT(pmsg->msg.nothing.ucType == NetMsg::CHANGED);
 
@@ -2023,7 +2025,7 @@ static int16_t OnChangedMsg(	// Returns 0 on success.
 
 	return sRes;
 	}
-
+#endif
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -2034,6 +2036,7 @@ static void OnChatMsg(
 	CNetClient*	pnet,				// In:  Network interface.
 	NetMsg*		pmsg)				// In:  Chat msg.
 	{
+  UNUSED(pnet);
 	ASSERT(pmsg->msg.nothing.ucType == NetMsg::CHAT);
 	AddConsoleMsg(true, "%s", pmsg->msg.chat.acText);
 	}
@@ -2781,10 +2784,7 @@ extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero othe
 												bClientDone = true;
 											}
 										else
-											{
-											// Assume no problems
-											int16_t sProblem = 0;
-
+                                 {
 											// Process messages from server
 											pclient->GetMsg(&msg);
 											switch(msg.msg.nothing.ucType)

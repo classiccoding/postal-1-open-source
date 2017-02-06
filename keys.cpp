@@ -299,16 +299,15 @@ extern int16_t MouseButtonDescriptionToMask(	// Returns 0 on success.  Returns
    const char*		pszButtonDescriptor,					// In:  Description of button.
 	uint32_t*	psButtonMask)							// Out: Button mask.
 	{
-	int16_t	sRes	= 1;	// Assume failure.
+   int16_t	sRes	= FAILURE;	// Assume failure.
 
-	int16_t	sButtonIndex;
-	for (sButtonIndex = 0; sButtonIndex < NUM_ELEMENTS(g_apszMouseButtonDescriptions); sButtonIndex++)
+   for (size_t sButtonIndex = 0; sButtonIndex < NUM_ELEMENTS(g_apszMouseButtonDescriptions); ++sButtonIndex)
 		{
 		if (rspStricmp(pszButtonDescriptor, g_apszMouseButtonDescriptions[sButtonIndex]) == 0)
 			{
 			// Found it!
 			*psButtonMask = MouseIndexToBitfield(sButtonIndex);
-			sRes	= 0;
+         sRes	= SUCCESS;
 
 			break;
 			}
@@ -325,16 +324,15 @@ extern int16_t JoyButtonDescriptionToMask(	// Returns 0 on success.  Returns
    const char*		pszButtonDescriptor,				// In:  Description of button.
 	uint32_t*	psButtonMask)						// Out: Button mask.
 	{
-	int16_t	sRes	= 1;	// Assume failure.
+   int16_t	sRes	= FAILURE;	// Assume failure.
 
-	int16_t	sButtonIndex;
-	for (sButtonIndex = 0; sButtonIndex < NUM_ELEMENTS(g_apszJoyButtonDescriptions); sButtonIndex++)
+   for (size_t sButtonIndex = 0; sButtonIndex < NUM_ELEMENTS(g_apszJoyButtonDescriptions); ++sButtonIndex)
 		{
 		if (rspStricmp(pszButtonDescriptor, g_apszJoyButtonDescriptions[sButtonIndex]) == 0)
 			{
 			// Found it!
 			*psButtonMask = JoyIndexToBitfield(sButtonIndex);
-			sRes	= 0;
+         sRes	= SUCCESS;
 
 			break;
 			}

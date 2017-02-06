@@ -332,7 +332,7 @@ static void locateCorrectCase(char *buf)
 	char *ptr = buf;
 //	char *prevptr = buf;
 
-	while (ptr = strchr(ptr + 1, '/'))
+   while ((ptr = strchr(ptr + 1, '/')))
 	{
 		*ptr = '\0';  /* block this path section off */
 		if (!locateOneElement(buf))

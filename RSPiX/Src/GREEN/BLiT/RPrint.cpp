@@ -363,7 +363,8 @@ void	RPrint::DrawText()
 			if (sW)
 				switch (pim->m_type)
 					{
-					case RImage::FSPR1:
+              UNHANDLED_SWITCH;
+               case RImage::FSPR1:
 							rspBlit(m_ShadowColor,pim,m_pimDst,sX+sShadowX,sY+sShadowY,sW,m_sCellH);
 					}
 			}
@@ -717,9 +718,9 @@ int16_t RPrint::SetEffectAbs(Effect eEffect,int16_t sVal) // absolute:
 	// hook specific effects:
 	switch (eEffect)
 		{
-		case ITALIC: // reset the italic slant
-		break;
-
+     UNHANDLED_SWITCH;
+      case ITALIC: // reset the italic slant
+        break;
 		}
 
 	SetCellW(); // updates the cellW based on the latest effects
@@ -740,9 +741,9 @@ int16_t RPrint::SetEffect(Effect eEffect,double dVal) // relative:
 	// hook specific effects:
 	switch (eEffect)
 		{
-		case ITALIC: // reset the italic slant
-		break;
-
+     UNHANDLED_SWITCH;
+      case ITALIC: // reset the italic slant
+        break;
 		}
 
 	SetCellW(); // updates the cellW based on the latest effects

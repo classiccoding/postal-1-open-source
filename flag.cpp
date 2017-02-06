@@ -374,7 +374,8 @@ void CFlag::Update(void)
 
 		switch(m_state)
 		{
-			case CFlag::State_Wait:
+        UNHANDLED_SWITCH;
+         case CFlag::State_Wait:
 				if (lThisTime > m_lTimer)
 				{
 					m_state = CFlag::State_Guard;
@@ -635,7 +636,6 @@ int16_t CFlag::EditModify(void)
 	int16_t sResult = 0;
 	uint16_t u16OrigColor = m_u16FlagColor;
 
-	RGuiItem* pGuiItem = NULL;
 	RGuiItem* pguiRoot = RGuiItem::LoadInstantiate(FullPathVD("res/editor/flag.gui"));
 	if (pguiRoot != NULL)
 	{

@@ -324,6 +324,7 @@ static int16_t GuiGetRes(		// Returns 0 on success; non-zero on failure.
 	return sResult;
 	}
 
+#ifdef UNUSED_FUNCTIONS
 //////////////////////////////////////////////////////////////////////////////
 // EditInputUserFeedback -- Whines when the user causes an input 
 // disgruntlement.
@@ -333,8 +334,10 @@ static void EditInputUserFeedback(	// Called when a user input notification
 												// should occur.
 	REdit*	pedit)						// In:  Edit field.
 	{
+  UNUSED(pedit);
 	PlaySample(g_smidEmptyWeapon, SampleMaster::UserFeedBack);
 	}
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 //
