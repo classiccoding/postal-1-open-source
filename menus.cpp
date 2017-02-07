@@ -4432,7 +4432,7 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 		else
 			{
 			TRACE("MultiOptionsInit(): rspGetResource() failed.\n");
-			sResult = FAILURE;
+			sRes	= 1;
 			}
 
 		if (rspGetResource(&g_resmgrShell, NET_PROTO_GUI_FILE, &ms_ptxtProto) == 0)
@@ -4460,7 +4460,7 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			ms_ptxtBandwidth->SetText("%s", Net::BandwidthText[g_GameSettings.m_sNetBandwidth]);
 			ms_ptxtBandwidth->Compose();
 
- 			pmenuCur->ami[2].pgui   = ms_ptxtBandwidth;
+			pmenuCur->ami[2].pgui   = ms_ptxtBandwidth;
 			}
 		else
 			{
@@ -4480,24 +4480,6 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 
 			// Clear menu's pointer.
          pmenuCurrent->ami[0].pgui	= nullptr;
-			}
-
-		if (ms_ptxtColor != nullptr)
-			{
-			// Release resource.
-			rspReleaseResource(&g_resmgrShell, &ms_ptxtColor);
-
-			// Clear menu's pointer.
-         pmenuCurrent->ami[1].pgui	= nullptr;
-			}
-
-		if (ms_ptxtColor != nullptr)
-			{
-			// Release resource.
-			rspReleaseResource(&g_resmgrShell, &ms_ptxtColor);
-
-			// Clear menu's pointer.
-         pmenuCurrent->ami[1].pgui	= nullptr;
 			}
 
 		if (ms_ptxtProto)
