@@ -689,6 +689,7 @@ static CSwirlMe* pSwirl = NULL;
 
 static void CutScene_RFileCallback(int32_t lBytes);
 
+#ifdef KID_FRIENDLY_OPTION
 ////////////////////////////////////////////////////////////////////////////////
 // This allows us to use switch case on strings.
 ////////////////////////////////////////////////////////////////////////////////
@@ -696,6 +697,7 @@ constexpr unsigned int str2int(const char* str, int h = 0)
 {
 	return !str[h] ? 5381 : (str2int(str, h+1) * 33) ^ str[h];
 }
+#endif // KID_FRIENDLY_OPTION
 
 ////////////////////////////////////////////////////////////////////////////////
 //
