@@ -42,7 +42,7 @@
 //
 //		07/03/97	JMI	Moved InputInfo and ms_ainputinfo into CInputSettings.
 //
-//		07/06/97	JMI	Changed m_au8PlayKeys[] from a uint8_t array to a short array,
+//		07/06/97	JMI	Changed m_au8PlayKeys[] from a U8 array to a short array,
 //							m_asPlayKeys[].
 //							Also, changed g_apszButtonDescriptions to 
 //							g_apszMouseButtonDescriptions.
