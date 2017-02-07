@@ -1101,7 +1101,7 @@ DEFINE_SAMPLE_ID(SMDF_FEMALE_PAIN, g_smidWVictimThatsIllegal,	"stephanie#11- 10.
 DEFINE_SAMPLE_ID(SMDF_FEMALE_PAIN, g_smidWVictimAlreadyDead,	"stephanie#11- 80.wav");
 DEFINE_SAMPLE_ID(SMDF_FEMALE_PAIN, g_smidWVictimRunForLives,	"stephanie#11- 85.wav");
 
-#if (TARGET == SUPER_POSTAL) || (TARGET == JAPAN_ADDON)
+#if (TARGET == SUPER_POSTAL) || (TARGET == JAPAN_ADDON) || (TARGET == POSTAL_2015)
 // New Japanese sounds
 DEFINE_SAMPLE_ID(SMDF_NO_DESCRIPT, g_smidAsami_b1,					"asami-b1.wav");
 DEFINE_SAMPLE_ID(SMDF_NO_DESCRIPT, g_smidAsami_b2,					"asami-b2.wav");
