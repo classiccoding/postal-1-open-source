@@ -554,7 +554,7 @@ void RString::ToLower(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t RString::Load(RFile* pFile)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Read length to separate var to avoid corrupting real one in case of read error
 	int32_t lLen;
@@ -575,7 +575,7 @@ int16_t RString::Load(RFile* pFile)
 				{
 				Clear();
 				TRACE("RString::Load(): Error reading string!\n");
-				sResult = -1;
+				sResult = FAILURE;
 				}
 			}
 		else
@@ -587,7 +587,7 @@ int16_t RString::Load(RFile* pFile)
 		{
 		Clear();
 		TRACE("RString::Load(): Error reading string length!\n");
-		sResult = -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;

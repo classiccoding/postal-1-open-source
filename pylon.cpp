@@ -169,7 +169,7 @@ int16_t CPylon::Load(										// Returns 0 if successfull, non-zero otherwise
 		}
 		else
 		{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CPylon::Load(): Error reading from file!\n");
 		}
 	}
@@ -221,7 +221,7 @@ int16_t CPylon::Save(										// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPylon::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// At this point we can assume the CHood was loaded, so we init our height
 	m_dY = m_pRealm->GetHeight((int16_t) m_dX, (int16_t) m_dZ);
@@ -305,7 +305,7 @@ int16_t CPylon::EditNew(									// Returns 0 if successfull, non-zero otherwise
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -351,7 +351,7 @@ void SetText(					// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPylon::EditModify(void)
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	RGuiItem* pGui = RGuiItem::LoadInstantiate(FullPathVD("res/editor/bouy.gui"));
 	RGuiItem* pSecondaryGui = nullptr;
 	if (pGui)
@@ -592,7 +592,7 @@ void CPylon::EditHotSpot(	// Returns nothiing.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPylon::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
    if (m_pImage == nullptr)
 		{
@@ -633,7 +633,7 @@ int16_t CPylon::GetResources(void)						// Returns 0 if successfull, non-zero ot
 					// Convert to efficient transparent blit format . . .
 					if (m_pImage->Convert(RImage::FSPR8) != RImage::FSPR8)
 						{
-						sResult = -3;
+						sResult = FAILURE * 3;
 						TRACE("CPylon::GetResource() - Couldn't convert to FSPR8\n");
 						}
 					else
@@ -643,7 +643,7 @@ int16_t CPylon::GetResources(void)						// Returns 0 if successfull, non-zero ot
 					}
 				else
 					{
-					sResult	= -2;
+					sResult = FAILURE * 2;
 					TRACE("CPylon::GetResource() - m_pImage->CreateImage() failed.\n");
 					}
 
@@ -656,7 +656,7 @@ int16_t CPylon::GetResources(void)						// Returns 0 if successfull, non-zero ot
 				}
 			else
 				{
-				sResult	= -1;
+				sResult = FAILURE;
 				TRACE("CPylon::GetResource(): Failed to allocate RImage.\n");
 				}
 			

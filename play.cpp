@@ -1234,7 +1234,7 @@ class CPlayGroup
 		int16_t PrepareGame(										// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
 				sResult |= m_Plays.GetData(p)->PrepareGame(pinfo);
 			return sResult;
@@ -1248,7 +1248,7 @@ class CPlayGroup
 			CPlayInfo* pinfo,										// I/O: Play info
 			bool* pbGameReady)									// Out: Whether game is ready
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 			*pbGameReady = true;
 			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
 				{
@@ -1266,7 +1266,7 @@ class CPlayGroup
 		int16_t StartGame(											// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
 				sResult |= m_Plays.GetData(p)->StartGame(pinfo);
 			return sResult;
@@ -1290,7 +1290,7 @@ class CPlayGroup
 		int16_t PrepareRealm(										// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
 				sResult |= m_Plays.GetData(p)->PrepareRealm(pinfo);
 			return sResult;
@@ -1304,7 +1304,7 @@ class CPlayGroup
 			CPlayInfo* pinfo,										// I/O: Play info
 			bool* pbRealmReady)									// Out: Whether realm is ready
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 			*pbRealmReady = true;
 			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
 				{
@@ -1344,7 +1344,7 @@ class CPlayGroup
 		int16_t StartRealm(											// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
 				sResult |= m_Plays.GetData(p)->StartRealm(pinfo);
 			return sResult;
@@ -2635,7 +2635,7 @@ static void EnumSaveGamesSlots(Menu *menu)
 
         char timebuf[32];
         const char *str = "unknown";
-        if (stat(fname, &statbuf) == -1)
+        if (stat(fname, &statbuf) == FAILURE)
             str = "available";
         else
         {
@@ -3748,7 +3748,7 @@ class CPlayRealm : public CPlay
 		int16_t PrepareRealm(										// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 
 			CRealm* prealm = pinfo->Realm();
 
@@ -3806,19 +3806,19 @@ class CPlayRealm : public CPlay
 							}
 						else
 							{
-							sResult = -1;
+							sResult = FAILURE;
 							TRACE("CPlayRealm::PrepareRealm(): Error starting-up realm!\n");
 							}
 						}
 					else
 						{
-						sResult = -1;
+						sResult = FAILURE;
 						TRACE("CPlayRealm::PrepareRealm(): Error loading realm!\n");
 						}
 					}
 				else
 					{
-					sResult = -1;
+					sResult = FAILURE;
 					TRACE("CPlayRealm::PrepareRealm(): File does not exist: %s\n", (char*)pinfo->RealmName());
 
 					// If we're in the specific realm mode, then display a message telling the user that
@@ -3841,7 +3841,7 @@ class CPlayRealm : public CPlay
 				// the error as part of the core loop, which is where similar errors are already handled.
 				if ((sResult != 0) && pinfo->IsMP())
 					{
-					sResult = 0;
+					sResult = SUCCESS;
 					pinfo->m_bBadRealmMP = true;
 					}
 				}
@@ -4138,7 +4138,7 @@ class CPlayRealm : public CPlay
 			CPlayInfo*		pinfo,								// I/O: Play info
 			LevelPersist*	palevelpersist)					// In:  Players' level persistent data.
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 
 			CRealm* prealm = pinfo->Realm();
 
@@ -4239,7 +4239,7 @@ class CPlayRealm : public CPlay
 								}
 							else
 								{
-								sResult = -1;
+								sResult = FAILURE;
 								TRACE("SetupDudes(): pwarp->WarpIn() failed.\n");
 								}
 							plnWarp	= plnWarp->m_pnNext;
@@ -4264,7 +4264,7 @@ class CPlayRealm : public CPlay
 						}
 					else
 						{
-						sResult = -1;
+						sResult = FAILURE;
 						TRACE("SetupDudes(): pwarp->WarpIn() failed.\n");
 						}
 					}
@@ -4275,7 +4275,7 @@ class CPlayRealm : public CPlay
 				rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, 
 					"Realm Error", 
 					"There are no warps in this realm!  There must be at least one warp in a realm!\n");
-				sResult = -1;
+				sResult = FAILURE;
 				}
 
 			return sResult;
@@ -4859,7 +4859,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
    const uint16_t sFrameTime,								// In:  Milliseconds per frame (MP only)
 	RFile* pfileDemoModeDebugMovie)					// In:  File for loading/saving demo mode debug movie
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 //#ifdef MOBILE
 	if (inputMode == INPUT_MODE_PLAYBACK)
@@ -4948,7 +4948,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 			// 09/12/97 MJR - Clear the string.  The CPlayInfo constructor actually does this, but this
 			// makes it more obvious.
 			info.m_szRealm[0] = 0;
-			sResult	= -1;
+			sResult = FAILURE;
 			TRACE("Play(): Couldn't get info for realm #%hd!\n", (int16_t)sRealmNum);
 			}
 		}
@@ -5332,7 +5332,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 										if (info.IsMP())
 											info.m_bBadRealmMP = true;
 										else
-											sResult	= -1;
+											sResult = FAILURE;
 										TRACE("Play(): Couldn't get info for realm #%hd!\n", (int16_t)info.m_sRealmNum);
 										break;
 									}
@@ -5502,7 +5502,7 @@ extern int16_t Play_GetRealmInfo(						// Returns 0 if successfull, 1 if no such
 	ASSERT(pszFile != nullptr);
 	ASSERT(sMaxFileLen > 0);
 
-	int16_t	sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Open the realm prefs file
 	RPrefs prefsRealm;
@@ -5546,7 +5546,7 @@ extern int16_t Play_GetRealmInfo(						// Returns 0 if successfull, 1 if no such
 		else
 			{
 			// File name too long (and can't be truncated)
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("Play_GetRealmInfo(): Realm file name/path too long!\n");
 			rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszCriticalErrorTitle, g_pszBadPath_s_s, "Realm", (char*)strSection);
 			}
@@ -5555,7 +5555,7 @@ extern int16_t Play_GetRealmInfo(						// Returns 0 if successfull, 1 if no such
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("Play_GetRealmInfo(): Error opening realm prefs file: '%s'!\n", FullPathCD(g_GameSettings.m_pszRealmPrefsFile));
 		rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, "", "Can't open realm prefs file '%s'.\n", FullPathCD(g_GameSettings.m_pszRealmPrefsFile));
 		}

@@ -217,7 +217,7 @@ int16_t RSnd::Stream(	char* pszSampleName, int32_t lPlayBufSize, int32_t lReadBu
 						 uint8_t	ucMainVolume /* = 255 */, uint8_t ucVolume2 /* = 255 */)
 	{
   UNUSED(ucMainVolume, ucVolume2);
-   int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 	
 	// Reset variables and free data if any.
 	Reset();
@@ -246,7 +246,7 @@ int16_t RSnd::Stream(	char* pszSampleName, int32_t lPlayBufSize, int32_t lReadBu
 				else
 					{
 					TRACE("Stream(\"%s\"): Unable to start mixer.\n", pszSampleName);
-               sResult = -7;
+               sResult = FAILURE * 7;
 					}
 
 				// If any failures . . .
@@ -261,7 +261,7 @@ int16_t RSnd::Stream(	char* pszSampleName, int32_t lPlayBufSize, int32_t lReadBu
 			else
 				{
 				TRACE("Stream(\"%s\"): Unable to open sound channel.\n", pszSampleName);
-            sResult = -6;
+            sResult = FAILURE * 6;
 				}
 
 			// If any failures . . .
@@ -274,7 +274,7 @@ int16_t RSnd::Stream(	char* pszSampleName, int32_t lPlayBufSize, int32_t lReadBu
 		else
 			{
 			TRACE("Stream(\"%s\"): Unable to open sample file.\n", pszSampleName);
-         sResult = -5;
+         sResult = FAILURE * 5;
 			}
 
 		// If any failures . . .
@@ -287,7 +287,7 @@ int16_t RSnd::Stream(	char* pszSampleName, int32_t lPlayBufSize, int32_t lReadBu
 	else
 		{
 		TRACE("Stream(\"%s\"): Unable to allocate RSample.\n", pszSampleName);
-      sResult = -3;
+      sResult = FAILURE * 3;
 		}
 
    return sResult;
@@ -320,7 +320,7 @@ int16_t RSnd::Play(						// Returns 0 on success.
 	int32_t lLoopEndTime/* = 0*/)		// In:  Where to loop back from in milliseconds.
 											// In:  If less than 1, the end + lLoopEndTime is used.
 	{
-   int16_t sResult = 0; // Assume success.
+   int16_t sResult = SUCCESS; // Assume success.
 	
    ASSERT(psample != nullptr);
 	ASSERT(GetState() == Stopped);
@@ -399,7 +399,7 @@ int16_t RSnd::Play(						// Returns 0 on success.
 			else
 				{
 				TRACE("Play(): Unable to play sound buffer.\n");
-            sResult = -3;
+            sResult = FAILURE * 3;
 				}
 
 			// If any failures . . .
@@ -415,7 +415,7 @@ int16_t RSnd::Play(						// Returns 0 on success.
 			{
             // commented out due to spam from --nosound.  --ryan.
 			//TRACE("Play(): Unable to open sound output device.\n");
-         sResult = -2;
+         sResult = FAILURE * 2;
 			}
 
 		// If any failures . . .
@@ -430,7 +430,7 @@ int16_t RSnd::Play(						// Returns 0 on success.
 	else
 		{
 		TRACE("Play(): Unable to lock supplied sample.\n");
-      sResult = -1;
+      sResult = FAILURE;
 		}
 
    return sResult;
@@ -445,7 +445,7 @@ int16_t RSnd::Play(						// Returns 0 on success.
 ///////////////////////////////////////////////////////////////////////////////
 int16_t RSnd::Abort(void)
 	{
-   int16_t sResult = 0; // Assume success.
+   int16_t sResult = SUCCESS; // Assume success.
 
 	ASSERT(GetState() != Stopped);
 
@@ -484,7 +484,7 @@ int16_t RSnd::Abort(void)
 	else
 		{
 //		TRACE("Abort(): No current RSample.\n");
-      sResult = -1;
+      sResult = FAILURE;
 		}
 	
    return sResult;

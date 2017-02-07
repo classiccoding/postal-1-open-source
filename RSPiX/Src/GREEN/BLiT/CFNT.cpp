@@ -234,12 +234,12 @@ int16_t RFont::AddLetter(RImage* pimLetter,int16_t sASCII,
 		}
 
 	// Insert it into the font set:
-	int16_t sRet = 0;
+   int16_t sResult = SUCCESS;
 
 	if (pFont->m_ppimCharacters[pInfo->m_u16ASCII])
 		{
 		//TRACE("RFont::AddLetter: WARNING! Overwriting old letter!\n");
-		sRet = 1;
+      sResult = FAILURE;
 		delete pFont->m_ppimCharacters[pInfo->m_u16ASCII];
 		}
 
@@ -261,7 +261,7 @@ int16_t RFont::AddLetter(RImage* pimLetter,int16_t sASCII,
 	if (pimLetter->m_sHeight > m_sMaxCellHeight)
 		m_sMaxCellHeight = pimLetter->m_sHeight;
 
-	return sRet;
+   return sResult;
 	}
 
 int16_t RFont::Save(char* pszFileName)
@@ -274,7 +274,7 @@ int16_t RFont::Save(char* pszFileName)
 		return -1;
 		}
 
-	if (Save(&rfTemp)==0)
+   if (Save(&rfTemp) == SUCCESS)
 		{
 		TRACE("RFont::SaveFont: %s saved!\n",pszFileName);
 		}

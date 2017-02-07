@@ -280,7 +280,7 @@ int16_t REdit::Draw(			// Returns 0 on success.
 	int16_t sH /*= 0*/,			// Amount to draw.
 	RRect* prc /*= nullptr*/)	// Clip to.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// If visible . . .
 	if (m_sVisible != FALSE)
@@ -389,7 +389,7 @@ int16_t REdit::DrawText(		// Returns 0 on success.
 	int16_t	sH /*= 0*/,			// Height of test area.
 	RImage* pim /*= nullptr*/)	// Destination image.  nullptr == use m_im.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	if (pim == nullptr)
 		{
@@ -520,7 +520,7 @@ int16_t REdit::DrawText(		// Returns 0 on success.
 		{
 		TRACE("DrawText(): Only left justification supported by REdit "
 			"currently.\n");
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -907,7 +907,7 @@ int16_t REdit::ReadMembers(			// Returns 0 on success.
 	RFile*	pfile,					// File to read from.
 	uint32_t		u32Version)				// File format version to use.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// Invoke base class to read base members.
 	sResult	= RTxt::ReadMembers(pfile, u32Version);
@@ -944,7 +944,7 @@ int16_t REdit::ReadMembers(			// Returns 0 on success.
 				else
 					{
 					TRACE("ReadMembers(): Error reading REdit members.\n");
-					sResult	= -1;
+					sResult = FAILURE;
 					}
 				break;
 			}
@@ -962,7 +962,7 @@ int16_t REdit::ReadMembers(			// Returns 0 on success.
 int16_t REdit::WriteMembers(			// Returns 0 on success.
 	RFile*	pfile)					// File to write to.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// Invoke base class to read base members.
 	sResult	= RTxt::WriteMembers(pfile);
@@ -988,7 +988,7 @@ int16_t REdit::WriteMembers(			// Returns 0 on success.
 		else
 			{
 			TRACE("WriteMembers(): Error writing REdit members.\n");
-			sResult	= -1;
+			sResult = FAILURE;
 			}
 		}
 

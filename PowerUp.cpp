@@ -210,7 +210,7 @@ int16_t CPowerUp::Load(								// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,									// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)								// In:  Version of file format to load.
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 	if (ulFileVersion < 20)
 		{
 		sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
@@ -321,7 +321,7 @@ int16_t CPowerUp::Load(								// Returns 0 if successfull, non-zero otherwise
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CPowerUp::Load(): Error reading from file!\n");
 			}
 		}
@@ -338,7 +338,7 @@ int16_t CPowerUp::Save(										// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
 	// Note that we bypass CItem3d::Save() cuz I think that would be wierd.
-	int16_t	sResult	= CThing3d::Save(pFile, sFileCount);
+   int16_t sResult	= CThing3d::Save(pFile, sFileCount);
 	if (sResult == SUCCESS)
 		{
 		// Base class does it all.
@@ -427,7 +427,7 @@ int16_t CPowerUp::Setup(									// Returns 0 if successfull, non-zero otherwise
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -454,7 +454,7 @@ int16_t CPowerUp::EditNew(								// Returns 0 if successfull, non-zero otherwis
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -472,7 +472,7 @@ int16_t CPowerUp::EditNew(								// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPowerUp::EditModify(void)
 	{
-	int16_t	sResult	= m_stockpile.UserEdit();
+   int16_t sResult	= m_stockpile.UserEdit();
 
 	// If successful so far . . .
 	if (sResult == SUCCESS)
@@ -490,7 +490,7 @@ int16_t CPowerUp::EditModify(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPowerUp::Init(void)	// Returns 0 on success.
 	{
-	int16_t	sResult	= GetResources();
+   int16_t sResult	= GetResources();
 
 	// Prepare shadow (get resources and setup sprite).
 	sResult	|= PrepareShadow();
@@ -538,7 +538,7 @@ void CPowerUp::GetResName(	// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPowerUp::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	// Safe to call even if no resource.
 	FreeResources();
@@ -561,7 +561,7 @@ int16_t CPowerUp::GetResources(void)						// Returns 0 if successfull, non-zero 
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPowerUp::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
    if (m_anim.m_psops != nullptr)
 		{
@@ -578,7 +578,7 @@ int16_t CPowerUp::FreeResources(void)						// Returns 0 if successfull, non-zero
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPowerUp::Preload(CRealm* /*prealm*/)
 {
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	int16_t i;
 	CAnim3D anim;
@@ -598,7 +598,7 @@ int16_t CPowerUp::Preload(CRealm* /*prealm*/)
 int16_t CPowerUp::Grab(		// Returns 0 on success..
 	CSprite* psprParent)		// In:  Parent's sprite.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult	= SUCCESS;	// Assume success.
 
 	// If we are not already grabbed . . .
    if (m_sprite.m_psprParent == nullptr)
@@ -620,7 +620,7 @@ int16_t CPowerUp::Grab(		// Returns 0 on success..
 	else
 		{
 		// Already have a parent.
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;

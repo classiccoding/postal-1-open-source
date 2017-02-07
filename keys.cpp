@@ -272,7 +272,7 @@ extern int16_t KeyDescriptionToValue(	// Returns 0 on success.  Returns non-zero
    const char*		pszKeyDescriptor,			// In:  Description of key.
 	uint32_t*	psScanKey)					// Out: Key value.
 	{
-	int16_t	sResult	= 1;	// Assume failure.
+	int16_t sResult = FAILURE;	// Assume failure.
 
 	uint8_t	u8KeyIndex;
 	for (u8KeyIndex = 0; u8KeyIndex < NUM_ELEMENTS(g_apszKeyDescriptions); u8KeyIndex++)
@@ -281,7 +281,7 @@ extern int16_t KeyDescriptionToValue(	// Returns 0 on success.  Returns non-zero
 			{
 			// Found it!
 			*psScanKey	= u8KeyIndex;
-			sResult	= 0;
+			sResult = SUCCESS;
 
 			break;
 			}
@@ -299,7 +299,7 @@ extern int16_t MouseButtonDescriptionToMask(	// Returns 0 on success.  Returns
    const char*		pszButtonDescriptor,					// In:  Description of button.
 	uint32_t*	psButtonMask)							// Out: Button mask.
 	{
-   int16_t	sResult	= FAILURE;	// Assume failure.
+   int16_t sResult	= FAILURE;	// Assume failure.
 
    for (size_t sButtonIndex = 0; sButtonIndex < NUM_ELEMENTS(g_apszMouseButtonDescriptions); ++sButtonIndex)
 		{
@@ -324,7 +324,7 @@ extern int16_t JoyButtonDescriptionToMask(	// Returns 0 on success.  Returns
    const char*		pszButtonDescriptor,				// In:  Description of button.
 	uint32_t*	psButtonMask)						// Out: Button mask.
 	{
-   int16_t	sResult	= FAILURE;	// Assume failure.
+   int16_t sResult	= FAILURE;	// Assume failure.
 
    for (size_t sButtonIndex = 0; sButtonIndex < NUM_ELEMENTS(g_apszJoyButtonDescriptions); ++sButtonIndex)
 		{

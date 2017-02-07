@@ -171,7 +171,7 @@ int16_t CItem3d::Load(										// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,										// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)									// In:  Version of file format to load.
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// In most cases, the base class Load() should be called.
 	sResult	= CThing3d::Load(pFile, bEditMode, sFileCount, ulFileVersion);
@@ -261,7 +261,7 @@ int16_t CItem3d::Load(										// Returns 0 if successfull, non-zero otherwise
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CItem3d::Load(): Error reading from file!\n");
 			}
 		}
@@ -281,7 +281,7 @@ int16_t CItem3d::Save(										// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// In most cases, the base class Save() should be called.
 	sResult	= CThing3d::Save(pFile, sFileCount);
@@ -424,7 +424,7 @@ int16_t CItem3d::EditNew(									// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CItem3d::EditModify(void)					// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t	sResult	= CThing3d::EditModify();
+	int16_t sResult	= CThing3d::EditModify();
 
 	RGuiItem*	pguiRoot	= RGuiItem::LoadInstantiate(FullPathVD(EDIT_GUI_FILE));
 	if (pguiRoot != nullptr)
@@ -502,7 +502,7 @@ int16_t CItem3d::EditModify(void)					// Returns 0 if successfull, non-zero othe
 					}
 				else
 					{
-					sResult	= 1;
+					sResult = FAILURE;
 					}
 
 				// Get new rigid body name.
@@ -517,19 +517,19 @@ int16_t CItem3d::EditModify(void)					// Returns 0 if successfull, non-zero othe
 				}
 			else
 				{
-				sResult	= 1;
+				sResult = FAILURE;
 				}
 			}
 		else
 			{
 			TRACE("EditModify(): Missing GUI items in  %s.\n", EDIT_GUI_FILE);
-			sResult	= -2;
+			sResult = FAILURE * 2;
 			}
 		}
 	else
 		{
 		TRACE("EditModify(): Failed to load %s.\n", EDIT_GUI_FILE);
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	// If successful so far . . .
@@ -548,7 +548,7 @@ int16_t CItem3d::EditModify(void)					// Returns 0 if successfull, non-zero othe
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CItem3d::Init(void)									// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	m_lPrevTime			= m_pRealm->m_time.GetGameTime();
 
@@ -591,7 +591,7 @@ void CItem3d::Kill(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CItem3d::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Free existing resources, if any.
 	FreeResources();
@@ -707,7 +707,7 @@ int16_t CItem3d::Setup(			// Returns 0 on success.
 													// Base name for custom type resources.
 	uint16_t	u16IdParentInstance /*= CIdBank::IdNil*/)	// In:  Parent instance ID.
 	{
-	int16_t	sResult	= 0;
+	int16_t sResult = SUCCESS;
 
 	m_dX	= sX;
 	m_dY	= sY;

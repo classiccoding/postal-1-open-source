@@ -87,10 +87,10 @@ int16_t RAlpha::Load(char* pszFile)
 		return -1;
 		}
 	
-	int16_t sRet = Load(&file);
+   int16_t sResult = Load(&file);
 	file.Close();
 
-	return sRet;
+   return sResult;
 	}
 
 int16_t RAlpha::Save(char* pszFile)
@@ -103,9 +103,9 @@ int16_t RAlpha::Save(char* pszFile)
 		return -1;
 		}
 	
-	int16_t sRet = Save(fp);
+   int16_t sResult = Save(fp);
 	fp->Close();
-	return sRet;
+   return sResult;
 	}
 
 int16_t RAlpha::Save(RFile* fp)
@@ -728,9 +728,9 @@ int16_t RMultiAlpha::Load(char* pszFile)
 		return -1;
 		}
 	
-	int16_t sRet = Load(fp);
+   int16_t sResult = Load(fp);
 	fp->Close();
-	return sRet;
+   return sResult;
 	}
 
 int16_t RMultiAlpha::Save(char* pszFile)
@@ -743,9 +743,9 @@ int16_t RMultiAlpha::Save(char* pszFile)
 		return -1;
 		}
 	
-	int16_t sRet = Save(fp);
+   int16_t sResult = Save(fp);
 	fp->Close();
-	return sRet;
+   return sResult;
 	}
 
 // dOpacity for now is between 0.0 (background) and 1.0 (foreground)

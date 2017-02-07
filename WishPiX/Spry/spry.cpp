@@ -76,7 +76,7 @@ RSpry::~RSpry()
 ////////////////////////////////////////////////////////////////////////////////
 int16_t RSpry::Clear(void)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Destroy any existing sprites and get rid of all list nodes
 	while (m_listSprites.GetHead())
@@ -95,7 +95,7 @@ int16_t RSpry::Clear(void)
 int16_t RSpry::Load(
 	char* pszFile)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Clear any existing sprites
 	Clear();
@@ -113,7 +113,7 @@ int16_t RSpry::Load(
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("RSpry::Load(): Couldn't open file: %s !\n", pszFile);
 		}
 
@@ -127,7 +127,7 @@ int16_t RSpry::Load(
 int16_t RSpry::Load(
 	RFile* pFile)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Clear any existing sprites
 	Clear();
@@ -162,7 +162,7 @@ int16_t RSpry::Load(
 							}
 						else
 							{
-							sResult = -1;
+							sResult = FAILURE;
 							TRACE("RSpry::Load(): Error creating new RSprite!\n");
 							}
 						}
@@ -170,25 +170,25 @@ int16_t RSpry::Load(
 					}
 				else
 					{
-					sResult = -1;
+					sResult = FAILURE;
 					TRACE("RSpry::Load(): Incorrect file version (should be 0x%lx, was 0x%lx)!\n", RSpry::FileVersion, ulFileVersion);
 					}
 				}
 			else
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("RSpry::Load(): Error reading file version!\n");
 				}
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("RSpry::Load(): Incorrect file ID (should be 0x%lx, was 0x%lx)!\n", RSpry::FileID, ulFileID);
 			}
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("RSpry::Load(): Error reading file ID!\n");
 		}
 
@@ -202,7 +202,7 @@ int16_t RSpry::Load(
 int16_t RSpry::Save(
 	char* pszFile)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Open file
 	RFile file;
@@ -217,7 +217,7 @@ int16_t RSpry::Save(
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("RSpry::Save(): Couldn't open file: %s !\n", pszFile);
 		}
 
@@ -231,7 +231,7 @@ int16_t RSpry::Save(
 int16_t RSpry::Save(
 	RFile* pFile)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Write out file ID and version
 	pFile->Write((uint32_t)RSpry::FileID);
@@ -251,7 +251,7 @@ int16_t RSpry::Save(
 	// If no errors were reported, double-check for I/O errors
 	if (!sResult && pFile->Error())
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("RSpry::Save(): Error writing file!\n");
 		}
 
@@ -265,7 +265,7 @@ int16_t RSpry::Save(
 int16_t RSpry::Convert(
 	RImage::Type type)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Convert all sprites to specified type
 	ListOfSprites::Pointer p = m_listSprites.GetHead();
@@ -275,7 +275,7 @@ int16_t RSpry::Convert(
 			{
 			if (m_listSprites.GetData(p)->m_pImage->Convert(type) != type)
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("RSpry::Convert(): Couldn't convert sprite!\n");
 				}
 			}

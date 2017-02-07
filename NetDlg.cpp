@@ -1004,7 +1004,7 @@ static void CleanClientDlg(
 //////////////////////////////////////////////////////////////////////////////
 static int16_t ShowLevels(void)						// Returns 0 on success.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
    if (ms_plbLevelBrowse != nullptr)
 		{
@@ -1025,7 +1025,7 @@ static int16_t ShowLevels(void)						// Returns 0 on success.
             if (sResult == 1)
 					{
 					// That's it.
-               sResult	= 0;
+               sResult = SUCCESS;
 					break;
 					}
             else if (sResult == SUCCESS)
@@ -1043,7 +1043,7 @@ static int16_t ShowLevels(void)						// Returns 0 on success.
 					else
 						{
 						TRACE("ShowLevels(): Failed to add string to listbox.\n");
-                  sResult	= -1;
+                  sResult = FAILURE;
 						}
 					}
 				i++;
@@ -1064,7 +1064,7 @@ static int16_t ShowLevels(void)						// Returns 0 on success.
 			else
 				{
 				TRACE("ShowLevels(): Failed to add string to listbox.\n");
-            sResult	= -1;
+            sResult = FAILURE;
 				}
 
 		#endif	// ENABLE_PLAY_SPECIFIC_REALMS_ONLY
@@ -1119,7 +1119,7 @@ static int16_t SetupDlg(		// Returns 0 on success.
 	char*	pszGuiFile,			// In:  Full path to GUI file.
 	DLG_TYPE	type)				// In:  Type of dialog.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Make sure everything is clean.
 	DlgBeGone();
@@ -1299,7 +1299,7 @@ static int16_t SetupDlg(		// Returns 0 on success.
 	else
 		{
 		TRACE("SetupDlg(): Failed to allocate RDlg!\n");
-      sResult = -1;
+      sResult = FAILURE;
 		}
 
 	// If any errors . . .
@@ -1320,7 +1320,7 @@ static int16_t SetupDlg(		// Returns 0 on success.
 int16_t DlgGetRes(											// Returns 0 if successfull, non-zero otherwise
 	RGuiItem* pgui)										// I/O: Pointer to gui item
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	// Release resources first (just in case)
 	DlgReleaseRes(pgui);
@@ -1349,7 +1349,7 @@ int16_t DlgGetRes(											// Returns 0 if successfull, non-zero otherwise
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("DlgGetRes(): Failed to open file '%s'\n", FullPathVD(szFile));
 		}
 
@@ -1557,7 +1557,7 @@ static int16_t UpdateListBox(					// Returns 0 on success.
 	CNetBrowse::Hosts* phostslistAdded,		// In:  Hosts to add to listbox.
 	CNetBrowse::Hosts* phostslistDropped)	// In:  Hosts to drop from listbox.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	if (plb)
 		{
@@ -1588,7 +1588,7 @@ static int16_t UpdateListBox(					// Returns 0 on success.
 				else
 					{
 					TRACE("UpdateListBox():  Failed to add a host to the listbox.\n");
-//					sResult	= -1;	// Error?
+//					sResult = FAILURE;	// Error?
 					}
 				}
 			}
@@ -1643,7 +1643,7 @@ static int16_t UpdateListBox(					// Returns 0 on success.
 	else
 		{
 		TRACE("UpdateListBox():  No listbox to update.\n");
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -1850,7 +1850,7 @@ static int16_t GetRealmFileFromRealmTitle(	// Returns 0, if found; non-zero
 														// pszRealmFileName.
 	{
   UNUSED(sMaxLen);
-   int16_t	sResult	= SUCCESS;	// Assume success.
+   int16_t sResult	= SUCCESS;	// Assume success.
 
 	RPrefs prefsRealm;
 	// Try opening the realms.ini file on the HD path first, if that fails go to the CD
@@ -1957,7 +1957,7 @@ static int16_t OnJoinedMsg(	// Returns 0 on success.
 	NetMsg*		pmsg,			// In:  Joined msg from client to add.
 	bool			bServer)		// In:  true if in server mode; false if client.
 	{
-   int16_t	sResult	= SUCCESS;	// Assume success.
+   int16_t sResult	= SUCCESS;	// Assume success.
 
 	ASSERT(pmsg->msg.nothing.ucType == NetMsg::JOINED);
 	
@@ -2017,7 +2017,7 @@ static int16_t OnChangedMsg(	// Returns 0 on success.
 	NetMsg*		pmsg)			// In:  Changed msg
 	{
   UNUSED(pnet);
-   int16_t	sResult	= SUCCESS;	// Assume success.
+   int16_t sResult	= SUCCESS;	// Assume success.
 
 	ASSERT(pmsg->msg.nothing.ucType == NetMsg::CHANGED);
 
@@ -2271,7 +2271,7 @@ extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero othe
 	{
    ASSERT(pclient != nullptr);
 
-	int16_t	sResult = 0;									// Assume success.
+   int16_t sResult = SUCCESS;									// Assume success.
 
 	// Under Win95 with DirectX, certain problems have come up due to a
 	// combination of our hogging the CPU and DirectX adding to that hogging,
@@ -2998,7 +2998,7 @@ static int16_t BrowseForHost(
    CNetServer*	pserver,									// I/O: Server interface or nullptr if none
 	RSocket::Address* paddress)						// Out: Address returned here (if successfull)
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	// Start with empty list of hosts
 	CNetBrowse::Hosts hostsAll;
@@ -3078,7 +3078,7 @@ static int16_t BrowseForHost(
 						else
 							{
 							TRACE("BrowseForHost():  No host selected.\n");
-							sResult	= -1;
+							sResult = FAILURE;
 							}
 						break;
 						}
@@ -3088,12 +3088,12 @@ static int16_t BrowseForHost(
 						PlaySample(g_smidMenuItemSelect, SampleMaster::UserFeedBack);
 
 						// Cancelled.
-						sResult	= 1;
+                  sResult = FAILURE;
 						break;
 
 					default:
 						TRACE("BrowseForHost(): Unknown action.\n");
-						sResult	= 1;
+                  sResult = FAILURE;
 						break;
 					}
 				}
@@ -3129,7 +3129,7 @@ static int16_t BrowseForHost(
 static int16_t FindSpecificSystem(
 	RSocket::Address* paddress)						// Out: Address returned here (if successfull)
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	// Lookup the specified host (by name or dotted address) and port
 	sResult = CNetBrowse::LookupHost(
@@ -3166,7 +3166,7 @@ static int16_t BrowseForSelf(
 	{
 	ASSERT(pserver);
 
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	// Start with empty list of hosts
 	CNetBrowse::Hosts hostsAll;
@@ -3208,7 +3208,7 @@ static int16_t BrowseForSelf(
 		// If we didn't find ourself, set the error flag
 		if (!bFoundSelf)
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("BrowseForSelf(): Couldn't find myself!\n");
 			}
 
@@ -3380,7 +3380,7 @@ static int16_t NetBlockingCallback(void)				// Returns 0 to continue normally, 1
 //////////////////////////////////////////////////////////////////////////////
 extern int16_t InitNetProbGUI(void)
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	KillNetProbGUI();
 

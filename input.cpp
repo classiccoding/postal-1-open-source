@@ -432,7 +432,7 @@ extern INPUT_MODE GetInputMode(void)				// Returns current mode
 ////////////////////////////////////////////////////////////////////////////////
 extern int16_t InputDemoInit(void)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Reset index and number of entries
 	m_lBufIndex = 0;
@@ -444,7 +444,7 @@ extern int16_t InputDemoInit(void)
 		m_pBuf = new uint32_t[BUF_MAX_ENTRIES];
       if (m_pBuf == nullptr)
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("InputDemoInit(): Error allocating buffer!\n");
 			}
 		}
@@ -475,7 +475,7 @@ void InputDemoKill(void)
 extern int16_t InputDemoLoad(							// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile)											// In:  RFile to load from
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	ASSERT(m_pBuf);
 	if (m_pBuf)
@@ -493,25 +493,25 @@ extern int16_t InputDemoLoad(							// Returns 0 if successfull, non-zero otherw
 				// Check for errors
 				if (pFile->Error())
 					{
-					sResult = -1;
+					sResult = FAILURE;
 					TRACE("InputDemoLoad(): Error reading data!\n");
 					}
 				}
 			else
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("InputDemoLoad(): Too many entries to fit into current buffer size!\n");
 				}
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("InputDemoLoad(): Error reading number of entries!\n");
 			}
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("InputDemoLoad(): No buffer!\n");
 		}
 
@@ -527,7 +527,7 @@ extern int16_t InputDemoLoad(							// Returns 0 if successfull, non-zero otherw
 extern int16_t InputDemoSave(							// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile)											// In:  RFile to save to
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	ASSERT(m_pBuf);
 	if (m_pBuf)
@@ -542,13 +542,13 @@ extern int16_t InputDemoSave(							// Returns 0 if successfull, non-zero otherw
 		// Check for errors
 		if (pFile->Error())
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("InputDemoSave(): Error saving data!\n");
 			}
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("InputDemoSave(): No buffer!\n");
 		}
 

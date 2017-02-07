@@ -476,8 +476,8 @@ const char* RPrint::printInt(const char* pszInput)
 #endif
 
 	// Move back onto the screen, if possible.
-	int16_t sRet = 0;
-	if ((sRet = FrameIt()) == -1)
+   int16_t sReturn = 0;
+	if ((sReturn = FrameIt()) == -1)
 		{
       return nullptr; // of the bottom of the screen
 		}
@@ -485,7 +485,7 @@ const char* RPrint::printInt(const char* pszInput)
 	//OffsetShadow();
 
 	// Am I starting mid line?
-	if (sRet == 1) m_eModes = (Mode)(m_eModes & (~FIELD));
+	if (sReturn == 1) m_eModes = (Mode)(m_eModes & (~FIELD));
 	else m_eModes = (Mode)(m_eModes | (FIELD));
 
 	// BEGIN MULTILINE LOGIC!

@@ -225,7 +225,7 @@ int16_t CIdBank::Get(	// Returns 0 on success.
 							// the ID table.
 	uint16_t*		pu16ID)	// Out: ID for this particular CThing.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Make sure there's one left . . .
 	if (m_u16HeadFreeId != IdNil)
@@ -242,7 +242,7 @@ int16_t CIdBank::Get(	// Returns 0 on success.
 	else
 		{
 		TRACE("GetUniqueID(): Out of IDs!\n");
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -258,7 +258,7 @@ int16_t CIdBank::Take(	// Returns 0 on success.
 							// the ID table.
 	uint16_t		u16ID)	// In:  ID for this particular CThing.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Range check.
 	ASSERT(u16ID < NumIds);
@@ -275,7 +275,7 @@ int16_t CIdBank::Take(	// Returns 0 on success.
 	else
 		{
 		TRACE("TakeUniqueID(): ID not available!\n");
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -314,7 +314,7 @@ int16_t CIdBank::GetThingByID(	// Returns 0 on success.
 	CThing**	ppthing,				// Out: Ptr to CThing identified by u16ID.
 	uint16_t		u16ID)				// In:  ID of thing to get.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	if (u16ID != IdNil)
 		{
@@ -332,13 +332,13 @@ int16_t CIdBank::GetThingByID(	// Returns 0 on success.
 		else
 			{
 //			TRACE("GetThingByID(): No such ID.\n");
-			sResult	= -2;
+         sResult = FAILURE * 2;
 			}
 		}
 	else
 		{
 		*ppthing	= nullptr;
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;

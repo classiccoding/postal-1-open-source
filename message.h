@@ -335,7 +335,7 @@ union
 	// Function to save whatever type of message this is.
 	int16_t Save(RFile* pFile)
 	{
-		int16_t sResult = 0;
+		int16_t sResult = SUCCESS;
 
 		if (pFile && pFile->IsOpen())
 		{
@@ -407,7 +407,7 @@ union
 		}
 		else
 		{
-			sResult = -1;
+			sResult = FAILURE;
 		}
 
 		return sResult;
@@ -416,7 +416,7 @@ union
 	// Function to load whatever type of message was saved
 	int16_t Load(RFile* pFile)
 	{
-		int16_t sResult = 0;
+		int16_t sResult = SUCCESS;
 
 		if (pFile && pFile->IsOpen())
 		{

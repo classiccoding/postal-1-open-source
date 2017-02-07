@@ -161,11 +161,11 @@ class CMine : public CWeapon
 			CThing** ppNew,										// Out: Pointer to new object
 			ClassIDType id)										// In:  ID of mine to construct.
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 			*ppNew = new CMine(pRealm, id);
          if (*ppNew == nullptr)
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("CMine::Construct(): Couldn't construct CMine (that's a bad thing)\n");
 				}
 			return sResult;

@@ -230,7 +230,7 @@ extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
 			break;
 		default:
 			TRACE("InptuSettingsDlg_InitMenu(): Unsupported menu.\n");
-			sResult	= -1;
+			sResult = FAILURE;
 			break;
 		}
 
@@ -274,7 +274,7 @@ extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
 		else
 			{
 			TRACE("InputSettingsDlg_InitMenu(): LoadInstantiate() failed.\n");
-			sResult	= -1;
+			sResult = FAILURE;
 			}
 		}
 
@@ -312,7 +312,7 @@ extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
 extern int16_t InputSettingsDlg_KillMenu(	// Returns 0 on success.
 	Menu* pmenu)									// In:  Menu to clean up.  
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	int16_t	sInputIndex;
 	// Delete the loaded GUIs.
@@ -340,7 +340,7 @@ void InputSettingsDlg_Choice(	// Returns nothing.
 	{
 	static uint8_t*	pau8KeyStatusArray	= rspGetKeyStatusArray();
 
-	int16_t	sError	 = 0;
+   int16_t sError = SUCCESS;
 
 	if (sMenuItem > -1)
 		{
@@ -404,13 +404,13 @@ void InputSettingsDlg_Choice(	// Returns nothing.
 						break;
 					default:
 						TRACE("InputSettingsDlg_Choice(): Unsupported menu.\n");
-						sError	= 1;
+                  sError = FAILURE;
 						break;
 					}
 
 				int16_t	sInputIndex;
 				RGuiItem*	pgui;
-				for (sInputIndex = 0; sInputIndex < CInputSettings::NumInputFunctions && sError == 0; sInputIndex++)
+            for (sInputIndex = 0; sInputIndex < CInputSettings::NumInputFunctions && sError == SUCCESS; sInputIndex++)
 					{
 					pgui	= pmenu->ami[sInputIndex].pgui;
 					// Restore input default.
@@ -717,7 +717,7 @@ inline void ListenForInput(	// Returns nothing.
 //////////////////////////////////////////////////////////////////////////////
 extern int16_t EditInputSettings(void)	// Returns nothing.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 	bool bDeleteKeybind = false;	// If true, we want to delete the keybind we're on.
 
 	// Menu is already started.

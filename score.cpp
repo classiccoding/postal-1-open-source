@@ -287,7 +287,7 @@ static void GuiReleaseRes(	// Returns nothing.
 static int16_t GuiGetRes(		// Returns 0 on success; non-zero on failure.
 	RGuiItem* pgui)			// In:  Requesting GUI.
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Release resources first (just in case)
 	GuiReleaseRes(pgui);
@@ -317,7 +317,7 @@ static int16_t GuiGetRes(		// Returns 0 on success; non-zero on failure.
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("GuiGetRes(): Failed to open file '%s'\n", szFile);
 		}
 

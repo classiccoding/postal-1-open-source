@@ -676,7 +676,7 @@ void RMixBuf::Silence(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t RMixBuf::SetSize(uint32_t ulSize)
 	{
-   int16_t sResult = 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	ASSERT(m_sInUse == FALSE);
 
@@ -710,7 +710,7 @@ int16_t RMixBuf::SetSize(uint32_t ulSize)
 	else
 		{
 		TRACE("SetSize(%lu): Unable to allocate buffer.\n", ulSize);
-      sResult = -1;
+      sResult = FAILURE;
 		}
 
    return sResult;
@@ -858,7 +858,7 @@ int16_t RMixBuf::Mix(	uint32_t		ulStartPos,
 							uint8_t		ucVol2)
 	{
   UNUSED(lSampleRate, lNumChannels);
-   int16_t sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	ASSERT(m_sInUse == FALSE);
 
@@ -937,7 +937,7 @@ int16_t RMixBuf::Mix(	uint32_t		ulStartPos,
 					default:
 						TRACE("Mix(): Unsupported bits per sample: %i.\n",
 								lBitsPerSample);
-                  sResult = -1;
+                  sResult = FAILURE;
 						break;
 					}
 				}
@@ -987,7 +987,7 @@ int16_t RMixBuf::Mix(	uint32_t		ulStartPos,
 					default:
 						TRACE("Mix(): Unsupported bits per sample: %u.\n",
 								lBitsPerSample);
-                  sResult = -1;
+                  sResult = FAILURE;
 						break;
 					}
 				}
@@ -996,7 +996,7 @@ int16_t RMixBuf::Mix(	uint32_t		ulStartPos,
 	else
 		{
 		TRACE("Mix():  No mix buffer.\n");
-      sResult	= -2;
+      sResult = FAILURE * 2;
 		}
 
    return sResult;

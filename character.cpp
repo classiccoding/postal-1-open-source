@@ -461,7 +461,7 @@ int16_t CCharacter::Load(									// Returns 0 if successfull, non-zero otherwis
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CCharacter::Load(): Error reading from file!\n");
 			}
 		}
@@ -478,7 +478,7 @@ int16_t CCharacter::Save(									// Returns 0 if successfull, non-zero otherwis
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
 	// Call the base class save to save the u16InstanceID
-	int16_t	sResult	= CThing3d::Save(pFile, sFileCount);
+	int16_t sResult	= CThing3d::Save(pFile, sFileCount);
 	if (sResult == SUCCESS)
 		{
 		// Save object data
@@ -1927,7 +1927,7 @@ int16_t CCharacter::Preload(
 	CRealm* prealm)				// In:  Calling realm.
 	{
 	CAnimThing::ChannelAA*	paaCache;
-	int16_t	sResult	= 0;
+	int16_t sResult = SUCCESS;
 
 	if (rspGetResource(&g_resmgrGame, prealm->Make2dResPath(BLOOD_SPLAT_RES_NAME), &paaCache) == SUCCESS)
 		rspReleaseResource(&g_resmgrGame, &paaCache);

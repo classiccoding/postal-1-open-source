@@ -148,7 +148,7 @@ RIff::~RIff(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t RIff::CreateChunk(FCC fccChunk, FCC fccForm /*= 0*/)
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 	
 	// Attempt to allocate CHUNK for stack . . .
 	PCHUNK	pChunk = new CHUNK;
@@ -183,19 +183,19 @@ int16_t RIff::CreateChunk(FCC fccChunk, FCC fccForm /*= 0*/)
 					}
 				else
 					{
-               sResult = -4;
+               sResult = FAILURE * 4;
 					TRACE("CreateChunk(): Unable to push new CHUNK onto stack.\n");
 					}
 				}
 			else
 				{
-            sResult = -3;
+            sResult = FAILURE * 3;
 				TRACE("CreateChunk(): Unable to write space for size field.\n");
 				}
 			}
 		else
 			{
-         sResult = -2;
+         sResult = FAILURE * 2;
 			TRACE("CreateChunk(): Unable to write FCC.\n");
 			}
 
@@ -208,7 +208,7 @@ int16_t RIff::CreateChunk(FCC fccChunk, FCC fccForm /*= 0*/)
 		}
 	else
 		{
-      sResult = -2;
+      sResult = FAILURE * 2;
 		TRACE("CreateChunk(): Unable to allocate CHUNK for stack.\n");
 		}
 	
@@ -224,7 +224,7 @@ int16_t RIff::CreateChunk(FCC fccChunk, FCC fccForm /*= 0*/)
 //////////////////////////////////////////////////////////////////////////////
 int16_t RIff::EndChunk(FCC fccChunk /*= 0*/, FCC fccForm /*= 0*/)
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Get top.
 	PCHUNK	pChunk;
@@ -271,20 +271,20 @@ int16_t RIff::EndChunk(FCC fccChunk /*= 0*/, FCC fccForm /*= 0*/)
 			else
 				{
 				TRACE("EndChunk(): Unable to write size field for chunk.\n");
-            sResult = -3;
+            sResult = FAILURE * 3;
 				}
 
 			// Seek back.
 			if (Seek(lCurPos, SEEK_SET) != 0)
 				{
 				TRACE("EndChunk(): Unable to return to current file pos.\n");
-            sResult = -4;
+            sResult = FAILURE * 4;
 				}
 			}
 		else
 			{
 			TRACE("EndChunk(): Unable to seek to chunk's size field.\n");
-         sResult = -2;
+         sResult = FAILURE * 2;
 			}
 
 		// Release the stack item's memory.
@@ -293,7 +293,7 @@ int16_t RIff::EndChunk(FCC fccChunk /*= 0*/, FCC fccForm /*= 0*/)
 	else
 		{
 		TRACE("EndChunk(): Unable to pop chunk info.\n");
-      sResult = -1;
+      sResult = FAILURE;
 		}
 	
    return sResult;
@@ -333,7 +333,7 @@ int16_t RIff::Close(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t RIff::Find(const char* pszPath)	// Returns 0 on success.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	if (*pszPath == '.')
 		{
@@ -408,7 +408,7 @@ int16_t RIff::Find(const char* pszPath)	// Returns 0 on success.
 int16_t RIff::Next(void)	// Returns 0 if successful, 1 if no more chunks, 
 								// negative on error.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	int32_t	lNextPos		= GetNextChunkPos(&m_chunk);
 	
@@ -424,7 +424,7 @@ int16_t RIff::Next(void)	// Returns 0 if successful, 1 if no more chunks,
 		else
 			{
 			// No more sub chunks.
-         sResult	= 1;
+         sResult = FAILURE;
 			}
 		}
 
@@ -440,19 +440,19 @@ int16_t RIff::Next(void)	// Returns 0 if successful, 1 if no more chunks,
 					break;
 
 				case 1:	// EOF.
-               sResult	= 1;
+               sResult = FAILURE;
 					break;
 
 				default:	// Error.
 					TRACE("Next(): ReadChunkHeader() failed.\n");
-               sResult	= -2;
+               sResult = FAILURE * 2;
 					break;
 				}
 			}
 		else
 			{
 			TRACE("Next(): SeekRel() failed.\n");
-         sResult	= -1;
+         sResult = FAILURE;
 			}
 		}
 
@@ -470,7 +470,7 @@ int16_t RIff::Next(void)	// Returns 0 if successful, 1 if no more chunks,
 int16_t RIff::Descend(void)	// Returns 0 if successful, 1 if no subchunks,
 									// negative on error.                           
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// We should only descend into chunks that are FORMs.
 	if (m_chunk.fccForm != 0L)
@@ -493,7 +493,7 @@ int16_t RIff::Descend(void)	// Returns 0 if successful, 1 if no subchunks,
 			else
 				{
 				TRACE("Descend(): Unable to push chunk onto stack.\n");
-            sResult = -3;
+            sResult = FAILURE * 3;
 				}
 
 			// If an error occurred after allocation . .. 
@@ -505,7 +505,7 @@ int16_t RIff::Descend(void)	// Returns 0 if successful, 1 if no subchunks,
 		else
 			{
 			TRACE("Descend(): Unable to allocate new chunk for stack.\n");
-         sResult = -2;
+         sResult = FAILURE * 2;
 			}
 		}
 	else
@@ -515,7 +515,7 @@ int16_t RIff::Descend(void)	// Returns 0 if successful, 1 if no subchunks,
 		
 		TRACE("Descend(): Attempt to descend into a chunk that is not a form "
 				"(current chunk <%s>).\n", szFCC);
-      sResult	= -1;
+      sResult = FAILURE;
 		}
 
    return sResult;
@@ -531,7 +531,7 @@ int16_t RIff::Descend(void)	// Returns 0 if successful, 1 if no subchunks,
 int16_t RIff::Ascend(void)	// Returns 0 if successful, 1 if no more chunks,
 									// negative on error.                           
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Attempt to pop stack . . .
 	PCHUNK	pchunk;
@@ -550,7 +550,7 @@ int16_t RIff::Ascend(void)	// Returns 0 if successful, 1 if no more chunks,
 	else
 		{
 		TRACE("Ascend(): CStack::Pop failed.\n");
-      sResult = -1;
+      sResult = FAILURE;
 		}
 
    return sResult;
@@ -590,7 +590,7 @@ void RIff::Init()
 //////////////////////////////////////////////////////////////////////////////
 int16_t RIff::RelSeek(int32_t lPos)
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Determine distance to destination.
 	int32_t	lDistance	= lPos - Tell();
@@ -603,7 +603,7 @@ int16_t RIff::RelSeek(int32_t lPos)
 		else
 			{
 			TRACE("RelSeek(): CNFile::Seek() failed.\n");
-         sResult	= -1;
+         sResult = FAILURE;
 			}
 		}
 
@@ -654,7 +654,7 @@ int16_t RIff::ReadChunkHeader(void)	// Returns 0 on success.
 		m_chunk.fccForm	= 0L;
 		}
 
-   int16_t sResult	= 0;
+   int16_t sResult = SUCCESS;
 	// Error only if CNFile thinks so.
    if (Error() == FALSE)
 		{
@@ -671,7 +671,7 @@ int16_t RIff::ReadChunkHeader(void)	// Returns 0 on success.
 	else
 		{
 		TRACE("ReadChunkHeader(): CNFile::Error() reported an error.\n");
-      sResult	= -1;
+      sResult = FAILURE;
 		}
 
    return sResult;

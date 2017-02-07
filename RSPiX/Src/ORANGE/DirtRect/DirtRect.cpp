@@ -167,7 +167,7 @@ RDirtyRects::~RDirtyRects()
 //////////////////////////////////////////////////////////////////////////////
 int16_t RDirtyRects::Add(RDRect* pdr)
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	int16_t		sClippedOut	= FALSE;
 	RDRect	drTemp		= *pdr;	
@@ -215,7 +215,7 @@ int16_t RDirtyRects::Add(RDRect* pdr)
 				else
 					{
 					TRACE("Add(): Unable to add *RDRect to list.\n");
-               sResult = -2;
+               sResult = FAILURE * 2;
 					}
 
 				// If any errors occurred after allocation . . .
@@ -227,7 +227,7 @@ int16_t RDirtyRects::Add(RDRect* pdr)
 			else
 				{
 				TRACE("Add(): Unable to allocate new RDRect.\n");
-            sResult = -1;
+            sResult = FAILURE;
 				}
 			}
 		}
@@ -275,7 +275,7 @@ void RDirtyRects::Empty(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t RDirtyRects::Combine(RDRect* pdr)
 	{
-   int16_t	sResult	= 1;	// Assume not combined.
+   int16_t sResult = FAILURE;	// Assume not combined.
 
 	// If combinable . . .
 	if (m_sMinDistanceX >= 0)
@@ -316,7 +316,7 @@ int16_t RDirtyRects::Combine(RDRect* pdr)
 									}
 								}
 							
-                     sResult = 0;
+                     sResult = SUCCESS;
 							break;
 							}
 						}
@@ -375,7 +375,7 @@ void RDirtyRects::Expand(RDRect* pdrExpand, RDRect* pdrNew)
 //////////////////////////////////////////////////////////////////////////////
 int16_t RDirtyRects::Clip(int16_t* psPos, int16_t* psDistance, int16_t sClipDistance)
 	{
-   int16_t	sResult	= 0;	// Assume not clipped out.
+   int16_t sResult = SUCCESS;	// Assume not clipped out.
 
 	if (*psPos > sClipDistance)
 		{
@@ -392,7 +392,7 @@ int16_t RDirtyRects::Clip(int16_t* psPos, int16_t* psDistance, int16_t sClipDist
 			// If clipped out . . .
 			if (*psDistance <= 0)
 				{
-            sResult	= 1;
+            sResult = FAILURE;
 				}
 			}
 
@@ -407,7 +407,7 @@ int16_t RDirtyRects::Clip(int16_t* psPos, int16_t* psDistance, int16_t sClipDist
 			// If clipped out . . .
 			if (*psDistance <= 0)
 				{
-            sResult	= 1;
+            sResult = FAILURE;
 				}
 			}
 		}

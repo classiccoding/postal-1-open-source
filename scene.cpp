@@ -1048,8 +1048,8 @@ void DrawLine2d(			// Returns nothing.
 		// *****VERY CHEESY, INCORRECT CLIP FOR LINE TOTALLY ON SCREEN****
 		RRect	rcClipPt1(sDstX1, sDstY1, 1, 1);
 		RRect	rcClipPt2(sDstX2, sDstY2, 1, 1);
-		if (	rcClipPt1.ClipTo(prcDstClip) != -1
-			&&	rcClipPt2.ClipTo(prcDstClip) != -1)
+      if (	rcClipPt1.ClipTo(prcDstClip) != FAILURE
+         &&	rcClipPt2.ClipTo(prcDstClip) != FAILURE)
 			{
 			// Draw.
 			rspLine(
@@ -1415,7 +1415,7 @@ void CScene::Render2D(		// Returns nothing.
 					// Do an exteremely cheesy collision detecting by clipping the two rects!!!!
 					RRect rect1(sXRayeeX, sXRayeeY, sXRayeeW, sXRayeeH);
 					RRect rect2(ps2Cur->m_sX2, ps2Cur->m_sY2, ps2Cur->m_pImage->m_sWidth, ps2Cur->m_pImage->m_sHeight);
-					if (rect2.ClipTo(&rect1) != -1)
+               if (rect2.ClipTo(&rect1) != FAILURE)
 						{
 						// Clear flag so he doesn't get drawn by normal blit
 						sNormalBlit = 0;

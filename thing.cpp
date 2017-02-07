@@ -573,7 +573,7 @@ int16_t CThing::SendThingMessage(pGameMessage pMessage, int16_t sPriority, CThin
 	if (pThing != nullptr)
 		pThing->m_MessageQueue.EnQ(pMessage, &sPriority);
 	else
-		sResult = -1;
+		sResult = FAILURE;
 
 	return sResult;
 	}
@@ -639,7 +639,7 @@ int16_t CThing::ConstructWithID(						// Returns 0 if successfull, non-zero othe
 	CRealm* pRealm,										// In:  Pointer to realm this object belongs to
  	CThing** ppNew)										// Out: Pointer to new object
 	{
-	int16_t	sResult	= Construct(id, pRealm, ppNew);
+	int16_t sResult	= Construct(id, pRealm, ppNew);
 	if (sResult == SUCCESS)
 		{
 		// If new thing has no ID . . .

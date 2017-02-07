@@ -185,7 +185,7 @@ int16_t RMultiGridIndirect::AddFSPR1(RImage* pimSrc,int16_t sLogX,int16_t sLogY,
 	{
 	ASSERT(pimSrc);
 	ASSERT(pimSrc->m_type == RImage::FSPR1);
-	int16_t sRet = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	// Note that the FSPR1 can't clip, so if the buffer size is wrong
 	// it won't copy over.
@@ -280,7 +280,7 @@ int16_t RMultiGridIndirect::AddFSPR1(RImage* pimSrc,int16_t sLogX,int16_t sLogY,
 						"Exceeded %hd overlapping regions at (%hd,%hd)\n",
 						m_sMaxPlanes,sCurX,sCurY);
 
-					sRet = FAILURE;
+               sResult = FAILURE;
 					}
 				else
 					{
@@ -297,7 +297,7 @@ int16_t RMultiGridIndirect::AddFSPR1(RImage* pimSrc,int16_t sLogX,int16_t sLogY,
 		}
 
 
-	return sRet;
+   return sResult;
 	}
 
 

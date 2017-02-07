@@ -261,7 +261,7 @@ void RSndFx::Reset(void)
 int16_t RSndFx::SetFadeAccuracy(	// Returns 0 on success.
 	int16_t sNumSteps)					// Number of steps to fades; see above.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	if (ms_lBitsPerSec != 0)
 		{
@@ -306,7 +306,7 @@ int16_t RSndFx::SetFadeAccuracy(	// Returns 0 on success.
 				else
 					{
 					TRACE("SetFadeAccuracy(): Failed to allocate fade lookup table.\n");
-					sResult	= -1;
+					sResult = FAILURE;
 					}
 				break;
 				}
@@ -346,7 +346,7 @@ int16_t RSndFx::SetFadeAccuracy(	// Returns 0 on success.
 				else
 					{
 					TRACE("SetFadeAccuracy(): Failed to allocate fade lookup table.\n");
-					sResult	= -1;
+					sResult = FAILURE;
 					}
 				break;
 				}
@@ -359,7 +359,7 @@ int16_t RSndFx::SetFadeAccuracy(	// Returns 0 on success.
 	else
 		{
 		TRACE("SetFadeAccuracy(): No data type set.  Use SetDataType().\n");
-		sResult	= 1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -550,7 +550,7 @@ void RSndFx::Do(						// Returns nothing.
 int16_t RSndFx::SetUpFadeIn(	// Returns 0 on success.
 	int32_t lDuration)			// Duration until silence in milliseconds.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// Must set data type before setting up effect . . .
 	if (ms_lBitsPerSec > 0)
@@ -568,7 +568,7 @@ int16_t RSndFx::SetUpFadeIn(	// Returns 0 on success.
 	else
 		{
 		TRACE("FadeIn(): Data type not set.  Use SetDataType().\n");
-		sResult	= 1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -602,7 +602,7 @@ void RSndFx::ActivateFadeIn(	// Returns nothing.
 int16_t RSndFx::SetUpFadeOut(	// Returns 0 on success.
 	int32_t lDuration)				// Duration until full volume in milliseconds.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// Must set data type before setting up effect . . .
 	if (ms_lBitsPerSec > 0)
@@ -620,7 +620,7 @@ int16_t RSndFx::SetUpFadeOut(	// Returns 0 on success.
 	else
 		{
 		TRACE("FadeOut(): Data type not set.  Use SetDataType().\n");
-		sResult	= 1;
+		sResult = FAILURE;
 		}
 
 	return sResult;

@@ -41,7 +41,7 @@ int16_t RBatch::GetLine()
 	int16_t sLinePos = 0;
 	int16_t sTokenChar = 0;
 	int16_t sLoop = TRUE;
-	int16_t sRet = 0;
+   int16_t sResult = SUCCESS;
 	int16_t sMidToken = FALSE;
 	int16_t sInString = FALSE;
 
@@ -61,7 +61,7 @@ BEGIN_LOOP:
 
 			m_fp = nullptr;
 
-			sRet =  -1;
+         sResult =  FAILURE;
 			sLoop = FALSE;
 			break;
 			}
@@ -181,12 +181,12 @@ BEGIN_LOOP:
 		// KEEP SCANNING!
 		}
 
-	if (sRet != -1)
+   if (sResult != FAILURE)
 		{
 		return m_sNumTokens;
 		}
 	else
-		return -1;
+      return FAILURE;
 	}
 
 char* RBatch::CreateError(int16_t sToken)
@@ -233,7 +233,7 @@ search:
 
 	while (m_sCurToken >= m_sNumTokens)
 		{
-		if ((GetLine() == -1) && (m_sNumTokens==0))
+      if ((GetLine() == FAILURE) && (m_sNumTokens==0))
 			{
 			return nullptr;
 			}

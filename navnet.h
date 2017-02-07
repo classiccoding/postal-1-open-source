@@ -133,11 +133,11 @@ class CNavigationNet : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = 0;
+         int16_t sResult = SUCCESS;
 			*ppNew = new CNavigationNet(pRealm);
          if (*ppNew == nullptr)
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("CNavigationNet::Construct(): Couldn't construct CNavigationNet (that's a bad thing)\n");
 				}
 			return sResult;
@@ -248,14 +248,14 @@ class CNavigationNet : public CThing
 
 		// Set this NavNet as the default one for the Realm.  
 		int16_t SetAsDefault(void)
-			{  int16_t sReturn = SUCCESS;
+         {  int16_t sResult = SUCCESS;
 				if (m_pRealm)
 				{
 					m_pRealm->m_pCurrentNavNet = this;
 				}
 				else
-					sReturn = FAILURE;
-				return sReturn;
+               sResult = FAILURE;
+            return sResult;
 			}
 
 		// Delete all bouys from this network.

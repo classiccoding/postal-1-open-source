@@ -544,7 +544,7 @@ extern int16_t StartMenu(				// Returns 0 on success.
 											// updated back over the menu on StopMenu()
 											// calls.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// End any existing menu.
 	StopMenu();
@@ -620,7 +620,7 @@ extern int16_t StartMenu(				// Returns 0 on success.
 				{
 				TRACE("StartMenu(): Unable to load font file \"%s\" via ms_presmgr->\n",
 					ms_pmenu->menuheader.pszFontFile);
-            sResult	= -2;
+            sResult = FAILURE * 2;
 
 				goto Done;
 				}
@@ -641,7 +641,7 @@ extern int16_t StartMenu(				// Returns 0 on success.
 				{
 				TRACE("StartMenu(): Menu does not specify a font and neither does "
 					"RGuiItem::ms_print.\n");
-            sResult	= -3;
+            sResult = FAILURE * 3;
 
 				goto Done;
 				}
@@ -674,7 +674,7 @@ extern int16_t StartMenu(				// Returns 0 on success.
 				{
 				TRACE("StartMenu(): Unable to load font file \"%s\" via ms_presmgr->\n",
 					ms_pmenu->menuitemsfont.pszFile);
-            sResult	= -2;
+            sResult = FAILURE * 2;
 
 				goto Done;
 				}
@@ -695,7 +695,7 @@ extern int16_t StartMenu(				// Returns 0 on success.
 				{
 				TRACE("StartMenu(): Menu does not specify a font and neither does "
 					"RGuiItem::ms_print.\n");
-            sResult	= -3;
+            sResult = FAILURE * 3;
 
 				goto Done;
 				}
@@ -781,7 +781,7 @@ extern int16_t StartMenu(				// Returns 0 on success.
 				{
 				TRACE("StartMenu(): Unable to load \"%s\" via ms_presmgr.\n", 
 					ms_pmenu->menuback.pszFile);
-            sResult	= -6;
+            sResult = FAILURE * 6;
 
 				goto Done;
 				}
@@ -871,7 +871,7 @@ extern int16_t StartMenu(				// Returns 0 on success.
 		else
 			{
 			TRACE("StartMenu(): Unable to create ms_msgbox.\n");
-         sResult	= -5;
+         sResult = FAILURE * 5;
 
 			goto Done;
 			}
@@ -953,7 +953,7 @@ extern int16_t StartMenu(				// Returns 0 on success.
 			else
 				{
 				TRACE("StartMenu(): ms_txtHeader.Create() failed.\n");
-            sResult	= -11;
+            sResult = FAILURE * 11;
 
 				goto Done;
 				}
@@ -1077,7 +1077,7 @@ extern int16_t StartMenu(				// Returns 0 on success.
 						{
 						TRACE("StartMenu(): ms_msgbox.AddText() failed for item %s.\n", 
 							ms_pmenu->ami[sIndex].pszText);
-                  sResult	= -10;
+                  sResult = FAILURE * 10;
 
 						goto Done;
 						}
@@ -1177,7 +1177,7 @@ extern int16_t StartMenu(				// Returns 0 on success.
 							{
 							TRACE("StartMenu(): Unable to convert indicator to desired image type (%s).\n",
 								RImage::ms_astrTypeNames[ms_pmenu->menuindicator.type]);
-                     sResult	= -8;
+                     sResult = FAILURE * 8;
 
 							goto Done;
 							}
@@ -1194,7 +1194,7 @@ extern int16_t StartMenu(				// Returns 0 on success.
 				else
 					{
 					TRACE("StartMenu(): Unable to load \"%s\".\n", ms_pmenu->menuindicator.pszFile);
-               sResult	= -7;
+               sResult = FAILURE * 7;
 
 					goto Done;
 					}
@@ -1205,7 +1205,7 @@ extern int16_t StartMenu(				// Returns 0 on success.
 			else
 				{
 				TRACE("StartMenu(): Unabled to load \"%s\".\n", ms_pmenu->menuindicator.pszFile);
-            sResult	= -7;
+            sResult = FAILURE * 7;
 
 				goto Done;
 				}
@@ -1251,7 +1251,7 @@ extern int16_t StartMenu(				// Returns 0 on success.
 			else
 				{
 				TRACE("StartMenu(): ms_imPreMenu.CreateImage() failed.\n");
-            sResult	= -20;
+            sResult = FAILURE * 20;
 
 				goto Done;
 				}
@@ -1538,7 +1538,7 @@ extern Menu* GetCurrentMenu(void)	// Returns the a pointer to the current
 //////////////////////////////////////////////////////////////////////////////
 extern int16_t StopMenu(void)		// Returns 0 on success.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// If we have a current menu . . .
 	if (ms_pmenu != nullptr)

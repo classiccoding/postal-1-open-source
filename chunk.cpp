@@ -225,7 +225,7 @@ int16_t CChunk::Setup(			// Returns 0 if successfull, non-zero otherwise
 	int16_t	sRandVertVelSway,	// In:  Random sway on velocity or zero.
 	Type	type)					// In:  Type of chunk.
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;

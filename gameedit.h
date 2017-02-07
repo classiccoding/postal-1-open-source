@@ -97,11 +97,11 @@ class CGameEditThing : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 			*ppNew = new CGameEditThing(pRealm);
          if (*ppNew == nullptr)
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("CGameEditThing::Construct(): Couldn't construct CGameEditThing!\n");
 				}
 			return sResult;
@@ -120,7 +120,7 @@ class CGameEditThing : public CThing
 			uint32_t	ulFileVersion)									// In:  Version of file format to load.
 			{
 			// Call base class.
-			int16_t	sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
+			int16_t sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 			if (sResult == SUCCESS)
 				{
 				// Read settings.
@@ -155,7 +155,7 @@ class CGameEditThing : public CThing
 			int16_t sFileCount)										// In:  File count (unique per file, never 0)
 			{
 			// Call base class.
-			int16_t	sResult	= CThing::Save(pFile, sFileCount);
+			int16_t sResult	= CThing::Save(pFile, sFileCount);
 			if (sResult == SUCCESS)
 				{
 				// Write settings.

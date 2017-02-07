@@ -96,7 +96,7 @@ int16_t CAnim3D::Get(				// Returns 0 on success.
 										// the members are listed in this class's
 										// definition.
 	{
-	int16_t	sResult;
+	int16_t sResult;
 	int16_t	sComplainIndex;	// If sResult is non-zero, this is the index of the
 									// resname that could not load.
 
@@ -159,7 +159,7 @@ int16_t CAnim3D::Get(				// Returns 0 on success.
 										// definition.
 	int16_t		sLoopFlags)			// Looping flags to apply to all channels in this anim
 	{
-	int16_t	sResult	= Get(ppszFileNames);
+	int16_t sResult	= Get(ppszFileNames);
 	// If successful . . .
    if (sResult == SUCCESS)
 		{
@@ -185,7 +185,7 @@ int16_t CAnim3D::Get(					// Returns 0 on success.
 	int16_t		sLoopFlags)				// In:  Looping flags to apply to all channels
 											// in this anim.
 	{
-	int16_t	sResult;
+	int16_t sResult;
 	char	szResName[RSP_MAX_PATH];
 	sprintf(szResName, "%s.sop", pszBaseFileName);
 	sResult	=  rspGetResource(&g_resmgrGame, szResName, &m_psops);
@@ -300,7 +300,7 @@ int16_t CAnim3D::Get(					// Returns 0 on success.
 	char	szVerbedBaseName[RSP_MAX_PATH];
 	sprintf(szVerbedBaseName, "%s_%s", pszBaseFileName, pszVerb);
 
-	int16_t	sResult;
+	int16_t sResult;
 	char	szResName[RSP_MAX_PATH];
 	sprintf(szResName, "%s.sop", szVerbedBaseName);
 	sResult	=  rspGetResource(&g_resmgrGame, szResName, &m_psops);

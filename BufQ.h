@@ -417,7 +417,7 @@ class CBufQ
 			uint16_t* pu16Buf,		// Out: Where to dequeue from buffer.
          size_t lNum = 1)		// In:  Number of U16s to get.
 			{
-         size_t	lNumGot	= -1;
+         size_t	lNumGot	= 0;
 			uint8_t*	pu8Buf	= (uint8_t*)pu16Buf;
 
 			#ifdef SYS_ENDIAN_BIG
@@ -491,7 +491,7 @@ class CBufQ
 		///////////////////////////////////////////////////////////////////////////////
 		int16_t UnPut(void)								// Returns 1 if able to unput, 0 if nothing to unput
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 			// Being able to get a byte also happens to indicate that we can unput a byte!
 			// In other words, if we can move the get pointer forward 1 byte, it means we
 			// can instead move the put pointer back 1 byte.  Get it?
@@ -510,7 +510,7 @@ class CBufQ
 		///////////////////////////////////////////////////////////////////////////////
 		int16_t UnGet(void)								// Returns 1 if able to unget, 0 if nothing to unget
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 			// Being able to put a byte also happens to indicate that we can unput a byte!
 			// In other words, if we can move the put pointer forward 1 byte, it means we
 			// can instead move the get pointer back 1 byte.  Get it?

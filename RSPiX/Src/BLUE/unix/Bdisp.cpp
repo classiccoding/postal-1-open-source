@@ -210,7 +210,7 @@ extern int16_t ClipQuiet(	// Returns non-zero if image entirely clipped out.
 	int16_t	sW	= (int16_t)(*pw);
 	int16_t	sH	= (int16_t)(*ph);
 
-	int16_t	sResult	= ClipQuiet(&sX, &sY, &sW, &sH, 
+	int16_t sResult	= ClipQuiet(&sX, &sY, &sW, &sH, 
 									(int16_t)sx, (int16_t)sy, (int16_t)sw, (int16_t)sh);
 
 	*px	= sX;
@@ -287,7 +287,7 @@ extern int16_t CompareModes(	// Returns as described above.
 		PVIDEO_MODE	pvm1,		// First video mode to compare.
 		PVIDEO_MODE	pvm2)		// Second video mode to compare.
 	{
-	int16_t	sResult	= 1;	// Assume *pvm1 > *pvm2.
+	int16_t sResult = FAILURE;	// Assume *pvm1 > *pvm2.
 
 	if (pvm1->sColorDepth == pvm2->sColorDepth)
 		{
@@ -297,13 +297,13 @@ extern int16_t CompareModes(	// Returns as described above.
 				{
 				if (pvm1->sPages == pvm2->sPages)
 					{
-					sResult = 0;
+					sResult = SUCCESS;
 					}
 				else
 					{
 					if (pvm1->sPages < pvm2->sPages)
 						{
-						sResult = -1;
+						sResult = FAILURE;
 						}
 					}
 				}
@@ -311,7 +311,7 @@ extern int16_t CompareModes(	// Returns as described above.
 				{
 				if (pvm1->sHeight < pvm2->sHeight)
 					{
-					sResult = -1;
+					sResult = FAILURE;
 					}
 				}
 			}
@@ -319,7 +319,7 @@ extern int16_t CompareModes(	// Returns as described above.
 			{
 			if (pvm1->sWidth < pvm2->sWidth)
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				}
 			}
 		}
@@ -327,7 +327,7 @@ extern int16_t CompareModes(	// Returns as described above.
 		{
 		if (pvm1->sColorDepth < pvm2->sColorDepth)
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			}
 		}
 
@@ -362,7 +362,7 @@ extern int16_t rspSuggestVideoMode(		// Returns 0 if successfull, non-zero other
 	int16_t*	psDeviceHeight /*= nullptr*/,	// Out: Suggested device height (unless nullptr)
 	int16_t*	psScaling /*= nullptr*/)		// Out: Suggested scaling (unless nullptr)
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// Store video mode that the app is currently iterating.
 //	PVIDEO_MODE	pvmOldModeQuery	= slvmModes.GetCurrent();
@@ -436,7 +436,7 @@ extern int16_t rspSuggestVideoMode(		// Returns 0 if successfull, non-zero other
 	else
 		{
 		// Failed to find an acceptable mode.
-		sResult	= 1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -568,7 +568,7 @@ extern int16_t rspQueryVideoMode(			// Returns 0 for each valid mode, then non-z
 													// Unless nullptr.
 	int16_t* psPages /*= nullptr*/)				// Number of video pages possible.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	PVIDEO_MODE	pvm	= slvmModes.GetCurrent();
 

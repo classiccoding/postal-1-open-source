@@ -443,7 +443,7 @@ static int16_t DisplayImage(	// Returns nothing.
 static int16_t DisplayImageNum(	// Returns nothing.
    uint16_t	sImageNum)				// In:  Image Num to show [1..n].
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 	
 	// Switch to array indexing mode.
 	sImageNum--;
@@ -482,7 +482,7 @@ extern int16_t StartTitle(							// Returns 0 if successfull, non-zero otherwise
 	bool	bPlayMusak /*= false*/,					// In:  true to play title musak.
 	SampleMaster::SoundInstance* psi /*= 0*/)	// Out:  Sound instance of musak.
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Save total units and reset other stuff
 	m_lTotalUnits = 0;
@@ -579,7 +579,7 @@ extern size_t TitleGetNumTitles(void)
 extern int16_t DoTitle(						// Returns 0 if successfull, non-zero otherwise
 	int32_t lUnits)								// In:  Additional progess units
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Can't call this if StartTitle() didn't work
 	if (m_sValid)
@@ -615,7 +615,7 @@ extern int16_t DoTitle(						// Returns 0 if successfull, non-zero otherwise
 		}
 	else
 		{
-		sResult = -1;
+      sResult = FAILURE;
 		TRACE("DoTitle(): It appears that StartTitle() wasn't called or didn't complete successfully!\n");
 		}
 
@@ -632,7 +632,7 @@ extern int16_t DoTitle(						// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 extern int16_t EndTitle(void)				// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// It's okay to call this even if StartTitle() didn't work
 	if (m_sValid)

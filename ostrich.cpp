@@ -246,7 +246,7 @@ int16_t COstrich::Load(					// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,					// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)				// In:  Version of file format to load.
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Call the base class load to get the instance ID, position, motion etc.
 	sResult	= CDoofus::Load(pFile, bEditMode, sFileCount, ulFileVersion);
@@ -289,7 +289,7 @@ int16_t COstrich::Load(					// Returns 0 if successfull, non-zero otherwise
 		}
 		else
 		{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("COstrich::Load(): Error reading from file!\n");
 		}
 	}
@@ -330,7 +330,7 @@ int16_t COstrich::Save(										// Returns 0 if successfull, non-zero otherwise
 	else
 	{
 		TRACE("COstrich::Save() - Error writing to file\n");
-		sResult = -1;
+		sResult = FAILURE;
 	}
 
 	return sResult;
@@ -343,7 +343,7 @@ int16_t COstrich::Save(										// Returns 0 if successfull, non-zero otherwise
 
 int16_t COstrich::Init(void)
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Prepare shadow (get resources and setup sprite).
 	sResult	= PrepareShadow();
@@ -663,7 +663,7 @@ int16_t COstrich::EditNew(									// Returns 0 if successfull, non-zero otherwi
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Call the base class to place the item.
 	sResult = CDoofus::EditNew(sX, sY, sZ);
@@ -695,7 +695,7 @@ int16_t COstrich::EditModify(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t COstrich::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	sResult = m_animRun.Get(ms_apszRunResNames, RChannel_LoopAtStart | RChannel_LoopAtEnd);
 	if (sResult == SUCCESS)

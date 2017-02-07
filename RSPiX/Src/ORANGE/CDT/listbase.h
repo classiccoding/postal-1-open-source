@@ -73,7 +73,7 @@ template <class T> class RBList
 		// Add a node to the list at the tail (it will be the new tail)
 		int16_t AddTail(LISTDATA ldNew)
 			{
-			int16_t sResult = 0; // Assume success.
+			int16_t sResult = SUCCESS; // Assume success.
 			// Create new node.
 			PNODE pnNew = new NODE;
 			// If successful . . .
@@ -109,7 +109,7 @@ template <class T> class RBList
 			else
 				{
 				TRACE("RBList::AddTail(): Unable to allocate new node.\n");
-				sResult = -1;
+				sResult = FAILURE;
 				}
 
 			return sResult;
@@ -118,7 +118,7 @@ template <class T> class RBList
 		// Insert a node at the Head (it will be the new head)
 		int16_t InsertHead(LISTDATA ldNew)
 			{
-			int16_t sResult = 0; // Assume success.
+			int16_t sResult = SUCCESS; // Assume success.
 			// Allocate new node.
 			PNODE pnNew = new NODE;
 			// If successful . . .
@@ -153,7 +153,7 @@ template <class T> class RBList
 			else
 				{
 				TRACE("RBList::InsertHead(): Unable to allocate new node.\n");
-				sResult = -1;
+				sResult = FAILURE;
 				}
 
 			return sResult;
@@ -163,7 +163,7 @@ template <class T> class RBList
 		// Insert ldNew after ldAfter
 		int16_t InsertAfter(LISTDATA ldAfter, LISTDATA ldNew)
 			{
-			int16_t sResult = 0; // Assume success.
+			int16_t sResult = SUCCESS; // Assume success.
 			// Make sure the list is not empty
 			if (IsEmpty() == FALSE)
 				{
@@ -205,19 +205,19 @@ template <class T> class RBList
 					else
 						{
 						TRACE("RBList::InsertAfter(): Unable to allocate new node.\n");
-						sResult = -3;
+						sResult = FAILURE * 3;
 						}
 					}
 				else
 					{
 					TRACE("RBList::InsertAfter():  Unable to locate node to insert after.\n");
-					sResult = -2;
+					sResult = FAILURE * 2;
 					}
 				}
 			else
 				{
 				TRACE("RBList::InsertAfter():  The list is empty.\n");
-				sResult = -1;
+				sResult = FAILURE;
 				}
 
 			return sResult;
@@ -226,7 +226,7 @@ template <class T> class RBList
 		// Insert pnNew before lnBefore
 		int16_t InsertBefore(LISTDATA ldBefore, LISTDATA ldNew)
 			{
-			int16_t sResult = 0; // Assume success.
+			int16_t sResult = SUCCESS; // Assume success.
 			// Make sure the list is not empty
 			if (IsEmpty() == FALSE)
 				{
@@ -267,19 +267,19 @@ template <class T> class RBList
 						}
 					else
 						{
-						sResult = -3;
+						sResult = FAILURE * 3;
 						TRACE("RBList::InsertBefore():  Unable to allocate new node.\n");
 						}
 					}
 				else
 					{
-					sResult = -2;
+					sResult = FAILURE * 2;
 					TRACE("RBList::InsertBefore():  Unable to find node to insert before.\n");
 					}
 				}
 			else
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("RBList::InsertBefore():  List is empty.\n");
 				}
 
@@ -311,7 +311,7 @@ template <class T> class RBList
 		int16_t GetHead(			// Returns 0 on success.
 			PLISTDATA pldHead)	// Where to store head data.
 			{
-			int16_t	sResult	= 0;	// Assume success.
+			int16_t sResult = SUCCESS;	// Assume success.
 
 			m_pnCurrent = m_pnHead;
 			// If there is a head . . .
@@ -334,7 +334,7 @@ template <class T> class RBList
 		int16_t GetTail(			// Returns 0 on success.
 			PLISTDATA pldTail)	// Where to store tail data.
 			{
-			int16_t	sResult	= 0;	// Assume success.
+			int16_t sResult = SUCCESS;	// Assume success.
 
 			// If there is a tail . . .
 			m_pnCurrent = m_pnTail;
@@ -357,7 +357,7 @@ template <class T> class RBList
 		int16_t GetNext(			// Returns 0 on success.
 			PLISTDATA pldNext)	// Where to store next data.
 			{
-			int16_t	sResult	= 0;	// Assume success.
+			int16_t sResult = SUCCESS;	// Assume success.
 
 			m_pnCurrent = m_pnNext;
 			if (m_pnCurrent != nullptr)
@@ -380,7 +380,7 @@ template <class T> class RBList
 			LISTDATA ldData, 	// Node to get next of.
 			PLISTDATA pldNext)	// Where to store next data.
 			{
-			int16_t	sResult	= 0;	// Assume success.
+			int16_t sResult = SUCCESS;	// Assume success.
 
 			// Make sure the list is not empty
 			if (IsEmpty() == FALSE)
@@ -411,13 +411,13 @@ template <class T> class RBList
 				else
 					{
 					TRACE("RBList::GetNext(): Unable to find supplied node.\n");
-					sResult = -2;
+					sResult = FAILURE * 2;
 					}
 				}
 			else
 				{
 				TRACE("RBList::GetNext():  The list is empty.\n");
-				sResult = -1;
+				sResult = FAILURE;
 				}
 
 			return sResult;
@@ -427,7 +427,7 @@ template <class T> class RBList
 		int16_t GetLogicalNext(	// Returns 0 on success.
 			PLISTDATA pldNext)	// Where to store next data.
 			{
-			int16_t	sResult	= GetNext(pldNext);
+			int16_t sResult	= GetNext(pldNext);
 			if (sResult != 0)
 				{
 				sResult	= GetHead(pldNext);
@@ -441,7 +441,7 @@ template <class T> class RBList
 			LISTDATA ldData,	 	// Node to get next of.
 			PLISTDATA pldNext)	// Where to store next data.
 			{
-			int16_t	sResult	= GetNext(ldData, pldNext);
+			int16_t sResult	= GetNext(ldData, pldNext);
 			if (sResult != 0)
 				{
 				sResult	= GetHead(pldNext);
@@ -454,7 +454,7 @@ template <class T> class RBList
 		int16_t GetPrev(			// Returns 0 on success.
 			PLISTDATA pldPrev)	// Where to store previous data.
 			{
-			int16_t	sResult	= 0;	// Assume success.
+			int16_t sResult = SUCCESS;	// Assume success.
 
 			m_pnCurrent = m_pnPrev;
 			if (m_pnCurrent != nullptr)
@@ -477,7 +477,7 @@ template <class T> class RBList
 			LISTDATA ldData,	// Node to get previous of.
 			PLISTDATA pldPrev)	// Where to store previous data.
 			{
-			int16_t	sResult	= 0;	// Assume success.
+			int16_t sResult = SUCCESS;	// Assume success.
 
 			// Make sure the list is not empty.
 			if (IsEmpty() == FALSE)
@@ -502,19 +502,19 @@ template <class T> class RBList
 					else
 						{
 						// There is no previous to supplied node.
-						sResult	= 1;
+						sResult = FAILURE;
 						}
 					}
 				else
 					{
 					TRACE("RBList::GetPrev():  Unable to find supplied node.\n");
-					sResult	= -1;
+					sResult = FAILURE;
 					}
 				}
 			else
 				{
 				TRACE("RBList::GetPrev():  The list is empty.\n");
-				sResult	= -2;
+				sResult = FAILURE * 2;
 				}
 
 			return sResult;
@@ -525,7 +525,7 @@ template <class T> class RBList
 		int16_t GetLogicalPrev(	// Returns 0 on success.
 			PLISTDATA pldPrev)	// Where to store prev data.
 			{
-			int16_t	sResult	= GetPrev(pldPrev);
+			int16_t sResult	= GetPrev(pldPrev);
 			if (sResult != 0)
 				{
 				sResult	= GetTail(pldPrev);
@@ -539,7 +539,7 @@ template <class T> class RBList
 			LISTDATA ldData,	 	// Node to get prev of.
 			PLISTDATA pldPrev)	// Where to store prev data.
 			{
-			int16_t	sResult	= GetPrev(ldData, pldPrev);
+			int16_t sResult	= GetPrev(ldData, pldPrev);
 			if (sResult != 0)
 				{
 				sResult	= GetTail(pldPrev);
@@ -551,7 +551,7 @@ template <class T> class RBList
 		int16_t GetCurrent(		// Returns 0 on success.
 			PLISTDATA	pldCur)	// Where to store current data.
 			{
-			int16_t	sResult	= 0;	// Assume success.
+			int16_t sResult = SUCCESS;	// Assume success.
 
 			if (m_pnCurrent != nullptr)
 				{
@@ -622,7 +622,7 @@ template <class T> class RBList
 		int16_t Remove(			// Returns 0 on success.
 			NODE*	pn)			// In:  Node to remove.
 			{
-			int16_t	sResult	= 0;
+			int16_t sResult = SUCCESS;
 
 			// Make sure the list is not empty
 			if (IsEmpty() == FALSE)
@@ -663,13 +663,13 @@ template <class T> class RBList
 					}
 				else
 					{
-					sResult = -2;
+					sResult = FAILURE * 2;
 					TRACE("RBList::Remove():  Unable to find supplied node or no current node.\n");
 					}
 				}
 			else
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("RBList::Remove():  The list is empty.\n");
 				}
 

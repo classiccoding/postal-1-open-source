@@ -208,7 +208,7 @@ int16_t CExplode::Load(									// Returns 0 if successfull, non-zero otherwise
 		}
 		else
 		{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CExplode::Load(): Error reading from file!\n");
 		}
 	}
@@ -228,7 +228,7 @@ int16_t CExplode::Save(										// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 {
-	int16_t	sResult	= CThing::Save(pFile, sFileCount);
+	int16_t sResult	= CThing::Save(pFile, sFileCount);
 	if (sResult == SUCCESS)
 		{
 		// Save common data just once per file (not with each object)
@@ -376,7 +376,7 @@ int16_t CExplode::Setup(									// Returns 0 if successfull, non-zero otherwise
 	uint16_t	u16ShooterID,									// In:  Who is responsible for this explosion
 	int16_t sAnim)											// In:  Which animation to use
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -440,7 +440,7 @@ int16_t CExplode::EditNew(									// Returns 0 if successfull, non-zero otherwi
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -506,7 +506,7 @@ void CExplode::EditRender(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CExplode::GetResources(int16_t sAnim)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	if (sAnim == 0)
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(AA_FILE), &m_pAnimChannel, RFile::LittleEndian);

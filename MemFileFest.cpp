@@ -90,7 +90,7 @@ int16_t GetMemFileResource(	// Returns 0 on successful open.
 	RFile::Endian	endian,			// In:  Endian nature for RFile.
 	RFile*			pfile)			// In:  File to open with.
 	{
-	int16_t	sResult	= 1;	// Assume failure for simplicity.
+	int16_t sResult = FAILURE;	// Assume failure for simplicity.
 	ASSERT(pfile);
 	ASSERT(pszResName);
 

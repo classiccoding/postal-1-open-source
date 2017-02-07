@@ -36,7 +36,7 @@ extern int16_t gsBufferLocked;
 //
 inline int16_t ImageIsCompressed(uint32_t ulType) // an image type
 	{
-	int16_t	sRet = 0; // 0 if it is NOT a supported compressed type, else 1!
+   int16_t sResult = SUCCESS; // 0 if it is NOT a supported compressed type, else 1!
 	
 	switch(ulType)
 		{
@@ -44,16 +44,16 @@ inline int16_t ImageIsCompressed(uint32_t ulType) // an image type
 		case	RImage::FSPR8:
 		case	RImage::FSPR16:
 		case	RImage::FSPR32:
-			sRet = 1;
+         sResult = FAILURE;
 		}
-	return sRet;
+   return sResult;
 	}
 
 // NOTE: These represent ONLY uncompressed types BLiT can access.  
 //
 inline int16_t ImageIsUncompressed(uint32_t ulType) // an image type
 	{
-	int16_t	sRet = 0; // 0 if it is NOT a supported uncompressed type, else 1!
+   int16_t sResult = SUCCESS; // 0 if it is NOT a supported uncompressed type, else 1!
 	
 	switch(ulType)
 		{
@@ -69,9 +69,9 @@ inline int16_t ImageIsUncompressed(uint32_t ulType) // an image type
 		case RImage::SCREEN24_RGB:
 		case RImage::SCREEN32_ARGB:
 		case RImage::IMAGE_STUB:	// careful with this one
-			sRet = 1;
+         sResult = FAILURE;
 		}
-	return sRet;
+   return sResult;
 	}
 
 /*

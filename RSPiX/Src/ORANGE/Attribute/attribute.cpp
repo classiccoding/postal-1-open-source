@@ -482,7 +482,7 @@ uint16_t RAttributeMap::GetAttribute(int32_t lTopCoord, int32_t lBottomCoord,
 int16_t RAttributeMap::Load(char* pszFilename)
 {
 	RFile cf;
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	if (cf.Open(pszFilename, "rb", RFile::LittleEndian) != SUCCESS)
 	{
@@ -490,16 +490,16 @@ int16_t RAttributeMap::Load(char* pszFilename)
 	 	return FAILURE;
 	}
 
-	sReturn = Load(&cf);
+   sResult = Load(&cf);
 
 	cf.Close();
 
-	return sReturn;
+   return sResult;
 }
 
 int16_t RAttributeMap::Load(RFile* prf)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	uint32_t ulFileType;
 	uint32_t ulVersion;
 
@@ -529,89 +529,89 @@ int16_t RAttributeMap::Load(RFile* prf)
 												{
 													if (prf->Read(m_pusDetailMap, m_sNumDetailMaps*m_sScaleX*m_sScaleY) == m_sNumDetailMaps*m_sScaleX*m_sScaleY)
 													{
-														sReturn = SUCCESS;
+                                          sResult = SUCCESS;
 														m_sBlockDataSize = m_sScaleX * m_sScaleY;
 													}	
 													else
 													{
 														TRACE("RAttributeMap::Load - Error reading detail maps\n");
-														sReturn = -11;
+                                          sResult = FAILURE * 11;
 													}
 												}
 												else
 												{
 													TRACE("RAttributeMap::Load - Error reading map data\n");
-													sReturn = -9;
+                                       sResult = FAILURE * 9;
 												}
 											}
 											else
 											{
 												TRACE("RAttributeMap::Load - Error allocating map buffer\n");
-												sReturn = -8;
+                                    sResult = FAILURE * 8;
 											}	
 										}
 										else
 										{
 											TRACE("RAttributeMap::Load - Error reading number of detail maps\n");
-											sReturn = -10;
+                                 sResult = FAILURE * 10;
 										}
 									}
 									else
 									{
 										TRACE("RAttributeMap::Load - Error reading Y scaling value\n");
-										sReturn = -7;
+                              sResult = FAILURE * 7;
 									}
 								}
 								else
 								{
 									TRACE("RAttributeMap::Load - Error reading X scaling value\n");
-									sReturn = -6;
+                           sResult = FAILURE * 6;
 								}
 							}
 							else
 							{
 								TRACE("RAttributeMap::Load - Error reading height\n");
-								sReturn = -5;
+                        sResult = FAILURE * 5;
 							}
 						}
 						else
 						{
 							TRACE("RAttributeMap::Load - Error reading width\n");
-							sReturn = -4;
+                     sResult = FAILURE * 4;
 						}					
 					}
 					else
 					{
 						TRACE("RAttributeMap::Load - Wrong version: This file %d current version %d\n", ulVersion, ATTRIBUTE_CURRENT_VERSION);
-						sReturn = -3;
+                  sResult = FAILURE * 3;
 					}				
 				}
 				else
 				{
 					TRACE("RAttributeMap::Load - Error reading version\n");
-					sReturn = -3;
+               sResult = FAILURE * 3;
 				}			
 			}
 			else
 			{
 				TRACE("RAttributeMap::Load - Wrong file type, should be \"ATRM\"\n");
-				sReturn = -2;
+            sResult = FAILURE * 2;
 			}		
 		}
 		else
 		{
 			TRACE("RAttributeMap::Load - Error reading file type\n");
-			sReturn = -2;
+         sResult = FAILURE * 2;
 		}	
 	}
 	else
 	{
 		TRACE("RAttributeMap::Load - prf does not refer to an open RFile*\n");
-		sReturn = -1;
+      sResult = FAILURE * 1;
 	}
 
 	m_lWorldWidth = m_lWidth * m_sScaleX;
 	m_lWorldHeight = m_lHeight * m_sScaleY;
 	
-	return sReturn;		
+   return sResult;
 }

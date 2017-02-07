@@ -85,7 +85,7 @@ static SDL_GameController *ms_Controllers[NUM_JOYSTICKS];
 //////////////////////////////////////////////////////////////////////////////
 extern void Joy_Init(void)
 	{
-        if (SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) == -1)
+        if (SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) == FAILURE)
             return;
         SDL_JoystickEventState(SDL_IGNORE);
         SDL_GameControllerEventState(SDL_IGNORE);

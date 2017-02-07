@@ -235,7 +235,7 @@ extern int16_t rspGetLastMouseEvent(	// Returns 0 if no event was available, non
    int32_t*		plTime,					// Event's time stamp returned here (unless nullptr)
    int16_t*	psType /*= nullptr*/)	// Event's type (as per OS) is returned here (unless nullptr)
 	{
-	int16_t	sResult	= TRUE;	// Assume success.
+	int16_t sResult	= TRUE;	// Assume success.
 
 	PRSP_MOUSE_EVENT	peEvent;
 	int16_t					sNumEvents	= ms_qmeEvents.NumItems();
@@ -283,7 +283,7 @@ extern int16_t rspGetMouseEvent(	// Returns 0 if no event was available, non-zer
    int32_t*		plTime,					// Event's time stamp returned here (unless nullptr)
    int16_t*	psType /*= nullptr*/)	// Event's type (as per OS) is returned here (unless nullptr)
 	{
-	int16_t	sResult	= TRUE;	// Assume success.
+	int16_t sResult	= TRUE;	// Assume success.
 
 	PRSP_MOUSE_EVENT	peEvent	= ms_qmeEvents.DeQ();
    if (peEvent != nullptr)

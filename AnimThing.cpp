@@ -121,7 +121,7 @@ int16_t CAnimThing::Load(								// Returns 0 if successfull, non-zero otherwise
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CAnimThing::Load(): Error reading from file!\n");
 			}
 		}
@@ -137,7 +137,7 @@ int16_t CAnimThing::Save(										// Returns 0 if successfull, non-zero otherwi
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
-	int16_t	sResult	= CThing::Save(pFile, sFileCount);
+   int16_t sResult	= CThing::Save(pFile, sFileCount);
 	if (sResult == SUCCESS)
 		{
 		pFile->Write(&m_dX);
@@ -323,7 +323,7 @@ int16_t CAnimThing::Setup(									// Returns 0 if successfull, non-zero otherwi
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -347,7 +347,7 @@ int16_t CAnimThing::EditNew(									// Returns 0 if successfull, non-zero other
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -365,7 +365,7 @@ int16_t CAnimThing::EditNew(									// Returns 0 if successfull, non-zero other
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CAnimThing::EditModify(void)
 	{
-	int16_t	sResult	= 0;
+   int16_t sResult = SUCCESS;
 
 	RGuiItem* pgui = RGuiItem::LoadInstantiate(FullPathVD(GUI_FILE_NAME));
 	if (pgui != nullptr)
@@ -410,22 +410,22 @@ int16_t CAnimThing::EditModify(void)
 					// If no resource name . . .
 					if (m_szResName[0] == '\0')
 						{
-						sResult	= 1;
+						sResult = FAILURE;
 						}
 					}
 				else
 					{
-					sResult	= 1;
+					sResult = FAILURE;
 					}
 				}
 			else
 				{
-				sResult	= -3;
+            sResult = FAILURE * 3;
 				}
 			}
 		else
 			{
-			sResult	= -2;
+         sResult = FAILURE * 2;
 			}
 		
 		// Done with GUI.
@@ -433,7 +433,7 @@ int16_t CAnimThing::EditModify(void)
 		}
 	else
 		{
-		sResult	= -1;
+      sResult = FAILURE;
 		}
 
 	// If successful so far . . .
@@ -542,7 +542,7 @@ void CAnimThing::EditRender(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CAnimThing::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	// Safe to call even if no resource.
 	FreeResources();
@@ -581,7 +581,7 @@ int16_t CAnimThing::GetResources(void)						// Returns 0 if successfull, non-zer
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CAnimThing::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	if (m_paachannel != nullptr)
 		{

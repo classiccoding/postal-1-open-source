@@ -251,7 +251,7 @@ int16_t CHeatseeker::Load(										// Returns 0 if successfull, non-zero otherw
 		}
 		else
 		{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CHeatseeker::Load(): Error reading from file!\n");
 		}
 	}
@@ -698,7 +698,7 @@ int16_t CHeatseeker::Setup(									// Returns 0 if successfull, non-zero otherw
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -744,7 +744,7 @@ int16_t CHeatseeker::Setup(									// Returns 0 if successfull, non-zero otherw
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CHeatseeker::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	sResult = m_anim.Get(ms_apszResNames);
 	if (sResult == SUCCESS)

@@ -449,7 +449,7 @@ int16_t suxRect(			// Returns 0 on success, 1 if clipped out entirely.
 	int16_t sW,			// Width for rectangle.
 	int16_t sH)			// Height for rectangle.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	if (sX < 0)
 		{
@@ -495,7 +495,7 @@ int16_t suxRect(			// Returns 0 on success, 1 if clipped out entirely.
 		}
 	else
 		{
-		sResult	= 1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -558,7 +558,7 @@ inline int16_t Add(					// Returns 0 on success.
 	int16_t	sStartY,					// Y from which our rows are relative.
 	EXTENTS* pextents)			// Mins and maxes to update.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// Allocate item . . .
 	int16_t*	psX	= new int16_t;
@@ -593,7 +593,7 @@ inline int16_t Add(					// Returns 0 on success.
 		else
 			{
 			TRACE("Add(): Unable to insert short into list.\n");
-			sResult	= -2;
+			sResult = FAILURE * 2;
 			}
 
 		// If an error occurred after allocation . . .
@@ -605,7 +605,7 @@ inline int16_t Add(					// Returns 0 on success.
 	else
 		{
 		TRACE("Add(): Unable to allocate short for list.\n");
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -679,7 +679,7 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 											// function.  If this is not nullptr, it is used
 											// instead of clrDisjoin.
 	{
-	int16_t	sResult	= 0;	// Assume none found.
+	int16_t sResult = SUCCESS;	// Assume none found.
 
 	// If source bit depth is equal to provided bit depth . . .
 	if (pimSrc->m_sDepth == sizeof(COLOR) * 8)
@@ -698,7 +698,7 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 					"preallocated pimDst has bit depth of %d.\n", 
 					sizeof(clrDisjoin) * 8, 
 					pimDst->m_sDepth);
-				sResult	= -2;
+				sResult = FAILURE * 2;
 				}
 			}
 
@@ -868,7 +868,7 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 							else
 								{
 								TRACE("rspLassoNext(): CreateImage failed for pimDst.\n");
-								sResult	= -3;
+								sResult = FAILURE * 3;
 								}
 							}
 
@@ -961,13 +961,13 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 					{
 					TRACE("rspLassoNext(): Failed to allocate %d lists needed for processing.\n",
 						sMaxRows);
-					sResult	= -2;
+					sResult = FAILURE * 2;
 					}
 				}
 			else
 				{
 				// None found.
-				sResult	= 1;
+				sResult = FAILURE;
 				}
 			}
 		}
@@ -977,7 +977,7 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 			"pimSrc has bit depth of %d.\n", 
 			sizeof(clrDisjoin) * 8, 
 			pimSrc->m_sDepth);
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;

@@ -225,7 +225,7 @@ int16_t CWarp::Load(								// Returns 0 if successfull, non-zero otherwise
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CWarp::Load(): Error reading from file!\n");
 			}
 		}
@@ -241,7 +241,7 @@ int16_t CWarp::Save(										// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
-	int16_t	sResult	= CThing::Save(pFile, sFileCount);
+	int16_t sResult	= CThing::Save(pFile, sFileCount);
 	if (sResult == SUCCESS)
 		{
 		// Save common data just once per file (not with each object)
@@ -326,7 +326,7 @@ int16_t CWarp::EditNew(								// Returns 0 if successfull, non-zero otherwise
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -344,7 +344,7 @@ int16_t CWarp::EditNew(								// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWarp::EditModify(void)
 	{
-	int16_t	sResult	= 0;
+	int16_t sResult = SUCCESS;
 	// Load our GUI.
 	RGuiItem* pgui = RGuiItem::LoadInstantiate(FullPathVD(GUI_FILENAME));
 	if (pgui)
@@ -480,7 +480,7 @@ void CWarp::EditRender(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWarp::Init(void)	// Returns 0 on success.
 	{
-	int16_t	sResult	= GetResources();
+	int16_t sResult	= GetResources();
 
 	return sResult;
 	}
@@ -490,7 +490,7 @@ int16_t CWarp::Init(void)	// Returns 0 on success.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWarp::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Safe to call even if no resource.
 	FreeResources();
@@ -509,7 +509,7 @@ int16_t CWarp::GetResources(void)						// Returns 0 if successfull, non-zero oth
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWarp::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	if (m_sprite.m_pImage != nullptr)
 		{
@@ -529,7 +529,7 @@ int16_t CWarp::WarpIn(	// Returns 0 on success.
 							// Out: Newly created CDude, if no CDude passed in.
 	int16_t	sOptions)	// In:  Options for 'warp in'.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// If we are on difficulty 11, multiply the dude's hit points by 10 so that
 	// the player can have some chance of playing.
@@ -632,7 +632,7 @@ int16_t CWarp::WarpInAnywhere(	// Returns 0 on success.
 										// Out: Newly created CDude, if no CDude passed in.
 	int16_t	sOptions)				// In:  Options for 'warp in'.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// Find a warp:
 	
@@ -659,13 +659,13 @@ int16_t CWarp::WarpInAnywhere(	// Returns 0 on success.
 		else
 			{
 			TRACE("WarpInAnywhere(): Failed to find chosen CWarp.\n");
-			sResult	= -2;
+			sResult = FAILURE * 2;
 			}
 		}
 	else
 		{
 		TRACE("WarpInAnywhere(): Specified realm contains no CWarps.\n");
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -681,7 +681,7 @@ int16_t CWarp::CreateWarpFromDude(	// Returns 0 on success.
 	CWarp**	ppwarp,					// Out: New warp on success.
 	bool		bCopyStockPile)		// In:  true to copy stockpile, false otherwise.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// Create warp . . .
 	if (ConstructWithID(CWarpID, prealm, (CThing**)ppwarp) == SUCCESS)
@@ -703,7 +703,7 @@ int16_t CWarp::CreateWarpFromDude(	// Returns 0 on success.
 	else
 		{
 		TRACE("CreateWarpFromDude(): ConstructWithID() failed.\n");
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;

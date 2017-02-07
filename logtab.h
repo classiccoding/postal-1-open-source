@@ -289,7 +289,7 @@ int16_t CLogTabVar<usertype>::FindVar(				// Returns 0 if successfull, non-zero 
    const char* pszName,											// In:  Variable name to find
 	CLogTabVar** ppVar)									//	Out: Pointer to variable (if found)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Scan through linked list looking for specified name
 	int16_t sFound = 0;
@@ -337,7 +337,7 @@ int16_t CLogTabVar<usertype>::TextToVal(				// Returns 0 if successfull, non-zer
    const char* pszText,											// In:  Text to convert
 	int16_t* psVal)											// Out: Value (only if successfull)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Check if this var is string-based or number-based
 	if (m_sNumStrings > 0)
@@ -406,7 +406,7 @@ int16_t CLogTabVar<usertype>::ValToText(				// Returns 0 if successfull, non-zer
 	{
 	ASSERT(sMaxText >= 10);
 
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Check if this var is string-based or number-based
 	if (m_sNumStrings > 0)
@@ -576,7 +576,7 @@ int16_t CLogTab<usertype>::Evaluate(
 	usertype user,											// In:  User type passed here
 	bool bLog)												// In:  Whether to log (true) or not (false)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// If we're asked to log but a log error occurred previously, then don't log
 	if (bLog && m_bLogFileError)
@@ -829,7 +829,7 @@ template <class usertype>
 int16_t CLogTab<usertype>::Load(						// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile)											// In:  RFile to load from
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Free any vars currently associated with this table
 	FreeVars();
@@ -1113,7 +1113,7 @@ int16_t CLogTab<usertype>::ReadEntry(					// Returns 0 if successfull, non-zero 
 	bool* pbEndOfRow,										// Out: true if this is last entry in row
 	char* pcSave)											// I/O: Save char from last call (or 0 if none)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// If the saved char is non-zero, then we use it as the first character.
 	// Otherwise, we need to read a new character from the file.  We then

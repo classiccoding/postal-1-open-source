@@ -1052,7 +1052,7 @@ int16_t Credits(SampleMasterID* pMusic,
 							char* pszCredits)					
 {
 #ifdef SHOW_EXIT_SCREEN
-   int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 	
 	RImage*	pimBackground;
 	sResult = rspGetResource(&g_resmgrShell, EXIT_BG, &pimBackground);

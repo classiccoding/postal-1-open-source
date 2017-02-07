@@ -193,7 +193,7 @@ int16_t CFirestream::Load(										// Returns 0 if successfull, non-zero otherw
 		}
 		else
 		{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CFirestream::Load(): Error reading from file!\n");
 		}
 	}
@@ -213,7 +213,7 @@ int16_t CFirestream::Save(										// Returns 0 if successfull, non-zero otherw
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 {
-	int16_t	sResult	= CThing::Save(pFile, sFileCount);
+	int16_t sResult	= CThing::Save(pFile, sFileCount);
 	if (sResult == SUCCESS)
 	{
 		// Save common data just once per file (not with each object)
@@ -380,7 +380,7 @@ int16_t CFirestream::Setup(									// Returns 0 if successfull, non-zero otherw
 	int32_t lTimeToLive,										// In:  Number of milliseconds to burn, default 1sec
 	uint16_t u16ShooterID)										// In:  Shooter's ID so you don't hit him
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	double dX;
 	double dZ;
 	
@@ -471,7 +471,7 @@ int16_t CFirestream::EditNew(									// Returns 0 if successfull, non-zero othe
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -640,7 +640,7 @@ int16_t CFireball::Load(										// Returns 0 if successfull, non-zero otherwis
 		}
 		else
 		{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CFireball::Load(): Error reading from file!\n");
 		}
 	}
@@ -660,7 +660,7 @@ int16_t CFireball::Save(										// Returns 0 if successfull, non-zero otherwis
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 {
-	int16_t	sResult	= CThing::Save(pFile, sFileCount);
+	int16_t sResult	= CThing::Save(pFile, sFileCount);
 	if (sResult == SUCCESS)
 	{
 		// Save common data just once per file (not with each object)
@@ -908,7 +908,7 @@ int16_t CFireball::Setup(									// Returns 0 if successfull, non-zero otherwis
 	int32_t lTimeToLive,										// In:  Number of milliseconds to burn, default 1sec
 	uint16_t u16ShooterID)										// In:  Shooter's ID so you don't hit him
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -971,7 +971,7 @@ int16_t CFireball::EditNew(									// Returns 0 if successfull, non-zero otherw
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -1053,7 +1053,7 @@ int16_t CFireball::GetResources(void)			// Returns 0 if successfull, non-zero ot
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CFireball::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	rspReleaseResource(&g_resmgrGame, &m_pAnimChannel);
 

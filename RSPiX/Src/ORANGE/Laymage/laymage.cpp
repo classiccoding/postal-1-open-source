@@ -228,7 +228,7 @@ void RLaymage::ClearChannelBuffers(void)
 
 int16_t RLaymage::AllocateChannelBuffers(uint32_t ulSize)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	ClearChannelBuffers();
 
@@ -241,13 +241,13 @@ int16_t RLaymage::AllocateChannelBuffers(uint32_t ulSize)
 	    m_pcChannels[LAYMAGE_GREEN] &&
 		 m_pcChannels[LAYMAGE_BLUE] &&
 		 m_pcChannels[LAYMAGE_ALPHA])
-		sReturn = SUCCESS;
+      sResult = SUCCESS;
 	else
 	{
-		sReturn = FAILURE;
+      sResult = FAILURE;
 		ClearChannelBuffers();
 	}
-	return sReturn;
+   return sResult;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -616,7 +616,7 @@ int16_t RLaymage::SetChannelPointer(int16_t sNumLayers, RFile* pcfChannel)
 	uint16_t usNumChannels = 0;
 	uint16_t i;
 	uint8_t ucData;
-	int16_t sReturn = FAILURE;
+   int16_t sResult = FAILURE;
 	int16_t sLayer;
 
 	if (pcfChannel && pcfChannel->IsOpen())
@@ -660,10 +660,10 @@ int16_t RLaymage::SetChannelPointer(int16_t sNumLayers, RFile* pcfChannel)
 		}
 
 		if (!pcfChannel->Error())	
-			sReturn = SUCCESS;
+         sResult = SUCCESS;
 	}
 
-	return sReturn;	
+   return sResult;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -701,7 +701,7 @@ int16_t RLaymage::ReadLayerInfo(int16_t sLayerNum, RFile* pcfLayer,
 	uint32_t ulRight;
 	uint16_t k;
 	uint16_t i;
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	pcfLayer->ClearError();
 	pcfChannel->ClearError();
@@ -842,7 +842,7 @@ int16_t RLaymage::ReadLayerInfo(int16_t sLayerNum, RFile* pcfLayer,
 			}
 		else
 			{
-			sReturn = FAILURE;
+         sResult = FAILURE;
 			TRACE("RLaymage::ReadLayerInfo - Error allocating channel buffers\n");
 			}
 		}
@@ -901,14 +901,14 @@ int16_t RLaymage::ReadLayerInfo(int16_t sLayerNum, RFile* pcfLayer,
 			}
 		else
 			{
-			sReturn = FAILURE;
+         sResult = FAILURE;
 			TRACE("RLaymage::ReadLayerInfo - Error allocating channel buffers\n");
 			}
 		}
 
 	ClearChannelBuffers();
 
-	return sReturn;
+   return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////
@@ -944,7 +944,7 @@ int16_t RLaymage::ReadLayerName(int16_t sLayerNum, RFile* pcfLayer)
 	uint32_t ulLeft;
 	uint32_t ulRight;
 	uint16_t i;
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	pcfLayer->ClearError();
 	
@@ -960,7 +960,7 @@ int16_t RLaymage::ReadLayerName(int16_t sLayerNum, RFile* pcfLayer)
 	if (pulChannelLength == nullptr || psChannelID == nullptr)
 	{
 		TRACE("RLaymage::ReadLayerInfo - Error allocating buffers for channel data\n");
-		sReturn = FAILURE;
+      sResult = FAILURE;
 	}
 
 	for (i = 0; i < usNumChannels; i++)
@@ -1000,7 +1000,7 @@ int16_t RLaymage::ReadLayerName(int16_t sLayerNum, RFile* pcfLayer)
 	if (AllocateChannelBuffers((ulBottom-ulTop)*(ulRight-ulLeft)) != SUCCESS)
 		TRACE("RLaymage::ReadLayerInfo - Error allocating channel buffers\n");
 
-	return sReturn;
+   return sResult;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -1032,7 +1032,7 @@ int16_t RLaymage::ReadLayerName(int16_t sLayerNum, RFile* pcfLayer)
 
 int16_t RLaymage::RLE_Decompress(char* pcBuffer, uint32_t ulCompSize, RFile* pcfRLE)
 {
-	int16_t sReturn;
+   int16_t sResult;
 	uint32_t ulRead = 0;
 	uint32_t ulBufferPos = 0;
 	uint32_t ulBufferFill = 0;
@@ -1080,15 +1080,15 @@ int16_t RLaymage::RLE_Decompress(char* pcBuffer, uint32_t ulCompSize, RFile* pcf
 		}
 
 		if (pcfRLE->Error())
-			sReturn = FAILURE;
+         sResult = FAILURE;
 		else
-			sReturn = SUCCESS;
+         sResult = SUCCESS;
 	}
 	else
-		sReturn = FAILURE;
+      sResult = FAILURE;
 
 
-	return sReturn;
+   return sResult;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -1115,7 +1115,7 @@ int16_t RLaymage::RLE_Decompress(char* pcBuffer, uint32_t ulCompSize, RFile* pcf
 int16_t RLaymage::ConvertToImage(int16_t sLayerNum, uint32_t ulTop, uint32_t ulBottom, 
                                uint32_t ulLeft, uint32_t ulRight)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	RImage* pImage;
 	uint32_t row;
 	uint32_t col;
@@ -1156,7 +1156,7 @@ int16_t RLaymage::ConvertToImage(int16_t sLayerNum, uint32_t ulTop, uint32_t ulB
 	}
 
 
-	return sReturn;
+   return sResult;
 }
 //////////////////////////////////////////////////////////////////////
 //
@@ -1179,7 +1179,7 @@ int16_t RLaymage::ConvertToImage(int16_t sLayerNum, uint32_t ulTop, uint32_t ulB
 int16_t RLaymage::Load(char* pszFilename)
 {
 	RFile cf;
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	if (cf.Open(pszFilename, "rb", RFile::LittleEndian) != SUCCESS)
 	{
@@ -1187,16 +1187,16 @@ int16_t RLaymage::Load(char* pszFilename)
 		return FAILURE;
 	}
 
-	sReturn = Load(&cf);
+   sResult = Load(&cf);
 
 	cf.Close();
 
-	return sReturn;
+   return sResult;
 }
 
 int16_t RLaymage::Load(RFile* pcf)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	uint32_t ulFileType = 0;
 	uint32_t ulVersion = 0;
 
@@ -1219,34 +1219,34 @@ int16_t RLaymage::Load(RFile* pcf)
 					else
 					{
 						TRACE("RLaymage::Load - Error: File version is %d Current code version is %d\n", ulVersion, LAYMAGE_CURRENT_VERSION);
-						sReturn = FAILURE;
+                  sResult = FAILURE;
 					}
 				}
 				else
 				{
 					TRACE("RLaymage::Load - Error reading file version\n");
-					sReturn = FAILURE;
+               sResult = FAILURE;
 				}
 			}
 			else
 			{
 				TRACE("RLaymage::Load - Error: File typs is not \"IML \"\n");
-				sReturn = FAILURE;
+            sResult = FAILURE;
 			}
 		}
 		else
 		{
 			TRACE("RLaymage::Load - Error reading file type\n");
-			sReturn = FAILURE;
+         sResult = FAILURE;
 		}
 	}
 	else
 	{
 		TRACE("RLaymage::Load - Error RFile pointer does not refer to an open file\n");
-		sReturn = FAILURE;
+      sResult = FAILURE;
 	}
 
-	return sReturn;
+   return sResult;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -1274,7 +1274,7 @@ int16_t RLaymage::Load(RFile* pcf)
 int16_t RLaymage::Save(char* pszFilename)
 {
 	RFile cf;
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	if (cf.Open(pszFilename, "wb", RFile::LittleEndian) != SUCCESS)
 	{
@@ -1282,11 +1282,11 @@ int16_t RLaymage::Save(char* pszFilename)
 		return FAILURE;
 	}	
 
-	sReturn = Save(&cf);
+   sResult = Save(&cf);
 
 	cf.Close();
 
-	return sReturn;
+   return sResult;
 }
 
 int16_t RLaymage::Save(RFile* /*pcf*/)
@@ -1486,15 +1486,15 @@ void RLaymage::FreeAllLayers(void)
 
 int16_t RLaymage::GetLayerName(int16_t sLayer, char* pszNameBuffer)
 {
-	int16_t sReturn = FAILURE;
+   int16_t sResult = FAILURE;
 	
 	if (pszNameBuffer && sLayer >= 0 && sLayer < m_sNumLayers)
 	{
 		strcpy(pszNameBuffer, m_apszLayerNames[sLayer]);	
-		sReturn = SUCCESS;
+      sResult = SUCCESS;
 	}
 		
-	return sReturn;
+   return sResult;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -1555,7 +1555,7 @@ void RLaymage::FreeLayerArrays(void)
 
 int16_t RLaymage::AllocateLayerArrays(int16_t sNumLayers)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	int16_t i;
 
 	FreeLayerArrays();
@@ -1565,12 +1565,12 @@ int16_t RLaymage::AllocateLayerArrays(int16_t sNumLayers)
 	{
 		m_apszLayerNames = new char*[m_sNumLayers];
 			if (!m_apszLayerNames)
-				sReturn = FAILURE;
+            sResult = FAILURE;
 	}
 	else
-		sReturn = FAILURE;
+      sResult = FAILURE;
 
-	if (sReturn == SUCCESS)
+   if (sResult == SUCCESS)
 	{
 		for (i = 0; i < sNumLayers; i++)
 		{
@@ -1579,7 +1579,7 @@ int16_t RLaymage::AllocateLayerArrays(int16_t sNumLayers)
 		}
 	}
 
-	return sReturn;		
+   return sResult;
 }
 
 //////////////////////////////////////////////////////////////////////

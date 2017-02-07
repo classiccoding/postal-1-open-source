@@ -125,7 +125,7 @@ RMultiGridIndirect*	CreateRegionMap(int16_t sWidth,int16_t sHeight,int16_t sMaxP
 int16_t	StrafeAddRegion(RMultiGridIndirect* pMGI,TriggerRgn regions[256])
 	{
 	ASSERT(pMGI);
-	int16_t sRet = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	for (int16_t i=1; i < 256;i++)
 		{
@@ -136,12 +136,12 @@ int16_t	StrafeAddRegion(RMultiGridIndirect* pMGI,TriggerRgn regions[256])
 				!= SUCCESS)
 				{
 				TRACE("StrafeAddRegion:: Problem installing region %hd\n",i);
-				sRet = FAILURE;
+            sResult = FAILURE;
 				}
 			}
 		}
 
-	return sRet;
+   return sResult;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////

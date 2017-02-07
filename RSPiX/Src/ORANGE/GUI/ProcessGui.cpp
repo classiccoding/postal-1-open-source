@@ -151,7 +151,7 @@ int16_t RProcessGui::Prepare(			// Returns 0 on success.
 	RGuiItem* pguiCancel/* = nullptr*/)	// In:  If not nullptr, specifies GUI
 												// activated by ESCAPE key.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Create erase buffer . . .
 	if (m_imEraser.CreateImage(
@@ -166,7 +166,7 @@ int16_t RProcessGui::Prepare(			// Returns 0 on success.
 	else
 		{
 		TRACE("Prepare():  CreateImage() failed.\n");
-      sResult	= -1;
+      sResult = FAILURE;
 		}
 
 	m_pguiOk			= pguiOk;

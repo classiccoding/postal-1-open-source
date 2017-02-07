@@ -214,7 +214,7 @@ int16_t RListBox::Create(			// Returns 0 on success.
 	int16_t sH,						// Height.
 	int16_t sDepth)					// Color depth.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	Destroy();
 
@@ -235,7 +235,7 @@ int16_t RListBox::Create(			// Returns 0 on success.
 	else
 		{
 		TRACE("Create(): RImage::CreateImage() failed.\n");
-      sResult = -1;
+      sResult = FAILURE;
 		}
 	
 	// Get client area.
@@ -937,7 +937,7 @@ RGuiItem* RListBox::CreateStringItem(	// Returns new item on success;
    const char* pszString)							// Text for new item.
 	{
 	RGuiItem*	pgui		= nullptr;	// Assume nothing.
-	int16_t	sError	= 0;
+   int16_t sError = SUCCESS;
 
 	// We'll need a font and a print for this.
 	ASSERT(m_pprint != nullptr);
@@ -981,11 +981,11 @@ RGuiItem* RListBox::CreateStringItem(	// Returns new item on success;
 		else
 			{
 			TRACE("CreateStringItem(): ptxt->Create() failed.\n");
-			sError	= 2;
+         sError = FAILURE * 2;
 			}
 
 		// If any errors occurred after allocation . . .
-		if (sError != 0)
+		if (sError != SUCCESS)
 			{
 			delete pgui;
 			pgui	= nullptr;
@@ -995,7 +995,7 @@ RGuiItem* RListBox::CreateStringItem(	// Returns new item on success;
 		{
 		TRACE("CreateStringItem(): Failed to allocate encapsulator of type %s.\n",
 			ms_apszTypes[m_typeEncapsulator]);
-		sError	= 1;
+      sError = FAILURE;
 		}
 
 	return pgui;
@@ -1011,7 +1011,7 @@ RGuiItem* RListBox::CreateEncapsulator(	// Returns new item on success; nullptr,
 	RGuiItem*	pgui)								// Item to encapsulate.
 	{
 	RGuiItem*	pguiRes		= nullptr;	// Assume nothing.
-	int16_t	sError	= 0;
+   int16_t sError = SUCCESS;
 
 	// Allocate a new item . . .
 	pguiRes	= new RGuiItem;
@@ -1048,11 +1048,11 @@ RGuiItem* RListBox::CreateEncapsulator(	// Returns new item on success; nullptr,
 		else
 			{
 			TRACE("CreateEncapsulator(): pguiRes->Create() failed.\n");
-			sError	= 2;
+         sError = FAILURE * 2;
 			}
 
 		// If any errors occurred after allocation . . .
-		if (sError != 0)
+		if (sError != SUCCESS)
 			{
 			delete pguiRes;
 			pguiRes	= nullptr;
@@ -1061,7 +1061,7 @@ RGuiItem* RListBox::CreateEncapsulator(	// Returns new item on success; nullptr,
 	else
 		{
 		TRACE("CreateEncapsulator(): Failed to allocate RTxt.\n");
-		sError	= 1;
+      sError = FAILURE;
 		}
 
 	return pguiRes;
@@ -1155,7 +1155,7 @@ void RListBox::SelectItem(		// Returns nothing.
 int16_t RListBox::LoadChildren(	// Returns 0 on success.
 	RFile*	pfile)				// File to load from.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	ASSERT(pfile->IsOpen() != FALSE);
 
@@ -1183,19 +1183,19 @@ int16_t RListBox::LoadChildren(	// Returns 0 on success.
 			else
 				{
 				TRACE("LoadChildren(): m_sbVert.Load() failed.\n");
-            sResult	= -3;
+            sResult = FAILURE * 3;
 				}
 			}
 		else
 			{
 			TRACE("LoadChildren(): m_sbHorz.Load() failed.\n");
-         sResult	= -2;
+         sResult = FAILURE * 2;
 			}
 		}
 	else
 		{
 		TRACE("LoadChildren(): m_lcContents.Load() failed.\n");
-      sResult	= -1;
+      sResult = FAILURE;
 		}
 
 	// Instantiate rest of children.
@@ -1213,7 +1213,7 @@ int16_t RListBox::LoadChildren(	// Returns 0 on success.
 		else
 			{
 			TRACE("LoadChildren(): LoadInstantiate() failed.\n");
-         sResult	= -1;
+         sResult = FAILURE;
 			}
 		}
 
@@ -1230,7 +1230,7 @@ int16_t RListBox::LoadChildren(	// Returns 0 on success.
 int16_t RListBox::SaveChildren(	// Returns 0 on success.
 	RFile*	pfile)				// File to save to.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	ASSERT(pfile->IsOpen() != FALSE);
 
@@ -1268,19 +1268,19 @@ int16_t RListBox::SaveChildren(	// Returns 0 on success.
 			else
 				{
 				TRACE("SaveChildren(): m_lcContents.Save() failed.\n");
-            sResult	= -3;
+            sResult = FAILURE * 3;
 				}
 			}
 		else
 			{
 			TRACE("SaveChildren(): m_sbHorz.Save() failed.\n");
-         sResult	= -2;
+         sResult = FAILURE * 2;
 			}
 		}
 	else
 		{
 		TRACE("SaveChildren(): m_sbVert.Save() failed.\n");
-      sResult	= -1;
+      sResult = FAILURE;
 		}
 
 	// Save children.  Note that we go through the children in reverse
@@ -1312,7 +1312,7 @@ int16_t RListBox::ReadMembers(	// Returns 0 on success.
 	RFile*	pfile,					// File to read from.
 	uint32_t		u32Version)				// File format version to use.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Invoke base class to read base members.
    sResult	= RGuiItem::ReadMembers(pfile, u32Version);
@@ -1353,7 +1353,7 @@ int16_t RListBox::ReadMembers(	// Returns 0 on success.
 				else
 					{
 					TRACE("ReadMembers(): Error reading RListBox members.\n");
-               sResult	= -1;
+               sResult = FAILURE;
 					}
 				break;
 			}
@@ -1371,7 +1371,7 @@ int16_t RListBox::ReadMembers(	// Returns 0 on success.
 int16_t RListBox::WriteMembers(	// Returns 0 on success.
 	RFile*	pfile)					// File to write to.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Invoke base class to read base members.
    sResult	= RGuiItem::WriteMembers(pfile);
@@ -1399,7 +1399,7 @@ int16_t RListBox::WriteMembers(	// Returns 0 on success.
 		else
 			{
 			TRACE("WriteMembers(): Error writing RListBox members.\n");
-         sResult	= -1;
+         sResult = FAILURE;
 			}
 		}
 

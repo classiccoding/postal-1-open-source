@@ -1541,7 +1541,7 @@ int16_t CDude::CDudeAnim3D::Get(	// Returns 0 on success.
 	int16_t		sLoopFlags)				// In:  Looping flags to apply to all channels
 											// in this anim.
 	{
-   int16_t	sResult;
+   int16_t sResult;
 	char	szResName[RSP_MAX_PATH];
 	sprintf(szResName, "%s.sop", pszBaseFileName);
    sResult	=  rspGetResource(&g_resmgrGame, szResName, &m_psops);
@@ -1662,7 +1662,7 @@ int16_t CDude::Load(										// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,										// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)									// In:  File version being loaded.
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// In most cases, the base class Load() should be called.
 	sResult	= CCharacter::Load(pFile, bEditMode, sFileCount, ulFileVersion);
@@ -1737,7 +1737,7 @@ int16_t CDude::Load(										// Returns 0 if successfull, non-zero otherwise
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CDude::Load(): Error reading from file!\n");
 			}
 		}
@@ -1757,7 +1757,7 @@ int16_t CDude::Save(										// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// In most cases, the base class Save() should be called.
 	sResult	= CCharacter::Save(pFile, sFileCount);
@@ -1795,7 +1795,7 @@ int16_t CDude::Save(										// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDude::Startup(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t	sResult	= CCharacter::Startup();
+	int16_t sResult	= CCharacter::Startup();
 	
 	// Init other stuff
 	m_lNextBulletTime = m_pRealm->m_time.GetGameTime() + MS_BETWEEN_BULLETS;
@@ -1813,7 +1813,7 @@ int16_t CDude::Startup(void)						// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDude::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t	sResult	= CCharacter::Shutdown();
+	int16_t sResult	= CCharacter::Shutdown();
 	return sResult;
 	}
 
@@ -3604,7 +3604,7 @@ void SetText(					// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDude::EditModify(void)				// Returns 0 if successfull, non-zero otherwise.
 	{
-	int16_t	sResult	= CCharacter::EditModify();
+	int16_t sResult	= CCharacter::EditModify();
 
 	if (sResult == SUCCESS)
 		{
@@ -3630,13 +3630,13 @@ int16_t CDude::EditModify(void)				// Returns 0 if successfull, non-zero otherwi
 		else
 			{
 			TRACE("EditModify(): Failed to open GUI \"%s\".\n", MODIFY_GUI_FILE);
-			sResult	= -2;
+			sResult = FAILURE * 2;
 			}
 		}
 	else
 		{
 		TRACE("EditModify(): Base class EditModify() failed.\n");
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -3648,7 +3648,7 @@ int16_t CDude::EditModify(void)				// Returns 0 if successfull, non-zero otherwi
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDude::Init(void)									// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	m_lPrevTime			= m_pRealm->m_time.GetGameTime();
 	m_lNextBulletTime	= m_lPrevTime;
@@ -3740,7 +3740,7 @@ void CDude::Kill(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDude::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	//											Anim base name					Rigid name		Event name		Loop flags
 	//											===================			=============	===========		===========

@@ -3169,7 +3169,7 @@ static int16_t MainMenuInit(		// Returns 0 on succes, non-zero to cancel menu.
 	int16_t sInit)					// In:  TRUE, if initializing; FALSE, if killing.
 	{
   UNUSED(pmenuCurrent);
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	Game_InitMainMenu(sInit);
 
@@ -3280,7 +3280,7 @@ static int16_t StartGameInit(	// Returns 0 on success, non-zero to cancel menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
    {
   UNUSED(pmenuCurrent, sInit);
-   int16_t	sResult	= SUCCESS;	// Assume success.
+   int16_t sResult	= SUCCESS;	// Assume success.
 
 	//// Be sure the demo option reflects INI setting.
 	//if (g_GameSettings.m_sCanRecordDemos == FALSE)
@@ -3347,7 +3347,7 @@ static int16_t ChallengeInit(	// Returns 0 on success, non-zero to cancel menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
   UNUSED(pmenuCurrent, sInit);
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	return sResult;
 	}
@@ -3423,7 +3423,7 @@ static int16_t StartMultiInit(	// Returns 0 on success, non-zero to cancel menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
   UNUSED(pmenuCurrent);
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	if (sInit != FALSE)
 		RGuiItem::ms_print.SetFont(DEFAULT_GUI_FONT_HEIGHT, &g_fontPostal);
@@ -3462,7 +3462,7 @@ static int16_t JoinMultiInit(	// Returns 0 on success, non-zero to cancel menu.
    Menu*	pmenuCurrent,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	if (sInit != FALSE)
 		{
@@ -3481,7 +3481,7 @@ static int16_t JoinMultiInit(	// Returns 0 on success, non-zero to cancel menu.
 		else
 			{
 			TRACE("JoinMultiInit(): ms_presmgr->Get() failed.\n");
-			sResult	= 1;
+			sResult = FAILURE;
 			}
 		}
 	else
@@ -3534,7 +3534,7 @@ static int16_t HostMultiInit(	// Returns 0 on success, non-zero to cancel menu.
    Menu*	pmenuCurrent,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	if (sInit != FALSE)
 		{
@@ -3553,7 +3553,7 @@ static int16_t HostMultiInit(	// Returns 0 on success, non-zero to cancel menu.
 		else
 			{
 			TRACE("HostMultiInit(): ms_presmgr->Get() failed.\n");
-			sResult	= 1;
+			sResult = FAILURE;
 			}
 		}
 	else
@@ -3607,7 +3607,7 @@ static int16_t StartDemoInit(	// Returns 0 on success, non-zero to cancel menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
   UNUSED(pmenuCurrent, sInit);
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	return sResult;
 	}
@@ -3645,7 +3645,7 @@ static int16_t OptionsInit(		// Returns 0 on success, non-zero to cancel menu.
    Menu*	pmenuCurrent,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	if (sInit != FALSE)
 		{
@@ -3666,7 +3666,7 @@ static int16_t OptionsInit(		// Returns 0 on success, non-zero to cancel menu.
 		else
 			{
 			TRACE("ControlsInit(): rspGetResource() failed.\n");
-			sResult	= 1;
+			sResult = FAILURE;
 			}
 		}
 	else
@@ -3738,7 +3738,7 @@ static int16_t PlayOptionsInit(	// Returns 0 on success, non-zero to cancel menu
    Menu*	pmenuCurrent,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	if (sInit != FALSE)
 		{
@@ -3767,7 +3767,7 @@ static int16_t PlayOptionsInit(	// Returns 0 on success, non-zero to cancel menu
 		else
 			{
 			TRACE("PlayOptionsInit(): rspGetResource() failed.\n");
-			sResult	= 1;
+			sResult = FAILURE;
 			}
 		}
 	else
@@ -3812,7 +3812,7 @@ static int16_t VideoOptionsInit(	// Returns 0 on success, non-zero to cancel men
    Menu*	pmenuCurrent,					// Current menu.
 	int16_t	sInit)						// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	if (sInit != FALSE)
 		{
@@ -3841,7 +3841,7 @@ static int16_t VideoOptionsInit(	// Returns 0 on success, non-zero to cancel men
 		else
 			{
 			TRACE("VideoOptionsInit(): rspGetResource() failed.\n");
-			sResult	= 1;
+			sResult = FAILURE;
 			}
 		}
 	else
@@ -3889,7 +3889,7 @@ static int16_t AudioOptionsInit(	// Returns 0 on success, non-zero to cancel men
 	int16_t	sInit)						// TRUE, if initializing; FALSE, if killing.
 	{
   UNUSED(pmenuCurrent);
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	if (sInit != FALSE)
 		{
@@ -3934,7 +3934,7 @@ static int16_t VolumesInit(		// Returns 0 on success, non-zero to cancel menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
   UNUSED(pmenuCurrent);
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	if (sInit != FALSE)
 		{
@@ -3980,7 +3980,7 @@ static int16_t VolumesInit(		// Returns 0 on success, non-zero to cancel menu.
 			else
 				{
 				TRACE("VolumesInit():  Failed to get resource.\n");
-				sResult	= 1;
+				sResult = FAILURE;
 				}
 			}
 
@@ -4087,7 +4087,7 @@ static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
    Menu*	pmenuCurrent,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	if (sInit != FALSE)
 		{
@@ -4107,7 +4107,7 @@ static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
 		else
 			{
 			TRACE("ControlsInit(): rspGetResource() failed.\n");
-			sResult	= 1;
+			sResult = FAILURE;
 			}
 #else
 		int16_t	sMenuItem	= 3;
@@ -4126,7 +4126,7 @@ static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
 		else
 			{
 			TRACE("ControlsInit(): rspGetResource() failed.\n");
-			sResult	= 1;
+			sResult = FAILURE;
 			}
 
 		// Get scrollbar for 'Mouse Sensitivity'.
@@ -4288,7 +4288,7 @@ int16_t SetUpRotationScrollBar(		// Returns 0 on success.
 	int16_t		sChoiceIndex,			// In:  Index of choice.
    const char*		pszResName)				// In:  Resource name.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	RScrollBar*	psb	= nullptr;
 
@@ -4320,7 +4320,7 @@ int16_t SetUpRotationScrollBar(		// Returns 0 on success.
 	else
 		{
 		TRACE("SetUpRotationScrollBar(): rspGetResource() failed for \"%s\".\n", pszResName);
-		sResult	= 1;
+		sResult = FAILURE;
 		}
 
 	// Let menu know about it.
@@ -4338,7 +4338,7 @@ static int16_t RotationInit(		// Returns 0 on success, non-zero to cancel menu.
    Menu*	pmenuCurrent,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	if (sInit != FALSE)
 		{
@@ -4410,7 +4410,7 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
    Menu*	pmenuCurrent,					// Current menu.
 	int16_t	sInit)						// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	if (sInit != FALSE)
 		{					   
@@ -4432,7 +4432,7 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 		else
 			{
 			TRACE("MultiOptionsInit(): rspGetResource() failed.\n");
-			sResult	= 1;
+			sResult = FAILURE;
 			}
 
       if (rspGetResource(&g_resmgrShell, PLAYER_COLOR_GUI_FILE, &ms_ptxtColor) == SUCCESS)
@@ -4639,7 +4639,7 @@ static int16_t MouseInit(			// Returns 0 on success, non-zero to cancel menu.
    Menu*	pmenuCurrent,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	if (sInit == TRUE)
 		{
@@ -4684,7 +4684,7 @@ static int16_t KeyInit(			// Returns 0 on success, non-zero to cancel menu.
    Menu*	pmenuCurrent,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	if (sInit == TRUE)
 		{
@@ -4729,7 +4729,7 @@ static int16_t JoyInit(			// Returns 0 on success, non-zero to cancel menu.
    Menu*	pmenuCurrent,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	if (sInit == TRUE)
 		{
@@ -4774,7 +4774,7 @@ static int16_t LoadLevelInit(			// Returns 0 on success, non-zero to cancel menu
    Menu*	pmenuCurrent,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 	
 	if (sInit == TRUE)
 		{
@@ -4820,7 +4820,7 @@ static int16_t FeaturesInit(		// Returns 0 on success, non-zero to cancel menu.
    Menu*	pmenuCurrent,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	if (sInit != FALSE)
 		{
@@ -4860,7 +4860,7 @@ static int16_t FeaturesInit(		// Returns 0 on success, non-zero to cancel menu.
 			else
 				{
 				TRACE("FeaturesInit(): rspGetResource() failed.\n");
-				sResult	= 1;
+				sResult = FAILURE;
 				}
 			}
 		}

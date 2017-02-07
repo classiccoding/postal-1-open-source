@@ -148,7 +148,7 @@ CSettings::~CSettings()
 int16_t CSettings::LoadPrefs(					// Returns 0 if successfull, non-zero otherwise
    const char* pszFile)									// In:  Name of prefs file
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Make sure container exists
 	if (ms_pSettings != 0)
@@ -171,7 +171,7 @@ int16_t CSettings::LoadPrefs(					// Returns 0 if successfull, non-zero otherwis
 			// If no errors detected, double-check to be sure no I/O errors occurred
 			if (!sResult && prefs.IsError())
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("CSettings::LoadPrefs(): Error reading prefs file!\n");
 				}
 
@@ -179,13 +179,13 @@ int16_t CSettings::LoadPrefs(					// Returns 0 if successfull, non-zero otherwis
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CSettings::LoadPrefs(): Couldn't open prefs file: %s !\n", pszFile);
 			}
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("CSettings::LoadPrefs(): No container!\n");
 		}
 
@@ -206,7 +206,7 @@ int16_t CSettings::LoadPrefs(					// Returns 0 if successfull, non-zero otherwis
 int16_t CSettings::SavePrefs(					// Returns 0 if successfull, non-zero otherwise
    const char* pszFile)									// In:  Name of prefs file
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Make sure container exists
 	if (ms_pSettings != 0)
@@ -237,7 +237,7 @@ int16_t CSettings::SavePrefs(					// Returns 0 if successfull, non-zero otherwis
 				// If no errors detected, double-check to be sure no I/O errors occurred
 				if (!sResult && prefs.IsError())
 					{
-					sResult = -1;
+					sResult = FAILURE;
 					TRACE("CSettings::SavePrefs(): Error writing prefs file!\n");
 					}
 
@@ -251,13 +251,13 @@ int16_t CSettings::SavePrefs(					// Returns 0 if successfull, non-zero otherwis
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CSettings::SavePrefs(): Couldn't open prefs file: %s !\n", pszFile);
 			}
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("CSettings::SavePrefs(): No container!\n");
 		}
 
@@ -273,7 +273,7 @@ int16_t CSettings::SavePrefs(					// Returns 0 if successfull, non-zero otherwis
 int16_t CSettings::LoadGame(						// Returns 0 if successfull, non-zero otherwise
    const char* pszFile)									// In:  Name of prefs file
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Make sure container exists
 	if (ms_pSettings != 0)
@@ -296,7 +296,7 @@ int16_t CSettings::LoadGame(						// Returns 0 if successfull, non-zero otherwis
 			// If no errors detected, double-check to be sure no I/O errors occurred
 			if (!sResult && fileGame.Error())
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("CSettings::LoadGame(): Error reading game file!\n");
 				}
 
@@ -304,13 +304,13 @@ int16_t CSettings::LoadGame(						// Returns 0 if successfull, non-zero otherwis
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CSettings::LoadGame(): Couldn't open game file: %s !\n", pszFile);
 			}
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("CSettings::LoadGame(): No container!\n");
 		}
 
@@ -326,7 +326,7 @@ int16_t CSettings::LoadGame(						// Returns 0 if successfull, non-zero otherwis
 int16_t CSettings::SaveGame(						// Returns 0 if successfull, non-zero otherwise
    const char* pszFile)									// In:  Name of prefs file
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Make sure container exists
 	if (ms_pSettings != 0)
@@ -350,7 +350,7 @@ int16_t CSettings::SaveGame(						// Returns 0 if successfull, non-zero otherwis
 			// If no errors detected, double-check to be sure no I/O errors occurred
 			if (!sResult && fileGame.Error())
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("CSettings::SaveGame(): Error writing game file!\n");
 				}
 
@@ -358,13 +358,13 @@ int16_t CSettings::SaveGame(						// Returns 0 if successfull, non-zero otherwis
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CSettings::SaveGame(): Couldn't open game file: %s !\n", pszFile);
 			}
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("CSettings::SaveGame(): No container!\n");
 		}
 
@@ -380,7 +380,7 @@ int16_t CSettings::SaveGame(						// Returns 0 if successfull, non-zero otherwis
 int16_t CSettings::PreDemo(						// Returns 0 if successfull, non-zero otherwise
 	void)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Make sure container exists
 	if (ms_pSettings != 0)
@@ -408,7 +408,7 @@ int16_t CSettings::PreDemo(						// Returns 0 if successfull, non-zero otherwise
 				// If no errors detected, double-check to be sure no I/O errors occurred
 				if (!sResult && fileMem.Error())
 					{
-					sResult = -1;
+					sResult = FAILURE;
 					TRACE("CSettings::PreDemo(): Error writing to mem file (probably too much data)!\n");
 					}
 
@@ -416,19 +416,19 @@ int16_t CSettings::PreDemo(						// Returns 0 if successfull, non-zero otherwise
 				}
 			else
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("CSettings::PreDemo(): Couldn't open mem file!\n");
 				}
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CSettings::PreDemo(): Couldn't allocate memory for mem file!\n");
 			}
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("CSettings::PreDemo(): No container!\n");
 		}
 
@@ -444,7 +444,7 @@ int16_t CSettings::PreDemo(						// Returns 0 if successfull, non-zero otherwise
 int16_t CSettings::PostDemo(						// Returns 0 if successfull, non-zero otherwise
 	void)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Make sure container exists
 	if (ms_pSettings != 0)
@@ -471,7 +471,7 @@ int16_t CSettings::PostDemo(						// Returns 0 if successfull, non-zero otherwis
 				// If no errors detected, double-check to be sure no I/O errors occurred
 				if (!sResult && fileMem.Error())
 					{
-					sResult = -1;
+					sResult = FAILURE;
 					TRACE("CSettings::PostDemo(): Error reading from mem file!\n");
 					}
 
@@ -479,7 +479,7 @@ int16_t CSettings::PostDemo(						// Returns 0 if successfull, non-zero otherwis
 				}
 			else
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("CSettings::PostDemo(): Couldn't open mem file!\n");
 				}
 
@@ -489,13 +489,13 @@ int16_t CSettings::PostDemo(						// Returns 0 if successfull, non-zero otherwis
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CSettings::PostDemo(): No memory file to read from! (did you forget to call CSettings::PreDemo?)\n");
 			}
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("CSettings::PostDemo(): No container!\n");
 		}
 

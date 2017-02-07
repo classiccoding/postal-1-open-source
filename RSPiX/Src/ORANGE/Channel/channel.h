@@ -811,7 +811,7 @@ class RChanCoreArray : public RChanCore<datat>
 			RFile* pFile,											// In:  RFile to load from
 			int16_t sFileVersion)									// In:  Channel file version number
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 			
 			// Reset to get rid of any existing data
 			Reset();
@@ -836,7 +836,7 @@ class RChanCoreArray : public RChanCore<datat>
 					}
 				else
 					{
-					sResult = -1;
+					sResult = FAILURE;
 					TRACE("RChanCoreArray::Load(): Error reading from file!\n");
 					}
 				}
@@ -854,7 +854,7 @@ class RChanCoreArray : public RChanCore<datat>
 		int16_t Save(													// Returns 0 if successfull, non-zero otherwise
 			RFile* pFile)											// In:  RFile to save to
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 
 			// Call base class implimentation
 			sResult = RChanCore<datat>::Save(pFile);
@@ -1226,7 +1226,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 			RFile* pFile,											// In:  RFile to load from
 			int16_t sFileVersion)									// In:  Channel file version number
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 			
 			// Reset to get rid of any existing data
 			Reset();
@@ -1279,20 +1279,20 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 								else
 									{
 									TRACE("RChanCoreArrayOfPtrs::Load(): Internal error: Reference to item that hasn't been loaded yet!\n");
-									sResult = -1;
+									sResult = FAILURE;
 									}
 								}
 							}
 						else
 							{
 							TRACE("RChanCoreArrayOfPtrs::Load(): Error reading value from file!\n");
-							sResult = -1;
+							sResult = FAILURE;
 							}
 						}
 					}
 				else
 					{
-					sResult = -1;
+					sResult = FAILURE;
 					TRACE("RChanCoreArrayOfPtrs::Load(): Error reading from file!\n");
 					}
 				}
@@ -1310,7 +1310,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 		int16_t Save(													// Returns 0 if successfull, non-zero otherwise
 			RFile* pFile)											// In:  RFile to save to
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 
 			// Call base class implimentation
 			sResult = RChanCore<datat>::Save(pFile);
@@ -1357,7 +1357,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 						else
 							{
 							TRACE("RChanCoreArrayOfPtrs::Save(): Internal error: Couldn't find matching pointer!\n");
-							sResult = -1;
+							sResult = FAILURE;
 							}
 						}
 					}
@@ -1849,7 +1849,7 @@ class RChannel
 		int16_t Load(													// Returns 0 if successfull, non-zero otherwise
 			RFile* pFile)											// In:  RFile to load from
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 
 			// Reset to get rid of any existing data
 			Reset();
@@ -1895,13 +1895,13 @@ class RChannel
 						else
 							{
 							TRACE("RChannel::Load(): Unsupported version number!\n");
-							sResult = -1;
+							sResult = FAILURE;
 							}
 						}
 					else
 						{
 						TRACE("RChannel::Load(): Couldn't read file version!\n");
-						sResult = -1;
+						sResult = FAILURE;
 						}
 					}
 				else
@@ -1936,7 +1936,7 @@ class RChannel
 			else
 				{
 				TRACE("RChannel::Load(): Couldn't read file ID!\n");
-				sResult = -1;
+				sResult = FAILURE;
 				}
 
 			return sResult;
@@ -1951,7 +1951,7 @@ class RChannel
 		int16_t Save(													// Returns 0 if successfull, non-zero otherwise
 			RFile* pFile)											// In:  RFile to save to
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 
 			// Write header (ID and version)
 			pFile->Write((uint32_t)RChannel_FileID);

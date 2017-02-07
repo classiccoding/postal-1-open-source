@@ -87,7 +87,7 @@ int16_t CTrigger::Load(								// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,								// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)							// In:  Version of file format to load.
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// In most cases, the base class Load() should be called.
 	sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
@@ -113,7 +113,7 @@ int16_t CTrigger::Load(								// Returns 0 if successfull, non-zero otherwise
 				if (m_pmgi->Load(pFile) != SUCCESS)
 					{
 					TRACE("CTrigger::Load(): Warning - couldn't load trigger attributes!\n");
-					sResult = -1;
+					sResult = FAILURE;
 					}
 				else
 					{
@@ -121,7 +121,7 @@ int16_t CTrigger::Load(								// Returns 0 if successfull, non-zero otherwise
 					if (pFile->Read(m_ausPylonUIDs,256) != 256) // Grab the ID's
 						{
 						TRACE("CTrigger::Load(): Warning - I lost my pylon IDs!\n");
-						sResult = -1;
+						sResult = FAILURE;
 						}
 					else
 						{
@@ -142,7 +142,7 @@ int16_t CTrigger::Load(								// Returns 0 if successfull, non-zero otherwise
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CTrigger::Load(): Error reading from file!\n");
 			}
 		}
@@ -162,7 +162,7 @@ int16_t CTrigger::Save(								// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,									// In:  File to save to
 	int16_t sFileCount)								// In:  File count (unique per file, never 0)
 	{
-	int16_t	sResult	= 0;
+	int16_t sResult = SUCCESS;
 
 	// In most cases, the base class Save() should be called.
 	sResult	= CThing::Save(pFile, sFileCount);
@@ -183,7 +183,7 @@ int16_t CTrigger::Save(								// Returns 0 if successfull, non-zero otherwise
 			pFile->Write(sData);
 			if (m_pmgi->Save(pFile) != SUCCESS)
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("CTrigger::Save(): Error - coudln't save trigger attributes.\n");
 				}
 			else
@@ -191,7 +191,7 @@ int16_t CTrigger::Save(								// Returns 0 if successfull, non-zero otherwise
 				// Save the Pylon Data:
 				if (pFile->Write(m_ausPylonUIDs,256) != 256)
 					{
-					sResult = -1;
+					sResult = FAILURE;
 					TRACE("CTrigger::Save(): Error - coudln't save Pylon IDs.\n");
 					}
 				}

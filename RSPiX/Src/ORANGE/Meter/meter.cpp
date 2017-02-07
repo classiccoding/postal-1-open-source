@@ -170,7 +170,7 @@ inline int16_t Rectangle(		// Returns 0 on success.
 	int16_t sDstH,				// Height.
 	RRect* prClip = nullptr)	// Optional clipping rectangle.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	if (sDstW > 0 && sDstH > 0)
 		{
@@ -283,7 +283,7 @@ int16_t RMeter::Draw(					// Returns 0 on success.
 			int16_t sH /*= 0*/,			// Amount to draw.
 			RRect* prc /*= nullptr*/)	// Clip to.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	ASSERT(pimDst != nullptr);	// Duh!
 

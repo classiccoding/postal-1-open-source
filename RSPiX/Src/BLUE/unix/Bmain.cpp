@@ -68,7 +68,7 @@ extern void Joy_Init(void);
 
 int16_t rspInitBlue(void)
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 #ifdef BETAEXPIRE
     if ( time(nullptr) > (BETAEXPIRE + 30 * 24 * 60 * 60) )
@@ -79,10 +79,10 @@ int16_t rspInitBlue(void)
     }
 #endif
 
-	if (SDL_Init(SDL_INIT_VIDEO) == -1)
+   if (SDL_Init(SDL_INIT_VIDEO) == FAILURE)
 	{
 		TRACE("SDL_Init() failed: %s.\n", SDL_GetError());
-      sResult = -1;
+      sResult = FAILURE;
 	}
 
 	Disp_Init();

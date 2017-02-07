@@ -180,7 +180,7 @@ static int16_t SetupVideo(					// Returns 0 on success.
 	int16_t	sDeviceWidth,						// In:  Desired video hardware width.
 	int16_t	sDeviceHeight)						// In:  Desired video hardware height.
 	{
-	int16_t	sResult	= 0;
+	int16_t sResult = SUCCESS;
 
 #ifdef MOBILE
 	wideScreenWidth = 850;
@@ -325,7 +325,7 @@ static int16_t SetupVideo(					// Returns 0 on success.
 					// and probably never will, so if we eliminate that with an ASSERT(),
 					// then we can assume that the problem is the number of pages.
 					ASSERT(MAIN_SCREEN_SCALING == 0);
-					sResult = -1;
+					sResult = FAILURE;
 					TRACE("SetupVideo(): No video modes available at %dx%d, %d-bit, with %d pages!\n",
 						MAIN_WINDOW_WIDTH , MAIN_WINDOW_HEIGHT, MAIN_SCREEN_DEPTH, MAIN_SCREEN_PAGES);
 					rspMsgBox(
@@ -336,7 +336,7 @@ static int16_t SetupVideo(					// Returns 0 on success.
 					}
 				else
 					{
-					sResult = -1;
+					sResult = FAILURE;
 					TRACE("SetupVideo(): No %hd-bit video modes go up to %hdx%hd resolution!\n",
 						(int16_t)MAIN_SCREEN_DEPTH, (int16_t)MAIN_WINDOW_WIDTH, (int16_t)MAIN_WINDOW_HEIGHT);
 					rspMsgBox(
@@ -348,7 +348,7 @@ static int16_t SetupVideo(					// Returns 0 on success.
 				}
 			else
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("SetupVideo(): No %hd-bit video modes are available!\n",
 					(int16_t)MAIN_SCREEN_DEPTH);
 				rspMsgBox(
@@ -752,7 +752,7 @@ void RunSteamworksUpkeep()
 
 int main(int argc, char **argv)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
     _argc = argc;
     _argv = argv;
@@ -981,12 +981,12 @@ rspSetProfileOutput("profile.out");
 									break;
 								case RSP_MB_RET_RETRY:
 									// To retry, just clear the error (not really necessary, but seems like a good thing)
-									sResult = 0;
+									sResult = SUCCESS;
 									break;
 								case RSP_MB_RET_YES:
 								case RSP_MB_RET_IGNORE:
 									// To ignore, just clear the error and the retry flag
-									sResult = 0;
+									sResult = SUCCESS;
 									bRetry = false;
 									break;
 								}

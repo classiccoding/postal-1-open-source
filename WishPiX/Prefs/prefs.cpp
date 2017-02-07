@@ -222,7 +222,7 @@ int16_t RPrefs::Open(					// Returns 0 if successfull, non-zero otherwise
 	else
 		{
 		TRACE("RPrefs::Open(): %s\n",strerror(errno));
-		m_sErrorStatus = -1;
+      m_sErrorStatus = FAILURE;
 		}
 
 	return m_sErrorStatus;
@@ -320,19 +320,19 @@ int16_t RPrefs::Read()		// Returns 0 if successfull, non-zero otherwise
 						}
 					else
 						{
-						m_sErrorStatus = -3;
+                  m_sErrorStatus = FAILURE * 3;
 						TRACE("RPrefs::Read(): fgets(): %s\n", strerror(errno));
 						}
 					}
 				else
 					{
-					m_sErrorStatus = -2;
+               m_sErrorStatus = FAILURE * 2;
 					TRACE("RPrefs::Read(): fseek(): %s\n",strerror(errno));
 					}
 				}
 			else
 				{
-				m_sErrorStatus = -1;
+            m_sErrorStatus = FAILURE;
 				TRACE("RPrefs::Read(): File not open!\n");
 				}
 			}
@@ -400,7 +400,7 @@ int16_t RPrefs::Write()
 								if(res < 0)
 									{
 									TRACE("RPrefs::Write(): fprintf() data to temp file: %s\n", strerror(errno));
-									m_sErrorStatus = -2;
+                           m_sErrorStatus = FAILURE * 2;
 									break;
 									}
 								}
@@ -442,32 +442,32 @@ int16_t RPrefs::Write()
 										else
 											{
 											TRACE("RPrefs::Write(): fopen() of new file: %s\n", strerror(errno));
-											m_sErrorStatus = -1;
+                                 m_sErrorStatus = FAILURE;
 											}
 										}
 									else
 										{
 										TRACE("RPrefs::Write(): rename() of temp file to original file: %s\n", strerror(errno));
-										m_sErrorStatus = -4;
+                              m_sErrorStatus = FAILURE * 4;
 										}
 									}
 								else
 									{
 									TRACE("RPrefs::Write(): remove() of old ini file: %s\n", strerror(errno));
-									m_sErrorStatus = -3;
+                           m_sErrorStatus = FAILURE * 3;
 									}
 								}
 							}
 						else
 							{
 							TRACE("RPrefs::Write(): fopen() of temp file: %s\n", strerror(errno));
-							m_sErrorStatus = -1;
+                     m_sErrorStatus = FAILURE;
 							}
 						}
 					else
 						{
 						TRACE("RPrefs::Write(): Couldn't get temp file name!\n");
-						m_sErrorStatus = -5;
+                  m_sErrorStatus = FAILURE * 5;
 						}
 					}
 				else
@@ -477,7 +477,7 @@ int16_t RPrefs::Write()
 				}
 			else
 				{
-				m_sErrorStatus = -1;
+            m_sErrorStatus = FAILURE;
 				TRACE("RPrefs::Write(): File not open!\n");
 				}
 			}

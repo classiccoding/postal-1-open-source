@@ -171,7 +171,7 @@ int16_t CMine::Load(				// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,					// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)				// In:  Version of file format to load.
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	sResult = CWeapon::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 	if (sResult == SUCCESS)
@@ -230,7 +230,7 @@ int16_t CMine::Load(				// Returns 0 if successfull, non-zero otherwise
 		}
 		else
 		{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CMine::Load(): Error reading from file!\n");
 		}
 	}
@@ -716,7 +716,7 @@ int16_t CMine::Setup(									// Returns 0 if successfull, non-zero otherwise
 		false);											// In:  Call ReleaseAndPurge rather than Release at end
 
 	
-	int16_t	sResult	=  CWeapon::Setup(sX, sY, sZ);
+	int16_t sResult	=  CWeapon::Setup(sX, sY, sZ);
 	if (sResult == SUCCESS)
 		{
 		sResult	= Init();
@@ -730,7 +730,7 @@ int16_t CMine::Setup(									// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CMine::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
    if (m_pImage == nullptr)
 	{
@@ -791,7 +791,7 @@ void SetText(					// Returns nothing.
 
 int16_t CMine::EditModify(void)
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	RGuiItem* pGui = RGuiItem::LoadInstantiate(FullPathVD("res/editor/mine.gui"));
 	if (pGui)
 	{
@@ -816,7 +816,7 @@ int16_t CMine::EditNew(									// Returns 0 if successfull, non-zero otherwise
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	if (sResult == SUCCESS)
 	{
@@ -825,7 +825,7 @@ int16_t CMine::EditNew(									// Returns 0 if successfull, non-zero otherwise
 	}
 	else
 	{
-		sResult = -1;
+		sResult = FAILURE;
 	}
 
 	return sResult;
@@ -840,7 +840,7 @@ int16_t CMine::EditNew(									// Returns 0 if successfull, non-zero otherwise
 int16_t CMine::Preload(
 	CRealm* prealm)				// In:  Calling realm.
 {
-	int16_t	sResult;
+	int16_t sResult;
 	RImage*	pim;
 
 	sResult = rspGetResource(&g_resmgrGame, prealm->Make2dResPath(TIMEDMINE_FILE), &pim, RFile::LittleEndian);

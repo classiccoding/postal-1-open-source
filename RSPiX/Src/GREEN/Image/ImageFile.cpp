@@ -112,7 +112,7 @@ int16_t RImageFile::LoadVersion1(	// Returns SUCCESS on success or FAILURE on
 	RImage*	/*pim*/,					// Image to load into.
 	RFile*	/*pfile*/)				// File to load from.
 	{
-	int16_t	sResult	= SUCCESS;	// Assume success.
+	int16_t sResult	= SUCCESS;	// Assume success.
 
 	TRACE("LoadVersion1(): No current support for version 1 RImage.\n");
 	sResult	= FAILURE;
@@ -130,7 +130,7 @@ int16_t RImageFile::LoadVersion2(	// Returns SUCCESS on success or FAILURE on
 	RImage*	pim,						// Image to load into.
 	RFile*	pfile)					// File to load from.
 	{
-	int16_t	sResult	= SUCCESS;	// Assume success.
+	int16_t sResult	= SUCCESS;	// Assume success.
 
 	// No RFile support for RImage::Type, so we used a uint32_t.
 	uint32_t	u32Temp				= 0;
@@ -221,7 +221,7 @@ int16_t RImageFile::LoadVersion3(	// Returns SUCCESS on success or FAILURE on
 	RImage*	/*pim*/,					// Image to load into.
 	RFile*	/*pfile*/)				// File to load from.
 	{
-	int16_t	sResult	= SUCCESS;	// Assume success.
+	int16_t sResult	= SUCCESS;	// Assume success.
 
 	TRACE("LoadVersion3(): No current support for version 3 RImage.\n");
 	sResult	= FAILURE;
@@ -238,7 +238,7 @@ int16_t RImageFile::LoadVersion4(	// Returns SUCCESS on success or FAILURE on fa
 	RImage*	/*pim*/,					// Image to load into.
 	RFile*	/*pfile*/)				// File to load from.
 	{
-	int16_t	sResult	= SUCCESS;	// Assume success.
+	int16_t sResult	= SUCCESS;	// Assume success.
 
 	TRACE("LoadVersion4(): No current support for version 4 RImage.\n");
 	sResult	= FAILURE;
@@ -256,7 +256,7 @@ int16_t RImageFile::LoadVersion5(	// Returns SUCCESS on success or FAILURE on
 	RImage*	pim,						// Image to load into.
 	RFile*	pfile)					// File to load from.
 	{
-	int16_t	sResult	= SUCCESS;	// Assume success.
+	int16_t sResult	= SUCCESS;	// Assume success.
 
 	// No RFile support for RImage::Type, so we used a uint32_t.
 	uint32_t	u32Temp				= 0;
@@ -377,7 +377,7 @@ int16_t RImageFile::Load(			// Returns SUCCESS on success or FAILURE on failure.
 	RImage*	pim,					// Image to load into.
 	RFile*	pfile)				// File to load from.
 	{
-	int16_t	sResult	= SUCCESS;	// Assume success.
+	int16_t sResult	= SUCCESS;	// Assume success.
 
 	// Get finger print . . .
 	uint32_t	ulFinger;

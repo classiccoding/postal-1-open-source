@@ -93,7 +93,7 @@ int16_t	rspDither(
 #ifdef _DEBUG
 #endif
 
-   int16_t sRet = SUCCESS;
+   int16_t sResult = SUCCESS;
 //	int32_t	lPalOffset = lInc * sStartMap;
    uint32_t	lLastTime = rspGetMilliseconds();
 
@@ -295,7 +295,7 @@ int16_t	rspDither(
 		// Clear the upcoming error layer:
 		for (i=-1;i <= sW;i++)
 			{
-			psNextErrorR[i] = psNextErrorG[i] = psNextErrorB[i] = int16_t(0);
+         psNextErrorR[i] = psNextErrorG[i] = psNextErrorB[i] = 0;
 			}
 
 		// Give progress feedback
@@ -304,10 +304,10 @@ int16_t	rspDither(
 			if ((rspGetMilliseconds() - lLastTime) > lMilli)
 				{
 				lLastTime = rspGetMilliseconds();
-				if ((*func)(1.0 - double(j)/dH) == -1) // user abort
+            if ((*func)(1.0 - double(j)/dH) == FAILURE) // user abort
 					{
 					j = 0; // premature exit!
-               sRet = FAILURE;
+               sResult = FAILURE;
 					}
 				}
 			}
@@ -317,7 +317,7 @@ int16_t	rspDither(
 	free(psErrorG);
 	free(psErrorB);
 
-	return sRet;
+   return sResult;
 	}
 
 //==============================================
@@ -360,7 +360,7 @@ int16_t	rspSimpleMap(
 #ifdef _DEBUG
 #endif
 
-   int16_t sRet = SUCCESS;
+   int16_t sResult = SUCCESS;
 //	int32_t	lPalOffset = lInc * sStartMap;
    uint32_t	lLastTime = rspGetMilliseconds();
 
@@ -417,16 +417,16 @@ int16_t	rspSimpleMap(
 			if ((rspGetMilliseconds() - lLastTime) > lMilli)
 				{
 				lLastTime = rspGetMilliseconds();
-				if ((*func)(1.0 - double(j)/dH) == -1) // user abort
+            if ((*func)(1.0 - double(j)/dH) == FAILURE) // user abort
 					{
 					j = 0; // premature exit!
-               sRet = FAILURE;
+               sResult = FAILURE;
 					}
 				}
 			}
 		}
 
-   return sRet;
+   return sResult;
 	}
 
 					
@@ -476,7 +476,7 @@ int16_t	rspDither(
 #ifdef _DEBUG
 #endif
 
-   int16_t sRet = SUCCESS;
+   int16_t sResult = SUCCESS;
 //	int32_t	lPalOffset = lInc * sStartMap;
    uint32_t	lLastTime = rspGetMilliseconds();
 
@@ -687,7 +687,7 @@ int16_t	rspDither(
 		// Clear the upcoming error layer:
 		for (i=-1;i <= sW;i++)
 			{
-			psNextErrorR[i] = psNextErrorG[i] = psNextErrorB[i] = int16_t(0);
+         psNextErrorR[i] = psNextErrorG[i] = psNextErrorB[i] = 0;
 			}
 
 		// Give progress feedback
@@ -696,10 +696,10 @@ int16_t	rspDither(
 			if ((rspGetMilliseconds() - lLastTime) > lMilli)
 				{
 				lLastTime = rspGetMilliseconds();
-				if ((*func)(1.0 - double(j)/dH) == -1) // user abort
+            if ((*func)(1.0 - double(j)/dH) == FAILURE) // user abort
 					{
 					j = 0; // premature exit!
-               sRet = FAILURE;
+               sResult = FAILURE;
 					}
 				}
 			}
@@ -710,7 +710,7 @@ int16_t	rspDither(
 	free(psErrorG);
 	free(psErrorB);
 
-	return sRet;
+   return sResult;
 	}
 
 // *************************************************************************
@@ -773,7 +773,7 @@ int16_t	rspDither(
 #ifdef _DEBUG
 #endif
 
-   int16_t sRet = SUCCESS;
+   int16_t sResult = SUCCESS;
 //	int32_t	lPalOffset = lInc * sStartMap;
    uint32_t	lLastTime = rspGetMilliseconds();
 
@@ -978,7 +978,7 @@ int16_t	rspDither(
 		// Clear the upcoming error layer:
 		for (i=-1;i <= sW;i++)
 			{
-			psNextErrorR[i] = psNextErrorG[i] = psNextErrorB[i] = int16_t(0);
+         psNextErrorR[i] = psNextErrorG[i] = psNextErrorB[i] = 0;
 			}
 
 		// Give progress feedback
@@ -987,10 +987,10 @@ int16_t	rspDither(
 			if ((rspGetMilliseconds() - lLastTime) > lMilli)
 				{
 				lLastTime = rspGetMilliseconds();
-				if ((*func)(1.0 - double(j)/dH) == -1) // user abort
+            if ((*func)(1.0 - double(j)/dH) == FAILURE) // user abort
 					{
 					j = 0; // premature exit!
-               sRet = FAILURE;
+               sResult = FAILURE;
 					}
 				}
 			}
@@ -1000,7 +1000,7 @@ int16_t	rspDither(
 	free(psErrorG);
 	free(psErrorB);
 
-	return sRet;
+   return sResult;
 	}
 
 
@@ -1054,7 +1054,7 @@ int16_t	rspSimpleMap(
 #ifdef _DEBUG
 #endif
 
-   int16_t sRet = SUCCESS;
+   int16_t sResult = SUCCESS;
 //	int32_t	lPalOffset = lInc * sStartMap;
    uint32_t	lLastTime = rspGetMilliseconds();
 
@@ -1118,16 +1118,16 @@ int16_t	rspSimpleMap(
 			if ((rspGetMilliseconds() - lLastTime) > lMilli)
 				{
 				lLastTime = rspGetMilliseconds();
-				if ((*func)(1.0 - double(j)/dH) == -1) // user abort
+            if ((*func)(1.0 - double(j)/dH) == FAILURE) // user abort
 					{
 					j = 0; // premature exit!
-               sRet = FAILURE;
+               sResult = FAILURE;
 					}
 				}
 			}
 		}
 
-   return sRet;
+   return sResult;
 	}
 
 					

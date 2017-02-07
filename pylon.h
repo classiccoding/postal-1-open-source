@@ -134,14 +134,14 @@ class CPylon : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 
 			if (pRealm->m_sNumPylons < PYLON_MAX_PYLONS)
 			{
 				*ppNew = new CPylon(pRealm);
             if (*ppNew == nullptr)
 				{
-					sResult = -1;
+					sResult = FAILURE;
 					TRACE("CPylon::Construct(): Couldn't construct CPylon (that's a bad thing)\n");
 				}
 			}
@@ -149,7 +149,7 @@ class CPylon : public CThing
 			{
 				TRACE("CPylon::CPylon() - No more pylon ID's available\n");
 				*ppNew = nullptr;
-				sResult = -1;
+				sResult = FAILURE;
 			}
 
 			return sResult;

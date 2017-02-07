@@ -178,7 +178,7 @@ class CCrawler
 			int16_t* psTerrainH)							// Out: Final terrain height
 
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 
 			int16_t sx1 = (int16_t)dx1;
 			int16_t sy1 = (int16_t)dy1;
@@ -269,7 +269,7 @@ class CCrawler
 					*pdx = dx1;
 					*pdy = dy1;
 					*pdz = dz1;
-					sResult = -1;
+					sResult = FAILURE;
 					TRACE("Crawler::Move(): Starting position is invalid!\n");
 					}
 				}

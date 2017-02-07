@@ -88,7 +88,7 @@ template <class T> class RStack
 		// Returns 0 on success.
 		int16_t Push(STACKDATA sd)
 			{
-			int16_t	sResult	= m_list.InsertHead(sd);
+			int16_t sResult	= m_list.InsertHead(sd);
 			if (sResult == SUCCESS)
 				{
 				m_sNumItems++;
@@ -100,7 +100,7 @@ template <class T> class RStack
       // Returns item on success; nullptr otherwise.
 		int16_t Pop(PSTACKDATA psd)
 			{
-			int16_t	sResult	= m_list.GetHead(psd);
+			int16_t sResult	= m_list.GetHead(psd);
 			if (sResult == SUCCESS)
 				{
 				m_sNumItems--;

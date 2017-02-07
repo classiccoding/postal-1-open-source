@@ -246,7 +246,7 @@ int16_t RResMgr::Get(									// Returns 0 on success.
 	GenericDestroyResFunc* pfnDestroy,			// In:  Pointer to "destroy" function object
 	GenericLoadResFunc* pfnLoad)					// In:  Pointer to "load" function object
 	{
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	// Map iterator (one of the best things about STL is how readable it is)
 	pair<resclassMap::iterator, bool> p(m_map.begin(), false);
 
@@ -264,14 +264,14 @@ int16_t RResMgr::Get(									// Returns 0 on success.
 	// If the requested resource does not already exist, create the resource now and load it
 	if ((*(p.first)).second.m_vpRes == nullptr)
 		{
-		sReturn = GetInstance(	// Returns 0 on success.
+      sResult = GetInstance(	// Returns 0 on success.
 				strFilename,		// In:  Resource name
 				hRes,					// Out: Pointer to resource returned here
 				endian,				// In:  Endian nature of resource file
 				pfnCreate,			// In:  Pointer to "create" function object
 				pfnDestroy,			// In:  Pointer to "destroy" function object
 				pfnLoad);			// In:  Pointer to "load" function object
-		if (sReturn == 0)		
+      if (sResult == SUCCESS)
 			{
 			// Fill in the resource block.
 			(*(p.first)).second.m_vpRes = *hRes;
@@ -294,7 +294,7 @@ int16_t RResMgr::Get(									// Returns 0 on success.
 			}
 		}
 
-	if (sReturn == SUCCESS)
+   if (sResult == SUCCESS)
 		{
 		(*(p.first)).second.m_sRefCount++;
 		(*(p.first)).second.m_sAccessCount++;
@@ -318,7 +318,7 @@ int16_t RResMgr::Get(									// Returns 0 on success.
 	delete pfnDestroy;	// Might be 0 (which is safe for delete)!  See comments above!
 	delete pfnLoad;
 	
-	return sReturn;
+   return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////
@@ -349,7 +349,7 @@ int16_t RResMgr::GetInstance(						// Returns 0 on success.
 	GenericDestroyResFunc* pfnDestroy,			// In:  Pointer to "destroy" function object
 	GenericLoadResFunc* pfnLoad)					// In:  Pointer to "load" function object
 	{
-	int16_t	sReturn	= SUCCESS;	// Assume success for return.
+   int16_t sResult	= SUCCESS;	// Assume success for return.
 	// Assume failure for safety.
 	*hRes	= nullptr;
 	NormalizeResName(&strFilename);
@@ -381,7 +381,7 @@ int16_t RResMgr::GetInstance(						// Returns 0 on success.
 			// Set endian for this file.
 			pfileSrc->SetEndian(endian);
 			// Let resource load itself from the file
-			sReturn	= (*pfnLoad)(pvInstance, pfileSrc);
+         sResult	= (*pfnLoad)(pvInstance, pfileSrc);
 			// Restore endian to SAK file mode (although this may or may not be
 			// the SAK file (it can't hurt (can it?) ) ).
 			pfileSrc->SetEndian(SAK_FILE_ENDIAN);
@@ -392,11 +392,11 @@ int16_t RResMgr::GetInstance(						// Returns 0 on success.
 		else
          {
             TRACE("RResMgr::GetInstance - Could not get RFile* to resource data.\n");
-			sReturn	= FAILURE;
+         sResult	= FAILURE;
 			}
 
 		// If we fail after allocation . . .
-		if (sReturn != SUCCESS)
+      if (sResult != SUCCESS)
 			{
 			// Delete the object.
 			(*pfnDestroy)(pvInstance);
@@ -410,10 +410,10 @@ int16_t RResMgr::GetInstance(						// Returns 0 on success.
 	else
 		{
       TRACE("RResMgr::GetInstance - Error allocating new resource\n");
-		sReturn = FAILURE;
+      sResult = FAILURE;
 		}
 
-	return sReturn;
+   return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////
@@ -569,7 +569,7 @@ int16_t RResMgr::Statistics(RString strStatFile)
     fprintf(stderr, "STUBBED: %s:%d\n", __FILE__, __LINE__);
     return FAILURE;
 #else
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	ofstream txtout;
 	resclassMap::iterator i;
 	
@@ -611,9 +611,9 @@ int16_t RResMgr::Statistics(RString strStatFile)
 		TRACE("RResMgr::Statistics - Break Yo Self! Error - unable to open stat file %s\n",
 		      (char*) strStatFile);
 //		      (char*) strStatFile.c_str());
-		sReturn = FAILURE;
+      sResult = FAILURE;
 	}
-	return sReturn;
+   return sResult;
 #endif
 }
 
@@ -645,7 +645,7 @@ int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
   UNUSED(strScriptFile, strSakFile);
     return FAILURE;
 #else
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	ifstream script;
 	RString line;
 	RString resname;
@@ -698,7 +698,7 @@ int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
 		pair <dupSet::iterator, bool> p(m_duplicateSet.begin(), false);
 		m_duplicateSet.erase(m_duplicateSet.begin(), m_duplicateSet.end());
 
-		for (iFilename = m_LoadList.begin(); iFilename != m_LoadList.end() && sReturn == SUCCESS; iFilename++) //, iType++)
+      for (iFilename = m_LoadList.begin(); iFilename != m_LoadList.end() && sResult == SUCCESS; iFilename++) //, iType++)
 		{
 			// Insert this filename into the set.  If its already in there, p.second
 			// will be false.
@@ -732,7 +732,7 @@ int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
 				else
 				{
 					TRACE("CreateSak(): fileRes.Open() failed.\n");
-					sReturn	= FAILURE;
+               sResult	= FAILURE;
 				}
 			}
 		}
@@ -756,9 +756,9 @@ int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
 		TRACE("RResMgr::CreateSak - Break Yo Self! Error opening script file %s or sak file %s", 
 		      (char*) strScriptFile, (char*) strSakFile);
 //		      (char*) strScriptFile.c_str(), (char*) strSakFile.c_str());
-		sReturn = FAILURE;
+      sResult = FAILURE;
 	}
-	return sReturn;
+   return sResult;
 #endif
 }
 
@@ -786,7 +786,7 @@ int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
 
 int16_t RResMgr::WriteSakHeader(RFile* prf)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	uint32_t ulFileType = SAK_COOKIE;
 	uint32_t ulCurrentVersion = SAK_CURRENT_VERSION;
 	uint16_t usNumPairs = m_DirectoryMap.size();
@@ -810,10 +810,10 @@ int16_t RResMgr::WriteSakHeader(RFile* prf)
 	else
 	{
 		TRACE("RResMgr::WriteSakHeader - Break Yo Self! Error writing to SAK header\n");
-		sReturn = FAILURE;
+      sResult = FAILURE;
 	}
 
-	return sReturn;
+   return sResult;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -838,7 +838,7 @@ int16_t RResMgr::WriteSakHeader(RFile* prf)
 
 int16_t RResMgr::OpenSak(RString strSakFile)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	uint32_t ulFileType;
 	uint32_t ulFileVersion;
 	uint16_t usNumPairs;
@@ -884,23 +884,23 @@ int16_t RResMgr::OpenSak(RString strSakFile)
 			{
 				TRACE("RResMgr::OpenSak - Break Yo Self! This file is version %d and the current SAK version is %d\n", 
 				       ulFileVersion, SAK_CURRENT_VERSION);
-				sReturn = FAILURE;
+            sResult = FAILURE;
 			}		
 		}
 		else
 		{
 			TRACE("RResMgr::OpenSak - Not a valid SAK file, cookie should be 'SAK ' - what's up with dat?\n");
-			sReturn = FAILURE;
+         sResult = FAILURE;
 		}		
 	}
 	else
 	{
 		TRACE("RResMgr::OpenSak - Break Yo Self! Error opening sak file %s\n", 
 		      (char*) strSakFile);
-		sReturn = FAILURE;
+      sResult = FAILURE;
 	}
 
-	return sReturn;
+   return sResult;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -961,7 +961,7 @@ void RResMgr::SetBasePath(RString strBasepath)
 
 int16_t RResMgr::OpenSakAlt(RString strSakFile, RString strScriptFile)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	uint32_t ulFileType;
 	uint32_t ulFileVersion;
 	uint16_t usNumPairs;
@@ -1063,20 +1063,20 @@ int16_t RResMgr::OpenSakAlt(RString strSakFile, RString strScriptFile)
 			{
 				TRACE("RResMgr::OpenSak - Break Yo Self! This file is version %d and the current SAK version is %d\n", 
 				       ulFileVersion, SAK_CURRENT_VERSION);
-				sReturn = FAILURE;
+            sResult = FAILURE;
 			}		
 		}
 		else
 		{
 			TRACE("RResMgr::OpenSak - Not a valid SAK file, cookie should be 'SAK ' - what's up with dat?\n");
-			sReturn = FAILURE;
+         sResult = FAILURE;
 		}		
 	}
 	else
 	{
 		TRACE("RResMgr::OpenSak - Break Yo Self! Error opening sak file %s\n", 
 		      (char*) strSakFile);
-		sReturn = FAILURE;
+      sResult = FAILURE;
 	}
 
 	if(num) 
@@ -1086,7 +1086,7 @@ int16_t RResMgr::OpenSakAlt(RString strSakFile, RString strScriptFile)
 			delete[] altMap[i].names;
 	}
 
-	return sReturn;
+   return sResult;
 }
 
 //////////////////////////////////////////////////////////////////////

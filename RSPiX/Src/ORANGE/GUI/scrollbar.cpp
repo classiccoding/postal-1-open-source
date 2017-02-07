@@ -1064,7 +1064,7 @@ void RScrollBar::DrawDownArrow(	// Returns nothing.
 int16_t RScrollBar::LoadChildren(	// Returns 0 on success.
 	RFile*	pfile)					// File to load from.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	ASSERT(pfile->IsOpen() != FALSE);
 
@@ -1088,19 +1088,19 @@ int16_t RScrollBar::LoadChildren(	// Returns 0 on success.
 			else
 				{
 				TRACE("LoadChildren(): m_btnDown.Load() failed.\n");
-				sResult	= -3;
+				sResult = FAILURE * 3;
 				}
 			}
 		else
 			{
 			TRACE("LoadChildren(): m_btnUp.Load() failed.\n");
-			sResult	= -2;
+			sResult = FAILURE * 2;
 			}
 		}
 	else
 		{
 		TRACE("LoadChildren(): m_btnThumb.Load() failed.\n");
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	// Instantiate rest of children.
@@ -1118,7 +1118,7 @@ int16_t RScrollBar::LoadChildren(	// Returns 0 on success.
 		else
 			{
 			TRACE("LoadChildren(): LoadInstantiate() failed.\n");
-			sResult	= -1;
+			sResult = FAILURE;
 			}
 		}
 
@@ -1135,7 +1135,7 @@ int16_t RScrollBar::LoadChildren(	// Returns 0 on success.
 int16_t RScrollBar::SaveChildren(	// Returns 0 on success.
 	RFile*	pfile)					// File to save to.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	ASSERT(pfile->IsOpen() != FALSE);
 
@@ -1173,19 +1173,19 @@ int16_t RScrollBar::SaveChildren(	// Returns 0 on success.
 			else
 				{
 				TRACE("SaveChildren(): m_btnDown.Save() failed.\n");
-				sResult	= -3;
+				sResult = FAILURE * 3;
 				}
 			}
 		else
 			{
 			TRACE("SaveChildren(): m_btnUp.Save() failed.\n");
-			sResult	= -2;
+			sResult = FAILURE * 2;
 			}
 		}
 	else
 		{
 		TRACE("SaveChildren(): m_btnThumb.Save() failed.\n");
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	// Save children.  Note that we go through the children in reverse
@@ -1221,7 +1221,7 @@ int16_t RScrollBar::ReadMembers(	// Returns 0 on success.
 	RFile*	pfile,					// File to read from.
 	uint32_t		u32Version)				// File format version to use.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// Invoke base class to read base members.
 	sResult	= RGuiItem::ReadMembers(pfile, u32Version);
@@ -1272,7 +1272,7 @@ int16_t RScrollBar::ReadMembers(	// Returns 0 on success.
 				else
 					{
 					TRACE("ReadMembers(): Error reading RScrollBar members.\n");
-					sResult	= -1;
+					sResult = FAILURE;
 					}
 				break;
 			}
@@ -1290,7 +1290,7 @@ int16_t RScrollBar::ReadMembers(	// Returns 0 on success.
 int16_t RScrollBar::WriteMembers(	// Returns 0 on success.
 	RFile*	pfile)					// File to write to.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// Invoke base class to read base members.
 	sResult	= RGuiItem::WriteMembers(pfile);
@@ -1324,7 +1324,7 @@ int16_t RScrollBar::WriteMembers(	// Returns 0 on success.
 		else
 			{
 			TRACE("WriteMembers(): Error writing RScrollBar members.\n");
-			sResult	= -1;
+			sResult = FAILURE;
 			}
 		}
 

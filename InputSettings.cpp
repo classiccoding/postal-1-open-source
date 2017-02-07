@@ -263,7 +263,7 @@ CInputSettings::~CInputSettings()
 int16_t CInputSettings::LoadPrefs(
 	RPrefs* pPrefs)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	pPrefs->GetVal("Input", "WalkTurnRate", m_dMovingSlowDegreesPerSec, &m_dMovingSlowDegreesPerSec);
 	pPrefs->GetVal("Input", "RunTurnRate", m_dMovingFastDegreesPerSec, &m_dMovingFastDegreesPerSec);
@@ -344,7 +344,7 @@ int16_t CInputSettings::LoadPrefs(
 	if (!sResult)
 		{
 		if (pPrefs->IsError())
-			sResult = -1;
+			sResult = FAILURE;
 		}
 
 	return sResult;
