@@ -1263,12 +1263,12 @@ Menu	menuOptions =
             #ifndef MULTIPLAYER_REMOVED
 			{ g_pszOptionsMenu_Multiplayer,	TRUE,			&menuMultiOptions,	nullptr,	},
             #endif
-         { g_pszOptionsMenu_Performance,	TRUE,			&menuFeatures,			nullptr,	},
-         { g_pszOptionsMenu_Difficulty,	TRUE,			&menuPlayOptions,		nullptr,	},
-         { g_pszOptionsMenu_Crosshair,	TRUE,			nullptr,		nullptr,	},
-         { g_pszMultiplayerSetupMenu_Color,			TRUE,			nullptr,				nullptr, },
-         { "",										FALSE,		nullptr,						nullptr,	},
-         nullptr							// Terminates list.
+			{ g_pszOptionsMenu_Performance,	TRUE,			&menuFeatures,			NULL,	},
+			{ g_pszOptionsMenu_Difficulty,	TRUE,			&menuPlayOptions,		NULL,	},
+			{ g_pszOptionsMenu_Crosshair,	TRUE,			NULL,		NULL,	},
+			{ g_pszMultiplayerSetupMenu_Color,			TRUE,			NULL,				NULL, },
+			{ "",										FALSE,		NULL,						NULL,	},
+			NULL							// Terminates list.
 		},
 	};
 
@@ -3148,11 +3148,11 @@ Menu	menuMultiOptions =
 		
 	// Menu items.
 		{	// pszText,				sEnabled,	pmenu,			pgui
-         { g_pszMultiplayerSetupMenu_Name,			TRUE,			nullptr,				nullptr,	},
-         { g_pszMultiplayerSetupMenu_Protocol,		TRUE,			nullptr,				nullptr,	},
-         { g_pszMultiplayerSetupMenu_Connection,	TRUE,			nullptr,				nullptr,	},
-         { "",													FALSE,		nullptr,				nullptr,	},
-         nullptr							// Terminates list.
+			{ g_pszMultiplayerSetupMenu_Name,			TRUE,			NULL,				NULL,	},
+			{ g_pszMultiplayerSetupMenu_Protocol,		TRUE,			NULL,				NULL,	},
+			{ g_pszMultiplayerSetupMenu_Connection,	TRUE,			NULL,				NULL,	},
+			{ "",													FALSE,		NULL,				NULL,	},
+			NULL							// Terminates list.
 		},
 	};
 
@@ -4432,7 +4432,7 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 		else
 			{
 			TRACE("MultiOptionsInit(): rspGetResource() failed.\n");
-         sResult = FAILURE;
+			sRes	= 1;
 			}
 
 		if (rspGetResource(&g_resmgrShell, NET_PROTO_GUI_FILE, &ms_ptxtProto) == 0)
@@ -4442,7 +4442,7 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			ms_ptxtProto->SetText("%s", RSocket::GetProtoName((RSocket::ProtoType)g_GameSettings.m_usProtocol));
 			ms_ptxtProto->Compose();
 
-         pmenuCurrent->ami[1].pgui   = ms_ptxtProto;
+			pmenuCur->ami[1].pgui   = ms_ptxtProto;
 			}
 		else
 			{
@@ -4460,12 +4460,12 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			ms_ptxtBandwidth->SetText("%s", Net::BandwidthText[g_GameSettings.m_sNetBandwidth]);
 			ms_ptxtBandwidth->Compose();
 
-         pmenuCurrent->ami[2].pgui   = ms_ptxtBandwidth;
+			pmenuCur->ami[2].pgui   = ms_ptxtBandwidth;
 			}
 		else
 			{
 			TRACE("MultiOptionsInit(): rspGetResource() failed.\n");
-         sResult = FAILURE * 5;
+			sResult	= 5;
 			}
 		}
 	else
@@ -4479,7 +4479,7 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			rspReleaseResource(&g_resmgrShell, &ms_peditName);
 
 			// Clear menu's pointer.
-         pmenuCurrent->ami[0].pgui	= nullptr;
+			pmenuCur->ami[0].pgui	= NULL;
 			}
 
 		if (ms_ptxtProto)
@@ -4520,7 +4520,7 @@ static bool MultiOptionsChoice(	// Returns true to accept, false to deny choice.
 	switch (sMenuItem)
 		{
 		case 1:
-         if (ms_ptxtProto != nullptr)
+			if (ms_ptxtProto != NULL)
 				{
 				g_GameSettings.m_usProtocol++;
 				if (g_GameSettings.m_usProtocol >= RSocket::NumProtocols)
