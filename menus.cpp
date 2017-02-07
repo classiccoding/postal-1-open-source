@@ -3148,11 +3148,11 @@ Menu	menuMultiOptions =
 		
 	// Menu items.
 		{	// pszText,				sEnabled,	pmenu,			pgui
-			{ g_pszMultiplayerSetupMenu_Name,			TRUE,			nullptr,				nullptr,	},
-			{ g_pszMultiplayerSetupMenu_Protocol,		TRUE,			nullptr,				nullptr,	},
-			{ g_pszMultiplayerSetupMenu_Connection,	TRUE,			nullptr,				nullptr,	},
-			{ "",													FALSE,		nullptr,				nullptr,	},
-			nullptr							// Terminates list.
+			{ g_pszMultiplayerSetupMenu_Name,			TRUE,			NULL,				NULL,	},
+			{ g_pszMultiplayerSetupMenu_Protocol,		TRUE,			NULL,				NULL,	},
+			{ g_pszMultiplayerSetupMenu_Connection,	TRUE,			NULL,				NULL,	},
+			{ "",													FALSE,		NULL,				NULL,	},
+			NULL							// Terminates list.
 		},
 	};
 
