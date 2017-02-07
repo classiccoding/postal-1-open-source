@@ -362,7 +362,7 @@ extern int16_t rspStricmp(	// Returns 0 if equivalent.
 	const char* pszStr1,		// In:  First string to compare.
 	const char* pszStr2)		// In:  Second string to compare.
 	{
-	int16_t	sResult	= 0;	// Assume equivalent.
+	int16_t sResult = SUCCESS;	// Assume equivalent.
 
 	while (*pszStr1 != '\0' && *pszStr2 != '\0' && sResult == SUCCESS)
 		{
@@ -376,12 +376,12 @@ extern int16_t rspStricmp(	// Returns 0 if equivalent.
 		// If first string ended prematurely . . .
 		if (*pszStr1 == '\0' && *pszStr2 != '\0')
 			{
-			sResult	= -1;
+			sResult = FAILURE;
 			}
 		// Else, if second string ended prematurely . . .
 		else if (*pszStr1 != '\0' && *pszStr2 == '\0')
 			{
-			sResult	= 1;
+			sResult = FAILURE;
 			}
 		}
 
@@ -407,7 +407,7 @@ extern int16_t rspStrnicmp(	// Returns 0 if equivalent.
 	size_t count)				// In:  Number of characters to compare.
 	{
 
-	int16_t	sResult	= 0;	// Assume equivalent.
+	int16_t sResult = SUCCESS;	// Assume equivalent.
 
 	while (*pszStr1 != '\0' && *pszStr2 != '\0' && sResult == SUCCESS && count--)
 		{
@@ -421,12 +421,12 @@ extern int16_t rspStrnicmp(	// Returns 0 if equivalent.
 		// If first string ended prematurely . . .
 		if (*pszStr1 == '\0' && *pszStr2 != '\0')
 			{
-			sResult	= -1;
+			sResult = FAILURE;
 			}
 		// Else, if second string ended prematurely . . .
 		else if (*pszStr1 != '\0' && *pszStr2 == '\0')
 			{
-			sResult	= 1;
+			sResult = FAILURE;
 			}
 		}
 

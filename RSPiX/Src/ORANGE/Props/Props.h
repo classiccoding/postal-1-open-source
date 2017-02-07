@@ -137,7 +137,7 @@ class RProps
 			KeyType	key,	// Key to identify item.
 			ItemType	item)	// Item to add.
 			{
-			int16_t	sResult	= 0;	// Assume success.
+			int16_t sResult = SUCCESS;	// Assume success.
 
 			// Verify key does not exist . . .
 			if (Find(&key) == nullptr)
@@ -148,7 +148,7 @@ class RProps
 			else
 				{
 				TRACE("AddProp(): Key already exists.  Not adding prop.\n");
-				sResult	= 1;
+				sResult = FAILURE;
 				}
 
 			return sResult;
@@ -201,7 +201,7 @@ class RProps
 			KeyType		key,		// Key of item to get.
 			ItemType*	pitem)	// Where to put item.
 			{
-			int16_t	sResult	= 0;	// Assume success.
+			int16_t sResult = SUCCESS;	// Assume success.
 
 			// Find node by key . . .
 			Node*	pnode	= Find(&key);
@@ -213,7 +213,7 @@ class RProps
 			else
 				{
 				TRACE("GetProp(): Key does not exist.\n");
-				sResult	= 1;
+				sResult = FAILURE;
 				}
 
 			return sResult;
@@ -246,7 +246,7 @@ class RProps
 			KeyType	key,	// Key to identify item.
 			ItemType	item)	// Item to add.
 			{
-			int16_t	sResult	= 0;	// Assume success.
+			int16_t sResult = SUCCESS;	// Assume success.
 
 			// Allocate node to add . . .
 			Node*	pn	= new Node;
@@ -261,7 +261,7 @@ class RProps
 				else
 					{
 					TRACE("Add(): m_container.AddTail() failed.\n");
-					sResult	= -2;
+					sResult = FAILURE * 2;
 					}
 
 				// If any errors occurred after allocation . . .
@@ -273,7 +273,7 @@ class RProps
 			else
 				{
 				TRACE("Add(): Unable to allocate new Node.\n");
-				sResult	= -1;
+				sResult = FAILURE;
 				}
 
 			return sResult;
@@ -284,7 +284,7 @@ class RProps
 								// Returns -1 if error.
 			KeyType	key)	// Key to identify item to remove.
 			{
-			int16_t	sResult	= 0;	// Assume success.
+			int16_t sResult = SUCCESS;	// Assume success.
 
 			Node*	pn	= Find(&key);
 			if (pn != nullptr)
@@ -298,13 +298,13 @@ class RProps
 				else
 					{
 					TRACE("Remove(): m_container.Remove() failed.\n");
-					sResult	= -1;
+					sResult = FAILURE;
 					}
 				}
 			else
 				{
 				// No such node.
-				sResult	= 1;
+				sResult = FAILURE;
 				}
 			
 			return sResult;

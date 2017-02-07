@@ -231,7 +231,7 @@ int16_t CGrenade::Load(				// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,					// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)				// In:  Version of file format to load.
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	sResult = CWeapon::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 	if (sResult == SUCCESS)
@@ -271,7 +271,7 @@ int16_t CGrenade::Load(				// Returns 0 if successfull, non-zero otherwise
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CGrenade::Load(): Error reading from file!\n");
 			}
 	}
@@ -634,7 +634,7 @@ int16_t CGrenade::Setup(									// Returns 0 if successfull, non-zero otherwise
 	double dHorizVelocity,								// In:  Horiz Vel (has a default)
 	double dVertVelocity*/)								// In:  Vertical velocity (has a default)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -665,7 +665,7 @@ int16_t CGrenade::Setup(									// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CGrenade::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	sResult	= m_anim.Get(ms_apszResNames[m_style], nullptr, nullptr, nullptr, RChannel_LoopAtStart | RChannel_LoopAtEnd);
 	if (sResult == SUCCESS)
@@ -694,7 +694,7 @@ int16_t CGrenade::GetResources(void)						// Returns 0 if successfull, non-zero 
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CGrenade::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Release resources for animation.
 	m_anim.Release();
@@ -711,7 +711,7 @@ int16_t CGrenade::FreeResources(void)						// Returns 0 if successfull, non-zero
 int16_t CGrenade::Preload(
 	CRealm* prealm)				// In:  Calling realm.
 	{
-	int16_t	sResult	= 0;
+	int16_t sResult = SUCCESS;
 
 	CAnim3D anim;
 	RImage* pimage;
@@ -726,7 +726,7 @@ int16_t CGrenade::Preload(
 		else
 			{
 			// Go ahead and overwrite any previous error.
-			sResult	= 1;
+			sResult = FAILURE;
 			}
 		}
 

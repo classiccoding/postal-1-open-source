@@ -108,7 +108,7 @@ int16_t CGoalTimer::Load(							// Returns 0 if successfull, non-zero otherwise
 		}
 		else
 		{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CGoalTimer::Load(): Error reading from file!\n");
 		}
 	}
@@ -156,11 +156,11 @@ int16_t CGoalTimer::Save(										// Returns 0 if successfull, non-zero otherwi
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CGoalTimer::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sReturn = 0;
+   int16_t sResult = SUCCESS;
 	// At this point we can assume the CHood was loaded, so we init our height
 	m_dY = m_pRealm->GetHeight((int16_t) m_dX, (int16_t) m_dZ);
 
-	return sReturn;
+   return sResult;
 }
 
 
@@ -219,7 +219,7 @@ int16_t CGoalTimer::EditNew(									// Returns 0 if successfull, non-zero other
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -295,7 +295,7 @@ int16_t IsMultiBtnChecked(	// Returns multibtn's state.
 	RGuiItem*	pguiRoot,	// In:  Root GUI.
 	int32_t			lId)			// In:  ID of GUI to set text.
 	{
-	int16_t	sResult	= 0;	// Assume nothing;
+   int16_t sResult = SUCCESS;	// Assume nothing;
 
 	RMultiBtn*	pmb	= (RMultiBtn*)pguiRoot->GetItemFromId(lId);
 	if (pmb != nullptr)
@@ -315,7 +315,7 @@ int16_t IsMultiBtnChecked(	// Returns multibtn's state.
 
 int16_t CGoalTimer::EditModify(void)
 {
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 	RGuiItem* pgui = RGuiItem::LoadInstantiate(FullPathVD("res/editor/clock.gui"));
 	if (pgui)
 	{
@@ -438,7 +438,7 @@ void CGoalTimer::EditHotSpot(	// Returns nothiing.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CGoalTimer::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
    if (m_pImage == nullptr)
 	{
@@ -449,7 +449,7 @@ int16_t CGoalTimer::GetResources(void)						// Returns 0 if successfull, non-zer
 			// okay if EVERYONE wants it to be an FSPR8.
 			if (m_pImage->Convert(RImage::FSPR8) != RImage::FSPR8)
 			{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("CGoalTimer::GetResource(): Couldn't convert to FSPR8!\n");
 			}
 		}
@@ -464,7 +464,7 @@ int16_t CGoalTimer::GetResources(void)						// Returns 0 if successfull, non-zer
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CGoalTimer::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	if (m_pImage != 0)
 	{

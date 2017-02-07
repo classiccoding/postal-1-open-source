@@ -119,7 +119,7 @@ template <class T, class K> class RSList
 		// Returns 0 on success.
 		int16_t Reposition(LISTDATA ld)
 			{
-			int16_t	sResult	= 0;	// Assume success.
+			int16_t sResult = SUCCESS;	// Assume success.
 
 			// Find node.
 			PNODE pn = Find(ld);
@@ -145,7 +145,7 @@ template <class T, class K> class RSList
 			else
 				{
 				TRACE("Reposition(): Node not found.\n");
-				sResult = -1;
+				sResult = FAILURE;
 				}
 
 			return sResult;
@@ -155,7 +155,7 @@ template <class T, class K> class RSList
 		// Returns 0 on success.
 		int16_t Insert(LISTDATA ldNew, PSORTKEY psk	= nullptr)
 			{
-			int16_t sResult = 0; // Assume success.
+			int16_t sResult = SUCCESS; // Assume success.
 			// Allocate new node.
 			PNODE pnNew = new NODE;
 			// If successful . . .
@@ -170,7 +170,7 @@ template <class T, class K> class RSList
 				}
 			else
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("RSList::Insert():  Unable to allocate new node.\n");
 				}
 
@@ -180,7 +180,7 @@ template <class T, class K> class RSList
 		// Remove a node from the list.  If no node specified, remove current
 		int16_t Remove(LISTDATA ldRem = nullptr)
 			{
-			int16_t sResult = 0; // Assume success.
+			int16_t sResult = SUCCESS; // Assume success.
 			// Make sure the list is not empty
 			if (IsEmpty() == FALSE)
 				{
@@ -233,13 +233,13 @@ template <class T, class K> class RSList
 					}
 				else
 					{
-					sResult = -2;
+					sResult = FAILURE * 2;
 					TRACE("RSList::Remove():  Unable to find supplied node or no current node.\n");
 					}
 				}
 			else
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("RSList::Remove():  The list is empty.\n");
 				}
 

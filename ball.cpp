@@ -141,7 +141,7 @@ int16_t CBall::Load(										// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,										// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)									// In:  Version of file format to load.
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// In most cases, the base class Load() should be called.
 	sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
@@ -183,7 +183,7 @@ int16_t CBall::Load(										// Returns 0 if successfull, non-zero otherwise
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CBall::Load(): Error reading from file!\n");
 			}
 		}
@@ -203,7 +203,7 @@ int16_t CBall::Save(										// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// In most cases, the base class Save() should be called.
 	sResult	= CThing::Save(pFile, sFileCount);
@@ -242,7 +242,7 @@ int16_t CBall::Save(										// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBall::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// At this point we can assume the CHood was loaded, so we init our height
 	m_sPrevHeight = m_pRealm->GetHeight(m_dX, m_dZ);
@@ -262,7 +262,7 @@ int16_t CBall::Startup(void)								// Returns 0 if successfull, non-zero otherw
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBall::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t	sResult	= 0;
+	int16_t sResult = SUCCESS;
 
 	m_trans.Make1();
 	
@@ -407,7 +407,7 @@ int16_t CBall::EditNew(									// Returns 0 if successfull, non-zero otherwise
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = sX;
@@ -435,7 +435,7 @@ int16_t CBall::EditNew(									// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBall::EditModify(void)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Load GUI . . .
 	RGuiItem*	pguiRoot	= RGuiItem::LoadInstantiate(FullPath(GAME_PATH_VD, BALL_GUI_FILE) );
@@ -530,7 +530,7 @@ int16_t CBall::EditModify(void)
 	else
 		{
 		TRACE("EditNew(): Failed to load GUI file \"%s\".\n", BALL_GUI_FILE);
-		sResult	= 1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -612,7 +612,7 @@ void CBall::EditHotSpot(			// Returns nothiing.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBall::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	sResult	= m_anim.Get(
 		ms_apszAnimNames, 
@@ -627,7 +627,7 @@ int16_t CBall::GetResources(void)						// Returns 0 if successfull, non-zero oth
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBall::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	m_anim.Release();
 

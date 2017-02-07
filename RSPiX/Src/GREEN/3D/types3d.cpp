@@ -106,7 +106,7 @@ int16_t RTexture::Load(RFile* fp)
 	{
 	Free();
 
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	if (fp->Read(&m_sNum) == 1)
 		{
 		int16_t sFlags;
@@ -127,7 +127,7 @@ int16_t RTexture::Load(RFile* fp)
 
 	if (fp->Error())
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("RTexture::Load(): Error reading from file!\n");
 		}
 	return sResult;
@@ -136,7 +136,7 @@ int16_t RTexture::Load(RFile* fp)
 
 int16_t RTexture::Save(RFile* fp)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	fp->Write(&m_sNum);
 
@@ -154,7 +154,7 @@ int16_t RTexture::Save(RFile* fp)
 
 	if (fp->Error())
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("RTexture::Save(): Error writing to file!\n");
 		}
 	return sResult;
@@ -277,7 +277,7 @@ int16_t RMesh::Load(RFile* fp)
 	{
 	Free();
 
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	if (fp->Read(&m_sNum) == 1)
 		{
 		Alloc(m_sNum);
@@ -285,7 +285,7 @@ int16_t RMesh::Load(RFile* fp)
 		}
 	if (fp->Error())
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("RMesh::Load(): Error reading from file!\n");
 		}
 	return sResult;
@@ -294,12 +294,12 @@ int16_t RMesh::Load(RFile* fp)
 
 int16_t RMesh::Save(RFile* fp)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	fp->Write(&m_sNum);
 	fp->Write(m_pArray, (int32_t)m_sNum * 3);
 	if (fp->Error())
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("RMesh::Save(): Error writing to file!\n");
 		}
 	return sResult;
@@ -330,7 +330,7 @@ int16_t RSop::Load(RFile* fp)
 	{
 	Free();
 
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	if (fp->Read(&m_lNum) == 1)
 		{
 		Alloc(m_lNum);
@@ -339,7 +339,7 @@ int16_t RSop::Load(RFile* fp)
 		}
 	if (fp->Error())
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("RSop::Load(): Error reading from file!\n");
 		}
 	return sResult;
@@ -348,13 +348,13 @@ int16_t RSop::Load(RFile* fp)
 
 int16_t RSop::Save(RFile* fp)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	fp->Write(&m_lNum);
 	ASSERT(sizeof(RP3d) == (sizeof(REAL) * 4));
 	fp->Write((REAL*)m_pArray, m_lNum * 4);
 	if (fp->Error())
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("RSop::Save(): Error writing to file!\n");
 		}
 	return sResult;

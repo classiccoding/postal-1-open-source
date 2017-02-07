@@ -134,7 +134,7 @@ CMenuSettings::~CMenuSettings()
 int16_t CMenuSettings::LoadPrefs(
 	RPrefs* pPrefs)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
    // Check for entries for all our menus.
 	char	szSection[256];
@@ -157,7 +157,7 @@ int16_t CMenuSettings::LoadPrefs(
 	if (!sResult)
 		{
 		if (pPrefs->IsError())
-			sResult = -1;
+			sResult = FAILURE;
 		}
 
 	return sResult;

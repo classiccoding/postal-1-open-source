@@ -128,7 +128,7 @@ struct TriggerRgn
 		int16_t	sWidth,	// In:  Max width of region (width of image).
 		int16_t	sHeight)	// In:  Max height of region (height of image).
 		{
-		int16_t	sResult	= 0;	// Assume success.
+		int16_t sResult = SUCCESS;	// Assume success.
 
 		Destroy();
 
@@ -149,7 +149,7 @@ struct TriggerRgn
 		else
 			{
 			TRACE("Create(): Failed to allocate new RImage.\n");
-			sResult	= -1;
+			sResult = FAILURE;
 			}
 
 		return sResult;
@@ -163,7 +163,7 @@ struct TriggerRgn
 	int16_t SetMode(
 		Mode mode)	// In:  New mode { Edit, Storage }.
 		{
-		int16_t	sResult	= 0;	// Assume success.
+		int16_t sResult = SUCCESS;	// Assume success.
 
 		// If we have no image . . .
 		if (pimRgn == nullptr)
@@ -188,13 +188,13 @@ struct TriggerRgn
 
 					if (pimRgn->Convert(RImage::BMP8) != RImage::BMP8)
 						{
-						sResult	= -1;
+						sResult = FAILURE;
 						}
 					break;
 				case Storage:
 					if (pimRgn->Convert(RImage::FSPR1) != RImage::FSPR1)
 						{
-						sResult	= -1;
+						sResult = FAILURE;
 						}
 					break;
 				}
@@ -209,7 +209,7 @@ struct TriggerRgn
 	int16_t Load(			// Returns 0 on success.
 		RFile* pfile)	// In:  File to load from.
 		{
-		int16_t	sResult	= 0;	// Assume success.
+		int16_t sResult = SUCCESS;	// Assume success.
 
 		Destroy();
 
@@ -243,14 +243,14 @@ struct TriggerRgn
 				else
 					{
 					TRACE("Load(): Failed to allocate new RImage.\n");
-					sResult	= -2;
+					sResult = FAILURE * 2;
 					}
 				}
 			}
 		else
 			{
 			TRACE("Load(): Failed to read existence flag.\n");
-			sResult	= -1;
+			sResult = FAILURE;
 			}
 
 		return sResult;
@@ -262,7 +262,7 @@ struct TriggerRgn
 	int16_t Save(			// Returns 0 on success.
 		RFile* pfile)	// In:  File to save to.
 		{
-		int16_t	sResult	= 0;	// Assume success.
+		int16_t sResult = SUCCESS;	// Assume success.
 
 		// Always a boolean indicating whether we exist . . .
 		int16_t	sExist	= (pimRgn != nullptr) ? TRUE : FALSE;
@@ -290,7 +290,7 @@ struct TriggerRgn
 		else
 			{
 			TRACE("Save(): Failed to write existence flag.\n");
-			sResult	= -1;
+			sResult = FAILURE;
 			}
 
 		return sResult;

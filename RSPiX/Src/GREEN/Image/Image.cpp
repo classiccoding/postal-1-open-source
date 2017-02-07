@@ -815,7 +815,7 @@ int16_t RImage::CreateImage(		// Returns 0 if successful.
 	int32_t	lPitch	/*= 0L*/,	// Pitch of new buffer or -1 to calculate.
 	int16_t	sDepth	/*= 8*/)		// Color depth of new buffer.
 	{
-	int16_t	sResult	= SUCCESS;	// Assume success.
+   int16_t sResult	= SUCCESS;	// Assume success.
 
 	// Fill in fields.
 	m_sWidth = m_sWinWidth	 = sWidth;
@@ -947,7 +947,7 @@ int16_t RImage::DetachData(void** hMem, void** hData)
 
 int16_t	RImage::DestroyData()
 	{   
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 	
 	// Only if the data was not supplied by the user.
 	if (m_pMem)
@@ -1336,25 +1336,25 @@ RImage::Type RImage::Convert(Type type)
 int16_t RImage::LoadDib(char* pszFilename)
 {
 	RFile cf;
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	if (cf.Open(pszFilename, "rb", RFile::LittleEndian) == SUCCESS)
 	{
-		sReturn = LoadDib(&cf);
+      sResult = LoadDib(&cf);
 		cf.Close();
 	}
 	else
 	{
 		TRACE("RImage::LoadDib - could not open Dib file %s - well shucks!\n", pszFilename);
-	 	sReturn = FAILURE;
+      sResult = FAILURE;
 	}
 
-	return sReturn;
+   return sResult;
 }
 
 int16_t RImage::LoadDib(RFile* pcf)
 {
-	int16_t sResult = 0; // Assume success.
+   int16_t sResult = SUCCESS; // Assume success.
 	DIBHEADER		dh;
 	DIBFILEHEADER	dfh;
 	int32_t 				lDibPitch;
@@ -1440,7 +1440,7 @@ int16_t RImage::LoadDib(RFile* pcf)
 																					else
 																					{
 																						TRACE("RImage::LoadDib(): Unable to read palette.\n");
-																						sResult = -20;
+                                                                  sResult = FAILURE * 20;
 																					}
 																				}
 						
@@ -1460,7 +1460,7 @@ int16_t RImage::LoadDib(RFile* pcf)
 																							if (pcf->Read(m_pData + (l * m_lPitch), lDibPitch) != lDibPitch)
 																							{
 																								TRACE("RImage::LoadDib(): Unable to read all the bits.\n");
-																								sResult = -19;
+                                                                        sResult = FAILURE * 19;
 																								break;
 																							}
 																						}
@@ -1471,14 +1471,14 @@ int16_t RImage::LoadDib(RFile* pcf)
 																						if (pcf->Read(m_pData, m_ulSize) != (int32_t)m_ulSize)
 																							{
 																							TRACE("RImage::LoadDib(): Unable to read all the compressed bits.\n");
-																							sResult = -19;
+                                                                     sResult = FAILURE * 19;
 																							}
 																						}
 																					}
 																					else
 																					{
 																						TRACE("RImage::LoadDib(): Unable to seek to bits.\n");
-																						sResult = -20;
+                                                                  sResult = FAILURE * 20;
 																					}
 																				}
 
@@ -1493,115 +1493,115 @@ int16_t RImage::LoadDib(RFile* pcf)
 																			else
 																			{
 																				TRACE("RImage::LoadDib(): Unable to allocate DIB.\n");
-																				sResult = -18;
+                                                            sResult = FAILURE * 18;
 																			}
 																		}
 																		else
 																		{
 																			TRACE("RImage::LoadDib(): Unable to read colors important field of bitmap info header.\n");
-																			sResult = -17;
+                                                         sResult = FAILURE * 17;
 																		}
 																	}
 																	else
 																	{
 																		TRACE("RImage::LoadDib(): Unable to read colors used field of bitmap info header.\n");
-																		sResult = -16;
+                                                      sResult = FAILURE * 16;
 																	}
 																}
 																else
 																{
 																	TRACE("RImage::LoadDib(): Unable to read vert pixels per meter field of bitmap info header.\n");
-																	sResult = -15;
+                                                   sResult = FAILURE * 15;
 																}
 															}
 															else
 															{
 																TRACE("RImage::LoadDib(): Unable to read horz pixels per meter field of bitmap info header.\n");
-																sResult = -14;
+                                                sResult = FAILURE * 14;
 															}
 														}
 														else
 														{
 															TRACE("RImage::LoadDib(): Unable to read size of image field of bitmap info header.\n");
-															sResult = -13;
+                                             sResult = FAILURE * 13;
 														}
 													}
 													else
 													{
 														TRACE("RImage::LoadDib(): Unable to read compression field of bitmap info header.\n");
-														sResult = -12;
+                                          sResult = FAILURE * 12;
 													}
 												}
 												else
 												{
 													TRACE("RImage::LoadDib(): Unable to read bit count field of bitmap info header.\n");
-													sResult = -11;
+                                       sResult = FAILURE * 11;
 												}
 											}
 											else
 											{
 												TRACE("RImage::LoadDib(): Unable to read planes field of bitmap info header.\n");
-												sResult = -10;
+                                    sResult = FAILURE * 10;
 											}
 										}
 										else
 										{
 											TRACE("RImage::LoadDib(): Unable to read height field of bitmap info header.\n");
-											sResult = -9;
+                                 sResult = FAILURE * 9;
 										}
 									}
 									else
 									{
 										TRACE("RImage::LoadDib(): Unable to read width field of bitmap info header.\n");
-										sResult = -8;
+                              sResult = FAILURE * 8;
 									}
 								}
 								else
 								{
 									TRACE("RImage::LoadDib(): Unable to read size field of bitmap info header.\n");
-									sResult = -7;
+                           sResult = FAILURE * 7;
 								}
 							}
 							else
 							{
 								TRACE("RImage::LoadDib(): Unable to read offset to bits field of bitmap file header.\n");
-								sResult = -6;
+                        sResult = FAILURE * 6;
 							}
 						}
 						else
 						{
 							TRACE("RImage::LoadDib(): Unable to read reserved2 field of bitmap file header.\n");
-							sResult = -5;
+                     sResult = FAILURE * 5;
 						}
 					}
 					else
 					{
 						TRACE("RImage::LoadDib(): Unable to read reserved1 field of bitmap file header.\n");
-						sResult = -4;
+                  sResult = FAILURE * 4;
 					}
 				}
 				else
 				{
 					TRACE("RImage::LoadDib(): Unable to read size field of bitmap file header.\n");
-					sResult = -3;
+               sResult = FAILURE * 3;
 				}
 			}
 			else
 			{
 				TRACE("RImage::LoadDib(): NOT a BITMAP file.\n");
-				sResult = -3;
+            sResult = FAILURE * 3;
 			}
 		}
 		else
 		{
 			TRACE("RImage::LoadDib(): Unable to read type field of bitmap file header.\n");
-			sResult = -2;
+         sResult = FAILURE * 2;
 		}
 	}
 	else
 	{
 		TRACE("RImage::LoadDib - RFile* does not refer to an open file\n");
-		sResult = -1;
+		sResult = FAILURE;
 	}
 
 	// If the dib load was successful.
@@ -1637,7 +1637,7 @@ int16_t RImage::LoadDib(RFile* pcf)
 					// This color depth is really not supported by RImage!
 					m_type = NOT_SUPPORTED;
 					TRACE("RImage:LoadDib() encountered a dib of colordepth 16, not supported!\n");
-					sResult	= 1;
+               sResult = FAILURE;
 					break;
 
 				case 24:
@@ -1720,25 +1720,25 @@ int16_t RImage::LoadDib(RFile* pcf)
 int16_t RImage::SaveDib(char* pszFilename)
 {
 	RFile cf;
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	if (cf.Open(pszFilename, "wb", RFile::LittleEndian) == SUCCESS)
 	{
-		sReturn = SaveDib(&cf);		
+      sResult = SaveDib(&cf);
 		cf.Close();
 	}
 	else
 	{
 		TRACE("RImage::SaveDib - Could not open file %s for saving - huh, ain't that somthing\n", pszFilename);
-	 	sReturn = FAILURE;
+      sResult = FAILURE;
 	}
 
-	return sReturn;
+   return sResult;
 }
 
 int16_t RImage::SaveDib(RFile* pcf)
 {
-	int16_t sResult = 0; // Assume success.
+   int16_t sResult = SUCCESS; // Assume success.
 
 	if (pcf && pcf->IsOpen())
 	{
@@ -1824,7 +1824,7 @@ int16_t RImage::SaveDib(RFile* pcf)
 																			else
 																			{
 																				TRACE("RImage::SaveDib: Unable to write palette.\n");
-																				sResult = -20;
+                                                            sResult = FAILURE * 20;
 																			}
 																		}
 					
@@ -1842,7 +1842,7 @@ int16_t RImage::SaveDib(RFile* pcf)
 																					if (pcf->Write(m_pData + (l * m_lPitch), lDibPitch) != lDibPitch)
 																					{
 																						TRACE("RImage::SaveDib: Unable to write all the bits.\n");
-																						sResult = -19;
+                                                                  sResult = FAILURE * 19;
 																						break;
 																					}
 																				}
@@ -1856,7 +1856,7 @@ int16_t RImage::SaveDib(RFile* pcf)
 																				else
 																				{
 																				TRACE("RImage::SaveDib: Unable to write all the compressed bits.\n");
-																				sResult	= -19;
+                                                            sResult = FAILURE * 19;
 																				}
 																			}
 																		}
@@ -1864,103 +1864,103 @@ int16_t RImage::SaveDib(RFile* pcf)
 																	else
 																	{
 																		TRACE("RImage::SaveDib: Unable to write colors important field of bitmap info header.\n");
-																		sResult = -17;
+                                                      sResult = FAILURE * 17;
 																	}
 																}
 																else
 																{
 																	TRACE("RImage::SaveDib: Unable to write colors used field of bitmap info header.\n");
-																	sResult = -16;
+                                                   sResult = FAILURE * 16;
 																}
 															}
 															else
 															{
 																TRACE("RImage::SaveDib: Unable to write vert pixels per meter field of bitmap info header.\n");
-																sResult = -15;
+                                                sResult = FAILURE * 15;
 															}
 														}
 														else
 														{
 															TRACE("RImage::SaveDib: Unable to write horz pixels per meter field of bitmap info header.\n");
-															sResult = -14;
+                                             sResult = FAILURE * 14;
 														}
 													}
 													else
 													{
 														TRACE("RImage::SaveDib: Unable to write size of image field of bitmap info header.\n");
-														sResult = -13;
+                                          sResult = FAILURE * 13;
 													}
 												}
 												else
 												{
 													TRACE("RImage::SaveDib: Unable to write compression field of bitmap info header.\n");
-													sResult = -12;
+                                       sResult = FAILURE * 12;
 												}
 											}
 											else
 											{
 												TRACE("RImage::SaveDib: Unable to write bit count field of bitmap info header.\n");
-												sResult = -11;
+                                    sResult = FAILURE * 11;
 											}
 										}
 										else
 										{
 											TRACE("RImage::SaveDib: Unable to write planes field of bitmap info header.\n");
-											sResult = -10;
+                                 sResult = FAILURE * 10;
 										}
 									}
 									else
 									{
 										TRACE("RImage::SaveDib: Unable to write height field of bitmap info header.\n");
-										sResult = -9;
+                              sResult = FAILURE * 9;
 									}
 								}
 								else
 								{
 									TRACE("RImage::SaveDib: Unable to write width field of bitmap info header.\n");
-									sResult = -8;
+                           sResult = FAILURE * 8;
 								}
 							}
 							else
 							{
 								TRACE("RImage::SaveDib: Unable to write size field of bitmap info header.\n");
-								sResult = -7;
+                        sResult = FAILURE * 7;
 							}
 						}
 						else
 						{
 							TRACE("RImage::SaveDib: Unable to write offset to bits field of bitmap file header.\n");
-							sResult = -6;
+                     sResult = FAILURE * 6;
 						}
 					}
 					else
 					{
 						TRACE("RImage::SaveDib: Unable to write reserved2 field of bitmap file header.\n");
-						sResult = -5;
+                  sResult = FAILURE * 5;
 					}
 				}
 				else
 				{
 					TRACE("RImage::SaveDib: Unable to write reserved1 field of bitmap file header.\n");
-					sResult = -4;
+               sResult = FAILURE * 4;
 				}
 			}
 			else
 			{
 				TRACE("RImage::SaveDib: Unable to write size field of bitmap file header.\n");
-				sResult = -3;
+            sResult = FAILURE * 3;
 			}
 		}
 		else
 		{
 			TRACE("RImage::SaveDib: Unable to write type field of bitmap file header.\n");
-			sResult = -2;
+         sResult = FAILURE * 2;
 		}
 	}
 	else
 	{
 		TRACE("RImage::SaveDib - pcf does not refer to an open RFile\n");
-		sResult = -1;
+		sResult = FAILURE;
 	}
 
 	return sResult;
@@ -2001,7 +2001,7 @@ int16_t RImage::SaveDib(RFile* pcf)
 int16_t RImage::Save(const char* pszFilename) const
 {
 	RFile cf;
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	if (cf.Open(pszFilename, "wb", RFile::LittleEndian) != SUCCESS)
 	{
@@ -2009,11 +2009,11 @@ int16_t RImage::Save(const char* pszFilename) const
 	 	return FAILURE;
 	}
 
-	sReturn = Save(&cf);
+   sResult = Save(&cf);
 
 	cf.Close();
 
-	return sReturn;
+   return sResult;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -2053,7 +2053,7 @@ int16_t RImage::Save(const char* pszFilename) const
 
 int16_t RImage::Save(RFile* pcf) const
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	uint32_t ulFileType = IMAGE_COOKIE;
 	uint32_t	ulCurrentVersion = IMAGE_CURRENT_VERSION;
 
@@ -2109,15 +2109,15 @@ int16_t RImage::Save(RFile* pcf) const
 #ifdef _MSC_VER
 	//#pragma message( __FILE__ "(2022) : Calls to SAVEFUNC must be changed to take a version!")
 #endif
-			sReturn = (*csf)(const_cast<RImage*>(this), pcf/*, ulCurrentVersion*/);
+         sResult = (*csf)(const_cast<RImage*>(this), pcf/*, ulCurrentVersion*/);
 	}
 	else
 	{
 	 	TRACE("RImage::Save - RFile pointer does not refer to an open file\n");
-		sReturn = FAILURE;
+      sResult = FAILURE;
 	}
 		
-	return sReturn;
+   return sResult;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -2142,7 +2142,7 @@ int16_t RImage::Save(RFile* pcf) const
 
 int16_t RImage::WritePixelData(RFile* pcf) const
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
    uint8_t* pLineData = nullptr;
 
 	if (m_sWidth <= m_sWinWidth && m_sHeight <= m_sWinHeight)
@@ -2160,7 +2160,7 @@ int16_t RImage::WritePixelData(RFile* pcf) const
 				if (pcf->Write(m_pData, m_ulSize) != (int32_t) m_ulSize)
 				{
 					TRACE("RImage::WritePixelData - Error writing 8-bit or less pixel data\n");
-					sReturn = FAILURE;
+               sResult = FAILURE;
 				}
 				break;
 
@@ -2168,7 +2168,7 @@ int16_t RImage::WritePixelData(RFile* pcf) const
 				if (pcf->Write((uint16_t*) m_pData, m_ulSize/2) != (int32_t) m_ulSize/2)
 				{
 					TRACE("RImage::WritePixelData - Error writing 16-bit pixel data\n");
-					sReturn = FAILURE;
+               sResult = FAILURE;
 				}
 				break;
 
@@ -2176,7 +2176,7 @@ int16_t RImage::WritePixelData(RFile* pcf) const
 				if (pcf->Write((RPixel24*) m_pData, m_ulSize/3) != (int32_t) m_ulSize/3)
 				{
 					TRACE("RImage::WritePixelData - Error writing 24-bit pixel data\n");
-					sReturn = FAILURE;
+               sResult = FAILURE;
 				}
 				break;
 
@@ -2184,7 +2184,7 @@ int16_t RImage::WritePixelData(RFile* pcf) const
 				if (pcf->Write((uint32_t*) m_pData, m_ulSize/4) != (int32_t) m_ulSize/4)
 				{
 					TRACE("RImage::WritePixelData - Error writing 32-bit pixel data\n");
-					sReturn = FAILURE;
+               sResult = FAILURE;
 				}
 				break;
 			}
@@ -2225,7 +2225,7 @@ int16_t RImage::WritePixelData(RFile* pcf) const
 					if (pcf->Write(pLineData, lBytesPerLine) != lBytesPerLine)
 					{
 						TRACE("RImage::WritePixelData - Error writing 8-bit or less line %d of image\n", l-lYPos);
-						sReturn = FAILURE;
+                  sResult = FAILURE;
 					}
 				} 	
 				break;
@@ -2237,7 +2237,7 @@ int16_t RImage::WritePixelData(RFile* pcf) const
 					if (pcf->Write((uint16_t*) pLineData, lBytesPerLine/2) != lBytesPerLine/2)
 					{
 						TRACE("RImage::WritePixelData - Error writing 16-bit line %d of image\n", l-lYPos);
-						sReturn = FAILURE;
+                  sResult = FAILURE;
 					}
 				} 	
 				break;
@@ -2249,7 +2249,7 @@ int16_t RImage::WritePixelData(RFile* pcf) const
 					if (pcf->Write((RPixel24*) pLineData, lBytesPerLine/3) != lBytesPerLine/3)
 					{
 						TRACE("RImage::WritePixelData - Error writing 24-bit line %d of image\n", l-lYPos);
-						sReturn = FAILURE;
+                  sResult = FAILURE;
 					}
 				} 	
 				break;
@@ -2261,14 +2261,14 @@ int16_t RImage::WritePixelData(RFile* pcf) const
 					if (pcf->Write(pLineData, lBytesPerLine/4) != lBytesPerLine/4)
 					{
 						TRACE("RImage::WritePixelData - Error writing 32-bit line %d of image\n", l-lYPos);
-						sReturn = FAILURE;
+                  sResult = FAILURE;
 					}
 				} 	
 				break;
 		}
 
 	}
-	return sReturn;
+   return sResult;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -2295,7 +2295,7 @@ int16_t RImage::WritePixelData(RFile* pcf) const
 int16_t RImage::Load(const char* pszFilename)
 {
 	RFile cf;
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	if (cf.Open(pszFilename, "rb", RFile::LittleEndian) != SUCCESS)
 	{
@@ -2303,26 +2303,26 @@ int16_t RImage::Load(const char* pszFilename)
 	 	return FAILURE;
 	}
 
-	sReturn = Load(&cf);
+   sResult = Load(&cf);
 
 	cf.Close();
 
-	return sReturn;
+   return sResult;
 }
 
 int16_t RImage::Load(RFile* pcf)
 {	
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	if (pcf && pcf->IsOpen())
 	{
 		// Load image dependent on version.
-		sReturn	= RImageFile::Load(this, pcf);
+      sResult	= RImageFile::Load(this, pcf);
 	}
 	else
 	{
 	 	TRACE("RImage::Load - RFile pointer does not refer to an open file\n");
-		sReturn = FAILURE;
+      sResult = FAILURE;
 	}
 
 	// If the file was loaded in as a different type than the
@@ -2331,7 +2331,7 @@ int16_t RImage::Load(RFile* pcf)
 		if (Convert(m_typeDestination) != m_typeDestination)
 			TRACE("RImage::Load - Convert to Destination type %d failed\n", m_typeDestination);
 
-	return sReturn;
+   return sResult;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -2356,7 +2356,7 @@ int16_t RImage::Load(RFile* pcf)
 
 int16_t RImage::ReadPixelData(RFile* pcf)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
    uint8_t* pLineData = nullptr;
 
 	if (m_sWidth <= m_sWinWidth && m_sHeight <= m_sWinHeight)
@@ -2374,7 +2374,7 @@ int16_t RImage::ReadPixelData(RFile* pcf)
 				if (pcf->Read(m_pData, m_ulSize) != (int32_t) m_ulSize)
 				{
 					TRACE("RImage::ReadPixelData - Error reading 8-bit or less pixel data\n");
-					sReturn = FAILURE;
+               sResult = FAILURE;
 				}
 				break;
 
@@ -2382,7 +2382,7 @@ int16_t RImage::ReadPixelData(RFile* pcf)
 				if (pcf->Read((uint16_t*) m_pData, m_ulSize/2) != (int32_t) m_ulSize/2)
 				{
 					TRACE("RImage::ReadPixelData - Error reading 16-bit pixel data\n");
-					sReturn = FAILURE;
+               sResult = FAILURE;
 				}
 				break;
 
@@ -2390,7 +2390,7 @@ int16_t RImage::ReadPixelData(RFile* pcf)
 				if (pcf->Read((RPixel24*) m_pData, m_ulSize/3) != (int32_t) m_ulSize/3)
 				{
 					TRACE("RImage::ReadPixelData - Error reading 24-bit pixel data\n");
-					sReturn = FAILURE;
+               sResult = FAILURE;
 				}
 				break;
 
@@ -2398,7 +2398,7 @@ int16_t RImage::ReadPixelData(RFile* pcf)
 				if (pcf->Read((uint32_t*) m_pData, m_ulSize/4) != (int32_t) m_ulSize/4)
 				{
 					TRACE("RImage::ReadPixelData - Error reading 32-bit pixel data\n");
-					sReturn = FAILURE;
+               sResult = FAILURE;
 				}
 				break;
 			}
@@ -2439,7 +2439,7 @@ int16_t RImage::ReadPixelData(RFile* pcf)
 					if (pcf->Read(pLineData, lBytesPerLine) != lBytesPerLine)
 					{
 						TRACE("RImage::ReadPixelData - Error reading 8-bit or less line %d of image\n", l-lYPos);
-						sReturn = FAILURE;
+                  sResult = FAILURE;
 					}
 				} 	
 				break;
@@ -2451,7 +2451,7 @@ int16_t RImage::ReadPixelData(RFile* pcf)
 					if (pcf->Read((uint16_t*) pLineData, lBytesPerLine/2) != lBytesPerLine/2)
 					{
 						TRACE("RImage::ReadPixelData - Error reading 16-bit line %d of image\n", l-lYPos);
-						sReturn = FAILURE;
+                  sResult = FAILURE;
 					}
 				} 	
 				break;
@@ -2463,7 +2463,7 @@ int16_t RImage::ReadPixelData(RFile* pcf)
 					if (pcf->Read((RPixel24*) pLineData, lBytesPerLine/3) != lBytesPerLine/3)
 					{
 						TRACE("RImage::ReadPixelData - Error reading 24-bit line %d of image\n", l-lYPos);
-						sReturn = FAILURE;
+                  sResult = FAILURE;
 					}
 				} 	
 				break;
@@ -2475,13 +2475,13 @@ int16_t RImage::ReadPixelData(RFile* pcf)
 					if (pcf->Read(pLineData, lBytesPerLine/4) != lBytesPerLine/4)
 					{
 						TRACE("RImage::ReadPixelData - Error reading 32-bit line %d of image\n", l-lYPos);
-						sReturn = FAILURE;
+                  sResult = FAILURE;
 					}
 				} 	
 				break;
 		}
 	}
-	return sReturn;
+   return sResult;
 }
 
 

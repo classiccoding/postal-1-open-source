@@ -882,7 +882,7 @@ static void EnumExistingSaveGames(Menu *menu)
 
     const char *str = "unused";
     char timebuf[32];
-    menu->ami[0].sEnabled = (stat(fname, &statbuf) != -1);
+    menu->ami[0].sEnabled = (stat(fname, &statbuf) != FAILURE);
     if (menu->ami[0].sEnabled)
     {
     	struct tm *tm;
@@ -907,7 +907,7 @@ static void EnumExistingSaveGames(Menu *menu)
 
         const char *str = "unused";
         char timebuf[32];
-        menu->ami[i+1].sEnabled = (stat(fname, &statbuf) != -1);
+        menu->ami[i+1].sEnabled = (stat(fname, &statbuf) != FAILURE);
 
         if (menu->ami[i+1].sEnabled)
         {
@@ -965,7 +965,7 @@ static void EnumExistingSaveGames(Menu *menu)
 ////////////////////////////////////////////////////////////////////////////////
 extern void TheGame(void)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Set up callbacks for when OS sends us to foreground or background.
 	rspSetBackgroundCallback(BackgroundCall);
@@ -1066,7 +1066,7 @@ extern void TheGame(void)
 				file.Close();
 			else
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("Game(): Can't find assets based on HD path specified in prefs!\n");
 				rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszCriticalErrorTitle, g_pszCantFindAssets, "HD");
 				}
@@ -1077,7 +1077,7 @@ extern void TheGame(void)
 				file.Close();
 			else
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("Game(): Can't find assets based on VD path specified in prefs!\n");
 				rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszCriticalErrorTitle, g_pszCantFindAssets, "VD");
 				}
@@ -1088,7 +1088,7 @@ extern void TheGame(void)
 				file.Close();
 			else
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("Game(): Can't find assets based on Sound path specified in prefs!\n");
 				rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszCriticalErrorTitle, g_pszCantFindAssets, "Sound");
 				}
@@ -1099,7 +1099,7 @@ extern void TheGame(void)
 				file.Close();
 			else
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("Game(): Can't find assets based on Game path specified in prefs!\n");
 				rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszCriticalErrorTitle, g_pszCantFindAssets, "Game");
 				}
@@ -1110,7 +1110,7 @@ extern void TheGame(void)
 				file.Close();
 			else
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("Game(): Can't find assets based on Hoods path specified in prefs!\n");
 				rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszCriticalErrorTitle, g_pszCantFindAssets, "Hoods");
 				}
@@ -1139,19 +1139,19 @@ extern void TheGame(void)
 							}
 						else
 							{
-							//sResult	= -4;
+							//sResult = FAILURE * 4;
 							TRACE("Game(): Cookie value is incorrect.\n");
 							}
 						}
 					else
 						{
-						//sResult	= -3;
+						//sResult = FAILURE * 3;
 						TRACE("Game(): Failed to read cookie.\n");
 						}
 					}
 				else
 					{
-					//sResult	= -2;
+					//sResult = FAILURE * 2;
 					TRACE("Game(): Cookie file is incorrect size!\n");
 					}
 #endif // defined(CHECK_FOR_COOKIE)
@@ -1160,7 +1160,7 @@ extern void TheGame(void)
 				}
 			else
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("Game(): Can't find assets based on CD path specified in prefs!\n");
 				}
 
@@ -1189,7 +1189,7 @@ extern void TheGame(void)
 					{
 					// Only set the error flag if we're in release mode
 					#ifndef _DEBUG
-						sResult = -1;
+						sResult = FAILURE;
 					#endif
 					TRACE("Game(): CD path is not a CDROM!\n");
 					rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszCriticalErrorTitle, g_pszNotOnCDROM);
@@ -1328,7 +1328,7 @@ extern void TheGame(void)
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t GameCore(void)		// Returns 0 on success.
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	uint16_t usDemoCount = 0;
 //	bool	bMPath = false,
 //			bMPathServer = false;
@@ -2308,7 +2308,7 @@ static int16_t GetRealmToRecord(	// Returns 0 on success, negative on error, 1 i
 	char* pszRealmFile,				
    size_t sMaxFileLen)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Static so dialog will "remember" the previously-used name
 	static char	szFile[RSP_MAX_PATH]	= "";
@@ -2330,7 +2330,7 @@ static int16_t GetRealmToRecord(	// Returns 0 on success, negative on error, 1 i
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("GetRealmToRecord(): File name too long to return in specified buffer!\n");
 			}
 	
@@ -2355,7 +2355,7 @@ extern int16_t SubPathOpenBox(		// Returns 0 on success, negative on error, 1 if
 											// Note: Cannot use '.' in filter.  Preceding '.' ignored.
 	{
   UNUSED(sStrSize);
-	int16_t	sResult;
+	int16_t sResult;
 
 	char	szBasePath[RSP_MAX_PATH];
    size_t	lBasePathLen	= strlen(pszFullPath);
@@ -2379,7 +2379,7 @@ extern int16_t SubPathOpenBox(		// Returns 0 on success, negative on error, 1 if
 					}
 				else
 					{
-					sResult = -1;
+					sResult = FAILURE;
 					TRACE("SubPathOpenBox(): Path would've exceed max length with separator tacked on!\n");
 					}
 				}
@@ -2405,7 +2405,7 @@ extern int16_t SubPathOpenBox(		// Returns 0 on success, negative on error, 1 if
 			else
 				{
 				// Not subpathable.
-				sResult	= 1;
+				sResult = FAILURE;
 				// Return fullpath.
 				// Copy full path to destination.
 				strcpy(pszChosenFileName, szChosenFileName);
@@ -2414,7 +2414,7 @@ extern int16_t SubPathOpenBox(		// Returns 0 on success, negative on error, 1 if
 		}
 	else
 		{
-		sResult	= -2;
+		sResult = FAILURE * 2;
 		TRACE("SubPathOpenBox(): pszFullPath string too long.\n");
 		}
 
@@ -2431,7 +2431,7 @@ static int16_t GetDemoFile(
 	char* pszDemoFile,
    size_t sMaxFileLen)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Static so dialog will "remember" the previously-used name
 	static char szFile[RSP_MAX_PATH] = "";
@@ -2451,7 +2451,7 @@ static int16_t GetDemoFile(
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("GetDemoFile(): File name too long to return in specified buffer!\n");
 			}
 		}
@@ -2506,7 +2506,7 @@ inline void GetSoundPaths(		// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t OpenSaks(void)
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 #if TARGET == POSTAL_2015
 	int16_t sXmasMode = 0;	// Assume no XMas mode
 	time_t lTime;
@@ -2669,7 +2669,7 @@ static int16_t OpenSaks(void)
 				szSoundQuality);
 
 			// Failure.
-			sResult	= 1;
+			sResult = FAILURE;
 			}
 		else
 			{
@@ -2727,7 +2727,7 @@ static int16_t OpenSaks(void)
 					g_pszNoSoundFiles);
 
 				// Failure.
-				sResult	= 1;
+				sResult = FAILURE;
 				}
 			}
 		}
@@ -4689,7 +4689,7 @@ int16_t CorrectifyBasePath(								// Returns 0 if successfull, non-zero otherwi
 	char* pszBasePath,									// I/O: Base path to be corrected
    size_t sMaxPathLen)									// In:  Maximum length of base path
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Make sure they aren't passing an empty string, which should be be left alone
 	if (strlen(pszBasePath) > 0)
@@ -4727,20 +4727,20 @@ int16_t CorrectifyBasePath(								// Returns 0 if successfull, non-zero otherwi
 					// Get directory, which is always returned as absolute
 					if (getcwd(pszBasePath, sMaxPathLen) == nullptr)
 						{
-						sResult = -1;
+						sResult = FAILURE;
 						TRACE("CorrectifyBasePath(): Couldn't get current directory (was set to '%s')!\n", pszBasePath);
 						}
 					}
 				else
 					{
-					sResult = -1;
+					sResult = FAILURE;
 					TRACE("CorrectifyBasePath(): Couldn't change to specified directory: '%s'!\n", pszBasePath);
 					}
 
 				// Restore original directory
 				if (chdir(pszOrigDir) != 0)
 					{
-					sResult = -1;
+					sResult = FAILURE;
 					TRACE("CorrectifyBasePath(): Couldn't restore original directory: '%s'!\n", pszOrigDir);
 					}
 
@@ -4771,7 +4771,7 @@ int16_t CorrectifyBasePath(								// Returns 0 if successfull, non-zero otherwi
 							}
 						else
 							{
-							sResult = -1;
+							sResult = FAILURE;
 							TRACE("CorrectifyBasePath(): Path would've exceed max length with separator tacked on!\n");
 							}
 						}
@@ -4784,7 +4784,7 @@ int16_t CorrectifyBasePath(								// Returns 0 if successfull, non-zero otherwi
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CorrectifyBasePath(): Specified path is already longer than the specified maximum length!\n");
 			}
 		}

@@ -200,7 +200,7 @@ int16_t CFirebomb::Load(				// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,					// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)				// In:  Version of file format to load.
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	sResult = CWeapon::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 	if (sResult == SUCCESS)
@@ -235,7 +235,7 @@ int16_t CFirebomb::Load(				// Returns 0 if successfull, non-zero otherwise
 		}
 		else
 		{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CFirebomb::Load(): Error reading from file!\n");
 		}
 	}
@@ -479,7 +479,7 @@ int16_t CFirebomb::Setup(									// Returns 0 if successfull, non-zero otherwis
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -506,7 +506,7 @@ int16_t CFirebomb::Setup(									// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CFirebomb::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	sResult = m_anim.Get(ms_apszResNames);
 	if (sResult == SUCCESS)
@@ -626,7 +626,7 @@ int16_t CFirefrag::Load(				// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,					// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)				// In:  Version of file format to load.
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	sResult = CWeapon::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 	if (sResult == SUCCESS)
@@ -664,7 +664,7 @@ int16_t CFirefrag::Load(				// Returns 0 if successfull, non-zero otherwise
 		}
 		else
 		{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CFirefrag::Load(): Error reading from file!\n");
 		}
 	}
@@ -874,7 +874,7 @@ int16_t CFirefrag::Setup(									// Returns 0 if successfull, non-zero otherwis
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -903,7 +903,7 @@ int16_t CFirefrag::Setup(									// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CFirefrag::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
    if (m_pImage == nullptr)
 	{
@@ -915,14 +915,14 @@ int16_t CFirefrag::GetResources(void)						// Returns 0 if successfull, non-zero
 			{
 				if (m_pImage->Convert(RImage::FSPR8) != RImage::FSPR8)
 				{
-					sResult = -1;
+					sResult = FAILURE;
 					TRACE("CFirefrag::GetResource(): Couldn't convert to FSPR8!\n");
 				}
 			}
 		}
 		else
 		{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CFirefrag::GetResources(): Couldn't allocate RImage!\n");
 		}
 	}
@@ -936,7 +936,7 @@ int16_t CFirefrag::GetResources(void)						// Returns 0 if successfull, non-zero
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CFirefrag::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	if (m_pImage != 0)
 	{

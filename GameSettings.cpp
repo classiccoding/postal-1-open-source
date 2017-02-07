@@ -297,7 +297,7 @@ CGameSettings::~CGameSettings()
 int16_t CGameSettings::LoadPrefs(
 	RPrefs* pPrefs)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	pPrefs->GetVal("Paths", "CD", "", m_pszCDPath);
 #if defined(PANDORA) || defined(ODROID)
@@ -370,12 +370,12 @@ int16_t CGameSettings::LoadPrefs(
 	pPrefs->GetVal("Realms", "File", "", m_pszRealmPrefsFile);
 	if (strlen(m_pszRealmPrefsFile) == 0)
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszCriticalErrorTitle, g_pszBadPath_s_s, "File", "Realms");
 		}
 	else if ((strlen(m_pszRealmPrefsFile) + 1) >= RSP_MAX_PATH)
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszCriticalErrorTitle, g_pszBadPath_s_s, "File", "Realms");
 		}
 
@@ -483,7 +483,7 @@ int16_t CGameSettings::LoadPrefs(
 	if (!sResult)
 		{
 		if (pPrefs->IsError())
-			sResult = -1;
+			sResult = FAILURE;
 		}
 
 	return sResult;

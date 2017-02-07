@@ -107,7 +107,7 @@ class CCtrlBuf
 			int32_t* plCtrls,
 			int32_t* plNumAdded)
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 
 			// This can and should be optimized!
 			*plNumAdded = 0;
@@ -127,7 +127,7 @@ class CCtrlBuf
 			int32_t lSeq,
 			int32_t lCtrl)
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 
 			// This needs to deal with the fact that the ctrls don't always come
 			// sequentially, and there will often be gaps between ctrl values that
@@ -169,7 +169,7 @@ class CCtrlBuf
 						}
 					else
 						{
-						sResult = -1;
+                  sResult = FAILURE;
 						TRACE("No room in buf!\n");
 						}
 					}

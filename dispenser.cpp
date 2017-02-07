@@ -263,7 +263,7 @@ int16_t CDispenser::Load(		// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,			// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)		// In:  Version of file format to load.
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// In most cases, the base class Load() should be called.
 	sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
@@ -407,7 +407,7 @@ int16_t CDispenser::Load(		// Returns 0 if successfull, non-zero otherwise
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CDispenser::Load(): Error reading from file!\n");
 			}
 		}
@@ -427,7 +427,7 @@ int16_t CDispenser::Save(		// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,				// In:  File to save to
 	int16_t sFileCount)			// In:  File count (unique per file, never 0)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// In most cases, the base class Save() should be called.
 	sResult	= CThing::Save(pFile, sFileCount);
@@ -794,7 +794,7 @@ int16_t CDispenser::EditModify(void)					// Returns 0 if successfull, non-zero o
 	// Get key status array.
 	uint8_t*	pau8KeyStatus	= rspGetKeyStatusArray();
 
-	int16_t	sResult	= 0;
+	int16_t sResult = SUCCESS;
 	ClassIDType	idNewThingType;
 
 	// Set up to modify dispensee.
@@ -935,7 +935,7 @@ int16_t CDispenser::EditModify(void)					// Returns 0 if successfull, non-zero o
 								}
 							else
 								{
-								sResult	= 1;
+								sResult = FAILURE;
 								}
 
 							// Get dispensee type selection.  Required.
@@ -972,7 +972,7 @@ int16_t CDispenser::EditModify(void)					// Returns 0 if successfull, non-zero o
 						
 						case 2:
 						default:
-							sResult	= 1;
+							sResult = FAILURE;
 							break;
 						}
 					}
@@ -980,7 +980,7 @@ int16_t CDispenser::EditModify(void)					// Returns 0 if successfull, non-zero o
 			else
 				{
 				TRACE("EditModify(): Missing GUI items in  %s.\n", EDIT_GUI_FILE);
-				sResult	= -2;
+				sResult = FAILURE * 2;
 				}
 
 			// Done with GUI.
@@ -990,7 +990,7 @@ int16_t CDispenser::EditModify(void)					// Returns 0 if successfull, non-zero o
 		else
 			{
 			TRACE("EditModify(): Failed to load %s.\n", EDIT_GUI_FILE);
-			sResult	= -1;
+			sResult = FAILURE;
 			}
 		}
 	else
@@ -1083,7 +1083,7 @@ int16_t CDispenser::EditMove(							// Returns 0 if successfull, non-zero otherw
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	m_sX	= sX;
 	m_sY	= sY;
@@ -1173,7 +1173,7 @@ void CDispenser::EditHotSpot(	// Returns nothiing.
 int16_t CDispenser::Init(	// Returns 0 if successfull, non-zero otherwise
 	bool	bEditMode)		// true, if in edit mode; false, otherwise.
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Remember.
 	m_bEditMode		= bEditMode;
@@ -1233,7 +1233,7 @@ void CDispenser::Kill(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDispenser::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	if (m_pim == nullptr)
 		{
@@ -1273,7 +1273,7 @@ int16_t CDispenser::InstantiateDispensee(	// Returns 0 on success.
 	CThing**	ppthing,								// Out: New thing loaded from m_fileDispensee.
 	bool		bEditMode)							// In:  true if in edit mode.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// If we even have a dispensee type . . .
 	if (m_idDispenseeType > 0 && m_idDispenseeType < TotalIDs)
@@ -1318,18 +1318,18 @@ int16_t CDispenser::InstantiateDispensee(	// Returns 0 on success.
 					else
 						{
 						TRACE("InstantiateDispensee(): Could not get an instance ID from the idbank.\n");
-						sResult	= -3;
+						sResult = FAILURE * 3;
 						}
 					}
 				else
 					{
 					TRACE("InstantiateDispensee(): Load() failed for dispensee.\n");
-					sResult	= -2;
+					sResult = FAILURE * 2;
 					}
 				}
 			else
 				{
-				sResult	= 1;
+				sResult = FAILURE;
 				}
 
 			// If any errors after allocation . . .
@@ -1342,12 +1342,12 @@ int16_t CDispenser::InstantiateDispensee(	// Returns 0 on success.
 			{
 			TRACE("InstantiateDispensee(): Failed to allocate new %s.\n",
 				CThing::ms_aClassInfo[m_idDispenseeType].pszClassName);
-			sResult	= -1;
+			sResult = FAILURE;
 			}
 		}
 	else
 		{
-		sResult	= 1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -1359,7 +1359,7 @@ int16_t CDispenser::InstantiateDispensee(	// Returns 0 on success.
 int16_t CDispenser::SaveDispensee(		// Returns 0 on success.
 	CThing*	pthing)						// In:  Instance of Dispensee to save.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// If we already have a mem file . . .
 	if (m_fileDispensee.IsOpen() != FALSE)
@@ -1376,13 +1376,13 @@ int16_t CDispenser::SaveDispensee(		// Returns 0 on success.
 		else
 			{
 			TRACE("SaveDispensee(): pthing->Save() failed.\n");
-			sResult	= -2;
+			sResult = FAILURE * 2;
 			}
 		}
 	else
 		{
 		TRACE("SaveDispensee(): m_fileDispensee->Open() failed.\n");
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -1395,7 +1395,7 @@ int16_t CDispenser::SaveDispensee(		// Returns 0 on success.
 int16_t CDispenser::RenderDispensee(	// Returns 0 on success.
 	CThing*	pthing)						// In:  Instance of Dispensee to render.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 	
 	// If in edit mode . . .
 	if (m_bEditMode == true)
@@ -1499,7 +1499,7 @@ int16_t CDispenser::RenderDispensee(	// Returns 0 on success.
 		else
 			{
 			TRACE("RenderDispensee(): m_imRender.CreateImage() failed.\n");
-			sResult	= -1;
+			sResult = FAILURE;
 			}
 		}
 
@@ -1512,7 +1512,7 @@ int16_t CDispenser::RenderDispensee(	// Returns 0 on success.
 int16_t CDispenser::GetClosestDudeDistance(	// Returns 0 on success.  Fails, if no dudes.
 	int32_t* plClosestDistance)					// Out:  Distance to closest dude.
 	{
-	int16_t	sResult	= 1;	// Assume no dude found.
+	int16_t sResult = FAILURE;	// Assume no dude found.
 
 	uint32_t	ulSqrDistance;
 	uint32_t	ulCurSqrDistance	= 0xFFFFFFFF;
@@ -1544,7 +1544,7 @@ int16_t CDispenser::GetClosestDudeDistance(	// Returns 0 on success.  Fails, if 
 				ulCurSqrDistance	= ulSqrDistance;
 
 				// Definitely going to have a dude to return.
-				sResult	= 0;
+				sResult = SUCCESS;
 				}
 			}
 

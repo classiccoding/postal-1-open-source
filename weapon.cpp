@@ -75,7 +75,7 @@ int16_t CWeapon::Load(										// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,										// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)									// In:  Version of file format to load.
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Call the CThing base class load to get the instance ID
 	sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
@@ -128,7 +128,7 @@ int16_t CWeapon::Load(										// Returns 0 if successfull, non-zero otherwise
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CWeapon::Load(): Error reading from file!\n");
 			}
 		}
@@ -298,7 +298,7 @@ int16_t CWeapon::EditNew(									// Returns 0 if successfull, non-zero otherwis
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;

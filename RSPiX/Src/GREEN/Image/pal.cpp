@@ -325,16 +325,16 @@ int16_t RPal::CreateData(uint32_t ulNewSize,
 							  int16_t sSetStartIndex,
 							  int16_t sSetNumEntries)
 {
-	int16_t sReturn = CreateData(ulNewSize);
+   int16_t sResult = CreateData(ulNewSize);
 
-	if (sReturn == SUCCESS)
+   if (sResult == SUCCESS)
 	{
 		m_type				= typeNew;
 		m_sPalEntrySize	= sSetPalEntrySize;
 		m_sStartIndex		= sSetStartIndex;
 		m_sNumEntries		= sSetNumEntries;
 	}
-	return sReturn;
+   return sResult;
 }
 
 
@@ -500,7 +500,7 @@ RPal::Type RPal::Convert(Type typeNew)
 int16_t RPal::Save(char* pszFilename)
 {
 	RFile cf;
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	if (cf.Open(pszFilename, "wb", RFile::LittleEndian) != SUCCESS)
 	{
@@ -508,11 +508,11 @@ int16_t RPal::Save(char* pszFilename)
 	 	return FAILURE;
 	}
 
-	sReturn = Save(&cf);
+   sResult = Save(&cf);
 
 	cf.Close();
 
-	return sReturn;
+   return sResult;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -537,7 +537,7 @@ int16_t RPal::Save(char* pszFilename)
 
 int16_t RPal::Save(RFile* pcf)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	uint32_t ulFileType = PAL_COOKIE;
 	uint32_t ulCurrentVersion = PAL_CURRENT_VERSION;
 
@@ -567,16 +567,16 @@ int16_t RPal::Save(RFile* pcf)
 		if (pcf->Error())
 		{
 			TRACE("RPal::Save - Error writing palette data\n");
-			sReturn = FAILURE;
+         sResult = FAILURE;
 		}
 	}
 	else
 	{
 		TRACE("RPal::Save - Error: The RFile does not refer to an open file\n");
-		sReturn = FAILURE;
+      sResult = FAILURE;
 	}
 
-	return sReturn;
+   return sResult;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -599,7 +599,7 @@ int16_t RPal::Save(RFile* pcf)
 int16_t RPal::Load(char* pszFilename)
 {
 	RFile cf;
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	if (cf.Open(pszFilename, "rb", RFile::LittleEndian) != SUCCESS)
 	{
@@ -607,11 +607,11 @@ int16_t RPal::Load(char* pszFilename)
 	 	return FAILURE;
 	}
 
-	sReturn = Load(&cf);
+   sResult = Load(&cf);
 
 	cf.Close();
 
-	return sReturn;
+   return sResult;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -636,7 +636,7 @@ int16_t RPal::Load(char* pszFilename)
 
 int16_t RPal::Load(RFile* pcf)
 {	
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 //	uint32_t ulFileType = 0;
 //	uint32_t ulFileVersion = 0;
 //	uint16_t usFlag = 2;
@@ -645,15 +645,15 @@ int16_t RPal::Load(RFile* pcf)
 	{
 		pcf->ClearError();
 
-		sReturn	= RPalFile::Load(this, pcf);
+      sResult	= RPalFile::Load(this, pcf);
 	}
 	else
 	{
 		TRACE("RPal::Load - Error: RFile pointer does not refer to an open file\n");
-		sReturn = FAILURE;
+      sResult = FAILURE;
 	}
 
-	return sReturn;
+   return sResult;
 }
 
 

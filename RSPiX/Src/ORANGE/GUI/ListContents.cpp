@@ -88,7 +88,7 @@
 int16_t RListContents::SaveChildren(	// Returns 0 on success.
 	RFile*	pfile)						// File to save to.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	ASSERT(pfile->IsOpen() != FALSE);
 
@@ -131,7 +131,7 @@ int16_t RListContents::SaveChildren(	// Returns 0 on success.
 int16_t RListContents::LoadChildren(	// Returns 0 on success.
 	RFile*	pfile)						// File to load from.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	ASSERT(pfile->IsOpen() != FALSE);
 	// Need to know parent.
@@ -177,7 +177,7 @@ int16_t RListContents::LoadChildren(	// Returns 0 on success.
 		else
 			{
 			TRACE("LoadChildren(): LoadInstantiate() failed.\n");
-			sResult	= -1;
+			sResult = FAILURE;
 			}
 		}
 

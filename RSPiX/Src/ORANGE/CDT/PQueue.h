@@ -204,7 +204,7 @@ template <class T, class K> class RPQueue : public RSList<RPQueueNode<T, K>, K>
 		int16_t Insert(		// Returns 0 on success.
 			Node* pnode)	// Pointer to add.
 			{
-			int16_t	sResult	= 0;	// Assume success.
+			int16_t sResult = SUCCESS;	// Assume success.
 			// If able to insert into RSList . . .
 			if (RSList<Node, K>::Insert(pnode, &(pnode->k)) == SUCCESS)
 				{
@@ -214,7 +214,7 @@ template <class T, class K> class RPQueue : public RSList<RPQueueNode<T, K>, K>
 			else
 				{
 				TRACE("Insert(): RSList()::Insert() failed.\n");
-				sResult	= -1;
+				sResult = FAILURE;
 				}
 
 			return sResult;
@@ -224,7 +224,7 @@ template <class T, class K> class RPQueue : public RSList<RPQueueNode<T, K>, K>
 		int16_t Remove(				// Returns 0 on success.
          Node* pnode = nullptr)	// Item to remove or nullptr to remove current.
 			{
-			int16_t	sResult	= 0;	// Assume success.
+			int16_t sResult = SUCCESS;	// Assume success.
 			// If able to remove from RSList . . .
 			if (RSList<Node, K>::Remove(pnode) == SUCCESS)
 				{
@@ -234,7 +234,7 @@ template <class T, class K> class RPQueue : public RSList<RPQueueNode<T, K>, K>
 			else
 				{
 				TRACE("Remove(): RSList::Remove() failed.\n");
-				sResult	= -1;
+				sResult = FAILURE;
 				}
 
 			return sResult;

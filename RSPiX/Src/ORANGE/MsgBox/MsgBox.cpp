@@ -225,7 +225,7 @@ RBtn* RMsgBox::AddButton(	// Returns allocated GUI item on success.
 	int16_t	sAddW /*= 0*/,	// Additional width for guis that require more.
 	int16_t	sAddH /*= 0*/)	// Additional height for guis that require more.
 	{
-	int16_t	sError	= 0;
+   int16_t sError = SUCCESS;
 
 	// Attempt to allocate new btn.
 	RBtn*	pbtn	= new RBtn;
@@ -238,11 +238,11 @@ RBtn* RMsgBox::AddButton(	// Returns allocated GUI item on success.
 		else
 			{
 			TRACE("AddButton(): AddItem() failed for allocated RBtn.\n");
-			sError	= 2;
+         sError = FAILURE * 2;
 			}
 
 		// If any errors occurred after allocation . . .
-		if (sError != 0)
+      if (sError != SUCCESS)
 			{
 			delete pbtn;
 			pbtn	= nullptr;
@@ -251,7 +251,7 @@ RBtn* RMsgBox::AddButton(	// Returns allocated GUI item on success.
 	else
 		{
 		TRACE("AddButton(): Failed to allocate RBtn.\n");
-		sError	= 1;
+      sError = FAILURE;
 		}
 
 	return pbtn;
@@ -274,7 +274,7 @@ RTxt* RMsgBox::AddText(	// Returns allocated GUI item on success.
 	int16_t	sAddW /*= 0*/,	// Additional width for guis that require more.
 	int16_t	sAddH /*= 0*/)	// Additional height for guis that require more.
 	{
-	int16_t	sError	= 0;
+   int16_t sError = SUCCESS;
 
 	// Attempt to allocate new btn.
 	RTxt*	ptxt	= new RTxt;
@@ -287,11 +287,11 @@ RTxt* RMsgBox::AddText(	// Returns allocated GUI item on success.
 		else
 			{
 			TRACE("AddText(): AddItem() failed for allocated RTxt.\n");
-			sError	= 2;
+         sError = FAILURE * 2;
 			}
 
 		// If any errors occurred after allocation . . .
-		if (sError != 0)
+      if (sError != SUCCESS)
 			{
 			delete ptxt;
 			ptxt	= nullptr;
@@ -300,7 +300,7 @@ RTxt* RMsgBox::AddText(	// Returns allocated GUI item on success.
 	else
 		{
 		TRACE("AddText(): Failed to allocate RTxt.\n");
-		sError	= 1;
+      sError = FAILURE;
 		}
 
 	return ptxt;
@@ -323,7 +323,7 @@ REdit* RMsgBox::AddEdit(	// Returns allocated GUI item on success.
 	int16_t	sAddW /*= 0*/,	// Additional width for guis that require more.
 	int16_t	sAddH /*= 0*/)	// Additional height for guis that require more.
 	{
-	int16_t	sError	= 0;
+   int16_t sError	= SUCCESS;
 
 	// Attempt to allocate new btn.
 	REdit*	pedit	= new REdit;
@@ -344,11 +344,11 @@ REdit* RMsgBox::AddEdit(	// Returns allocated GUI item on success.
 		else
 			{
 			TRACE("AddEdit(): AddItem() failed for allocated REdit.\n");
-			sError	= 2;
+         sError = FAILURE * 2;
 			}
 
 		// If any errors occurred after allocation . . .
-		if (sError != 0)
+      if (sError != SUCCESS)
 			{
 			delete pedit;
 			pedit	= nullptr;
@@ -357,7 +357,7 @@ REdit* RMsgBox::AddEdit(	// Returns allocated GUI item on success.
 	else
 		{
 		TRACE("AddEdit(): Failed to allocate REdit.\n");
-		sError	= 1;
+      sError = FAILURE;
 		}
 
 	return pedit;
@@ -479,7 +479,7 @@ uint32_t RMsgBox::DoModal(					// Returns chosen ID on success,
 												// image.
 	{
 	m_ulId			= 0;	// ID to return.
-	int16_t	sError	= 0;	// No errors yet.
+   int16_t sError = SUCCESS;	// No errors yet.
 
 	// Deactivate RHots, adding them to our list.
 	// We now can just service our own RHots.
@@ -508,7 +508,7 @@ uint32_t RMsgBox::DoModal(					// Returns chosen ID on success,
 	else
 		{
 		TRACE("DoModal(): m_imEraser.CreateImage() failed.\n");
-		sError	= 1;
+      sError = FAILURE;
 		}
 
 	// Activate this and all children.
@@ -524,7 +524,7 @@ uint32_t RMsgBox::DoModal(					// Returns chosen ID on success,
 
 	// Main loop:
 	// Wait for an error or an ID.
-	while (m_ulId == 0 && sError == 0)
+   while (m_ulId == 0 && sError == SUCCESS)
 		{
 		dr.sX	= m_sX;
 		dr.sY	= m_sY;
@@ -646,7 +646,7 @@ int16_t RMsgBox::AddItem(	// Returns 0 on success.
 	int16_t	sAddW /*= 0*/,	// Additional width for guis that require more.
 	int16_t	sAddH /*= 0*/)	// Additional height for guis that require more.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Copy settings.
 	CopyParms(pgui);
@@ -687,19 +687,19 @@ int16_t RMsgBox::AddItem(	// Returns 0 on success.
 			else
 				{
 				TRACE("AddItem(): Failed to add item to list.\n");
-            sResult	= -3;
+            sResult = FAILURE * 3;
 				}
 			}
 		else
 			{
 			TRACE("AddItem(): AddItem() failed for allocated item.\n");
-         sResult	= -2;
+         sResult = FAILURE * 2;
 			}
 		}
 	else
 		{
 		TRACE("AddItem(): [RGuiItem::]Create failed.\n");
-      sResult = -1;
+      sResult = FAILURE;
 		}
 
    return sResult;

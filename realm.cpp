@@ -773,7 +773,7 @@ int16_t CRealm::Open(										// Returns 0 if successfull, non-zero otherwise
 	const char* pszFileName,							// In:  Name of file to load from
 	RFile* pfile)											// I/O: RFile to be used
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	if (strlen(pszFileName) > 0)
 		{
@@ -802,7 +802,7 @@ int16_t CRealm::Open(										// Returns 0 if successfull, non-zero otherwise
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("CRealm::Open(): Empty file name!\n");
 		}
 
@@ -817,7 +817,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 	const char* pszFileName,							// In:  Name of file to load from
 	bool bEditMode)										// In:  Use true for edit mode, false otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Copy the name to use later for high score purposes
 	m_rsRealmString = pszFileName;
@@ -834,7 +834,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("CRealm::Load(): Couldn't open file: %s !\n", pszFileName);
 		}
 
@@ -849,7 +849,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,											// In:  File to load from
 	bool bEditMode)										// In:  Use true for edit mode, false otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Clear the realm before loading this new stuff
 	Clear();
@@ -965,7 +965,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 								else
 									{
 									// Callback has decided to end this operation.
-									sResult	= 1;
+									sResult = FAILURE;
 									}
 								}
 
@@ -1003,7 +1003,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 												else
 													{
 													// Callback has decided to end this operation.
-													sResult	= 1;
+													sResult = FAILURE;
 													}
 												}
 											}
@@ -1026,7 +1026,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 									}
 								else
 									{
-									sResult = -1;
+									sResult = FAILURE;
 									TRACE("CRealm::Load(): Error reading class ID!\n");
 									}
 								}
@@ -1034,7 +1034,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 							// Check for I/O errors (only matters if no errors were reported so far)
 							if (!sResult && pFile->Error())
 								{
-								sResult = -1;
+								sResult = FAILURE;
 								TRACE("CRealm::Load(): Error reading file!\n");
 								}
 
@@ -1047,32 +1047,32 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 							}
 						else
 							{
-							sResult = -1;
+							sResult = FAILURE;
 							TRACE("CRealm::Load(): Error reading count of objects in file!\n");
 							}
 						}
 					}
 				else
 					{
-					sResult = -1;
+					sResult = FAILURE;
 					TRACE("CRealm::Load(): Incorrect file version (should be 0x%lx or less, was 0x%lx)!\n", CRealm::FileVersion, ulFileVersion);
 					}
 				}
 			else
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("CRealm::Load(): Error reading file version!\n");
 				}
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CRealm::Load(): Incorrect file ID (should be 0x%lx, was 0x%lx)!\n", CRealm::FileID, ulFileID);
 			}
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("CRealm::Load(): Error reading file ID!\n");
 		}
 
@@ -1094,7 +1094,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 		if (m_smashatorium.Alloc(sOldW,sOldH,sOldTileW,sOldTileH) != SUCCESS)
 			{
 			TRACE("CRealm::Load(): Error reallocating the smashatorium!\n");
-			sResult = -1;
+			sResult = FAILURE;
 			}
 		*/
 		}
@@ -1110,7 +1110,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 int16_t CRealm::Save(										// Returns 0 if successfull, non-zero otherwise
 	const char* pszFile)									// In:  Name of file to save to
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Open file
 	RFile file;
@@ -1127,7 +1127,7 @@ int16_t CRealm::Save(										// Returns 0 if successfull, non-zero otherwise
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("CRealm::Save(): Couldn't open file: %s !\n", pszFile);
 		}
 
@@ -1141,7 +1141,7 @@ int16_t CRealm::Save(										// Returns 0 if successfull, non-zero otherwise
 int16_t CRealm::Save(										// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile)											// In:  File to save to
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Increment file count
 	ms_sFileCount++;
@@ -1176,7 +1176,7 @@ int16_t CRealm::Save(										// Returns 0 if successfull, non-zero otherwise
 		else
 			{
 			// Callback has decided to end this operation.
-			sResult	= 1;
+			sResult = FAILURE;
 			}
 		}
 
@@ -1211,7 +1211,7 @@ int16_t CRealm::Save(										// Returns 0 if successfull, non-zero otherwise
 				else
 					{
 					// Callback has decided to end this operation.
-					sResult	= 1;
+					sResult = FAILURE;
 					}
 				}
 			}
@@ -1220,7 +1220,7 @@ int16_t CRealm::Save(										// Returns 0 if successfull, non-zero otherwise
 	// Check for I/O errors (only matters if no errors were reported so far)
 	if (!sResult && pFile->Error())
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("CRealm::Save(): Error writing file!\n");
 		}
 
@@ -1233,7 +1233,7 @@ int16_t CRealm::Save(										// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CRealm::Startup(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Initialize Population statistics b/c anyone killed already was not done so 
 	// by the player.
@@ -1303,7 +1303,7 @@ int16_t CRealm::Startup(void)							// Returns 0 if successfull, non-zero otherw
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CRealm::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// This loop is specifically designed so that it will not end until all of
 	// the objects have been scanned in a single pass and none have their flags

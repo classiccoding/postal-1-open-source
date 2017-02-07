@@ -542,7 +542,7 @@ int16_t RFile::Open(		// Returns 0 on success.
 	Endian endian,			// { BigEndian | LittleEndian | NeutralEndian }.
 	Flags flags)			// See comments in Typedefs & Enums section in .h.
 	{
-   int16_t	sResult	= SUCCESS;	// Assume success.
+   int16_t sResult	= SUCCESS;	// Assume success.
 
 	// If not already open . . .
 	if (m_fs == nullptr && m_pucFile == nullptr)
@@ -669,7 +669,7 @@ int16_t RFile::Open(		// Returns 0 on success.
    size_t lSize,				// Size of *pFile in bytes.
 	Endian endian)			// { BigEndian | LittleEndian | NeutralEndian }.
 	{
-   int16_t	sResult	= SUCCESS;	// Assume success.
+   int16_t sResult	= SUCCESS;	// Assume success.
 
 	// If not already open . . .
 	if (m_fs == nullptr && m_pucFile == nullptr)
@@ -717,7 +717,7 @@ int16_t RFile::Open(	// Returns 0 on success.
 							// be allocated in the case of an overrun.
 	Endian endian)		// { BigEndian | LittleEndian | NeutralEndian }.
 	{
-   int16_t	sResult	= SUCCESS;	// Assume success.
+   int16_t sResult	= SUCCESS;	// Assume success.
 
 	// If not already open . . .
 	if (m_fs == nullptr && m_pucFile == nullptr)
@@ -818,7 +818,7 @@ int16_t RFile::Open(		// Returns 0 on success.
 int16_t RFile::Open(		// Returns 0 on success.
 	RFile* pfile)			// RFile to open.
 	{
-   int16_t	sResult	= SUCCESS;
+   int16_t sResult	= SUCCESS;
 
 	// Synchronize.
 	m_fs				= pfile->m_fs;
@@ -858,7 +858,7 @@ void RFile::SetEndian(Endian endian)
 //////////////////////////////////////////////////////////////////////////////
 int16_t RFile::Close(void)
 	{
-   int16_t	sResult	= SUCCESS;	// Assume success.
+   int16_t sResult	= SUCCESS;	// Assume success.
 
 	ASSERT(m_fs != nullptr || m_pucFile != nullptr);
 
@@ -1954,7 +1954,7 @@ int32_t RFile::Write(const char* pszString)
 //////////////////////////////////////////////////////////////////////////////
 int16_t RFile::Seek(ssize_t lPos, int32_t lOrigin)
    {
-   int16_t	sResult	= SUCCESS;	// Assume success.
+   int16_t sResult	= SUCCESS;	// Assume success.
 
 	if (IsFile() == TRUE)
 		{
@@ -2536,7 +2536,7 @@ int32_t RFile::Write64(	// Returns number of 64 bit items written.
 	//////////////////////////////////////////////////////////////////////////////
 	int16_t RFile::Disconnect(void)
 		{
-      int16_t	sResult	= SUCCESS;	// Assume success.
+      int16_t sResult	= SUCCESS;	// Assume success.
 		
 		// Must be disk file and must be connected.
 		ASSERT(IsFile()			== TRUE);
@@ -2567,7 +2567,7 @@ int32_t RFile::Write64(	// Returns number of 64 bit items written.
 	//////////////////////////////////////////////////////////////////////////////
 	int16_t RFile::Reconnect(void)
 		{
-      int16_t	sResult	= SUCCESS;	// Assume success.
+      int16_t sResult	= SUCCESS;	// Assume success.
 
 		// Must be disk file.
 		ASSERT(IsFile()			== TRUE);
@@ -2611,7 +2611,7 @@ int32_t RFile::Write64(	// Returns number of 64 bit items written.
 	//////////////////////////////////////////////////////////////////////////////
 	int16_t RFile::MakeStreamAvailable(void)
 		{
-      int16_t	sResult	= SUCCESS;	// Assume success.
+      int16_t sResult	= SUCCESS;	// Assume success.
 
 		// Find the open RFile attached to disk that was accessed longest ago.
 		// All RFiles in the ms_listOpen list are attached to disk files.

@@ -300,7 +300,7 @@ int16_t CHood::Load(								// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,								// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)							// In:  Version of file format to load.
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// In most cases, the base class Load() should be called.
 	sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
@@ -415,7 +415,7 @@ int16_t CHood::Load(								// Returns 0 if successfull, non-zero otherwise
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CHood::Load(): Error reading from file!\n");
 			}
 		}
@@ -435,7 +435,7 @@ int16_t CHood::Save(								// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,									// In:  File to save to
 	int16_t sFileCount)								// In:  File count (unique per file, never 0)
 	{
-	int16_t	sResult	= 0;
+	int16_t sResult = SUCCESS;
 
 	// In most cases, the base class Save() should be called.
 	sResult	= CThing::Save(pFile, sFileCount);
@@ -539,7 +539,7 @@ static void BrowseBtnUp(	// Returns nothing.  Called on button released in
 		strcpy(szSystemPath, FullPathHoods("res/hoods/") );
 		strcat(szSystemPath, pguiBaseName->m_szText);
 
-		int16_t	sResult;
+		int16_t sResult;
 		do {
 			sResult	= SubPathOpenBox(			// Returns 0 on success, negative on error, 1 if 
 														// not subpathable (i.e., returned path is full path).
@@ -598,7 +598,7 @@ int16_t CHood::EditNew(									// Returns 0 if successfull, non-zero otherwise
 	int16_t sZ)												// In:  New z coord
 	{
   UNUSED(sX, sY, sZ);
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	char	szScale3d[256];
 	char	szShadowLength[256];
 
@@ -770,13 +770,13 @@ int16_t CHood::EditNew(									// Returns 0 if successfull, non-zero otherwise
 			else
 				{
 				// User abort.
-				sResult	= 1;
+				sResult = FAILURE;
 				}
 			}
 		else
 			{
 			TRACE("EditNew(): No GUI with ID %i.\n", GUI_ID_BASENAME);
-			sResult	= -2;
+			sResult = FAILURE * 2;
 			}
 
 		// Delete GUI.
@@ -785,7 +785,7 @@ int16_t CHood::EditNew(									// Returns 0 if successfull, non-zero otherwise
 	else
 		{
 		TRACE("EditNew(): Failed to load GUI \"%s\".\n", GUI_FILE_NAME);
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -834,7 +834,7 @@ void CHood::EditRender(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CHood::Init(void)									// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// If first call . . .
 	if (m_sNumInits++ == 0)
@@ -964,7 +964,7 @@ void CHood::SetupPipeline(void)	// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CHood::Kill(void)									// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Free resources
 	sResult = FreeResources();
@@ -982,7 +982,7 @@ int16_t SpryLoadConv(			// Returns 0 on success.
 	char*		pszFileName,	// In:  File/Res name of .SAY file.
 	RImage::Type	type)		// In:  Destination type.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	if (rspGetResource(
 		presmgr,
@@ -1000,14 +1000,14 @@ int16_t SpryLoadConv(			// Returns 0 on success.
 			else
 				{
 				TRACE("SpryLoadConv(): (*ppspry)->Convert(type) failed.\n");
-            sResult	= -3;
+            sResult = FAILURE * 3;
 				}
 			}
 		}
 	else
 		{
 //		TRACE("SpryLoadConv(): Failed to load SPRY \"%s\".\n", pszFileName);
-      sResult	= -1;
+      sResult = FAILURE;
 		}
 
    return sResult;
@@ -1021,7 +1021,7 @@ extern int wideScreenWidth;
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// If all resources were already successfully loaded, then don't do this again.
 	// Note that if only some of them loaded and then an error occurred, we'll
@@ -1067,7 +1067,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 			szFileName,
 			&m_pimBackground) != 0)
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CHood::GetResources(): Couldn't load background: %s\n", szFileName);
 			goto Error;
 			}
@@ -1115,7 +1115,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 			szFileName,
 			&m_pTerrainMap) != 0)
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CHood::GetResources(): Couldn't load attribute map %s\n", szFileName);
 			goto Error;
 			}
@@ -1127,7 +1127,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 			szFileName,
 			&m_pLayerMap) != 0)
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CHood::GetResources(): Couldn't load attribute map %s\n", szFileName);
 			goto Error;
 			}
@@ -1140,7 +1140,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 			szFileName,
 			&m_pimXRayMask) != 0)
 			{
-			sResult	= -1;
+			sResult = FAILURE;
 			TRACE("GetResources(): Failed to load: %s.\n", szFileName);
 			}
 
@@ -1150,7 +1150,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 			szFileName,
 			&m_pmaTransparency) != 0)
 			{
-			sResult	= -1;
+			sResult = FAILURE;
 			TRACE("GetResources(): Failed to load: %s.\n", szFileName);
 			}
 
@@ -1160,7 +1160,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 			szFileName,
 			&m_pltAmbient) != 0)
 			{
-			sResult	= -1;
+			sResult = FAILURE;
 			TRACE("GetResources(): Failed to load: %s.\n", szFileName);
 			}
 
@@ -1170,7 +1170,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 			szFileName,
 			&m_pltSpot) != 0)
 			{
-			sResult	= -1;
+			sResult = FAILURE;
 			TRACE("GetResources(): Failed to load: %s.\n", szFileName);
 			}
 
@@ -1181,7 +1181,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 			szFileName,
 			&m_pimEmptyBar) != 0)
 			{
-			sResult	= -1;
+			sResult = FAILURE;
 			TRACE("GetResources(): Failed to load: %s.\n", szFileName);
 			}
 		sprintf(szFileName, "%s.emptybarselected.bmp", szBasePath);
@@ -1190,7 +1190,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 			szFileName,
 			&m_pimEmptyBarSelected) != 0)
 			{
-			sResult	= -1;
+			sResult = FAILURE;
 			TRACE("GetResources(): Failed to load: %s.\n", szFileName);
 			}
 		sprintf(szFileName, "%s.fullbar.bmp", szBasePath);
@@ -1199,7 +1199,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 			szFileName,
 			&m_pimFullBar) != 0)
 			{
-			sResult	= -1;
+			sResult = FAILURE;
 			TRACE("GetResources(): Failed to load: %s.\n", szFileName);
 			}
 		sprintf(szFileName, "%s.fullbarselected.bmp", szBasePath);
@@ -1208,7 +1208,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 			szFileName,
 			&m_pimFullBarSelected) != 0)
 			{
-			sResult	= -1;
+			sResult = FAILURE;
 			TRACE("GetResources(): Failed to load: %s.\n", szFileName);
 			}
 		sprintf(szFileName, "%s.topbar.bmp", szBasePath);
@@ -1217,7 +1217,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 			szFileName,
 			&m_pimTopBar) != 0)
 			{
-			sResult	= -1;
+			sResult = FAILURE;
 			TRACE("GetResources(): Failed to load: %s.\n", szFileName);
 			}
 
@@ -1260,7 +1260,7 @@ Error:
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CHood::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Don't check whether resources exist!  Even if they were only partially
 	// loaded (due to an error during the load process) we still want to clear

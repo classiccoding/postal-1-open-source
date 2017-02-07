@@ -524,7 +524,7 @@ ValidateTextures(
 	{
 	if (ptex->m_sNum < sNum)
 		{
-		int16_t	sResult = rspMsgBox(
+		int16_t sResult = rspMsgBox(
 			RSP_MB_ICN_QUERY | RSP_MB_BUT_YESNO,
 			"Incorrect Texture File",
 			"This texture file does not have enough entries to cover the entire mesh.\n"
@@ -795,7 +795,7 @@ CTexEdit::DoModal(
 				if (m_bModified)
 					{
 					// Query if user wants to apply the work textures (and not lose changes).
-					int16_t	sResult	= rspMsgBox(
+					int16_t sResult	= rspMsgBox(
 						RSP_MB_ICN_QUERY | RSP_MB_BUT_YESNOCANCEL,
 						g_pszAppName,
 						"Apply changes before exiting texture editor?");

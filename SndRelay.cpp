@@ -152,7 +152,7 @@ int16_t CSndRelay::Load(								// Returns 0 if successfull, non-zero otherwise
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CSndRelay::Load(): Error reading from file!\n");
 			}
 		}
@@ -168,7 +168,7 @@ int16_t CSndRelay::Save(										// Returns 0 if successfull, non-zero otherwis
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
-	int16_t	sResult	= CThing::Save(pFile, sFileCount);
+	int16_t sResult	= CThing::Save(pFile, sFileCount);
 	if (sResult == SUCCESS)
 		{
 		pFile->Write(m_dX);
@@ -282,7 +282,7 @@ int16_t CSndRelay::EditNew(								// Returns 0 if successfull, non-zero otherwi
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -342,7 +342,7 @@ static void CheckEnableGuiCall(	// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSndRelay::EditModify(void)
 	{
-	int16_t	sResult	= 0;
+	int16_t sResult = SUCCESS;
 
 	// Load gui dialog
 	RGuiItem* pgui = RGuiItem::LoadInstantiate(FullPathVD(GUI_FILE_NAME));
@@ -383,7 +383,7 @@ int16_t CSndRelay::EditModify(void)
 			}
 		else
 			{
-			sResult	= 1;
+			sResult = FAILURE;
 			}
 		
 		// Done with GUI.
@@ -391,7 +391,7 @@ int16_t CSndRelay::EditModify(void)
 		}
 	else
 		{
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	// If everything's okay, init using new values
@@ -506,7 +506,7 @@ void CSndRelay::EditRender(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSndRelay::Init(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	Kill();
 
@@ -521,7 +521,7 @@ int16_t CSndRelay::Init(void)							// Returns 0 if successfull, non-zero otherw
 			// okay if EVERYONE wants it to be an FSPR8.
 			if (m_sprite.m_pImage->Convert(RImage::FSPR8) != RImage::FSPR8)
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("CSndRelay::GetResource() - Couldn't convert to FSPR8\n");
 				}
 			}

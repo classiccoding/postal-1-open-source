@@ -412,13 +412,13 @@ static int16_t GetFileType(RIff* piff)
 		else
 			{
 			TRACE("GetFileType(): Unable to read header info.\n");
-         sResult = -2;
+         sResult = FAILURE * 2;
 			}
 		}
 	else
 		{
 		TRACE("GetFileType(): Unable to seek back to beginning.\n");
-      sResult = -1;
+      sResult = FAILURE;
 		}
 	
    return sResult;
@@ -581,7 +581,7 @@ int32_t RSample::Read(int32_t lAmount)
 ///////////////////////////////////////////////////////////////////////////////
 int16_t RSample::Close(void)
 	{
-   int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	ASSERT(m_iff.IsOpen() != FALSE);
 
@@ -596,7 +596,7 @@ int16_t RSample::Close(void)
 	else
 		{
 		TRACE("Close(): Unable to close file.\n");
-      sResult = -1;
+      sResult = FAILURE;
 		}
 
    return sResult;
@@ -611,7 +611,7 @@ int16_t RSample::Close(void)
 ///////////////////////////////////////////////////////////////////////////////
 int16_t RSample::Load(char* pszSampleName)
 	{
-   int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 	
 	// Attempt to open sample file.
 	m_lBufSize = Open(pszSampleName, DEFAULT_READBUFSIZE);
@@ -627,7 +627,7 @@ int16_t RSample::Load(char* pszSampleName)
 		else
 			{
 			TRACE("Load(\"%s\"): Unable to read entire file.\n", pszSampleName);
-         sResult = -2;
+         sResult = FAILURE * 2;
 			}
 
 		// Close file and clean up.
@@ -635,7 +635,7 @@ int16_t RSample::Load(char* pszSampleName)
 		}
 	else
 		{
-      sResult = -1;
+      sResult = FAILURE;
 		}
 		
    return sResult;
@@ -650,7 +650,7 @@ int16_t RSample::Load(char* pszSampleName)
 int16_t RSample::Load(	// Returns 0 on success.
 	RFile*	pfile)	// Open RFile.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Reset variables and free data if any.
 	Reset();
@@ -672,11 +672,11 @@ int16_t RSample::Load(	// Returns 0 on success.
 					break;
 				case SAMPLE_TYPE_UNKNOWN:
 					TRACE("Load(): Unknown sound file type.\n");
-               sResult = -6;
+               sResult = FAILURE * 6;
 					break;
 				default:
 					TRACE("Load(): Error reading header.\n");
-               sResult = -5;
+               sResult = FAILURE * 5;
 					break;
 				}
 
@@ -692,13 +692,13 @@ int16_t RSample::Load(	// Returns 0 on success.
 				else
 					{
 					TRACE("Load(): Unable to read entire file.\n");
-               sResult = -4;
+               sResult = FAILURE * 4;
 					}
 				}
 			else
 				{
 				TRACE("Load(): ReadWaveHeader() failed.\n");
-            sResult	= -3;
+            sResult = FAILURE * 3;
 				}
 
 			// Close and clean up.  Will 'unsynch' with pfile via m_iff.Close() call.
@@ -707,13 +707,13 @@ int16_t RSample::Load(	// Returns 0 on success.
 		else
 			{
 			TRACE("Load(): m_iff.Open(pfile) failed.\n");
-         sResult	= -2;
+         sResult = FAILURE * 2;
 			}
 		}
 	else
 		{
 		TRACE("Load(): Unable to lock RSample.\n");
-      sResult = -1;
+      sResult = FAILURE;
 		}
 
    return sResult;
@@ -727,7 +727,7 @@ int16_t RSample::Load(	// Returns 0 on success.
 int16_t RSample::Save(		// Returns 0 on success.
 	char* pszFileName)	// Filename for sample file.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Open file for write . . .
 	RFile file;
@@ -739,7 +739,7 @@ int16_t RSample::Save(		// Returns 0 on success.
 	else
 		{
 		TRACE("Save(\"%s\"): file.Open() failed.\n", pszFileName);
-      sResult	= -1;
+      sResult = FAILURE;
 		}
 
    return sResult;
@@ -753,7 +753,7 @@ int16_t RSample::Save(		// Returns 0 on success.
 int16_t RSample::Save(		// Returns 0 on success.
 	RFile* pfile)			// Open RFile for sample.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Attempt to synchronize . . .
 	RIff	iff;
@@ -790,7 +790,7 @@ int16_t RSample::Save(		// Returns 0 on success.
 					else
 						{
 						TRACE("Save(): Failed to write entire data buffer to 'data' chunk.\n");
-                  sResult	= -5;
+                  sResult = FAILURE * 5;
 						}
 
 					// End 'data' chunk.
@@ -799,13 +799,13 @@ int16_t RSample::Save(		// Returns 0 on success.
 				else
 					{
 					TRACE("Save(): Failed to create 'data' chunk.\n");
-               sResult	= -4;
+               sResult = FAILURE * 4;
 					}
 				}
 			else
 				{
 				TRACE("Save(): Failed to create 'fmt ' chunk.\n");
-            sResult	= -3;
+            sResult = FAILURE * 3;
 				}
 
 			// End 'RIFF' 'WAVE' form.
@@ -814,13 +814,13 @@ int16_t RSample::Save(		// Returns 0 on success.
 		else
 			{
 			TRACE("Save(): Failed to create RIFF WAVE form.\n");
-         sResult	= -2;
+         sResult = FAILURE * 2;
 			}
 		}
 	else
 		{
 		TRACE("Save(): iff.Open(pfile) failed.\n");
-      sResult	= -1;
+      sResult = FAILURE;
 		}
 
    return sResult;
@@ -835,7 +835,7 @@ int16_t RSample::Save(		// Returns 0 on success.
 ///////////////////////////////////////////////////////////////////////////////
 int16_t RSample::Lock(void)
 	{
-   int16_t sResult = 0; // Assume success.
+   int16_t sResult = SUCCESS; // Assume success.
 
 	// If not being read . . .
 	if (m_iff.IsOpen() == FALSE || m_sRefCnt == 0)
@@ -846,7 +846,7 @@ int16_t RSample::Lock(void)
 	else
 		{
 		TRACE("Lock(): Attempt to lock a RSample being read/streamed.\n");
-      sResult = -1;
+      sResult = FAILURE;
 		}
 	
    return sResult;
@@ -875,7 +875,7 @@ int16_t RSample::Unlock(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t RSample::Convert8to16(void)
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	ASSERT(m_sBitsPerSample	== 8);
 	ASSERT(m_sRefCnt			== 0);
@@ -910,7 +910,7 @@ int16_t RSample::Convert8to16(void)
 		}
 	else
 		{
-      sResult = -1;
+      sResult = FAILURE;
 		TRACE("Convert8to16(): Unable to allocate space for new data.\n");
 		}
 

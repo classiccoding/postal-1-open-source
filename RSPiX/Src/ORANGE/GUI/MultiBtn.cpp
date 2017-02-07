@@ -217,7 +217,7 @@ void RMultiBtn::DrawBackgroundRes(	// Returns nothing.
 int16_t RMultiBtn::SetNumStates(	// Returns 0 on success.
 	int16_t sNumStates)					// In:  New number of states.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// Allocate an array of image ptrs and clear them all . . .
 	RImage** papimNewStates	= new RImage*[sNumStates + 1];
@@ -251,7 +251,7 @@ int16_t RMultiBtn::SetNumStates(	// Returns 0 on success.
 	else
 		{
 		TRACE("SetNumStates(): Failed to allocate new array of Image ptrs.\n");
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -265,7 +265,7 @@ int16_t RMultiBtn::SetState(	// Returns 0 on success.
 	int16_t		sState)			// In:  State to update (0 == feedback state,
 									// 1..n == state number).
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	if (m_papimStates == nullptr || sState >= m_sNumStates)
 		{
@@ -288,7 +288,7 @@ int16_t RMultiBtn::SetState(	// Returns 0 on success.
 		else
 			{
 			TRACE("SetState():  Failed to allocate new RImage.\n");
-			sResult	= -1;
+			sResult = FAILURE;
 			}
 		}
 
@@ -304,7 +304,7 @@ int16_t RMultiBtn::SetState(	// Returns 0 on success.
 	int16_t		sState)			// In:  State to update (0 == feedback state,
 									// 1..n == state number).
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	RImage	im;
 	if (RFileEZLoad(&im, pszImageName, "rb", RFile::LittleEndian) == SUCCESS)
@@ -314,7 +314,7 @@ int16_t RMultiBtn::SetState(	// Returns 0 on success.
 	else
 		{
 		TRACE("SetState():  RFileEZLoad() failed for \"%s\".\n", pszImageName);
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 	
 	return sResult;
@@ -412,7 +412,7 @@ int16_t RMultiBtn::ReadMembers(		// Returns 0 on success.
 	RFile*	pfile,					// File to read from.
 	uint32_t		u32Version)				// File format version to use.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// Invoke base class to read base members.
 	sResult	= RBtn::ReadMembers(pfile, u32Version);
@@ -464,13 +464,13 @@ int16_t RMultiBtn::ReadMembers(		// Returns 0 on success.
 								else
 									{
 									TRACE("ReadMembers9): SetState() failed for state #%d.\n", sCurState);
-									sResult	= -3;
+									sResult = FAILURE * 3;
 									}
 								}
 							else
 								{
 								TRACE("ReadMembers(): GetState() failed for state #%d.\n", sCurState);
-								sResult	= -2;
+								sResult = FAILURE * 2;
 								}
 							}
 						else
@@ -483,7 +483,7 @@ int16_t RMultiBtn::ReadMembers(		// Returns 0 on success.
 				else
 					{
 					TRACE("ReadMembers(): SetNumStates() failed.\n");
-					sResult	= -1;
+					sResult = FAILURE;
 					}
 				}
 
@@ -497,7 +497,7 @@ int16_t RMultiBtn::ReadMembers(		// Returns 0 on success.
 				else
 					{
 					TRACE("ReadMembers(): Error reading RMultiBtn members.\n");
-					sResult	= -1;
+					sResult = FAILURE;
 					}
 				break;
 			}
@@ -513,7 +513,7 @@ int16_t RMultiBtn::ReadMembers(		// Returns 0 on success.
 int16_t RMultiBtn::WriteMembers(	// Returns 0 on success.
 	RFile*	pfile)					// File to write to.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// Invoke base class to read base members.
 	sResult	= RBtn::WriteMembers(pfile);
@@ -555,7 +555,7 @@ int16_t RMultiBtn::WriteMembers(	// Returns 0 on success.
 		else
 			{
 			TRACE("WriteMembers(): Error writing RMultiBtn members.\n");
-			sResult	= -1;
+			sResult = FAILURE;
 			}
 		}
 

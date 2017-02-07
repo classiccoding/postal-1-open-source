@@ -1380,7 +1380,7 @@ class CNetMsgr
 			{
 			ASSERT(m_state == Disconnected);
 
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 
 			// Reset to make sure we're starting with a clean slate
 			Reset();

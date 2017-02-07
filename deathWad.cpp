@@ -183,7 +183,7 @@ int16_t CDeathWad::Load(										// Returns 0 if successfull, non-zero otherwis
 		}
 		else
 		{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CDeathWad::Load(): Error reading from file!\n");
 		}
 	}
@@ -512,7 +512,7 @@ int16_t CDeathWad::Setup(									// Returns 0 if successfull, non-zero otherwis
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -542,7 +542,7 @@ int16_t CDeathWad::Setup(									// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDeathWad::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	sResult = m_anim.Get(RES_BASE_NAME, nullptr, nullptr, nullptr, 0);
 	if (sResult == SUCCESS)
@@ -599,7 +599,7 @@ int16_t CDeathWad::Preload(
 		}
 	else
 		{
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	CacheSample(g_smidDeathWadLaunch);

@@ -1446,7 +1446,7 @@ int16_t ConvertToSCREEN32_ARGB(RImage* pImage)
 //////////////////////////////////////////////////////////////////////
 int16_t ConvertFromBMP8RLE(RImage* pImage)
 	{
-	int16_t	sResult	= RImage::NOT_SUPPORTED;	// Assume failure.
+   int16_t sResult	= RImage::NOT_SUPPORTED;	// Assume failure.
 
 	ASSERT(pImage->m_type == RImage::BMP8RLE);
 
@@ -1563,7 +1563,7 @@ int16_t ConvertFromBMP8RLE(RImage* pImage)
 //////////////////////////////////////////////////////////////////////
 int16_t ConvertToBMP8RLE(RImage* pImage)
 	{
-	int16_t	sResult	= RImage::NOT_SUPPORTED;	// Assume failure.
+   int16_t sResult	= RImage::NOT_SUPPORTED;	// Assume failure.
 
 	// Only certain types can be converted from.
 	switch (pImage->m_type)
@@ -1743,7 +1743,7 @@ int16_t ConvertToBMP8RLE(RImage* pImage)
 //////////////////////////////////////////////////////////////////////
 int16_t ConvertFromBMP1(RImage* pImage)
 	{
-	int16_t	sResult	= RImage::NOT_SUPPORTED;	// Assume failure.
+   int16_t sResult	= RImage::NOT_SUPPORTED;	// Assume failure.
 
 	// Set up a pointer to the 1-bit packed buffer before detaching.
 	uint8_t*	pu8Src	= pImage->m_pData;
@@ -1832,7 +1832,7 @@ int16_t ConvertFromBMP1(RImage* pImage)
 //////////////////////////////////////////////////////////////////////
 int16_t ConvertToBMP1(RImage* pImage)
 	{
-	int16_t	sResult	= RImage::NOT_SUPPORTED;	// Assume failure.
+   int16_t sResult	= RImage::NOT_SUPPORTED;	// Assume failure.
 
 	// Only certain types can be converted from.
 	switch (pImage->m_type)

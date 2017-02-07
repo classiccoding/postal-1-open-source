@@ -48,7 +48,7 @@ int16_t CNetServer::Startup(								// Returns 0 if successfull, non-zero otherw
 	char* pszHostName,									// In:  Host name (max size is MaxHostName!!!)
 	RSocket::BLOCK_CALLBACK callback)				// In:  Blocking callback
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Do a reset to be sure we're starting at a good point
 	Reset();
@@ -146,8 +146,8 @@ void CNetServer::Update(void)
 				if (m_socketListen.CanAcceptWithoutBlocking())
 					{
 					// Try to accept client's connection
-					int16_t serr = m_aClients[id].m_msgr.Accept(&m_socketListen, m_callback);
-					if (serr == SUCCESS)
+					int16_t sError = m_aClients[id].m_msgr.Accept(&m_socketListen, m_callback);
+					if (sError == SUCCESS)
 						{
 						// Upgrade state
 						m_aClients[id].m_state = CClient::Used;
@@ -156,7 +156,7 @@ void CNetServer::Update(void)
 						{
 						// If the return error indicates that it would have blocked, then something
 						// is not kosher since CanAcceptWithoutBlocking() just said it woulnd NOT block.
-						if (serr == RSocket::errWouldBlock)
+						if (sError == RSocket::errWouldBlock)
 							TRACE("CNetServer()::Update(): It waid it wouldn't block, but then said it would!\n");
 
 						// Don't return an actual error code from this function because we can't
@@ -191,8 +191,8 @@ void CNetServer::Update(void)
 		uint8_t buf1[4];
       size_t lReceived;
 		RSocket::Address address;
-		int16_t serr = m_socketAntenna.ReceiveFrom(buf1, sizeof(buf1), &lReceived, &address);
-		if (serr == SUCCESS)
+		int16_t sError = m_socketAntenna.ReceiveFrom(buf1, sizeof(buf1), &lReceived, &address);
+		if (sError == SUCCESS)
 			{
 			// Validate the message to make sure it was sent by another app of this
 			// type, as opposed to some unknown app that happens to use the same port.
@@ -221,15 +221,15 @@ void CNetServer::Update(void)
 
 				// Send the message directly to the sender of the previous message
             size_t lBytesSent;
-				int16_t serr = m_socketAntenna.SendTo(buf2, sizeof(buf2), &lBytesSent, &address);
-				if (serr == SUCCESS)
+				int16_t sError = m_socketAntenna.SendTo(buf2, sizeof(buf2), &lBytesSent, &address);
+				if (sError == SUCCESS)
 					{
 					if (lBytesSent != sizeof(buf2))
 						TRACE("CNetServer::Update(): Error sending broadcast (wrong size)!\n");
 					}
 				else
 					{
-					if (serr != RSocket::errWouldBlock)
+					if (sError != RSocket::errWouldBlock)
 						TRACE("CNetServer::Update(): Error sending broadcast!\n");
 					}
 				}
@@ -238,7 +238,7 @@ void CNetServer::Update(void)
 			}
 		else
 			{
-			if (serr != RSocket::errWouldBlock)
+			if (sError != RSocket::errWouldBlock)
 				TRACE("CNetServer::Update(): Warning: Error receiving broadcast -- ignored!\n");
 			}
 		}

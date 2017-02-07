@@ -132,14 +132,14 @@ void CNetMsgr::Update(void)
 
 		case Connecting:
 			{
-			int16_t serr = m_socket.Connect(&m_address);
-         if (serr == SUCCESS)
+			int16_t sError = m_socket.Connect(&m_address);
+         if (sError == SUCCESS)
 				{
 				m_state = Connected;
 				m_lMsgRecvTime = rspGetMilliseconds();
 				m_lMsgSentTime = rspGetMilliseconds();
 				}
-			else if (serr != RSocket::errWouldBlock)
+			else if (sError != RSocket::errWouldBlock)
 				{
 				TRACE("CNetMsgr::Connect(): Attempt to connect failed!\n");
 				// It may seem harsh, but resetting is just fine in this
@@ -469,8 +469,8 @@ void CNetMsgr::ReceiveData(void)
 			if (lMaxPuttableBytes > 0)
 				{
 				// Receive up to the specified number of bytes
-				int16_t serr = m_socket.Receive(pu8Put, lMaxPuttableBytes, &lReceivedBytes);
-				if ((serr != 0) && (serr != RSocket::errWouldBlock))
+				int16_t sError = m_socket.Receive(pu8Put, lMaxPuttableBytes, &lReceivedBytes);
+            if ((sError != SUCCESS) && (sError != RSocket::errWouldBlock))
 					{
 					m_error = NetMsg::ReceiveError;
 					TRACE("CNetMsgr::Update(): Receive error!\n");
@@ -521,8 +521,8 @@ void CNetMsgr::SendData(void)
 			if (lMaxGettableBytes > 0)
 				{
 				// Receive up to the specified number of bytes
-				int16_t serr = m_socket.Send(pu8Get, lMaxGettableBytes, &lSentBytes);
-				if ((serr != 0) && (serr != RSocket::errWouldBlock))
+				int16_t sError = m_socket.Send(pu8Get, lMaxGettableBytes, &lSentBytes);
+            if ((sError != SUCCESS) && (sError != RSocket::errWouldBlock))
 					{
 					m_error = NetMsg::SendError;
 					TRACE("CNetMsgr::Update(): Send error!\n");

@@ -495,7 +495,7 @@ int16_t CThing3d::Load(									// Returns 0 if successfull, non-zero otherwise
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CThing3d::Load(): Error reading from file!\n");
 			}
 		}
@@ -512,7 +512,7 @@ int16_t CThing3d::Save(									// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
 	// Call the base class save to save the u16InstanceID
-	int16_t	sResult	= CThing::Save(pFile, sFileCount);
+	int16_t sResult	= CThing::Save(pFile, sFileCount);
    if (sResult == SUCCESS)
 		{
 		// Save object data
@@ -699,7 +699,7 @@ int16_t CThing3d::EditNew(								// Returns 0 if successfull, non-zero otherwis
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;

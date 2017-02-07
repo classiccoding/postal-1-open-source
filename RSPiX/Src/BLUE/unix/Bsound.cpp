@@ -113,11 +113,11 @@ extern int16_t rspSetSoundOutMode(				// Returns 0 if successfull, non-zero othe
 
     if (!SDL_WasInit(SDL_INIT_AUDIO))
     {
-        if (SDL_Init(SDL_INIT_AUDIO) == -1)
+        if (SDL_Init(SDL_INIT_AUDIO) == FAILURE)
             return BLU_ERR_NO_DEVICE;
     }
 
-    if (SDL_OpenAudio(&desired, nullptr) == -1)
+    if (SDL_OpenAudio(&desired, nullptr) == FAILURE)
     {
 		TRACE("rspSetSoundOutMode(): SDL_OpenAudio failed: %s.\n", SDL_GetError());
         SDL_QuitSubSystem(SDL_INIT_AUDIO);

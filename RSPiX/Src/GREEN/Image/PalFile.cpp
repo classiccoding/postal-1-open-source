@@ -105,7 +105,7 @@ int16_t RPalFile::LoadNoVersion(	// Returns SUCCESS on success or FAILURE on
 	RPal*		ppal,						// Pal to load into.
 	RFile*	pfile)					// File to load from.
 	{
-	int16_t	sResult	= SUCCESS;	// Assume success.
+	int16_t sResult	= SUCCESS;	// Assume success.
 
 	// No RFile support for RPal::Type, so we used a uint32_t.
 	uint32_t	u32Temp	= 0;
@@ -145,7 +145,7 @@ int16_t RPalFile::LoadVersion1(	// Returns SUCCESS on success or FAILURE on
 	RPal*		/*ppal*/,			// Pal to load into.
 	RFile*	/*pfile*/)			// File to load from.
 	{
-	int16_t	sResult	= SUCCESS;	// Assume success.
+	int16_t sResult	= SUCCESS;	// Assume success.
 
 	TRACE("LoadVersion1(): No current support for version 1 RPal.\n");
 	sResult	= FAILURE;
@@ -163,7 +163,7 @@ int16_t RPalFile::LoadVersion2(	// Returns SUCCESS on success or FAILURE on
 	RPal*		/*ppal*/,			// Pal to load into.
 	RFile*	/*pfile*/)			// File to load from.
 	{
-	int16_t	sResult	= SUCCESS;	// Assume success.
+	int16_t sResult	= SUCCESS;	// Assume success.
 
 	TRACE("LoadVersion2(): No current support for version 2 RPal.\n");
 	sResult	= FAILURE;
@@ -181,7 +181,7 @@ int16_t RPalFile::LoadVersion3(	// Returns SUCCESS on success or FAILURE on
 	RPal*		ppal,					// Pal to load into.
 	RFile*	pfile)				// File to load from.
 	{
-	int16_t	sResult	= SUCCESS;	// Assume success.
+	int16_t sResult	= SUCCESS;	// Assume success.
 
 	// No RFile support for RPal::Type, so we used a uint32_t.
 	uint32_t	u32Temp	= 0;
@@ -229,7 +229,7 @@ int16_t RPalFile::Load(			// Returns SUCCESS on success or FAILURE on failure.
 	RPal*		ppal,					// Pal to load into.
 	RFile*	pfile)				// File to load from.
 	{
-	int16_t	sResult	= SUCCESS;	// Assume success.
+	int16_t sResult	= SUCCESS;	// Assume success.
 
 	// Get finger print . . .
 	uint32_t	ulFinger;

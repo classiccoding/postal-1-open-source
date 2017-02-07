@@ -275,7 +275,7 @@ int16_t CBouy::Load(										// Returns 0 if successfull, non-zero otherwise
 		}
 		else
 		{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CBouy::Load(): Error reading from file!\n");
 		}
 	}
@@ -339,7 +339,7 @@ int16_t CBouy::Save(										// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBouy::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	// At this point we can assume the CHood was loaded, so we init our height
 	m_dY = m_pRealm->GetHeight((int16_t) m_dX, (int16_t) m_dZ);
@@ -423,7 +423,7 @@ void CBouy::Update(void)
 
 int16_t CBouy::AddLink(CBouy* pBouy)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	
 	if (!m_aplDirectLinks.Find(pBouy))
 	{
@@ -431,7 +431,7 @@ int16_t CBouy::AddLink(CBouy* pBouy)
 		m_sNumDirectLinks++;
 	}
 	
-	return sReturn;	
+   return sResult;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -450,7 +450,7 @@ int16_t CBouy::EditNew(									// Returns 0 if successfull, non-zero otherwise
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -592,7 +592,7 @@ void CBouy::EditHotSpot(	// Returns nothiing.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBouy::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 	
 	if (m_pImage == 0)
 		{
@@ -633,13 +633,13 @@ int16_t CBouy::GetResources(void)						// Returns 0 if successfull, non-zero oth
 					// Convert to efficient transparent blit format . . .
 					if (m_pImage->Convert(RImage::FSPR8) != RImage::FSPR8)
 						{
-						sResult = -3;
+                  sResult = FAILURE * 3;
 						TRACE("CBouy::GetResource() - Couldn't convert to FSPR8\n");
 						}
 					}
 				else
 					{
-					sResult	= -2;
+               sResult = FAILURE * 2;
 					TRACE("CBouy::GetResource() - m_pImage->CreateImage() failed.\n");
 					}
 
@@ -652,7 +652,7 @@ int16_t CBouy::GetResources(void)						// Returns 0 if successfull, non-zero oth
 				}
 			else
 				{
-				sResult	= -1;
+				sResult = FAILURE;
 				TRACE("CBouy::GetResource(): Failed to allocate RImage.\n");
 				}
 			
@@ -828,7 +828,7 @@ int16_t CBouy::BuildRoutingTable(void)
 	else
 	{
 		TRACE("CBouy::BuildRoutingTable: Error allocating memory for tables for bouy %d\n", m_ucID);
-		sResult = -1;
+		sResult = FAILURE;
 	}
 
 	if (aVisited)

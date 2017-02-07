@@ -38,7 +38,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 int16_t OpenLogFile()
 	{
-	int16_t sResult = 0; // Assume success
+   int16_t sResult = SUCCESS; // Assume success
 	if (g_GameSettings.m_bLogNetTime)
 		{
 			if (!g_GameSettings.m_rfNetSyncLog.IsOpen())
@@ -67,7 +67,7 @@ int16_t OpenLogFile()
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CloseLogFile()
 	{
-	int16_t sResult = 0; // Assume success
+   int16_t sResult = SUCCESS; // Assume success
 	if (g_GameSettings.m_bLogNetTime)
 		{
 		if ((g_GameSettings.m_rfNetSyncLog.Close()) != 0)
@@ -93,7 +93,7 @@ int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
 							char bReceived,							// a received or a sent message? TRUE if received
 							uint16_t u16PackageID/*=0*/)				// Uniquely identifiable package id																		//		True if receiving, false if sending
 	{	
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
    const char *szCallerMsg;
 	char szTime[256]; 
 	char szSeq[256];
@@ -125,7 +125,7 @@ int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
 		if ((prfLog->Open(g_GameSettings.m_szNetSyncLogFile, "wt+", endian)) != 0)
 			{
 			TRACE("WriteTimeStamp: Failed to open network time stamp log file\n");
-			sResult = -1;
+			sResult = FAILURE;
 			}
 		}
 
@@ -293,7 +293,7 @@ int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
 ////////////////////////////////////////////////////////////////////////////////
 int16_t WriteInputData(uint32_t *input)
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 	char szInput[256]; 
 
 	// For convenience

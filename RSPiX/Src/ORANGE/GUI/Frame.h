@@ -144,7 +144,7 @@ class RFrame : public RGuiItem
 			RRect* prc = nullptr)	// Clip to.
 			{
         UNUSED(sSrcX, sSrcY, sW, sH);
-			int16_t	sResult	= 0;	// Assume success.
+			int16_t sResult = SUCCESS;	// Assume success.
 
 			// If visible . . .
 			if (m_sVisible != FALSE)

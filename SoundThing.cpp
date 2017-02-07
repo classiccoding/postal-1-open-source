@@ -234,7 +234,7 @@ int16_t CSoundThing::Load(								// Returns 0 if successfull, non-zero otherwis
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CSoundThing::Load(): Error reading from file!\n");
 			}
 		}
@@ -250,7 +250,7 @@ int16_t CSoundThing::Save(										// Returns 0 if successfull, non-zero otherw
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
-	int16_t	sResult	= CThing::Save(pFile, sFileCount);
+	int16_t sResult	= CThing::Save(pFile, sFileCount);
 	if (sResult == SUCCESS)
 		{
 		pFile->Write(m_sAmbient);
@@ -507,7 +507,7 @@ int16_t CSoundThing::EditNew(									// Returns 0 if successfull, non-zero othe
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -587,7 +587,7 @@ static void BrowseCall(		// Returns nothing.
 
 		strcpy(szSystemPath, FullPathCustom(pszSakpath, pguiName->m_szText) );
 
-		int16_t	sResult;
+		int16_t sResult;
 		do {
 			sResult	= SubPathOpenBox(			// Returns 0 on success, negative on error, 1 if 
 														// not subpathable (i.e., returned path is full path).
@@ -626,7 +626,7 @@ static void BrowseCall(		// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSoundThing::EditModify(void)
 	{
-	int16_t	sResult	= 0;
+	int16_t sResult = SUCCESS;
 
 	// Load gui dialog
 	RGuiItem* pgui = RGuiItem::LoadInstantiate(FullPathVD(GUI_FILE_NAME));
@@ -778,7 +778,7 @@ int16_t CSoundThing::EditModify(void)
 			}
 		else
 			{
-			sResult	= 1;
+			sResult = FAILURE;
 			}
 		
 		// Done with GUI.
@@ -786,7 +786,7 @@ int16_t CSoundThing::EditModify(void)
 		}
 	else
 		{
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	// If everything's okay, init using new values
@@ -903,7 +903,7 @@ void CSoundThing::EditRender(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSoundThing::Init(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	Kill();
 
@@ -925,7 +925,7 @@ int16_t CSoundThing::Init(void)							// Returns 0 if successfull, non-zero othe
 			// okay if EVERYONE wants it to be an FSPR8.
 			if (m_pImage->Convert(RImage::FSPR8) != RImage::FSPR8)
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("CSoundThing::GetResource() - Couldn't convert to FSPR8\n");
 				}
 			}

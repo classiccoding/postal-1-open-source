@@ -282,7 +282,7 @@ class CLogTabVar_PylonAvailable : CLogTabVar<CPerson*>
 
 		int16_t GetVal(CPerson* pPerson)
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 			pPerson->Logic_PylonDetect();
 			if (pPerson->m_bPylonPopoutAvailable)
 			{
@@ -358,7 +358,7 @@ class CLogTabVar_DudeHealth : CLogTabVar<CPerson*>
 
 		int16_t GetVal(CPerson* pPerson)
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 
 			if (pPerson->SelectDude() == SUCCESS)
 			{

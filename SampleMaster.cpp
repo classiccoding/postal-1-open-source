@@ -609,7 +609,7 @@ void PlaySample(												// Returns nothing.
 																	// In:  If less than 1, the end + lLoopEndTime is used.
 	bool bPurgeSample /* = false */)						// In:  Call ReleaseAndPurge rather than Release after playing
 	{
-	int16_t	sError	= 0;					// Assume no error.
+   int16_t	sError = SUCCESS;					// Assume no error.
 #ifdef UNUSED_VARIABLES
 	RSnd*		psnd	= &ms_sndFailure;	// Default to failure case.
 #endif
@@ -665,18 +665,18 @@ void PlaySample(												// Returns nothing.
 				else
 					{
 	//				TRACE("PlaySample(): RSnd::Play() failed for sample.\n");
-					sError	= 3;
+               sError = FAILURE * 3;
 					}
 				}
 			else
 				{
 				TRACE("PlaySample(): No available sound channels.  Increase NUM_CHANNELS"
 					" or like it.\n");
-				sError	= 2;
+            sError = FAILURE * 2;
 				}
 
 			// If an error occurred . . .
-			if (sError != 0)
+			if (sError != SUCCESS)
 				{
 				// Either release the sample, or purge and release//////////////////////////////////////////////////////////////////////
 
@@ -689,7 +689,7 @@ void PlaySample(												// Returns nothing.
 		else
 			{
 			TRACE("PlaySample(): Could not get sample \"%s\".\n", id.pszId);
-			sError	= 1;
+         sError = FAILURE;
 			}
 		}
 	}
@@ -850,7 +850,7 @@ bool IsSamplePlaying(void)		// Returns true, if a sample is playing,
 int16_t AbortSample(		// Returns 0 if sample aborted, 1 if not.
 	SampleMaster::SoundInstance	si)	// In:  Identifies play instance.
 	{
-   int16_t	sResult	= 1;	// Assume failure.
+   int16_t sResult = FAILURE;	// Assume failure.
 
 	// Get the channel number from the lowest bits:
 	int16_t sChannel = si & CHANNEL_MASK;
@@ -866,7 +866,7 @@ int16_t AbortSample(		// Returns 0 if sample aborted, 1 if not.
             if (ms_asndChannels[sChannel].Abort() == SUCCESS)
 					{
 					// Success.
-               sResult	= 0;
+               sResult = SUCCESS;
 					// Do we have to release it?  Should get a callback.
 					}
 				else

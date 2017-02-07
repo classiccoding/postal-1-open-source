@@ -777,7 +777,7 @@ class RGuiItem : public RProps <uint32_t, uint32_t>
 									// Returns FALSE otherwise.
 			RGuiItem* pgui)	// GUI that may be an ancestor.
 			{
-			int16_t	sResult	= FALSE;
+			int16_t sResult	= FALSE;
 
 			RGuiItem*	pguiParent =	GetParent();
 			while (pguiParent != nullptr && sResult == FALSE)

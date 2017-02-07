@@ -3430,13 +3430,13 @@ static void GetCursor(	// Returns nothing.
 static int16_t InitCursor(
 	void)
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	m_pimCursorBase = new RImage;
 	ASSERT(m_pimCursorBase != nullptr);
 	if (m_pimCursorBase->Load(FullPath(GAME_PATH_VD, CURSOR_BASE_IMAGE_FILE) ) != 0)
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("LoadCursor(): Couldn't load cursor file: %s\n", 
 			FullPath(GAME_PATH_VD, CURSOR_BASE_IMAGE_FILE));
 		goto Exit;
@@ -3444,7 +3444,7 @@ static int16_t InitCursor(
 
 	if (m_pimCursorBase->Convert(RImage::FSPR8) != RImage::FSPR8)
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("LoadCursor(): Couldn't convert cursor base to FSPR8!\n");
 		goto Exit;
 		}
@@ -3453,7 +3453,7 @@ static int16_t InitCursor(
 	ASSERT(m_pimCursorTip != nullptr);
 	if (m_pimCursorTip->Load(FullPath(GAME_PATH_VD, CURSOR_TIP_IMAGE_FILE) ) != 0)
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("LoadCursor(): Couldn't load cursor file: %s\n", 
 			FullPath(GAME_PATH_VD, CURSOR_TIP_IMAGE_FILE) );
 		goto Exit;
@@ -3461,7 +3461,7 @@ static int16_t InitCursor(
 
 	if (m_pimCursorTip->Convert(RImage::FSPR8) != RImage::FSPR8)
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("LoadCursor(): Couldn't convert cursor tip to FSPR8!\n");
 		goto Exit;
 		}
@@ -3553,7 +3553,7 @@ static void DrawCursor(
 static int16_t NewRealm(
 	CRealm* prealm)
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	// Close realm in case it contains anything
 	sResult	= CloseRealm(prealm);
@@ -3622,7 +3622,7 @@ static int16_t NewRealm(
 static int16_t CloseRealm(
 	CRealm* prealm)
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	// Cancel drag, if one is in progress.
 	CancelDrag(prealm);
@@ -3651,7 +3651,7 @@ static int16_t CloseRealm(
 				break;
 			case RSP_MB_RET_CANCEL:
 				// User abort.
-				sResult	= 1;
+            sResult = FAILURE;
 				break;
 			}
 		}
@@ -3722,7 +3722,7 @@ static int16_t CloseRealm(
 static int16_t LoadRealm(
 	CRealm* prealm)
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	// Close current realm.
 	sResult	= CloseRealm(prealm);
@@ -3848,7 +3848,7 @@ static int16_t LoadRealm(
 								else
 									{
 									TRACE("LoadRealm(): Unable to allocate hotbox for thing.\n");
-									sResult	= 1;
+                           sResult = FAILURE;
 									}
 								}
 								// Go to next item
@@ -3858,14 +3858,14 @@ static int16_t LoadRealm(
 					else
 						{
 						TRACE("LoadRealm(): Unable to allocate hotbox for Hood.\n");
-						sResult	= 1;
+                  sResult = FAILURE;
 						}
 
 					}
 				else
 					{
 					TRACE("LoadRealm(): Realm has no hood.\n");
-					sResult	= 1;
+               sResult = FAILURE;
 					}
 				
 				// If any errors occurred . . .
@@ -3949,14 +3949,14 @@ static int16_t LoadRealm(
 static int16_t SaveRealmAs(
 	CRealm* prealm)
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 	
 	#ifdef DISABLE_EDITOR_SAVE_AND_PLAY
 		rspMsgBox(
 			RSP_MB_ICN_INFO | RSP_MB_BUT_OK,
 			"Postal Editor",
 			"Sorry, but the save feature is disabled.");
-		sResult = -1;
+		sResult = FAILURE;
 	#else
 		// Attempt to get filename . . .
 		// ***LOCALIZE***
@@ -3976,7 +3976,7 @@ static int16_t SaveRealmAs(
 		else
 			{
 			// Cancelled.
-			sResult	= 1;
+         sResult = FAILURE;
 			}
 	#endif
 
@@ -3991,7 +3991,7 @@ static int16_t SaveRealmAs(
 static int16_t SaveRealm(
 	CRealm* prealm)
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 	
 	// If filename . . .
 	if (strcmp(ms_szFileName, FullPathVD(INITIAL_REALM_DIR)) != 0)
@@ -4020,14 +4020,14 @@ static int16_t SaveRealm(			// Returns 0 on success.
 	char* pszRealmName,			// In:  Filename to save as.
 	bool	bSaveTriggerRegions)	// In:  Save the trigger regions too.
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	#ifdef DISABLE_EDITOR_SAVE_AND_PLAY
 		rspMsgBox(
 			RSP_MB_ICN_INFO | RSP_MB_BUT_OK,
 			"Postal Editor",
 			"Sorry, but the save feature is disabled.");
-		sResult = -1;
+		sResult = FAILURE;
 	#else
 		// Convert the Trigger Regions into an attribute map:
 		CreateTriggerRegions(prealm);
@@ -4051,7 +4051,7 @@ static int16_t SaveRealm(			// Returns 0 on success.
 						RSP_MB_ICN_INFO | RSP_MB_BUT_OK,
 						"SaveRealm()",
 						"Pylon editor regions failed to save.");
-					sResult	= -1;
+					sResult = FAILURE;
 					}
 				}
 			}
@@ -4087,7 +4087,7 @@ static void PlayRealm(
 			"Sorry, but the play feature is disabled.");
 	#else
 		// This is not returned by the function, but used internally
-		int16_t sResult = 0;
+      int16_t sResult = SUCCESS;
 
 		// Enable RMix's autopump.
 		RMix::SetAutoPump(TRUE);
@@ -4722,7 +4722,7 @@ static void PlayRealm(
 					else
 						{
 						TRACE("EditPlay(): Error starting-up temporary realm!\n");
-						sResult = -1;
+						sResult = FAILURE;
 						}
 					}
 				else
@@ -4744,7 +4744,7 @@ static void PlayRealm(
 		else
 			{
 			TRACE("PlayRealm(): Error getting temporary file name!\n");
-			sResult = -1;
+			sResult = FAILURE;
 			}
 
 		// If mouse is being used, restore mouse cursor
@@ -4784,7 +4784,7 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 	RHot**	pphot,					// Out: Pointer to new hotbox for thing.
 	RFile*	pfile/* = nullptr*/)		// In:  Optional file to load from (instead of EditNew()).
 	{
-	int16_t		sError		= 0;
+   int16_t sError = SUCCESS;
 
 	// Don't allow more than one CHood . . .
 	if ((id == CThing::CHoodID) && (prealm->m_asClassNumThings[CThing::CHoodID] > 0))
@@ -4795,7 +4795,7 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 			"Editor: ",
 			"Can't have multiple CHood's!");
 		//STRACE("Editor: Can't have multiple CHood's!\n");
-		sError	= 1;
+      sError = FAILURE;
 		}
 	else
 		{
@@ -4832,7 +4832,7 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 						else
 							{
 							TRACE("CreateNewThing(): Load() failed for object.\n");
-							sError	= 4;
+                     sError = FAILURE * 4;
 							}
 						}
 					else
@@ -4845,12 +4845,12 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 						else
 							{
 							TRACE("CreateNewThing(): EditNew() failed for object.\n");
-							sError	= 4;
+                     sError = FAILURE * 4;
 							}
 						}
 
 					// If successful so far . . .
-					if (sError == 0)
+               if (sError == SUCCESS)
 						{
 						int16_t sActivateHot	= TRUE;
 
@@ -4918,7 +4918,7 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 								}
 
 							// If an error occurred after allocation . . .
-							if (sError != 0)
+							if (sError != SUCCESS)
 								{
 								// On error, destroy object
 								delete *pphot;
@@ -4928,12 +4928,12 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 						else
 							{
 							TRACE("CreateNewThing(): Failed to allocate new RHot.\n");
-							sError	= 3;
+                     sError = FAILURE * 3;
 							}
 						}
 
 					// If an error occurred after allocation . . .
-					if (sError != 0)
+					if (sError != SUCCESS)
 						{
 						// On error, destroy object
 						delete *ppthing;
@@ -4949,12 +4949,12 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 					RSP_MB_ICN_STOP | RSP_MB_BUT_OK,
 					"No current NavNet",
 					"Cannot create new Buoy when there is no current NavNet.");
-				sError	= 6;
+            sError = FAILURE * 6;
 				}
 			}
 		else
 			{
-			sError = 7;
+         sError =FAILURE * 7;
 			}
 		}
 	return sError;
@@ -5032,7 +5032,7 @@ static int16_t SetDisplayArea(	// Returns 0 on success.
 	int16_t	sDisplayW,				// New width of display area.
 	int16_t	sDisplayH)				// New height of display area.
 	{
-	int16_t	sError	= 0;
+   int16_t	sError = SUCCESS;
 	int16_t	sDeviceW, sDeviceH;
 	int16_t	sDeviceScaling	= FALSE;
 	// Get device size/mode for this display size.
@@ -5060,7 +5060,7 @@ static int16_t SetDisplayArea(	// Returns 0 on success.
 		}
 
 	// If successful so far . . .
-	if (sError == 0)
+   if (sError == SUCCESS)
 		{
 		// Set the adjusted mode . . .
 		sError	= rspSetVideoMode(
@@ -5076,7 +5076,7 @@ static int16_t SetDisplayArea(	// Returns 0 on success.
 		// I'm not sure if this is necessary, but let's be safe.
 		rspNameBuffers(&g_pimScreenBuf);
 
-		if (sError == 0)
+      if (sError == SUCCESS)
 			{
 			}
 		else
@@ -5128,7 +5128,7 @@ static int16_t AdjustDisplaySize(	// Returns 0 on success.
 	CCamera* pcamera,					// Camera to update.
 	CRealm*	prealm)					// Realm to update.
 	{
-	int16_t	sError		= 0;
+   int16_t	sError = SUCCESS;
 
 	int16_t	sDisplayW	= 640;	// Safety.
 	int16_t	sDisplayH	= 480;	// Safety.
@@ -5153,7 +5153,7 @@ static int16_t AdjustDisplaySize(	// Returns 0 on success.
 		}
 	else
 		{
-		sError	= 1;
+      sError = FAILURE;
 		}
 
 	return sError;
@@ -5168,7 +5168,7 @@ static int16_t SizeUpdate(		// Returns 0 on success.
 	CCamera* pcamera,				// Camera to update.
 	CRealm*	prealm)				// Realm to update.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	int16_t	sDisplayW	= 640;	// Safety.
 	int16_t	sDisplayH	= 480;	// Safety.
@@ -5193,7 +5193,7 @@ static int16_t SizeUpdate(		// Returns 0 on success.
 	else
 		{
 		TRACE("SizeUpdate(): No hood.\n");
-      sResult	= -1;
+      sResult = FAILURE;
 		}
 
 	// Give Jeff a chance to update his cool wrapper.
@@ -5288,7 +5288,7 @@ static int16_t SizeUpdate(		// Returns 0 on success.
 	else
 		{
 		TRACE("SizeUpdate(): ms_sbVert.Create() failed.\n");
-      sResult	= -3;
+      sResult = FAILURE * 3;
 		}
 
 	if (ms_sbHorz.Create(
@@ -5315,7 +5315,7 @@ static int16_t SizeUpdate(		// Returns 0 on success.
 	else
 		{
 		TRACE("SizeUpdate(): ms_sbHorz.Create() failed.\n");
-      sResult	= -3;
+      sResult = FAILURE * 3;
 		}
 
 	// Re-Create attribute displayer sprite.
@@ -5968,7 +5968,7 @@ static int16_t AddView(		// Returns 0 on success.
 	CRealm*	prealm)			// In:  Realm in which to setup camera.
 	{
 	static int16_t	sNum	= 0;
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 	RListBox*	plb	= (RListBox*)ms_pguiCameras->GetItemFromId(GUI_ID_CAMERA_LIST);
 	if (plb != nullptr)
 		{
@@ -5987,12 +5987,12 @@ static int16_t AddView(		// Returns 0 on success.
 			}
 		else
 			{
-         sResult	= -2;
+         sResult = FAILURE * 2;
 			}
 		}
 	else
 		{
-      sResult	= -1;
+      sResult = FAILURE;
 		}
 
    return sResult;
@@ -6048,7 +6048,7 @@ static int16_t CreateView(					// Returns 0 on success.
 	View**	ppview,							// Out: New view, if not nullptr.
 	CRealm*	prealm)							// In:  Realm in which to setup camera.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	if (ppview != nullptr)
 		{
@@ -6103,7 +6103,7 @@ static int16_t CreateView(					// Returns 0 on success.
 			else
 				{
 				TRACE("CreateView(): Failed to add view to list.\n");
-            sResult	= -3;
+            sResult = FAILURE * 3;
 				}
 
 			// If an error occurred after allocating GUI . . .
@@ -6115,7 +6115,7 @@ static int16_t CreateView(					// Returns 0 on success.
 		else
 			{
 			TRACE("CreateView(): Failed to load %s.\n", VIEW_GUI_FILE);
-         sResult	= -2;
+         sResult = FAILURE * 2;
 			}
 
 		// If an error occurred after allocating View . . .
@@ -6127,7 +6127,7 @@ static int16_t CreateView(					// Returns 0 on success.
 	else
 		{
 		TRACE("CreateView(): Failed to allocate new View.\n");
-      sResult	= -1;
+      sResult = FAILURE;
 		}
 
    return sResult;
@@ -6467,7 +6467,7 @@ static int16_t LoadTriggerRegions(	// Returns 0 on success.
 	char*	pszRealmName)				// In:  Name of the REALM (*.RLM) file.
 											// The .ext is stripped and .rgn is appended.
 	{
-   int16_t sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Change filename to .RGN name.
 	char	szRgnName[RSP_MAX_PATH];
@@ -6486,7 +6486,7 @@ static int16_t LoadTriggerRegions(	// Returns 0 on success.
 	else
 		{
 		TRACE("LoadTriggerRegions(): WARNING:  \"%s\" could not be opened.\n", szRgnName);
-      sResult	= 1;
+      sResult = FAILURE;
 		}
 
    return sResult;
@@ -6501,7 +6501,7 @@ static int16_t SaveTriggerRegions(	// Returns 0 on success.
 	)										// The .ext is stripped and .rgn is appended.
 	{
   UNUSED(prealm);
-   int16_t sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Change filename to .RGN name.
 	char	szRgnName[RSP_MAX_PATH];
@@ -6520,7 +6520,7 @@ static int16_t SaveTriggerRegions(	// Returns 0 on success.
 	else
 		{
 		TRACE("SaveTriggerRegions(): Could not open \"%s\" for write.\n", szRgnName);
-      sResult	= -1;
+      sResult = FAILURE;
 		}
 
    return sResult;
@@ -6536,7 +6536,7 @@ static int16_t CreateTriggerRegions(	// Returns 0 on success.
 	CRealm*	prealm					// In:  Access of Realm Info
 	)										
 	{
-   int16_t sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 	if (prealm->m_pTriggerMapHolder == nullptr)
 		{
 		int16_t sResult;
@@ -6575,14 +6575,14 @@ static int16_t CreateTriggerRegions(	// Returns 0 on success.
 	if (!pTriggers)
 		{
 		TRACE("CreateTriggerRegions(): Could not create region attributes!\n");
-      sResult = -1;
+      sResult = FAILURE;
 		}
 	else
 		{
 		if (StrafeAddRegion(pTriggers,ms_argns))
 			{
 			TRACE("CreateTriggerRegions(): Problem adding attributes!\n");
-         sResult = -1;
+         sResult = FAILURE;
 			delete pTriggers;
 			}
 		else
@@ -6605,7 +6605,7 @@ static int16_t CreateTriggerRegions(	// Returns 0 on success.
 			if (CompressMap(pTriggers,16,16) != SUCCESS)
 				{
 				TRACE("CreateTriggerRegions(): Problem compressing attributes!\n");
-            sResult = -1;
+            sResult = FAILURE;
 				delete pTriggers;
 				}
 			else
@@ -6987,7 +6987,7 @@ static void DelMost(	// Returns nothing.
 static int16_t CopyItem(	// Returns 0 on success.
 	CThing* pthingCopy)	// In:  CThing to copy.
 	{
-   int16_t		sResult	= 0;	// Assume success.
+   int16_t		sResult = SUCCESS;	// Assume success.
 
 	// If anything to copy . . .
 	if (pthingCopy != nullptr)
@@ -7027,13 +7027,13 @@ static int16_t CopyItem(	// Returns 0 on success.
 					else
 						{
 						TRACE("CopyItem(): pthingCopy->Save() failed.\n");
-                  sResult	= -2;
+                  sResult = FAILURE * 2;
 						}
 					}
 				else
 					{
 					TRACE("CopyItem(): Failed to open paste buffer.\n");
-               sResult	= -1;
+               sResult = FAILURE;
 					}
 				break;
 				}
@@ -7047,7 +7047,7 @@ static int16_t CopyItem(	// Returns 0 on success.
 		}
 	else
 		{
-      sResult	= 1;
+      sResult = FAILURE;
 		}
 
    return sResult;
@@ -7062,7 +7062,7 @@ static int16_t PasteItem(	// Returns 0 on success.
 	int16_t		sY,			// In:  Location for new thing.
 	int16_t		sZ)			// In:  Location for new thing.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Drop anything we currently are holding onto.
 	DragDrop(
@@ -7107,7 +7107,7 @@ static int16_t PasteItem(	// Returns 0 on success.
 		else
 			{
 			TRACE("PasteItem(): CreateNewThing() failed.\n");
-         sResult	= -1;
+         sResult = FAILURE;
 			}
 		}
 
@@ -7321,7 +7321,7 @@ static void AttribMaskBtnPressed(	// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t SizeShowAttribsSprite(void)	// Returns 0 on success.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	if (ms_spriteAttributes.m_pImage)
 		{
@@ -7338,7 +7338,7 @@ static int16_t SizeShowAttribsSprite(void)	// Returns 0 on success.
 		else
 			{
 			TRACE("SizeShowAttribsSprite(): RImage::CreateImage() failed.\n");
-         sResult	= -1;
+         sResult = FAILURE;
 			}
 
 		// If an error occurred . . .
@@ -7548,7 +7548,7 @@ static int16_t TmpFileName(								// Returns 0 if successfull, non-zero otherwi
 	char* pszFileName,									// Out: Temp file name returned here
 	int16_t sMaxSize)										// In:  Maximum size of file name
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	#if defined(WIN32)
    UNUSED(sMaxSize);
@@ -7558,18 +7558,18 @@ static int16_t TmpFileName(								// Returns 0 if successfull, non-zero otherwi
 		if (ulLen >= sizeof(szPath) )
 			{
 			TRACE("TmpFileName(): GetTempPath() could not fit the path and filename into our string.\n");
-			sResult = -1;
+			sResult = FAILURE;
 			}
 		else if (ulLen == 0)
 			{
 			TRACE("TmpFileName(): GetTempPath() failed.\n");
-			sResult = -1;
+			sResult = FAILURE;
 			}
 
 		if (GetTempFileName(szPath, "RLM", 0, pszFileName) == FALSE)
 			{
 			TRACE("TmpFileName(): GetTempFileName() failed.\n");
-			sResult = -1;
+			sResult = FAILURE;
 			}
 
 	#else
@@ -7609,7 +7609,7 @@ static int16_t ShowRealmStatistics(	// Returns 0 on success.
 	CRealm*	prealm,						// In:  Realm to get stats on.
 	CThing** ppthing)						// Out: Selected thing, if not nullptr.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Store cursor show level so we can restore it when done.
 	int16_t sOrigCursorShowLevel	= rspGetMouseCursorShowLevel();
@@ -7668,7 +7668,7 @@ static int16_t ShowRealmStatistics(	// Returns 0 on success.
 				else
 					{
 					TRACE("ShowRealmStatistics(): Error adding <<%s>> to the list box.\n", szThingDescription);
-               sResult	= -3;
+               sResult = FAILURE * 3;
 					}
 
 				pthingnode	= pthingnode->m_pnNext;
@@ -7698,7 +7698,7 @@ static int16_t ShowRealmStatistics(	// Returns 0 on success.
 		else
 			{
 			TRACE("ShowRealmStatistics(): Failed to get realm stats listbox.\n");
-         sResult	= -2;
+         sResult = FAILURE * 2;
 			}
 
 		delete pguiRoot;
@@ -7707,7 +7707,7 @@ static int16_t ShowRealmStatistics(	// Returns 0 on success.
 	else
 		{
 		TRACE("ShowRealmStatistics(): Failed to load realm stats GUI.\n");
-      sResult	= -1;
+      sResult = FAILURE;
 		}
 
 	// Clear queues.

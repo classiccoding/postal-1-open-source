@@ -180,7 +180,7 @@ int16_t CBarrel::Load(				// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,					// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)				// In:  Version of file format to load.
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	// Call the base load function to get ID, position, etc.
 	sResult = CThing3d::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 
@@ -276,7 +276,7 @@ int16_t CBarrel::Load(				// Returns 0 if successfull, non-zero otherwise
 		}
 		else
 		{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CBarrel::Load(): Error reading from file!\n");
 		}
 	}
@@ -326,7 +326,7 @@ int16_t CBarrel::Save(										// Returns 0 if successfull, non-zero otherwise
 	else
 	{
 		TRACE("CBarrel::Save() - Error writing to file\n");
-		sResult = -1;
+		sResult = FAILURE;
 	}
 
 	return sResult;
@@ -338,7 +338,7 @@ int16_t CBarrel::Save(										// Returns 0 if successfull, non-zero otherwise
 
 int16_t CBarrel::Init(void)
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Init other stuff
 	m_dVel = 0.0;
@@ -372,7 +372,7 @@ int16_t CBarrel::Init(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBarrel::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Set the current height, previous time, and Nav Net
 	CThing3d::Startup();
@@ -542,7 +542,7 @@ int16_t CBarrel::EditNew(									// Returns 0 if successfull, non-zero otherwis
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	sResult = CThing3d::EditNew(sX, sY, sZ);
 
@@ -560,7 +560,7 @@ int16_t CBarrel::EditNew(									// Returns 0 if successfull, non-zero otherwis
 	}
 	else
 	{
-		sResult = -1;
+		sResult = FAILURE;
 	}
 
 	return sResult;
@@ -572,7 +572,7 @@ int16_t CBarrel::EditNew(									// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBarrel::EditModify(void)
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	RGuiItem* pGui = RGuiItem::LoadInstantiate(FullPathVD("res/editor/barrel.gui"));
 	if (pGui)
 	{
@@ -611,7 +611,7 @@ int16_t CBarrel::EditModify(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBarrel::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	sResult	= m_animStill.Get(ms_apszStillResNames, RChannel_LoopAtStart | RChannel_LoopAtEnd);
 	sResult	|= m_animSpin.Get(ms_apszSpinResNames, RChannel_LoopAtStart | RChannel_LoopAtEnd);

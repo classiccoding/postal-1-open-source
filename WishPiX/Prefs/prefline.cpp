@@ -60,7 +60,7 @@ inline int16_t GetVar(	// Returns 0 on success.
 	char*	pszVar,		// Out: Var name, if not nullptr.
 	char* pszVal)		// Out: Val, if not nullptr.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	int16_t	j, i, k;
 	// Copy variable name to out string
@@ -153,7 +153,7 @@ RPrefsLine::ePrefsLineType RPrefsLine::GetType()
 ////////////////////////////////////////////////////////////////////////////////
 int16_t RPrefsLine::GetSectionName(char *pszSection)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	if (m_Type != Section)
 		{
 		TRACE("RPrefsLine::GetSectionName(): Not a section line.\n");
@@ -194,7 +194,7 @@ int16_t RPrefsLine::GetSectionName(char *pszSection)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t RPrefsLine::GetVariableName(char *pszVariable)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	if (m_Type != Variable)
 		{
 		TRACE("RPrefsLine::GetVariableName(): Not a variable line.\n");
@@ -234,7 +234,7 @@ int16_t RPrefsLine::GetVariableName(char *pszVariable)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t RPrefsLine::GetVariableValue(char *pszValue)
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Make sure the prefs line is a variable
 	if (m_Type != Variable)
@@ -284,7 +284,7 @@ int16_t RPrefsLine::GetVariableValue(char *pszValue)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t RPrefsLine::SetVariableValue(const char *pszValue)
 	{
-	int16_t	sResult = 0;
+	int16_t sResult = SUCCESS;
 	char	pszLine[128], pszVariable[64];
 
 	ASSERT(pszValue);

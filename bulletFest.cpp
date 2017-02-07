@@ -1002,7 +1002,7 @@ int16_t CBulletFest::Preload(
 	CRealm* prealm)				// In:  Calling realm.
 	{
 	CAnimThing::ChannelAA*	paaCache;
-	int16_t	sResult	= 0;
+	int16_t sResult = SUCCESS;
 
 	if (rspGetResource(&g_resmgrGame, prealm->Make2dResPath(IMPACT_RES_NAME), &paaCache) == SUCCESS)
 		rspReleaseResource(&g_resmgrGame, &paaCache);

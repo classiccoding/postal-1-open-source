@@ -1171,8 +1171,8 @@ void CNetClient::ReceiveFromPeers(void)
 		// could come from a foreign app that is using the same port as us.
 		uint8_t msg[PEER_MSG_MAX_SIZE];
       size_t lReceived;
-      int16_t serr = m_socketPeers.ReceiveFrom(msg, sizeof(msg), &lReceived, nullptr);
-		if (serr == SUCCESS)
+      int16_t sError = m_socketPeers.ReceiveFrom(msg, sizeof(msg), &lReceived, nullptr);
+      if (sError == SUCCESS)
 			{
 			// Make sure size is within proper range
 			if ((lReceived >= PEER_MSG_HEADER_SIZE) && (lReceived <= PEER_MSG_MAX_SIZE))
@@ -1278,7 +1278,7 @@ void CNetClient::ReceiveFromPeers(void)
 			}
 		else
 			{
-			if (serr != RSocket::errWouldBlock)
+         if (sError != RSocket::errWouldBlock)
 				TRACE("CNetClient::ReceiveFromPeers(): Error receiving datagram -- ignored!\n");
 
 			// Break out of the loop (there's no data or we got an error)
@@ -1430,15 +1430,15 @@ void CNetClient::SendToPeer(Net::ID id,				// id of peer to send to
 	// idea.  Although datagram messages are not guaranteed to arrive, getting
 	// a send error probably indicates a real problem that may not go away.
    size_t lSent;
-	int16_t serr = m_socketPeers.SendTo(msg, lSize, &lSent, &m_aPeers[id].m_address);
-	if (serr == SUCCESS)
+   int16_t sError = m_socketPeers.SendTo(msg, lSize, &lSent, &m_aPeers[id].m_address);
+   if (sError == SUCCESS)
 		{
 		if (lSent != lSize)
          TRACE("Error sending message to peer -- should have sent %i bytes but actually sent %i.\n", lSize, lSent);
 		}
 	else
 		{
-		if (serr != RSocket::errWouldBlock)
+      if (sError != RSocket::errWouldBlock)
 			TRACE("Error sending message to peer -- SendTo() failed!\n");
 		}
 	}

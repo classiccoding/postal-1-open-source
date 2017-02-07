@@ -74,7 +74,7 @@ int16_t CNetBrowse::Startup(							// Returns 0 if sucessfull, non-zero otherwis
 	uint16_t usPort,											// In:  Server's base port number
 	RSocket::BLOCK_CALLBACK callback)				// In:  Blocking callback
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	// Make sure we start in a good state
 	Reset();
@@ -143,15 +143,15 @@ void CNetBrowse::Update(
 
 		// Broadcast the message
       size_t lBytesSent;
-		int16_t serr = m_socketBrowse.SendTo(buf1, sizeof(buf1), &lBytesSent, &address);
-		if (serr == SUCCESS)
+		int16_t sError = m_socketBrowse.SendTo(buf1, sizeof(buf1), &lBytesSent, &address);
+		if (sError == SUCCESS)
 			{
 			if (lBytesSent != sizeof(buf1))
 				TRACE("CNetBrowse::Update(): Error sending broadcast (wrong size)!\n");
 			}
 		else
 			{
-			if (serr != RSocket::errWouldBlock)
+			if (sError != RSocket::errWouldBlock)
 				TRACE("CNetBrowse::Update(): Error sending broadcast!\n");
 			}
 
@@ -159,7 +159,7 @@ void CNetBrowse::Update(
 		// retry as soon as possible.  If the error is a recurring one that won't go
 		// away, we'll be retrying every time this is called, but what the hell -- if
 		// it isn't working, what are we gonna do instead?
-		if (serr == SUCCESS)
+		if (sError == SUCCESS)
 			m_lLastBroadcast = lTime;
 		}
 
@@ -172,8 +172,8 @@ void CNetBrowse::Update(
 	CHost host;
    size_t lReceived;
 	uint8_t buf[sizeof(host.m_acName) + 4 + 4];
-	int16_t serr = m_socketBrowse.ReceiveFrom(buf, sizeof(buf), &lReceived, &host.m_address);
-	if (serr == SUCCESS)
+	int16_t sError = m_socketBrowse.ReceiveFrom(buf, sizeof(buf), &lReceived, &host.m_address);
+	if (sError == SUCCESS)
 		{
 		// Validate the message to make sure it was sent by another app of this
 		// type, as opposed to some unknown app that happens to use the same port.
@@ -233,7 +233,7 @@ void CNetBrowse::Update(
 		}
 	else
 		{
-		if (serr != RSocket::errWouldBlock)
+		if (sError != RSocket::errWouldBlock)
 			TRACE("CNetBrowse::Update(): Error receiving broadcast!\n");
 		}
 

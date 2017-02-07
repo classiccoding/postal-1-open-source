@@ -263,7 +263,7 @@ int16_t IsMultiBtnChecked(	// Returns multibtn's state.
 	RGuiItem*	pguiRoot,	// In:  Root GUI.
 	int32_t			lId)			// In:  ID of GUI to set text.
 	{
-   int16_t	sResult	= 0;	// Assume nothing;
+   int16_t sResult = SUCCESS;	// Assume nothing;
 
 	RMultiBtn*	pmb	= (RMultiBtn*)pguiRoot->GetItemFromId(lId);
 	if (pmb != nullptr)
@@ -283,7 +283,7 @@ int16_t CStockPile::UserEdit(				// Returns 0 on success.
 	RGuiItem*	pguiChild /*= nullptr*/)	// In: Optional child GUI to be placed at 
 													// botom of Stockpile GUI.
 	{
-	int16_t	sResult	= 0;
+	int16_t sResult = SUCCESS;
 
 	RGuiItem* pgui = RGuiItem::LoadInstantiate(FullPathVD(GUI_FILE_NAME));
 	if (pgui)
@@ -402,7 +402,7 @@ int16_t CStockPile::UserEdit(				// Returns 0 on success.
 			m_sBackpack				= IsMultiBtnChecked(pgui, BACKPACK_GUI_ID				);
 
 			// Success.
-			sResult	= 0;
+			sResult = SUCCESS;
 			}
 
 		// If there is a user specified GUI . . .

@@ -90,7 +90,7 @@ static int16_t Alpha(	// Returns 0 on success.
 	int16_t		sW,		// Width to blt.
 	int16_t		sH)		// Height to blt.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	int16_t	sMaskX	= 0;
 	int16_t	sMaskY	= 0;
@@ -215,7 +215,7 @@ int16_t CAlpha::Blit(	// Returns 0 on success.
 	int16_t	sDstY,		// Destination coordinate in pimDst for pimSrc(0,0).
 	RRect*	prc)			// Rectangle to clip Dst to.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// If there is any data . . .
 	if (m_imMask.m_pData != nullptr || m_imMask.m_pSpecial != nullptr)
@@ -256,13 +256,13 @@ int16_t CAlpha::Blit(	// Returns 0 on success.
 		else
 			{
 			TRACE("Blit(): Unable to allocate image to decompress pimSrc.\n");
-         sResult	= -2;
+         sResult = FAILURE * 2;
 			}
 		}
 	else
 		{
 		TRACE("Blit(): No mask!  Use regular blt.\n");
-      sResult	= -1;
+      sResult = FAILURE;
 		}
 
    return sResult;
@@ -277,7 +277,7 @@ int16_t CAlpha::Blit(	// Returns 0 on success.
 int16_t CAlpha::Load(		// Returns 0 on success.
 	char*	pszFileName)	// Filename to load.
 	{
-   int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 
    if (m_imMask.Load(pszFileName) == SUCCESS)
@@ -292,7 +292,7 @@ int16_t CAlpha::Load(		// Returns 0 on success.
 		else
 			{
 			TRACE("Load(): RImage::Convert(FSPR1) failed.\n");
-         sResult	= -2;
+         sResult = FAILURE * 2;
 			}
 #endif
 		m_sShadowW	= m_imMask.m_sWidth;
@@ -303,7 +303,7 @@ int16_t CAlpha::Load(		// Returns 0 on success.
 	else
 		{
 		TRACE("Load(): RImage::Load() failed.\n");
-      sResult	= -1;
+      sResult = FAILURE;
 		}
 
    return sResult;

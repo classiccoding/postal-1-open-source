@@ -486,7 +486,7 @@ int16_t CDemon::Load(								// Returns 0 if successfull, non-zero otherwise
 		}
 		else
 		{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CDemon::Load(): Error reading from file!\n");
 		}
 	}
@@ -502,7 +502,7 @@ int16_t CDemon::Save(										// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 {
-	int16_t	sResult	= CThing::Save(pFile, sFileCount);
+	int16_t sResult	= CThing::Save(pFile, sFileCount);
 	if (sResult == SUCCESS)
 	{
 		pFile->Write(m_sSoundBank);
@@ -594,7 +594,7 @@ int16_t CDemon::EditNew(									// Returns 0 if successfull, non-zero otherwise
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -614,7 +614,7 @@ int16_t CDemon::EditNew(									// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDemon::EditModify(void)
 {
-	int16_t	sResult	= 0;
+	int16_t sResult = SUCCESS;
 
 	// Load gui dialog
 	RGuiItem* pgui = RGuiItem::LoadInstantiate(FullPath(GAME_PATH_HD, GUI_FILE_NAME));
@@ -644,7 +644,7 @@ int16_t CDemon::EditModify(void)
 			}
 		else
 			{
-			sResult	= 1;
+			sResult = FAILURE;
 			}
 		
 		// Done with GUI.
@@ -652,7 +652,7 @@ int16_t CDemon::EditModify(void)
 		}
 	else
 		{
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 #if 0	// No settins via dialog currently require re-Init()age.
@@ -771,7 +771,7 @@ void CDemon::EditRender(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDemon::Init(void)							// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	Kill();
 
@@ -784,7 +784,7 @@ int16_t CDemon::Init(void)							// Returns 0 if successfull, non-zero otherwise
 			// okay if EVERYONE wants it to be an FSPR8.
 			if (m_pImage->Convert(RImage::FSPR8) != RImage::FSPR8)
 			{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("CDemon::GetResource() - Couldn't convert to FSPR8\n");
 			}
 		}

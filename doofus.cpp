@@ -904,7 +904,7 @@ int16_t CDoofus::Load(										// Returns 0 if successfull, non-zero otherwise
 		}
 		else
 		{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CDoofus::Load(): Error reading from file!\n");
 		}
 	}
@@ -1064,7 +1064,7 @@ int16_t CDoofus::EditNew(									// Returns 0 if successfull, non-zero otherwis
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	CCharacter::EditNew(sX, sY, sZ);	
 
@@ -1160,7 +1160,7 @@ void CDoofus::EditRender(void)
 
 int16_t CDoofus::SelectDudeBouy(void)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 //	CDude* pDude;
 //	CBouy* pBouytest;
 
@@ -1173,7 +1173,7 @@ int16_t CDoofus::SelectDudeBouy(void)
 			}
 		}
 	else
-		sReturn = FAILURE;
+      sResult = FAILURE;
 
 /*
 	if (m_pRealm->m_asClassNumThings[CThing::CDudeID] > 0)
@@ -1184,7 +1184,7 @@ int16_t CDoofus::SelectDudeBouy(void)
 	else
 	{
 		if (m_pNavNet->GetNumNodes() < 1)
-			sReturn = FAILURE;
+         sResult = FAILURE;
 		else
 		{
 			pBouytest = nullptr;
@@ -1196,7 +1196,7 @@ int16_t CDoofus::SelectDudeBouy(void)
 		}
 	}
 */
-	return sReturn;
+   return sResult;
 
 }
 
@@ -4061,7 +4061,7 @@ bool CDoofus::WhileHoldingWeapon(	// Returns true when weapon is released.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDoofus::GetResources(void)
 	{
-	int16_t	sResult	= 0;
+   int16_t sResult = SUCCESS;
 
 	// If the ref count was 0 . . .
 	if (ms_lWeaponResRefCount++ == 0)
@@ -4085,7 +4085,7 @@ int16_t CDoofus::GetResources(void)
 					{
 					TRACE("GetResources(): Failed to load weapon resource \"%s\".\n",
 						ms_awdWeapons[i].pszResName);
-					sResult	= -1;
+					sResult = FAILURE;
 					}
 				}
 			}

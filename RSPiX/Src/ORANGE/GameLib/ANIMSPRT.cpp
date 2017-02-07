@@ -98,7 +98,7 @@ RAnimSprite::~RAnimSprite()
 int16_t RAnimSprite::Load(char* pszFilename)
 {
 	RFile cf;
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	if (cf.Open(pszFilename, "rb", RFile::LittleEndian) != SUCCESS)
 	{
@@ -106,11 +106,11 @@ int16_t RAnimSprite::Load(char* pszFilename)
 		return FAILURE;
 	}
 
-	sReturn = Load(&cf);
+   sResult = Load(&cf);
 
 	cf.Close();
 
-	return sReturn;
+   return sResult;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -131,7 +131,7 @@ int16_t RAnimSprite::Load(char* pszFilename)
 
 int16_t RAnimSprite::Load(RFile* pcf)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	uint32_t ulFileType;
 
 	if (pcf && pcf->IsOpen())
@@ -157,69 +157,69 @@ int16_t RAnimSprite::Load(RFile* pcf)
 											if (ReadFrames(pcf) != SUCCESS)
 											{
 												TRACE("RAnimSprite::Load - Error reading frames\n");
-												sReturn = FAILURE;
+                                    sResult = FAILURE;
 											}
 										}
 										else
 										{
 											TRACE("RAnimSprite::Load - Error reading pictures\n");
-											sReturn = FAILURE;
+                                 sResult = FAILURE;
 										}
 									}
 									else
 									{
 										TRACE("RAnimSprite::Load - Error reading AnimFlags\n");
-										sReturn = FAILURE;
+                              sResult = FAILURE;
 									}
 								}
 								else
 								{
 									TRACE("RAnimSprite::Load - Error reading LoopToFrame\n");
-									sReturn = FAILURE;
+                           sResult = FAILURE;
 								}
 							}
 							else
 							{
 								TRACE("RAnimSprite::Load - Error reading number of pictures\n");
-								sReturn = FAILURE;
+                        sResult = FAILURE;
 							}
 						}
 						else
 						{
 							TRACE("RAnimSprite::Load - Error reading number of frames\n");
-							sReturn = FAILURE;
+                     sResult = FAILURE;
 						}
 					}	
 					else
 					{
 						TRACE("RAnimSprite::Load - The file's version does not match the current version\n");
-						sReturn = FAILURE;
+                  sResult = FAILURE;
 					}
 				}
 				else
 				{
 					TRACE("RAnimSprite::Load - Error reading file version number\n");
-					sReturn = FAILURE;
+               sResult = FAILURE;
 				}
 			}
 			else
 			{
 				TRACE("RAnimSprite::Load - Wrong filetype, animations should start with 'ANIM'\n");
-				sReturn = FAILURE;
+            sResult = FAILURE;
 			}
 		}
 		else
 		{
 			TRACE("RAnimSprite::Load - Error reading file type marker\n");
-			sReturn = FAILURE;
+         sResult = FAILURE;
 		}
 	}
 	else
 	{
 		TRACE("RAnimSprite::Load - The RFile* pcf does not refer to an open file\n");
-		sReturn = FAILURE;
+      sResult = FAILURE;
 	}
-	return sReturn;
+   return sResult;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -241,15 +241,15 @@ int16_t RAnimSprite::Load(RFile* pcf)
 
 int16_t RAnimSprite::ReadPictures(RFile* pcf)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	int16_t i = 0;
 
 	AllocatePictures(m_sNumPictures);
 
-	while(sReturn == SUCCESS && i < m_sNumPictures)
-		sReturn = m_apPictures[i++]->Load(pcf);
+   while(sResult == SUCCESS && i < m_sNumPictures)
+      sResult = m_apPictures[i++]->Load(pcf);
 
-	return sReturn;
+   return sResult;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -271,12 +271,12 @@ int16_t RAnimSprite::ReadPictures(RFile* pcf)
 
 int16_t RAnimSprite::ReadFrames(RFile* pcf)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	int16_t i = 0;
 
 	AllocateFrames(m_sNumFrames);
 
-	while (sReturn == SUCCESS && i < m_sNumFrames)
+   while (sResult == SUCCESS && i < m_sNumFrames)
 	{
 		if (pcf->Read(&(m_aFrames[i].sOffsetX)) == 1)
 		{
@@ -300,53 +300,53 @@ int16_t RAnimSprite::ReadFrames(RFile* pcf)
 									else
 									{
 										TRACE("RAnimSprite::ReadFrames - Error reading frame %d picture index\n", i);
-										sReturn = FAILURE;
+                              sResult = FAILURE;
 									}
 								}
 								else
 								{
 									TRACE("RAnimSprite::ReadFrames - Error reading frame %d sHold\n", i);
-									sReturn = FAILURE;
+                           sResult = FAILURE;
 								}
 							}
 							else
 							{
 								TRACE("RAnimSprite::ReadFrames - Error reading frame %d scale height\n", i);
-								sReturn = FAILURE;
+                        sResult = FAILURE;
 							}
 						}
 						else
 						{
 							TRACE("RAnimSprite::ReadFrames - Error reading frame %d scale width\n", i);
-							sReturn = FAILURE;
+                     sResult = FAILURE;
 						}
 					}
 					else
 					{
 						TRACE("RAnimSprite::ReadFrames - Error reading frame %d rotational degrees\n", i);
-						sReturn = FAILURE;
+                  sResult = FAILURE;
 					}
 				}
 				else
 				{
 					TRACE("RAnimSprite::ReadFrames - Error reading frame %d Z offset\n", i);
-					sReturn = FAILURE;
+               sResult = FAILURE;
 				}
 			}
 			else
 			{
 				TRACE("RAnimSprite::ReadFrames - Error reading frame %d Y offset\n", i);
-				sReturn = FAILURE;
+            sResult = FAILURE;
 			}
 		}
 		else
 		{
 			TRACE("RAnimSprite::ReadFrames - Error reading frame %d X offset\n", i);
-			sReturn = FAILURE;
+         sResult = FAILURE;
 		}
 	}
 
-	return sReturn;
+   return sResult;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -368,7 +368,7 @@ int16_t RAnimSprite::ReadFrames(RFile* pcf)
 int16_t RAnimSprite::Save(char* pszFilename)
 {	
 	RFile cf;
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	if (cf.Open(pszFilename, "wb", RFile::LittleEndian) != SUCCESS)
 	{
@@ -376,11 +376,11 @@ int16_t RAnimSprite::Save(char* pszFilename)
 		return FAILURE;
 	}
 
-	sReturn = Save(&cf);
+   sResult = Save(&cf);
 	
 	cf.Close();
 
-	return sReturn;
+   return sResult;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -403,7 +403,7 @@ int16_t RAnimSprite::Save(char* pszFilename)
 
 int16_t RAnimSprite::Save(RFile* pcf)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	uint32_t ulFileType = ANIMSPRITE_COOKIE;
 
 	if (pcf && pcf->IsOpen())
@@ -421,56 +421,56 @@ int16_t RAnimSprite::Save(RFile* pcf)
 							if (pcf->Write(&m_ulAnimFlags) == 1)
 							{
 								if (WritePictures(pcf) == SUCCESS)
-									sReturn = WriteFrames(pcf);
+                           sResult = WriteFrames(pcf);
 								else
 								{
 									TRACE("RAnimSprite::Save - Error saving pictures\n");
-									sReturn = FAILURE;
+                           sResult = FAILURE;
 								}
 							}
 							else
 							{
 								TRACE("RAnimSprite::Save - Error writing animation flags\n");
-								sReturn = FAILURE;
+                        sResult = FAILURE;
 							}
 						}
 						else
 						{
 							TRACE("RAnimSprite::Save - Error writing loop flag\n");
-							sReturn = FAILURE;
+                     sResult = FAILURE;
 						}
 					}
 					else
 					{
 						TRACE("RAnimSprite::Save - Error writing number of pictures\n");
-						sReturn = FAILURE;
+                  sResult = FAILURE;
 					}
 				}
 				else
 				{
 					TRACE("RAnimSprite::Save - Error writing number of frames\n");
-					sReturn = FAILURE;
+               sResult = FAILURE;
 				}
 			}
 			else
 			{
 				TRACE("RAnimSprite::Save - Error writing animation version number\n");
-				sReturn = FAILURE;
+            sResult = FAILURE;
 			}	
 		}
 		else
 		{
 			TRACE("RAnimSprite::Save - Error writing animation filetype marker\n");
-			sReturn = FAILURE;		
+         sResult = FAILURE;
 		}		
 	}
 	else
 	{
 		TRACE("RAnimSprite::Save - RFile* pcf does not refer to an open file\n");
-		sReturn = FAILURE;
+      sResult = FAILURE;
 	}
 
-	return sReturn;
+   return sResult;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -492,13 +492,13 @@ int16_t RAnimSprite::Save(RFile* pcf)
 
 int16_t RAnimSprite::WritePictures(RFile* pcf)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	int16_t i = 0;
 
-	while (sReturn == SUCCESS && i < m_sNumPictures)
-		sReturn = m_apPictures[i++]->Save(pcf);
+   while (sResult == SUCCESS && i < m_sNumPictures)
+      sResult = m_apPictures[i++]->Save(pcf);
 
-	return sReturn;
+   return sResult;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -520,10 +520,10 @@ int16_t RAnimSprite::WritePictures(RFile* pcf)
 
 int16_t RAnimSprite::WriteFrames(RFile* pcf)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	int16_t i = 0;
 
-	while (sReturn == SUCCESS && i < m_sNumFrames)
+   while (sResult == SUCCESS && i < m_sNumFrames)
 	{
 		if (pcf->Write(&(m_aFrames[i].sOffsetX)) == 1)
 		{
@@ -544,53 +544,53 @@ int16_t RAnimSprite::WriteFrames(RFile* pcf)
 									else
 									{
 										TRACE("RAnimSprite::WriteFrame - Error writing frame %d sPicIndex\n", i);
-										sReturn = FAILURE;
+                              sResult = FAILURE;
 									}
 								}
 								else
 								{
 									TRACE("RAnimSprite::WriteFrame - Error writing frame %d sHold\n", i);
-									sReturn = FAILURE;
+                           sResult = FAILURE;
 								}
 							}
 							else
 							{
 								TRACE("RAnimSprite::WriteFrames - Error writing frame %d scaled height\n", i);
-								sReturn = FAILURE;
+                        sResult = FAILURE;
 							}
 						}
 						else
 						{
 							TRACE("RAnimSprite::WriteFrames - Error writing frame %d scaled width\n", i);
-							sReturn = FAILURE;
+                     sResult = FAILURE;
 						}
 					}
 					else
 					{
 						TRACE("RAnimSprite::WriteFrames - Error writing frame %d rotational degrees\n", i);
-						sReturn = FAILURE;
+                  sResult = FAILURE;
 					}
 				}	
 				else
 				{
 					TRACE("RAnimSprite::WriteFrame - Error writing frame %d Z offset\n", i);
-					sReturn = FAILURE;
+               sResult = FAILURE;
 				}
 			}
 			else
 			{
 				TRACE("RAnimSprite::WriteFrames - Error writing frame %d Y offset\n", i);
-				sReturn = FAILURE;
+            sResult = FAILURE;
 			}
 		}
 		else
 		{
 			TRACE("RAnimSprite::WriteFrames - Error writing frame %d X offset\n", i);
-			sReturn = FAILURE;
+         sResult = FAILURE;
 		}
 	}
 
-	return sReturn;
+   return sResult;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

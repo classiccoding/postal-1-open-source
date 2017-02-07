@@ -732,7 +732,7 @@ int16_t RFileEZLoad(
    const char* pszMode,
 	RFile::Endian endian)
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	// Create RFile object
 	RFile* pFile = new RFile;
@@ -752,7 +752,7 @@ int16_t RFileEZLoad(
 			// errors, but if it didn't then this becomes very important.
 			if ((sResult == SUCCESS) && pFile->Error())
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				#ifdef _DEBUG
 					STRACE("%s(%i):RFileEZLoad(): File I/O Error!\n", FILE_MACRO, LINE_MACRO);
 				#endif
@@ -763,7 +763,7 @@ int16_t RFileEZLoad(
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			#ifdef _DEBUG
 				STRACE("%s(%i):RFileEZLoad(): Couldn't open file '%s'!\n", FILE_MACRO, LINE_MACRO, pszName);
 			#endif
@@ -774,7 +774,7 @@ int16_t RFileEZLoad(
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		#ifdef _DEBUG
 			STRACE("%s(%i):RFileEZLoad(): Couldn't create RFile object!\n", FILE_MACRO, LINE_MACRO);
 		#endif
@@ -808,7 +808,7 @@ int16_t RFileEZSave(
    const char* pszMode,
 	RFile::Endian endian)
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	// Create RFile object
 	RFile* pFile = new RFile;
@@ -828,7 +828,7 @@ int16_t RFileEZSave(
 			// errors, but if it didn't then this becomes very important.
 			if ((sResult == SUCCESS) && pFile->Error())
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				#ifdef _DEBUG
 					STRACE("%s(%i):RFileEZSave(): File I/O Error!\n", FILE_MACRO, LINE_MACRO);
 				#endif
@@ -839,7 +839,7 @@ int16_t RFileEZSave(
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			#ifdef _DEBUG
 				STRACE("%s(%i):RFileEZSave(): Couldn't open file '%s'!\n", FILE_MACRO, LINE_MACRO, pszName);
 			#endif
@@ -850,7 +850,7 @@ int16_t RFileEZSave(
 		}
 	else
 		{
-		sResult = -1;
+		sResult = FAILURE;
 		#ifdef _DEBUG
 			STRACE("%s(%i):RFileEZSave(): Couldn't create RFile object!\n", FILE_MACRO, LINE_MACRO);
 		#endif

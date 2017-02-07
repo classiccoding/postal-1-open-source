@@ -653,7 +653,7 @@ int16_t RGuiItem::Create(			// Returns 0 on success.
 	int16_t sH,						// Height.
 	int16_t sDepth)					// Color depth.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	Destroy();
 
@@ -676,7 +676,7 @@ int16_t RGuiItem::Create(			// Returns 0 on success.
 	else
 		{
 		TRACE("Create(): RImage::CreateImage() failed.\n");
-		sResult = -1;
+		sResult = FAILURE;
 		}
 	
 	return sResult;
@@ -714,7 +714,7 @@ int16_t RGuiItem::Blit(		// Returns 0 on success.
 	int16_t sH /*= 0*/,			// Amount to draw.
 	RRect* prc /*= nullptr*/)	// Clip to.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	ASSERT(pimDst != nullptr);
 
@@ -728,7 +728,7 @@ int16_t RGuiItem::Blit(		// Returns 0 on success.
 		else
 			{
 			TRACE("Blit(): rspBlit() failed.\n");
-			sResult = -1;
+			sResult = FAILURE;
 			}
 		}
 	else
@@ -756,7 +756,7 @@ int16_t RGuiItem::Blit(		// Returns 0 on success.
 			else
 				{
 				TRACE("Blit(): rspBlit() failed.\n");
-				sResult = -1;
+				sResult = FAILURE;
 				}
 #endif
 			}
@@ -791,7 +791,7 @@ int16_t RGuiItem::Draw(		// Returns 0 on success.
 	int16_t sH /*= 0*/,			// Amount to draw.
 	RRect* prc /*= nullptr*/)	// Clip to.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// If visible . . .
 	if (m_sVisible != FALSE)
@@ -861,7 +861,7 @@ int16_t RGuiItem::Draw(		// Returns 0 on success.
 		else
 			{
 			TRACE("Draw(): Blit() failed.\n");
-			sResult = -1;
+			sResult = FAILURE;
 			}
 
 		// Unlock the destination buffer.
@@ -882,7 +882,7 @@ int16_t RGuiItem::Redraw(	// Returns 0 on success.
 	int16_t sW /*= 0*/,		// Amount to draw.
 	int16_t sH /*= 0*/)		// Amount to draw.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// If there is a user callback . . .
 	if (m_drawcall != nullptr)
@@ -923,7 +923,7 @@ int16_t RGuiItem::Redraw(	// Returns 0 on success.
 			else
 				{
 				TRACE("Redraw(): RImage::CreateImage() failed.\n");
-				sResult	= -1;
+				sResult = FAILURE;
 				}
 			}
 		}
@@ -989,7 +989,7 @@ int16_t RGuiItem::SetText(	// Returns 0 if item found, non-zero otherwise.
    const char* pszFrmt,				// sprintf formatted format string.
 	...)							// Corresponding good stuff.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	RGuiItem*	pgui	= GetItemFromId(lId);
 	if (pgui != nullptr)
@@ -1002,7 +1002,7 @@ int16_t RGuiItem::SetText(	// Returns 0 if item found, non-zero otherwise.
 	else
 		{
 		TRACE("SetText(): No such ID %i.\n", lId);
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -1703,7 +1703,7 @@ int16_t RGuiItem::DrawText(	// Returns 0 on success.
 	int16_t	sH /*= 0*/,			// Height of test area.
 	RImage* pim /*= nullptr*/)	// Destination image.  nullptr == use m_im.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Draw text.
 	if (m_szText[0] != '\0')
@@ -1751,7 +1751,7 @@ int16_t RGuiItem::DrawText(	// Returns 0 on success.
 ////////////////////////////////////////////////////////////////////////
 int16_t RGuiItem::GetRes(void)
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// If there's a callback . . .
 	if (m_fnGetRes != nullptr)
@@ -1784,7 +1784,7 @@ int16_t RGuiItem::GetRes(void)
 			else
 				{
 				TRACE("GetRes(): Failed to open resource \"%s\".\n", m_szBkdResName);
-				sResult	= -2;
+            sResult = FAILURE * 2;
 				}
 
 			// If any errors occurred after allocation . . .
@@ -1798,7 +1798,7 @@ int16_t RGuiItem::GetRes(void)
 			{
 			TRACE("GetRes(): Failed to allocate new RImage for "
 				"m_pimBkdRes.\n");
-			sResult	= -1;
+			sResult = FAILURE;
 			}
 		}
 
@@ -1849,7 +1849,7 @@ void RGuiItem::ReleaseRes(void)
 int16_t RGuiItem::Load(	// Returns 0 on success.
 	char* pszFileName)	// Name of file to load from.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Attempt to open specified file . . .
 	RFile	file;
@@ -1864,7 +1864,7 @@ int16_t RGuiItem::Load(	// Returns 0 on success.
 	else
 		{
 		TRACE("Load(\"%s\"): Failed to open file.\n", pszFileName);
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -1885,7 +1885,7 @@ int16_t RGuiItem::Load(	// Returns 0 on success.
 int16_t RGuiItem::Load(	// Returns 0 on success.
 	RFile*	pfile)		// RFile open with read access to load from.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	ASSERT(pfile->IsOpen() != FALSE);
 
@@ -1918,25 +1918,25 @@ int16_t RGuiItem::Load(	// Returns 0 on success.
 				else
 					{
 					TRACE("Load(): Create() failed.\n");
-					sResult	= -3;
+               sResult = FAILURE * 3;
 					}
 				}
 			else
 				{
 				TRACE("Load(): LoadChildren() failed.\n");
-				sResult	= -4;
+            sResult = FAILURE * 4;
 				}
 			}
 		else
 			{
 			TRACE("Load(): ReadMembers() failed.\n");
-			sResult	= -2;
+         sResult = FAILURE * 2;
 			}
 		}
 	else
 		{
 		TRACE("Load(): ReadHeader() failed.\n");
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -1986,7 +1986,7 @@ RGuiItem* RGuiItem::LoadInstantiate(	// Returns newly allocated GUI item
 													// on success or nullptr on failure.
 	RFile*	pfile)							// Pointer to open GUI file.
 	{
-	int16_t			sError	= 0;
+   int16_t sError	= SUCCESS;
 	RGuiItem*	pgui		= nullptr;	// Assume nothing.
 
 	ASSERT(pfile->IsOpen() != FALSE);
@@ -2022,23 +2022,23 @@ RGuiItem* RGuiItem::LoadInstantiate(	// Returns newly allocated GUI item
 					else
 						{
 						TRACE("LoadInstantiate(): Create() failed.\n");
-						sError	= 4;
+                  sError = FAILURE * 4;
 						}
 					}
 				else
 					{
 					TRACE("LoadInstantiate(): LoadChildren() failed.\n");
-					sError	= 5;
+               sError = FAILURE * 5;
 					}
 				}
 			else
 				{
 				TRACE("LoadInstantiate(): ReadMembers() failed.\n");
-				sError	= 3;
+            sError = FAILURE * 3;
 				}
 
 			// If any errors occurred after allocating GUI . . .
-			if (sError != 0)
+			if (sError != SUCCESS)
 				{
 				delete pgui;
 				pgui	= nullptr;
@@ -2047,13 +2047,13 @@ RGuiItem* RGuiItem::LoadInstantiate(	// Returns newly allocated GUI item
 		else
 			{
 			TRACE("LoadInstantiate(): CreateGuiItem() failed.\n");
-			sError	= 2;
+         sError = FAILURE * 2;
 			}
 		}
 	else
 		{
 		TRACE("LoadInstantiate(): ReadHeader() failed.\n");
-		sError	= 1;
+      sError = FAILURE;
 		}
 
 	return pgui;
@@ -2069,7 +2069,7 @@ RGuiItem* RGuiItem::LoadInstantiate(	// Returns newly allocated GUI item
 int16_t RGuiItem::LoadChildren(	// Returns 0 on success.
 	RFile*	pfile)				// File to load from.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	ASSERT(pfile->IsOpen() != FALSE);
 
@@ -2092,7 +2092,7 @@ int16_t RGuiItem::LoadChildren(	// Returns 0 on success.
 		else
 			{
 			TRACE("LoadChildren(): LoadInstantiate() failed.\n");
-			sResult	= -1;
+			sResult = FAILURE;
 			}
 		}
 
@@ -2111,7 +2111,7 @@ int16_t RGuiItem::ReadHeader(	// Returns 0 on success.
 	uint32_t*	pu32Version,			// Out: File format version.
 	Type*	ptype)					// Out: Type of GUI item stored.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	ASSERT(pfile->IsOpen() != FALSE);
 
@@ -2134,25 +2134,25 @@ int16_t RGuiItem::ReadHeader(	// Returns 0 on success.
 				else
 					{
 					TRACE("ReadHeader(): Error reading GUI item type from file.\n");
-					sResult	= -4;
+               sResult = FAILURE * 4;
 					}
 				}
 			else
 				{
 				TRACE("ReadHeader(): Error reading file format version number.\n");
-				sResult	= -3;
+            sResult = FAILURE * 3;
 				}
 			}
 		else
 			{
 			TRACE("ReadHeader(): Invalid finger print.  Not a GUI file.\n");
-			sResult	= -2;
+         sResult = FAILURE * 2;
 			}
 		}
 	else
 		{
 		TRACE("ReadHeader(): Error reading finger print.\n");
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -2168,7 +2168,7 @@ int16_t RGuiItem::ReadMembers(	// Returns 0 on success.
 	RFile*	pfile,				// File to read from.
 	uint32_t		u32Version)			// File format version to use.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Read members.  Type must always be first becuase 
 	// LoadInstantiate() utilizes this fact to determine the type of item
@@ -2248,7 +2248,7 @@ int16_t RGuiItem::ReadMembers(	// Returns 0 on success.
 			else
 				{
 				TRACE("ReadMembers(): Error reading RGuiItem members.\n");
-				sResult	= -1;
+				sResult = FAILURE;
 				}
 			break;
 		}
@@ -2265,7 +2265,7 @@ int16_t RGuiItem::ReadMembers(	// Returns 0 on success.
 int16_t RGuiItem::Save(	// Returns 0 on success.
 	char* pszFileName)	// Name of file to save to.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Attempt to open specified file . . .
 	RFile	file;
@@ -2280,7 +2280,7 @@ int16_t RGuiItem::Save(	// Returns 0 on success.
 	else
 		{
 		TRACE("Save(\"%s\"): Failed to open file.\n", pszFileName);
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -2297,7 +2297,7 @@ int16_t RGuiItem::Save(	// Returns 0 on success.
 int16_t RGuiItem::Save(	// Returns 0 on success.
 	RFile*	pfile)		// RFile open with write access to save to.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	ASSERT(pfile->IsOpen() != FALSE);
 
@@ -2315,7 +2315,7 @@ int16_t RGuiItem::Save(	// Returns 0 on success.
 	else
 		{
 		TRACE("Save(): Error writing RGuiItem members.\n");
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -2331,7 +2331,7 @@ int16_t RGuiItem::Save(	// Returns 0 on success.
 int16_t RGuiItem::SaveChildren(	// Returns 0 on success.
 	RFile*	pfile)				// File to save to.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	ASSERT(pfile->IsOpen() != FALSE);
 
@@ -2371,7 +2371,7 @@ int16_t RGuiItem::SaveChildren(	// Returns 0 on success.
 int16_t RGuiItem::WriteMembers(	// Returns 0 on success.
 	RFile*	pfile)				// File to write to.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	// Write members.  Type must always be first becuase 
 	// LoadInstantiate() utilizes this fact to determine the type of item
@@ -2419,7 +2419,7 @@ int16_t RGuiItem::WriteMembers(	// Returns 0 on success.
 	else
 		{
 		TRACE("WriteMembers(): Error writing RGuiItem members.\n");
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -2443,7 +2443,7 @@ inline int16_t IsInside(	// Returns TRUE, if inside; FALSE otherwise.
 	int16_t		sEventArea)	// If TRUE, only checks items' event areas.
 								// If FALSE, checks items' entire hot regions.
 	{
-	int16_t	sResult	= TRUE;	// Assume inside.
+	int16_t sResult	= TRUE;	// Assume inside.
 
 	// If activated is required . . .
 	if (sActive != FALSE)
@@ -2551,7 +2551,7 @@ int16_t RGuiItem::GetText(	// Returns 0 on success.
 	char* pszText,				// Location to copy text to.
    size_t sMax)					// Total memory pointed to by pszText.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
    if (strlen(m_szText) < sMax)
 		{
@@ -2561,7 +2561,7 @@ int16_t RGuiItem::GetText(	// Returns 0 on success.
 		{
 		TRACE("GetText(): Not enough room to copy text (provided: %d, "
 				"needed: %d).\n", sMax, strlen(m_szText) + 1);
-		sResult = -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;
@@ -2577,7 +2577,7 @@ int16_t RGuiItem::GetText(	// Returns 0 on success.
 	char* pszText,				// Out: Location to copy text to.
    size_t sMax)					// In:  Total memory pointed to by pszText.
 	{
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	RGuiItem*	pgui	= GetItemFromId(lId);
 	if (pgui != nullptr)
@@ -2587,7 +2587,7 @@ int16_t RGuiItem::GetText(	// Returns 0 on success.
 	else
 		{
 		TRACE("GetText(): No such ID %i.\n", lId);
-		sResult	= -1;
+		sResult = FAILURE;
 		}
 
 	return sResult;

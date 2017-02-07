@@ -226,7 +226,7 @@ int16_t CNapalm::Load(										// Returns 0 if successfull, non-zero otherwise
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CNapalm::Load(): Error reading from file!\n");
 			}
 
@@ -539,7 +539,7 @@ int16_t CNapalm::Setup(									// Returns 0 if successfull, non-zero otherwise
 	double dHorizVel,										// In:  Starting Horizontal Velocity (has default)
 	double dVertVel*/)									// In:  Starting Vertical Velocity (has default)
 {
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -571,7 +571,7 @@ int16_t CNapalm::Setup(									// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CNapalm::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+	int16_t sResult = SUCCESS;
 
 	sResult = m_anim.Get(ms_apszResNames);
 	if (sResult == SUCCESS)

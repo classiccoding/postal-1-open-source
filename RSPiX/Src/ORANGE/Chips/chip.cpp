@@ -153,7 +153,7 @@ void CChip::SetPosition(int32_t lX, int32_t lY, int32_t lZ)
 //////////////////////////////////////////////////////////////////////
 int16_t CChip::Slide(int32_t lX, int32_t lY, int32_t lZ, int32_t lRate)
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// Store destination position.
 	m_sDestX	= (int16_t)lX;
@@ -385,7 +385,7 @@ int16_t CChip::Stack(void)
 //////////////////////////////////////////////////////////////////////
 int16_t CChip::Add(CChip*	pchip)
 	{
-	int16_t	sResult	= 0;	// Assume success.
+	int16_t sResult = SUCCESS;	// Assume success.
 
 	// Take stack's size and add to this one's.
 	m_sNumChips += pchip->GetSize();

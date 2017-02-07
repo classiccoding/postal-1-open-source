@@ -59,7 +59,7 @@ void rspAlphaMaskBlit(RMultiAlpha* pX,RImage* pimMask,
 
 	// right here adjust things if you need to clip to other thatn the full dst im
 	if (rspSimpleClip(sSrcX,sSrcY,sDstX,sDstY,sDstW,sDstH,
-		rDstClip.sX,rDstClip.sY,rDstClip.sW,rDstClip.sH) == -1) return ; // clipped out
+      rDstClip.sX,rDstClip.sY,rDstClip.sW,rDstClip.sH) == FAILURE) return ; // clipped out
 	
 	short i,j;
 	long lSrcP = pimSrc->m_lPitch;
@@ -102,7 +102,7 @@ void rspAlphaBlit(RAlpha* pX,RImage* pimSrc,RImage* pimDst,short sDstX,short sDs
 
 	// right here adjust things if you need to clip to other thatn the full dst im
 	if (rspSimpleClip(sSrcX,sSrcY,sDstX,sDstY,sDstW,sDstH,0,0,
-		pimDst->m_sWidth,pimDst->m_sHeight) == -1) return ; // clipped out
+      pimDst->m_sWidth,pimDst->m_sHeight) == FAILURE) return ; // clipped out
 	
 	short i,j;
 	long lSrcP = pimSrc->m_lPitch;
@@ -139,7 +139,7 @@ void rspMaskBlit(RImage* pimSrc,RImage* pimDst,short sDstX,short sDstY)
 
 	// right here adjust things if you need to clip to other thatn the full dst im
 	if (rspSimpleClip(sSrcX,sSrcY,sDstX,sDstY,sDstW,sDstH,0,0,
-		pimDst->m_sWidth,pimDst->m_sHeight) == -1) return ; // clipped out
+      pimDst->m_sWidth,pimDst->m_sHeight) == FAILURE) return ; // clipped out
 	
 	short i,j;
 	long lSrcP = pimSrc->m_lPitch;

@@ -256,7 +256,7 @@ RSprite::~RSprite()
 
 int16_t RSprite::CreateImage(void)	// Returns 0 on success.
 {
-	int16_t	sResult	= 0;	// Assume success.
+   int16_t sResult = SUCCESS;	// Assume success.
 
 	m_pImage	= new RImage;
 	if (m_pImage != nullptr)
@@ -268,7 +268,7 @@ int16_t RSprite::CreateImage(void)	// Returns 0 on success.
 	else
 	{
 		TRACE("CreateImage(): Failed to allocate new RImage.\n");
-		sResult	= -1;
+		sResult = FAILURE;
 	}
 
 	return sResult;
@@ -326,7 +326,7 @@ void RSprite::DestroyImage(void)	// Returns nothing.
 int16_t RSprite::Save(char* pszFilename)
 {
 	RFile cf;
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	if (cf.Open(pszFilename, "wb", RFile::LittleEndian) != SUCCESS)
 	{
@@ -334,11 +334,11 @@ int16_t RSprite::Save(char* pszFilename)
 		return FAILURE;
 	}
 
-	sReturn = Save(&cf);
+   sResult = Save(&cf);
 
 	cf.Close();
 
-	return sReturn;
+   return sResult;
 }
 
 // *****************************************************************************
@@ -367,7 +367,7 @@ int16_t RSprite::Save(char* pszFilename)
 
 int16_t RSprite::Save(RFile* pcf)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	uint32_t ulFileType = SPRITE_COOKIE;
 	uint32_t ulCurrentVersion = SPRITE_CURRENT_VERSION;
 	uint32_t ulImageFlag = 0;
@@ -421,12 +421,12 @@ int16_t RSprite::Save(RFile* pcf)
 																								ulImageFlag = 1;
 																								if (pcf->Write(&ulImageFlag) == 1)
 																								{
-																									sReturn = m_pImage->Save(pcf);
+                                                                           sResult = m_pImage->Save(pcf);
 																								}
 																								else
 																								{
 																									TRACE("RSprite::Save - Error writing image flag\n");
-																									sReturn = FAILURE;
+                                                                           sResult = FAILURE;
 																								}
 																							}
 																							else
@@ -434,148 +434,148 @@ int16_t RSprite::Save(RFile* pcf)
 																								ulImageFlag = 0;
 																								if (pcf->Write(&ulImageFlag) == 1)
 																								{
-																									sReturn = SUCCESS;
+                                                                           sResult = SUCCESS;
 																								}
 																								else
 																								{
 																									TRACE("RSprite::Save - Error writing image flag\n");
-																									sReturn = FAILURE;
+                                                                           sResult = FAILURE;
 																								}	
 																							}
 																						}
 																						else
 																						{
 																							TRACE("RSprite::Save - Error writing m_sHotSpotZ.\n");
-																							sReturn = FAILURE;
+                                                                     sResult = FAILURE;
 																						}
 																					}
 																					else
 																					{
 																						TRACE("RSprite::Save - Error writing m_sHotSpotY.\n");
-																						sReturn = FAILURE;
+                                                                  sResult = FAILURE;
 																					}
 																				}
 																				else
 																				{
 																					TRACE("RSprite::Save - Error writing m_sHotSpotX.\n");
-																					sReturn = FAILURE;
+                                                               sResult = FAILURE;
 																				}
 																			}
 																			else
 																			{
 																				TRACE("RSprite::Save - Error writing m_ulFlags\n");
-																				sReturn = FAILURE;
+                                                            sResult = FAILURE;
 																			}
 																		}
 																		else
 																		{
 																			TRACE("RSprite::Save - Error writing m_dZvel\n");
-																			sReturn = FAILURE;
+                                                         sResult = FAILURE;
 																		}	
 																	}
 																	else
 																	{
 																		TRACE("RSprite::Save - Error writing m_dYvel\n");
-																		sReturn = FAILURE;
+                                                      sResult = FAILURE;
 																	}
 																}
 																else
 																{
 																	TRACE("RSprite::Save - Error writing m_dXvel\n");
-																	sReturn = FAILURE;
+                                                   sResult = FAILURE;
 																}
 															}
 															else
 															{
 																TRACE("RSprite::Save - Errow writing m_dZacc\n");
-																sReturn = FAILURE;
+                                                sResult = FAILURE;
 															}
 														}
 														else
 														{
 															TRACE("RSprite::Save - Error writing m_dYacc\n");
-															sReturn = FAILURE;
+                                             sResult = FAILURE;
 														}
 													}
 													else
 													{
 														TRACE("RSprite::Save - Error writing m_dXacc\n");
-														sReturn = FAILURE;
+                                          sResult = FAILURE;
 													}
 												}
 												else
 												{
 													TRACE("RSprite::Save - Error writing m_dZ\n");
-													sReturn = FAILURE;
+                                       sResult = FAILURE;
 												}
 											}
 											else
 											{
 												TRACE("RSprite::Save - Error writing m_dY\n");
-												sReturn = FAILURE;
+                                    sResult = FAILURE;
 											}
 										}
 										else
 										{
 											TRACE("RSprite::Save - Error writing m_dX\n");
-											sReturn = FAILURE;
+                                 sResult = FAILURE;
 										}	
 									}
 									else
 									{
 										TRACE("RSprite::Save - Error writing m_lHeight\n");
-										sReturn = FAILURE;
+                              sResult = FAILURE;
 									}
 								}
 								else
 								{
 									TRACE("RSprite::Save - Error writing m_lWidth\n");
-									sReturn = FAILURE;
+                           sResult = FAILURE;
 								}
 							}
 							else
 							{
 								TRACE("RSprite::Save - Error writing m_sAngle\n");
-								sReturn = FAILURE;
+                        sResult = FAILURE;
 							}						
 						}
 						else
 						{
 							TRACE("RSprite::Save - Error writing m_sZ position\n");
-							sReturn = FAILURE;
+                     sResult = FAILURE;
 						}					
 					}
 					else
 					{
 						TRACE("RSprite::Save - Error writing m_sY position\n");
-						sReturn = FAILURE;
+                  sResult = FAILURE;
 					}					
 				}
 				else
 				{
 					TRACE("RSprite::Save - Error writing m_sX position\n");
-					sReturn = FAILURE;
+               sResult = FAILURE;
 				}				
 			}
 			else
 			{
 				TRACE("RSprite::Save - Error writing version number\n");
-				sReturn = FAILURE;
+            sResult = FAILURE;
 			}		
 		}
 		else
 		{
 			TRACE("RSprite::Save - Error writing file type\n");
-			sReturn = FAILURE;
+         sResult = FAILURE;
 		}	
 	}
 	else
 	{
 		TRACE("RSprite::Save - Error RFile pointer does not refer to an open file\n");
-		sReturn = FAILURE;
+      sResult = FAILURE;
 	}
 
-	return sReturn;
+   return sResult;
 }
 
 // *****************************************************************************
@@ -601,7 +601,7 @@ int16_t RSprite::Save(RFile* pcf)
 int16_t RSprite::Load(char* pszFilename)
 {
 	RFile cf;
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	if (cf.Open(pszFilename, "rb", RFile::LittleEndian) != SUCCESS)
 	{
@@ -609,11 +609,11 @@ int16_t RSprite::Load(char* pszFilename)
 		return FAILURE;
 	}
 
-	sReturn = Load(&cf);
+   sResult = Load(&cf);
 
 	cf.Close();
 
-	return sReturn;
+   return sResult;
 }
 
 // *****************************************************************************
@@ -639,7 +639,7 @@ int16_t RSprite::Load(char* pszFilename)
 
 int16_t RSprite::Load(RFile* pcf)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 	uint32_t ulFileType = 0;
 	uint32_t ulVersion = 0;
 	uint32_t ulImageFlag = 0;
@@ -698,137 +698,137 @@ int16_t RSprite::Load(RFile* pcf)
 																										{
 																											if (CreateImage() == SUCCESS)
 																											{
-																												sReturn = m_pImage->Load(pcf);
+                                                                                    sResult = m_pImage->Load(pcf);
 																											}
 																											else
 																											{
 																												TRACE("RSprite::Load - Error allocating m_pImage\n");
-																												sReturn = FAILURE;
+                                                                                    sResult = FAILURE;
 																											}
 																										}
 																										else
 																										{
-																											sReturn = SUCCESS; // No image to read, just continue
+                                                                                 sResult = SUCCESS; // No image to read, just continue
 																										}
 																									}
 																									else
 																									{
 																										TRACE("RSprite::Load - Error reading image flag\n");
-																										sReturn = FAILURE;
+                                                                              sResult = FAILURE;
 																									}
 																								}
 																								else
 																								{
 																									TRACE("RSprite::Load - Error reading m_sHotSpotZ\n");
-																									sReturn = FAILURE;
+                                                                           sResult = FAILURE;
 																								}
 																							}
 																							else
 																							{
 																								TRACE("RSprite::Load - Error reading m_sHotSpotY\n");
-																								sReturn = FAILURE;
+                                                                        sResult = FAILURE;
 																							}
 																						}
 																						else
 																						{
 																							TRACE("RSprite::Load - Error reading m_sHotSpotX\n");
-																							sReturn = FAILURE;
+                                                                     sResult = FAILURE;
 																						}
 																					}
 																					else
 																					{
 																						TRACE("RSprite::Load - Error reading m_ulFlags\n");
-																						sReturn = FAILURE;
+                                                                  sResult = FAILURE;
 																					}
 																				}
 																				else
 																				{
 																					TRACE("RSprite::Load - Error reading m_dZvel\n");
-																					sReturn = FAILURE;
+                                                               sResult = FAILURE;
 																				}
 																			}
 																			else
 																			{
 																				TRACE("RSprite::Load - Error reading m_dYvel\n");
-																				sReturn = FAILURE;
+                                                            sResult = FAILURE;
 																			}
 																		}
 																		else
 																		{
 																			TRACE("RSprite:;Load - Error reading m_dXvel\n");
-																			sReturn = FAILURE;
+                                                         sResult = FAILURE;
 																		}
 																	}
 																	else
 																	{
 																		TRACE("RSprite::Load - Error reading m_dZacc\n");
-																		sReturn = FAILURE;
+                                                      sResult = FAILURE;
 																	}
 																}
 																else
 																{
 																	TRACE("RSprite::Load - Error reding m_dYacc\n");
-																	sReturn = FAILURE;
+                                                   sResult = FAILURE;
 																}
 															}
 															else
 															{
 																TRACE("RSprite::Load - Error reading m_dXacc\n");
-																sReturn = FAILURE;
+                                                sResult = FAILURE;
 															}
 														}
 														else
 														{
 															TRACE("RSprite::Load - Error reading m_dZ\n");
-															sReturn = FAILURE;
+                                             sResult = FAILURE;
 														}	
 													}	
 													else
 													{
 														TRACE("RSprite::Load - Error reading m_dY\n");
-														sReturn = FAILURE;
+                                          sResult = FAILURE;
 													}
 												}
 												else
 												{
 													TRACE("RSprite::Load - Error reding m_dX\n");
-													sReturn = FAILURE;
+                                       sResult = FAILURE;
 												}
 											}
 											else
 											{
 												TRACE("RSprite::Load - Error reading m_lHeight\n");
-												sReturn = FAILURE;
+                                    sResult = FAILURE;
 											}
 										}
 										else
 										{
 											TRACE("RSprite::Load - Error reading m_lWidth\n");
-											sReturn = FAILURE;
+                                 sResult = FAILURE;
 										}
 									}
 									else
 									{
 										TRACE("RSprite::Load - Error reading m_sAngle\n");
-										sReturn = FAILURE;
+                              sResult = FAILURE;
 									}
 								}
 								else
 								{
 									TRACE("RSprite::Load - Error reading m_sZ position\n");
-									sReturn = FAILURE;
+                           sResult = FAILURE;
 								}
 							}
 							else
 							{
 								TRACE("RSprite::Load - Error reading m_sY position\n");
-								sReturn = FAILURE;
+                        sResult = FAILURE;
 							}
 						}
 						else
 						{
 							TRACE("RSprite::Load - Error reading m_sX position\n");
-							sReturn = FAILURE;
+                     sResult = FAILURE;
 						}
 					}
 					else
@@ -836,35 +836,35 @@ int16_t RSprite::Load(RFile* pcf)
 						TRACE("RSprite::Load - Error Wrong version.\n");
 						TRACE("RSprite::Load - Current RSprite version %d\n", SPRITE_CURRENT_VERSION);
 						TRACE("RSprite::Load - This file's version %d\n", ulVersion);
-						sReturn = FAILURE;
+                  sResult = FAILURE;
 
 					}
 				}
 				else
 				{
 					TRACE("RSprite::Load - Error reading file version number\n");
-					sReturn = FAILURE;
+               sResult = FAILURE;
 				}
 			}
 			else
 			{
 				TRACE("RSprite::Load - Error: Wrong file type.  Sprite files should start with 'SPRT'\n");
-				sReturn = FAILURE;
+            sResult = FAILURE;
 			}
 		}
 		else
 		{
 			TRACE("RSprite::Load - Error reading file type\n");
-			sReturn = FAILURE;
+         sResult = FAILURE;
 		}
 	}
 	else
 	{
 		TRACE("RSprite::Load - Error RFile pointer does not refer to an open file\n");
-		sReturn = FAILURE;
+      sResult = FAILURE;
 	}
 	
-	return sReturn;
+   return sResult;
 }
 
 

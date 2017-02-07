@@ -216,11 +216,11 @@ class CFire : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 			*ppNew = new CFire(pRealm);
 			if (*ppNew == nullptr)
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("CFire::Construct(): Couldn't construct CFire (that's a bad thing)\n");
 				}
 			return sResult;

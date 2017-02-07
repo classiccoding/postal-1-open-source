@@ -217,7 +217,7 @@ int16_t CNavigationNet::Load(							// Returns 0 if successfull, non-zero otherw
 			}
 		else
 			{
-			sResult = -1;
+			sResult = FAILURE;
 			TRACE("CNavigationNet::Load(): Error reading from file!\n");
 			}
 		}
@@ -270,7 +270,7 @@ int16_t CNavigationNet::Save(										// Returns 0 if successfull, non-zero oth
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CNavigationNet::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sReturn = 0;
+   int16_t sResult = SUCCESS;
 	// At this point we can assume the CHood was loaded, so we init our height
 	m_dY = m_pRealm->GetHeight((int16_t) m_dX, (int16_t) m_dZ);
 	// Set yourself to be the new current Nav Net
@@ -280,12 +280,12 @@ int16_t CNavigationNet::Startup(void)								// Returns 0 if successfull, non-ze
 	if (m_ucNextID <= m_ucNumSavedBouys)
 	{
 		m_sCallStartup = 1;
-		sReturn = 0;
+      sResult = SUCCESS;
 	}
 	else
 		UpdateRoutingTables();
 
-	return sReturn;
+   return sResult;
 	}
 
 
@@ -343,7 +343,7 @@ void CNavigationNet::Render(void)
 
 int16_t CNavigationNet::EditPostLoad(void)
 {
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	CListNode<CThing>* pEditorList = m_pRealm->m_aclassHeads[CThing::CGameEditThingID].m_pnNext;
 	CGameEditThing* peditor = (CGameEditThing*) pEditorList->m_powner;
@@ -359,7 +359,7 @@ int16_t CNavigationNet::EditPostLoad(void)
 	}
 	else
 	{
-		sResult = -1;
+		sResult = FAILURE;
 		TRACE("CNavigationNet::EditLoad - Error setting up NavNet list box in editor\n");
 	}
 
@@ -374,7 +374,7 @@ int16_t CNavigationNet::EditNew(									// Returns 0 if successfull, non-zero o
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -426,7 +426,7 @@ void SetText(					// Returns nothing.
 
 int16_t CNavigationNet::EditModify(void)
 {
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 	RGuiItem* pGui = RGuiItem::LoadInstantiate(FullPathVD("res/editor/network.gui"));
 	if (pGui)
 	{
@@ -573,7 +573,7 @@ void CNavigationNet::EditHotSpot(	// Returns nothiing.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CNavigationNet::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
    if (m_pImage == nullptr)
 		{
@@ -584,7 +584,7 @@ int16_t CNavigationNet::GetResources(void)						// Returns 0 if successfull, non
 			// okay if EVERYONE wants it to be an FSPR8.
 			if (m_pImage->Convert(RImage::FSPR8) != RImage::FSPR8)
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("CNavigationNet::GetResource(): Couldn't convert to FSPR8!\n");
 				}
 			}
@@ -599,7 +599,7 @@ int16_t CNavigationNet::GetResources(void)						// Returns 0 if successfull, non
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CNavigationNet::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = 0;
+   int16_t sResult = SUCCESS;
 
 	if (m_pImage != 0)
 		{
@@ -825,7 +825,7 @@ void CNavigationNet::PrintRoutingTables(void)
 
 int16_t CNavigationNet::DeleteNetwork(void)
 {
-	int16_t sReturn = SUCCESS;
+   int16_t sResult = SUCCESS;
 
 	nodeMap::iterator i;
 	for (i = m_NodeMap.begin(); i != m_NodeMap.end(); i++)
@@ -835,7 +835,7 @@ int16_t CNavigationNet::DeleteNetwork(void)
 
 	m_NodeMap.erase(m_NodeMap.begin(), m_NodeMap.end());
 
-	return sReturn;
+   return sResult;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
