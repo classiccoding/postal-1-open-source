@@ -4435,36 +4435,14 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			sResult = FAILURE;
 			}
 
-      if (rspGetResource(&g_resmgrShell, PLAYER_COLOR_GUI_FILE, &ms_ptxtColor) == SUCCESS)
-			{
-			// Keep in bounds just in case (anyone could type any number into the INI) . . .
-			if (	g_GameSettings.m_sPlayerColorIndex >= CGameSettings::ms_sNumPlayerColorDescriptions
-            ||	g_GameSettings.m_sPlayerColorIndex >= CDude::MaxTextures)
-				{
-				g_GameSettings.m_sPlayerColorIndex	= 0;
-				}
-
-			// Set the text from the INI setting. Note that we are changing a
-			// resource!
-			ms_ptxtColor->SetText("%s", CGameSettings::ms_apszPlayerColorDescriptions[g_GameSettings.m_sPlayerColorIndex]);
-			ms_ptxtColor->Compose();
-
-         pmenuCurrent->ami[1].pgui	= ms_ptxtColor;
-			}
-		else
-			{
-			TRACE("MultiOptionsInit(): rspGetResource() failed.\n");
-			sResult	= 2;
-			}
-
-      if (rspGetResource(&g_resmgrShell, NET_PROTO_GUI_FILE, &ms_ptxtProto) == SUCCESS)
+		if (rspGetResource(&g_resmgrShell, NET_PROTO_GUI_FILE, &ms_ptxtProto) == 0)
 			{
 			// Set the text from the INI setting.  Note that we are changing a 
 			// resource!
 			ms_ptxtProto->SetText("%s", RSocket::GetProtoName((RSocket::ProtoType)g_GameSettings.m_usProtocol));
 			ms_ptxtProto->Compose();
 
-         pmenuCurrent->ami[2].pgui   = ms_ptxtProto;
+			pmenuCur->ami[1].pgui   = ms_ptxtProto;
 			}
 		else
 			{
@@ -4482,7 +4460,7 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			ms_ptxtBandwidth->SetText("%s", Net::BandwidthText[g_GameSettings.m_sNetBandwidth]);
 			ms_ptxtBandwidth->Compose();
 
-         pmenuCurrent->ami[3].pgui   = ms_ptxtBandwidth;
+ 			pmenuCur->ami[2].pgui   = ms_ptxtBandwidth;
 			}
 		else
 			{
@@ -4502,6 +4480,15 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 
 			// Clear menu's pointer.
          pmenuCurrent->ami[0].pgui	= nullptr;
+			}
+
+		if (ms_ptxtColor != nullptr)
+			{
+			// Release resource.
+			rspReleaseResource(&g_resmgrShell, &ms_ptxtColor);
+
+			// Clear menu's pointer.
+         pmenuCurrent->ami[1].pgui	= nullptr;
 			}
 
 		if (ms_ptxtColor != nullptr)
@@ -4551,21 +4538,7 @@ static bool MultiOptionsChoice(	// Returns true to accept, false to deny choice.
 	switch (sMenuItem)
 		{
 		case 1:
-			// Increment and check to make sure we have a description and we have such a color . . .
-			g_GameSettings.m_sPlayerColorIndex++;
-			if (	g_GameSettings.m_sPlayerColorIndex >= CGameSettings::ms_sNumPlayerColorDescriptions
-				||	g_GameSettings.m_sPlayerColorIndex >= CDude::MaxTextures)
-				{
-				g_GameSettings.m_sPlayerColorIndex	= 0;
-				}
-
-			// Set the text from the INI setting. Note that we are changing a
-			// resource!
-			ms_ptxtColor->SetText("%s", CGameSettings::ms_apszPlayerColorDescriptions[g_GameSettings.m_sPlayerColorIndex]);
-			ms_ptxtColor->Compose();
-			break;
-		case 2:
-			if (ms_ptxtProto != nullptr)
+			if (ms_ptxtProto != NULL)
 				{
 				g_GameSettings.m_usProtocol++;
 				if (g_GameSettings.m_usProtocol >= RSocket::NumProtocols)
