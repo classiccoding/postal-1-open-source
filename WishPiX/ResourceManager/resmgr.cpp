@@ -289,10 +289,8 @@ int16_t RResMgr::Get(									// Returns 0 on success.
 #endif //_DEBUG
 			}
 		else
-			{
-			#ifdef RESMGR_VERBOSE
-				TRACE("RResMgr::Get - Break Yo Selfen hosen!  GetInstance() failed.\n");
-			#endif // RESMGR_VERBOSE
+         {
+            TRACE("RResMgr::Get - GetInstance() failed.\n");
 			}
 		}
 
@@ -373,10 +371,8 @@ int16_t RResMgr::GetInstance(						// Returns 0 on success.
          if (fileNoSak.Open(/*FromSystempath(strFilename)*/strFilename, "rb", endian ) == SUCCESS)
 				pfileSrc	= &fileNoSak;
 			else
-				{
-				#ifdef RESMGR_VERBOSE
-					TRACE("RResMgr::GetInstance - Break Yo Selfen hosen!  Could not open resource file.\n");
-				#endif // RESMGR_VERBOSE
+            {
+               TRACE("RResMgr::GetInstance - Could not open resource file.\n");
 				}
 			}
 
@@ -394,10 +390,8 @@ int16_t RResMgr::GetInstance(						// Returns 0 on success.
 				fileNoSak.Close();
 			}
 		else
-			{
-			#ifdef RESMGR_VERBOSE
-				TRACE("RResMgr::GetInstance - Break Yo Selfen hosen! Could not get RFile* to resource data.\n");
-			#endif // RESMGR_VERBOSE
+         {
+            TRACE("RResMgr::GetInstance - Could not get RFile* to resource data.\n");
 			sReturn	= FAILURE;
 			}
 
@@ -415,7 +409,7 @@ int16_t RResMgr::GetInstance(						// Returns 0 on success.
 		}
 	else
 		{
-		TRACE("RResMgr::GetInstance - Break Yo Selfen hosen! Error allocating new resource\n");
+      TRACE("RResMgr::GetInstance - Error allocating new resource\n");
 		sReturn = FAILURE;
 		}
 

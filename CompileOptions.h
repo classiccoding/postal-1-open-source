@@ -184,6 +184,9 @@
 // the original versions, you'd have to use the original source base.
 ////////////////////////////////////////////////////////////////////////////////
 
+// Original version from 1997
+#define POSTAL_1997		0
+
 // This is an add-on pack that adds Japanese voice and a couple of Japanese
 // levels to the original Postal.
 #define JAPAN_ADD_ON		1
@@ -206,6 +209,7 @@
 	#elif TARGET == SUPER_POSTAL
 	#elif TARGET == POSTAL_PLUS
 	#elif TARGET == POSTAL_2015
+   #elif TARGET == POSTAL_1997
 	#else 
 		#error TARGET is set to an unrecognized value
 	#endif

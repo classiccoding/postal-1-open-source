@@ -237,8 +237,13 @@ static const char*	ms_apszFiles[]	=
 	#ifdef TITLE_SHOW_DISTRIBUTOR
 		"Title/distrib.bmp",
 	#endif
+#if TARGET == POSTAL_1997
+  #warning Proceeding without updated copyright screen notice.
    "Title/Logo.bmp",
-	"Title/Postal.bmp"
+#else
+   "Title/Logo2.bmp",
+#endif
+   "Title/Postal.bmp"
 	};				 
 
 ////////////////////////////////////////////////////////////////////////////////
