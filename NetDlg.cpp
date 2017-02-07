@@ -1664,8 +1664,11 @@ static void AddConsoleMsg(	// Returns nothing.
 		char szOutput[MAX_STATUS_STR];
 
 		va_list varp;
-		va_start(varp, pszFrmt);    
-		vsprintf(szOutput, pszFrmt, varp);
+      if(pszFrmt != nullptr) // safety first
+      {
+        va_start(varp, pszFrmt);
+        vsprintf(szOutput, pszFrmt, varp);
+      }
 		va_end(varp);
 
 		uint32_t	u32TextColor	= ms_plbNetConsole->m_u32TextColor;
@@ -1762,7 +1765,7 @@ extern const char* NetErrorText(						// Returns pointer to text
 	NetMsg* pmsg)											// In:  Error message
 	{
 	static char szStaticErrorText[512];
-   const char* pText = "";
+   const char* pText = nullptr;
 	if (pmsg->msg.nothing.ucType == NetMsg::ERR)
 		{
 		switch (pmsg->msg.err.error)
@@ -1804,14 +1807,12 @@ extern const char* NetErrorText(						// Returns pointer to text
 				pText = g_pszNetStat_ConnectTimeoutError;
 				break;
 			case NetMsg::ServerVersionMismatchError:
-				pText = szStaticErrorText;
-            // you may NOT overwrite string literals
-            //sprintf(pText, g_pszNetStat_ServerVersionMismatchError_lu_lu, pmsg->msg.err.ulParam, CNetMsgr::CurVersionNum & ~CNetMsgr::MacVersionBit);
+            sprintf(szStaticErrorText, g_pszNetStat_ServerVersionMismatchError_lu_lu, pmsg->msg.err.ulParam, CNetMsgr::CurVersionNum & ~CNetMsgr::MacVersionBit);
+            pText = szStaticErrorText;
 				break;
 			case NetMsg::ClientVersionMismatchError:
-				pText = szStaticErrorText;
-            // you may NOT overwrite string literals
-            //sprintf(pText, g_pszNetStat_ClientVersionMismatchError_lu_lu, pmsg->msg.err.ulParam, CNetMsgr::CurVersionNum & ~CNetMsgr::MacVersionBit);
+            sprintf(szStaticErrorText, g_pszNetStat_ClientVersionMismatchError_lu_lu, pmsg->msg.err.ulParam, CNetMsgr::CurVersionNum & ~CNetMsgr::MacVersionBit);
+            pText = szStaticErrorText;
 				break;
 			case NetMsg::LoginDeniedError:
 				pText = g_pszNetStat_LoginDeniedError;
