@@ -287,7 +287,7 @@ extern int16_t CompareModes(	// Returns as described above.
 		PVIDEO_MODE	pvm1,		// First video mode to compare.
 		PVIDEO_MODE	pvm2)		// Second video mode to compare.
 	{
-	int16_t sResult = FAILURE;	// Assume *pvm1 > *pvm2.
+   int16_t sReturn = 1;	// Assume *pvm1 > *pvm2.
 
 	if (pvm1->sColorDepth == pvm2->sColorDepth)
 		{
@@ -297,13 +297,13 @@ extern int16_t CompareModes(	// Returns as described above.
 				{
 				if (pvm1->sPages == pvm2->sPages)
 					{
-					sResult = SUCCESS;
+               sReturn = 0;
 					}
 				else
 					{
 					if (pvm1->sPages < pvm2->sPages)
 						{
-						sResult = FAILURE;
+                  sReturn = -1;
 						}
 					}
 				}
@@ -311,7 +311,7 @@ extern int16_t CompareModes(	// Returns as described above.
 				{
 				if (pvm1->sHeight < pvm2->sHeight)
 					{
-					sResult = FAILURE;
+               sReturn = -1;
 					}
 				}
 			}
@@ -319,7 +319,7 @@ extern int16_t CompareModes(	// Returns as described above.
 			{
 			if (pvm1->sWidth < pvm2->sWidth)
 				{
-				sResult = FAILURE;
+            sReturn = -1;
 				}
 			}
 		}
@@ -327,11 +327,11 @@ extern int16_t CompareModes(	// Returns as described above.
 		{
 		if (pvm1->sColorDepth < pvm2->sColorDepth)
 			{
-			sResult = FAILURE;
+         sReturn = -1;
 			}
 		}
 
-	return sResult;
+   return sReturn;
 	}
 
 
