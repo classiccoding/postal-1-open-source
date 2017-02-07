@@ -1263,12 +1263,12 @@ Menu	menuOptions =
             #ifndef MULTIPLAYER_REMOVED
 			{ g_pszOptionsMenu_Multiplayer,	TRUE,			&menuMultiOptions,	nullptr,	},
             #endif
-         { g_pszOptionsMenu_Performance,	TRUE,			&menuFeatures,			NULL,	},
-         { g_pszOptionsMenu_Difficulty,	TRUE,			&menuPlayOptions,		NULL,	},
-         { g_pszOptionsMenu_Crosshair,	TRUE,			NULL,		NULL,	},
-         { g_pszMultiplayerSetupMenu_Color,			TRUE,			NULL,				NULL, },
-         { "",										FALSE,		NULL,						NULL,	},
-         NULL							// Terminates list.
+			{ g_pszOptionsMenu_Performance,	TRUE,			&menuFeatures,			NULL,	},
+			{ g_pszOptionsMenu_Difficulty,	TRUE,			&menuPlayOptions,		NULL,	},
+			{ g_pszOptionsMenu_Crosshair,	TRUE,			NULL,		NULL,	},
+			{ g_pszMultiplayerSetupMenu_Color,			TRUE,			NULL,				NULL, },
+			{ "",										FALSE,		NULL,						NULL,	},
+			NULL							// Terminates list.
 		},
 	};
 
