@@ -623,7 +623,7 @@ extern const char g_pszPlayOneRealmOnlyMessage[]	=
 #else
 	#if TARGET == SUPER_POSTAL
       extern const char g_pszStartSinglePlayerMenu_New[]			= "GO POSTAL ALL OVER";
-	#elif (TARGET == POSTAL_PLUS || TARGET == POSTAL_2015)
+   #elif TARGET == POSTAL_1997 || TARGET == POSTAL_PLUS || TARGET == POSTAL_2015
       extern const char g_pszStartSinglePlayerMenu_New[]			= "NEW GAME";
 	#else
 		#error Strings must be customized for current TARGET

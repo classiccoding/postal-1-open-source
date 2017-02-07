@@ -542,13 +542,11 @@ class RResMgr
 					TRACE("RResMgr::FromSak - m_rfSak.Seek(%i, SEEK_SET) failed.\n", 
 						lResSeekPos);
 					}
-				}
-#ifdef RESMGR_VERBOSE
+            }
 			else
-				TRACE("RResMgr::FromSak - Break Yo Self! Resource %s is not in this SAK file\n",
+            TRACE("RResMgr::FromSak - Resource %s is not in this SAK file\n",
 				      (char*) strResourceName);
 //				      (char*) strResourceName.c_str());
-#endif // RESMGR_VERBOSE
 
 			return prf;
 		}
