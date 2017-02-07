@@ -1802,7 +1802,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 #endif
 #endif // SPAWN
 					break;
-#if TARGET == POSTAL_2015
+#if TARGET == POSTAL_2015 || TARGET == POSTAL_1997
 #ifndef SPAWN
 				case ACTION_PLAY_ADDON2:
 					// Remember menu to go back to.
@@ -3081,7 +3081,7 @@ extern void Game_HostMultiPlayerGame(
 extern void Game_StartDemoGame(
 	int16_t sMenuItem)
 	{
-#if TARGET != POSTAL_2015
+#if TARGET != POSTAL_2015 && TARGET != POSTAL_1997
 	char*	pszDemoFile	= nullptr;
 	char	szLevelDir[RSP_MAX_PATH]	= "";
 	char  szTitle[256] = "";
@@ -3089,7 +3089,7 @@ extern void Game_StartDemoGame(
 	TRACE("sMenuItem = %d\n", sMenuItem);
 	switch (sMenuItem)
 		{
-#if TARGET == POSTAL_2015			
+#if TARGET == POSTAL_2015 || TARGET == POSTAL_1997
 		case 0:
 			sprintf(m_szDemoFile, "%s/default0.dmo", FullPathHD(DEMO_LEVEL_DIR));
 			m_action = ACTION_DEMO_PLAYBACK;
@@ -3097,11 +3097,15 @@ extern void Game_StartDemoGame(
 		case 1:
 			sprintf(m_szDemoFile, "%s/default1.dmo", FullPathHD(DEMO_LEVEL_DIR));
 			m_action = ACTION_DEMO_PLAYBACK;
-			break;
-		case 2:
-			sprintf(m_szDemoFile, "%s/default2.dmo", FullPathHD(DEMO_LEVEL_DIR));
-			m_action = ACTION_DEMO_PLAYBACK;
-			break;
+         break;
+     case 2:
+        sprintf(m_szDemoFile, "%s/default2.dmo", FullPathHD(DEMO_LEVEL_DIR));
+        m_action = ACTION_DEMO_PLAYBACK;
+        break;
+     case 3:
+        sprintf(m_szDemoFile, "%s/default2.dmo", FullPathHD(DEMO_LEVEL_DIR));
+        m_action = ACTION_DEMO_PLAYBACK;
+        break;
 #else
 		// Browse for and Playback demo
 		case 0:
