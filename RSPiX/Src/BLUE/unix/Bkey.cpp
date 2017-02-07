@@ -189,11 +189,11 @@ extern void rspScanKeys(
 // Read next key from keyboard queue.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern int16_t rspGetKey(			// Returns 1 if a key was available; 0 if not.
+extern int16_t rspGetKey(			// Returns TRUE if a key was available; FALSE if not.
 	int32_t* plKey,					// Key info returned here (or 0 if no key available)
 	int32_t* plTime /*= nullptr*/)	// Key's time stamp returned here (unless nullptr)
 	{
-	int16_t sResult = SUCCESS;	// Assume no key.
+   int16_t sReturn = FALSE;	// Assume no key.
 
 	PRSP_SK_EVENT	pkeEvent	= ms_qkeEvents.DeQ();
 	if (pkeEvent != nullptr)
@@ -201,7 +201,7 @@ extern int16_t rspGetKey(			// Returns 1 if a key was available; 0 if not.
 		SET(plKey,	pkeEvent->lKey);
 		SET(plTime,	pkeEvent->lTime);
 		// Indicate a key was available.
-		sResult = FAILURE;
+      sReturn = TRUE;
 		}
 	else
 		{
@@ -209,18 +209,20 @@ extern int16_t rspGetKey(			// Returns 1 if a key was available; 0 if not.
 		SET(plTime, 0L);
 		}
 
-	return sResult;
+   return sReturn;
 	}
 
+#ifdef UNUSED_FUNCTIONS
 //////////////////////////////////////////////////////////////////////////////
 //
 // Check if a key is available in the keyboard queue via rspGetKey.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern int16_t rspIsKey(void)		// Returns 1 if a key is available; 0 if not.
+extern int16_t rspIsKey(void)		// Returns TRUE if a key is available; FALSE if not.
 	{
-	return (ms_qkeEvents.IsEmpty() == FALSE) ? 1 : 0;
+   return (ms_qkeEvents.IsEmpty() == FALSE) ? TRUE : FALSE;
 	}
+#endif
 
 //////////////////////////////////////////////////////////////////////////////
 //

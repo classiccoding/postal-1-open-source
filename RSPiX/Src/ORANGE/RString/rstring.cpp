@@ -214,7 +214,7 @@ void RString::Grow(int32_t lMinimumSize)
 			// Change buffer size
 			char* pOld = m_pBuf;
 			m_pBuf = (char*)malloc(lMinimumSize);
-			ASSERT(m_pBuf != 0); // should be caught by new_handler, but just in case...
+         ASSERT(m_pBuf != nullptr); // should be caught by new_handler, but just in case...
 			memcpy(m_pBuf, pOld, m_lBufSize);
 			free(pOld);
 			}
@@ -222,7 +222,7 @@ void RString::Grow(int32_t lMinimumSize)
 			{
 			// Create new buffer
 			m_pBuf = (char*)malloc(lMinimumSize);
-			ASSERT(m_pBuf != 0); // should be caught by new_handler, but just in case...
+         ASSERT(m_pBuf != nullptr); // should be caught by new_handler, but just in case...
 			*m_pBuf = 0;	// write terminating null (string length must be 0 at this point)
 			}
 		m_lBufSize = lMinimumSize;
@@ -258,7 +258,7 @@ void RString::Shrink(int32_t lMaximumSize)
 				// Change buffer size
 				char* pOld = m_pBuf;
 				m_pBuf = (char*)malloc(lMaximumSize);
-				ASSERT(m_pBuf != 0); // should be caught by new_handler, but just in case...
+            ASSERT(m_pBuf != nullptr); // should be caught by new_handler, but just in case...
 				memcpy(m_pBuf, pOld, m_lBufSize);
 				free(pOld);
 				m_lBufSize = lMaximumSize;

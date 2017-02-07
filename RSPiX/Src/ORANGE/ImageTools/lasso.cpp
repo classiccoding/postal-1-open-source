@@ -597,7 +597,7 @@ inline int16_t Add(					// Returns 0 on success.
 			}
 
 		// If an error occurred after allocation . . .
-		if (sResult != 0)
+		if (sResult != SUCCESS)
 			{
 			delete psX;
 			}

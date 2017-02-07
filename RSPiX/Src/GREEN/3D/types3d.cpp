@@ -58,7 +58,7 @@ void RTexture::AllocIndices(void)
 	{
 	FreeIndices();
 	m_pIndices = (uint8_t*)calloc(m_sNum, 1);
-	ASSERT(m_pIndices != 0);
+   ASSERT(m_pIndices != nullptr);
 	}
 
 
@@ -67,7 +67,7 @@ void RTexture::AllocColors(void)
 	{
 	FreeColors();
 	m_pColors = (RPixel32*)calloc(m_sNum, sizeof(RPixel32));
-	ASSERT(m_pColors != 0);
+   ASSERT(m_pColors != nullptr);
 	}
 
 
@@ -261,7 +261,7 @@ void RMesh::Alloc(int16_t sNum)
 	Free();
 	m_sNum = sNum;
 	m_pArray = (uint16_t*)calloc((int32_t)m_sNum * 3, sizeof(uint16_t));
-	ASSERT(m_pArray != 0);
+   ASSERT(m_pArray != nullptr);
 	}
 
 
@@ -314,7 +314,7 @@ void RSop::Alloc(int32_t lNum)
 	Free();
 	m_lNum = lNum;
 	m_pArray = (RP3d*)calloc(m_lNum, sizeof(RP3d));
-	ASSERT(m_pArray != 0);
+   ASSERT(m_pArray != nullptr);
 	}
 
 

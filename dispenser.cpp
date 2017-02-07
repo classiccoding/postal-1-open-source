@@ -600,7 +600,7 @@ void CDispenser::Update(void)
 						{
 						// If the last one no longer exists . . .
 						CThing* pthing;
-						if (m_pRealm->m_idbank.GetThingByID(&pthing, m_u16IdDispensee) != 0)
+						if (m_pRealm->m_idbank.GetThingByID(&pthing, m_u16IdDispensee) != SUCCESS)
 							{
 							// Clear our ID.
 							m_u16IdDispensee	= CIdBank::IdNil;
@@ -1039,7 +1039,7 @@ int16_t CDispenser::EditModify(void)					// Returns 0 if successfull, non-zero o
 					}
 
 				// If any errors occurred after allocation . . .
-				if (sResult != 0)
+				if (sResult != SUCCESS)
 					{
 					DestroyDispensee(&pthing);
 					}
@@ -1333,7 +1333,7 @@ int16_t CDispenser::InstantiateDispensee(	// Returns 0 on success.
 				}
 
 			// If any errors after allocation . . .
-			if (sResult != 0)
+			if (sResult != SUCCESS)
 				{
 				DestroyDispensee(ppthing);
 				}

@@ -783,12 +783,12 @@ int16_t CRealm::Open(										// Returns 0 if successfull, non-zero otherwise
 			// case of loading a level, then try the path with the HD path prepended, 
 			// then try the CD path.
 			sResult = pfile->Open(rspPathToSystem((char*)pszFileName), "rb", RFile::LittleEndian);
-			if (sResult != 0)
+			if (sResult != SUCCESS)
 				{
 				char pszFullPath[RSP_MAX_PATH];
 				strcpy(pszFullPath, FullPathHD((char*) pszFileName));
 				sResult = pfile->Open((char*)pszFullPath, "rb", RFile::LittleEndian);
-				if (sResult != 0)
+				if (sResult != SUCCESS)
 					{
 					strcpy(pszFullPath, FullPathCD((char*) pszFileName));
 					sResult = pfile->Open((char*)pszFullPath, "rb", RFile::LittleEndian);
@@ -937,7 +937,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 						if (func != 0)
 							{
 							sResult = (*func)(this);
-							if (sResult != 0)
+							if (sResult != SUCCESS)
 								{
 								TRACE("CRealm::Load(): Error reported by Preload() for CThing class ID = %hd\n", (int16_t)sPre);
 								break;

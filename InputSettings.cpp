@@ -306,7 +306,7 @@ int16_t CInputSettings::LoadPrefs(
 			);
 
 		// Attempt to translate . . .
-		if (KeyDescriptionToValue(szDescriptor, &(m_asPlayKeys[i]) ) != 0)
+      if (KeyDescriptionToValue(szDescriptor, &(m_asPlayKeys[i]) ) != SUCCESS)
 			{
 			TRACE("LoadPrefs(): Failed to convert key description %s to key value.\n",
 				szDescriptor);
@@ -320,7 +320,7 @@ int16_t CInputSettings::LoadPrefs(
 			);
 
 		// Attempt to translate . . .
-		if (MouseButtonDescriptionToMask(szDescriptor, &(m_asPlayMouseButtons[i]) ) != 0)
+      if (MouseButtonDescriptionToMask(szDescriptor, &(m_asPlayMouseButtons[i]) ) != SUCCESS)
 			{
 			TRACE("LoadPrefs(): Failed to convert mouse button description %s to button mask.\n",
 				szDescriptor);
@@ -334,7 +334,7 @@ int16_t CInputSettings::LoadPrefs(
 			);
 
 		// Attempt to translate . . .
-		if (JoyButtonDescriptionToMask(szDescriptor, &(m_asPlayJoyButtons[i]) ) != 0)
+      if (JoyButtonDescriptionToMask(szDescriptor, &(m_asPlayJoyButtons[i]) ) != SUCCESS)
 			{
 			TRACE("LoadPrefs(): Failed to convert joy button description %s to button mask.\n",
 				szDescriptor);

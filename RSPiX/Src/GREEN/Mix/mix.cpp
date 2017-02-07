@@ -823,7 +823,7 @@ int16_t RMix::Start(RMixCall mcUser, uintptr_t ulUser,
 		m_sSuspending		= FALSE;
 
 		// If any errors occurred . . .
-		if (sResult != 0)
+		if (sResult != SUCCESS)
 			{
 			if (ms_listActive.Remove(this) == SUCCESS)
 				{

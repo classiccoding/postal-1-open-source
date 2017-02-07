@@ -249,7 +249,7 @@ void CCamera::Update(void)
 			m_sSceneViewY = 0;
 
 		// Limit to right edge of scene
-		if (m_pHood != 0)
+      if (m_pHood != nullptr)
 			{
 			int16_t sClipX = (m_sSceneViewX + m_sViewW) - m_pHood->GetWidth();
 			if (sClipX > 0)

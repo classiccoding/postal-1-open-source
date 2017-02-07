@@ -250,9 +250,9 @@ int16_t RSnd::Stream(	char* pszSampleName, int32_t lPlayBufSize, int32_t lReadBu
 					}
 
 				// If any failures . . .
-            if (sResult != 0)
+            if (sResult != SUCCESS)
 					{
-					if (m_mix.CloseChannel() != 0)
+					if (m_mix.CloseChannel() != SUCCESS)
 						{
 						TRACE("Stream(\"%s\"): Unable to close sound channel.\n", pszSampleName);
 						}
@@ -265,7 +265,7 @@ int16_t RSnd::Stream(	char* pszSampleName, int32_t lPlayBufSize, int32_t lReadBu
 				}
 
 			// If any failures . . .
-         if (sResult != 0)
+         if (sResult != SUCCESS)
 				{
 				// Close sample.
 				m_psample->Close();
@@ -278,7 +278,7 @@ int16_t RSnd::Stream(	char* pszSampleName, int32_t lPlayBufSize, int32_t lReadBu
 			}
 
 		// If any failures . . .
-      if (sResult != 0)
+      if (sResult != SUCCESS)
 			{
 			delete m_psample;
          m_psample = nullptr;
@@ -403,9 +403,9 @@ int16_t RSnd::Play(						// Returns 0 on success.
 				}
 
 			// If any failures . . .
-         if (sResult != 0)
+         if (sResult != SUCCESS)
 				{
-				if (m_mix.CloseChannel() != 0)
+				if (m_mix.CloseChannel() != SUCCESS)
 					{
 					TRACE("Play(): Unable to close sound channel.\n");
 					}
@@ -419,7 +419,7 @@ int16_t RSnd::Play(						// Returns 0 on success.
 			}
 
 		// If any failures . . .
-      if (sResult != 0)
+      if (sResult != SUCCESS)
 			{
 			// Unlock sample.
 			m_psample->Unlock();
@@ -590,7 +590,7 @@ void* RSnd::StreamCall(RMix::Msg	msg,
          if (m_psample != nullptr)
 				{
 				// Close the sample.
-				if (m_psample->Close() != 0)
+				if (m_psample->Close() != SUCCESS)
 					{
 					TRACE("StreamCall(): Unable to close RSample.\n");
 					}
@@ -614,7 +614,7 @@ void* RSnd::StreamCall(RMix::Msg	msg,
 				}
 
 			// Close the sound output channel.
-			if (m_mix.CloseChannel() != 0)
+			if (m_mix.CloseChannel() != SUCCESS)
 				{
 				TRACE("StreamCall(): Unable to close sound channel.\n");
 				}
@@ -747,7 +747,7 @@ void* RSnd::PlayCall(RMix::Msg	msg,
 				}
 
 			// Close the sound output channel.
-			if (m_mix.CloseChannel() != 0)
+			if (m_mix.CloseChannel() != SUCCESS)
 				{
 				TRACE("PlayCall(): Unable to close sound channel.\n");
 				}

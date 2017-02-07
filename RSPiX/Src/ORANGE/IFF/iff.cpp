@@ -200,7 +200,7 @@ int16_t RIff::CreateChunk(FCC fccChunk, FCC fccForm /*= 0*/)
 			}
 
 		// If an error occurred . . .
-      if (sResult != 0)
+      if (sResult != SUCCESS)
 			{
 			// Release memory.
 			delete pChunk;
@@ -275,7 +275,7 @@ int16_t RIff::EndChunk(FCC fccChunk /*= 0*/, FCC fccForm /*= 0*/)
 				}
 
 			// Seek back.
-			if (Seek(lCurPos, SEEK_SET) != 0)
+			if (Seek(lCurPos, SEEK_SET) != SUCCESS)
 				{
 				TRACE("EndChunk(): Unable to return to current file pos.\n");
             sResult = FAILURE * 4;
@@ -497,7 +497,7 @@ int16_t RIff::Descend(void)	// Returns 0 if successful, 1 if no subchunks,
 				}
 
 			// If an error occurred after allocation . .. 
-         if (sResult != 0)
+         if (sResult != SUCCESS)
 				{
 				delete pchunk;
 				}

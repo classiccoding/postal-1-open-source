@@ -466,7 +466,7 @@ int16_t CGoalTimer::FreeResources(void)						// Returns 0 if successfull, non-ze
 {
    int16_t sResult = SUCCESS;
 
-	if (m_pImage != 0)
+   if (m_pImage != nullptr)
 	{
 		rspReleaseResource(&g_resmgrGame, &m_pImage);
 	}

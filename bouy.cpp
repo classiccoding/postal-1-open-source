@@ -356,7 +356,7 @@ int16_t CBouy::Startup(void)								// Returns 0 if successfull, non-zero otherw
 
 		linkinstanceid::Pointer i;
 		CBouy* pBouy = nullptr;
-		for (i = m_LinkInstanceID.GetHead(); i != 0; i = m_LinkInstanceID.GetNext(i))
+      for (i = m_LinkInstanceID.GetHead(); i != nullptr; i = m_LinkInstanceID.GetNext(i))
 		{
 			m_pRealm->m_idbank.GetThingByID((CThing**) &pBouy, m_LinkInstanceID.GetData(i));		
 			// If its not already linked, then add it.
@@ -644,7 +644,7 @@ int16_t CBouy::GetResources(void)						// Returns 0 if successfull, non-zero oth
 					}
 
 				// If an error occurred after allocation . . .
-				if (sResult != 0)
+				if (sResult != SUCCESS)
 					{
 					delete m_pImage;
 					m_pImage	= nullptr;

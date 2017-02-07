@@ -1303,7 +1303,7 @@ static int16_t SetupDlg(		// Returns 0 on success.
 		}
 
 	// If any errors . . .
-   if (sResult != 0)
+   if (sResult != SUCCESS)
 		{
 		DlgBeGone();
 		}
@@ -2837,7 +2837,7 @@ extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero othe
 													break;
 
 												case NetMsg::JOINED:
-													if (OnJoinedMsg(pclient, &msg, pserver ? true : false) != 0)
+                                       if (OnJoinedMsg(pclient, &msg, pserver ? true : false) != SUCCESS)
 														{
 														// A program error occurred, so tell them something vague
 														AddConsoleMsg(false, g_pszNetStat_ProgramError);
@@ -3219,7 +3219,7 @@ static int16_t BrowseForSelf(
 
 
 	// If this failed, put up a msgbox
-	if (sResult != 0)
+   if (sResult != SUCCESS)
 		{
 		rspMsgBox(
 			RSP_MB_BUT_OK | RSP_MB_ICN_INFO,

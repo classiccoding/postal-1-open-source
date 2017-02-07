@@ -103,8 +103,8 @@ class RFList
 		////////////////////////////////////////////////////////////////////////////////
 		RFList()
 			{
-			m_phead = 0;
-			m_ptail = 0;
+         m_phead = nullptr;
+         m_ptail = nullptr;
 			m_lCount = 0;
 			}
 
@@ -195,7 +195,7 @@ class RFList
 
 			// Link into list
 			pnew->pnext = m_phead;
-			pnew->pprev = 0;
+         pnew->pprev = nullptr;
 			if (m_phead)
 				m_phead->pprev = pnew;
 			else
@@ -218,7 +218,7 @@ class RFList
 			Node* pnew = new Node(data);
 
 			// Link into list
-			pnew->pnext = 0;
+         pnew->pnext = nullptr;
 			pnew->pprev = m_ptail;
 			if (m_ptail)
 				m_ptail->pnext = pnew;
@@ -300,7 +300,7 @@ class RFList
 			// Unlink from list
 			Node* p = m_phead;
 			if (p->pnext)
-				p->pnext->pprev = 0;
+            p->pnext->pprev = nullptr;
 			else
 				m_ptail = p->pprev;
 			m_phead = p->pnext;
@@ -324,7 +324,7 @@ class RFList
 			// Unlink from list
 			Node* p = m_ptail;
 			if (p->pprev)
-				p->pprev->pnext = 0;
+            p->pprev->pnext = nullptr;
 			else
 				m_phead = p->pnext;
 			m_ptail = p->pprev;

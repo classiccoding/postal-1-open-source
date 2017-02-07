@@ -219,7 +219,7 @@ int16_t RDirtyRects::Add(RDRect* pdr)
 					}
 
 				// If any errors occurred after allocation . . .
-            if (sResult != 0)
+            if (sResult != SUCCESS)
 					{
 					delete pdrNew;
 					}

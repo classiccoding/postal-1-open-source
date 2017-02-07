@@ -1041,7 +1041,7 @@ int16_t CFireball::GetResources(void)			// Returns 0 if successfull, non-zero ot
 
 	sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(SMALL_FILE), &m_pAnimChannel, RFile::LittleEndian);
 
-	if (sResult != 0)
+	if (sResult != SUCCESS)
 		TRACE("CFireball::GetResources - Error getting fire animation resource\n");
 
 	return sResult;

@@ -119,7 +119,7 @@ class RPrefs
 
 		// Unset modified status
 		void SetNotModified()
-			{ m_sModified = 0; }
+         { m_sModified = FALSE; }
 
 		// Delete the specified variable in the specified section
 		int16_t DeleteVariable(					// Returns 0 if successfull, non-zero otherwise

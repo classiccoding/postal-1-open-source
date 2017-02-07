@@ -769,7 +769,7 @@ class CPlayInfo
 		CDude* LocalDudePointer(void)
 			{
 			CDude* pdudeLocal;
-			if (m_prealm->m_idbank.GetThingByID((CThing**)&pdudeLocal, m_idLocalDude) != 0)
+         if (m_prealm->m_idbank.GetThingByID((CThing**)&pdudeLocal, m_idLocalDude) != SUCCESS)
 				m_idLocalDude = CIdBank::IdNil;
 			return pdudeLocal;
 			}
@@ -1217,7 +1217,7 @@ class CPlayGroup
 			// is so it could hold on to it.  Unfortunately, the pointer is defined by
 			// this class, and this class must follow the definition of CPlay, so you
 			// end up with a classic which-comes-first-the-chicken-or-the-egg problem.
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				{
 				if (m_Plays.GetData(p) == pPlay)
 					{
@@ -1235,7 +1235,7 @@ class CPlayGroup
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
 			int16_t sResult = SUCCESS;
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				sResult |= m_Plays.GetData(p)->PrepareGame(pinfo);
 			return sResult;
 			}
@@ -1250,7 +1250,7 @@ class CPlayGroup
 			{
 			int16_t sResult = SUCCESS;
 			*pbGameReady = true;
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				{
 				bool bGameReady = false;
 				sResult |= m_Plays.GetData(p)->IsGameReady(pinfo, &bGameReady);
@@ -1267,7 +1267,7 @@ class CPlayGroup
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
 			int16_t sResult = SUCCESS;
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				sResult |= m_Plays.GetData(p)->StartGame(pinfo);
 			return sResult;
 			}
@@ -1279,7 +1279,7 @@ class CPlayGroup
 		void StartCutscene(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				m_Plays.GetData(p)->StartCutscene(pinfo);
 			}
 
@@ -1291,7 +1291,7 @@ class CPlayGroup
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
 			int16_t sResult = SUCCESS;
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				sResult |= m_Plays.GetData(p)->PrepareRealm(pinfo);
 			return sResult;
 			}
@@ -1306,7 +1306,7 @@ class CPlayGroup
 			{
 			int16_t sResult = SUCCESS;
 			*pbRealmReady = true;
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				{
 				bool bRealmReady = false;
 				sResult |= m_Plays.GetData(p)->IsRealmReady(pinfo, &bRealmReady);
@@ -1322,7 +1322,7 @@ class CPlayGroup
 		void DoCutscene(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				m_Plays.GetData(p)->DoCutscene(pinfo);
 			}
 
@@ -1333,7 +1333,7 @@ class CPlayGroup
 		void EndCutscene(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				m_Plays.GetData(p)->EndCutscene(pinfo);
 			}
 
@@ -1345,7 +1345,7 @@ class CPlayGroup
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
 			int16_t sResult = SUCCESS;
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				sResult |= m_Plays.GetData(p)->StartRealm(pinfo);
 			return sResult;
 			}
@@ -1358,7 +1358,7 @@ class CPlayGroup
 			CPlayInfo* pinfo,										// I/O: Play info
 			RInputEvent* pie)										// I/O: Input event
 			{
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				m_Plays.GetData(p)->CoreLoopUserInput(pinfo, pie);
 			}
 
@@ -1369,7 +1369,7 @@ class CPlayGroup
 		void CoreLoopUpdate(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				m_Plays.GetData(p)->CoreLoopUpdate(pinfo);
 			}
 
@@ -1381,7 +1381,7 @@ class CPlayGroup
 		void CoreLoopRender(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				m_Plays.GetData(p)->CoreLoopRender(pinfo);
 			}
 
@@ -1394,7 +1394,7 @@ class CPlayGroup
 		void CoreLoopRenderOnTop(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				m_Plays.GetData(p)->CoreLoopRenderOnTop(pinfo);
 			}
 
@@ -1406,7 +1406,7 @@ class CPlayGroup
 		void CoreLoopDraw(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				m_Plays.GetData(p)->CoreLoopDraw(pinfo);
 
 			// Update the display in the dirtied areas defined by m_drl.
@@ -1439,7 +1439,7 @@ class CPlayGroup
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
 			bool bDone = true;
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				bDone &= m_Plays.GetData(p)->IsCoreLoopDone(pinfo);
 			return bDone;
 			}
@@ -1451,7 +1451,7 @@ class CPlayGroup
 		void EndRealm(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				m_Plays.GetData(p)->EndRealm(pinfo);
 
 			// Any dirty rects left over, we don't care about.
@@ -1465,7 +1465,7 @@ class CPlayGroup
 		void UnprepareGame(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				m_Plays.GetData(p)->UnprepareGame(pinfo);
 			}
 
@@ -1476,7 +1476,7 @@ class CPlayGroup
 		void StartRealmErr(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				m_Plays.GetData(p)->StartRealmErr(pinfo);
 			}
 
@@ -1487,7 +1487,7 @@ class CPlayGroup
 		void IsRealmReadyErr(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				m_Plays.GetData(p)->IsRealmReadyErr(pinfo);
 			}
 
@@ -1498,7 +1498,7 @@ class CPlayGroup
 		void PrepareRealmErr(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				m_Plays.GetData(p)->PrepareRealmErr(pinfo);
 			}
 
@@ -1509,7 +1509,7 @@ class CPlayGroup
 		void StartGameErr(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				m_Plays.GetData(p)->StartGameErr(pinfo);
 			}
 
@@ -1520,7 +1520,7 @@ class CPlayGroup
 		void IsGameReadyErr(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				m_Plays.GetData(p)->IsGameReadyErr(pinfo);
 			}
 
@@ -1531,7 +1531,7 @@ class CPlayGroup
 		void PrepareGameErr(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			for (Plays::Pointer p = m_Plays.GetHead(); p != 0; p = m_Plays.GetNext(p))
+         for (Plays::Pointer p = m_Plays.GetHead(); p != nullptr; p = m_Plays.GetNext(p))
 				m_Plays.GetData(p)->PrepareGameErr(pinfo);
 			}
 	};
@@ -3839,7 +3839,7 @@ class CPlayRealm : public CPlay
 				// If there was an error, and this is an MP game, then we ignore the error for now,
 				// and instead we set a flag saying the realm is bad.  This is done so we can handle
 				// the error as part of the core loop, which is where similar errors are already handled.
-				if ((sResult != 0) && pinfo->IsMP())
+            if ((sResult != SUCCESS) && pinfo->IsMP())
 					{
 					sResult = SUCCESS;
 					pinfo->m_bBadRealmMP = true;
@@ -4964,7 +4964,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 
 	// Try opening the realms.ini file on the HD path first, if that fails go to the CD
 	sResult = prefsRealm.Open(FullPathHD(g_GameSettings.m_pszRealmPrefsFile), "rt");
-	if (sResult != 0)
+   if (sResult != SUCCESS)
 		sResult = prefsRealm.Open(FullPathCD(g_GameSettings.m_pszRealmPrefsFile), "rt");
    if (sResult == SUCCESS)
 		{
@@ -5301,7 +5301,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 											{
 											// Multiplayer just keeps wrapping around
 											info.m_sRealmNum = 0;
-											if (Play_GetRealmInfo(info.IsMP(), info.CoopLevels(), info.Gauntlet(), info.AddOn(), info.m_sRealmNum, info.Realm()->m_flags.sDifficulty, info.m_szRealm, sizeof(info.m_szRealm)) != 0)
+                                 if (Play_GetRealmInfo(info.IsMP(), info.CoopLevels(), info.Gauntlet(), info.AddOn(), info.m_sRealmNum, info.Realm()->m_flags.sDifficulty, info.m_szRealm, sizeof(info.m_szRealm)) != SUCCESS)
 												{
 												// 09/12/97 MJR - We don't want to exit the loop if this happens.  Instead,
 												// we set the bad realm flag and let the core loop handle the abort process.
@@ -5509,7 +5509,7 @@ extern int16_t Play_GetRealmInfo(						// Returns 0 if successfull, 1 if no such
 
 	// Try opening the realms.ini file on the HD path first, if that fails go to the CD
 	sResult = prefsRealm.Open(FullPathHD(g_GameSettings.m_pszRealmPrefsFile), "rt");
-	if (sResult != 0)
+   if (sResult != SUCCESS)
 		sResult = prefsRealm.Open(FullPathCD(g_GameSettings.m_pszRealmPrefsFile), "rt");
    if (sResult == SUCCESS)
 		{
@@ -5525,7 +5525,7 @@ extern int16_t Play_GetRealmInfo(						// Returns 0 if successfull, 1 if no such
 		if (strlen(szText) == 0)
 			{
 			// Realm not found
-			sResult = 1;
+         sResult = FAILURE;
 			}
 		else if ((strlen(szText) + 1) <= sMaxFileLen)
 			{

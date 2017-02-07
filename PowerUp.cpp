@@ -667,7 +667,7 @@ void CPowerUp::RepaginateNow(void)
 	if (IsEmpty() == false)
 		{
 		// If this fails, we'd better go away . . .
-		if (GetResources() != 0)
+      if (GetResources() != SUCCESS)
 			{
 			delete this;
 			}
@@ -747,7 +747,7 @@ void CPowerUp::OnExplosionMsg(			// Returns nothing.
 	if (sNumGenerated)
 		{
 		// This one was altered.
-		if (GetResources() != 0)
+      if (GetResources() != SUCCESS)
 			{
 			// Doh!
 			delete this;

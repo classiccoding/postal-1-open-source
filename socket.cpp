@@ -201,7 +201,7 @@ int16_t RSocket::Open(										// Returns 0 on success, non-zero otherwise
 				}
 			
 			// If there was a problem, get rid of the protocol
-			if (sResult != 0)
+			if (sResult != SUCCESS)
 				{
 				delete m_pProtocol;
 				m_pProtocol = 0;
@@ -272,7 +272,7 @@ int16_t RSocket::Accept(									// Return 0 if successfull, non-zero otherwise
 				sResult = m_pProtocol->Accept(psocketClient->m_pProtocol, paddressClient);
 
 				// If there was a problem, get rid of the protocol
-				if (sResult != 0)
+				if (sResult != SUCCESS)
 					{
 						// Get rid of protocol
 						delete psocketClient->m_pProtocol;
@@ -699,7 +699,7 @@ int16_t RSocket::GetAddress(								// Returns 0 on success, non-zero otherwise
 	if (strlen(pszName) < RSP_MAX_PATH)
 		{
 		// Skip over leading whitespace
-		while ((*pszName != 0) && isspace(*pszName))
+      while ((*pszName != '\0') && isspace(*pszName))
 			pszName++;
 
 		// Copy resulting string

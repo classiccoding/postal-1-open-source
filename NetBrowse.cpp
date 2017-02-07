@@ -266,7 +266,7 @@ int16_t CNetBrowse::LookupHost(						// Returns 0 if successfull, non-zero other
 	{
 	// Try to get requested address 
 	int16_t sResult = RSocket::GetAddress(pszName, usPort, paddress);
-	if (sResult != 0)
+	if (sResult != SUCCESS)
 		TRACE("CNetBrowse::LookupHost(): Error getting host address!\n");
 	return sResult;
 	}

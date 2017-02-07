@@ -72,7 +72,7 @@ void CGrip::SetCamera(
 //	short sTargetY)										// In:  Target's y coord
 //	{
 //	// For now, simply move camera to specified coordinates
-//	ASSERT(m_pCamera != 0);
+//	ASSERT(m_pCamera != nullptr);
 //	m_pCamera->SetViewPos(sTargetX, sTargetY);
 //	}
 

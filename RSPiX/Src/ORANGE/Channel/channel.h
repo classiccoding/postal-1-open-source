@@ -828,7 +828,7 @@ class RChanCoreArray : public RChanCore<datat>
 					{
 					// Create array of items
 					m_pArray = new datat[m_lNumItems];
-					ASSERT(m_pArray != 0);
+               ASSERT(m_pArray != nullptr);
 
 					// Let each item load itself
 					for (int32_t l = 0; (l < m_lNumItems) && (sResult == SUCCESS); l++)
@@ -1093,7 +1093,7 @@ class RChanCoreArray : public RChanCore<datat>
 			{
 			Free();
 			m_pArray = new datat[lNum];
-			ASSERT(m_pArray != 0);
+         ASSERT(m_pArray != nullptr);
 			m_lNumItems = lNum;
 			}
 

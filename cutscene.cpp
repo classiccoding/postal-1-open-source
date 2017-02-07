@@ -732,7 +732,7 @@ extern void CutSceneStart(
 
 	// Open the realm prefs file
 	RPrefs prefsRealm;
-	if (prefsRealm.Open(FullPathHD(g_GameSettings.m_pszRealmPrefsFile), "rt") != 0)
+	if (prefsRealm.Open(FullPathHD(g_GameSettings.m_pszRealmPrefsFile), "rt") != SUCCESS)
 		{
 		TRACE("CutSceneStart(): Error opening prefs file.\n");
 		return ;

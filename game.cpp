@@ -1034,7 +1034,7 @@ extern void TheGame(void)
 				{
 				file.Close();
 				sCorrectCD++;
-				if (file.Open(FullPathCD(CHECK_FOR_POSTALSD_FILENAME), "r", RFile::LittleEndian) != 0)
+            if (file.Open(FullPathCD(CHECK_FOR_POSTALSD_FILENAME), "r", RFile::LittleEndian) != SUCCESS)
 					{
 					sCorrectCD++;
 					}
@@ -1165,7 +1165,7 @@ extern void TheGame(void)
 				}
 
 			// If any problems . . .
-			if (sResult != 0)
+			if (sResult != SUCCESS)
 				{
 				rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszCriticalErrorTitle, g_pszCantFindAssets, "CD");
 				}
@@ -1904,7 +1904,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 					if (strlen(g_GameSettings.m_szDemoDebugMovie) > 0)
 						{
 						pfileDemoDebugMovie = new RFile;
-						if (pfileDemoDebugMovie->Open(g_GameSettings.m_szDemoDebugMovie, "rb", RFile::LittleEndian) != 0)
+                  if (pfileDemoDebugMovie->Open(g_GameSettings.m_szDemoDebugMovie, "rb", RFile::LittleEndian) != SUCCESS)
 							{
 							delete pfileDemoDebugMovie;
 							pfileDemoDebugMovie = 0;
@@ -2035,7 +2035,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 					if (strlen(g_GameSettings.m_szDemoDebugMovie) > 0)
 						{
 						pfileDemoDebugMovie = new RFile;
-						if (pfileDemoDebugMovie->Open(g_GameSettings.m_szDemoDebugMovie, "wb", RFile::LittleEndian) != 0)
+                  if (pfileDemoDebugMovie->Open(g_GameSettings.m_szDemoDebugMovie, "wb", RFile::LittleEndian) != SUCCESS)
 							{
 							delete pfileDemoDebugMovie;
 							pfileDemoDebugMovie = 0;
@@ -2103,7 +2103,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
 #endif
 									// Save input data to file
-									if (InputDemoSave(&fileDemo) != 0)
+                           if (InputDemoSave(&fileDemo) != SUCCESS)
 										{
 										TRACE("GameCore(): Couldn't save demo data!\n");
 										rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszAppName, g_pszFileWriteError_s, szDemoFile);
@@ -2784,14 +2784,14 @@ static void CloseSaks(void)
 static int16_t LoadAssets(void)
 	{
 	// Load font.
-	if (g_fontBig.Load(FullPath(GAME_PATH_VD, BIG_FONT_FILE)) != 0)
+   if (g_fontBig.Load(FullPath(GAME_PATH_VD, BIG_FONT_FILE)) != SUCCESS)
 		{
 		TRACE("GameLoadAssets(): Error loading font: %s !\n", FullPath(GAME_PATH_VD, BIG_FONT_FILE));
 		return -1;
 		}
 
 	// Load font, the smaller.
-	if (g_fontPostal.Load(FullPath(GAME_PATH_VD, POSTAL_FONT_FILE) ) != 0)
+   if (g_fontPostal.Load(FullPath(GAME_PATH_VD, POSTAL_FONT_FILE) ) != SUCCESS)
 		{
 		TRACE("GameLoadAssets(): Error loading font: %s !\n", FullPath(GAME_PATH_VD, POSTAL_FONT_FILE));
 		return -1;
@@ -3507,7 +3507,7 @@ void GameEndingSequence(void)
 	if (strlen(g_GameSettings.m_szDemoDebugMovie) > 0)
 		{
 		m_pfileRandom = new RFile;
-		if (m_pfileRandom->Open(g_GameSettings.m_szDemoDebugMovie, "rb", RFile::LittleEndian) != 0)
+      if (m_pfileRandom->Open(g_GameSettings.m_szDemoDebugMovie, "rb", RFile::LittleEndian) != SUCCESS)
 			{
 			delete m_pfileRandom;
 			m_pfileRandom = 0;
@@ -3649,7 +3649,7 @@ static void OpenSynchLogs(			// Returns nothing.
 		if (m_pfileRandom->Open(
 				g_GameSettings.m_szDemoDebugMovie, 
 				bWriteLogs ? "wb" : "rb", 
-				RFile::LittleEndian) != 0)
+            RFile::LittleEndian) != SUCCESS)
 			{
 			delete m_pfileRandom;
 			m_pfileRandom = 0;
@@ -4738,7 +4738,7 @@ int16_t CorrectifyBasePath(								// Returns 0 if successfull, non-zero otherwi
 					}
 
 				// Restore original directory
-				if (chdir(pszOrigDir) != 0)
+            if (chdir(pszOrigDir) != SUCCESS)
 					{
 					sResult = FAILURE;
 					TRACE("CorrectifyBasePath(): Couldn't restore original directory: '%s'!\n", pszOrigDir);

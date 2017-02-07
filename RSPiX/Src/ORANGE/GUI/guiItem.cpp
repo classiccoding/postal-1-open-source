@@ -668,7 +668,7 @@ int16_t RGuiItem::Create(			// Returns 0 on success.
 		
 		// If there's an error after calling CreateImage, perhaps
 		// we should destroy the RImage data here.
-		if (sResult != 0)
+		if (sResult != SUCCESS)
 			{
 			Destroy();
 			}
@@ -719,7 +719,7 @@ int16_t RGuiItem::Blit(		// Returns 0 on success.
 	ASSERT(pimDst != nullptr);
 
 	// If this is a sprite . . .
-	if (ImageIsCompressed(m_im.m_type) != 0)
+	if (ImageIsCompressed(m_im.m_type) != SUCCESS)
 		{
 		if (rspBlit(&m_im, pimDst, sDstX, sDstY, prc) == SUCCESS)
 			{
@@ -1788,7 +1788,7 @@ int16_t RGuiItem::GetRes(void)
 				}
 
 			// If any errors occurred after allocation . . .
-			if (sResult != 0)
+			if (sResult != SUCCESS)
 				{
 				delete m_pimBkdRes;
 				m_pimBkdRes	= nullptr;

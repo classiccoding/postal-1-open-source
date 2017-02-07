@@ -45,10 +45,10 @@ int16_t OpenLogFile()
 			{
 #ifdef SYS_ENDIAN_BIG
 			if (g_GameSettings.m_rfNetSyncLog.Open(g_GameSettings.m_szNetSyncLogFile, 
-				"wt+", RFile::BigEndian) != 0)
+            "wt+", RFile::BigEndian) != SUCCESS)
 #else
 			if (g_GameSettings.m_rfNetSyncLog.Open(g_GameSettings.m_szNetSyncLogFile, 
-				"wt+", RFile::LittleEndian) != 0)
+            "wt+", RFile::LittleEndian) != SUCCESS)
 #endif
 				{
 				sResult = 1;
@@ -70,7 +70,7 @@ int16_t CloseLogFile()
    int16_t sResult = SUCCESS; // Assume success
 	if (g_GameSettings.m_bLogNetTime)
 		{
-		if ((g_GameSettings.m_rfNetSyncLog.Close()) != 0)
+      if ((g_GameSettings.m_rfNetSyncLog.Close()) != SUCCESS)
 			{
 			sResult = 1;
 			TRACE("Play: Failed to close the network syn log file\n");
@@ -122,7 +122,7 @@ int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
 	// Log file should be open, if not, open it
 	if (!prfLog->IsOpen())
 		{
-		if ((prfLog->Open(g_GameSettings.m_szNetSyncLogFile, "wt+", endian)) != 0)
+      if ((prfLog->Open(g_GameSettings.m_szNetSyncLogFile, "wt+", endian)) != SUCCESS)
 			{
 			TRACE("WriteTimeStamp: Failed to open network time stamp log file\n");
 			sResult = FAILURE;

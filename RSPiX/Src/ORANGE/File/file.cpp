@@ -616,7 +616,7 @@ int16_t RFile::Open(		// Returns 0 on success.
 							TRACE("Open(\"%s\", \"%s\", %s): Unable to add to open list.\n",
 									pszFileName, pszFlags, 
 									ms_apszEndian[endian]);
-                     sResult = FAILURE - 2;
+                     sResult = FAILURE * 3;
 							}
 					#endif // ALLOW_RFILE_REOPEN
 					}
@@ -625,7 +625,7 @@ int16_t RFile::Open(		// Returns 0 on success.
 					TRACE("Open(\"%s\", \"%s\", %s): Error returned by setvbuf()!\n",
 							pszFileName, pszFlags, 
 							ms_apszEndian[endian]);
-               sResult = FAILURE - 4; // Is there any REAL sense to these error numbers???
+               sResult = FAILURE * 5; // Is there any REAL sense to these error numbers???
 					}
 
 				// If an error occurrs after fopen . . .
@@ -651,7 +651,7 @@ int16_t RFile::Open(		// Returns 0 on success.
 		TRACE("Open(\"%s\", \"%s\", %s): File already open.\n",
 				pszFileName, pszFlags,
 				ms_apszEndian[endian]);
-      sResult = FAILURE - 1;
+      sResult = FAILURE * 2;
 		}
 
    return sResult;
@@ -695,7 +695,7 @@ int16_t RFile::Open(		// Returns 0 on success.
 		TRACE("Open(%08lX, %i, %s): File already open.\n",
 				pFile, lSize,
 				ms_apszEndian[endian]);
-      sResult = FAILURE - 1;
+      sResult = FAILURE * 2;
 		}
 
    return sResult;
@@ -747,7 +747,7 @@ int16_t RFile::Open(	// Returns 0 on success.
 			TRACE("Open(%i, %i, %s): File too large for free memory.\n",
 					lSize, lGrowSize,
 					ms_apszEndian[endian]);
-         sResult = FAILURE - 2;
+         sResult = FAILURE * 3;
 			}
 		}
 	else
@@ -755,7 +755,7 @@ int16_t RFile::Open(	// Returns 0 on success.
 		TRACE("Open(%i, %i, %s): File already open.\n",
 				lSize, lGrowSize,
 				ms_apszEndian[endian]);
-      sResult = FAILURE - 1;
+      sResult = FAILURE * 2;
 		}
 
    return sResult;
@@ -923,14 +923,14 @@ int16_t RFile::Close(void)
 						else
 							{
 							TRACE("Close(): Unable to remove this from open list.\n");
-                     sResult = FAILURE - 2;
+                     sResult = FAILURE * 3;
 							}
 					#endif // ALLLOW_RFILE_REOPEN
 					}
 				else
 					{
 					TRACE("Close(): Unable to close file.\n");
-               sResult = FAILURE - 1;
+               sResult = FAILURE * 2;
 					}
 				}
 			else
@@ -1977,7 +1977,7 @@ int16_t RFile::Seek(ssize_t lPos, int32_t lOrigin)
 						{
 						m_sMemError	= 1;
 						TRACE("Seek(): Attempt to seek passed end or before beginning of mem file.\n");
-                  sResult = FAILURE - 2;
+                  sResult = FAILURE * 3;
 						}
 					break;
 				case SEEK_CUR:
@@ -1990,7 +1990,7 @@ int16_t RFile::Seek(ssize_t lPos, int32_t lOrigin)
 						{
 						m_sMemError	= 1;
 						TRACE("Seek(): Attempt to seek passed end or before beginning of mem file.\n");
-                  sResult = FAILURE - 2;
+                  sResult = FAILURE * 3;
 						}
 					break;
 				case SEEK_END:
@@ -2002,12 +2002,12 @@ int16_t RFile::Seek(ssize_t lPos, int32_t lOrigin)
 						{
 						m_sMemError	= 1;
 						TRACE("Seek(): Attempt to seek passed end or before beginning of mem file.\n");
-                  sResult = FAILURE - 2;
+                  sResult = FAILURE * 3;
 						}
 					break;
 				default:
 					TRACE("Seek(): Invalid origin flag provided.\n");
-               sResult = FAILURE - 1;
+               sResult = FAILURE * 2;
 					break;
 				}
 			}
@@ -2077,13 +2077,13 @@ int32_t RFile::GetSize(void)
 			else
 				{
 				TRACE("GetSize(): Unable to seek back to start point.\n");
-            lRes = FAILURE - 2;
+            lRes = FAILURE * 3;
 				}
 			}
 		else
 			{
 			TRACE("GetSize(): Unable to seek to end of file.\n");
-         lRes = FAILURE - 1;
+         lRes = FAILURE * 2;
 			}
 		}
 	else
@@ -2552,7 +2552,7 @@ int32_t RFile::Write64(	// Returns number of 64 bit items written.
 			{
 			TRACE("Disconnect(): Unable to close file for disconnection from "
 					"disk.\n");
-         sResult = FAILURE - 1;
+         sResult = FAILURE * 2;
 			}
 
       return sResult;
@@ -2587,7 +2587,7 @@ int32_t RFile::Write64(	// Returns number of 64 bit items written.
 				else
 					{
 					TRACE("Reconnect(): Unable to add file to open files list!\n");
-               sResult = FAILURE - 1;
+               sResult = FAILURE * 2;
 					}
 				}
 			else
@@ -2648,7 +2648,7 @@ int32_t RFile::Write64(	// Returns number of 64 bit items written.
 			else
 				{
 				TRACE("MakeStreamAvailable(): Unable to disconnect RFile.\n");
-            sResult = FAILURE - 1;
+            sResult = FAILURE * 2;
 				}
 			}
 		else

@@ -227,7 +227,7 @@ int16_t RListBox::Create(			// Returns 0 on success.
 		
 		// If there's an error after calling CreateImage, perhaps
 		// we should destroy the RImage data here.
-      if (sResult != 0)
+      if (sResult != SUCCESS)
 			{
 			Destroy();
 			}

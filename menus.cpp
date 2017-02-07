@@ -4469,7 +4469,7 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 		else
 			{
 			 TRACE("MultiOptionsIni(): rspGetResource() failed.\n");
-			 sResult = 4;
+          sResult = FAILURE * 4;
 			}
 
       if (rspGetResource(&g_resmgrShell, NET_CONNECTION_GUI_FILE, &ms_ptxtBandwidth) == SUCCESS)
@@ -5243,7 +5243,7 @@ int16_t PickFile(const char *title, void (*enumer)(Menu *), char *buf, size_t bu
     g_PickFileMenuDone = false;
     
 	int16_t sResult = StartMenu(&g_menuPickFile, &g_resmgrShell, g_pimScreenBuf);
-    if (sResult != 0)
+    if (sResult != SUCCESS)
     {
         TRACE("StartMenu failed! Can't pick file!\n");
         return -1;

@@ -510,7 +510,7 @@ int16_t CThing::Load(										// Returns 0 if successfull, non-zero otherwise
 
 	// If this ID is not yet claimed . . .
 	CThing*	pthing;
-	if (m_pRealm->m_idbank.GetThingByID(&pthing, m_u16InstanceId) != 0)
+	if (m_pRealm->m_idbank.GetThingByID(&pthing, m_u16InstanceId) != SUCCESS)
 		{
 		// Reserve ID.
 		m_pRealm->m_idbank.Take(this, m_u16InstanceId);
@@ -646,7 +646,7 @@ int16_t CThing::ConstructWithID(						// Returns 0 if successfull, non-zero othe
 		if ((*ppNew)->m_u16InstanceId == CIdBank::IdNil)
 			{
 			sResult = pRealm->m_idbank.Get(*ppNew, &((*ppNew)->m_u16InstanceId) );
-			if (sResult != 0)
+			if (sResult != SUCCESS)
 				{
 				delete *ppNew;
 				*ppNew	= nullptr;

@@ -428,7 +428,7 @@ template <class T> class RBList
 			PLISTDATA pldNext)	// Where to store next data.
 			{
 			int16_t sResult	= GetNext(pldNext);
-			if (sResult != 0)
+			if (sResult != SUCCESS)
 				{
 				sResult	= GetHead(pldNext);
 				}
@@ -442,7 +442,7 @@ template <class T> class RBList
 			PLISTDATA pldNext)	// Where to store next data.
 			{
 			int16_t sResult	= GetNext(ldData, pldNext);
-			if (sResult != 0)
+			if (sResult != SUCCESS)
 				{
 				sResult	= GetHead(pldNext);
 				}
@@ -526,7 +526,7 @@ template <class T> class RBList
 			PLISTDATA pldPrev)	// Where to store prev data.
 			{
 			int16_t sResult	= GetPrev(pldPrev);
-			if (sResult != 0)
+			if (sResult != SUCCESS)
 				{
 				sResult	= GetTail(pldPrev);
 				}
@@ -540,7 +540,7 @@ template <class T> class RBList
 			PLISTDATA pldPrev)	// Where to store prev data.
 			{
 			int16_t sResult	= GetPrev(ldData, pldPrev);
-			if (sResult != 0)
+			if (sResult != SUCCESS)
 				{
 				sResult	= GetTail(pldPrev);
 				}
