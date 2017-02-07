@@ -4479,7 +4479,7 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			rspReleaseResource(&g_resmgrShell, &ms_peditName);
 
 			// Clear menu's pointer.
-         pmenuCurrent->ami[0].pgui	= nullptr;
+			pmenuCur->ami[0].pgui	= NULL;
 			}
 
 		if (ms_ptxtProto)
