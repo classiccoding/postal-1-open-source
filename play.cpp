@@ -5083,12 +5083,6 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 									// Start the music:
 									if (g_bLastLevelDemo)
 										{
-#ifdef KID_FRIENDLY_OPTION
-										if (bAddOn == 3)
-										{
-											g_GameSettings.m_sCompletedAllLevelsMode = TRUE;
-										}
-#endif
 										// Begin Final Scene Music:
 										PlaySample(
 											g_smidFinalScene,
@@ -5299,7 +5293,15 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 											// special-case code handles everything that happens after that to do
 											// the actual ending scene for the game.
 											if (!info.Gauntlet() && !info.JustOneRealm() && info.RealmNum() == sNumLevels)
+											{
+#ifdef KID_FRIENDLY_OPTION
+												if (bAddOn == 3)
+												{
+													g_GameSettings.m_sCompletedAllLevelsMode = TRUE;
+												}
+#endif
 												g_bLastLevelDemo = true;
+											}
 											else
 												info.SetGameState_GameOver();
 											}
