@@ -116,7 +116,7 @@ int16_t CopyFlic(char* pszIn, char* pszOut)
 		if (flxWrite.Create(pszOut, TRUE,
 			filehdrRead.sWidth, filehdrRead.sHeight, filehdrRead.lMilliPerFrame,
 			filehdrRead.sAspectX, filehdrRead.sAspectY,
-			TRUE, TRUE, &filehdrWrite, NULL) == 0)
+			TRUE, TRUE, &filehdrWrite, nullptr) == 0)
 			{     
 			DumpHeader(&filehdrWrite);
 							
@@ -142,7 +142,7 @@ int16_t CopyFlic(char* pszIn, char* pszOut)
 					}
 				}
 				
-			flxWrite.WriteFinish(NULL, NULL);
+			flxWrite.WriteFinish(nullptr, nullptr);
 			flxWrite.Close();
 			}
 		else

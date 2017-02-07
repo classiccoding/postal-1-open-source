@@ -215,11 +215,11 @@ void RPipeLine::TransformShadow(RSop* pPts,RTransform& tObj,
 		{
 		// (1) convert to 3d shadow point:
 		RP3d	pOffset = {0.0,static_cast<float>(sHeight),0.0,};
-/*
+#ifdef UNUSED_VARIABLES
 		double dOffX = sHeight * m_tShadow.T[ROW0 + 1];
 		double dOffY = 0.0;
 		double dOffZ = sHeight * m_tShadow.T[ROW2 + 1]; // y is height here
-*/
+#endif
 		// (2) partially project
 		m_tShadow.Transform(pOffset);
 		m_tView.Transform(pOffset);

@@ -137,7 +137,7 @@ inline void rspMakeUnit(RP3d& p)
 #ifdef _DEBUG
 	if (l == 0.0)
 		{
-		TRACE("FATAL ERROR - NULL VECTOR!");
+      TRACE("FATAL ERROR - nullptr VECTOR!");
 		return;
 		}
 #endif

@@ -57,7 +57,7 @@ static BOOL CALLBACK EnumChildIconizeProc(HWND hWnd, int32_t)
 					{
 					// Get the icon . . .
 					HICON	hIcon	= LoadIcon(AfxGetResourceHandle(), szName);
-					if (hIcon != NULL)
+					if (hIcon != nullptr)
 						{
 						// Set the icon.
 						SendMessage(hWnd, BM_SETIMAGE, (WPARAM)IMAGE_ICON, (LPARAM)hIcon);
@@ -95,7 +95,7 @@ static BOOL CALLBACK EnumChildIconizeProc(HWND hWnd, int32_t)
 ///////////////////////////////////////////////////////////////////////////////
 extern int16_t Iconize(CDialog* pdlg)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	if (EnumChildWindows(pdlg->GetSafeHwnd(), EnumChildIconizeProc, 0L) != FALSE)
 		{
@@ -104,10 +104,10 @@ extern int16_t Iconize(CDialog* pdlg)
 	else
 		{
 		TRACE("Iconize(): EnumChildWindows failed.\n");
-		sRes = -1;
+		sResult = FAILURE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -118,7 +118,7 @@ extern int16_t Iconize(CDialog* pdlg)
 ///////////////////////////////////////////////////////////////////////////////
 extern int16_t StorePosition(CWnd* pwnd)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// Construct section name.
 	char	szSection[512];
@@ -133,7 +133,7 @@ extern int16_t StorePosition(CWnd* pwnd)
 	AfxGetApp()->WriteProfileInt(szSection, "right",	rcWindow.right);
 	AfxGetApp()->WriteProfileInt(szSection, "bottom",	rcWindow.bottom);
 
-	return sRes;
+	return sResult;
 	}
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -145,7 +145,7 @@ extern int16_t StorePosition(CWnd* pwnd)
 ///////////////////////////////////////////////////////////////////////////////
 extern int16_t RestorePosition(CWnd* pwnd)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// Construct section name.
 	char	szSection[512];
@@ -173,7 +173,7 @@ extern int16_t RestorePosition(CWnd* pwnd)
 		}
 
 	CDC*	pdc	= pwnd->GetDC();
-	if (pdc != NULL)
+	if (pdc != nullptr)
 		{
 		int32_t	lScrWidth	= pdc->GetDeviceCaps(HORZRES);
 		int32_t	lScrHeight	= pdc->GetDeviceCaps(VERTRES);
@@ -204,7 +204,7 @@ extern int16_t RestorePosition(CWnd* pwnd)
 							rcWindow.right		- rcWindow.left,
 							rcWindow.bottom	- rcWindow.top);
 
-	return sRes;
+	return sResult;
 	}
 
 ///////////////////////////////////////////////////////////////////////////////

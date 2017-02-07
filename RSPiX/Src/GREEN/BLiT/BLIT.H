@@ -608,10 +608,6 @@ static const int16_t gsBitsToShift[] =
 
 // ***********************************************************************************
 
-// Safety code:
-#ifndef nullptr
-   #define nullptr 0
-#endif
 //====================================
 #ifdef PATHS_IN_INCLUDES
 	#include "GREEN/BLiT/Cfnt.h"

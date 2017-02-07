@@ -134,8 +134,8 @@ CRamFlx::~CRamFlx()
 ///////////////////////////////////////////////////////////////////////////////
 int16_t CRamFlx::Open(
 			char* pszFileName,		// Full path and filename of flic file
-			FLX_FILE_HDR* pfilehdr,	// Copy of header returned here if not NULL
-			CImage* pimage)			// Memory allocated within struct if not NULL
+      FLX_FILE_HDR* pfilehdr,	// Copy of header returned here if not nullptr
+      CImage* pimage)			// Memory allocated within struct if not nullptr
 	{
 	int16_t sError = 0;
 	
@@ -181,7 +181,7 @@ int16_t CRamFlx::Open(
 
 			// If user doesn' specify a buffer, then we need to allocate buffers for the
 			// previous frame and the previous color palette.
-			if (pimage == NULL)
+      if (pimage == nullptr)
 				{
 				sError = AllocBuf(&m_imagePrev, (int32_t)m_filehdr.sWidth, (int32_t)m_filehdr.sHeight, 256);
 				}
@@ -199,12 +199,12 @@ int16_t CRamFlx::Open(
 	if ((sError == 0) && m_file.Error() == TRUE)
 		sError = 1;
 
-	// If pointer to header not NULL, then return copy of header there
-	if ((sError == 0) && (pfilehdr != NULL))
+  // If pointer to header not nullptr, then return copy of header there
+  if ((sError == 0) && (pfilehdr != nullptr))
 		*pfilehdr = m_filehdr;
 	
-	// If pointer to buf not NULL, then allocate memory
-	if ((sError == 0) && (pimage != NULL))
+  // If pointer to buf not nullptr, then allocate memory
+  if ((sError == 0) && (pimage != nullptr))
 		sError = CreateBuf(pimage, (int32_t)m_filehdr.sWidth, (int32_t)m_filehdr.sHeight, 256);
 	
 	// If no errors, then file is finally marked "open for reading"
@@ -237,7 +237,7 @@ int16_t CRamFlx::Close(CImage* pimage)
 		// Free any memory associated with image buf, flic buf, and frame pointers
 		FreeBuf(&m_imagePrev);
 
-		if (m_pucFlxBuf != NULL)
+    if (m_pucFlxBuf != nullptr)
 			{
 			m_file.Close();
 			free(m_pucFlxBuf);
@@ -255,7 +255,7 @@ int16_t CRamFlx::Close(CImage* pimage)
 		sError = 0;
 		
 	// let's free the buffer passed in, if valid
-	if (pimage != NULL)
+  if (pimage != nullptr)
 		FreeBuf(pimage);
 		
 	return sError;
@@ -399,7 +399,7 @@ int16_t CRamFlx::ReadNextFrame(
 
 	if (m_sOpenForRead)
 		{
-		if (pimageRead == NULL)
+    if (pimageRead == nullptr)
 			{
 			// Apply delta to our buf
 			DoReadFrame(&m_imagePrev);

@@ -112,14 +112,14 @@ CRtFlic::~CRtFlic()
 //////////////////////////////////////////////////////////////////////////////
 void CRtFlic::Set(void)
 	{
-	m_pdispatch		= NULL;
+	m_pdispatch		= nullptr;
 	for (int16_t i = 0; i < MAX_VID_CHANNELS; i++)
 		{
 		m_aflxhdrs[i].sNumFrames		= 0;
-		m_aflxhdrs[i].pImage				= NULL;
-		m_aflxhdrs[i].callbackHeader	= NULL;
-		m_aflxhdrs[i].callbackBefore	= NULL;
-		m_aflxhdrs[i].callbackAfter	= NULL;
+		m_aflxhdrs[i].pImage				= nullptr;
+		m_aflxhdrs[i].callbackHeader	= nullptr;
+		m_aflxhdrs[i].callbackBefore	= nullptr;
+		m_aflxhdrs[i].callbackAfter	= nullptr;
 		}
 	}
 
@@ -141,11 +141,11 @@ void CRtFlic::Reset(void)
 int16_t CRtFlic::Use(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFlags, 
 							int32_t lTime)
 	{
-	int16_t	sRes		= RET_FREE;	// Always free.
+	int16_t	sResult		= RET_FREE;	// Always free.
 	int16_t	sError	= 0;
 
 	ASSERT(usType	== RT_TYPE_FLIC);
-	ASSERT(puc		!= NULL);
+	ASSERT(puc		!= nullptr);
 
 	CNFile file;
 	file.Open(puc, lSize, ENDIAN_LITTLE);
@@ -188,7 +188,7 @@ int16_t CRtFlic::Use(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFl
 
 
 		// If there is a callback for the header . . .
-		if (pflxhdr->callbackHeader != NULL)
+		if (pflxhdr->callbackHeader != nullptr)
 			{
 			// Pass user all info.
 			(*pflxhdr->callbackHeader)(this, pflxhdr);
@@ -197,7 +197,7 @@ int16_t CRtFlic::Use(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFl
 	else
 		{
 		// If there is a callback for before decompression . . .
-		if (pflxhdr->callbackBefore != NULL)
+		if (pflxhdr->callbackBefore != nullptr)
 			{
 			// Pass user all info.
 			(*pflxhdr->callbackBefore)(this, pflxhdr);
@@ -205,11 +205,11 @@ int16_t CRtFlic::Use(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFl
 
 		// The rest of this chunk is regular old FLX data!
 		// Decompress into image if supplied.
-		if (pflxhdr->pImage != NULL)
+		if (pflxhdr->pImage != nullptr)
 			{
-			ASSERT(pflxhdr->pImage->pData != NULL);
-			ASSERT(pflxhdr->pImage->pPalette != NULL);
-			ASSERT(pflxhdr->pImage->pPalette->pData != NULL);
+			ASSERT(pflxhdr->pImage->pData != nullptr);
+			ASSERT(pflxhdr->pImage->pPalette != nullptr);
+			ASSERT(pflxhdr->pImage->pPalette->pData != nullptr);
 
 
 			int16_t	sDecompress	= TRUE;
@@ -231,7 +231,7 @@ int16_t CRtFlic::Use(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFl
 					{
 					// Success.
 					// If there is a callback for after decompression . . .
-					if (pflxhdr->callbackAfter != NULL)
+					if (pflxhdr->callbackAfter != nullptr)
 						{
 						// Pass user all info.
 						(*pflxhdr->callbackAfter)(this, pflxhdr);
@@ -257,7 +257,7 @@ int16_t CRtFlic::Use(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFl
 
 	file.Close();
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -284,14 +284,14 @@ int16_t CRtFlic::UseStatic(	uint8_t* puc, int32_t lSize, uint16_t usType,
 //////////////////////////////////////////////////////////////////////////////
 void CRtFlic::SetDispatcher(CDispatch* pdispatch)
 	{
-	if (m_pdispatch != NULL)
+	if (m_pdispatch != nullptr)
 		{
-		m_pdispatch->SetDataHandler(RT_TYPE_FLIC, NULL);
+		m_pdispatch->SetDataHandler(RT_TYPE_FLIC, nullptr);
 		}
 
 	m_pdispatch	= pdispatch;
 
-	if (m_pdispatch != NULL)
+	if (m_pdispatch != nullptr)
 		{
 		m_pdispatch->SetDataHandler(RT_TYPE_FLIC, UseStatic);
 		m_pdispatch->SetUserVal(RT_TYPE_FLIC, (int32_t)this);

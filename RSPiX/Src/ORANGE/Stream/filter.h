@@ -77,7 +77,7 @@ class CFilter
 		void SetFileWin(CFileWin* pfw)
 			{ 
 			m_pfw = pfw; 
-			if (pfw != NULL)
+			if (pfw != nullptr)
 				{
 				// Point callback at our CFileWin callback dispatcher (calls 
 				// implied this version (WinCall)).
@@ -105,11 +105,11 @@ class CFilter
 		static void WinCallStatic(PPANE ppane, CFilter* pFilter);
 
 
-		// Returns ptr to chunk via lId, returns NULL if not found.
+		// Returns ptr to chunk via lId, returns nullptr if not found.
 		PRTCHUNK GetChunk(int32_t lId);
 
 		// Add a chunk header.
-		// Returns chunk on success, NULL otherwise.
+		// Returns chunk on success, nullptr otherwise.
 		PRTCHUNK AddChunk(int32_t lSize, uint16_t usType, uint8_t ucFlags, int32_t Id, 
 								int32_t lTime);
 

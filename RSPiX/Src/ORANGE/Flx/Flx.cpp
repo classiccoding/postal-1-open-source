@@ -126,8 +126,8 @@ CFlx::~CFlx()
 int16_t CFlx::Open(
 	char* pszFileName,			// Full path and filename of flic file
 	int16_t bSimple,					// TRUE for simple mode, FALSE for advanced stuff
-	FLX_FILE_HDR* pfilehdr,		// Copy of header returned here if not NULL
-	FLX_BUF* pbuf)					// Memory allocated within struct if not NULL
+	FLX_FILE_HDR* pfilehdr,		// Copy of header returned here if not nullptr
+	FLX_BUF* pbuf)					// Memory allocated within struct if not nullptr
 	{
 	int16_t sError = 0;
 	
@@ -176,12 +176,12 @@ int16_t CFlx::Open(
 	if ((sError == 0) && m_file.Error() != FALSE)
 		sError = 1;
 	
-	// If pointer to header not NULL, then return copy of header there
-	if ((sError == 0) && (pfilehdr != NULL))
+	// If pointer to header not nullptr, then return copy of header there
+	if ((sError == 0) && (pfilehdr != nullptr))
 		*pfilehdr = m_filehdr;
 	
-	// If pointer to buf not NULL, then allocate memory
-	if ((sError == 0) && (pbuf != NULL))
+	// If pointer to buf not nullptr, then allocate memory
+	if ((sError == 0) && (pbuf != nullptr))
 		sError = CreateBuf(pbuf, m_filehdr.sWidth, m_filehdr.sHeight, 256);
 	
 	// If no errors, then file is finally marked "open for reading"
@@ -218,8 +218,8 @@ int16_t CFlx::Create(
 	int16_t sAspectY,				// Y aspect ratio
 	int16_t bOldFLI,					// TRUE for old FLI format, FALSE for new FLC
 	int16_t bSimple,					// TRUE for simple mode, FALSE for advanced stuff
-	FLX_FILE_HDR* pfilehdr,		// Copy of header returned here if not NULL
-	FLX_BUF* pbuf)					// Memory allocated within struct if not NULL
+	FLX_FILE_HDR* pfilehdr,		// Copy of header returned here if not nullptr
+	FLX_BUF* pbuf)					// Memory allocated within struct if not nullptr
 	{
 	int16_t sError = 0;
 	
@@ -299,12 +299,12 @@ int16_t CFlx::Create(
 	if ((sError == 0) && m_file.Error() != FALSE)
 		sError = 1;
 	
-	// If pointer to header not NULL, then return copy of header there
-	if ((sError == 0) && (pfilehdr != NULL))
+	// If pointer to header not nullptr, then return copy of header there
+	if ((sError == 0) && (pfilehdr != nullptr))
 		*pfilehdr = m_filehdr;
 	
-	// If pointer to buf not NULL, then allocate memory
-	if ((sError == 0) && (pbuf != NULL))
+	// If pointer to buf not nullptr, then allocate memory
+	if ((sError == 0) && (pbuf != nullptr))
 		sError = CreateBuf(pbuf, m_filehdr.sWidth, m_filehdr.sHeight, 256);
 	
 	// If no errors, then file is finally marked "open for writing"
@@ -353,7 +353,7 @@ int16_t CFlx::Close(FLX_BUF* pbuf)
 		sError = 0;
 		
 	// let's free the buffer passed in, if valid
-	if (pbuf != NULL)
+	if (pbuf != nullptr)
 		FreeBuf(pbuf);
 		
 	return sError;
@@ -537,7 +537,7 @@ int16_t CFlx::WriteFirstFrame(
 	FLX_BUF* pbufWrite)		// Buffer of frame to be written
 	{
 	if (m_bOpenForWrite && (m_sFrameNum == 0))
-		return DoWriteFrame(pbufWrite, NULL);
+		return DoWriteFrame(pbufWrite, nullptr);
 	else
 		return 1;
 	}
@@ -568,14 +568,14 @@ int16_t CFlx::WriteNextFrame(
 // Finish writing the flic file.  This must be called after the last frame was
 // written but before closing the file.  The first and last frames are required
 // in order to generate the "ring" frame (used for looping the animation).
-// If you don't want a ring frame, simply specify NULL for both parameters.
+// If you don't want a ring frame, simply specify nullptr for both parameters.
 // The header is also updated with the final information for the file.
 // Returns 0 if successfull, non-zero otherwise.
 //
 ///////////////////////////////////////////////////////////////////////////////
 int16_t CFlx::WriteFinish(
-	FLX_BUF* pbufFirst,		// Buffer of first frame that was written or NULL
-	FLX_BUF* pbufLast)		// Buffer of last frame that was written or NULL
+	FLX_BUF* pbufFirst,		// Buffer of first frame that was written or nullptr
+	FLX_BUF* pbufLast)		// Buffer of last frame that was written or nullptr
 	{
 	int16_t sError = 0;
 	
@@ -584,7 +584,7 @@ int16_t CFlx::WriteFinish(
 		{
 		// Write out the ring frame (delta between the last and the first frames)
 		// unless the user doesn't want a ring frame!
-		if ((pbufFirst != NULL) && (pbufLast != NULL))
+		if ((pbufFirst != nullptr) && (pbufLast != nullptr))
 			{
 			sError = DoWriteFrame(pbufFirst, pbufLast);
 			m_sFrameNum -= 1;		// Ring frame doesn't count!

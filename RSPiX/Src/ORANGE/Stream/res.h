@@ -64,7 +64,7 @@ class CRes
 
 	public:		// Querries.
 		// Retrieves the resource identified by pszName.
-		// Returns ptr to CResItem on succes, NULL otherwise.
+		// Returns ptr to CResItem on succes, nullptr otherwise.
 		PRESITEM GetResource(char* pszName);
 
 		// Releases a resource.

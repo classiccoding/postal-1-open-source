@@ -136,8 +136,8 @@ class CFlx
 		int16_t Open(
 			char* pszFileName,			// Full path and filename of flic file
 			int16_t bSimple,					// TRUE for simple mode, FALSE for advanced stuff
-			FLX_FILE_HDR* pfilehdr,		// Copy of header returned here if not NULL
-			FLX_BUF* pbuf);				// Memory allocated within struct if not NULL
+			FLX_FILE_HDR* pfilehdr,		// Copy of header returned here if not nullptr
+			FLX_BUF* pbuf);				// Memory allocated within struct if not nullptr
 		
 		// Create a new flic file to be written to (the file cannot already exist).
 		// The newer FLC format is written unless bOldFLI is TRUE, in which case the
@@ -154,13 +154,13 @@ class CFlx
 			int16_t sAspectY,				// Y aspect ratio
 			int16_t bOldFLI,					// TRUE for old FLI format, FALSE for new FLC
 			int16_t bSimple,					// TRUE for simple mode, FALSE for advanced stuff
-			FLX_FILE_HDR* pfilehdr,		// Copy of header returned here if not NULL
-			FLX_BUF* pbuf);				// Memory allocated within struct if not NULL
+			FLX_FILE_HDR* pfilehdr,		// Copy of header returned here if not nullptr
+			FLX_BUF* pbuf);				// Memory allocated within struct if not nullptr
 
 		// Close the currently open file (if any).
 		// Returns 0 if successfull, non-zero otherwise.
 		// Modified 10/20/94 to accommodate buffer pointer
-		int16_t Close(FLX_BUF* pbuf = NULL);
+		int16_t Close(FLX_BUF* pbuf = nullptr);
 
 		// Get copy of flic file header (file must have been opened or created).  When
 		// creating a new file, certain fields are not valid until the file is closed.
@@ -200,12 +200,12 @@ class CFlx
 		// Finish writing the flic file.  This must be called after the last frame was
 		// written but before closing the file.  The first and last frames are required
 		// in order to generate the "ring" frame (used for looping the animation).
-		// If you don't want a ring frame, simply specify NULL for both parameters.
+		// If you don't want a ring frame, simply specify nullptr for both parameters.
 		// The header is also updated with the final information for the file.
 		// Returns 0 if successfull, non-zero otherwise.
 		int16_t WriteFinish(
-			FLX_BUF* pbufFirst,		// Buffer of first frame that was written or NULL
-			FLX_BUF* pbufLast);		// Buffer of last frame that was written or NULL
+			FLX_BUF* pbufFirst,		// Buffer of first frame that was written or nullptr
+			FLX_BUF* pbufLast);		// Buffer of last frame that was written or nullptr
 
 		// This is a lower-level function.  You probably don't want to use it.
 		// Returns 0 if successfull, non-zero otherwise.

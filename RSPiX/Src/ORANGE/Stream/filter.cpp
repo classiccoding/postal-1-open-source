@@ -48,7 +48,7 @@
 // de-allocate or otherwise handle the buffer.
 // Please note that if you do provide a ALLOC_FILTERFUNC and don't provide a 
 // FREE_FILTERFUNC, this module will NOT use malloc's free!
-// If an ALLOC_FILTERFUNC returns NULL, the process continues as normal.  This
+// If an ALLOC_FILTERFUNC returns nullptr, the process continues as normal.  This
 // is so the user can choose to skip chunks or ignore allocation failures.  It
 // is, therefore, up to the user to stop the streaming if necessary.
 //
@@ -139,17 +139,17 @@ CFilter::~CFilter()
 //////////////////////////////////////////////////////////////////////////////
 void CFilter::Set(void)
 	{
-	m_fnAlloc				= NULL;
-	m_fnFree					= NULL;
-	m_fnUse					= NULL;
+  m_fnAlloc				= nullptr;
+  m_fnFree					= nullptr;
+  m_fnUse					= nullptr;
 
 	m_ulFilter				= 0;
 
 	m_lPadSize				= 0L;
 	m_lBufRemaining		= 0L;
-	m_pChunk					= NULL;
+  m_pChunk					= nullptr;
 
-	m_pfw						= NULL;
+  m_pfw						= nullptr;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -163,7 +163,7 @@ void CFilter::Reset(void)
 		{
 		TRACE("Reset(): There are partial buffers.  Deallocating.\n");
 		PRTCHUNK	pChunk	= m_listPartial.GetHead();
-		while (pChunk != NULL)
+    while (pChunk != nullptr)
 			{
 			FreeChunk(pChunk->puc, pChunk->usType, pChunk->ucFlags);
 
@@ -222,7 +222,7 @@ void CFilter::WinCall(PPANE ppane)
 				if (m_lBufRemaining > 0L)
 					{
 					// If not being filtered out . . .
-					if (m_pChunk != NULL)
+          if (m_pChunk != nullptr)
 						{
 						// Read more buffer.
 						lAmt = AddToChunk(&file, m_lBufRemaining);
@@ -280,10 +280,10 @@ void CFilter::WinCall(PPANE ppane)
 							{
 							m_pChunk	= GetChunk(lId);
 							// If no such chunk . . .
-							if (m_pChunk == NULL)
+              if (m_pChunk == nullptr)
 								{
 								m_pChunk	= AddChunk(lChunkSize, usType, ucFlags, lId, lTime);
-								if (m_pChunk != NULL)
+                if (m_pChunk != nullptr)
 									{
 									// Success.
 									}
@@ -299,11 +299,11 @@ void CFilter::WinCall(PPANE ppane)
 						else
 							{
 							// Skip chunk.
-							m_pChunk	= NULL;
+              m_pChunk	= nullptr;
 							}
 
 						// If chunk is to be skipped . . .
-						if (m_pChunk == NULL)
+            if (m_pChunk == nullptr)
 							{
 							// Lump the padding in with the amount to be skipped.
 							m_lBufRemaining	+= m_lPadSize;
@@ -351,14 +351,14 @@ void CFilter::WinCallStatic(PPANE ppane, CFilter* pFilter)
 
 //////////////////////////////////////////////////////////////////////////////
 //
-// Returns ptr to chunk via lId, returns NULL if not found.
+// Returns ptr to chunk via lId, returns nullptr if not found.
 //
 //////////////////////////////////////////////////////////////////////////////
 PRTCHUNK CFilter::GetChunk(int32_t lId)
 	{
 	PRTCHUNK	pChunk	= m_listPartial.GetHead();
 
-	while (pChunk != NULL)
+  while (pChunk != nullptr)
 		{
 		if (pChunk->lId == lId)
 			{
@@ -374,24 +374,24 @@ PRTCHUNK CFilter::GetChunk(int32_t lId)
 //////////////////////////////////////////////////////////////////////////////
 //
 // Add a chunk header.
-// Returns chunk on success, NULL otherwise.
+// Returns chunk on success, nullptr otherwise.
 //
 //////////////////////////////////////////////////////////////////////////////
 PRTCHUNK CFilter::AddChunk(int32_t lSize, uint16_t usType, uint8_t ucFlags, int32_t lId,
 									int32_t lTime)
 	{
 	int16_t		sError	= 0;
-	PRTCHUNK	pChunk	= NULL;
+  PRTCHUNK	pChunk	= nullptr;
 
 	// Attempt to allocate chunk . . .
 	uint8_t* puc;
 	if (AllocChunk(&puc, lSize, usType, ucFlags) == 0)
 		{
-		if (puc != NULL)
+    if (puc != nullptr)
 			{
 			// Create new chunk header.
 			pChunk = new RTCHUNK;
-			if (pChunk != NULL)
+      if (pChunk != nullptr)
 				{
 				// Set fields.
 				pChunk->puc			= puc;
@@ -416,7 +416,7 @@ PRTCHUNK CFilter::AddChunk(int32_t lSize, uint16_t usType, uint8_t ucFlags, int3
 				if (sError != 0)
 					{
 					delete pChunk;
-					pChunk = NULL;
+          pChunk = nullptr;
 					}
 				}
 			else
@@ -449,7 +449,7 @@ PRTCHUNK CFilter::AddChunk(int32_t lSize, uint16_t usType, uint8_t ucFlags, int3
 //////////////////////////////////////////////////////////////////////////////
 int16_t CFilter::RemoveChunk(PRTCHUNK pChunk)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	if (m_listPartial.Remove(pChunk) == 0)
 		{
@@ -460,10 +460,10 @@ int16_t CFilter::RemoveChunk(PRTCHUNK pChunk)
 		{
 		TRACE("RemoveChunk(): Unable to remove chunk from list "
 				"(probably not in there).\n");
-		sRes = -1;
+		sResult = FAILURE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -477,7 +477,7 @@ int32_t CFilter::AddToChunk(	CNFile*	pfile,		// File pointer.
 	{
 	int32_t	lRes	= 0;
 
-	ASSERT(m_pChunk			!= NULL);
+  ASSERT(m_pChunk			!= nullptr);
 
 	lRes	= pfile->Read(m_pChunk->puc + m_pChunk->lPos, lBufSize);
 
@@ -491,7 +491,7 @@ int32_t CFilter::AddToChunk(	CNFile*	pfile,		// File pointer.
 	if (m_pChunk->lPos == m_pChunk->lSize)
 		{
 		// Call user callback.
-		ASSERT(m_fnUse != NULL)
+    ASSERT(m_fnUse != nullptr)
 		
 		(*m_fnUse)(	m_pChunk->puc, m_pChunk->lSize, m_pChunk->usType, 
 						m_pChunk->ucFlags, m_pChunk->lTime, m_lUser);
@@ -509,7 +509,7 @@ int32_t CFilter::AddToChunk(	CNFile*	pfile,		// File pointer.
 //////////////////////////////////////////////////////////////////////////////
 //
 // Allocates data via user callback if defined or malloc, otherwise.
-// Returns 0 on success.  *ppuc of NULL does not necessarily indicate
+// Returns 0 on success.  *ppuc of nullptr does not necessarily indicate
 // error; it means that the user decided it didn't want this data (it could
 // be b/c of memory constraints, but probably not).  We rely on the user to
 // stop this process if an error occurs during allocation in their alloc func!
@@ -519,9 +519,9 @@ int32_t CFilter::AddToChunk(	CNFile*	pfile,		// File pointer.
 int16_t CFilter::AllocChunk(	uint8_t** ppuc, int32_t lSize, uint16_t usType, 
 									uint8_t ucFlags)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
-	if (m_fnAlloc != NULL)
+  if (m_fnAlloc != nullptr)
 		{
 		*ppuc = (*m_fnAlloc)(lSize, usType, ucFlags, m_lUser);
 		}
@@ -529,17 +529,17 @@ int16_t CFilter::AllocChunk(	uint8_t** ppuc, int32_t lSize, uint16_t usType,
 		{
 		*ppuc = (uint8_t*)malloc(lSize);
 		// If successful . . .
-		if (*ppuc != NULL)
+    if (*ppuc != nullptr)
 			{
 			}
 		else
 			{
 			TRACE("AllocChunk(): Malloc failed.\n");
-			sRes = -1;
+			sResult = FAILURE;
 			}
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -550,13 +550,13 @@ int16_t CFilter::AllocChunk(	uint8_t** ppuc, int32_t lSize, uint16_t usType,
 //////////////////////////////////////////////////////////////////////////////
 void CFilter::FreeChunk(uint8_t* puc, uint16_t usType, uint8_t ucFlags)
 	{
-	if (puc != NULL)
+  if (puc != nullptr)
 		{
 		// If an allocation function is defined . . .
-		if (m_fnAlloc != NULL)
+    if (m_fnAlloc != nullptr)
 			{
 			// If a deallocation function is defined . . .
-			if (m_fnFree != NULL)
+      if (m_fnFree != nullptr)
 				{
 				// Call it.
 				(*m_fnFree)(puc, usType, ucFlags, m_lUser);

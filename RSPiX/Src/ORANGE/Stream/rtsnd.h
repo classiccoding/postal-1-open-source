@@ -69,7 +69,7 @@ class CRtSnd
 										uint8_t ucFlags, int32_t lTime, int32_t l_pRtSnd);
 
 		// Callback for mixer.
-		// Returns new buffer to play or NULL if none.
+    // Returns new buffer to play or nullptr if none.
 		static void* MixCall(uint16_t usMsg, void* pData, uint32_t* pulBufSize, 
 									uint32_t ul_psndhdr);
 

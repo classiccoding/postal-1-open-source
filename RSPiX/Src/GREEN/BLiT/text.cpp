@@ -89,7 +89,7 @@ short   ConvertFromFSPR1(CImage* pImage);
 short		DeleteFSPR1(CImage* pImage);
 
 
-//IMAGELINKLATE(FSPR1,ConvertToFSPR1,ConvertFromFSPR1,  NULL,NULL,NULL,DeleteFSPR1);
+//IMAGELINKLATE(FSPR1,ConvertToFSPR1,ConvertFromFSPR1,  nullptr,nullptr,nullptr,DeleteFSPR1);
 
 // We will use templating to make TC a reality...
 template <class PIX>
@@ -157,7 +157,7 @@ inline short	_ConvertToFSPR1(CImage* pImage,PIX choose)
 		
 		if (i == sW) // end of line:
 			{
-			if (pOldCode == pCode) // THIS IS A NULL LINE!
+			if (pOldCode == pCode) // THIS IS A nullptr LINE!
 				{
 				if (sLineSkipCount == 0) // first line to skip
 					{
@@ -342,7 +342,7 @@ inline short _ConvertFromFSPR1(CImage* pImage,PIX choose)
 
 	// Remove pSpecial:
 	delete (CSpecialFSPR1*) pImage->pSpecial;
-	pImage->pSpecial = pImage->pSpecialMem = NULL;
+	pImage->pSpecial = pImage->pSpecialMem = nullptr;
 
 	return (short)pImage->ulType;
 	}
@@ -430,7 +430,7 @@ short DeleteFSPR1(CImage* pImage)
 	CCompressedMono* pHead = (CCompressedMono*) pImage->pSpecial;
 	free(pHead->pCode);
 	free(pHead);
-	pImage->pSpecial = pImage->pSpecialMem = NULL;
+	pImage->pSpecial = pImage->pSpecialMem = nullptr;
 
 	return 0;
 	}
@@ -440,7 +440,7 @@ short DeleteFSPR1(CImage* pImage)
 void	InstantiateBLiT();
 void	InstantiateBLiT()
 	{
-	CImage* pim = NULL;
+	CImage* pim = nullptr;
 
 	rspBlit( (uint8_t)0,(uint8_t)0,pim,pim,(short)0,(short)0);
 	}
@@ -458,7 +458,7 @@ short	rspBlit(uint32_t ulForeColor,uint32_t ulBackColor,CImage* pimSrc,CImage* p
 	// 1) preliminary parameter validation:
 #ifdef _DEBUG
 
-	if ((pimSrc == NULL) || (pimDst == NULL))
+	if ((pimSrc == nullptr) || (pimDst == nullptr))
 		{
 		TRACE("BLiT: null CImage* passed\n");
 		return -1;
@@ -1076,7 +1076,7 @@ short	rspBlit(uint32_t ulForeColor,uint32_t ulBackColor,CImage* pimSrc,CImage* p
 
 #ifdef _DEBUG
 
-	if ((pimSrc == NULL) || (pimDst == NULL))
+	if ((pimSrc == nullptr) || (pimDst == nullptr))
 		{
 		TRACE("BLiT: Null Images passed!\n");
 		return -1;
@@ -1707,7 +1707,7 @@ short	_rspBlit(uint32_t ulClrLTR,uint32_t ulClrBKD,CImage* pimSrc,CImage* pimDst
 
 #ifdef _DEBUG
 
-	if ((pimSrc == NULL) || (pimDst == NULL))
+	if ((pimSrc == nullptr) || (pimDst == nullptr))
 		{
 		TRACE("BLiT: Null Images passed!\n");
 		return -1;
@@ -1820,13 +1820,13 @@ BLIT_PRELOCKED_TXTSCL:
 
 	short sFreeSkip = 0;
 
-	if (frSkipX == NULL)
+	if (frSkipX == nullptr)
 		{
 		frSkipX = u16fStrafe256((uint16_t)sW,(uint16_t)pimSrc->lWidth);	// < 1
 		sFreeSkip = 1;
 		}
 
-	if (frSkipY == NULL)
+	if (frSkipY == nullptr)
 		{
 		frSkipY = u16fStrafe256((uint16_t)sH,(uint16_t)pimSrc->lHeight);	// < 1
 		sFreeSkip += 2;
@@ -2049,7 +2049,7 @@ BLIT_DONTUNLOCK_TXTSCL:
 	/*
 void	instantiateBLIT()
 	{
-	CImage* pim = NULL;
+	CImage* pim = nullptr;
 	_rspBlit( (uint8_t)0,(uint8_t)0,pim,pim,(short)0,(short)0,(short)0,(short)0);
 	_rspBlit( (uint16_t)0,(uint16_t)0,pim,pim,(short)0,(short)0,(short)0,(short)0);
 	_rspBlit( (uint32_t)0,(uint32_t)0,pim,pim,(short)0,(short)0,(short)0,(short)0);

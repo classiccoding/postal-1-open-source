@@ -106,15 +106,15 @@ CRtVidc::~CRtVidc()
 //////////////////////////////////////////////////////////////////////////////
 void CRtVidc::Set(void)
 	{
-	m_pdispatch		= NULL;
+	m_pdispatch		= nullptr;
 	for (int16_t i = 0; i < MAX_VID_CHANNELS; i++)
 		{
 		m_avidchdrs[i].sNumFrames		= 0;
-		m_avidchdrs[i].pImage			= NULL;
-		m_avidchdrs[i].callbackHeader	= NULL;
-		m_avidchdrs[i].callbackBefore	= NULL;
-		m_avidchdrs[i].callbackAfter	= NULL;
-		m_avidchdrs[i].hic				= NULL;
+		m_avidchdrs[i].pImage			= nullptr;
+		m_avidchdrs[i].callbackHeader	= nullptr;
+		m_avidchdrs[i].callbackBefore	= nullptr;
+		m_avidchdrs[i].callbackAfter	= nullptr;
+		m_avidchdrs[i].hic				= nullptr;
 		}
 	}
 
@@ -179,7 +179,7 @@ int16_t CRtVidc::DecompressFrame(	PVIDC_RT_HDR pvidchdr, CNFile* pfile,
 											uint32_t ulFlags, PBMI pbmiIn, PBMI pbmiOut)
 
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// Get data in compression native format.
 	BMI	bmiTempOut = *pbmiIn;
@@ -193,11 +193,11 @@ int16_t CRtVidc::DecompressFrame(	PVIDC_RT_HDR pvidchdr, CNFile* pfile,
 	HBITMAP	hbm	= (HBITMAP)ICImageDecompress(	pvidchdr->hic, 0L, (BITMAPINFO*)pbmiIn,
 																pfile->GetMemory() + pfile->Tell(),
 																(BITMAPINFO*)&bmiTempOut);
-	if (hbm != NULL)
+	if (hbm != nullptr)
 		{
 		// Successfully decompressed.
-		HDC	hDC	= GetDC(NULL);
-		if (hDC != NULL)
+		HDC	hDC	= GetDC(nullptr);
+		if (hDC != nullptr)
 			{
 			pbmiOut->bmiHeader.biSize			= sizeof(pbmiOut->bmiHeader);
 			pbmiOut->bmiHeader.biSizeImage	= 0;
@@ -210,15 +210,15 @@ int16_t CRtVidc::DecompressFrame(	PVIDC_RT_HDR pvidchdr, CNFile* pfile,
 			else
 				{
 				TRACE("DecompressFrame(): GetDIBits failed.\n");
-				sRes = -3;
+				sResult = -3;
 				}
 
-			ReleaseDC(NULL, hDC);
+			ReleaseDC(nullptr, hDC);
 			}
 		else
 			{
 			TRACE("DecompressFrame(): GetDC failed.\n");
-			sRes = -2;
+			sResult = -2;
 			}
 
 		// Destroy the bitmap.
@@ -227,10 +227,10 @@ int16_t CRtVidc::DecompressFrame(	PVIDC_RT_HDR pvidchdr, CNFile* pfile,
 	else
 		{
 		TRACE("DecompressFrame(): ICDecompress failed.\n");
-		sRes	= -1;
+		sResult	= -1;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -242,11 +242,11 @@ int16_t CRtVidc::DecompressFrame(	PVIDC_RT_HDR pvidchdr, CNFile* pfile,
 int16_t CRtVidc::Use(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFlags, 
 							int32_t lTime)
 	{
-	int16_t	sRes		= RET_FREE;	// Always free.
+	int16_t	sResult		= RET_FREE;	// Always free.
 	int16_t	sError	= 0;
 
 	ASSERT(usType	== RT_TYPE_VIDC);
-	ASSERT(puc		!= NULL);
+	ASSERT(puc		!= nullptr);
 
 	CNFile file;
 	file.Open(puc, lSize, ENDIAN_LITTLE);
@@ -292,7 +292,7 @@ int16_t CRtVidc::Use(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFl
 //										ICMODE_FASTDECOMPRESS);
 
 		// If there is a callback for the header . . .
-		if (pvidchdr->callbackHeader != NULL)
+		if (pvidchdr->callbackHeader != nullptr)
 			{
 			// Pass user all info.
 			(*pvidchdr->callbackHeader)(this, pvidchdr);
@@ -301,18 +301,18 @@ int16_t CRtVidc::Use(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFl
 	else
 		{
 		// If there is a callback for before decompression . . .
-		if (pvidchdr->callbackBefore != NULL)
+		if (pvidchdr->callbackBefore != nullptr)
 			{
 			// Pass user all info.
 			(*pvidchdr->callbackBefore)(this, pvidchdr);
 			}
 
 		// Decompress into image if supplied.
-		if (pvidchdr->pImage != NULL)
+		if (pvidchdr->pImage != nullptr)
 			{
-			ASSERT(pvidchdr->pImage->pData				!= NULL);
-			ASSERT(pvidchdr->pImage->pPalette			!= NULL);
-			ASSERT(pvidchdr->pImage->pPalette->pData	!= NULL);
+			ASSERT(pvidchdr->pImage->pData				!= nullptr);
+			ASSERT(pvidchdr->pImage->pPalette			!= nullptr);
+			ASSERT(pvidchdr->pImage->pPalette->pData	!= nullptr);
 
 			uint32_t	ulFlags	= 0;
 			if (ucFlags & RT_FLAG_TAG)
@@ -343,14 +343,14 @@ int16_t CRtVidc::Use(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFl
 													/ 8;
 			// END TEMP
 
-			if (pvidchdr->hic == NULL)
+			if (pvidchdr->hic == nullptr)
 				{
 				pvidchdr->hic	= ICLocate(	ICTYPE_VIDEO, pvidchdr->ulFCCHandler,
 													&bmiIn.bmiHeader,
 													&bmiOut.bmiHeader,
 													ICMODE_FASTDECOMPRESS);
 
-				if (pvidchdr->hic != NULL)
+				if (pvidchdr->hic != nullptr)
 					{
 					// Success.
 					}
@@ -385,9 +385,9 @@ int16_t CRtVidc::Use(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFl
 					{
 					if (ucFlags & VIDC_CHUNK_PALETTE)
 						{
-						ASSERT(pvidchdr->pImage->pData				!= NULL);
-						ASSERT(pvidchdr->pImage->pPalette			!= NULL);
-						ASSERT(pvidchdr->pImage->pPalette->pData	!= NULL);
+						ASSERT(pvidchdr->pImage->pData				!= nullptr);
+						ASSERT(pvidchdr->pImage->pPalette			!= nullptr);
+						ASSERT(pvidchdr->pImage->pPalette->pData	!= nullptr);
 
 						CPal		pal;
 						pal.ulType					= PDIB;
@@ -423,7 +423,7 @@ int16_t CRtVidc::Use(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFl
 									pvidchdr->pImage->pPalette->sNumEntries 
 									* pvidchdr->pImage->pPalette->sPalEntrySize);
 
-						imageEmpty.pPalette	= NULL;
+						imageEmpty.pPalette	= nullptr;
 
 						pvidchdr->sColorsModified	= TRUE;
 						}
@@ -439,7 +439,7 @@ int16_t CRtVidc::Use(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFl
 					}
 
 				// If there is a callback for after decompression . . .
-				if (pvidchdr->callbackAfter != NULL)
+				if (pvidchdr->callbackAfter != nullptr)
 					{
 					// Pass user all info.
 					(*pvidchdr->callbackAfter)(this, pvidchdr);
@@ -463,10 +463,10 @@ int16_t CRtVidc::Use(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFl
 		if (ucFlags & RT_FLAG_LAST)
 			{
 			// If compressor was opened . . .
-			if (pvidchdr->hic != NULL)
+			if (pvidchdr->hic != nullptr)
 				{
 				ICClose(pvidchdr->hic);
-				pvidchdr->hic	= NULL;
+				pvidchdr->hic	= nullptr;
 				}
 			}
 	
@@ -476,7 +476,7 @@ int16_t CRtVidc::Use(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFl
 
 	file.Close();
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -503,14 +503,14 @@ int16_t CRtVidc::UseStatic(	uint8_t* puc, int32_t lSize, uint16_t usType,
 //////////////////////////////////////////////////////////////////////////////
 void CRtVidc::SetDispatcher(CDispatch* pdispatch)
 	{
-	if (m_pdispatch != NULL)
+	if (m_pdispatch != nullptr)
 		{
-		m_pdispatch->SetDataHandler(RT_TYPE_VIDC, NULL);
+		m_pdispatch->SetDataHandler(RT_TYPE_VIDC, nullptr);
 		}
 
 	m_pdispatch	= pdispatch;
 
-	if (m_pdispatch != NULL)
+	if (m_pdispatch != nullptr)
 		{
 		m_pdispatch->SetDataHandler(RT_TYPE_VIDC, UseStatic);
 		m_pdispatch->SetUserVal(RT_TYPE_VIDC, (int32_t)this);

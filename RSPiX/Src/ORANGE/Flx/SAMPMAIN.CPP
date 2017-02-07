@@ -72,7 +72,7 @@ void main(void)
 /*		if (flxWrite.Create("MY_frm.FLI", TRUE,
 			filehdrRead.sWidth, filehdrRead.sHeight, 20,//filehdrRead.lMilliPerFrame,
 			filehdrRead.sAspectX, filehdrRead.sAspectY,
-			TRUE, TRUE, &filehdrWrite, NULL) == 0)
+			TRUE, TRUE, &filehdrWrite, nullptr) == 0)
 			{
 			DumpHeader(&filehdrWrite);
 			
@@ -101,7 +101,7 @@ void main(void)
 					}
 				}
 				
-			flxWrite.WriteFinish(NULL, NULL);
+			flxWrite.WriteFinish(nullptr, nullptr);
 			flxWrite.Close();
 			}
 		else
@@ -113,7 +113,7 @@ void main(void)
 		if (flxWrite.Create("MY_abc.fli", TRUE,
 			filehdrRead.sWidth, filehdrRead.sHeight, 50,//filehdrRead.lMilliPerFrame,
 			filehdrRead.sAspectX, filehdrRead.sAspectY,
-			TRUE, TRUE, &filehdrWrite, NULL) == 0)
+			TRUE, TRUE, &filehdrWrite, nullptr) == 0)
 			{
 			DumpHeader(&filehdrWrite);
 							
@@ -142,7 +142,7 @@ void main(void)
 					}
 				}
 				
-			//flxWrite.WriteFinish(NULL, NULL);
+			//flxWrite.WriteFinish(nullptr, nullptr);
 			flxWrite.Close();
 			}
 		else
