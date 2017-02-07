@@ -205,7 +205,7 @@ int16_t   ConvertFromROTBUF(RImage* pImage)
 int16_t		DeleteROTBUF(RImage* pImage)
 	{
 	delete pImage->m_pSpecial;
-	return 0;
+	return SUCCESS;
 	}
 
 //************* This will be incorporated into REAL commands later:
@@ -581,31 +581,31 @@ int16_t rspStrafeRotate(void *pReturnArray,	// Output
 	if (!pimSrc)
 		{
 		TRACE("rspStrafeRotate: nullptr source passed!\n");
-		return -1;
+    return FAILURE;
 		}
 
 	if (!pReturnArray)
 		{
 		TRACE("rspStrafeRotate: nullptr receiver passed!\n");
-		return -1;
+    return FAILURE;
 		}
 
 	if (sNumFrames < 1)
 		{
 		TRACE("rspStrafeRotate: Bad number of frames!\n");
-		return -1;
+    return FAILURE;
 		}
 
 	if (!ImageIsUncompressed(pimSrc->m_type))
 		{
 		TRACE("rspStrafeRotate:Need an uncompressed image format!\n");
-		return -1;
+    return FAILURE;
 		}
 
 	if ((dScale <= 0.0) || (dScale > 1.0))
 		{
 		TRACE("rspStrafeRotate: Scale error: can only reduce for now!\n");
-		return -1;
+    return FAILURE;
 		}
 
 #endif
@@ -636,7 +636,7 @@ int16_t rspStrafeRotate(void *pReturnArray,	// Output
 	if (pimSrc->Convert(RImage::ROTBUF)!= RImage::ROTBUF)
 		{
 		TRACE("rspStrafeRotate: Internal Conversion error\n");
-		return -1;
+    return FAILURE;
 		}
 
 	//Calculate the appropriate height:
@@ -669,7 +669,7 @@ int16_t rspStrafeRotate(void *pReturnArray,	// Output
 		if ((*(ppBuf.ppI))->CreateImage(sDstH,sDstH,RImage::BMP8)!= SUCCESS)
 			{
 			TRACE("rspStrafeRotate: Out of memory. Sorry.\n");
-			return -1;
+      return FAILURE;
 			}
 
 		// Do the BLiT:

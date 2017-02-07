@@ -168,7 +168,7 @@ int16_t CWeapon::Save(										// Returns 0 if successfull, non-zero otherwise
 	pFile->Write(&m_dHorizVel);
 	pFile->Write(&m_eState);
 
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -181,7 +181,7 @@ int16_t CWeapon::Startup(void)								// Returns 0 if successfull, non-zero othe
 	// Init other stuff
 	m_lPrevTime = m_pRealm->m_time.GetGameTime();
 
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -194,7 +194,7 @@ int16_t CWeapon::Setup(int16_t sX, int16_t sY, int16_t sZ)
 	m_dX = sX;
 	m_dY = sY;
 	m_dZ = sZ;
-	return 0;
+   return SUCCESS;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -202,7 +202,7 @@ int16_t CWeapon::Setup(int16_t sX, int16_t sY, int16_t sZ)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWeapon::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -314,7 +314,7 @@ int16_t CWeapon::EditNew(									// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWeapon::EditModify(void)
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -330,7 +330,7 @@ int16_t CWeapon::EditMove(									// Returns 0 if successfull, non-zero otherwi
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -359,7 +359,7 @@ void CWeapon::EditRender(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWeapon::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -368,7 +368,7 @@ int16_t CWeapon::GetResources(void)						// Returns 0 if successfull, non-zero o
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWeapon::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////

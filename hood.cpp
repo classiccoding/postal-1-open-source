@@ -475,7 +475,7 @@ int16_t CHood::Save(								// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CHood::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -484,7 +484,7 @@ int16_t CHood::Startup(void)								// Returns 0 if successfull, non-zero otherw
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CHood::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -809,7 +809,7 @@ int16_t CHood::EditMove(									// Returns 0 if successfull, non-zero otherwise
 	int16_t /*sY*/,											// In:  New y coord
 	int16_t /*sZ*/)											// In:  New z coord
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 

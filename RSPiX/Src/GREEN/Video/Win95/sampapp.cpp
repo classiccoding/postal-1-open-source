@@ -206,7 +206,7 @@ int16_t AppMain(void)
 		Blu_MsgBox(MB_ICN_INFO | MB_BUT_OK, "Sux!", "Unable to create display.");
 		}
 
-	return 0;
+	return SUCCESS;
 	}
 
 ///////////////////////////////////////////////////////////////////////////////

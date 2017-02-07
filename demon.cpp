@@ -395,7 +395,7 @@ int16_t CDemon::Preload(
 	CacheSample(g_smidDemonBuckwheat4);
 	CacheSample(g_smidDemonTheMan);
 #endif
-	return 0;
+	return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -523,7 +523,7 @@ int16_t CDemon::Save(										// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDemon::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 {
-	return 0;
+	return SUCCESS;
 }
 
 
@@ -532,7 +532,7 @@ int16_t CDemon::Startup(void)								// Returns 0 if successfull, non-zero other
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDemon::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 {
-	return 0;
+	return SUCCESS;
 }
 
 
@@ -677,7 +677,7 @@ int16_t CDemon::EditMove(									// Returns 0 if successfull, non-zero otherwis
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-	return 0;
+	return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -804,7 +804,7 @@ int16_t CDemon::Kill(void)							// Returns 0 if successfull, non-zero otherwise
 
 	m_pRealm->m_scene.RemoveSprite(&m_sprite);
 
-	return 0;
+	return SUCCESS;
 }
 
 

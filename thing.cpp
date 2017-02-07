@@ -452,7 +452,7 @@ int32_t CThing::SysUpdate(			// Returns a non-zero ID to abort or zero
 	UpdateSystem();
 	rspGetNextInputEvent(pie);
 
-	return 0;
+   return SUCCESS;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -620,12 +620,12 @@ int16_t CThing::Construct(								// Returns 0 if successfull, non-zero otherwis
 		if (ms_aClassInfo[id].funcConstruct)
 			return (*(ms_aClassInfo[id].funcConstruct))(pRealm, ppNew);
 		else
-			return -1;
+         return FAILURE;
 		}
 	else
 		{
 		TRACE("Construct(): id %d is out of bounds.\n", id);
-		return -2;
+      return FAILURE * 2;
 		}
 	}
 

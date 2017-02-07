@@ -186,7 +186,7 @@ int16_t CVideo::Create(void)
 //				TRACE("Failed to subclass the MCI window's proc to our's.");
 //				}
 
-			return 0;
+			return SUCCESS;
 			}
 		else
 			return VIDEO_ERR_CREATE;

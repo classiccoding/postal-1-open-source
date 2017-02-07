@@ -261,7 +261,7 @@ int16_t CNavigationNet::Save(										// Returns 0 if successfull, non-zero oth
 
 	m_rstrNetName.Save(pFile);
 
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -294,7 +294,7 @@ int16_t CNavigationNet::Startup(void)								// Returns 0 if successfull, non-ze
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CNavigationNet::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -451,7 +451,7 @@ int16_t CNavigationNet::EditModify(void)
 		}
 	}
 
-	return 0;
+   return SUCCESS;
 }
 /*
 
@@ -483,7 +483,7 @@ int16_t CNavigationNet::EditMove(									// Returns 0 if successfull, non-zero 
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-	return 0;
+   return SUCCESS;
 	}
 
 

@@ -155,7 +155,7 @@ int16_t CLadder::Save(										// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CLadder::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 	{
-	return 0;
+  return SUCCESS;
 	}
 
 
@@ -164,7 +164,7 @@ int16_t CLadder::Startup(void)								// Returns 0 if successfull, non-zero othe
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CLadder::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	return 0;
+  return SUCCESS;
 	}
 
 
@@ -302,7 +302,7 @@ int16_t CLadder::EditMove(								// Returns 0 if successfull, non-zero otherwis
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-	return 0;
+  return SUCCESS;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////

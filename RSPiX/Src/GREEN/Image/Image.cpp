@@ -441,7 +441,7 @@ int16_t RImage::sCreateMem(void **hMem, size_t ulSize)
 	{              
 		TRACE("RPal::AllocMem() called by CreateData() -- A buffer has already been allocated\n");
 		// Image allocated already
-		return ((int16_t)-1);
+      return FAILURE;
 	}
 	else
 	{         
@@ -451,19 +451,19 @@ int16_t RImage::sCreateMem(void **hMem, size_t ulSize)
 			{
 				TRACE("RPal::AllocMem() called by CreateData() -- The buffer could not be allocated\n");
 				// Image buffer couldn't be allocated
-				return ((int16_t)-2);
+            return FAILURE * 2;
 			} 
 			else
 			{        
 				// Success
-				return ((int16_t)0);
+            return SUCCESS;
 			}
 		}
 		else
 		{
 		 	TRACE("RPal::AllocMem() called by CreateData() - Warning attempting to allocate 0 bytes, quit screwing around\n");
          *hMem = nullptr;
-			return 0;
+         return SUCCESS;
 		}
 	}
 }

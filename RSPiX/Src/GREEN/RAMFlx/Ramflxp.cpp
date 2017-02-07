@@ -331,7 +331,7 @@ int16_t CRamFlx::ReadDataColor(	CImage* pimageRead, int16_t sDataType,
   //assert(pimageRead->prgbColors != nullptr);
 	// instead of assert, just return error
   if (pimageRead->pPalette->pData == nullptr)
-		return 1;
+    return FAILURE;
 
 	int16_t sError = 0;
 	
@@ -462,7 +462,7 @@ int16_t CRamFlx::ReadDataBlack(CImage* pimageRead, int16_t* psPixelsModified)
 	//assert(pimageRead->sPitch > 0);
 	// let's just return with error instead of asserting and crashing
   if ((pimageRead->pData == nullptr) || (pimageRead->lPitch <= 0))
-		return 1;
+    return FAILURE;
 
 	// Clear the image to 0 one row at a time.  Note that we use the pitch
 	// to move from the start of one row to the start of the next row.
@@ -477,7 +477,7 @@ int16_t CRamFlx::ReadDataBlack(CImage* pimageRead, int16_t* psPixelsModified)
 	*psPixelsModified = TRUE;
 
 	// There can be no error!
-	return 0;
+  return SUCCESS;
 	}
 	
 	
@@ -501,7 +501,7 @@ int16_t CRamFlx::ReadDataCopy(	CImage* pimageRead, CNFile* pfile,
 	//assert(pimageRead->sPitch > 0);
 	// let's just return with error instead of asserting
   if ((pimageRead->pData == nullptr) || (pimageRead->lPitch <= 0))
-		return 1;
+    return FAILURE;
 
 	int16_t sError = 0;
 	
@@ -559,7 +559,7 @@ int16_t CRamFlx::ReadDataBRun(	CImage* pimageRead, CNFile* pfile,
 	//assert(pimageRead->sPitch > 0);
 	// let's just return with error instead of asserting
   if ((pimageRead->pData == nullptr) || (pimageRead->lPitch <= 0))
-		return 1;
+    return FAILURE;
 
 	// added 10/20/94 to trap errors and exit! instead of asserting
 	int16_t sError = 0;
@@ -721,7 +721,7 @@ int16_t CRamFlx::ReadDataBRun(	CImage* pimageRead, CNFile* pfile,
 	// Set modified flag
 	*psPixelsModified = TRUE;
 
-	return 0;
+  return SUCCESS;
 	}
 	
 	
@@ -775,7 +775,7 @@ int16_t CRamFlx::ReadDataLC(	CImage* pimageRead, CNFile* pfile,
 	//assert(pimageRead->sPitch > 0);
 	// just return with error instead of asserting
   if ((pimageRead->pData == nullptr) || (pimageRead->lPitch <= 0))
-		return 1;
+    return FAILURE;
 	
 	int16_t y;
 	int16_t lines;
@@ -960,7 +960,7 @@ int16_t CRamFlx::ReadDataLC(	CImage* pimageRead, CNFile* pfile,
 		pfile->Seek((int32_t)(pCurFlxBuf - pfile->GetMemory()), SEEK_SET);
 		#endif // ndef WIN32
 
-	return 0;
+  return SUCCESS;
 	}
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -988,7 +988,7 @@ int16_t CRamFlx::ReadDataSS2(CImage* pimageRead, CNFile* pfile,
 	//assert(pimageRead->sPitch > 0);
 	// just return with error instead of asserting
   if ((pimageRead->pData == nullptr) || (pimageRead->lPitch <= 0))
-		return 1;
+    return FAILURE;
 	
 	int16_t lines;
 	int16_t packets;
@@ -1055,7 +1055,7 @@ int16_t CRamFlx::ReadDataSS2(CImage* pimageRead, CNFile* pfile,
 					// if this error condition occurs, let's just break out of everything and return error
 					// this should not cause any problems with the stack since return should clear it
 					if (bLastByte == TRUE)
-						return 1;
+            return FAILURE;
 						
 					byLastByte = (uint8_t)(wVal & (uint16_t)0x00ff);
 					bLastByte = TRUE;
@@ -1314,7 +1314,7 @@ SS2MainLoopDone:
 
 #endif // ndef WIN32
 
-	return 0;
+  return SUCCESS;
 	}
 	
 	
@@ -1419,9 +1419,9 @@ int16_t CRamFlx::ReadHeader(CNFile* pfile)
 		
 	// If good then return success, otherwise return error.
 	if (pfile->Error() == FALSE && sError == 0)
-		return 0;
+    return SUCCESS;
 	else
-		return 1;
+    return FAILURE;
 
 	return sError;
 	}
@@ -1506,12 +1506,12 @@ int16_t CRamFlx::AllocBuf(CImage* pimage, int32_t lWidth, int32_t lHeight, int16
 	
 	// If it worked then return success
 	if (sError == 0)
-		return 0;
+    return SUCCESS;
 	// Else free anything that did get allocated and return failure
 	else
 		{
 		FreeBuf(pimage);
-		return 1;
+    return FAILURE;
 		}
 	}
 	

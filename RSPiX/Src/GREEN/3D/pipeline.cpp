@@ -82,7 +82,7 @@ int16_t RPipeLine::Create(size_t lNum,int16_t sW)
 		}
 
 	//----------
-	if (!lNum) return 0;
+	if (!lNum) return SUCCESS;
 	
 	if ((ms_pPts != nullptr) && (lNum > ms_lNumPts))
 		{
@@ -95,7 +95,7 @@ int16_t RPipeLine::Create(size_t lNum,int16_t sW)
 		ms_pPts = (RP3d*) malloc(sizeof(RP3d) * lNum);
 		}
 
-	return 0;
+	return SUCCESS;
 	}
 
 int16_t RPipeLine::CreateShadow(int16_t sAngleY,
@@ -263,8 +263,9 @@ int16_t RPipeLine::NotCulled(RP3d *p1,RP3d *p2,RP3d *p3)
 	bx = p3->x - p1->x;
 	by = p3->y - p1->y;
 
-	if ( (ax*by - ay*bx) >= 0) return 0;
-	else return 1;
+   if ( (ax*by - ay*bx) >= 0)
+     return FALSE;
+   return TRUE;
 	}
 
 // Currently (sDstX,sDstY) allgns with the upper left half of the z-buffer

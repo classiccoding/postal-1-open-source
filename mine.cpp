@@ -268,7 +268,7 @@ int16_t CMine::Save(										// Returns 0 if successfull, non-zero otherwise
 	// Save object data
 	pFile->Write(&m_lFuseTime);
 
-	return 0;
+   return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -765,7 +765,7 @@ int16_t CMine::FreeResources(void)						// Returns 0 if successfull, non-zero ot
 {
 	rspReleaseResource(&g_resmgrGame, &m_pImage);
 
-	return 0;
+   return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -805,7 +805,7 @@ int16_t CMine::EditModify(void)
 	}
 	delete pGui;
 
-	return 0;
+   return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

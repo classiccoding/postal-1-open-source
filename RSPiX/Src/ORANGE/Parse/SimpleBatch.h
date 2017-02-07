@@ -125,19 +125,19 @@ public:
 			if ((m_fp = fopen(pszFileName,"r")) == nullptr)
 				{
 				TRACE("RBatch: file %s not found.\n",pszFileName);
-				return -1;
+            return FAILURE;
 				}
 
 			strcpy(m_pszFileName,pszFileName);
 			m_lCurrentLine = 0;
 			m_sNumTokens = 0;
 
-			return 0;
+			return SUCCESS;
 			}
 		else 
 			{
 			TRACE("RBatch: file already open!\n");
-			return -1;
+         return FAILURE;
 			}
 		}
 
@@ -147,12 +147,12 @@ public:
 			{
 			fclose(m_fp);
 			m_fp = nullptr;
-			return 0;
+			return SUCCESS;
 			}
 		else
 			{
 			TRACE("RBatch: File already closed.\n");
-			return -1;
+         return FAILURE;
 			}
 		}
 

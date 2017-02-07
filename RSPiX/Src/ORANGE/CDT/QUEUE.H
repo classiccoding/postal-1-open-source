@@ -137,10 +137,10 @@ template <class T, int16_t sSize> class RQueue
 				// done in this order to allow interrupt-driven usage.)
 				m_aptQ[m_sTail] = pT;
 				m_sTail = QNEXT(m_sTail);
-				return 0;	// success!
+            return SUCCESS;	// success!
 				}
 			else
-				return 1;	// failure!
+            return FAILURE;	// failure!
 			}
 
 		

@@ -196,7 +196,7 @@ class CCtrlBuf
 
 
 		////////////////////////////////////////////////////////////////////////////////
-      // Get pointer to specified entry.  If the returned value is 0 (nullptr), then
+      // Get pointer to specified entry.  If the returned value is nullptr, then
 		// that entry was not available.
 		////////////////////////////////////////////////////////////////////////////////
 		int32_t* GetPtrTo(
@@ -208,7 +208,7 @@ class CCtrlBuf
 				if ((lIndex >= 0) && (lIndex < m_lNumCtrls))
 					return &(m_alBuf[lIndex]);
 				}
-			return 0;
+         return nullptr;
 			}
 
 

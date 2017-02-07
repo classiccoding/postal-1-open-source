@@ -247,7 +247,7 @@ int16_t CFirestream::Startup(void)								// Returns 0 if successfull, non-zero 
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CFirestream::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 {
-	return 0;
+	return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -489,7 +489,7 @@ int16_t CFirestream::EditNew(									// Returns 0 if successfull, non-zero othe
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CFirestream::EditModify(void)
 {
-	return 0;
+	return SUCCESS;
 }
 
 
@@ -505,7 +505,7 @@ int16_t CFirestream::EditMove(									// Returns 0 if successfull, non-zero oth
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-	return 0;
+	return SUCCESS;
 }
 
 
@@ -539,7 +539,7 @@ void CFirestream::EditRender(void)
 int16_t CFirestream::Preload(
 	CRealm* /*prealm*/)			// In:  Calling realm.
 {
-return 0;
+return SUCCESS;
 }
 
 
@@ -694,7 +694,7 @@ int16_t CFireball::Startup(void)								// Returns 0 if successfull, non-zero ot
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CFireball::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 {
-	return 0;
+	return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -992,7 +992,7 @@ int16_t CFireball::EditNew(									// Returns 0 if successfull, non-zero otherw
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CFireball::EditModify(void)
 {
-	return 0;
+	return SUCCESS;
 }
 
 
@@ -1008,7 +1008,7 @@ int16_t CFireball::EditMove(									// Returns 0 if successfull, non-zero other
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-	return 0;
+	return SUCCESS;
 }
 
 

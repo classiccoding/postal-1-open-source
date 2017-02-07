@@ -547,7 +547,7 @@ int16_t CGameSettings::LoadGame(
 	{
 	pFile->Read(&m_sDifficulty);
 	pFile->Read(&m_sViolence);
-	return 0;
+	return SUCCESS;
 	}
 
 
@@ -559,7 +559,7 @@ int16_t CGameSettings::SaveGame(
 	{
 	pFile->Write(&m_sDifficulty);
 	pFile->Write(&m_sViolence);
-	return 0;
+	return SUCCESS;
 	}
 
 
@@ -573,7 +573,7 @@ int16_t CGameSettings::PreDemo(
 	pFile->Write(&m_sViolence);
 	m_sDifficulty = 10;
 	m_sViolence = 11;
-	return 0;
+	return SUCCESS;
 	}
 
 
@@ -585,7 +585,7 @@ int16_t CGameSettings::PostDemo(
 	{
 	pFile->Read(&m_sDifficulty);
 	pFile->Read(&m_sViolence);
-	return 0;
+	return SUCCESS;
 	}
 
 

@@ -6554,7 +6554,7 @@ static int16_t CreateTriggerRegions(	// Returns 0 on success.
 		else
 			{
 			TRACE("CreateTriggerRegions(): I really, REALLY tried, but there won't be trigger info\n");
-			return -1;
+         return FAILURE;
 			}
 		
 		}

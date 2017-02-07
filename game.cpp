@@ -2787,14 +2787,14 @@ static int16_t LoadAssets(void)
    if (g_fontBig.Load(FullPath(GAME_PATH_VD, BIG_FONT_FILE)) != SUCCESS)
 		{
 		TRACE("GameLoadAssets(): Error loading font: %s !\n", FullPath(GAME_PATH_VD, BIG_FONT_FILE));
-		return -1;
+      return FAILURE;
 		}
 
 	// Load font, the smaller.
    if (g_fontPostal.Load(FullPath(GAME_PATH_VD, POSTAL_FONT_FILE) ) != SUCCESS)
 		{
 		TRACE("GameLoadAssets(): Error loading font: %s !\n", FullPath(GAME_PATH_VD, POSTAL_FONT_FILE));
-		return -1;
+      return FAILURE;
 		}
 
 	int32_t lTotalTime = 0;
@@ -2818,7 +2818,7 @@ static int16_t LoadAssets(void)
 		} while (lTime < lEndTime && rspGetQuitStatus() == FALSE);
 
 	// If we get this far, return success
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -2829,7 +2829,7 @@ static int16_t LoadAssets(void)
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t UnloadAssets(void)
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -4271,7 +4271,7 @@ extern int rand(void)
 		RSP_MB_ICN_INFO | RSP_MB_BUT_OK,
 		"Postal",
 		"The stdlib version of rand() was called.  It is forbidden within this application.");
-	return 0;
+   return SUCCESS;
 	}
 #endif
 #endif

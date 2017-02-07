@@ -1052,7 +1052,7 @@ int16_t CDoofus::Startup(void)								// Returns 0 if successfull, non-zero othe
 	m_lRunShootInterval = ms_lRunShootInterval;
 	m_lShotReactionTimeout = ms_lShotTimeout;
 
-	return 0;
+   return SUCCESS;
 }
 
 

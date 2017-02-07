@@ -480,7 +480,7 @@ extern int16_t rspGetVideoMode(
     SET(psDeviceHeight, FramebufferWidth);
     SET(psDeviceWidth, FramebufferHeight);
 
-    return 0;
+    return SUCCESS;
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -670,7 +670,7 @@ extern int16_t rspSetVideoMode(	// Returns 0 if successfull, non-zero otherwise
         if (sPixelDoubling)
         {
             fprintf(stderr, "STUBBED: pixel doubling? %s:%d\n", __FILE__, __LINE__);
-            return -1;
+            return FAILURE;
         }
 
         FramebufferWidth = sWidth;
@@ -770,7 +770,7 @@ extern int16_t rspSetVideoMode(	// Returns 0 if successfull, non-zero otherwise
     	SDL_ShowCursor(0);
         //SDL_SetRelativeMouseMode(mouse_grabbed ? SDL_TRUE : SDL_FALSE);
 
-        return 0;
+        return SUCCESS;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -900,7 +900,7 @@ extern int16_t rspLockVideoPage(	// Returns 0 if screen memory could be locked.
 	{
   UNUSED(ppvMemory,plPitch);
 	/* no-op. */
-	return 1;
+   return FAILURE;
 	}
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -927,7 +927,7 @@ extern int16_t rspLockVideoFlipPage(	// Returns 0 if flip screen memory could be
 	int32_t*		plPitch)					// Pitch of flip screen memory returned here.
 	{
   UNUSED(ppvMemory,plPitch);
-	return -1;
+   return FAILURE;
 	}
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -953,7 +953,7 @@ extern int16_t rspLockVideoBuffer(	// Returns 0 if system buffer could be locked
 	int32_t*		plPitch)						// Pitch of system buffer returned here.
 	{
     if (!sdlWindow)
-        return -1;
+        return FAILURE;
 
     *ppvBuffer = PalettedTexturePointer;
     *plPitch = FramebufferWidth;
@@ -979,7 +979,7 @@ extern void rspUnlockVideoBuffer(void)	// Returns nothing.
 ///////////////////////////////////////////////////////////////////////////////
 extern int16_t rspAllowPageFlip(void)	// Returns 0 on success.
 	{
-	return 0;
+	return SUCCESS;
 	}
 
 //////////////////////////////////////////////////////////////////////////////

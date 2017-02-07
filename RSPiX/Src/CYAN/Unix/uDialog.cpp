@@ -125,7 +125,7 @@ extern int16_t rspMsgBox(	// Returns RSP_MB_RET_*.  See switch statement below.
             buttons[1].text = "Cancel";
             break;
 
-        default: ASSERT(false); return -1;
+        default: ASSERT(false); return FAILURE;
     }
 
     data.buttons = buttons;
@@ -145,7 +145,7 @@ extern int16_t rspOpenBox(								// Returns 0 if successfull, non-zero otherwis
 {
   UNUSED(pszBoxTitle, pszDefaultPath, pszSelectedFile, sSelectedFileBufSize, pszFilter);
     fprintf(stderr, "STUBBED: %s:%d\n", __FILE__, __LINE__);
-    return -1;
+    return FAILURE;
 }
 
 
@@ -160,7 +160,7 @@ extern int16_t rspSaveBox(			// Returns 0 on success.
 {
   UNUSED(pszBoxTitle, pszBoxTitle, pszDefFileName, pszChosenFileName, sStrSize, pszFilter);
     fprintf(stderr, "STUBBED: %s:%d\n", __FILE__, __LINE__);
-    return -1;
+    return FAILURE;
 }
 
 

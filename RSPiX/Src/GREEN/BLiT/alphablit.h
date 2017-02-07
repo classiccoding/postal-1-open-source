@@ -285,7 +285,7 @@ inline int16_t rspSimpleClip(int16_t &sSrcX,int16_t &sSrcY,int16_t &sDstX,int16_
 
 	if ( ((sClipL + sClipR) >= sDstW) || ((sClipT + sClipB) >= sDstH) )
 		{
-		return -1; // fully clipped out
+      return FAILURE; // fully clipped out
 		}
 
 	sSrcX += sClipL; sDstX += sClipL;
@@ -293,7 +293,7 @@ inline int16_t rspSimpleClip(int16_t &sSrcX,int16_t &sSrcY,int16_t &sDstX,int16_
 	sDstW -= (sClipL + sClipR);
 	sDstH -= (sClipT + sClipB);
 
-	return 0;
+	return SUCCESS;
 	}
 
 //====================================================================

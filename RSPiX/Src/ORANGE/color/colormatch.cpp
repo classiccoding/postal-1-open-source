@@ -84,7 +84,7 @@ int16_t RAlpha::Load(char* pszFile)
 	if (file.Open(pszFile,"rb",RFile::LittleEndian))
 		{
 		TRACE("RAlpha::Load: Error accessing file %s\n",pszFile);
-		return -1;
+      return FAILURE;
 		}
 	
    int16_t sResult = Load(&file);
@@ -100,7 +100,7 @@ int16_t RAlpha::Save(char* pszFile)
 	if (fp->Open(pszFile,"wb",RFile::LittleEndian))
 		{
 		TRACE("RAlpha::Load: Error accessing file %s\n",pszFile);
-		return -1;
+      return FAILURE;
 		}
 	
    int16_t sResult = Save(fp);
@@ -115,7 +115,7 @@ int16_t RAlpha::Save(RFile* fp)
 	if (!fp)
 		{
 		TRACE("RAlpha::Save: Null RFile!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	fp->Write("RALPHA");
@@ -141,7 +141,7 @@ int16_t RAlpha::Load(RFile* fp)
 	if (!fp)
 		{
 		TRACE("RAlpha::Load: Null RFile!\n");
-		return -1;
+      return FAILURE;
 		}
 
 #endif
@@ -150,14 +150,14 @@ int16_t RAlpha::Load(RFile* fp)
 	if (strcmp(name,"RALPHA"))
 		{
 		TRACE("RAlpha::Load: Not an RAlpha!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	fp->Read(&sVersion);
 	if (sVersion != 1)
 		{
 		TRACE("RAlpha::Load: Not a supported version!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	fp->Read(&m_sAlphaDepth);
@@ -173,7 +173,7 @@ int16_t RAlpha::Load(RFile* fp)
 		if (fp->Read(m_pAlphas[i],m_sAlphaDepth)!=m_sAlphaDepth)
 			{
 			TRACE("RAlpha::Load: read error!\n");
-			return -1;
+         return FAILURE;
 			}
 		}
 
@@ -187,19 +187,19 @@ int16_t RAlpha::ms_SetPalette(RImage* pimImage)
 	if (!pimImage)
 		{
 		TRACE("RAlpha::ms_SetPalette: Null image!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if (!pimImage->m_pPalette)
 		{
 		TRACE("RAlpha::ms_SetPalette: image has no palette!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if (!pimImage->m_pPalette->m_pData)
 		{
 		TRACE("RAlpha::ms_SetPalette: palette has no data!\n");
-		return -1;
+      return FAILURE;
 		}
 
 #endif
@@ -210,7 +210,7 @@ int16_t RAlpha::ms_SetPalette(RImage* pimImage)
 		return 0;
 		}
 
-	return -1;
+   return FAILURE;
 	}
 
  // do alloc first
@@ -228,13 +228,13 @@ int16_t RAlpha::MarkEffect(int16_t sLev,int16_t sChannel,uint8_t ucLev)
 	if (sLev >= m_sAlphaDepth)
 		{
 		TRACE("RAlpha::MarkEffect: Level out of range!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if (sChannel >= csLAST_EFFECT) 
 		{
 		TRACE("RAlpha::MarkEffect: Channel not supported\n");
-		return -1;
+      return FAILURE;
 		}
 
 	ms_f[sLev] |= sChannel;
@@ -255,7 +255,7 @@ int16_t RAlpha::MarkEffect(int16_t sLev,int16_t sChannel,uint8_t ucLev)
 
 		default:
 			TRACE("RAlpha::MarkEffect:: BAD CHANNEL VALUE!\n");
-			return -1;
+         return FAILURE;
 		}
 
 	return 0;
@@ -428,7 +428,7 @@ int16_t RAlpha::CreateAlphaRGB(double dOpacity,int16_t sPalStart, int16_t sPalLe
 	if (!ms_IsPaletteSet)
 		{
 		TRACE("RAlpha::CreateAlphaRGB: First set your palette with ms_SetPalette\n");
-		return -1;
+      return FAILURE;
 		}
 #endif
 
@@ -471,7 +471,7 @@ int16_t RAlpha::CreateLightEffectRGB(uint8_t* pa,uint8_t* pr,uint8_t* pg,uint8_t
 	if (!ms_IsPaletteSet)
 		{
 		TRACE("RAlpha::CreateLightEffectRGB: First set your palette with ms_SetPalette\n");
-		return -1;
+      return FAILURE;
 		}
 #endif
 
@@ -508,7 +508,7 @@ int16_t RAlpha::CreateLightEffectRGB(int16_t sPalStart, int16_t sPalLen)
 	if (!ms_IsPaletteSet)
 		{
 		TRACE("RAlpha::CreateLightEffectRGB: First set your palette with ms_SetPalette\n");
-		return -1;
+      return FAILURE;
 		}
 #endif
 
@@ -597,7 +597,7 @@ int16_t RMultiAlpha::Alloc(int16_t sDepth)
 	if (m_pAlphaList)
 		{
 		TRACE("RMultiAlpha::alloc: error, already created!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	m_sNumLevels = sDepth;
@@ -630,7 +630,7 @@ int16_t RMultiAlpha::AddAlpha(RAlpha* pAlpha,int16_t sLev)
 	if (sLev > m_sNumLevels)
 		{
 		TRACE("RMultiAlpha::AddAlpha: level out of range!\n");
-		return -1;
+      return FAILURE;
 		}
 	m_pAlphaList[sLev] = pAlpha;
 	return 0;
@@ -645,7 +645,7 @@ int16_t RMultiAlpha::Load(RFile* pFile)
 	if (strcmp(type,"MALPHA"))
 		{
 		TRACE("RMultiAlpha::Load: Bad File Type\n");
-		return -1;
+      return FAILURE;
 		}
 
 	pFile->Read(&sVer);
@@ -653,7 +653,7 @@ int16_t RMultiAlpha::Load(RFile* pFile)
 	if (sVer != 2)
 		{
 		TRACE("RMultiAlpha::Load: Bad Version Number\n");
-		return -1;
+      return FAILURE;
 		}
 
 	pFile->Read(&m_sNumLevels);
@@ -719,13 +719,13 @@ int16_t RMultiAlpha::Load(char* pszFile)
 	if (m_pAlphaList != nullptr)
 		{
 		TRACE("RMultiAlpha::Load: MultAlpha NOT EMPTY!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if (fp->Open(pszFile,"rb",RFile::LittleEndian))
 		{
 		TRACE("RMultiAlpha::Load: Error accessing file %s\n",pszFile);
-		return -1;
+      return FAILURE;
 		}
 	
    int16_t sResult = Load(fp);
@@ -740,7 +740,7 @@ int16_t RMultiAlpha::Save(char* pszFile)
 	if (fp->Open(pszFile,"wb",RFile::LittleEndian))
 		{
 		TRACE("RMultiAlpha::Load: Error accessing file %s\n",pszFile);
-		return -1;
+      return FAILURE;
 		}
 	
    int16_t sResult = Save(fp);
@@ -761,13 +761,13 @@ int16_t RMultiAlpha::CreateLayer(int16_t sLayerNumber,
 	if (sLayerNumber >= m_sNumLevels)
 		{
 		TRACE("RMultiAlpha::CreateAlphaLayer: Layer out of range.\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if (m_pAlphaList[sLayerNumber] != nullptr)
 		{
 		TRACE("RMultiAlpha::CreateAlphaLayer: Error: Layer exists.\n");
-		return -1;
+      return FAILURE;
 		}
 	// remember how this level was created.
 	m_pLevelOpacity[sLayerNumber] = uint8_t(255 * dOpacity);

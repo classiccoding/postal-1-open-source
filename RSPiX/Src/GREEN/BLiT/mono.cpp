@@ -49,19 +49,19 @@ int16_t rspBlitToMono(
    if ((pimSrc == nullptr) || (pimDst == nullptr))
 		{
 		TRACE("BLiT: null CImage* passed\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if (pimSrc->m_type != RImage::FSPR1)
 		{
 		TRACE("BLiT: This form of BLiT is designed for FSPR1 type images!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if (pimDst->m_type != RImage::BMP1)
 		{
 		TRACE("BLiT: This functions only BLiTs to BMP1 images.\n");
-		return -1;
+      return FAILURE;
 		}
 
 #endif
@@ -69,7 +69,7 @@ int16_t rspBlitToMono(
 	if ( (sDstW < 1) || (sDstH < 1))
 		{
 		TRACE("BLiT: Zero or negative area passed.\n");
-		return -1;
+      return FAILURE;
 		}
 
 	int32_t	lDstP = pimDst->m_lPitch;
@@ -79,7 +79,7 @@ int16_t rspBlitToMono(
 		( (sDstY + sDstH) > pimDst->m_sHeight) )
 		{
 		TRACE("BLiT: This BLiT does not yet clip!\n");
-		return -1;
+      return FAILURE;
 		}
 
 
@@ -180,7 +180,7 @@ int16_t rspBlitToMono(
 	rspWaitForClick();
 	*/
 
-	return 0;
+	return SUCCESS;
 	}
 
 // mono rect ....
@@ -193,13 +193,13 @@ int16_t rspRectToMono(uint32_t ulColor,RImage* pimDst,int16_t sX,int16_t sY,
 	if (pimDst->m_type != RImage::BMP1)
 		{
 		TRACE("rspRectMono: Only BMP1 images supported.\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if ( (sW < 1) || (sH < 1) )
 		{
 		TRACE("rspRectMono: Zero or negative area passed.\n");
-		return -1;
+      return FAILURE;
 		}
 #endif
 
@@ -207,7 +207,7 @@ int16_t rspRectToMono(uint32_t ulColor,RImage* pimDst,int16_t sX,int16_t sY,
 		( (sY + sH) > pimDst->m_sHeight) )
 		{
 		TRACE("rspRectMono:Clipping not yet supported.\n");
-		return -1;
+      return FAILURE;
 		}
 
 	int32_t lP = pimDst->m_lPitch;
@@ -260,5 +260,5 @@ int16_t rspRectToMono(uint32_t ulColor,RImage* pimDst,int16_t sX,int16_t sY,
 			pDstLine += lP;
 			}
 		}
-	return 0;
+	return SUCCESS;
 	}

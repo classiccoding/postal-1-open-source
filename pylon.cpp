@@ -249,7 +249,7 @@ int16_t CPylon::Startup(void)								// Returns 0 if successfull, non-zero other
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPylon::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 {
-	return 0;
+   return SUCCESS;
 }
 
 
@@ -475,7 +475,7 @@ int16_t CPylon::EditModify(void)
 	delete pGui;
 	delete pSecondaryGui;
 
-	return 0;
+   return SUCCESS;
 }
 
 
@@ -502,7 +502,7 @@ int16_t CPylon::EditMove(									// Returns 0 if successfull, non-zero otherwis
 	// Update the smash.
 	m_pRealm->m_smashatorium.Update(&m_smash);
 
-	return 0;
+   return SUCCESS;
 }
 
 
@@ -679,7 +679,7 @@ int16_t CPylon::FreeResources(void)						// Returns 0 if successfull, non-zero o
 		m_pImage	= nullptr;
 		}
 
-	return 0;
+   return SUCCESS;
 }
 
 
@@ -705,7 +705,7 @@ uint8_t CPylon::GetFreePylonID(void)
 	uint8_t id = m_pRealm->m_ucNextPylonID;
 
 	if (m_pRealm->m_sNumPylons >= PYLON_MAX_PYLONS)
-		return 0;
+      return SUCCESS;
 
 	CListNode<CThing>* pNext = nullptr; 
 	bool bIdInUse = false;

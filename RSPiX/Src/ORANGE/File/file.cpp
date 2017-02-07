@@ -294,7 +294,7 @@ static int locateOneElement(char *buf)
 	struct dirent *dent = nullptr;
 
 	if (access(buf, F_OK) == 0)
-		return 1;  /* quick rejection: exists in current case. */
+      return FAILURE;  /* quick rejection: exists in current case. */
 
 	ptr = strrchr(buf, '/');  /* find entry at end of path. */
 	if (ptr == nullptr)
@@ -316,13 +316,13 @@ static int locateOneElement(char *buf)
 		{
 			strcpy(ptr, dent->d_name); /* found a match. Overwrite with this case. */
 			closedir(dirp);
-			return 1;
+         return FAILURE;
 		}
 	}
 
 	/* no match at all... */
 	closedir(dirp);
-	return 0;
+   return SUCCESS;
 }
 #endif
 

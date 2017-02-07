@@ -539,7 +539,7 @@ int16_t CThing3d::Startup(void)						// Returns 0 if successfull, non-zero other
 	// No special flags
 	m_sprite.m_sInFlags = 0;
 
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -548,7 +548,7 @@ int16_t CThing3d::Startup(void)						// Returns 0 if successfull, non-zero other
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CThing3d::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -715,7 +715,7 @@ int16_t CThing3d::EditNew(								// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CThing3d::EditModify(void)
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -731,7 +731,7 @@ int16_t CThing3d::EditMove(							// Returns 0 if successfull, non-zero otherwis
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-	return 0;
+   return SUCCESS;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////

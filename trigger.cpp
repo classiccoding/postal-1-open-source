@@ -220,7 +220,7 @@ int16_t CTrigger::Save(								// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CTrigger::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -229,7 +229,7 @@ int16_t CTrigger::Startup(void)								// Returns 0 if successfull, non-zero oth
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CTrigger::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -274,7 +274,7 @@ int16_t CTrigger::EditNew(									// Returns 0 if successfull, non-zero otherwi
 	int16_t sZ)												// In:  New z coord
 	{
   UNUSED(sX, sY, sZ);
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -283,7 +283,7 @@ int16_t CTrigger::EditNew(									// Returns 0 if successfull, non-zero otherwi
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CTrigger::EditModify(void)
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -295,7 +295,7 @@ int16_t CTrigger::EditMove(									// Returns 0 if successfull, non-zero otherw
 	int16_t /*sY*/,											// In:  New y coord
 	int16_t /*sZ*/)											// In:  New z coord
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 

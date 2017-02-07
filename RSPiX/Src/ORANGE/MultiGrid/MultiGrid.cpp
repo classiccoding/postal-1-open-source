@@ -349,13 +349,13 @@ int16_t RMultiGrid::Compress(
 	if (!m_psGrid)
 		{
 		TRACE("RMultiGrid::Compress: Gechyerself a map first, you unbelievably flaming bastard!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if (m_ppsTileList || m_sIsCompressed)
 		{
 		TRACE("RMultiGrid::Compress: Uncompress it first, you unbelievably flaming bastard!\n");
-		return -1;
+      return FAILURE;
 		}
 
 #endif
@@ -534,13 +534,13 @@ int16_t RMultiGrid::Decompress()
 	if (!m_sIsCompressed)
 		{
 		TRACE("RMultiGrid::Decompress:  Compress it first, you silly silly man!\n");
-		return -1;
+      return FAILURE;
 		}
 #endif
 
 	int16_t *psNewGrid = (int16_t*) calloc(sizeof(int16_t),int32_t(m_sWidth)*m_sHeight);
 
-	if (!psNewGrid) return -1; // allocation error
+   if (!psNewGrid) return FAILURE; // allocation error
 
 	// Draw into the new grid:
 	int16_t i,j;

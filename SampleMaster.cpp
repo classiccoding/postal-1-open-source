@@ -454,7 +454,7 @@ int16_t	GetCategoryVolume(
 	{
 	if ((eType < SampleMaster::Unspecified) || (eType >= SampleMaster::MAX_NUM_SOUND_CATEGORIES))
 		{
-		return -1;
+      return FAILURE;
 		}
 
 	// Get the new volume for that sound type dejusted through

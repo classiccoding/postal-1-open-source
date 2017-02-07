@@ -306,7 +306,7 @@ int16_t CGrenade::Save(										// Returns 0 if successfull, non-zero otherwise
 
 	// Save object data
 
-	return 0;
+   return SUCCESS;
 	}
 
 

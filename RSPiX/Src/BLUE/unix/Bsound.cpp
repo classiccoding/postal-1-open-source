@@ -71,7 +71,7 @@ extern int16_t rspSetSoundOutMode(				// Returns 0 if successfull, non-zero othe
     if ((lChannels < 1) || (lChannels > 2))
     {
 		TRACE("rspSetSoundOutMode(): Must be 1 or 2 channels.\n");
-        return -1;
+        return FAILURE;
     }
 
     if (lBitsPerSample == 8)
@@ -81,7 +81,7 @@ extern int16_t rspSetSoundOutMode(				// Returns 0 if successfull, non-zero othe
     else
     {
 		TRACE("rspSetSoundOutMode(): Format must be 8 or 16 bit.\n");
-        return -1;
+        return FAILURE;
     }
 
     // Fragment sizes I used for Serious Sam...seem to work well...
@@ -127,7 +127,7 @@ extern int16_t rspSetSoundOutMode(				// Returns 0 if successfull, non-zero othe
     SDL_PauseAudio(0);
 
     audio_opened = true;
-    return 0;
+    return SUCCESS;
 }
 
 extern int16_t rspGetSoundOutMode(				// Returns 0 if successfull, non-zero otherwise
@@ -143,7 +143,7 @@ extern int16_t rspGetSoundOutMode(				// Returns 0 if successfull, non-zero othe
     SET(plBitsPerSample, desired.channels);
     SET(plCurBufferTime, cur_buf_time);
     SET(plMaxBufferTime, max_buf_time);
-    return 0;
+    return SUCCESS;
 }
 
 extern void rspSetSoundOutBufferTime(
@@ -165,25 +165,25 @@ extern void rspKillSoundOutMode(void)		// Returns 0 if successfull, non-zero oth
 extern int16_t rspClearSoundOut(void)		// Returns 0 on success, non-zero otherwise
 {
     // no-op?
-    return 0;
+    return SUCCESS;
 }
 
 extern int16_t rspPauseSoundOut(void)		// Returns 0 on success, non-zero otherwise
 {
     if (!audio_opened)
-        return 0;
+        return SUCCESS;
 
     SDL_PauseAudio(1);
-    return 0;
+    return SUCCESS;
 }
 
 extern int16_t rspResumeSoundOut(void)		// Returns 0 on success, non-zero otherwise
 {
     if (!audio_opened)
-        return 0;
+        return SUCCESS;
 
     SDL_PauseAudio(0);
-    return 0;
+    return SUCCESS;
 }
 
 extern int16_t rspIsSoundOutPaused(void)	// Returns TRUE if paused, FALSE otherwise
@@ -196,19 +196,19 @@ extern int16_t rspIsSoundOutPaused(void)	// Returns TRUE if paused, FALSE otherw
 
 extern int32_t rspGetSoundOutPos(void)		// Returns sound output position in bytes
 {
-    return 0;
+    return SUCCESS;
 }
 
 extern int32_t rspGetSoundOutTime(void)		// Returns sound output position in time
 {
-    return 0;
+    return SUCCESS;
 }
 
 extern int32_t rspDoSound(void)
 {
     // no-op; in Soviet Russia, audio callback pumps YOU.
     //  seriously, the SDL audio callback runs in a seperate thread.
-    return 0;
+    return SUCCESS;
 }
 
 extern void rspLockSound(void)

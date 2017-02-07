@@ -497,7 +497,7 @@ int16_t CDispenser::Startup(void)						// Returns 0 if successfull, non-zero oth
 			break;
 		}
 
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -506,7 +506,7 @@ int16_t CDispenser::Startup(void)						// Returns 0 if successfull, non-zero oth
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDispenser::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 

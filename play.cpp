@@ -894,7 +894,7 @@ class CPlay
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
         UNUSED(pinfo);
-         return 0;
+         return SUCCESS;
 			}
 
 
@@ -908,7 +908,7 @@ class CPlay
 			{
         UNUSED(pinfo);
          *pbGameReady = true;
-			return 0;
+         return SUCCESS;
 			}
 
 
@@ -920,7 +920,7 @@ class CPlay
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
         UNUSED(pinfo);
-         return 0;
+         return SUCCESS;
 			}
 
 
@@ -943,7 +943,7 @@ class CPlay
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
         UNUSED(pinfo);
-         return 0;
+         return SUCCESS;
 			}
 
 
@@ -957,7 +957,7 @@ class CPlay
 			{
         UNUSED(pinfo);
          *pbRealmReady = true;
-			return 0;
+         return SUCCESS;
 			}
 
 
@@ -991,7 +991,7 @@ class CPlay
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
         UNUSED(pinfo);
-         return 0;
+         return SUCCESS;
 			}
 
 
@@ -1775,7 +1775,7 @@ class CPlayNet : public CPlay
 				// Tell the server we've got the realm ready to go
 				pclient->SendRealmStatus(true);
 				}
-			return 0;
+         return SUCCESS;
 			}
 
 
@@ -1807,7 +1807,7 @@ class CPlayNet : public CPlay
 					m_bShowNetFeedback = true;
 					}
 				}
-			return 0;
+         return SUCCESS;
 			}
 
 
@@ -2460,7 +2460,7 @@ class CPlayStatus : public CPlay
 					pinfo->Realm()->m_phood->m_pimTopBar->m_sWidth,
 					pinfo->Realm()->m_phood->m_pimTopBar->m_sHeight);
 				}
-			return 0;
+         return SUCCESS;
 			}
 
 
@@ -2749,7 +2749,7 @@ class CPlayInput : public CPlay
 			// Get the key status array
 			m_pau8KeyStatus		= rspGetKeyStatusArray();
 
-			return 0;
+         return SUCCESS;
 			}
 
 
@@ -3737,7 +3737,7 @@ class CPlayRealm : public CPlay
 			// Debug demo mode stuff (always active -- takes essentially no time unless enabled from game.cpp)
 			m_bMakeDemoMovie_WaitForClick = true;
 			
-			return 0;
+         return SUCCESS;
 			}
 
 
@@ -3883,7 +3883,7 @@ class CPlayRealm : public CPlay
 				m_lNumSeqSkippedFrames = 0;
 				}
 
-			return 0;
+         return SUCCESS;
 			}
 
 
@@ -4624,7 +4624,7 @@ class CPlayScore : public CPlay
 			// Init and reset score module
 			ScoreInit();
 			ScoreReset();
-			return 0;
+         return SUCCESS;
 			}
 
 
@@ -4653,7 +4653,7 @@ class CPlayScore : public CPlay
 					}
 				}
 
-			return 0;
+         return SUCCESS;
 			}
 
 

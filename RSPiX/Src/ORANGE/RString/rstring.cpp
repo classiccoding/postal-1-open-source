@@ -611,10 +611,10 @@ int16_t RString::Save(RFile* pFile) const
 	if (pFile->Error())
 		{
 		TRACE("RString::Save(): Error writing string!\n");
-		return -1; // error
+      return FAILURE; // error
 		}
 
-	return 0; // success
+	return SUCCESS; // success
 	}
 
 
