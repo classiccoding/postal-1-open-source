@@ -479,7 +479,7 @@ int16_t		LoadFSPR1(RImage* pImage, RFile* pcf)
 	if (strcmp(szTemp,"__FSPR1__")) // not equal
 		{
 		TRACE("Load FSPR1: Not correct file type!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	// Check Version:
@@ -489,7 +489,7 @@ int16_t		LoadFSPR1(RImage* pImage, RFile* pcf)
 	if (u16Temp != ((3<<8) + 5) )
 		{
 		TRACE("Load FSPR1: This is an older FSPR1 format!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	//------------------
@@ -536,7 +536,7 @@ int16_t		SaveFSPR1(RImage* pImage, RFile* pcf)
 	if (!pSpec)
 		{
 		TRACE("Save FSPR1: Bad FSPR1!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	//------------------
@@ -607,19 +607,19 @@ int16_t rspBlit(
    if ((pimSrc == nullptr) || (pimDst == nullptr))
 		{
 		TRACE("BLiT: null CImage* passed\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if (pimSrc->m_type != RImage::FSPR1)
 		{
 		TRACE("BLiT: This form of BLiT is designed for FSPR1 type images!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if (pimDst->m_sDepth > 8)
 		{
 		TRACE("BLiT: TC sprites are not YET implemented for FSPR1.\n");
-		return -1;
+      return FAILURE;
 		}
 
 #endif
@@ -649,7 +649,7 @@ int16_t rspBlit(
 		sClipB = sDstY + sH - prDst->sY - prDst->sH; // positive = clipped
 		if (sClipB > 0) { sH -= sClipB; }
 
-		if ( (sW <= 0) || (sH <= 0) ) return -1; // clipped out!
+      if ( (sW <= 0) || (sH <= 0) ) return FAILURE; // clipped out!
 		}
 	else	
 		{
@@ -664,7 +664,7 @@ int16_t rspBlit(
 		sClipB = sDstY + sH - pimDst->m_sHeight; // positive = clipped
 		if (sClipB > 0) sH -= sClipB; // positive = clipped
 
-		if ((sW <= 0) || (sH <= 0)) return -1; // fully clipped
+      if ((sW <= 0) || (sH <= 0)) return FAILURE; // fully clipped
 		}
 		
 	// Make positive:
@@ -700,7 +700,7 @@ int16_t rspBlit(
 				!=0)
 				{
 				TRACE("BLiT: Unable to lock the system buffer, failed!\n");
-				return -1;
+            return FAILURE;
 				}
 			// Locked the system buffer, remember to unlock it:
 			sNeedToUnlock = BUF_MEMORY;			
@@ -714,7 +714,7 @@ int16_t rspBlit(
 				!=0)
 				{
 				TRACE("BLiT: Unable to lock the OnScreen system buffer, failed!\n");
-				return -1;
+            return FAILURE;
 				}
 			// Locked the front VRAM, remember to unlock it:
 			sNeedToUnlock = BUF_VRAM;	
@@ -727,7 +727,7 @@ int16_t rspBlit(
 				!=0)
 				{
 				TRACE("BLiT: Unable to lock the OffScreen system buffer, failed!\n");
-				return -1;
+            return FAILURE;
 				}
 			// Locked the front VRAM, remember to unlock it:
 			sNeedToUnlock = BUF_VRAM;			
@@ -739,7 +739,7 @@ int16_t rspBlit(
 
 		default:
 			TRACE("BLiT: This type of copy is not yet supported.\n");
-			return -1;
+         return FAILURE;
 		}
 //BLIT_PRELOCKED:
 
@@ -850,7 +850,7 @@ int16_t rspBlit(
 		}
 
 //BLIT_DONTUNLOCK:	
-	return 0;
+	return SUCCESS;
 	}
 
 // ************************************************************
@@ -886,32 +886,32 @@ int16_t rspBlit(
    if ((pimSrc == nullptr) || (pimDst == nullptr))
 		{
 		TRACE("BLiT: null CImage* passed\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if (pimSrc->m_type != RImage::FSPR1)
 		{
 		TRACE("BLiT: This form of BLiT is designed for FSPR1 type images!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if (pimDst->m_sDepth > 8)
 		{
 		TRACE("BLiT: TC sprites are not YET implemented for FSPR1.\n");
-		return -1;
+      return FAILURE;
 		}
 
 	/*
 	if ( (sDstH > pimSrc->lHeight) || (sDstW > pimSrc->lWidth))
 		{
 		//TRACE("BLiT: Magnifying an FSPR1 NYI.\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if ( (sDstW < 1) || (sDstH < 1) )
 		{
 		//TRACE("BLiT: Zero or negative area passed.\n");
-		return -1;
+      return FAILURE;
 		}
 	*/
 
@@ -947,7 +947,7 @@ int16_t rspBlit(
 		sClipB = sDstY + sH - prDst->sY - prDst->sH; // positive = clipped
 		if (sClipB > 0) { sH -= sClipB; }
 
-		if ( (sW <= 0) || (sH <= 0) ) return -1; // clipped out!
+      if ( (sW <= 0) || (sH <= 0) ) return FAILURE; // clipped out!
 		}
 	else	
 		{
@@ -962,7 +962,7 @@ int16_t rspBlit(
 		sClipB = sDstY + sH - pimDst->m_sHeight; // positive = clipped
 		if (sClipB > 0) sH -= sClipB; // positive = clipped
 
-		if ((sW <= 0) || (sH <= 0)) return -1; // fully clipped
+      if ((sW <= 0) || (sH <= 0)) return FAILURE; // fully clipped
 		}
 		
 	// Make positive:
@@ -998,7 +998,7 @@ int16_t rspBlit(
 				!=0)
 				{
 				TRACE("BLiT: Unable to lock the system buffer, failed!\n");
-				return -1;
+            return FAILURE;
 				}
 			// Locked the system buffer, remember to unlock it:
 			sNeedToUnlock = BUF_MEMORY;			
@@ -1012,7 +1012,7 @@ int16_t rspBlit(
 				!=0)
 				{
 				TRACE("BLiT: Unable to lock the OnScreen system buffer, failed!\n");
-				return -1;
+            return FAILURE;
 				}
 			// Locked the front VRAM, remember to unlock it:
 			sNeedToUnlock = BUF_VRAM;			
@@ -1025,7 +1025,7 @@ int16_t rspBlit(
 				!=0)
 				{
 				TRACE("BLiT: Unable to lock the OffScreen system buffer, failed!\n");
-				return -1;
+            return FAILURE;
 				}
 			// Locked the front VRAM, remember to unlock it:
 			sNeedToUnlock = BUF_VRAM;			
@@ -1037,7 +1037,7 @@ int16_t rspBlit(
 
 		default:
 			TRACE("BLiT: This type of copy is not yet supported.\n");
-			return -1;
+         return FAILURE;
 		}
 //BLIT_PRELOCKED:
 
@@ -1168,7 +1168,7 @@ int16_t rspBlit(
 		}
 
 //BLIT_DONTUNLOCK:	
-	return 0;
+	return SUCCESS;
 	}
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -1202,19 +1202,19 @@ int16_t rspBlit(
    if ((pimSrc == nullptr) || (pimDst == nullptr))
 		{
 		TRACE("BLiT: null CImage* passed\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if (pimSrc->m_type != RImage::FSPR1)
 		{
 		TRACE("BLiT: This form of BLiT is designed for FSPR1 type images!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if (pimDst->m_sDepth > 8)
 		{
 		TRACE("BLiT: TC sprites are not YET implemented for FSPR1.\n");
-		return -1;
+      return FAILURE;
 		}
 
 #endif
@@ -1250,7 +1250,7 @@ int16_t rspBlit(
 				!=0)
 				{
 				TRACE("BLiT: Unable to lock the system buffer, failed!\n");
-				return -1;
+            return FAILURE;
 				}
 			// Locked the system buffer, remember to unlock it:
 			sNeedToUnlock = BUF_MEMORY;		
@@ -1264,7 +1264,7 @@ int16_t rspBlit(
 				!=0)
 				{
 				TRACE("BLiT: Unable to lock the OnScreen system buffer, failed!\n");
-				return -1;
+            return FAILURE;
 				}
 			// Locked the front VRAM, remember to unlock it:
 			sNeedToUnlock = BUF_VRAM;			
@@ -1277,7 +1277,7 @@ int16_t rspBlit(
 				!=0)
 				{
 				TRACE("BLiT: Unable to lock the OffScreen system buffer, failed!\n");
-				return -1;
+            return FAILURE;
 				}
 			// Locked the front VRAM, remember to unlock it:
 			sNeedToUnlock = BUF_VRAM;			
@@ -1289,7 +1289,7 @@ int16_t rspBlit(
 
 		default:
 			TRACE("BLiT: This type of copy is not yet supported.\n");
-			return -1;
+         return FAILURE;
 		}
 //BLIT_PRELOCKED:
 
@@ -1377,7 +1377,7 @@ int16_t rspBlit(
 		}
 
 //BLIT_DONTUNLOCK:	
-	return 0;
+	return SUCCESS;
 	}
 
 // ************************************************************
@@ -1413,19 +1413,19 @@ int16_t rspBlit(
    if ((pimSrc == nullptr) || (pimDst == nullptr))
 		{
 		TRACE("BLiT: null CImage* passed\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if (pimSrc->m_type != RImage::FSPR1)
 		{
 		TRACE("BLiT: This form of BLiT is designed for FSPR1 type images!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if (pimDst->m_sDepth > 8)
 		{
 		TRACE("BLiT: TC sprites are not YET implemented for FSPR1.\n");
-		return -1;
+      return FAILURE;
 		}
 
 #endif
@@ -1433,7 +1433,7 @@ int16_t rspBlit(
 	if ( (sDstW < 1) || (sDstH < 1) )
 		{
 		//TRACE("BLiT: Zero or negative area passed.\n");
-		return -1;
+      return FAILURE;
 		}
 
 	// transfer colors:
@@ -1470,7 +1470,7 @@ int16_t rspBlit(
 				!=0)
 				{
 				TRACE("BLiT: Unable to lock the system buffer, failed!\n");
-				return -1;
+            return FAILURE;
 				}
 			// Locked the system buffer, remember to unlock it:
 			sNeedToUnlock = BUF_MEMORY;	
@@ -1484,7 +1484,7 @@ int16_t rspBlit(
 				!=0)
 				{
 				TRACE("BLiT: Unable to lock the OnScreen system buffer, failed!\n");
-				return -1;
+            return FAILURE;
 				}
 			// Locked the front VRAM, remember to unlock it:
 			sNeedToUnlock = BUF_VRAM;	
@@ -1497,7 +1497,7 @@ int16_t rspBlit(
 				!=0)
 				{
 				TRACE("BLiT: Unable to lock the OffScreen system buffer, failed!\n");
-				return -1;
+            return FAILURE;
 				}
 			// Locked the front VRAM, remember to unlock it:
 			sNeedToUnlock = BUF_VRAM;			
@@ -1509,7 +1509,7 @@ int16_t rspBlit(
 
 		default:
 			TRACE("BLiT: This type of copy is not yet supported.\n");
-			return -1;
+         return FAILURE;
 		}
 //BLIT_PRELOCKED:
 
@@ -1638,5 +1638,5 @@ int16_t rspBlit(
 		}
 
 //BLIT_DONTUNLOCK:	
-	return 0;
+	return SUCCESS;
 	}

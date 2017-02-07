@@ -433,7 +433,7 @@ class CDoofus : public CCharacter
 			CThing** ppNew)										// Out: Pointer to new object
 			{
         UNUSED(pRealm, ppNew);
-			return 0;
+         return SUCCESS;
 			}
 
 	//---------------------------------------------------------------------------
@@ -611,28 +611,22 @@ class CDoofus : public CCharacter
 			}
 
 		// Function to choose and play the Shot sound effect
-		virtual SampleMaster::SoundInstance PlaySoundShot(void)
-			{return 0;};
+      virtual SampleMaster::SoundInstance PlaySoundShot(void) { return 0; }
 
 		// Function to choose and play the Blown up sound effect
-		virtual SampleMaster::SoundInstance PlaySoundBlownup(void)
-			{return 0;};
+      virtual SampleMaster::SoundInstance PlaySoundBlownup(void) { return 0; }
 
 		// Funciton to choose and play the Burning sound effect
-		virtual SampleMaster::SoundInstance PlaySoundBurning(void)
-			{return 0;};
+      virtual SampleMaster::SoundInstance PlaySoundBurning(void) { return 0; }
 
 		// Function to choose and play the shooting comment
-		virtual SampleMaster::SoundInstance PlaySoundShooting(void)
-			{return 0;};
+      virtual SampleMaster::SoundInstance PlaySoundShooting(void) { return 0; }
 
 		// Function to choose and play the dying sound.
-		virtual SampleMaster::SoundInstance PlaySoundDying(void)
-			{return 0;};
+      virtual SampleMaster::SoundInstance PlaySoundDying(void) { return 0; }
 
 		// Function to choose and play the Random comments
-		virtual SampleMaster::SoundInstance PlaySoundRandom(void)
-			{return 0;};
+      virtual SampleMaster::SoundInstance PlaySoundRandom(void) { return 0; }
 
 		// Prepare current weapon (ammo).
 		// This should be done when the character starts its shoot animation.

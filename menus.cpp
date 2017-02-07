@@ -3386,7 +3386,7 @@ static int16_t StartSingleInit(	// Returns 0 on success, non-zero to cancel menu
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
   UNUSED(pmenuCurrent, sInit);
-	return 0;
+   return SUCCESS;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -5246,7 +5246,7 @@ int16_t PickFile(const char *title, void (*enumer)(Menu *), char *buf, size_t bu
     if (sResult != SUCCESS)
     {
         TRACE("StartMenu failed! Can't pick file!\n");
-        return -1;
+        return FAILURE;
     }
 
     while (!g_PickFileMenuDone)

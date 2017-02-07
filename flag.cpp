@@ -685,7 +685,7 @@ int16_t CFlag::EditModify(void)
 		GetResources();
 	}
 
-	return 0;
+   return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -726,7 +726,7 @@ int16_t CFlag::FreeResources(void)						// Returns 0 if successfull, non-zero ot
 {
 	m_animFlagWave.Release();
 
-	return 0;
+   return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

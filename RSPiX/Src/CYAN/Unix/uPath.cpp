@@ -158,7 +158,7 @@ extern int16_t rspGetTempPath(			// Returns 0 on success, non-zero otherwise
 
     strncpy(pszPath, "/tmp", sMaxPathLen);
     pszPath[sMaxPathLen-1] = 0;
-	return 0;
+	return SUCCESS;
 	}
 
 

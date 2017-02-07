@@ -624,7 +624,7 @@ class RChanCoreNothing : public RChanCore<datat>
 		// when the channel is first being created.  Looping flags have no affect on
 		// this function -- the specified item number is ASSUMED TO BE VALID!
 		//
-		// Some types of channels do not store discrete data items and will return 0
+      // Some types of channels do not store discrete data items and will return nullptr
 		// to indicate that the item could not be accessed.
 		//
 		////////////////////////////////////////////////////////////////////////////////
@@ -632,7 +632,7 @@ class RChanCoreNothing : public RChanCore<datat>
 			int32_t lNum)												// In:  Item number
 			{
         UNUSED(lNum);
-			return 0;
+         return nullptr;
 			}
 
 
@@ -675,7 +675,7 @@ class RChanCoreNothing : public RChanCore<datat>
 			int32_t lTime)												// In:  Channel time
 			{
         UNUSED(lTime);
-			return 0;
+         return nullptr;
 			}
 
 
@@ -962,7 +962,7 @@ class RChanCoreArray : public RChanCore<datat>
 		// when the channel is first being created.  Looping flags have no affect on
 		// this function -- the specified item number is ASSUMED TO BE VALID!
 		//
-		// Some types of channels do not store discrete data items and will return 0
+      // Some types of channels do not store discrete data items and will return nullptr
 		// to indicate that the item could not be accessed.
 		//
 		////////////////////////////////////////////////////////////////////////////////
@@ -1511,7 +1511,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 		// when the channel is first being created.  Looping flags have no affect on
 		// this function -- the specified item number is ASSUMED TO BE VALID!
 		//
-		// Some types of channels do not store discrete data items and will return 0
+      // Some types of channels do not store discrete data items and will return nullptr
 		// to indicate that the item could not be accessed.
 		//
 		////////////////////////////////////////////////////////////////////////////////
@@ -2062,7 +2062,7 @@ class RChannel
 		// when the channel is first being created.  Looping flags have no affect on
 		// this function -- the specified item number is ASSUMED TO BE VALID!
 		//
-		// Some types of channels do not store discrete data items and will return 0
+      // Some types of channels do not store discrete data items and will return nullptr
 		// to indicate that the item could not be accessed.
 		//
 		////////////////////////////////////////////////////////////////////////////////

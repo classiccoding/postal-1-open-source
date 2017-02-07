@@ -117,7 +117,7 @@ public:
 	int16_t IsClipped(int16_t sX,int16_t sY,int16_t sW,int16_t sH);
    char*	GetNextLine(); // characters from inputted text to be line formatted, nullptr = done.
 	int16_t IsWhiteSpace(int16_t sChar)
-		{ if ((sChar == ' ')||(sChar == '\t')) return 1; return 0;}
+      { if ((sChar == ' ')||(sChar == '\t')) return TRUE; return FALSE;}
 	int16_t SetCellW();
 
 	//-------------------------- Construction

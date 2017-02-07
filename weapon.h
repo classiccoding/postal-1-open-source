@@ -182,7 +182,7 @@ class CWeapon : public CThing
 			CThing** ppNew)										// Out: Pointer to new object
 			{
         UNUSED(pRealm, ppNew);
-			return 0;
+         return SUCCESS;
 			}
 
 	//---------------------------------------------------------------------------

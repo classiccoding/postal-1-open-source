@@ -286,7 +286,7 @@ int16_t CSoundThing::Startup(void)								// Returns 0 if successfull, non-zero 
 	// Set the collective volume to zero to start.
 	m_lCollectiveVolume	= 0;
 
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -295,7 +295,7 @@ int16_t CSoundThing::Startup(void)								// Returns 0 if successfull, non-zero 
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSoundThing::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -809,7 +809,7 @@ int16_t CSoundThing::EditMove(									// Returns 0 if successfull, non-zero oth
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-	return 0;
+   return SUCCESS;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -954,7 +954,7 @@ int16_t CSoundThing::Kill(void)							// Returns 0 if successfull, non-zero othe
 		m_siChannel	= 0;
 		}
 
-	return 0;
+   return SUCCESS;
 	}
 
 

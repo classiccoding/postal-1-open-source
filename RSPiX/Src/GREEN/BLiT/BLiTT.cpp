@@ -84,13 +84,13 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 	if ((pimSrc == nullptr) || (pimDst == nullptr))
 		{
 		TRACE("rspBlitT: null CImage* passed\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if ( (sW < 1) || (sH < 1) )
 		{
 		TRACE("rspBlitT: zero or negative area passed\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if ( !ImageIsUncompressed(pimSrc->m_type) || 
@@ -98,7 +98,7 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 		{
 		TRACE("rspBlitT: To BLiT using COMPRESSED Images, you must specify"
 			"your parameters differently (see BLiT.DOC)!\n");
-		return -1;
+      return FAILURE;
 		}
 
 #endif
@@ -118,7 +118,7 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 		sClip = sDstY + sH - prSrc->sY - prSrc->sH; // positive = clipped
 		if (sClip > 0) { sH -= sClip; }
 
-		if ( (sW <= 0) || (sH <= 0) ) return -1; // clipped out!
+      if ( (sW <= 0) || (sH <= 0) ) return FAILURE; // clipped out!
 		}
 
 	// 2) Source clipping is SO critical in locked screen stuff, that we MUST check it:
@@ -131,7 +131,7 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 			((sSrcX + sW) > pimSrc->m_sWidth) || ((sSrcY + sH) > pimSrc->m_sHeight) )
 			{
 			TRACE("rspBlitT:  Gone outside source buffer.  Must source clip.\n");
-			return -1;
+         return FAILURE;
 			}
 		}
 
@@ -151,7 +151,7 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 		sClip = sDstY + sH - prDst->sY - prDst->sH; // positive = clipped
 		if (sClip > 0) { sH -= sClip; }
 
-		if ( (sW <= 0) || (sH <= 0) ) return -1; // clipped out!
+      if ( (sW <= 0) || (sH <= 0) ) return FAILURE; // clipped out!
 		}
 	else	
 		{
@@ -163,7 +163,7 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 		sClip = sDstY + sH - pimDst->m_sHeight; // positive = clipped
 		if (sClip > 0) sH -= sClip; // positive = clipped
 
-		if ((sW <= 0) || (sH <= 0)) return -1; // fully clipped
+      if ((sW <= 0) || (sH <= 0)) return FAILURE; // fully clipped
 		}
 
 	// **************  INSERT BUFFER HOOKS HERE!  ************************
@@ -196,7 +196,7 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 				!=0)
 				{
 				TRACE("rspBlitT: Unable to lock the system buffer, failed!\n");
-				return -1;
+            return FAILURE;
 				}
 			// Locked the system buffer, remember to unlock it:
 			sNeedToUnlock = BUF_MEMORY;	
@@ -210,7 +210,7 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 				!=0)
 				{
 				TRACE("rspBlitT: Unable to lock the system buffer, failed!\n");
-				return -1;
+            return FAILURE;
 				}
 			// Locked the system buffer, remember to unlock it:
 			sNeedToUnlock = BUF_MEMORY;		
@@ -224,7 +224,7 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 				!=0)
 				{
 				TRACE("rspBlitT: Unable to lock the OnScreen system buffer, failed!\n");
-				return -1;
+            return FAILURE;
 				}
 			// Locked the front VRAM, remember to unlock it:
 			sNeedToUnlock = BUF_VRAM;		
@@ -238,7 +238,7 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 				!=0)
 				{
 				TRACE("rspBlitT: Unable to lock the OnScreen system buffer, failed!\n");
-				return -1;
+            return FAILURE;
 				}
 			// Locked the front VRAM, remember to unlock it:
 			sNeedToUnlock = BUF_VRAM;			
@@ -249,7 +249,7 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 		case (BUF_MEMORY<<3) + BUF_VRAM: // system buffer to front screen
 
 			rspUpdateDisplay(sDstX,sDstY,sW,sH); 
-			return 0; // DONE!!!!!
+			return SUCCESS; // DONE!!!!!
 		break;
 
 		case (BUF_VRAM<<3) + BUF_MEMORY: // front screen to system buffer
@@ -262,7 +262,7 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 
 		default:
 			TRACE("rspBlitT: This type of copy is not yet supported.\n");
-			return -1;
+         return FAILURE;
 		}
 
 //BLIT_PRELOCKED:
@@ -354,5 +354,5 @@ int16_t	rspBlitT(uint32_t ucTransparent,RImage* pimSrc,RImage* pimDst,int16_t sS
 		}
 
 //BLIT_DONTUNLOCK:	
-	return 0;
+	return SUCCESS;
 	}

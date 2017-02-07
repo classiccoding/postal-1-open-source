@@ -466,7 +466,7 @@ inline int16_t	_rspBlit(uint8_t* pSrc,int32_t lSrcP,int16_t sSrcW,int16_t sSrcH,
 								uint8_t* pDst,int32_t lDstP,int16_t sDstW,int16_t sDstH)
 	{
   UNUSED(pSrc, lSrcP, sSrcW, sSrcH, pDst, lDstP, sDstW, sDstH);
-	return 0;
+	return SUCCESS;
 	}
 
 // do the full transparent case with clipping:
@@ -482,7 +482,7 @@ int16_t rspBlitT(RImage* pimSrc,RImage* pimDst,RRect* prSrc,const RRect* prDst,
 	if (!pimSrc || !pimDst)
 		{
       TRACE("rspBlitT: nullptr images passed!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	// do type checking....
@@ -490,13 +490,13 @@ int16_t rspBlitT(RImage* pimSrc,RImage* pimDst,RRect* prSrc,const RRect* prDst,
 	if (!ImageIsUncompressed(pimSrc->m_type))
 		{
 		TRACE("rspBlitT: Only use this function with uncompressed Images.\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if (!ImageIsUncompressed(pimDst->m_type))
 		{
 		TRACE("rspBlitT: Only use this function with uncompressed Images.\n");
-		return -1;
+      return FAILURE;
 		}
 
 	//------------------------------------------------------------------------------
@@ -505,7 +505,7 @@ int16_t rspBlitT(RImage* pimSrc,RImage* pimDst,RRect* prSrc,const RRect* prDst,
 	if ((pimSrc->m_sDepth != 8) || (pimDst->m_sDepth != 8))
 		{
 		TRACE("rspBlitT: Currently, only 8-bit Images are fully supported.\n");
-		return -1;
+      return FAILURE;
 		}
 
 #endif
@@ -522,7 +522,7 @@ int16_t rspBlitT(RImage* pimSrc,RImage* pimDst,RRect* prSrc,const RRect* prDst,
 	if (prSrcClip)
 		{
 		TRACE("rspBlitT: Source clipping not yet available...\n");
-		return -1;
+      return FAILURE;
 		}
 
 	//------------------------------------------------------------------------------
@@ -575,7 +575,7 @@ int16_t rspBlitT(RImage* pimSrc,RImage* pimDst,RRect* prSrc,const RRect* prDst,
 
 	if ( ((sClipL + sClipR) >= sDstW) || ((sClipT + sClipB) >= sDstH) )
 		{
-		return 0; // fully clipped out
+		return SUCCESS; // fully clipped out
 		}
 
 	// ********************* MIRROR PART II => POST CLIP, flip back...
@@ -620,7 +620,7 @@ int16_t rspBlitT(RImage* pimSrc,RImage* pimDst,RRect* prSrc,const RRect* prDst,
 							pDst,pimDst->m_lPitch,sDstW,sDstH,
 							sClipL,sClipT,sClipR,sClipB,sMirrorH,sMirrorV);
 
-	return 0;
+	return SUCCESS;
 	}
 
 // easy call overloads:
@@ -640,7 +640,7 @@ int16_t rspBlitT(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,
 	if (!pimSrc || !pimDst)
 		{
       TRACE("rspBlitT: nullptr images passed!\n");
-		return -1;
+      return FAILURE;
 		}
 
 #endif
@@ -672,7 +672,7 @@ int16_t rspBlitT(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,
 	if (!pimSrc || !pimDst)
 		{
       TRACE("rspBlitT: nullptr images passed!\n");
-		return -1;
+      return FAILURE;
 		}
 
 #endif

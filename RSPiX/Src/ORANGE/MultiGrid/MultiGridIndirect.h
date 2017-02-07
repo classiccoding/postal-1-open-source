@@ -216,7 +216,7 @@ public:
 
 	#ifdef	MGI_CLIP
 		if ( (sX < 0) || (sY < 0) || (sX >= m_sWidth) || (sY >= m_sHeight) ) 
-			return -1;
+         return FAILURE;
 	#endif
 
 		*(m_ppucAccessY[sY] + m_plAccessX[sX] + sEntry) = ucVal;

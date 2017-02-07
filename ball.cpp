@@ -549,7 +549,7 @@ int16_t CBall::EditMove(									// Returns 0 if successfull, non-zero otherwise
 	m_dY = sY;
 	m_dZ = sZ;
 
-	return 0;
+   return SUCCESS;
 	}
 
 

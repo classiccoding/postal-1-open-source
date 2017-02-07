@@ -179,7 +179,7 @@ int16_t CMenuSettings::LoadGame(
 	RFile* pFile)
 	{
   UNUSED(pFile);
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -190,7 +190,7 @@ int16_t CMenuSettings::SaveGame(
 	RFile* pFile)
 	{
   UNUSED(pFile);
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -201,7 +201,7 @@ int16_t CMenuSettings::PreDemo(
 	RFile* pFile)
 	{
   UNUSED(pFile);
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -212,7 +212,7 @@ int16_t CMenuSettings::PostDemo(
 	RFile* pFile)
 	{
   UNUSED(pFile);
-	return 0;
+   return SUCCESS;
 	}
 
 

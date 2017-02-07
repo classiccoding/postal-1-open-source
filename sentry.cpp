@@ -946,7 +946,7 @@ int16_t CSentry::EditModify(void)
 	}
 	delete pGui;
 
-	return 0;
+   return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1013,7 +1013,7 @@ int16_t CSentry::FreeResources(void)						// Returns 0 if successfull, non-zero 
 	m_animBaseStand.Release();
 	m_animBaseDie.Release();
 
-	return 0;
+   return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

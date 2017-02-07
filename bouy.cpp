@@ -383,7 +383,7 @@ int16_t CBouy::Startup(void)								// Returns 0 if successfull, non-zero otherw
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBouy::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 {
-	return 0;
+	return SUCCESS;
 }
 
 
@@ -473,7 +473,7 @@ int16_t CBouy::EditNew(									// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBouy::EditModify(void)
 {
-	return 0;
+	return SUCCESS;
 }
 
 
@@ -489,7 +489,7 @@ int16_t CBouy::EditMove(									// Returns 0 if successfull, non-zero otherwise
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-	return 0;
+	return SUCCESS;
 }
 
 
@@ -675,7 +675,7 @@ int16_t CBouy::FreeResources(void)						// Returns 0 if successfull, non-zero ot
 		m_pImage	= nullptr;
 		}
 
-	return 0;
+	return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -49,7 +49,7 @@ int16_t RZBuffer::Create(int16_t sW,int16_t sH)
 	if (m_pBuf)
 		{
 		TRACE("RZBuffer::Create: already exists!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	m_sW = sW;
@@ -60,7 +60,7 @@ int16_t RZBuffer::Create(int16_t sW,int16_t sH)
 	m_pBuf = (int16_t*) malloc(lSize);
 	// you then may clear it, buddy!
 
-	return 0;
+	return SUCCESS;
 	}
 
 RZBuffer::~RZBuffer()
@@ -73,13 +73,13 @@ int16_t RZBuffer::Destroy()
 	if (!m_pBuf)
 		{
 		TRACE("RZBuffer::Destroy: already deleted!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	free(m_pBuf);
 
 	Init();
-	return 0;
+	return SUCCESS;
 	}
 
 //----------------------------------------------

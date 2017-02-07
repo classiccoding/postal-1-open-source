@@ -277,7 +277,7 @@ int16_t RPal::GetPalEntrySize(Type type)
 	else
 	{
 	 	TRACE("RPal::GetPalEntrySize - Not a registered palette type\n");
-		return -1;
+      return FAILURE;
 	}
 }
 

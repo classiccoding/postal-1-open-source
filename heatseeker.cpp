@@ -284,7 +284,7 @@ int16_t CHeatseeker::Save(										// Returns 0 if successfull, non-zero otherw
 
 	// Save object data
 
-	return 0;
+   return SUCCESS;
 }
 
 
@@ -775,7 +775,7 @@ int16_t CHeatseeker::FreeResources(void)						// Returns 0 if successfull, non-z
 {
 	m_anim.Release();
 
-	return 0;
+   return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

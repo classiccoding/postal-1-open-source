@@ -270,7 +270,7 @@ int16_t CWarp::Save(										// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWarp::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -279,7 +279,7 @@ int16_t CWarp::Startup(void)								// Returns 0 if successfull, non-zero otherw
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWarp::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -389,7 +389,7 @@ int16_t CWarp::EditMove(								// Returns 0 if successfull, non-zero otherwise
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-	return 0;
+   return SUCCESS;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////

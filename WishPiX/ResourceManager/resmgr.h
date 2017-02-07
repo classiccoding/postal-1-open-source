@@ -276,7 +276,7 @@ struct GenericCreateResFunc
 	virtual int16_t operator()(void** ppT)
 		{
 		*ppT = 0;
-		return -1;	// generic version should never be called!
+      return FAILURE;	// generic version should never be called!
 		}
 	};
 
@@ -314,7 +314,7 @@ struct GenericLoadResFunc
 	{
   virtual ~GenericLoadResFunc(void) { }
 	virtual int16_t operator()(void* /*pT*/, RFile* /*pfile*/)
-		{ return -1; }	// generic version should never be called!
+      { return FAILURE; }	// generic version should never be called!
 	};
 
 template<class T>

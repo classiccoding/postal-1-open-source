@@ -190,7 +190,7 @@ int16_t CSndRelay::Save(										// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSndRelay::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -199,7 +199,7 @@ int16_t CSndRelay::Startup(void)								// Returns 0 if successfull, non-zero ot
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSndRelay::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	return 0;
+   return SUCCESS;
 	}
 
 
@@ -414,7 +414,7 @@ int16_t CSndRelay::EditMove(									// Returns 0 if successfull, non-zero other
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-	return 0;
+   return SUCCESS;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -541,7 +541,7 @@ int16_t CSndRelay::Kill(void)							// Returns 0 if successfull, non-zero otherw
 
 	m_pRealm->m_scene.RemoveSprite(&m_sprite);
 
-	return 0;
+   return SUCCESS;
 	}
 
 

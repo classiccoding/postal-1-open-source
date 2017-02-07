@@ -687,7 +687,7 @@ int16_t COstrich::EditNew(									// Returns 0 if successfull, non-zero otherwi
 
 int16_t COstrich::EditModify(void)
 {
-	return 0;
+   return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -772,7 +772,7 @@ int16_t COstrich::FreeResources(void)						// Returns 0 if successfull, non-zero
 	m_animHide.Release();
 	m_animDie.Release();		
 
-	return 0;
+   return SUCCESS;
 }
 
 

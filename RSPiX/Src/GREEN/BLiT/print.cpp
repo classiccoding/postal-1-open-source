@@ -223,7 +223,7 @@ short RFontOld::Create(char *pszFontName,char *pszFullInputName,
 	// Work on this a bit!
 	fTemp.Save(""); // local path
 
-	return 0;
+  return SUCCESS;
 	}
 */
 
@@ -622,10 +622,10 @@ int16_t RPrint::LineFeed()
 		m_pBuf = m_buffer + strlen(m_buffer);
 		m_pCurBuf = m_buffer;
 
-		return -1;
+    return FAILURE;
 		}
 
-	return 0;
+  return SUCCESS;
 	}
 
 void	RPrint::print(int16_t sX,int16_t sY,RImage* pimTarget)

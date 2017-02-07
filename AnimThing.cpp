@@ -162,7 +162,7 @@ int16_t CAnimThing::Startup(void)								// Returns 0 if successfull, non-zero o
 	m_lAnimPrevTime	= m_pRealm->m_time.GetGameTime();
 	m_lAnimTime			= 0;
 
-	return 0;
+	return SUCCESS;
 	}
 
 
@@ -171,7 +171,7 @@ int16_t CAnimThing::Startup(void)								// Returns 0 if successfull, non-zero o
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CAnimThing::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	return 0;
+	return SUCCESS;
 	}
 
 
@@ -459,7 +459,7 @@ int16_t CAnimThing::EditMove(									// Returns 0 if successfull, non-zero othe
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-	return 0;
+	return SUCCESS;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////

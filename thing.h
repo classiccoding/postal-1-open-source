@@ -662,13 +662,13 @@ class CThing
 		// Startup object
 		virtual int16_t Startup(void)							// Returns 0 if successfull, non-zero otherwise
 			{
-			return 0;
+         return SUCCESS;
 			}
 
 		// Shutdown object
 		virtual int16_t Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 			{
-			return 0;
+         return SUCCESS;
 			}
 
 		// Suspend object
@@ -697,13 +697,13 @@ class CThing
 			int16_t /*sY*/,											// In:  New y coord
 			int16_t /*sZ*/)											// In:  New z coord
 			{
-			return 0;
+         return SUCCESS;
 			}
 
 		// Called by editor to modify object
 		virtual int16_t EditModify(void)						// Returns 0 if successfull, non-zero otherwise
 			{
-			return 0;
+         return SUCCESS;
 			}
 
 		// Called by editor to move object to specified position
@@ -712,7 +712,7 @@ class CThing
 			int16_t /*sY*/,											// In:  New y coord
 			int16_t /*sZ*/)											// In:  New z coord
 			{
-			return 0;
+         return SUCCESS;
 			}
 
 		// Called by editor to get the clickable pos/area of an object in 2D.

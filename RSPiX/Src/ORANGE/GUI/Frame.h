@@ -128,7 +128,7 @@ class RFrame : public RGuiItem
 			Compose();
 
 			// Nothing to allocate.
-			return 0;
+			return SUCCESS;
 			}
 
 		// Draw this item and all its subitems into the provided RImage.

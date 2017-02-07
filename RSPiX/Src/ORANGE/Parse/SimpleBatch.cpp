@@ -33,7 +33,7 @@ int16_t RBatch::GetLine()
 	if (m_fp == nullptr)
 		{
 		TRACE("RBatch:  File not open.\n");
-		return -1;
+      return FAILURE;
 		}
 
 	int iChar;

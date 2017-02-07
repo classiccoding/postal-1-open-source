@@ -602,7 +602,7 @@ int16_t CBarrel::EditModify(void)
 	}
 	delete pGui;
 
-	return 0;
+	return SUCCESS;
 }
 
 
@@ -637,7 +637,7 @@ int16_t CBarrel::FreeResources(void)						// Returns 0 if successfull, non-zero 
 	m_animSpin.Release();
 	// Release the shadow image
 
-	return 0;
+	return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

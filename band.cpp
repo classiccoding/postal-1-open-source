@@ -524,7 +524,7 @@ int16_t CBand::Startup(void)								// Returns 0 if successfull, non-zero otherw
 #if !VIOLENT_LOCALE
 	// We must kill band members in these countries b/c of their lack of tolerance.
 	delete this;
-	return 0;
+	return SUCCESS;
 #else
 
 	// Set the current height, previous time, and Nav Net by calling the
@@ -1291,7 +1291,7 @@ int16_t CBand::FreeResources(void)						// Returns 0 if successfull, non-zero ot
 	m_animBlownup.Release();
 	m_animOnFire.Release();
 		
-	return 0;
+	return SUCCESS;
 }
 
 

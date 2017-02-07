@@ -263,7 +263,7 @@ int16_t CFirebomb::Save(										// Returns 0 if successfull, non-zero otherwis
 
 	// Save object data
 
-	return 0;
+   return SUCCESS;
 }
 
 
@@ -694,7 +694,7 @@ int16_t CFirefrag::Save(										// Returns 0 if successfull, non-zero otherwis
 
 	// Save object data
 
-	return 0;
+   return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

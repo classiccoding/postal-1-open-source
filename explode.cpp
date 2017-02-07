@@ -254,7 +254,7 @@ int16_t CExplode::Save(										// Returns 0 if successfull, non-zero otherwise
 int16_t CExplode::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 {
 
-	return 0;
+	return SUCCESS;
 }
 
 
@@ -263,7 +263,7 @@ int16_t CExplode::Startup(void)								// Returns 0 if successfull, non-zero oth
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CExplode::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 {
-	return 0;
+	return SUCCESS;
 }
 
 
@@ -461,7 +461,7 @@ int16_t CExplode::EditNew(									// Returns 0 if successfull, non-zero otherwi
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CExplode::EditModify(void)
 {
-	return 0;
+	return SUCCESS;
 }
 
 
@@ -477,7 +477,7 @@ int16_t CExplode::EditMove(									// Returns 0 if successfull, non-zero otherw
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-	return 0;
+	return SUCCESS;
 }
 
 
@@ -526,7 +526,7 @@ int16_t CExplode::GetResources(int16_t sAnim)						// Returns 0 if successfull, 
 int16_t CExplode::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
 	rspReleaseResource(&g_resmgrGame, &m_pAnimChannel);
-	return 0;
+	return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

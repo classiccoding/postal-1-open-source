@@ -264,7 +264,7 @@ int16_t rspSetWindowColors()
 
 #endif
 
-	return -1;
+   return FAILURE;
 	}
 
 
@@ -375,7 +375,7 @@ int16_t	rspLockBuffer()
 			!=0)
 			{
 			TRACE("rspLockBuffer: Unable to lock the Video Buffer, failed!\n");
-			return -1;
+         return FAILURE;
 			}
 		else
 			{
@@ -390,7 +390,7 @@ int16_t	rspLockBuffer()
 		}
 
 	gsBufferLocked++;
-	return 0;
+   return SUCCESS;
 	}
 
 // This is the official OS composite buffer
@@ -404,7 +404,7 @@ int16_t	rspUnlockBuffer()
 		{
 		TRACE("rspUnLockBuffer: FATAL ERROR!  More screen UNLOCKS than LOCKS!\n");
 		gsScreenLocked = 0;
-		return -1;
+      return FAILURE;
 		}
 
 #endif
@@ -416,7 +416,7 @@ int16_t	rspUnlockBuffer()
 		}
 
 
-	return 0;
+   return SUCCESS;
 	}
 
 // This is the hardware video screen
@@ -429,7 +429,7 @@ int16_t	rspLockScreen()
 			!=0)
 			{
 			TRACE("rspLockScreen: Unable to lock the OnScreen system buffer, failed!\n");
-			return -1;
+         return FAILURE;
 			}
 		else
 			{
@@ -445,7 +445,7 @@ int16_t	rspLockScreen()
 		}
 
 	gsScreenLocked++;
-	return 0;
+   return SUCCESS;
 	}
 
 int16_t	rspUnlockScreen()
@@ -459,7 +459,7 @@ int16_t	rspUnlockScreen()
 		{
 		TRACE("rspUnLockScreen: FATAL ERROR!  More screen UNLOCKS than LOCKS!\n");
 		gsScreenLocked = 0;
-		return -1;
+      return FAILURE;
 		}
 
 #endif
@@ -470,7 +470,7 @@ int16_t	rspUnlockScreen()
 		RInitBLiT::pimScreenVisible->m_pData = nullptr;
 		}
 
-	return 0;
+   return SUCCESS;
 	}
 
 /////////////////////////////////////////////////////////////////////////

@@ -1003,7 +1003,7 @@ void CPerson::Logic_Writhing(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPerson::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 {
-	return 0;
+   return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1261,7 +1261,7 @@ int16_t CPerson::EditModify(void)
 	}
 	delete pGui;
 
-	return 0;
+   return SUCCESS;
 }
 
 
@@ -1690,7 +1690,7 @@ int16_t CPerson::FreeResources(void)						// Returns 0 if successfull, non-zero 
 	// Release base class resources.
 	CDoofus::ReleaseResources();
 
-	return 0;
+   return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

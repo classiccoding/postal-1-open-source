@@ -590,9 +590,9 @@ int16_t RPrint::GetPropCellX(int16_t sChar,int16_t *psX,int16_t *psE,int16_t *ps
 			if (psNext) *psNext = m_sUP_W;
 			}
 
-		if (!m_pCurFontSet) return -1;
-		if (!(m_pCurFontSet->m_ppimCharacters)) return -1;
-		if (!(pimLetter=m_pCurFontSet->m_ppimCharacters[sChar])) return -1;
+      if (!m_pCurFontSet) return FAILURE;
+      if (!(m_pCurFontSet->m_ppimCharacters)) return FAILURE;
+      if (!(pimLetter=m_pCurFontSet->m_ppimCharacters[sChar])) return FAILURE;
 
 		if (pimLetter->m_type != RImage::FSPR1) // assume no kerning infoL
 			{
@@ -617,7 +617,7 @@ int16_t RPrint::GetPropCellX(int16_t sChar,int16_t *psX,int16_t *psE,int16_t *ps
 	if (!sSpecial) GetPropEffX(a,a + b,a + b + c,psX,psE,psNext);
 
 	if (sFirst && (*psX < 0) ) { *psE -= *psX; *psNext -= *psX; *psX = 0;}
-	return 0;
+	return SUCCESS;
 	}
 
 // This is NOT for drawing, but for CELL estimation!!!
@@ -694,14 +694,14 @@ void RPrint::SetMode(Mode eMode,int16_t sVal)
 
 int16_t RPrint::SetCellW()
 	{
-   if (m_pCurFontSet == nullptr) return -1;
+   if (m_pCurFontSet == nullptr) return FAILURE;
 	// before effects:
 	m_sCellW = int16_t(int32_t(m_sCellH) * m_pCurFontSet->m_sMaxWidth /
 							m_pCurFontSet->m_sCellHeight);
 	// add effects:
 	// MAKE SURE THIS WORKS INSPITE OF NO LEADER!
    GetPropEffX(0,m_sCellW,m_sCellW,nullptr,nullptr,&m_sCellW);
-	return 0;
+	return SUCCESS;
 	}
 
 int16_t RPrint::SetEffectAbs(Effect eEffect,int16_t sVal) // absolute:
@@ -709,7 +709,7 @@ int16_t RPrint::SetEffectAbs(Effect eEffect,int16_t sVal) // absolute:
 	if (m_sCellH == 0)
 		{
 		TRACE("RPrint::SetEffect:ERROR - no font selected!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	m_aAbsFlag[eEffect] = 1;
@@ -724,7 +724,7 @@ int16_t RPrint::SetEffectAbs(Effect eEffect,int16_t sVal) // absolute:
 		}
 
 	SetCellW(); // updates the cellW based on the latest effects
-	return 0;
+	return SUCCESS;
 	}
 
 int16_t RPrint::SetEffect(Effect eEffect,double dVal) // relative:
@@ -732,7 +732,7 @@ int16_t RPrint::SetEffect(Effect eEffect,double dVal) // relative:
 	if (m_sCellH == 0)
 		{
 		TRACE("RPrint::SetEffect:ERROR - no font selected!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	m_aAbsFlag[eEffect] = 0;
@@ -747,7 +747,7 @@ int16_t RPrint::SetEffect(Effect eEffect,double dVal) // relative:
 		}
 
 	SetCellW(); // updates the cellW based on the latest effects
-	return 0;
+	return SUCCESS;
 	}
 
 int16_t RPrint::SetColumn(int16_t sX,int16_t sY,int16_t sW,int16_t sH)
@@ -757,13 +757,13 @@ int16_t RPrint::SetColumn(int16_t sX,int16_t sY,int16_t sW,int16_t sH)
    if (m_pimDst == nullptr)
 		{
       TRACE("RPrint::SetColumn: nullptr image!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if ( (sW < 1) || (sH < 1))
 		{
 		TRACE("RPrint::SetColumn: Bad dimensions!\n");
-		return -1;
+      return FAILURE;
 		}
 #endif
 
@@ -781,7 +781,7 @@ int16_t RPrint::SetColumn(int16_t sX,int16_t sY,int16_t sW,int16_t sH)
 	m_rClip.sW = sW;
 	m_rClip.sH = sH;
 
-	return 0;
+	return SUCCESS;
 	}
 
 
@@ -790,14 +790,14 @@ int16_t RPrint::SetDestination(RImage* pimDst,RRect* prColumn)
    if (pimDst == nullptr)
 		{
       TRACE("RPrint::SetDestination: nullptr image!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	if (pimDst->m_type != RImage::BMP1) // special case
 		if ( (!ImageIsUncompressed(pimDst->m_type)) || (pimDst->m_sDepth > 8))
 		{
 		TRACE("RPrint::SetDestination: This image type currently not supported!\n");
-		return -1;
+      return FAILURE;
 		}
 
 	m_pimDst = pimDst;
@@ -816,7 +816,7 @@ int16_t RPrint::SetDestination(RImage* pimDst,RRect* prColumn)
 		m_rClip.sH = prColumn->sH;
 		}
 
-	return 0;
+	return SUCCESS;
 	}
 
 RPrint::RPrint()
@@ -853,7 +853,7 @@ int16_t RPrint::SetFont(int16_t sCellH,RFont* pFont)
    if (pFont == nullptr)
 		{
       TRACE("RPrint::SetFont: nullptr FONT PASSED!\n");
-		return -1;
+      return FAILURE;
 		}
 
    if ((pFontSet = pFont->FindSize(sCellH,&dScale)) == nullptr)
@@ -908,7 +908,7 @@ int16_t RPrint::SetColor(uint32_t ulForeColor,uint32_t ulBackColor,uint32_t ulSh
 	if (ulBackColor) m_BackgroundColor = ulBackColor;
 	if (ulShadowColor) m_ShadowColor = ulShadowColor;
 
-	return 0;
+	return SUCCESS;
 	}
 
 void	RPrint::SetWordWrap(int16_t sOn)

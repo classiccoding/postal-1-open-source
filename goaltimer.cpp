@@ -147,7 +147,7 @@ int16_t CGoalTimer::Save(										// Returns 0 if successfull, non-zero otherwi
 	pFile->Write(&m_sKillGoal);
 	pFile->Write(&m_sUpDown);
 
-	return 0;
+   return SUCCESS;
 }
 
 
@@ -169,7 +169,7 @@ int16_t CGoalTimer::Startup(void)								// Returns 0 if successfull, non-zero o
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CGoalTimer::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 {
-	return 0;
+   return SUCCESS;
 }
 
 
@@ -333,7 +333,7 @@ int16_t CGoalTimer::EditModify(void)
 		delete pgui;
 	}
 
-	return 0;
+   return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -348,7 +348,7 @@ int16_t CGoalTimer::EditMove(									// Returns 0 if successfull, non-zero othe
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-	return 0;
+   return SUCCESS;
 }
 
 

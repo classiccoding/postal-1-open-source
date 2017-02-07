@@ -253,9 +253,9 @@ class RFile
 				}
 			else
 				if (IsMemory() == TRUE)
-					return 0;
+					return SUCCESS;
 				else
-					return -1;
+               return FAILURE;
 			}
 
 		// Close a file successfully opened with Open().

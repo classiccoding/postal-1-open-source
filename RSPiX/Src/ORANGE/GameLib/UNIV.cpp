@@ -210,7 +210,7 @@ short CUniverse::SetSection(
 
 	fclose(fp);
 
-	return 0;
+  return SUCCESS;
 }
 
 #endif
@@ -274,7 +274,7 @@ int16_t CUniverse::SetSection(
 //	LoadAttributeData();
 //	LoadEventData();
 
-	return 0;
+  return SUCCESS;
 }
 
 //*****************************************************************************
@@ -361,7 +361,7 @@ int16_t CUniverse::LoadAnimData()
 	}
 
  	free(pChunkHeader);
- 	return 0;
+  return SUCCESS;
 }
 
 
@@ -428,7 +428,7 @@ short CUniverse::LoadAnimData()
 
 	}
 	free (pChunkHeader);
-	return 0;
+  return SUCCESS;
 }
 
 
@@ -547,7 +547,7 @@ void CUniverse::SetZonesetOffsets(
 
 int16_t CUniverse::LoadBackgroundData()
 {
-	return 0;
+  return SUCCESS;
 }
 
 //*****************************************************************************
@@ -603,7 +603,7 @@ int16_t CUniverse::LoadAttributeData()
 //	m_pAttrCont = new short[sLength];
 //	ifsAttrData.read();
 
-	return 0;
+  return SUCCESS;
 }
 
 
@@ -634,7 +634,7 @@ int16_t CUniverse::LoadAttributeData()
 
 int16_t CUniverse::LoadEventData()
 {
-	return 0;
+  return SUCCESS;
 }
 
 //*****************************************************************************

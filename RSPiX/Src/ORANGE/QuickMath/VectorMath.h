@@ -106,8 +106,8 @@ typedef union
 inline int operator==(const RP3d& lhs, const RP3d& rhs)
 	{
 	if (lhs.v == rhs.v)
-		return 1;
-	return 0;
+      return TRUE;
+   return FALSE;
 	}
 
 
@@ -232,8 +232,8 @@ public:
 	int operator==(const RTransform& rhs) const
 		{
 		if (T == rhs.T)
-			return 1;
-		return 0;
+         return TRUE;
+      return FALSE;
 		}
 
 	void Make1() // identity matrix

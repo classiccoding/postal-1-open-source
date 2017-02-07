@@ -304,7 +304,7 @@ int16_t CRocket::Save(										// Returns 0 if successfull, non-zero otherwise
 
 	// Save object data
 
-	return 0;
+   return SUCCESS;
 }
 
 
@@ -765,7 +765,7 @@ int16_t CRocket::FreeResources(void)						// Returns 0 if successfull, non-zero 
 {
 	m_anim.Release();
 
-	return 0;
+   return SUCCESS;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
