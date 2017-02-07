@@ -887,40 +887,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="RSPiX\Src\ORANGE\MTask\mtask.cpp"
-				>
-				<FileConfiguration
-					Name="Optimized Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="RSPiX\Src\ORANGE\GUI\MultiBtn.cpp"
 				>
 				<FileConfiguration

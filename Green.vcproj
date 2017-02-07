@@ -648,40 +648,6 @@
 					/>
 				</FileConfiguration>
 			</File>
-			<File
-				RelativePath="RSPiX\Src\GREEN\Task\task.cpp"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Optimized Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -729,10 +695,6 @@
 			</File>
 			<File
 				RelativePath="RSPiX\Src\green\SndFx\SndFx.h"
-				>
-			</File>
-			<File
-				RelativePath="RSPiX\Src\green\task\task.h"
 				>
 			</File>
 		</Filter>

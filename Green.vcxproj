@@ -259,12 +259,6 @@
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">MaxSpeed</Optimization>
     </ClCompile>
-    <ClCompile Include="RSPiX\Src\GREEN\Task\task.cpp">
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Optimized Debug|Win32'">MaxSpeed</Optimization>
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">MaxSpeed</Optimization>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RSPiX\Src\green\hot\hot.h" />
@@ -278,7 +272,6 @@
     <ClInclude Include="RSPiX\Src\green\sample\sample.h" />
     <ClInclude Include="RSPiX\Src\green\snd\snd.h" />
     <ClInclude Include="RSPiX\Src\green\SndFx\SndFx.h" />
-    <ClInclude Include="RSPiX\Src\green\task\task.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="BLiT.vcxproj">

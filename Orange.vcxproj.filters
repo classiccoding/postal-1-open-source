@@ -72,9 +72,6 @@
     <ClCompile Include="RSPiX\Src\ORANGE\MsgBox\MsgBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RSPiX\Src\ORANGE\MTask\mtask.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="RSPiX\Src\ORANGE\GUI\MultiBtn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
