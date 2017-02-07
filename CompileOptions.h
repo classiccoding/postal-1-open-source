@@ -629,7 +629,7 @@
 
 #define ALLOW_JOYSTICK
 // #define RESMGR_VERBOSE
-#define DEBUG_LEVEL_CHEAT
+// #define DEBUG_LEVEL_CHEAT
 
 #endif // COMPILE_OPTIONS_H
 ////////////////////////////////////////////////////////////////////////////////
