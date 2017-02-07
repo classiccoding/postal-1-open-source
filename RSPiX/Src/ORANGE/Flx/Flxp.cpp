@@ -120,43 +120,43 @@ int16_t CFlx::DoReadFrame(FLX_BUF* pbufRead)
 					{
 					case FLX_DATA_COLOR256:
 						//cout << "   DATA_COLOR256 of size " << lDataSize << endl;
-						if (pbufRead->prgbColors != NULL)
+						if (pbufRead->prgbColors != nullptr)
 							sError = ReadDataColor(pbufRead, FLX_DATA_COLOR256);
 						break;
 								
 					case FLX_DATA_SS2:
 						//cout << "   DATA_SS2 of size " << lDataSize << endl;
-						if (pbufRead->pbPixels != NULL)
+						if (pbufRead->pbPixels != nullptr)
 							sError = ReadDataSS2(pbufRead);
 						break;
 								
 					case FLX_DATA_COLOR:
 						//cout << "   DATA_COLOR of size " << lDataSize << endl;
-						if (pbufRead->prgbColors != NULL)
+						if (pbufRead->prgbColors != nullptr)
 							sError = ReadDataColor(pbufRead, FLX_DATA_COLOR);
 						break;
 								
 					case FLX_DATA_LC:
 						//cout << "   DATA_LC of size " << lDataSize << endl;
-						if (pbufRead->pbPixels != NULL)
+						if (pbufRead->pbPixels != nullptr)
 							sError = ReadDataLC(pbufRead);
 						break;
 								
 					case FLX_DATA_BLACK:
 						//cout << "   DATA_BLACK of size " << lDataSize << endl;
-						if (pbufRead->pbPixels != NULL)
+						if (pbufRead->pbPixels != nullptr)
 							sError = ReadDataBlack(pbufRead);
 						break;
 								
 					case FLX_DATA_BRUN:
 						//cout << "   DATA_BRUN of size " << lDataSize << endl;
-						if (pbufRead->pbPixels != NULL)
+						if (pbufRead->pbPixels != nullptr)
 							sError = ReadDataBRun(pbufRead);
 						break;
 								
 					case FLX_DATA_COPY:
 						//cout << "   DATA_COPY of size " << lDataSize << endl;
-						if (pbufRead->pbPixels != NULL)
+						if (pbufRead->pbPixels != nullptr)
 							sError = ReadDataCopy(pbufRead);
 						break;
 								
@@ -239,9 +239,9 @@ int16_t CFlx::DoReadFrame(FLX_BUF* pbufRead)
 ///////////////////////////////////////////////////////////////////////////////
 int16_t CFlx::ReadDataColor(FLX_BUF* pbufRead, int16_t sDataType)
 	{
-	//assert(pbufRead->prgbColors != NULL);
+	//assert(pbufRead->prgbColors != nullptr);
 	// instead of assert, just return error
-	if (pbufRead->prgbColors == NULL)
+	if (pbufRead->prgbColors == nullptr)
 		return 1;
 
 	int16_t sError = 0;
@@ -321,10 +321,10 @@ int16_t CFlx::ReadDataColor(FLX_BUF* pbufRead, int16_t sDataType)
 ///////////////////////////////////////////////////////////////////////////////
 int16_t CFlx::ReadDataBlack(FLX_BUF* pbufRead)
 	{
-	//assert(pbufRead->pbPixels != NULL);
+	//assert(pbufRead->pbPixels != nullptr);
 	//assert(pbufRead->sPitch > 0);
 	// let's just return with error instead of asserting and crashing
-	if ((pbufRead->pbPixels == NULL) || (pbufRead->sPitch <= 0))
+	if ((pbufRead->pbPixels == nullptr) || (pbufRead->sPitch <= 0))
 		return 1;
 
 	// Clear the image to 0 one row at a time.  Note that we use the pitch
@@ -358,10 +358,10 @@ int16_t CFlx::ReadDataBlack(FLX_BUF* pbufRead)
 ///////////////////////////////////////////////////////////////////////////////
 int16_t CFlx::ReadDataCopy(FLX_BUF* pbufRead)
 	{
-	//assert(pbufRead->pbPixels != NULL);
+	//assert(pbufRead->pbPixels != nullptr);
 	//assert(pbufRead->sPitch > 0);
 	// let's just return with error instead of asserting
-	if ((pbufRead->pbPixels == NULL) || (pbufRead->sPitch <= 0))
+	if ((pbufRead->pbPixels == nullptr) || (pbufRead->sPitch <= 0))
 		return 1;
 
 	int16_t sError = 0;
@@ -414,10 +414,10 @@ int16_t CFlx::ReadDataCopy(FLX_BUF* pbufRead)
 ///////////////////////////////////////////////////////////////////////////////
 int16_t CFlx::ReadDataBRun(FLX_BUF* pbufRead)
 	{
-	//assert(pbufRead->pbPixels != NULL);
+	//assert(pbufRead->pbPixels != nullptr);
 	//assert(pbufRead->sPitch > 0);
 	// let's just return with error instead of asserting
-	if ((pbufRead->pbPixels == NULL) || (pbufRead->sPitch <= 0))
+	if ((pbufRead->pbPixels == nullptr) || (pbufRead->sPitch <= 0))
 		return 1;
 
 	// added 10/20/94 to trap errors and exit! instead of asserting
@@ -535,10 +535,10 @@ int16_t CFlx::ReadDataBRun(FLX_BUF* pbufRead)
 ///////////////////////////////////////////////////////////////////////////////
 int16_t CFlx::ReadDataLC(FLX_BUF* pbufRead)
 	{
-	//assert(pbufRead->pbPixels != NULL);
+	//assert(pbufRead->pbPixels != nullptr);
 	//assert(pbufRead->sPitch > 0);
 	// just return with error instead of asserting
-	if ((pbufRead->pbPixels == NULL) || (pbufRead->sPitch <= 0))
+	if ((pbufRead->pbPixels == nullptr) || (pbufRead->sPitch <= 0))
 		return 1;
 
 	uint8_t	bVal;
@@ -664,10 +664,10 @@ int16_t CFlx::ReadDataLC(FLX_BUF* pbufRead)
 ///////////////////////////////////////////////////////////////////////////////
 int16_t CFlx::ReadDataSS2(FLX_BUF* pbufRead)
 	{
-	//assert(pbufRead->pbPixels != NULL);
+	//assert(pbufRead->pbPixels != nullptr);
 	//assert(pbufRead->sPitch > 0);
 	// just return with error instead of asserting
-	if ((pbufRead->pbPixels == NULL) || (pbufRead->sPitch <= 0))
+	if ((pbufRead->pbPixels == nullptr) || (pbufRead->sPitch <= 0))
 		return 1;
 	
 	uint8_t	bVal;
@@ -869,11 +869,11 @@ int16_t CFlx::DoWriteFrame(FLX_BUF* pbufWrite, FLX_BUF* pbufPrev)
 	// WARNING: This will only support up to 64k!!!
 //	double dSize = (double)m_filehdr.sWidth * (double)m_filehdr.sHeight * (double)1.5;
 	uint8_t* pBuf = (uint8_t*)malloc((uint16_t)m_filehdr.sWidth * (uint16_t)m_filehdr.sHeight);
-	if (pBuf != NULL)
+	if (pBuf != nullptr)
 		{
 		
 		// Generate color palette delta.  For first frame, pbufPrev will be
-		// NULL, so all the colors will be considered as being changed.
+		// nullptr, so all the colors will be considered as being changed.
 		sError = WriteColorDelta(pbufWrite, pbufPrev, pBuf, &lDataChunkSize);
 		if ((sError == 0) && (lDataChunkSize > 0))
 			{
@@ -923,7 +923,7 @@ int16_t CFlx::DoWriteFrame(FLX_BUF* pbufWrite, FLX_BUF* pbufPrev)
 //
 // Generate a color delta data chunk based on the differences between the
 // two specified palettes.  If there is no difference, then no data is written.
-// If pBufPrev is NULL, then we assume all the colors changed.
+// If pBufPrev is nullptr, then we assume all the colors changed.
 //
 ///////////////////////////////////////////////////////////////////////////////
 int16_t CFlx::WriteColorDelta(FLX_BUF* pbufNext, FLX_BUF* pbufPrev, uint8_t* pBuf, int32_t* plChunkSize)
@@ -943,7 +943,7 @@ int16_t CFlx::WriteColorDelta(FLX_BUF* pbufNext, FLX_BUF* pbufPrev, uint8_t* pBu
 	// Set up easier-to-use pointers to colors
 	FLX_RGB* pNext = pbufNext->prgbColors;
 	FLX_RGB* pPrev;
-	if (pbufPrev != NULL)
+	if (pbufPrev != nullptr)
 		pPrev = pbufPrev->prgbColors;
 
 	// Set up copy of pointer to buffer than can be moved around
@@ -967,7 +967,7 @@ int16_t CFlx::WriteColorDelta(FLX_BUF* pbufNext, FLX_BUF* pbufPrev, uint8_t* pBu
 	while (sStart < 256)
 		{
 		// Count number of colors that are the same (stop on first changed color)
-		if (pbufPrev != NULL)
+		if (pbufPrev != nullptr)
 			{
 			for (sSame = 0; (sStart + sSame) < 256; sSame++)
 				{
@@ -985,7 +985,7 @@ int16_t CFlx::WriteColorDelta(FLX_BUF* pbufNext, FLX_BUF* pbufPrev, uint8_t* pBu
 		
 		// Count number of colors that have changed (stop on first same color)
 		// If there are no previous colors, then we say that they all changed
-		if (pbufPrev != NULL)
+		if (pbufPrev != nullptr)
 			{
 			for (sChanged = 0; (sStart + sChanged) < 256; sChanged++)
 				{
@@ -1102,11 +1102,11 @@ int16_t CFlx::WritePixelDelta(FLX_BUF* pbufNext, FLX_BUF* pbufPrev, uint8_t* pBu
 
 #endif
 	
-	if (pbufNext == NULL)
+	if (pbufNext == nullptr)
 		return 1;
 
 	// find out whether we are dealing with the first frame or not
-	if (pbufPrev == NULL)
+	if (pbufPrev == nullptr)
 	{
 		// since the previous frame buffer has not been defined, let's assume that this is the first frame
 		// let's first do the BRUN compression and see what is the size returned
@@ -1311,7 +1311,7 @@ int16_t CFlx::CompressLineDelta(int16_t y,
 	sAdjustedPitch = pbufNext->sPitch;
 	
 	// Check to make sure that all pointers to the buffers are not null.
-	if ((pbufNext == NULL) || (pbufPrev == NULL) || (pbDst == NULL))
+	if ((pbufNext == nullptr) || (pbufPrev == nullptr) || (pbDst == nullptr))
 		return -1;
 	
 	// First let's see if the current line really need to be compressed.
@@ -1949,10 +1949,10 @@ void CFlx::ClearHeader(void)
 ///////////////////////////////////////////////////////////////////////////////
 void CFlx::InitBuf(FLX_BUF* pbuf)
 	{
-	// The pointers MUST be cleared to NULL so we can tell later on whether
+	// The pointers MUST be cleared to nullptr so we can tell later on whether
 	// any memory needs to be freed.
-	pbuf->pbPixels = NULL;
-	pbuf->prgbColors = NULL;
+	pbuf->pbPixels = nullptr;
+	pbuf->prgbColors = nullptr;
 	}
 	
 	
@@ -1966,7 +1966,7 @@ int16_t CFlx::AllocBuf(FLX_BUF* pbuf, int16_t sWidth, int16_t sHeight, int16_t s
 	pbuf->prgbColors = (FLX_RGB*)malloc((size_t)sColors * sizeof(FLX_RGB));
 	
 	// If it worked then return success
-	if ((pbuf->pbPixels != NULL) && (pbuf->prgbColors != NULL))
+	if ((pbuf->pbPixels != nullptr) && (pbuf->prgbColors != nullptr))
 		return 0;
 	// Else free anything that did get allocated and return failure
 	else
@@ -1979,15 +1979,15 @@ int16_t CFlx::AllocBuf(FLX_BUF* pbuf, int16_t sWidth, int16_t sHeight, int16_t s
 	
 void CFlx::FreeBuf(FLX_BUF* pbuf)
 	{
-	if (pbuf->pbPixels != NULL)
+	if (pbuf->pbPixels != nullptr)
 		{
 		free(pbuf->pbPixels);
-		pbuf->pbPixels = NULL;
+		pbuf->pbPixels = nullptr;
 		}
-	if (pbuf->prgbColors != NULL)
+	if (pbuf->prgbColors != nullptr)
 		{
 		free(pbuf->prgbColors);
-		pbuf->prgbColors = NULL;
+		pbuf->prgbColors = nullptr;
 		}
 	}
 	

@@ -160,7 +160,7 @@ extern int16_t rspSaveBox(								// Returns 0 if successfull, non-zero otherwis
 ///////////////////////////////////////////////////////////////////////////////
 // Exec API
 ///////////////////////////////////////////////////////////////////////////////
-
+#ifdef NO_IMPLEMENTATION
 // Executes pszExe with pszDir as its current directory.  Note that the
 // pszExe can be relative, but only to the current path.  The pszDir parameter
 // is only for the current directory for the rspExec'd process.
@@ -173,7 +173,7 @@ extern int16_t rspExec(			// Returns 0 on success.
    int16_t (*waitcall)(void)		// App callback to call during wait, if not nullptr.
                = nullptr);			// Returns 0 to continue waiting,
 										// non-zero otherwise.
-
+#endif
 ///////////////////////////////////////////////////////////////////////////////
 // File Path API
 ///////////////////////////////////////////////////////////////////////////////

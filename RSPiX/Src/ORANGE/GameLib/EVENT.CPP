@@ -517,7 +517,7 @@ EVENT* CEvent::Search(int16_t sEventNum)
 	while (m_pEventData[s].sType != sEventNum && m_pEventData[s].sType >= 0)
 		s++;
 	if (m_pEventData[s].sType < 0)
-		return NULL;
+    return nullptr;
 	else
 		return &(m_pEventData[s]);		 	
 }
@@ -560,7 +560,7 @@ EVENT* CEvent::SearchNext(EVENT* pEvent)
 		s++;
 
 	if (m_pEventData[s].sType < 0)
-		return NULL;
+    return nullptr;
 	else
 		return &(m_pEventData[s]);
 }
@@ -789,7 +789,7 @@ int16_t CEvent::CallHandler(int16_t sEventIndex)
 	EVENT* pEvent = (EVENT*) m_IgnoreList.GetHead();
 	BOOL 	 bFound = FALSE;
 
-	while (pEvent != NULL && !bFound)
+  while (pEvent != nullptr && !bFound)
 	{
 		if (pEvent == &(m_pEventData[sEventIndex]))
 			bFound = TRUE;

@@ -123,13 +123,13 @@ void CDispatch::Set(void)
 	{
 	for (int32_t l = 0L; l < NUM_TYPES; l++)
 		{
-		m_afnAlloc[l]	= NULL;
-		m_afnFree[l]	= NULL;
-		m_afnUse[l]		= NULL;
+		m_afnAlloc[l]	= nullptr;
+		m_afnFree[l]	= nullptr;
+		m_afnUse[l]		= nullptr;
 		}
 
-	m_fnTime		= NULL;
-	m_pfilter	= NULL;
+	m_fnTime		= nullptr;
+	m_pfilter	= nullptr;
 
 	m_sActive	= FALSE;
 	}
@@ -147,7 +147,7 @@ void CDispatch::Reset(void)
 
 	// Free items waiting to be dispatched.
 	PRTITEM	pri	= m_slistRtItems.GetHead();
-	while (pri != NULL)
+	while (pri != nullptr)
 		{
 		// Free buffer.
 		FreeCall(pri->puc, pri->usType, pri->ucFlags);
@@ -171,7 +171,7 @@ void CDispatch::UseCall(uint8_t* pucBuffer, int32_t lSize, uint16_t usType,
 								uint8_t ucFlags, int32_t lTime)
 	{
 	// If data handled . . .
-	if (m_afnUse[usType] != NULL)
+	if (m_afnUse[usType] != nullptr)
 		{
 		if (AddItem(pucBuffer, lSize, usType, ucFlags, lTime) == 0)
 			{
@@ -209,16 +209,16 @@ void CDispatch::UseCallStatic(uint8_t* pucBuffer, int32_t lSize, uint16_t usType
 //////////////////////////////////////////////////////////////////////////////
 uint8_t* CDispatch::AllocCall(int32_t lSize, uint16_t usType, uint8_t ucFlags)
 	{
-	uint8_t*	puc	= NULL;
+	uint8_t*	puc	= nullptr;
 
-	if (m_afnAlloc[usType] != NULL)
+	if (m_afnAlloc[usType] != nullptr)
 		{
 		puc = (*m_afnAlloc[usType])(lSize, usType, ucFlags, m_alUser[usType]);
 		}
 	else
 		{
 		// Only allocate if there is a use handler (otherwise, data is useless).
-		if (m_afnUse[usType] != NULL)
+		if (m_afnUse[usType] != nullptr)
 			{
 			puc = (uint8_t*)malloc(lSize);
 			}
@@ -229,7 +229,7 @@ uint8_t* CDispatch::AllocCall(int32_t lSize, uint16_t usType, uint8_t ucFlags)
 			}
 		}
 
-	if (puc != NULL)
+	if (puc != nullptr)
 		{
 		// Success.
 		}
@@ -262,13 +262,13 @@ uint8_t* CDispatch::AllocCallStatic(	int32_t lSize,
 //////////////////////////////////////////////////////////////////////////////
 void CDispatch::FreeCall(uint8_t* puc, uint16_t usType, uint8_t ucFlags)
 	{
-	if (puc != NULL)
+	if (puc != nullptr)
 		{
 		// If an allocation function is defined . . .
-		if (m_afnAlloc[usType] != NULL)
+		if (m_afnAlloc[usType] != nullptr)
 			{
 			// If a deallocation function is defined . . .
-			if (m_afnFree[usType] != NULL)
+			if (m_afnFree[usType] != nullptr)
 				{
 				// Call it.
 				(*m_afnFree[usType])(puc, usType, ucFlags, m_alUser[usType]);
@@ -302,13 +302,13 @@ void CDispatch::FreeCallStatic(	uint8_t* pucBuffer, uint16_t usType,
 int16_t CDispatch::AddItem(	uint8_t* puc, int32_t lSize, uint16_t usType, 
 									uint8_t ucFlags, int32_t lTime)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// Attempt to allocate a RTITEM for this chunk.
 	PRTITEM	pri	= new RTITEM;
 
 	// If successful . . .
-	if (pri != NULL)
+	if (pri != nullptr)
 		{
 		// Set up item.
 		pri->puc			= puc;
@@ -324,11 +324,11 @@ int16_t CDispatch::AddItem(	uint8_t* puc, int32_t lSize, uint16_t usType,
 		else
 			{
 			TRACE("AddItem(): Unable to add RTITEM to list.\n");
-			sRes = -2;
+			sResult = -2;
 			}
 
 		// If any erros occurred since allocation . . .
-		if (sRes != 0)
+		if (sResult != 0)
 			{
 			delete pri;
 			}
@@ -336,10 +336,10 @@ int16_t CDispatch::AddItem(	uint8_t* puc, int32_t lSize, uint16_t usType,
 	else
 		{
 		TRACE("AddItem(): Unable to allocate new RTITEM.\n");
-		sRes = -1;
+		sResult = FAILURE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -356,7 +356,7 @@ void CDispatch::Blow(void)
 	int32_t		lTime	= GetTime();
 
 	// Do until none left or time exceeds current.
-	while (pri != NULL && pri->lTime < lTime)
+	while (pri != nullptr && pri->lTime < lTime)
 		{
 		// Remove item from list.
 		m_slistRtItems.Remove();
@@ -450,17 +450,17 @@ void CDispatch::SetUserVal(uint16_t usType, int32_t lUser)
 //////////////////////////////////////////////////////////////////////////////
 void CDispatch::SetFilter(CFilter* pfilter)
 	{
-	if (m_pfilter != NULL)
+	if (m_pfilter != nullptr)
 		{
 		// Clear callbacks that point at our CFilter callback dispatchers.
-		m_pfilter->m_fnAlloc	= NULL;
-		m_pfilter->m_fnFree	= NULL;
-		m_pfilter->m_fnUse	= NULL;
+		m_pfilter->m_fnAlloc	= nullptr;
+		m_pfilter->m_fnFree	= nullptr;
+		m_pfilter->m_fnUse	= nullptr;
 		}
 
 	m_pfilter = pfilter;
 
-	if (pfilter != NULL)
+	if (pfilter != nullptr)
 		{
 		// Point callbacks at our CFilter callback dispatchers (calls implied this
 		// version (Filter*Call)).
@@ -479,7 +479,7 @@ void CDispatch::SetFilter(CFilter* pfilter)
 //////////////////////////////////////////////////////////////////////////////
 int16_t CDispatch::Start(void)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	if (m_sActive == FALSE)
 		{
@@ -491,11 +491,11 @@ int16_t CDispatch::Start(void)
 		else
 			{
 			TRACE("Start(): Unable to add critical handler BlowStatic.\n");
-			sRes = -1;
+			sResult = FAILURE;
 			}
 		}
 	
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -506,7 +506,7 @@ int16_t CDispatch::Start(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t CDispatch::Suspend(void)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	if (m_sActive == TRUE)
 		{
@@ -518,11 +518,11 @@ int16_t CDispatch::Suspend(void)
 		else
 			{
 			TRACE("Suspend(): Unable to remove critical handler BlowStatic.\n");
-			sRes = -1;
+			sResult = FAILURE;
 			}
 		}
 	
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -537,7 +537,7 @@ int16_t CDispatch::SendHandlerMessage(uint16_t usMsg)
 
 	for (int32_t l = 0L; l < NUM_TYPES; l++)
 		{
-		if (m_afnMsg[l] != NULL)
+		if (m_afnMsg[l] != nullptr)
 			{
 			if ((*m_afnMsg[l])(usMsg) != 0)
 				{

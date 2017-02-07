@@ -61,9 +61,9 @@
 // Instantiate static members.
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef _WINDLL
-/*EXE2DLL*/ CImage*			CPlugIn::ms_pimBuf	= NULL;	// The current buffer.
-/*EXE2DLL*/ CDialog*			CPlugIn::ms_pdlg		= NULL;	// The Plugger dialog.
-/*EXE2DLL*/ CRSPiXBlue*		CPlugIn::ms_prspix	= NULL;	// The RSPiX window.
+/*EXE2DLL*/ CImage*			CPlugIn::ms_pimBuf	= nullptr;	// The current buffer.
+/*EXE2DLL*/ CDialog*			CPlugIn::ms_pdlg		= nullptr;	// The Plugger dialog.
+/*EXE2DLL*/ CRSPiXBlue*		CPlugIn::ms_prspix	= nullptr;	// The RSPiX window.
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -125,13 +125,13 @@ class CRamFlx
 		// Returns 0 if successfull, non-zero otherwise.
 		int16_t Open(
 			char* pszFileName,			// Full path and filename of flic file
-			FLX_FILE_HDR* pfilehdr,		// Copy of header returned here if not NULL
-			CImage* pbuf);				// Memory allocated within struct if not NULL
+      FLX_FILE_HDR* pfilehdr,		// Copy of header returned here if not nullptr
+      CImage* pbuf);				// Memory allocated within struct if not nullptr
 		
 		// Close the currently open file (if any).
 		// Returns 0 if successfull, non-zero otherwise.
 		// Modified 10/20/94 to accommodate buffer pointer
-		int16_t Close(CImage* pbuf = NULL);
+    int16_t Close(CImage* pbuf = nullptr);
 
 		// Get copy of flic file header (file must have been opened or created).  When
 		// creating a new file, certain fields are not valid until the file is closed.

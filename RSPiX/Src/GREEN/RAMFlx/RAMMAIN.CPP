@@ -53,7 +53,7 @@ void AppMain(void)
 		{
 		// Create screen buffer
 		m_pBuf = Blit_CreateScrnBuf(640, 480, 16);
-		if (m_pBuf != NULL)
+    if (m_pBuf != nullptr)
 			{
 			// Tell blue layer about screen buffer for when we want to update screen
 			Blu_SetDisplayBuf(m_pBuf->pData, m_pBuf->lWidth, m_pBuf->lHeight, 16 );
@@ -97,7 +97,7 @@ void Test(void)
 	LoadBackImage();
 
 	// Open file
-	if (flxRead.Open("LEWLIT.FLC", &filehdrRead, NULL) == 0)
+  if (flxRead.Open("LEWLIT.FLC", &filehdrRead, nullptr) == 0)
 		{
 		// Show header
 		DumpHeader(&filehdrRead);
@@ -108,7 +108,7 @@ void Test(void)
 		for (int16_t sFrame = 1; sFrame <= filehdrRead.sNumFrames+3;)
 			{
 			if (GetLeftMouseEvent()==M_EVENT_DOWN)
-				if (flxRead.ReadNextFrame(NULL) == 0)
+        if (flxRead.ReadNextFrame(nullptr) == 0)
 					{
 					TRACE("Actual %hd, Number %hd\n",flxRead.GetFrameNum(),sFrame);
 					sFrame++;
@@ -122,7 +122,7 @@ void Test(void)
 			Blu_System();
 			}
 			
-		flxRead.Close(NULL);
+    flxRead.Close(nullptr);
 		}
 	else
 		TRACE("Error reported by CFlx::Open()!\n");

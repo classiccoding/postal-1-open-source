@@ -97,7 +97,7 @@ class CLadder : public CThing
 			m_sHeight					= 0;
 			m_sRotY						= 0;
 
-			m_pcharLadderBoy			= NULL;
+      m_pcharLadderBoy			= nullptr;
 			}
 
 	public:
@@ -124,11 +124,11 @@ class CLadder : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = 0;
+			int16_t sResult = SUCCESS;
 			*ppNew = new CLadder(pRealm);
 			if (*ppNew == 0)
 				{
-				sResult = -1;
+				sResult = FAILURE;
 				TRACE("CLadder::Construct(): Couldn't construct CLadder (that's a bad thing)\n");
 				}
 			return sResult;

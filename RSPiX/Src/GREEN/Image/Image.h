@@ -208,7 +208,7 @@
 // Macros.
 ///////////////////////////////////////////////////////////////////////////////
 
-#define WIDTHuint8_t(i)   (((i)+3) & ~3)      // uint32_t aligned
+#define WIDTHCHAR(i)   (((i)+3) & ~3)      // uint32_t aligned
 #define WIDTH128(i)		 (((i)+15) & ~15)	 // 128-bit aligned
 
 #define IMAGE_COOKIE	0x20204d49 // Looks like "IM  " in the file

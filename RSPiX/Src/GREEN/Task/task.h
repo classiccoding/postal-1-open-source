@@ -73,7 +73,7 @@ class RTask
 
 		// Returns the current time based on either the user base or Blue.
 		int32_t GetTime(void)
-			{ return (m_fnTime == NULL ? rspGetMilliseconds() : (*m_fnTime)(m_lTimeUser)); }
+      { return (m_fnTime == nullptr ? rspGetMilliseconds() : (*m_fnTime)(m_lTimeUser)); }
 		
 	////////////////////////// Methods ////////////////////////////////////////
 	public:
@@ -111,7 +111,7 @@ class RTask
 		// this function, and that is why they're public.
 
 		TaskFunc		m_fnTask;		// User specified task function.
-		uint32_t			m_ulUser;		// User specified parm to task function.
+    uintptr_t			m_ulUser;		// User specified parm to task function.
 
 		int32_t			m_lInterval;	// User specified timer interval.
 		int32_t			m_lNextExpiration;	// Next time to call task.

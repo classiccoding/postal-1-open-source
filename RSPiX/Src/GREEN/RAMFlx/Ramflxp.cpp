@@ -99,8 +99,8 @@ static int16_t ConvFromFlx8_888(CImage* pImage);
 // Link conversion functions into CImage.
 IMAGELINKLATE(FLX8_888, 
 				  ConvToFlx8_888, ConvFromFlx8_888,	// Conversions To and From.
-				  /*pLoad*/NULL, /*pSave*/NULL,		// Load and Save.
-				  /*pAlloc*/NULL, /*pDel*/NULL);		// Alloc and Delete.
+          /*pLoad*/nullptr, /*pSave*/nullptr,		// Load and Save.
+          /*pAlloc*/nullptr, /*pDel*/nullptr);		// Alloc and Delete.
 //////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -224,45 +224,45 @@ int16_t CRamFlx::DoReadFrame(CImage* pimageRead, CNFile* pfile,
 				{
 				case FLX_DATA_COLOR256:
 					//cout << "   DATA_COLOR256 of size " << lDataSize << endl;
-					if (pimageRead->pPalette->pData != NULL)
+          if (pimageRead->pPalette->pData != nullptr)
 						sError = ReadDataColor(	pimageRead, FLX_DATA_COLOR256, pfile,
 														psColorsModified);
 					break;
 							
 				case FLX_DATA_SS2:
 					//cout << "   DATA_SS2 of size " << lDataSize << endl;
-					if (pimageRead->pData != NULL)
+          if (pimageRead->pData != nullptr)
 						sError = ReadDataSS2(pimageRead, pfile, psPixelsModified);
 					break;
 							
 				case FLX_DATA_COLOR:
 					//cout << "   DATA_COLOR of size " << lDataSize << endl;
-					if (pimageRead->pPalette->pData != NULL)
+          if (pimageRead->pPalette->pData != nullptr)
 						sError = ReadDataColor(	pimageRead, FLX_DATA_COLOR, pfile, 
 														psColorsModified);
 					break;
 							
 				case FLX_DATA_LC:
 					//cout << "   DATA_LC of size " << lDataSize << endl;
-					if (pimageRead->pData != NULL)
+          if (pimageRead->pData != nullptr)
 						sError = ReadDataLC(pimageRead, pfile, psPixelsModified);
 					break;
 							
 				case FLX_DATA_BLACK:
 					//cout << "   DATA_BLACK of size " << lDataSize << endl;
-					if (pimageRead->pData != NULL)
+          if (pimageRead->pData != nullptr)
 						sError = ReadDataBlack(pimageRead, psPixelsModified);
 					break;
 							
 				case FLX_DATA_BRUN:
 					//cout << "   DATA_BRUN of size " << lDataSize << endl;
-					if (pimageRead->pData != NULL)
+          if (pimageRead->pData != nullptr)
 						sError = ReadDataBRun(pimageRead, pfile, psPixelsModified);
 					break;
 							
 				case FLX_DATA_COPY:
 					//cout << "   DATA_COPY of size " << lDataSize << endl;
-					if (pimageRead->pData != NULL)
+          if (pimageRead->pData != nullptr)
 						sError = ReadDataCopy(pimageRead, pfile, psPixelsModified);
 					break;
 							
@@ -328,9 +328,9 @@ int16_t CRamFlx::DoReadFrame(CImage* pimageRead, CNFile* pfile,
 int16_t CRamFlx::ReadDataColor(	CImage* pimageRead, int16_t sDataType, 
 										CNFile* pfile, int16_t* psColorsModified)
 	{
-	//assert(pimageRead->prgbColors != NULL);
+  //assert(pimageRead->prgbColors != nullptr);
 	// instead of assert, just return error
-	if (pimageRead->pPalette->pData == NULL)
+  if (pimageRead->pPalette->pData == nullptr)
 		return 1;
 
 	int16_t sError = 0;
@@ -458,10 +458,10 @@ int16_t CRamFlx::ReadDataColor(	CImage* pimageRead, int16_t sDataType,
 ///////////////////////////////////////////////////////////////////////////////
 int16_t CRamFlx::ReadDataBlack(CImage* pimageRead, int16_t* psPixelsModified)
 	{
-	//assert(pimageRead->pbPixels != NULL);
+  //assert(pimageRead->pbPixels != nullptr);
 	//assert(pimageRead->sPitch > 0);
 	// let's just return with error instead of asserting and crashing
-	if ((pimageRead->pData == NULL) || (pimageRead->lPitch <= 0))
+  if ((pimageRead->pData == nullptr) || (pimageRead->lPitch <= 0))
 		return 1;
 
 	// Clear the image to 0 one row at a time.  Note that we use the pitch
@@ -497,10 +497,10 @@ int16_t CRamFlx::ReadDataBlack(CImage* pimageRead, int16_t* psPixelsModified)
 int16_t CRamFlx::ReadDataCopy(	CImage* pimageRead, CNFile* pfile, 
 										int16_t* psPixelsModified)
 	{
-	//assert(pimageRead->pbPixels != NULL);
+  //assert(pimageRead->pbPixels != nullptr);
 	//assert(pimageRead->sPitch > 0);
 	// let's just return with error instead of asserting
-	if ((pimageRead->pData == NULL) || (pimageRead->lPitch <= 0))
+  if ((pimageRead->pData == nullptr) || (pimageRead->lPitch <= 0))
 		return 1;
 
 	int16_t sError = 0;
@@ -555,10 +555,10 @@ int16_t CRamFlx::ReadDataCopy(	CImage* pimageRead, CNFile* pfile,
 int16_t CRamFlx::ReadDataBRun(	CImage* pimageRead, CNFile* pfile, 
 										int16_t* psPixelsModified)
 	{
-	//assert(pimageRead->pbPixels != NULL);
+  //assert(pimageRead->pbPixels != nullptr);
 	//assert(pimageRead->sPitch > 0);
 	// let's just return with error instead of asserting
-	if ((pimageRead->pData == NULL) || (pimageRead->lPitch <= 0))
+  if ((pimageRead->pData == nullptr) || (pimageRead->lPitch <= 0))
 		return 1;
 
 	// added 10/20/94 to trap errors and exit! instead of asserting
@@ -771,10 +771,10 @@ int16_t CRamFlx::ReadDataBRun(	CImage* pimageRead, CNFile* pfile,
 int16_t CRamFlx::ReadDataLC(	CImage* pimageRead, CNFile* pfile, 
 									int16_t* psPixelsModified)
 	{
-	//assert(pimageRead->pbPixels != NULL);
+  //assert(pimageRead->pbPixels != nullptr);
 	//assert(pimageRead->sPitch > 0);
 	// just return with error instead of asserting
-	if ((pimageRead->pData == NULL) || (pimageRead->lPitch <= 0))
+  if ((pimageRead->pData == nullptr) || (pimageRead->lPitch <= 0))
 		return 1;
 	
 	int16_t y;
@@ -984,10 +984,10 @@ int16_t CRamFlx::ReadDataLC(	CImage* pimageRead, CNFile* pfile,
 int16_t CRamFlx::ReadDataSS2(CImage* pimageRead, CNFile* pfile, 
 									int16_t* psPixelsModified)
 	{
-	//assert(pimageRead->pbPixels != NULL);
+  //assert(pimageRead->pbPixels != nullptr);
 	//assert(pimageRead->sPitch > 0);
 	// just return with error instead of asserting
-	if ((pimageRead->pData == NULL) || (pimageRead->lPitch <= 0))
+  if ((pimageRead->pData == nullptr) || (pimageRead->lPitch <= 0))
 		return 1;
 	
 	int16_t lines;
@@ -1405,7 +1405,7 @@ int16_t CRamFlx::ReadHeader(CNFile* pfile)
 	int16_t sError=0;
  	int32_t lSizeFile = m_filehdr.lEntireFileSize - m_filehdr.lOffsetFrame1;
 
-	if ((m_pucFlxBuf = (uint8_t*)malloc(lSizeFile)) != NULL)
+  if ((m_pucFlxBuf = (uint8_t*)malloc(lSizeFile)) != nullptr)
 		{
 		pfile->Read(m_pucFlxBuf, lSizeFile);
 //		m_pCurFlxBuf = MEM_OPEN(m_pFlxBuf);
@@ -1467,12 +1467,12 @@ void CRamFlx::ClearHeader(void)
 ///////////////////////////////////////////////////////////////////////////////
 void CRamFlx::InitBuf(CImage* pimage)
 	{
-	// The pointers MUST be cleared to NULL so we can tell later on whether
+  // The pointers MUST be cleared to nullptr so we can tell later on whether
 	// any memory needs to be freed.
-	pimage->pData				= NULL;
-	if (pimage->pPalette != NULL)
+  pimage->pData				= nullptr;
+  if (pimage->pPalette != nullptr)
 		{
-		pimage->pPalette->pData	= NULL;
+    pimage->pPalette->pData	= nullptr;
 		}
 	}
 	
@@ -1518,11 +1518,11 @@ int16_t CRamFlx::AllocBuf(CImage* pimage, int32_t lWidth, int32_t lHeight, int16
 	
 void CRamFlx::FreeBuf(CImage* pimage)
 	{ 
-	if (pimage != NULL)
+  if (pimage != nullptr)
 		{
 		pimage->DestroyData();
 		
-		if (pimage->pPalette != NULL)
+    if (pimage->pPalette != nullptr)
 			{
 			pimage->DestroyPalette();
 			}
@@ -1579,7 +1579,7 @@ int16_t CRamFlx::CreateFramePointers(void)
 	int32_t  lSizeFrame;
 
 	// Allocate the space for the frame pointers
-	if ((m_plFrames = (int32_t*)malloc((m_filehdr.sNumFrames+1) * sizeof(int32_t))) == NULL)
+  if ((m_plFrames = (int32_t*)malloc((m_filehdr.sNumFrames+1) * sizeof(int32_t))) == nullptr)
 		sError = -1;
 	else
 		{
@@ -1613,15 +1613,15 @@ int16_t CRamFlx::CreateFramePointers(void)
 /////////////////////////////////////////////////////////////////////////////////////
 static int16_t ConvToFlx8_888(CImage* pImage)
 	{
-	int16_t	sRes	= NOT_SUPPORTED;	// Assume error.
+	int16_t	sResult	= NOT_SUPPORTED;	// Assume error.
 
-	ASSERT(pImage	!= NULL);
+  ASSERT(pImage	!= nullptr);
 
 	switch (pImage->ulType)
 		{
 		case BMP8:
 			// The only difference from BMP8 is the palette.
-			if (pImage->pPalette != NULL)
+      if (pImage->pPalette != nullptr)
 				{
 				if (pImage->pPalette->ulType == PDIB)
 					{
@@ -1644,7 +1644,7 @@ static int16_t ConvToFlx8_888(CImage* pImage)
 						ppal->ulType			= PFLX;
 						ppal->sPalEntrySize	= CPal::GetPalEntrySize(ppal->ulType);
 						pImage->ulType			= FLX8_888;
-						sRes						= FLX8_888;
+						sResult						= FLX8_888;
 						}
 					else
 						{
@@ -1652,7 +1652,7 @@ static int16_t ConvToFlx8_888(CImage* pImage)
 						}
 
 					// If successful . . .
-					if (sRes != NOT_SUPPORTED)
+					if (sResult != NOT_SUPPORTED)
 						{
 						// Destroy the old palette data.
 						CImage::DestroyDetatchedData((void**)&prgbq);
@@ -1679,7 +1679,7 @@ static int16_t ConvToFlx8_888(CImage* pImage)
 			break;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -1690,15 +1690,15 @@ static int16_t ConvToFlx8_888(CImage* pImage)
 /////////////////////////////////////////////////////////////////////////////////////
 static int16_t ConvFromFlx8_888(CImage* pImage)
 	{
-	int16_t	sRes	= NOT_SUPPORTED;	// Assume error.
+	int16_t	sResult	= NOT_SUPPORTED;	// Assume error.
 
-	ASSERT(pImage != NULL);
+  ASSERT(pImage != nullptr);
 	ASSERT(pImage->ulType == FLX8_888);
 
 	// Convert to BMP8.
 
 	// The only difference from BMP8 is the palette.
-	if (pImage->pPalette != NULL)
+  if (pImage->pPalette != nullptr)
 		{
 		if (pImage->pPalette->ulType == PFLX)
 			{
@@ -1721,7 +1721,7 @@ static int16_t ConvFromFlx8_888(CImage* pImage)
 				ppal->ulType			= PDIB;
 				ppal->sPalEntrySize	= CPal::GetPalEntrySize(ppal->ulType);
 				pImage->ulType			= BMP8;
-				sRes						= BMP8;
+				sResult						= BMP8;
 				}
 			else
 				{
@@ -1729,7 +1729,7 @@ static int16_t ConvFromFlx8_888(CImage* pImage)
 				}
 
 			// If successful . . .
-			if (sRes != NOT_SUPPORTED)
+			if (sResult != NOT_SUPPORTED)
 				{
 				// Destroy the old palette data.
 				CImage::DestroyDetatchedData((void**)&prgbt);
@@ -1750,7 +1750,7 @@ static int16_t ConvFromFlx8_888(CImage* pImage)
 		TRACE("ConvFromFlx8_888(): No palette!?\n");
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ///////////////////////////////////////////////////////////////////////////////

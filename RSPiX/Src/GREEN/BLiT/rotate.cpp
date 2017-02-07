@@ -75,7 +75,7 @@ void	rspSetConvertToROTBUF(int16_t sCenterX,int16_t sCenterY)
 	}
 
 // shoudln't need a special delete!
-IMAGELINKLATE(ROTBUF,ConvertToROTBUF,ConvertFromROTBUF,  NULL,NULL,NULL,DeleteROTBUF);
+IMAGELINKLATE(ROTBUF,ConvertToROTBUF,ConvertFromROTBUF,  nullptr,nullptr,nullptr,DeleteROTBUF);
 
 // Use for cool things!
 static const double sqrt2 =  (double)1.414213562373;
@@ -151,7 +151,7 @@ int16_t   ConvertToROTBUF(RImage* pImage)
 		pImage->m_sWidth,pImage->m_sHeight);
 	
 	// Now transfer it ALL back to the original buffer!
-	uint8_t	*pBuf = NULL,*pMem = NULL;
+	uint8_t	*pBuf = nullptr,*pMem = nullptr;
 	imTemp.DetachData((void**)&pMem,(void**)&pBuf);
 	// Kill Old:
 	pImage->DestroyData();
@@ -192,7 +192,7 @@ int16_t   ConvertFromROTBUF(RImage* pImage)
 	// Restore the member state:
 	pImage->m_type = (RImage::Type)pSave->m_type;
 	delete pSave;
-	pImage->m_pSpecialMem = pImage->m_pSpecial = NULL;
+	pImage->m_pSpecialMem = pImage->m_pSpecial = nullptr;
 	pImage->m_sWinWidth = pImage->m_sWinHeight = 0;
 
 	pImage->m_sWinX = pImage->m_sWinY = 0;
@@ -498,12 +498,12 @@ CStrafe*	BLT_RotStrafe(CImage* pimSrc,short sHotX,short sHotY,short sNumInc,
 	{
 	/*
 #ifdef	_DEBUG
-	if (!pimSrc) {TRACE("BLT_STRAFE: null src image!\n"); return NULL;}
-	if (sNumInc < 1)  {TRACE("BLT_STRAFE: no frames specified!\n"); return NULL;}
+	if (!pimSrc) {TRACE("BLT_STRAFE: null src image!\n"); return nullptr;}
+	if (sNumInc < 1)  {TRACE("BLT_STRAFE: no frames specified!\n"); return nullptr;}
 	if (sNumLinks && (!psX || !psY))  
-		{TRACE("BLT_STRAFE: null links passed!\n"); return NULL;}
+		{TRACE("BLT_STRAFE: null links passed!\n"); return nullptr;}
 	if (sDstH > (short)pimSrc->lHeight) 
-		{TRACE("BLT_STRAFE: magnification not currently supported!\n"); return NULL;}
+		{TRACE("BLT_STRAFE: magnification not currently supported!\n"); return nullptr;}
 #endif
 	
 	Strafe* pStrafe = (Strafe*) calloc(1,sizeof(Strafe));
@@ -525,7 +525,7 @@ CStrafe*	BLT_RotStrafe(CImage* pimSrc,short sHotX,short sHotY,short sNumInc,
 		pStrafe->pFrame[i].sHotX = 0;
 		pStrafe->pFrame[i].sHotY = 0;
 		pStrafe->pFrame[i].sCurDeg = 0;
-		if (sNumLinks == 0) pStrafe->pFrame[i].psLinkX = pStrafe->pFrame[i].psLinkY = NULL;
+		if (sNumLinks == 0) pStrafe->pFrame[i].psLinkX = pStrafe->pFrame[i].psLinkY = nullptr;
 		else // create space for links:
 			{
 			pStrafe->pFrame[i].psLinkX = (short*)calloc(sNumLinks,sizeof(short));
@@ -546,17 +546,17 @@ CStrafe*	BLT_RotStrafe(CImage* pimSrc,short sHotX,short sHotY,short sNumInc,
 /*
 void	BLT_FreeStrafe(Strafe* pStrafe)
 	{
-	if (pStrafe == NULL) return;
+	if (pStrafe == nullptr) return;
 	short i;
 
 	for (i=0;i<pStrafe->sNumFrames;i++)
 		{
-		if (pStrafe->pFrame != NULL)
+		if (pStrafe->pFrame != nullptr)
 			{
-			if (pStrafe->pFrame[i].psLinkX != NULL)
+			if (pStrafe->pFrame[i].psLinkX != nullptr)
 				free(pStrafe->pFrame[i].psLinkX);
 
-			if (pStrafe->pFrame[i].psLinkY != NULL)
+			if (pStrafe->pFrame[i].psLinkY != nullptr)
 				free(pStrafe->pFrame[i].psLinkY);
 			}
 		}
@@ -580,13 +580,13 @@ int16_t rspStrafeRotate(void *pReturnArray,	// Output
 
 	if (!pimSrc)
 		{
-		TRACE("rspStrafeRotate: NULL source passed!\n");
+		TRACE("rspStrafeRotate: nullptr source passed!\n");
 		return -1;
 		}
 
 	if (!pReturnArray)
 		{
-		TRACE("rspStrafeRotate: NULL receiver passed!\n");
+		TRACE("rspStrafeRotate: nullptr receiver passed!\n");
 		return -1;
 		}
 
@@ -643,7 +643,7 @@ int16_t rspStrafeRotate(void *pReturnArray,	// Output
 	int16_t sDstH = (int16_t)(dScale * pimSrc->m_sWinHeight);
 
 	// Make a copy of the input links so they can be center adjusted
-	int16_t *psLinkX = NULL, *psLinkY = NULL;
+	int16_t *psLinkX = nullptr, *psLinkY = nullptr;
 	int16_t j;
 
 	if (sNumLinks > 0)
@@ -688,8 +688,8 @@ int16_t rspStrafeRotate(void *pReturnArray,	// Output
 		*(pHotY.pL) = (sDstH>>1)-sY;
 
 		// Dpo the links, if any:
-		*(ppLinkX.ppL) = NULL;
-		*(ppLinkY.ppL) = NULL;
+		*(ppLinkX.ppL) = nullptr;
+		*(ppLinkY.ppL) = nullptr;
 
 		if (sNumLinks > 0)
 			{
@@ -728,5 +728,5 @@ int16_t rspStrafeRotate(void *pReturnArray,	// Output
 
 	pimSrc->Convert((RImage::Type)ulOldType);
 	
-	return NULL;
+	return nullptr;
 	}

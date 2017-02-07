@@ -48,7 +48,7 @@ int16_t		DeleteFSPR8(RImage* pImage);
 int16_t		LoadFSPR8(RImage* pImage, RFile* pcf);
 int16_t		SaveFSPR8(RImage* pImage, RFile* pcf);
 
-IMAGELINKLATE(FSPR8,ConvertToFSPR8,ConvertFromFSPR8,LoadFSPR8,SaveFSPR8,NULL,DeleteFSPR8);
+IMAGELINKLATE(FSPR8,ConvertToFSPR8,ConvertFromFSPR8,LoadFSPR8,SaveFSPR8,nullptr,DeleteFSPR8);
 
 // Not a complete descriptor -> just replaces the pData of an uncompressed buffer.
 class RCompressedImageData
@@ -58,7 +58,7 @@ public:
 	uint32_t		m_lBufSize;		// Size of the pixel data
 	uint32_t		m_lCodeSize;	// Size of the control block
 	uint16_t	usSourceType;	// uncompressed Image pre-compressed type
-	uint8_t*	pCBuf;		// Start of compressed picture data, 128-aligned, NULL for monochrome
+  uint8_t*	pCBuf;		// Start of compressed picture data, 128-aligned, nullptr for monochrome
 	uint8_t*	pCMem;
 	uint8_t* pControlBlock;// 32-aligned run length code for compressed BLiT
 	uint8_t** pLineArry;	// 32-aligned, arry of ptrs to pCBuf scanlines, 32-bit align assumed
@@ -68,8 +68,8 @@ public:
 	RCompressedImageData()
 		{
 		usCompType = usSourceType = 0;
-		pCBuf = pCMem = pControlBlock = NULL;
-		pLineArry = pCtlArry = NULL;
+    pCBuf = pCMem = pControlBlock = nullptr;
+    pLineArry = pCtlArry = nullptr;
 		m_lBufSize = m_lCodeSize = 0;
 		}
 
@@ -229,7 +229,7 @@ int16_t		LoadFSPR8(RImage* pImage, RFile* pcf)
 //
 int16_t		DeleteFSPR8(RImage* pImage)
 	{
-	if (pImage->m_pSpecial != NULL)
+  if (pImage->m_pSpecial != nullptr)
 		{
 		delete (RCompressedImageData*) pImage->m_pSpecial;
 		}
@@ -238,7 +238,7 @@ int16_t		DeleteFSPR8(RImage* pImage)
 	}
 
 // Returns NOT_SUPPORTED if conversion is not possible:
-// Destroys the image's buffer (officially) and sets it to NULL
+// Destroys the image's buffer (officially) and sets it to nullptr
 //
 int16_t   ConvertToFSPR8(RImage*  pImage)
 	{
@@ -257,7 +257,7 @@ int16_t   ConvertToFSPR8(RImage*  pImage)
 	  return RImage::NOT_SUPPORTED;
 	  }
 
-	if (pImage->m_pData == NULL)
+  if (pImage->m_pData == nullptr)
 	  {
 	  TRACE("Convert:  Invalid image passed to convert to FSPR8\n");
 	  return RImage::NOT_SUPPORTED;
@@ -317,7 +317,7 @@ int16_t   ConvertToFSPR8(RImage*  pImage)
 	int32_t	lSizeEstimate = ((int32_t)(pImage->m_sHeight+1))*pImage->m_sWidth*2 + 15;
 	pHeader->pCMem = (uint8_t*)malloc((size_t)pImage->m_sHeight*(size_t)pImage->m_sWidth+15);
 
-   pHeader->pCBuf = (uint8_t*)(( (address_t)(pHeader->pCMem) + 15) & ~ 15); // align it 128!
+   pHeader->pCBuf = (uint8_t*)(( (uintptr_t)(pHeader->pCMem) + 15) & ~ 15); // align it 128!
 	pHeader->pControlBlock = (uint8_t*)malloc((size_t)lSizeEstimate);
 
 	//******** For convenience, generate the Compressed Buffer immediately:
@@ -362,7 +362,7 @@ int16_t   ConvertToFSPR8(RImage*  pImage)
 	// NOTE: pucCPos is an open stack!
 	pHeader->pCMem = (uint8_t*)calloc(1,(size_t)(pucCPos - pHeader->pCBuf + 15));
 	// And align it:
-   pHeader->pCBuf = (uint8_t*)(( (address_t)(pHeader->pCMem) +15)&~15);
+   pHeader->pCBuf = (uint8_t*)(( (uintptr_t)(pHeader->pCMem) +15)&~15);
 	// Store the size of the Compressed Buffer:
 	pHeader->pLineArry[sH] = (uint8_t*)(size_t)(pucCPos - pHeader->pCBuf);
 
@@ -372,7 +372,7 @@ int16_t   ConvertToFSPR8(RImage*  pImage)
 	free(pucOldMem);
 	
 	// Now update the indexes (pLineArry) which point into PCBuf:
-   for (y=0;y<sH;y++) pHeader->pLineArry[y] += (address_t)(pHeader->pCBuf);
+   for (y=0;y<sH;y++) pHeader->pLineArry[y] += (uintptr_t)(pHeader->pCBuf);
 
 	//******** NOW, the challange... Create the Control Block!
 	pucBPos = pImage->m_pData;
@@ -443,7 +443,7 @@ int16_t   ConvertToFSPR8(RImage*  pImage)
 										(size_t)(pucConBlk - pHeader->pControlBlock));	
 
 	// Move the indexes in (pCtlArry)
-   for (y=0;y<sH;y++) pHeader->pCtlArry[y] += (address_t)(pHeader->pControlBlock);
+   for (y=0;y<sH;y++) pHeader->pCtlArry[y] += (uintptr_t)(pHeader->pControlBlock);
 
 	//******************************************************************
 
@@ -518,7 +518,7 @@ int16_t   ConvertFromFSPR8(RImage*        pImage)
 
 	// Remove pSpecial:
 	delete (RCompressedImageData*) pImage->m_pSpecial;
-	pImage->m_pSpecial = pImage->m_pSpecialMem = NULL;
+  pImage->m_pSpecial = pImage->m_pSpecialMem = nullptr;
 
 	return (int16_t)pImage->m_type;
 	}
@@ -535,7 +535,7 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,const 
 	// 1) preliminary parameter validation:
 #ifdef _DEBUG
 
-	if ((pimSrc == NULL) || (pimDst == NULL))
+  if ((pimSrc == nullptr) || (pimDst == nullptr))
 		{
 		TRACE("BLiT: null CImage* passed\n");
 		return -1;

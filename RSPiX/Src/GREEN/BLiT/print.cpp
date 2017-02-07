@@ -54,9 +54,9 @@
 //*************************************************************
 RFontOld::RFontOld()
 	{
-	m_pszFontName = NULL;
+	m_pszFontName = nullptr;
 	m_sMaxCellHeight = 0;
-	m_pHead = m_pFontList = NULL;
+	m_pHead = m_pFontList = nullptr;
 	}
 
 RFontOld::RFontOld(char*	pszName)
@@ -66,7 +66,7 @@ RFontOld::RFontOld(char*	pszName)
 
 	strcpy(m_pszFontName,pszName);
 	m_sMaxCellHeight = 0;
-	m_pHead = m_pFontList = NULL;
+	m_pHead = m_pFontList = nullptr;
 	}
 
 RFontOld::~RFontOld()
@@ -100,7 +100,7 @@ void	RFontOld::AddLetter(RImage* pimLetter)
 
 #ifdef _DEBUG
 
-	if (pimLetter == NULL)
+	if (pimLetter == nullptr)
 		{
 		TRACE("AddLetter: Null Image passed!\n");
 		return;
@@ -115,7 +115,7 @@ void	RFontOld::AddLetter(RImage* pimLetter)
 #endif
 
 	// determine if chosen font size exists:
-	FontNode* fCurSize = NULL;
+	FontNode* fCurSize = nullptr;
 	FontNode* fTemp;
 	RSpecialFSPR1* pInfo = (RSpecialFSPR1*)pimLetter->m_pSpecial;
 
@@ -123,13 +123,13 @@ void	RFontOld::AddLetter(RImage* pimLetter)
 		while (fTemp)
 			{
 			if (fTemp->sCellHeight == pimLetter->m_sHeight)
-				{fCurSize = fTemp;fTemp = NULL;}
+				{fCurSize = fTemp;fTemp = nullptr;}
 			else
 				fTemp = fTemp->pNext;
 			}
 	// if no size fits, start a new cached size for this font:
-	if (fCurSize == NULL)
-		{							// so char ptrs are NULL:
+	if (fCurSize == nullptr)
+		{							// so char ptrs are nullptr:
 		fTemp = (FontNode*) calloc(1,sizeof(FontNode));
 		fTemp->sCellHeight = pimLetter->m_sHeight;
 		fTemp->sUnproportionalWidth = pimLetter->m_sWidth;
@@ -177,8 +177,8 @@ short RFontOld::Create(char *pszFontName,char *pszFullInputName,
 	{
 	// Create a temp FNT, and a base CImage:
 	RFontOld fTemp;
-	CImage* pimLetter = NULL;
-	FILE* fp = NULL;
+	CImage* pimLetter = nullptr;
+	FILE* fp = nullptr;
 	char	szName[256];
 	char* pszName = (char*)calloc(1,256);
 
@@ -192,7 +192,7 @@ short RFontOld::Create(char *pszFontName,char *pszFullInputName,
 		{
 		sprintf(szName,pszFullInputName,i);
 		fp = fopen(szName,"r");
-		if (fp == NULL) continue;
+		if (fp == nullptr) continue;
 		fclose(fp);
 		TRACE("Character %02x (%03hd) found!\n",i,i);
 		pimLetter = new CImage();
@@ -373,12 +373,12 @@ int16_t	RFontOld::Load(char*	pszName)
 	strcpy(m_pszFontName,pszCompare);
 	// get max cell height:
 	fscanf(fp,"%hd\n",&s1); //m_sMaxCellHeight should be logical
-	RImage*	pimLetter = NULL;
+	RImage*	pimLetter = nullptr;
 	int32_t	lCodeLen;
 	uint8_t	ucCheckSum;
 	int32_t	ucCheck;
 	uint8_t*	pCode;
-	RSpecialFSPR1* pInfo = NULL;
+	RSpecialFSPR1* pInfo = nullptr;
 
 	// Note: 'K' will denote a kerning table which should
 	// be applied to the font just loaded.
@@ -470,13 +470,13 @@ RPrint::RPrint()
 	m_pBuf = m_buffer;
 	m_clrBKD = (uint8_t)0;
 	m_clrFGD = (uint8_t)255;
-	m_fnCurrent = NULL;
-	m_pFontSize = NULL;
-	m_pCurFracX = m_pCurFracY = NULL;
+	m_fnCurrent = nullptr;
+	m_pFontSize = nullptr;
+	m_pCurFracX = m_pCurFracY = nullptr;
 	m_sCurX = 0;
 	m_sCurY = 0;
 	//rspNameBuffers(&m_pimTarget); // Get the main buffer!  (Can't Do Yet cause Blue isn't initialized!)
-	m_pimTarget = NULL;
+	m_pimTarget = nullptr;
 	m_sCellH = 0;
 	m_sFORMAT = 0;
 	m_sL = m_sT = 0;
@@ -490,8 +490,8 @@ RPrint::RPrint()
 
 RPrint::~RPrint()
 	{
-	//if (m_pCurFracX != NULL) free (m_pCurFracX);
-	//if (m_pCurFracY != NULL) free (m_pCurFracY);
+	//if (m_pCurFracX != nullptr) free (m_pCurFracX);
+	//if (m_pCurFracY != nullptr) free (m_pCurFracY);
 	}
 
 RPrint&	RPrint::debug()
@@ -511,7 +511,7 @@ void	RPrint::SetNarrow(float fW) // don't use this way!
 
 	if (fW == 1.0)
 		{
-		m_pCurFracX = NULL;
+		m_pCurFracX = nullptr;
 		return;
 		}
 
@@ -534,7 +534,7 @@ void	RPrint::SetColumn(int16_t sX,int16_t sY,int16_t sW,int16_t sH,RImage* pimDs
 	if (sH) m_sH = sH;
 	if (pimDst) 
 		{
-		if ((m_pimTarget == NULL) && (m_sW == 0) && (m_sH == 0))// set w and h:
+		if ((m_pimTarget == nullptr) && (m_sW == 0) && (m_sH == 0))// set w and h:
 			{
 			m_sW = pimDst->m_sWidth;
 			m_sH = pimDst->m_sHeight;
@@ -547,7 +547,7 @@ void	RPrint::SetColumn(int16_t sX,int16_t sY,int16_t sW,int16_t sH,RImage* pimDs
 void	RPrint::SetFont(RFontOld* pFnt,int16_t	sHeight)
 	{
 	// choose a font to draw with!
-	if (pFnt == NULL)
+	if (pFnt == nullptr)
 		{
 		TRACE("set: error, null font!\n");
 		return;
@@ -561,11 +561,11 @@ void	RPrint::SetFont(RFontOld* pFnt,int16_t	sHeight)
 		return;
 		}
 	
-	m_pFontSize = NULL;
+	m_pFontSize = nullptr;
 	m_fnCurrent = pFnt;
 	m_sCellH = sHeight;
 	FontNode*	pSize = pFnt->m_pFontList;
-	FontNode*	pMax = NULL;
+	FontNode*	pMax = nullptr;
 
 	while (pSize)
 		{
@@ -582,7 +582,7 @@ void	RPrint::SetFont(RFontOld* pFnt,int16_t	sHeight)
 		}
 
 	if (m_pFontSize) // don't need to scale!
-		m_pCurFracY = NULL;
+		m_pCurFracY = nullptr;
 	else					// DO need to scale!
 		{
 		m_pFontSize = pMax;
@@ -592,7 +592,7 @@ void	RPrint::SetFont(RFontOld* pFnt,int16_t	sHeight)
 	
 	// deal with horizontal scaling:
 	/*
-	if (fNarrow == 1.0) m_pCurFracX = NULL; // use same for both!
+	if (fNarrow == 1.0) m_pCurFracX = nullptr; // use same for both!
 	else
 		{
 		SetNarrow(fNarrow); // do the calculation stuff!
@@ -632,7 +632,7 @@ void	RPrint::print(int16_t sX,int16_t sY,RImage* pimTarget)
 	{
 	m_sCurX = sX;
 	m_sCurY = sY;
-	if (pimTarget != NULL) 
+	if (pimTarget != nullptr) 
 		SetColumn(0,0,pimTarget->m_sWidth,
 			pimTarget->m_sHeight,pimTarget);
 	if (m_sCurX < m_sL) m_sCurX = m_sL;
@@ -644,7 +644,7 @@ void	RPrint::print(int16_t sX,int16_t sY,RImage* pimTarget)
 void	RPrint::printC(int16_t sX,int16_t sY,int16_t sW,RImage* pimTarget)
 	{
 	int16_t sCenterOffset = 0;
-	if (pimTarget == NULL) return;
+	if (pimTarget == nullptr) return;
 
 	sCenterOffset = (sW - GetWidth())>>1;
 	SetColumn(sX + sCenterOffset,sY);
@@ -750,7 +750,7 @@ void	RPrint::GetCell(RImage* pimLetter,int16_t* psH,
 							 int16_t* psStretchW // ONLY stretch effect included
 							 )
 	{
-	if (pimLetter == NULL)
+	if (pimLetter == nullptr)
 		{
 		*psH = m_sCellH;
 		if (psCellW) *psCellW = 0;
@@ -788,7 +788,7 @@ int16_t	RPrint::GetChar()
 	int16_t sChar;
 
 	do	sChar = *(m_pCurBuf++);
-	while ( (m_pFontSize->pLetters[sChar] == NULL) && // remove non-printables
+	while ( (m_pFontSize->pLetters[sChar] == nullptr) && // remove non-printables
 		(m_pCurBuf <= m_pBuf) );
 
 	if (m_pCurBuf > m_pBuf) return 0;
@@ -817,7 +817,7 @@ void	RPrint::PrintLine(int16_t sNumChar,int16_t /*sJustDelta*/,
 		{
 		sChar = GetChar();
 		pimCur = m_pFontSize->pLetters[sChar];
-		if (pimCur == NULL) continue; // Font has no letter
+		if (pimCur == nullptr) continue; // Font has no letter
 
 		GetCell(pimCur,&sH,&sCellW,&sStretchW);
 
@@ -857,7 +857,7 @@ RPrint& RPrint::print()
 	int16_t	sChar = 0;
 	int16_t	sCellW = 0,sStretchW = 0;
 
-	if (m_pimTarget == NULL) 
+	if (m_pimTarget == nullptr) 
 		{
 		rspNameBuffers(&m_pimTarget); // Get the main buffer!
 		m_sW = m_pimTarget->m_sWidth; // can't know default yet!
@@ -866,7 +866,7 @@ RPrint& RPrint::print()
 
 	if (m_pCurBuf == m_pBuf) {Clear(); return *this;} // nothing to print!
 
-	if (m_fnCurrent == NULL)
+	if (m_fnCurrent == nullptr)
 		{
 		TRACE("print: no font set!\n");
 		return *this;
@@ -927,7 +927,7 @@ RPrint& RPrint::print()
 			if (	LineFeed()) return *this;
 			}
 
-		if (pimCur == NULL) 
+		if (pimCur == nullptr) 
 			continue; // Font has no letter
 		
 		/* We cannot currently support bold!
@@ -1026,7 +1026,7 @@ int16_t	RPrint::GetWidth()
 
 	while (*pcPos)
 		{
-		GetCell(m_pFontSize->pLetters[(uint8_t)(*(pcPos++))],NULL,&sW);
+		GetCell(m_pFontSize->pLetters[(uint8_t)(*(pcPos++))],nullptr,&sW);
 		sTotW += sW;
 		}
 

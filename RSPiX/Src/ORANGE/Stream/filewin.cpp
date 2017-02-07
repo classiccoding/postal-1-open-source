@@ -107,13 +107,13 @@ CFileWin::~CFileWin()
 //////////////////////////////////////////////////////////////////////////////
 void CFileWin::Set(void)
 	{
-	m_pucWindow		= NULL;
-	m_paneUser.puc	= NULL;
-	m_paneIn.puc	= NULL;
+	m_pucWindow		= nullptr;
+	m_paneUser.puc	= nullptr;
+	m_paneIn.puc	= nullptr;
 
 	m_usStatus		= 0;
-	m_call			= NULL;
-	m_fnTime			= NULL;
+	m_call			= nullptr;
+	m_fnTime			= nullptr;
 
 	m_sActive		= FALSE;
 	m_sSuspend		= 1;		// Start out suspended.
@@ -143,11 +143,11 @@ void CFileWin::Reset(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t CFileWin::Alloc(int32_t lSize)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// Allocate new window . . .
 	m_pucWindow	= (uint8_t*)malloc(lSize);
-	if (m_pucWindow != NULL)
+	if (m_pucWindow != nullptr)
 		{
 		m_paneUser.puc		= m_pucWindow;
 		m_paneIn.puc		= m_pucWindow;
@@ -159,10 +159,10 @@ int16_t CFileWin::Alloc(int32_t lSize)
 	else
 		{
 		TRACE("Alloc(%ld): Unable to allocate file window.\n", lSize);
-		sRes = -1;
+		sResult = FAILURE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -172,13 +172,13 @@ int16_t CFileWin::Alloc(int32_t lSize)
 //////////////////////////////////////////////////////////////////////////////
 void CFileWin::Free(void)
 	{
-	if (m_pucWindow != NULL)
+	if (m_pucWindow != nullptr)
 		{
 		free(m_pucWindow);
 		
-		m_pucWindow		= NULL;
-		m_paneUser.puc	= NULL;
-		m_paneIn.puc	= NULL;
+		m_pucWindow		= nullptr;
+		m_paneUser.puc	= nullptr;
+		m_paneIn.puc	= nullptr;
 		}
 	}
 
@@ -190,7 +190,7 @@ void CFileWin::Free(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t CFileWin::NextIOPane(void)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// If next pane complete . . .
 	if (IsNextInputPaneReady() == TRUE)
@@ -202,10 +202,10 @@ int16_t CFileWin::NextIOPane(void)
 		}
 	else
 		{
-		sRes = -1;
+		sResult = FAILURE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -235,7 +235,7 @@ void CFileWin::Critical(void)
 		}
 
 	// If callback provided . . .
-	if (m_call != NULL)
+	if (m_call != nullptr)
 		{
 		// If next user pane is complete . . .
 		if (NextPane() == 0)
@@ -311,7 +311,7 @@ void CFileWin::CriticalStatic(CFileWin* pfw)
 //////////////////////////////////////////////////////////////////////////////
 int16_t CFileWin::Open(char* pszFile)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// Attempt to open file . . .
 	// Endianness doesn't matter (only uint8_t reads).
@@ -321,10 +321,10 @@ int16_t CFileWin::Open(char* pszFile)
 	else
 		{
 		TRACE("Open(\"%s\"): Unable to open file.\n");
-		sRes = -1;
+		sResult = FAILURE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -335,7 +335,7 @@ int16_t CFileWin::Open(char* pszFile)
 //////////////////////////////////////////////////////////////////////////////
 int16_t CFileWin::Close(void)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// If file is open . . .
 	if (m_file.IsOpen() == TRUE)
@@ -350,11 +350,11 @@ int16_t CFileWin::Close(void)
 		else
 			{
 			TRACE("Close(): CNFile::Close() failed.\n");
-			sRes = -1;
+			sResult = FAILURE;
 			}
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 
@@ -371,7 +371,7 @@ int16_t CFileWin::Close(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t CFileWin::SetSize(int32_t lWinSize, int32_t lIOPaneSize, int32_t lUserPaneSize)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	ASSERT(m_file.IsOpen() == TRUE);
 	ASSERT(lWinSize % lIOPaneSize == 0);
@@ -402,17 +402,17 @@ int16_t CFileWin::SetSize(int32_t lWinSize, int32_t lIOPaneSize, int32_t lUserPa
 			else
 				{
 				TRACE("SetSize(): CNFile::Seek failed.\n");
-				sRes = -3;
+				sResult = -3;
 				}
 			}
 		else
 			{
 			TRACE("SetSize(): CNFile::SetBufferSize failed.\n");
-			sRes = -2;
+			sResult = -2;
 			}
 		
 		// If any errors occurred after allocation . . .
-		if (sRes != 0)
+		if (sResult != 0)
 			{
 			Free();
 			}
@@ -420,10 +420,10 @@ int16_t CFileWin::SetSize(int32_t lWinSize, int32_t lIOPaneSize, int32_t lUserPa
 	else
 		{
 		TRACE("SetSize(): Unable to allocate new window.\n");
-		sRes = -1;
+		sResult = FAILURE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -434,7 +434,7 @@ int16_t CFileWin::SetSize(int32_t lWinSize, int32_t lIOPaneSize, int32_t lUserPa
 //////////////////////////////////////////////////////////////////////////////
 int16_t CFileWin::NextPane(void)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// If next pane complete . . .
 	if (IsNextPaneReady() == TRUE)
@@ -446,10 +446,10 @@ int16_t CFileWin::NextPane(void)
 		}
 	else
 		{
-		sRes = -1;
+		sResult = FAILURE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -460,7 +460,7 @@ int16_t CFileWin::NextPane(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t CFileWin::Start(void)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 	
 	if (--m_sSuspend == 0)
 		{
@@ -474,13 +474,13 @@ int16_t CFileWin::Start(void)
 				}
 			else
 				{
-				sRes = -1;
+				sResult = FAILURE;
 				TRACE("Start(): Unable to add critical function.\n");
 				}
 			}
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -491,7 +491,7 @@ int16_t CFileWin::Start(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t CFileWin::Suspend(void)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	m_sSuspend++;
 
@@ -505,12 +505,12 @@ int16_t CFileWin::Suspend(void)
 			}
 		else
 			{
-			sRes = -1;
+			sResult = FAILURE;
 			TRACE("Suspend(): Unable to remove critical function.\n");
 			}
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -520,15 +520,15 @@ int16_t CFileWin::Suspend(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t CFileWin::IsNextPaneReady(void)
 	{
-	int16_t	sRes	= TRUE;	// Assume ready.
+	int16_t	sResult	= TRUE;	// Assume ready.
 	
 	// If next pane is where the next read is going to occur . . .
 	if (m_paneUser.lPos + m_paneUser.lSize * 2L > m_paneIn.lPos + m_paneIn.lSize)
 		{
-		sRes = FALSE;
+		sResult = FALSE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -538,7 +538,7 @@ int16_t CFileWin::IsNextPaneReady(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t CFileWin::IsNextInputPaneReady(void)
 	{
-	int16_t	sRes	= TRUE;	// Assume ready.
+	int16_t	sResult	= TRUE;	// Assume ready.
 
 	int32_t	lNextInputPaneStart	= WINDOWINDEX(m_paneIn.lPos + m_paneIn.lSize);
 	int32_t	lNextInputPaneEnd		= WINDOWINDEX(m_paneIn.lPos + m_paneIn.lSize * 2L);
@@ -551,10 +551,10 @@ int16_t CFileWin::IsNextInputPaneReady(void)
 		&&	lNextInputPaneEnd		> lCurUserPaneStart)
 		{
 		// You can't fight the seither.
-		sRes = FALSE;
+		sResult = FALSE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 

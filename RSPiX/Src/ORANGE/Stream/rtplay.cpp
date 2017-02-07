@@ -191,13 +191,13 @@ void CRtPlay::Reset(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t CRtPlay::CreateCmd(uint16_t usCmd, int32_t lTime, int32_t lParm1, int32_t lParm2)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 	int32_t	lSize	= sizeof(usCmd) + sizeof(lParm1) + sizeof(lParm2);
 
 	uint8_t*	puc	= (uint8_t*)malloc(lSize);
 
 	// If successful . . .
-	if (puc != NULL)
+	if (puc != nullptr)
 		{
 		CNFile file;
 		file.Open(puc, lSize, ENDIAN_BIG);
@@ -216,11 +216,11 @@ int16_t CRtPlay::CreateCmd(uint16_t usCmd, int32_t lTime, int32_t lParm1, int32_
 		else
 			{
 			TRACE("CreateCmd(): Unable to add command to dispatcher.\n");
-			sRes = -1;
+			sResult = FAILURE;
 			}
 
 		// If any errors occurred after allocation . . .
-		if (sRes != 0)
+		if (sResult != 0)
 			{
 			free(puc);
 			}
@@ -228,10 +228,10 @@ int16_t CRtPlay::CreateCmd(uint16_t usCmd, int32_t lTime, int32_t lParm1, int32_
 	else
 		{
 		TRACE("CreateCmd(): Unable to allocate chunk for command.\n");
-		sRes = -1;
+		sResult = FAILURE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -412,7 +412,7 @@ int16_t CRtPlay::RtInfoCallStatic(	uint8_t* puc, int32_t lSize, uint16_t usType,
 //////////////////////////////////////////////////////////////////////////////
 int16_t CRtPlay::SetState(uint16_t usState)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// If new state . . .
 	if (m_usState != usState)
@@ -444,12 +444,12 @@ int16_t CRtPlay::SetState(uint16_t usState)
 					(usState == RT_STATE_ENDING	? "ENDING"		: "UNKNOWN"
 					) ) ) ) ) ) ), sNum);
 			// At least one handler rejected the state change.
-			sRes = 1;
+			sResult = 1;
 			}
 		
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -540,7 +540,7 @@ void CRtPlay::Critical(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t CRtPlay::Open(char* pszFileName)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	if (Close() == 0)
 		{
@@ -557,11 +557,11 @@ int16_t CRtPlay::Open(char* pszFileName)
 				{
 				TRACE("Open(\"%s\"): Unable to set file window and pane sizes.\n", 
 						pszFileName);
-				sRes = -3;
+				sResult = -3;
 				}
 
 			// If any errors occur after opening file . . .
-			if (sRes != 0)
+			if (sResult != 0)
 				{
 				// Close it.
 				Close();
@@ -570,16 +570,16 @@ int16_t CRtPlay::Open(char* pszFileName)
 		else
 			{
 			TRACE("Open(\"%s\"): Unable to open file window.\n", pszFileName);
-			sRes = -2;
+			sResult = -2;
 			}
 		}
 	else
 		{
 		TRACE("Open(\"%s\"): Unable to close currently open stream file.\n", pszFileName);
-		sRes = -1;
+		sResult = FAILURE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -590,7 +590,7 @@ int16_t CRtPlay::Open(char* pszFileName)
 //////////////////////////////////////////////////////////////////////////////
 int16_t CRtPlay::Close(void)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// If stopped . . .
 	if (m_usState == RT_STATE_STOPPED)
@@ -604,16 +604,16 @@ int16_t CRtPlay::Close(void)
 		else
 			{
 			TRACE("Close(): Failed to close the file window!\n");
-			sRes = -2;
+			sResult = -2;
 			}
 		}
 	else
 		{
 		TRACE("Close(): The stream file is not stopped!\n");
-		sRes = -1;
+		sResult = FAILURE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -624,7 +624,7 @@ int16_t CRtPlay::Close(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t CRtPlay::Play(void)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// If stopped . . .
 	if (m_usState == RT_STATE_STOPPED)
@@ -650,11 +650,11 @@ int16_t CRtPlay::Play(void)
 					else
 						{
 						TRACE("Play(): At least one handler rejected starting.\n");
-						sRes = -4;
+						sResult = -4;
 						}
 
 					// If any errors occurred after we started the critical handler . . .
-					if (sRes != 0)
+					if (sResult != 0)
 						{
 						Blu_RemoveCritical(CriticalStatic);
 						}
@@ -662,11 +662,11 @@ int16_t CRtPlay::Play(void)
 				else
 					{
 					TRACE("Play(): Unable to add critical handler.\n");
-					sRes = -5;
+					sResult = -5;
 					}
 
 				// If any errors occurred after we started the dispatcher . . .
-				if (sRes != 0)
+				if (sResult != 0)
 					{
 					m_dispatch.Suspend();
 					}
@@ -674,11 +674,11 @@ int16_t CRtPlay::Play(void)
 			else
 				{
 				TRACE("Play(): The dispatcher did not start!\n");
-				sRes = -3;
+				sResult = -3;
 				}
 
 			// If any errors occurred after we started the file window . . .
-			if (sRes != 0)
+			if (sResult != 0)
 				{
 				m_filewin.Suspend();
 				}
@@ -686,11 +686,11 @@ int16_t CRtPlay::Play(void)
 		else
 			{
 			TRACE("Play(): The file window did not start!\n");
-			sRes = -2;
+			sResult = -2;
 			}
 		
 		// If any errors occurred after we started the file window . . .
-		if (sRes != 0)
+		if (sResult != 0)
 			{
 			m_filewin.Suspend();
 			}
@@ -698,10 +698,10 @@ int16_t CRtPlay::Play(void)
 	else
 		{
 		TRACE("Play(): The stream file is not stopped!\n");
-		sRes = -1;
+		sResult = FAILURE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -712,7 +712,7 @@ int16_t CRtPlay::Play(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t CRtPlay::Abort(void)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// If not stopped . . .
 	if (m_usState != RT_STATE_STOPPED)
@@ -726,7 +726,7 @@ int16_t CRtPlay::Abort(void)
 			else
 				{
 				TRACE("Abort(): Unable to suspend file window.\n");
-				sRes = -2;
+				sResult = -2;
 				}
 			}
 
@@ -739,12 +739,12 @@ int16_t CRtPlay::Abort(void)
 			else
 				{
 				TRACE("Abort(): Unable to suspend dispatcher.\n");
-				sRes = -3;
+				sResult = -3;
 				}
 			}
 
 		// If completed successfully . . .
-		if (sRes == 0)
+		if (sResult == 0)
 			{
 			// Change state.
 			if (SetState(RT_STATE_ABORTING) != 0)
@@ -756,10 +756,10 @@ int16_t CRtPlay::Abort(void)
 	else
 		{
 		TRACE("Abort(): The stream file is already stopped!\n");
-		sRes = -1;
+		sResult = FAILURE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -770,7 +770,7 @@ int16_t CRtPlay::Abort(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t CRtPlay::Pause(void)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// If playing . . .
 	if (m_usState == RT_STATE_PLAYING)
@@ -779,7 +779,7 @@ int16_t CRtPlay::Pause(void)
 		m_rttime.Suspend();
 
 		// If completed successfully . . .
-		if (sRes == 0)
+		if (sResult == 0)
 			{
 			// Change state.
 			if (SetState(RT_STATE_PAUSE) == 0)
@@ -789,17 +789,17 @@ int16_t CRtPlay::Pause(void)
 				{
 				TRACE("Pause(): At least one handler responded with an error to "
 						"entering the PAUSE state.\n");
-				sRes = -3;
+				sResult = -3;
 				}
 			}
 		}
 	else
 		{
 		TRACE("Pause(): The stream file is stopped!\n");
-		sRes = -1;
+		sResult = FAILURE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -810,7 +810,7 @@ int16_t CRtPlay::Pause(void)
 //////////////////////////////////////////////////////////////////////////////
 int16_t CRtPlay::Resume(void)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	if (m_usState == RT_STATE_PAUSE)
 		{
@@ -825,7 +825,7 @@ int16_t CRtPlay::Resume(void)
 			{
 			TRACE("Resume(): At least one handler responded with an "
 					"error to entering the PLAYING state.\n");
-			sRes = -4;
+			sResult = -4;
 
 			if (Abort() != 0)
 				{
@@ -836,10 +836,10 @@ int16_t CRtPlay::Resume(void)
 	else
 		{
 		TRACE("Resume(): The stream file is not paused!\n");
-		sRes = -1;
+		sResult = FAILURE;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////

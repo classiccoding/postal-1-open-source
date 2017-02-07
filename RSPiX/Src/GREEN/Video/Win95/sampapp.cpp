@@ -43,18 +43,18 @@
 int16_t WinProcHook(HWND hWnd, UINT uiMsg, WPARAM wParam, LPARAM lParam, 
 						LRESULT* plResult)
 	{
-	int16_t	sRes	= 0; // Assume normal processing.
+	int16_t	sResult	= 0; // Assume normal processing.
 
 	switch (uiMsg)
 		{
 		case WM_SETCURSOR:
 //			TRACE("WinProcHook(): WM_SETCURSOR.\n");
-//			sRes = TRUE;
+//			sResult = TRUE;
 //			*plResult = TRUE;
 			break;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -86,7 +86,7 @@ static void WaitClick(int16_t sButton)
 #define MCI_RETRIES	3
 static int16_t ToggleVideo(CVideo* pvideo)
 	{
-	int16_t	sRes	= 0;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	Blu_HookWinProc(WinProcHook);
 
@@ -97,7 +97,7 @@ static int16_t ToggleVideo(CVideo* pvideo)
 		if (pvideo->IsPlaying() == TRUE)
 			{
 			TRACE("ToggleVideo(): Video did not stop yet.\n");
-			sRes = -1;
+			sResult = FAILURE;
 			}
 		else
 			{
@@ -111,7 +111,7 @@ static int16_t ToggleVideo(CVideo* pvideo)
 			int16_t	sRetries;
 			int32_t	lEndTime = 0L;
 			for (	sRetries = 0;
-					sRetries < MCI_RETRIES && sRes == 0 && pvideo->IsPlaying() == FALSE;
+					sRetries < MCI_RETRIES && sResult == 0 && pvideo->IsPlaying() == FALSE;
 				 )
 				{
 				if (lEndTime < Blu_GetTime())
@@ -130,7 +130,7 @@ static int16_t ToggleVideo(CVideo* pvideo)
 						else
 							{
 							TRACE("ToggleVideo(): Play returned error.\n");
-							sRes = -2;
+							sResult = -2;
 							}
 						}
 					}
@@ -149,7 +149,7 @@ static int16_t ToggleVideo(CVideo* pvideo)
 			}
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 ///////////////////////////////////////////////////////////////////////////////

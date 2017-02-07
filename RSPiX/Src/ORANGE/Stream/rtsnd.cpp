@@ -117,7 +117,7 @@ CRtSnd::~CRtSnd()
 //////////////////////////////////////////////////////////////////////////////
 void CRtSnd::Set(void)
 	{
-	m_pdispatch		= NULL;
+	m_pdispatch		= nullptr;
 
 	for (int16_t i = 0; i < MAX_SND_CHANNELS; i++)
 		{
@@ -143,11 +143,11 @@ void CRtSnd::Reset(void)
 int16_t CRtSnd::Use(uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFlags,
 						int32_t lTime)
 	{
-	int16_t	sRes		= RET_FREE;	// Always free.
+	int16_t	sResult		= RET_FREE;	// Always free.
 	int16_t	sError	= 0;
 
 	ASSERT(usType	== RT_TYPE_SND);
-	ASSERT(puc		!= NULL);
+	ASSERT(puc		!= nullptr);
 
 	CNFile file;
 	file.Open(puc, lSize, ENDIAN_LITTLE);
@@ -228,7 +228,7 @@ int16_t CRtSnd::Use(uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFlag
 
 			// Create a SNDBUF for this data . . .
 			PSNDBUF	psb	= new SNDBUF;
-			if (psb != NULL)
+			if (psb != nullptr)
 				{
 				// Fill.
 				psb->puc		= puc;
@@ -239,7 +239,7 @@ int16_t CRtSnd::Use(uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFlag
 				if (psndhdr->qsndbufs.EnQ(psb) == 0)
 					{
 					// Chunk is in queue, do not free.
-					sRes = RET_DONTFREE;
+					sResult = RET_DONTFREE;
 					}
 				else
 					{
@@ -293,13 +293,13 @@ int16_t CRtSnd::Use(uint8_t* puc, int32_t lSize, uint16_t usType, uint8_t ucFlag
 		psndhdr->usStatus	= STATUS_ERROR;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
 //
 // Callback for mixer.
-// Returns new buffer to play or NULL if none.
+// Returns new buffer to play or nullptr if none.
 //	(static)
 //
 //////////////////////////////////////////////////////////////////////////////
@@ -316,12 +316,12 @@ void* CRtSnd::MixCall(	uint16_t usMsg, void* pData, uint32_t* pulBufSize,
 		case BLU_SNDMSG_OK:
 		case MIX_SNDMSG_QUEUEING:
 			// If this is not the first time since we (re)started . . .
-			if (pData != NULL)
+			if (pData != nullptr)
 				{
 				// Get buffer that's done.
 				psb	= psndhdr->qsndbufs.DeQ();
 				// Must get.
-				ASSERT(psb != NULL)
+				ASSERT(psb != nullptr)
 				// Should match supplied.
 				if /*ASSERT*/(psb->puc + DATACHUNKHEADERSIZE == (uint8_t*)pData)
 					TRACE("MixCall(): Not the expected pointer.\n");
@@ -340,7 +340,7 @@ void* CRtSnd::MixCall(	uint16_t usMsg, void* pData, uint32_t* pulBufSize,
 				{
 				// Get the next buffer that's ready . . .
 				psb = psndhdr->qsndbufs.Peek();
-				if (psb != NULL)
+				if (psb != nullptr)
 					{
 					// Set data pointer and size.
 					pData			= psb->puc		+ DATACHUNKHEADERSIZE;
@@ -350,21 +350,21 @@ void* CRtSnd::MixCall(	uint16_t usMsg, void* pData, uint32_t* pulBufSize,
 					{
 					psndhdr->usStatus	|= STATUS_ERROR;
 					TRACE("MixCall(): No buffers in queue!!\n");
-					pData	= NULL;
+					pData	= nullptr;
 					}
 				}
 			else
 				{
 				// We're done.  Let mixer know.
-				pData	= NULL;
+				pData	= nullptr;
 				// Mark channel as done.
 				psndhdr->usStatus	|= STATUS_DONE;
 				}
 
-			// If we're going to return NULL . . .
-			if (pData == NULL)
+			// If we're going to return nullptr . . .
+			if (pData == nullptr)
 				{
-				// Returning NULL will stop callbacks.
+				// Returning nullptr will stop callbacks.
 				}
 			break;
 
@@ -417,7 +417,7 @@ void CRtSnd::CritiCall(uint32_t)
 	{
 	PSND_RT_HDR	psndhdr	= ms_listSndhdrs.GetHead();
 
-	while(psndhdr != NULL)
+	while(psndhdr != nullptr)
 		{
 		int16_t	sError	= 0;
 
@@ -431,7 +431,7 @@ void CRtSnd::CritiCall(uint32_t)
 				{
 				// Look at next chunk.
 				PSNDBUF	psb	= psndhdr->qsndbufs.Peek();
-				if (psb != NULL)
+				if (psb != nullptr)
 					{
 					// If it is time for this chunk . . .
 					if (psb->lTime <= lTime)
@@ -485,14 +485,14 @@ int16_t CRtSnd::UseStatic(	uint8_t* puc, int32_t lSize, uint16_t usType,
 //////////////////////////////////////////////////////////////////////////////
 void CRtSnd::SetDispatcher(CDispatch* pdispatch)
 	{
-	if (m_pdispatch != NULL)
+	if (m_pdispatch != nullptr)
 		{
-		m_pdispatch->SetDataHandler(RT_TYPE_SND, NULL);
+		m_pdispatch->SetDataHandler(RT_TYPE_SND, nullptr);
 		}
 
 	m_pdispatch	= pdispatch;
 
-	if (m_pdispatch != NULL)
+	if (m_pdispatch != nullptr)
 		{
 		m_pdispatch->SetDataHandler(RT_TYPE_SND, UseStatic);
 		m_pdispatch->SetUserVal(RT_TYPE_SND, (int32_t)this);

@@ -95,7 +95,7 @@ class CFileWin
 		void ClearStatus(void)
 			{ m_usStatus = 0; }
 
-		// Set time function.  Set to NULL to clear.
+    // Set time function.  Set to nullptr to clear.
 		void SetTimeFunc(FILEWIN_TIMEFUNC fnTime, int32_t lTimeUser)
 			{ m_fnTime = fnTime; m_lTimeUser = lTimeUser; }
 
@@ -117,7 +117,7 @@ class CFileWin
 
 		// Get time based on user handler or blue.
 		int32_t GetTime(void)
-			{ return (m_fnTime == NULL ? Blu_GetTime() : (*m_fnTime)(m_lTimeUser) ); }
+      { return (m_fnTime == nullptr ? Blu_GetTime() : (*m_fnTime)(m_lTimeUser) ); }
 
 		// Returns TRUE if critical handler is Blue's critical list.
 		int16_t IsActive(void)
