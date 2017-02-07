@@ -80,11 +80,11 @@ static JOYSTATE	ms_ajsPrev[NUM_JOYSTICKS];		// Previous joystick state.
 //////////////////////////////////////////////////////////////////////////////
 extern void Joy_Init(void)
 	{
-	short sNum = (short)joyGetNumDevs();
+  int16_t sNum = (int16_t)joyGetNumDevs();
 
 	uint16_t	usRangeX, usRangeY, usRangeZ;
 
-	for (short i = 0; i < sNum && i < NUM_JOYSTICKS; i++)
+  for (size_t i = 0; i < sNum && i < NUM_JOYSTICKS; i++)
 		{
 		switch (joyGetDevCaps((i == 0 ? JOYSTICKID1 : JOYSTICKID2), 
 									 &(ms_ajoycaps[i]), 
@@ -151,9 +151,9 @@ extern void Joy_Init(void)
 // Returns 0 on success.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern short Blu_UpdateJoy(short sJoy)
+extern int16_t Blu_UpdateJoy(int16_t sJoy)
 	{
-	short sRes = 0; // Assume success.
+  int16_t sResult = SUCCESS; // Assume success.
 
 	ASSERT(sJoy == 0 || sJoy == 1);
 
@@ -187,39 +187,39 @@ extern short Blu_UpdateJoy(short sJoy)
 			break;
 		}
 
-	return sRes;
+	return sResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
 //
-// Puts the coordinates of joystick sJoy's position in your longs.
+// Puts the coordinates of joystick sJoy's position in your int32_ts.
 // Returns nothing.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern void Blu_GetJoyPos(short sJoy, long *px, long *py, long *pz)
+extern void Blu_GetJoyPos(int16_t sJoy, int32_t *px, int32_t *py, int32_t *pz)
 	{
 	ASSERT(sJoy == 0 || sJoy == 1);
 
 	// Copy the coordinates.
-	*px = (long)ms_ajiCurr[sJoy].wXpos;
-	*py = (long)ms_ajiCurr[sJoy].wYpos;
-	*pz = (long)ms_ajiCurr[sJoy].wZpos;
+  *px = (int32_t)ms_ajiCurr[sJoy].wXpos;
+  *py = (int32_t)ms_ajiCurr[sJoy].wYpos;
+  *pz = (int32_t)ms_ajiCurr[sJoy].wZpos;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
 //
-// Puts the coordinates of the previous joystick sJoy's position in your longs.
+// Puts the coordinates of the previous joystick sJoy's position in your int32_ts.
 // Returns nothing.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern void Blu_GetJoyPrevPos(short sJoy, long *px, long *py, long *pz)
+extern void Blu_GetJoyPrevPos(int16_t sJoy, int32_t *px, int32_t *py, int32_t *pz)
 	{
 	ASSERT(sJoy == 0 || sJoy == 1);
 
 	// Copy the coordinates.
-	*px = (long)ms_ajiPrev[sJoy].wXpos;
-	*py = (long)ms_ajiPrev[sJoy].wYpos;
-	*pz = (long)ms_ajiPrev[sJoy].wZpos;
+  *px = (int32_t)ms_ajiPrev[sJoy].wXpos;
+  *py = (int32_t)ms_ajiPrev[sJoy].wYpos;
+  *pz = (int32_t)ms_ajiPrev[sJoy].wZpos;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -227,7 +227,7 @@ extern void Blu_GetJoyPrevPos(short sJoy, long *px, long *py, long *pz)
 // Returns the current joystick sJoy's state.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern uint16_t Blu_GetJoyState(short sJoy)
+extern uint16_t Blu_GetJoyState(int16_t sJoy)
 	{
 	ASSERT(sJoy == 0 || sJoy == 1);
 
@@ -239,7 +239,7 @@ extern uint16_t Blu_GetJoyState(short sJoy)
 // Returns the previous joystick sJoy's state.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern uint16_t Blu_GetJoyPrevState(short sJoy)
+extern uint16_t Blu_GetJoyPrevState(int16_t sJoy)
 	{
 	ASSERT(sJoy == 0 || sJoy == 1);
 
@@ -251,7 +251,7 @@ extern uint16_t Blu_GetJoyPrevState(short sJoy)
 // Places the current joystick sJoy's state.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern void Blu_GetJoyState(short sJoy, PJOYSTATE pjs)
+extern void Blu_GetJoyState(int16_t sJoy, PJOYSTATE pjs)
 	{
 	ASSERT(sJoy == 0 || sJoy == 1);
 
@@ -263,7 +263,7 @@ extern void Blu_GetJoyState(short sJoy, PJOYSTATE pjs)
 // Places the previous joystick sJoy's state.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern void Blu_GetJoyPrevState(short sJoy, PJOYSTATE pjs)
+extern void Blu_GetJoyPrevState(int16_t sJoy, PJOYSTATE pjs)
 	{
 	ASSERT(sJoy == 0 || sJoy == 1);
 
