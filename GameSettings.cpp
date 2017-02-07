@@ -218,11 +218,13 @@ CGameSettings::CGameSettings(void)
 	RFile file;
 	time(&lTime);
 	timeinfo = localtime (&lTime);
-	if (timeinfo->tm_mon == 1 && timeinfo->tm_mday == 6)
+	if (timeinfo->tm_mon == 3 && timeinfo->tm_mday == 1)
 	{
+		TRACE("It's April Fools my dude!\n");
 		m_sAprilFools = TRUE;
 		m_sKidMode = TRUE;
 	} else {
+		TRACE("It ain't April Fools my dude!\n");
 		m_sAprilFools = FALSE;
 		m_sKidMode = FALSE;
 	}
@@ -410,6 +412,19 @@ int16_t CGameSettings::LoadPrefs(
 	#ifdef KID_FRIENDLY_OPTION
 	if (m_sAprilFools == TRUE)
 	{
+		// As per Rich's request, the Kid Mode option is available to
+		// everyone on April Fool's Day, and on every other day, only to
+		// those who have completed the full campaign ("ALL LEVELS").
+		// It defaults to on on April Fool's, and off when it is
+		// unlocked via beating the campaign. Since we always want it to
+		// be automatically enabled on April Fool's, but we don't want
+		// this to interfere with the user's choice on other days, AND
+		// we don't want the option to be automatically re-enabled if
+		// they disable it and then restart the game on April Fool's,
+		// the best way I can think of to handle these situations is to
+		// keep track of the setting in a separate variable on April
+		// Fool's Day. I guess the other possibility is to force it to
+		// be enabled on April Fool's...
 		pPrefs->GetVal("Game", "KidModeAprilFools", m_sKidMode, &m_sKidMode);
 	} else {
 		pPrefs->GetVal("Game", "KidMode", m_sKidMode, &m_sKidMode);
