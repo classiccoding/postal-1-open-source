@@ -1266,7 +1266,8 @@ Menu	menuOptions =
 			{ g_pszOptionsMenu_Performance,	TRUE,			&menuFeatures,			nullptr,	},
 			{ g_pszOptionsMenu_Difficulty,	TRUE,			&menuPlayOptions,		nullptr,	},
 			{ g_pszOptionsMenu_Crosshair,	TRUE,			nullptr,		nullptr,	},
-			{ "",										FALSE,		nullptr,						nullptr,	},
+         { g_pszMultiplayerSetupMenu_Color,			TRUE,			nullptr,				nullptr, },
+         { "",										FALSE,		nullptr,						nullptr,	},
 			nullptr							// Terminates list.
 		},
 	};
@@ -3148,7 +3149,6 @@ Menu	menuMultiOptions =
 	// Menu items.
 		{	// pszText,				sEnabled,	pmenu,			pgui
 			{ g_pszMultiplayerSetupMenu_Name,			TRUE,			nullptr,				nullptr,	},
-			{ g_pszMultiplayerSetupMenu_Color,			TRUE,			nullptr,				nullptr, },
 			{ g_pszMultiplayerSetupMenu_Protocol,		TRUE,			nullptr,				nullptr,	},
 			{ g_pszMultiplayerSetupMenu_Connection,	TRUE,			nullptr,				nullptr,	},
 			{ "",													FALSE,		nullptr,				nullptr,	},
