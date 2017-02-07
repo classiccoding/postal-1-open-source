@@ -134,7 +134,7 @@ int16_t CAnim3D::Get(				// Returns 0 on success.
 	// No current support for weapon transforms either.
 
 	// If an error occurred . . .
-	if (sResult != 0)
+   if (sResult != SUCCESS)
 		{
 #if defined(VERBOSE)
 		// Complain.

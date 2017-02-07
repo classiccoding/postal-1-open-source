@@ -842,7 +842,7 @@ int16_t CFire::GetResources(void)			// Returns 0 if successfull, non-zero otherw
 			break;
 	}
 
-	if (sResult != 0)
+	if (sResult != SUCCESS)
 		TRACE("CFire::GetResources - Error getting fire animation resource\n");
 
 	return sResult;

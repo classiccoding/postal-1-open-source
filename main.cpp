@@ -214,7 +214,7 @@ static int16_t SetupVideo(					// Returns 0 on success.
 		MAIN_WINDOW_HEIGHT,
 		MAIN_SCREEN_PAGES,
 		MAIN_SCREEN_SCALING);
-	if (sResult != 0)
+	if (sResult != SUCCESS)
 		{
 
 		// Create description of video mode for error messages
@@ -259,7 +259,7 @@ static int16_t SetupVideo(					// Returns 0 on success.
 				MAIN_WINDOW_HEIGHT,
 				MAIN_SCREEN_PAGES,
 				MAIN_SCREEN_SCALING);
-			if (sResult != 0)
+			if (sResult != SUCCESS)
 				{
 
 				// If current depth is different from required depth, then that is most likely the
@@ -573,7 +573,7 @@ static bool prepareSteamworks()
 
     if (EnableSteamAchievements)
     {
-        bool nukeAchievements = rspCommandLine("nukesteamachievements") != 0;
+        bool nukeAchievements = rspCommandLine("nukesteamachievements") != SUCCESS;
         if (nukeAchievements)
         {
             if (rspMsgBox(RSP_MB_BUT_OKCANCEL | RSP_MB_ICN_QUERY, "Whoa!", "%s", "Really nuke your Steam Achievements? This can't be undone!") != RSP_MB_RET_OK)
@@ -595,7 +595,7 @@ static bool prepareSteamworks()
 
     if (EnableSteamCloud)
     {
-        bool nukeCloud = rspCommandLine("nukesteamcloud") != 0;
+        bool nukeCloud = rspCommandLine("nukesteamcloud") != SUCCESS;
         if (nukeCloud)
         {
             if (rspMsgBox(RSP_MB_BUT_OKCANCEL | RSP_MB_ICN_QUERY, "Whoa!", "%s", "Really nuke the Steam Cloud? This can't be undone!") != RSP_MB_RET_OK)

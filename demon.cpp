@@ -799,7 +799,7 @@ int16_t CDemon::Init(void)							// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDemon::Kill(void)							// Returns 0 if successfull, non-zero otherwise
 {
-	if (m_pImage != 0)
+   if (m_pImage != nullptr)
 		rspReleaseResource(&g_resmgrGame, &m_pImage);
 
 	m_pRealm->m_scene.RemoveSprite(&m_sprite);

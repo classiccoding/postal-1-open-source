@@ -265,7 +265,7 @@ class RProps
 					}
 
 				// If any errors occurred after allocation . . .
-				if (sResult != 0)
+				if (sResult != SUCCESS)
 					{
 					delete pn;
 					}

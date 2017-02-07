@@ -85,7 +85,7 @@ static SDL_GameController *ms_Controllers[NUM_JOYSTICKS];
 //////////////////////////////////////////////////////////////////////////////
 extern void Joy_Init(void)
 	{
-        if (SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) == FAILURE)
+        if (SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) != SUCCESS)
             return;
         SDL_JoystickEventState(SDL_IGNORE);
         SDL_GameControllerEventState(SDL_IGNORE);
@@ -126,7 +126,7 @@ static void calcAxis(SDL_GameController *controller, const SDL_GameControllerAxi
 
 static inline void calcButton(SDL_GameController *controller, const SDL_GameControllerButton button, uint32_t *bits, const uint32_t posbit)
 {
-    if (SDL_GameControllerGetButton(controller, button) != 0)
+    if (SDL_GameControllerGetButton(controller, button) == TRUE)
         *bits |= posbit;
 }
 

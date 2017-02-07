@@ -513,7 +513,7 @@ int16_t CExplode::GetResources(int16_t sAnim)						// Returns 0 if successfull, 
 	else
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(GE_FILE), &m_pAnimChannel, RFile::LittleEndian);
 
-	if (sResult != 0)
+	if (sResult != SUCCESS)
 		TRACE("CExplosion::GetResources - Error getting explosion animation\n");
 
 	return sResult;

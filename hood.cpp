@@ -1065,7 +1065,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 		if (rspGetResource(
 			&(m_pRealm->m_resmgr),
 			szFileName,
-			&m_pimBackground) != 0)
+         &m_pimBackground) != SUCCESS)
 			{
 			sResult = FAILURE;
 			TRACE("CHood::GetResources(): Couldn't load background: %s\n", szFileName);
@@ -1113,7 +1113,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 		if (rspGetResource(
 			&(m_pRealm->m_resmgr), 
 			szFileName,
-			&m_pTerrainMap) != 0)
+         &m_pTerrainMap) != SUCCESS)
 			{
 			sResult = FAILURE;
 			TRACE("CHood::GetResources(): Couldn't load attribute map %s\n", szFileName);
@@ -1125,7 +1125,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 		if (rspGetResource(
 			&(m_pRealm->m_resmgr),
 			szFileName,
-			&m_pLayerMap) != 0)
+         &m_pLayerMap) != SUCCESS)
 			{
 			sResult = FAILURE;
 			TRACE("CHood::GetResources(): Couldn't load attribute map %s\n", szFileName);
@@ -1138,7 +1138,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 		if (rspGetResource(
 			&(m_pRealm->m_resmgr),
 			szFileName,
-			&m_pimXRayMask) != 0)
+         &m_pimXRayMask) != SUCCESS)
 			{
 			sResult = FAILURE;
 			TRACE("GetResources(): Failed to load: %s.\n", szFileName);
@@ -1148,7 +1148,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 		if (rspGetResource(
 			&(m_pRealm->m_resmgr),
 			szFileName,
-			&m_pmaTransparency) != 0)
+         &m_pmaTransparency) != SUCCESS)
 			{
 			sResult = FAILURE;
 			TRACE("GetResources(): Failed to load: %s.\n", szFileName);
@@ -1158,7 +1158,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 		if (rspGetResource(
 			&(m_pRealm->m_resmgr),
 			szFileName,
-			&m_pltAmbient) != 0)
+         &m_pltAmbient) != SUCCESS)
 			{
 			sResult = FAILURE;
 			TRACE("GetResources(): Failed to load: %s.\n", szFileName);
@@ -1168,7 +1168,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 		if (rspGetResource(
 			&(m_pRealm->m_resmgr),
 			szFileName,
-			&m_pltSpot) != 0)
+         &m_pltSpot) != SUCCESS)
 			{
 			sResult = FAILURE;
 			TRACE("GetResources(): Failed to load: %s.\n", szFileName);
@@ -1179,7 +1179,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 		if (rspGetResource(
 			&(m_pRealm->m_resmgr),
 			szFileName,
-			&m_pimEmptyBar) != 0)
+         &m_pimEmptyBar) != SUCCESS)
 			{
 			sResult = FAILURE;
 			TRACE("GetResources(): Failed to load: %s.\n", szFileName);
@@ -1188,7 +1188,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 		if (rspGetResource(
 			&(m_pRealm->m_resmgr),
 			szFileName,
-			&m_pimEmptyBarSelected) != 0)
+         &m_pimEmptyBarSelected) != SUCCESS)
 			{
 			sResult = FAILURE;
 			TRACE("GetResources(): Failed to load: %s.\n", szFileName);
@@ -1197,7 +1197,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 		if (rspGetResource(
 			&(m_pRealm->m_resmgr),
 			szFileName,
-			&m_pimFullBar) != 0)
+         &m_pimFullBar) != SUCCESS)
 			{
 			sResult = FAILURE;
 			TRACE("GetResources(): Failed to load: %s.\n", szFileName);
@@ -1206,7 +1206,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 		if (rspGetResource(
 			&(m_pRealm->m_resmgr),
 			szFileName,
-			&m_pimFullBarSelected) != 0)
+         &m_pimFullBarSelected) != SUCCESS)
 			{
 			sResult = FAILURE;
 			TRACE("GetResources(): Failed to load: %s.\n", szFileName);
@@ -1215,7 +1215,7 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 		if (rspGetResource(
 			&(m_pRealm->m_resmgr),
 			szFileName,
-			&m_pimTopBar) != 0)
+         &m_pimTopBar) != SUCCESS)
 			{
 			sResult = FAILURE;
 			TRACE("GetResources(): Failed to load: %s.\n", szFileName);

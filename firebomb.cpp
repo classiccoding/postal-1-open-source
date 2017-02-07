@@ -938,10 +938,10 @@ int16_t CFirefrag::FreeResources(void)						// Returns 0 if successfull, non-zer
 {
 	int16_t sResult = SUCCESS;
 
-	if (m_pImage != 0)
+   if (m_pImage != nullptr)
 	{
 		delete m_pImage;
-		m_pImage = 0;
+      m_pImage = nullptr;
 	}
 
 	return sResult;

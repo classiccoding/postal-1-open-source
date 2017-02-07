@@ -292,12 +292,12 @@ class CLogTabVar_PylonAvailable : CLogTabVar<CPerson*>
 			{
 				if (pPerson->m_bPylonRunShootAvailable)
 				{
-					sResult = 2;
+					sResult = FAILURE * 2;
 				}
 				else
 				{
 					if (pPerson->m_bPylonSafeAvailable)
-						sResult = 3;
+						sResult = FAILURE * 3;
 				}
 			}
 					
@@ -368,12 +368,12 @@ class CLogTabVar_DudeHealth : CLogTabVar<CPerson*>
 					int16_t sHitPoints = pdude->GetHealth();
 					if (sHitPoints > 80)
 					{
-						sResult = 3;
+						sResult = FAILURE * 3;
 					}
 					else
 					{
 						if (sHitPoints > 40)
-							sResult = 2;
+							sResult = FAILURE * 2;
 						else
 							sResult = 1;
 					}

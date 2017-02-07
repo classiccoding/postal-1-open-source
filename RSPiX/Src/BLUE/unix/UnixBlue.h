@@ -200,7 +200,9 @@ extern int16_t rspGetKey(						// Returns 1 if key was available, 0 if not
 	int32_t* plKey,								// Out: Key info (0 if no key was available)
 	int32_t* plTime = nullptr);					// Out: Key's time stamp (unless nullptr)
 
-extern int16_t rspIsKey(void);				// Returns 1 if key is available, 0 if not
+#ifdef UNUSED_FUNCTIONS
+extern int16_t rspIsKey(void);				// Returns TRUE if key is available, FALSE if not
+#endif
 
 // This function returns a pointer to an array of 128 bytes.  Each byte indexed
 // by an RSP_SK_* macro indicates the status of that key.  If any element in

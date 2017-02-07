@@ -1259,7 +1259,7 @@ extern int16_t StartMenu(				// Returns 0 on success.
 
 Done:
 		// If any errors occurred . . .
-      if (sResult != 0)
+      if (sResult != SUCCESS)
 			{
 			StopMenu();
 

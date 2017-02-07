@@ -117,14 +117,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 RPrefs::RPrefs(void)
 	{
-	m_pFile			= nullptr;
-	m_sReadOnly		= 0;
-	m_sModified		= 0;
-	m_sDidRead		= 0;
-	m_sUseCRLF		= 0;
-	m_pszFileName	= 0;
-	m_pszFileMode  = 0;
-	m_sErrorStatus = 0;
+   m_pFile			= nullptr;
+   m_sReadOnly		= FALSE;
+   m_sModified		= TRUE;
+   m_sDidRead		= FALSE;
+   m_sUseCRLF		= FALSE;
+   m_pszFileName	= nullptr;
+   m_pszFileMode  = nullptr;
+   m_sErrorStatus = SUCCESS;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -167,10 +167,10 @@ int16_t RPrefs::Open(					// Returns 0 if successfull, non-zero otherwise
 	const char* pszFile)						// In:  Name of preference file
 	{
 	// Attempt to open in read/write mode
-	if (Open(pszFile, "r+") != 0)
+   if (Open(pszFile, "r+") != SUCCESS)
 		{
 		// Attempt to open in read-only mode (file may be read-only)
-		if (Open(pszFile, "r") != 0)
+      if (Open(pszFile, "r") != SUCCESS)
 			{
 			// Attempt to create file
 			Open(pszFile, "w+");
@@ -196,9 +196,9 @@ int16_t RPrefs::Open(					// Returns 0 if successfull, non-zero otherwise
 	// If mode contains "a" (append), "w" (write), or "+" (read and write)
 	// then the file won't be read-only.  Otherwise, it will be.
 	if (strcspn(pszMode, "aAwW+") < strlen(pszMode))
-		m_sReadOnly = 0;
+      m_sReadOnly = FALSE;
 	else
-		m_sReadOnly = 1;
+      m_sReadOnly = TRUE;
 
 	// Attempt to open file
 	m_pFile = fopen(FindCorrectFile(pszFile, pszMode), pszMode);
@@ -217,7 +217,7 @@ int16_t RPrefs::Open(					// Returns 0 if successfull, non-zero otherwise
 		strcpy(m_pszFileMode, pszMode);
 
 		// Clear error status
-		m_sErrorStatus = 0;
+      m_sErrorStatus = SUCCESS;
 		}
 	else
 		{
@@ -237,15 +237,15 @@ int16_t RPrefs::Open(					// Returns 0 if successfull, non-zero otherwise
 //
 ////////////////////////////////////////////////////////////////////////////////
 int16_t RPrefs::Read()		// Returns 0 if successfull, non-zero otherwise
-	{
-	if (!m_sErrorStatus)
+   {
+   if (m_sErrorStatus == SUCCESS)
 		{
-		if (!m_sDidRead)
-			{
+      if (m_sDidRead == FALSE)
+         {
 			if (m_pFile != nullptr)
 				{
 				// Seek to start of file
-				if (fseek(m_pFile, SEEK_SET, 0) == 0)
+            if (fseek(m_pFile, SEEK_SET, 0) == SUCCESS)
 					{
 					// process lines until EOF is reached or an error occurrs
 					//
@@ -263,7 +263,7 @@ int16_t RPrefs::Read()		// Returns 0 if successfull, non-zero otherwise
 					char pszLine[RPrefs::MaxStrLen+1];
 					RPrefsLine *plTemp;
 					while (fgets(pszLine, RPrefs::MaxStrLen, m_pFile) != nullptr)
-						{
+                  {
 						// Check for "/r".  This is only required by Mac code, but it can't
 						// hurt DOS/Windows code, where the fgets() should have converted the
 						// "/n/r" into a "/n".
@@ -271,7 +271,7 @@ int16_t RPrefs::Read()		// Returns 0 if successfull, non-zero otherwise
 						if (*pszFixedLine == '\r')
 							{
 							// Set flag so we'll know to write file out with CR/LF instead of just CR
-							m_sUseCRLF = 1;
+                     m_sUseCRLF = TRUE;
 
 							// Skip over the "/r"
 							pszFixedLine++;
@@ -281,7 +281,7 @@ int16_t RPrefs::Read()		// Returns 0 if successfull, non-zero otherwise
 							// meaningless, left-over, piece of crap that should be ignored.
 							if (*pszFixedLine == '\0')
 								continue;
-							}
+                     }
 
 						// Remove newline (if any) from end of line
                   for(size_t len = strlen(pszFixedLine) - 1; len && (pszFixedLine[len] == '\n' || pszFixedLine[len] == '\r'); --len)
@@ -310,13 +310,13 @@ int16_t RPrefs::Read()		// Returns 0 if successfull, non-zero otherwise
 								break;
 							}
 						// Add line to list of lines
-						m_pllLines.InsertTail(plTemp);
+                  m_pllLines.InsertTail(plTemp);
 						} // end while
 
-					if (ferror(m_pFile) == 0)
+               if (ferror(m_pFile) == SUCCESS)
 						{
 						// Set flag indicating read was successfully performed
-						m_sDidRead = 1;
+                  m_sDidRead = TRUE;
 						}
 					else
 						{
@@ -337,7 +337,7 @@ int16_t RPrefs::Read()		// Returns 0 if successfull, non-zero otherwise
 				}
 			}
 		}
-	
+
 	return m_sErrorStatus;
 	}
 
@@ -349,10 +349,10 @@ int16_t RPrefs::Read()		// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t RPrefs::Write()
 	{
-	if (!m_sErrorStatus)
+   if (m_sErrorStatus == SUCCESS)
 		{
 		// Make sure we can and should do a write
-		if (!m_sReadOnly && m_sModified)
+      if (m_sReadOnly == FALSE && m_sModified == TRUE)
 			{
 			if (m_pFile != nullptr)
 				{
@@ -361,7 +361,7 @@ int16_t RPrefs::Write()
 					{
 					// Close file before it gets deleted (and replaced by a new file)
 					fclose(m_pFile);
-					m_pFile = 0;
+               m_pFile = nullptr;
 					
 					// Create a temporary name.  We search backwards from the end
 					// of the real filename, looking for the first system separator,
@@ -392,10 +392,10 @@ int16_t RPrefs::Write()
 						if (pfileTmp != nullptr)
 							{
 							// Write lines out to temp file
-							for (RPrefsLineList::Pointer i = m_pllLines.GetHead(); i != 0; i = m_pllLines.GetNext(i))
+                     for (RPrefsLineList::Pointer i = m_pllLines.GetHead(); i != nullptr; i = m_pllLines.GetNext(i))
 								{
 								int res = fprintf(pfileTmp, "%s\n", m_pllLines.GetData(i)->GetLine());
-								if ((res >= 0) && m_sUseCRLF)
+                        if ((res >= 0) && m_sUseCRLF == FALSE)
 									res = fprintf(pfileTmp, "\r");
 								if(res < 0)
 									{
@@ -407,7 +407,7 @@ int16_t RPrefs::Write()
 							// Close temp file
 							fclose(pfileTmp);
 							
-							if (m_sErrorStatus == 0)
+                     if (m_sErrorStatus == SUCCESS)
 								{
 								// Remove old file
                         if (remove(FindCorrectFile(m_pszFileName, "w")) == SUCCESS)
@@ -437,7 +437,7 @@ int16_t RPrefs::Write()
 										if (m_pFile != nullptr)
 											{
 											// Set flag to indicate ini file in memory is in sync with disk
-											m_sModified = 0;
+                                 m_sModified = FALSE;
 											}
 										else
 											{
@@ -497,7 +497,7 @@ int16_t RPrefs::Close()
 	if (m_pFile != nullptr)
 		{
 		// If data was read and was modified and files is NOT read only then write it now!
-		if (m_sDidRead && !m_sReadOnly && m_sModified)
+      if (m_sDidRead == TRUE && m_sReadOnly == FALSE && m_sModified == TRUE)
 			Write();
 
 		// Close the file.  We need to check if the file is still valid because
@@ -525,23 +525,23 @@ int16_t RPrefs::DeleteVariable(			// Returns 0 if successfull, non-zero otherwis
 	ASSERT(pszSection);
 	ASSERT(pszVariable);
 	
-	if (!m_sErrorStatus)
+   if (m_sErrorStatus == SUCCESS)
 		{
 		// Make sure there's a copy in memory
       if(Read() == SUCCESS)
 			{
 			// Get iterator to variable
 			RPrefsLineList::Pointer i;
-			if (GetIteratorToVariable(pszSection, pszVariable, &i) != 0)
+         if (GetIteratorToVariable(pszSection, pszVariable, &i) != SUCCESS)
 				{
 				TRACE("RPrefs::DeleteVariable():GetIteratorToVariable() "
 						"unable to find variable.\n");
-				m_sErrorStatus = 1;
+            m_sErrorStatus = FAILURE;
 				}
 			else
 				{
 				m_pllLines.Remove(i);
-				m_sModified = 1;
+            m_sModified = TRUE;
 				}
 			}
 		else
@@ -562,17 +562,17 @@ int16_t RPrefs::DeleteSection(		// Returns 0 if successfull, non-zero otherwise
 	{
 	ASSERT(pszSection);
 
-	if (!m_sErrorStatus)
+   if (m_sErrorStatus == SUCCESS)
 		{
 		// Make sure there's a copy in memory
       if(Read() == SUCCESS)
 			{
 			// Get iterator to section
 			RPrefsLineList::Pointer i;
-			if (GetIteratorToSection(pszSection, &i) != 0)
+         if (GetIteratorToSection(pszSection, &i) != SUCCESS)
 				{
 				TRACE("RPrefs::DeleteSection():GetIteratorToSection() unable to find section");
-				m_sErrorStatus = 1;
+            m_sErrorStatus = FAILURE;
 				}
 			else
 				{
@@ -584,7 +584,7 @@ int16_t RPrefs::DeleteSection(		// Returns 0 if successfull, non-zero otherwise
 					if (i == 0)
 						break;
 					} while (m_pllLines.GetData(i)->GetType() != RPrefsLine::Section);
-				m_sModified = 1;
+            m_sModified = TRUE;
 				}
 			}
 		else
@@ -640,7 +640,7 @@ int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 				pplTemp = new RPrefsLine(RPrefsLine::Variable, pszLine);
 				ASSERT(pplTemp);
 				m_pllLines.InsertAfter(pplTemp, iSection);
-				m_sErrorStatus = 0;
+            m_sErrorStatus = SUCCESS;
 				}
 			}
 		else
@@ -656,9 +656,9 @@ int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 			pplTemp = new RPrefsLine(RPrefsLine::Variable, pszLine);
 			ASSERT(pplTemp);
 			m_pllLines.InsertTail(pplTemp);
-			m_sErrorStatus = 0;
+         m_sErrorStatus = SUCCESS;
 			}
-		m_sModified = 1;
+      m_sModified = TRUE;
 		}
 	else
 		TRACE("RPrefs::SetVal():RPrefs::Read() read failed: %s\n", strerror(errno));
@@ -708,7 +708,7 @@ int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 
 	ASSERT(pszSection);
 	ASSERT(pszVariable);
-	sprintf(pszValue, "%d", (int) s16Value);
+   sprintf(pszValue, "%d", s16Value);
 	SetVal(pszSection, pszVariable, pszValue);
 
 	return m_sErrorStatus;
@@ -724,7 +724,7 @@ int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 
 	ASSERT(pszSection);
 	ASSERT(pszVariable);
-	sprintf(pszValue, "%u", (unsigned) u16Value);
+   sprintf(pszValue, "%u", u16Value);
 	SetVal(pszSection, pszVariable, pszValue);
 
 	return m_sErrorStatus;
@@ -740,7 +740,7 @@ int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 
 	ASSERT(pszSection);
 	ASSERT(pszVariable);
-	sprintf(pszValue, "%i", (int32_t) s32Value);
+   sprintf(pszValue, "%i", s32Value);
 	SetVal(pszSection, pszVariable, pszValue);
 
 	return m_sErrorStatus;
@@ -756,7 +756,7 @@ int16_t RPrefs::SetVal(				// Returns 0 if successfull, non-zero otherwise
 
 	ASSERT(pszSection);
 	ASSERT(pszVariable);
-   sprintf(pszValue, "%u", (uint32_t) u32Value);
+   sprintf(pszValue, "%u", u32Value);
 	SetVal(pszSection, pszVariable, pszValue);
 
 	return m_sErrorStatus;
@@ -806,18 +806,18 @@ int16_t	RPrefs::GetIteratorToSection(		// Returns 0 if successfull, non-zero oth
 
 	if (!m_sErrorStatus)
 		{
-      if (m_pllLines.GetHead() == SUCCESS)
+      if (m_pllLines.GetHead() == nullptr)
 			{
 			TRACE("RPrefs::GetIteratorToSection():m_pllLines.empty(): list is empty.\n");
-			m_sErrorStatus = 1;
+         m_sErrorStatus = FAILURE;
 			}
 		else
 			{
 			char	pszSectionName[RPrefs::MaxStrLen];
 
 			// Find section
-			int16_t sFoundSection = 0;
-			for (*pi = m_pllLines.GetHead(); *pi != 0; *pi = m_pllLines.GetNext(*pi))
+         int16_t sFoundSection = FALSE;
+         for (*pi = m_pllLines.GetHead(); *pi != nullptr; *pi = m_pllLines.GetNext(*pi))
 				{
 				// Only looking for sections
 				if (m_pllLines.GetData(*pi)->GetType() == RPrefsLine::Section)
@@ -828,17 +828,17 @@ int16_t	RPrefs::GetIteratorToSection(		// Returns 0 if successfull, non-zero oth
 						// Is this the section name we are looking for?
                   if (rspStricmp(pszSectionName, pszSection) == SUCCESS)
 							{
-							sFoundSection = 1;
+                     sFoundSection = TRUE;
 							break;
 							}
 						}
 					}
 				}
 
-			if (!sFoundSection)	// If we didn't find section, return non-zero
+         if (sFoundSection == FALSE)	// If we didn't find section, return non-zero
 				{
 	//			TRACE("RPrefs::GetIteratorToSection(): section not found.\n");
-				m_sErrorStatus = 2;
+            m_sErrorStatus = FAILURE * 2;
 				}
 			}
 		}
@@ -861,10 +861,10 @@ int16_t	RPrefs::GetIteratorToVariable(	// Returns 0 if successfull, non-zero oth
 
 	if (!m_sErrorStatus)
 		{
-      if (m_pllLines.GetHead() == SUCCESS)
+      if (m_pllLines.GetHead() == nullptr)
 			{
 			TRACE("RPrefs::GetIteratorToVariable():m_pllLines.empty(): list is empty.\n");
-			m_sErrorStatus = 1;
+         m_sErrorStatus = FAILURE;
 			}
 		else
 			{
@@ -872,11 +872,11 @@ int16_t	RPrefs::GetIteratorToVariable(	// Returns 0 if successfull, non-zero oth
 
 			// Get iterator to section
 			m_sErrorStatus = GetIteratorToSection(pszSection, pi);
-			if (m_sErrorStatus == 0)
+         if (m_sErrorStatus == SUCCESS)
 				{
 				// Search for variable (note that we start on the line after the section name)
-				int16_t sFoundVariable = 0;
-				for (*pi = m_pllLines.GetNext(*pi); *pi != 0; *pi = m_pllLines.GetNext(*pi))
+            int16_t sFoundVariable = FALSE;
+            for (*pi = m_pllLines.GetNext(*pi); *pi != nullptr; *pi = m_pllLines.GetNext(*pi))
 					{
 					// Stop if we reach the next section
 					if (m_pllLines.GetData(*pi)->GetType() == RPrefsLine::Section)
@@ -891,7 +891,7 @@ int16_t	RPrefs::GetIteratorToVariable(	// Returns 0 if successfull, non-zero oth
 							// Is this the variable name we are looking for
 							if (rspStricmp(pszVariableName, pszVariable) == 0)
 								{
-								sFoundVariable = 1;
+                        sFoundVariable = TRUE;
 								break;
 								}
 							}
@@ -901,7 +901,7 @@ int16_t	RPrefs::GetIteratorToVariable(	// Returns 0 if successfull, non-zero oth
 				if (!sFoundVariable)	
 					{
 	//				TRACE("RPrefs::GetIteratorToVariable(): variable not found.\n");
-					m_sErrorStatus = 2;
+               m_sErrorStatus = FAILURE * 2;
 					}
 				}
 			}
@@ -937,32 +937,32 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 	ASSERT(pszDefault);
 	ASSERT(pszValue);
 
-	//if (m_sDidRead != 1)
+   //if (m_sDidRead == FALSE)
    if (Read() == SUCCESS)
 		{
 		// Get iterator to variable
 		RPrefsLineList::Pointer i;
 		m_sErrorStatus = GetIteratorToVariable(pszSection, pszVariable, &i);
 		// Process variable if it was found
-		if (m_sErrorStatus == 0)
+      if (m_sErrorStatus == SUCCESS)
 			{
 			// Get variable's value
 			m_sErrorStatus = m_pllLines.GetData(i)->GetVariableValue(pszValue);
 			// Return code of 3 indicates an empty value
-			if (m_sErrorStatus == 3)
+         if (m_sErrorStatus == FAILURE * 3)
 				{
 				strcpy(pszValue, pszDefault);	// Go with default
-				m_sErrorStatus = 0;
+            m_sErrorStatus = SUCCESS;
 				}
 			else 
-				if (m_sErrorStatus != 0)	// Any other error code means a syntax error
-					m_sErrorStatus = 1;
+            if (m_sErrorStatus != SUCCESS)	// Any other error code means a syntax error
+               m_sErrorStatus = FAILURE;
 			}
 		else
 			{
 			if (pszValue != pszDefault) // pointer comparison.
 				strcpy(pszValue, pszDefault);	// var not found, go with default
-			m_sErrorStatus = 0;				// Not finding a var should not be reported
+         m_sErrorStatus = SUCCESS;				// Not finding a var should not be reported
 			}										// as an error on by return
 		}
 	else
@@ -985,9 +985,9 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 	ASSERT(pszVariable);
 	ASSERT(s8Value);
 	
-	sprintf(pszDefault, "%d", (int)s8Default);
+   sprintf(pszDefault, "%d", s8Default);
 	m_sErrorStatus = GetVal(pszSection, pszVariable, pszDefault, pszValue);
-	if (m_sErrorStatus == 0)
+   if (m_sErrorStatus == SUCCESS)
 		{
 		lRes = strtol(pszValue, &pszEndPtr, 10);
 		if (((*pszEndPtr == '\0') || isspace(*pszEndPtr)) && 
@@ -995,7 +995,7 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 			*s8Value = (int8_t) lRes;
 		else
 			{
-			m_sErrorStatus = 1;
+         m_sErrorStatus = FAILURE;
 			*s8Value = 0;
 			}
 
@@ -1017,16 +1017,16 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 	ASSERT(pszVariable);
 	ASSERT(u8Value);
 
-	sprintf(pszDefault, "%u", (unsigned)u8Default);
+   sprintf(pszDefault, "%u", u8Default);
 	m_sErrorStatus = GetVal(pszSection, pszVariable, pszDefault, pszValue);
-	if (m_sErrorStatus == 0)
+   if (m_sErrorStatus == SUCCESS)
 		{
 		lRes = strtol(pszValue, &pszEndPtr, 10);
       if (((*pszEndPtr == '\0') || isspace(*pszEndPtr)) && lRes >= UINT8_MIN && lRes <= UINT8_MAX)
 			*u8Value = (uint8_t) lRes;
 		else
 			{
-			m_sErrorStatus = 1;
+         m_sErrorStatus = FAILURE;
 			*u8Value = 0;
 			}
 		}
@@ -1047,16 +1047,16 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 	ASSERT(pszVariable);
 	ASSERT(s16Value);
 
-	sprintf(pszDefault, "%d", (int)s16Default);
+   sprintf(pszDefault, "%d", s16Default);
 	m_sErrorStatus = GetVal(pszSection, pszVariable, pszDefault, pszValue);
-	if (m_sErrorStatus == 0)
+   if (m_sErrorStatus == SUCCESS)
 		{
 		lRes = strtol(pszValue, &pszEndPtr, 10);
       if (((*pszEndPtr == '\0') || isspace(*pszEndPtr)) && lRes >= INT16_MIN && lRes <= INT16_MAX)
 			*s16Value = (int16_t) lRes;
 		else
 			{
-			m_sErrorStatus = 1;
+         m_sErrorStatus = FAILURE;
 			*s16Value = 0;
 			}
 		}
@@ -1077,9 +1077,9 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 	ASSERT(pszVariable);
 	ASSERT(u16Value);
 
-	sprintf(pszDefault, "%u", (unsigned)u16Default);
+   sprintf(pszDefault, "%u", u16Default);
 	m_sErrorStatus = GetVal(pszSection, pszVariable, pszDefault, pszValue);
-	if (m_sErrorStatus == 0)
+   if (m_sErrorStatus == SUCCESS)
 		{
 		lRes = strtol(pszValue, &pszEndPtr, 10);
 		if (((*pszEndPtr == '\0') || isspace(*pszEndPtr)) 
@@ -1087,7 +1087,7 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 			*u16Value = (uint16_t) lRes;
 		else
 			{
-			m_sErrorStatus = 1;
+         m_sErrorStatus = FAILURE;
 			*u16Value = 0;
 			}
 		}
@@ -1108,9 +1108,9 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 	ASSERT(pszVariable);
 	ASSERT(s32Value);
 
-	sprintf(pszDefault, "%i", (int)s32Default);
+   sprintf(pszDefault, "%i", s32Default);
 	m_sErrorStatus = GetVal(pszSection, pszVariable, pszDefault, pszValue);
-	if (m_sErrorStatus == 0)
+   if (m_sErrorStatus == SUCCESS)
 		{
 		dRes = strtod(pszValue, &pszEndPtr);
 		if (((*pszEndPtr == '\0') || isspace(*pszEndPtr)) && 
@@ -1118,7 +1118,7 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 			*s32Value = (int32_t) dRes;
 		else
 			{
-			m_sErrorStatus = 1;
+         m_sErrorStatus = FAILURE;
 			*s32Value = 0;
 			}
 		}
@@ -1141,7 +1141,7 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 
    sprintf(pszDefault, "%u", u32Default);
 	m_sErrorStatus = GetVal(pszSection, pszVariable, pszDefault, pszValue);
-	if (m_sErrorStatus == 0)
+   if (m_sErrorStatus == SUCCESS)
 		{
 		dRes = strtod(pszValue, &pszEndPtr);
 		if (((*pszEndPtr == '\0') || isspace(*pszEndPtr)) 
@@ -1149,7 +1149,7 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 			*u32Value = (uint32_t) dRes;
 		else
 			{
-			m_sErrorStatus = 1;
+         m_sErrorStatus = FAILURE;
 			*u32Value = 0;
 			}
 		}
@@ -1172,14 +1172,14 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 
 	sprintf(pszDefault, "%f", fDefault);
 	m_sErrorStatus = GetVal(pszSection, pszVariable, pszDefault, pszValue);
-	if (m_sErrorStatus == 0)
+   if (m_sErrorStatus == SUCCESS)
 		{
 		dRes = strtod(pszValue, &pszEndPtr);
 		if (((*pszEndPtr == '\0') || isspace(*pszEndPtr)) && dRes >= FLT_MIN && dRes <= FLT_MAX)
 			*fValue = (float) dRes;
 		else
 			{
-			m_sErrorStatus = 1;
+         m_sErrorStatus = FAILURE;
 			*fValue = (float) 0;
 			}
 		}
@@ -1202,14 +1202,14 @@ int16_t RPrefs::GetVal(							// Returns 0 if successfull, non-zero otherwise
 
 	sprintf(pszDefault, "%f", dDefault);
 	m_sErrorStatus = GetVal(pszSection, pszVariable, pszDefault, pszValue);
-	if (m_sErrorStatus == 0)
+   if (m_sErrorStatus == SUCCESS)
 		{
 		dRes = strtod(pszValue, &pszEndPtr);
 		if ((*pszEndPtr == '\0') || isspace(*pszEndPtr))
 			*dValue = dRes;
 		else
 			{
-			m_sErrorStatus = 1;
+         m_sErrorStatus = FAILURE;
 			*dValue = 0;
 			}
 		}
@@ -1222,11 +1222,11 @@ int16_t RPrefs::Print()
 	{
    if (Read() == SUCCESS)
 		{
-      if (m_pllLines.GetHead() == SUCCESS)
-			m_sErrorStatus = 1;
+      if (m_pllLines.GetHead() == nullptr)
+         m_sErrorStatus = FAILURE;
 		else
 			{
-			for (RPrefsLineList::Pointer i = m_pllLines.GetHead(); i != 0; i = m_pllLines.GetNext(i))
+         for (RPrefsLineList::Pointer i = m_pllLines.GetHead(); i != nullptr; i = m_pllLines.GetNext(i))
 				{
 				switch (m_pllLines.GetData(i)->GetType())
 					{

@@ -623,7 +623,7 @@ static void FindCheatCombos(	// Returns nothing.
 				// obvious when searching/viewing the exe.
 				char	c = DETWEAK_CHAR(pcheat->szCheat, pcheat->sCurrentIndex);
 				// If current key is hit . . .
-				if ( lKey == (int32_t)c && c != 0)
+            if ( lKey == (int32_t)c && c != '\0')
 					{
 					// Remember time of this key.
 					pcheat->lLastValidInputTime				= lNow;

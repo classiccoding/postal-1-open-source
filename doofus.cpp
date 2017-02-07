@@ -4081,7 +4081,7 @@ int16_t CDoofus::GetResources(void)
 					nullptr, 
 					RChannel_LoopAtStart | RChannel_LoopAtEnd);
 
-				if (sLoadResult != 0)
+            if (sLoadResult != SUCCESS)
 					{
 					TRACE("GetResources(): Failed to load weapon resource \"%s\".\n",
 						ms_awdWeapons[i].pszResName);

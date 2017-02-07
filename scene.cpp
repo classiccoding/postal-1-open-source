@@ -1732,7 +1732,7 @@ void CScene::SetupPipeline(						// Returns nothing.
 	m_dScale3d = dScale3d;
 
 	// Use the built in adjustment features of the pipeline:
-	if (m_pipeline.Create(1000, SCREEN_DIAMETER_FOR_3D) != 0)
+	if (m_pipeline.Create(1000, SCREEN_DIAMETER_FOR_3D) != SUCCESS)
 		TRACE("SetupPipeline(): FONGOOL!  m_pipeline.Create() failed!  No 3D for you!\n");
 
 	/////////////////////////////////////////////////////////////////////////////

@@ -601,7 +601,7 @@ int16_t CNavigationNet::FreeResources(void)						// Returns 0 if successfull, no
 	{
    int16_t sResult = SUCCESS;
 
-	if (m_pImage != 0)
+   if (m_pImage != nullptr)
 		{
 		rspReleaseResource(&g_resmgrGame, &m_pImage);
 		}

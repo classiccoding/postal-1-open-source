@@ -736,7 +736,7 @@ int16_t RFileEZLoad(
 
 	// Create RFile object
 	RFile* pFile = new RFile;
-	if (pFile != 0)
+   if (pFile != nullptr)
 		{
 
 		// Open the file
@@ -812,7 +812,7 @@ int16_t RFileEZSave(
 
 	// Create RFile object
 	RFile* pFile = new RFile;
-	if (pFile != 0)
+   if (pFile != nullptr)
 		{
 
 		// Open the file

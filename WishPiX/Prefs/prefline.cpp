@@ -83,7 +83,7 @@ inline int16_t GetVar(	// Returns 0 on success.
 	if (pszLine[i] == '\0')
 		{
 		TRACE("GetVar(): Missing '=' in line: '%s'\n", pszLine);
-		sResult = 2;
+      sResult = FAILURE * 2;
 		}
 	else
 		{
@@ -97,7 +97,7 @@ inline int16_t GetVar(	// Returns 0 on success.
 				{
 // 7/10/97 MJR - Removed this TRACE() because we often use entries with nothing after the '='
 //				TRACE("GetVar(): Badly formed variable syntax.\n");
-				sResult = 3;
+            sResult = FAILURE * 3;
 				}
 			else
 				// Copy variable value to out string
@@ -168,7 +168,7 @@ int16_t RPrefsLine::GetSectionName(char *pszSection)
 			;
 		// Make sure there even is somthing after the '[' beside space
 		if (m_pszLine[i] == '\0')
-			sResult = 2;
+         sResult = FAILURE * 2;
 		else
 			{
 			// Copy section name to out string
@@ -184,7 +184,7 @@ int16_t RPrefsLine::GetSectionName(char *pszSection)
 			pszSection[j + 1] = '\0';
 			}
 		}
-	if (sResult != 0)
+	if (sResult != SUCCESS)
 		strcpy(pszSection, "");
 	return (sResult);
 	}
@@ -210,7 +210,7 @@ int16_t RPrefsLine::GetVariableName(char *pszVariable)
 		if (m_pszLine[i] == '\0')
 			{
 			TRACE("RPrefsLine::GetVariableName(): Badly formed variable name.\n");
-			sResult = 2;
+         sResult = FAILURE * 2;
 			}
 		else
 			{
@@ -221,7 +221,7 @@ int16_t RPrefsLine::GetVariableName(char *pszVariable)
 			pszVariable[j] = '\0';
 			}
 		}
-	if (sResult != 0)
+	if (sResult != SUCCESS)
 		strcpy(pszVariable, "");
 #else
 		sResult	= GetVar(m_pszLine, pszVariable, nullptr);
@@ -252,7 +252,7 @@ int16_t RPrefsLine::GetVariableValue(char *pszValue)
 		if (m_pszLine[i] == '\0')
 			{
 			TRACE("RPrefsLine::GetVariableName(): Missing '=' in line: '%s'\n", m_pszLine);
-			sResult = 2;
+         sResult = FAILURE * 2;
 			}
 		else
 			{
@@ -264,14 +264,14 @@ int16_t RPrefsLine::GetVariableValue(char *pszValue)
 				{
 // 7/10/97 MJR - Removed this TRACE() because we often use entries with nothing after the '='
 //				TRACE("RPrefsLine::GetVariableName(): Badly formed variable syntax.\n");
-				sResult = 3;
+            sResult = FAILURE * 3;
 				}
 			else
 				// Copy variable value to out string
 				strcpy(pszValue, &m_pszLine[i]);
 			}
 		}
-	if (sResult != 0)
+	if (sResult != SUCCESS)
 		strcpy(pszValue, "");
 #else
 		sResult	= GetVar(m_pszLine, nullptr, pszValue);

@@ -1729,7 +1729,7 @@ extern void GameEdit(
 		// Create a realm.  At some point we will probably extend the editor to
 		// be able to handle multiple realms at once.  For now it just has one.
 		CRealm* prealm = new CRealm;
-		ASSERT(prealm != 0);
+      ASSERT(prealm != nullptr);
 
 		// This realm will only be used for editting, so it make it known.
 		prealm->m_flags.bEditing	= true;
@@ -3434,7 +3434,7 @@ static int16_t InitCursor(
 
 	m_pimCursorBase = new RImage;
 	ASSERT(m_pimCursorBase != nullptr);
-	if (m_pimCursorBase->Load(FullPath(GAME_PATH_VD, CURSOR_BASE_IMAGE_FILE) ) != 0)
+   if (m_pimCursorBase->Load(FullPath(GAME_PATH_VD, CURSOR_BASE_IMAGE_FILE) ) != SUCCESS)
 		{
 		sResult = FAILURE;
 		TRACE("LoadCursor(): Couldn't load cursor file: %s\n", 
@@ -3451,7 +3451,7 @@ static int16_t InitCursor(
 
 	m_pimCursorTip = new RImage;
 	ASSERT(m_pimCursorTip != nullptr);
-	if (m_pimCursorTip->Load(FullPath(GAME_PATH_VD, CURSOR_TIP_IMAGE_FILE) ) != 0)
+   if (m_pimCursorTip->Load(FullPath(GAME_PATH_VD, CURSOR_TIP_IMAGE_FILE) ) != SUCCESS)
 		{
 		sResult = FAILURE;
 		TRACE("LoadCursor(): Couldn't load cursor file: %s\n", 
@@ -3869,7 +3869,7 @@ static int16_t LoadRealm(
 					}
 				
 				// If any errors occurred . . .
-				if (sResult != 0)
+				if (sResult != SUCCESS)
 					{
 					// Clean up any partial stuff.
 					CloseRealm(prealm);
@@ -4602,7 +4602,7 @@ static void PlayRealm(
 
 							if (u16IdTrack != CIdBank::IdNil)
 								{
-								if (prealm->m_idbank.GetThingByID(&pthingTrack, u16IdTrack) != 0)
+                        if (prealm->m_idbank.GetThingByID(&pthingTrack, u16IdTrack) != SUCCESS)
 									{
 									u16IdTrack	= CIdBank::IdNil;
 									}
@@ -5493,7 +5493,7 @@ static void ThingHotCall(	// Returns nothing.
 				// If EDIT_KEY_SENDTOBACK held down . . .
 				uint8_t	aucKeys[128];
 				rspScanKeys(aucKeys);
-				if (aucKeys[EDIT_KEY_SENDTOBACK] != 0)
+            if (aucKeys[EDIT_KEY_SENDTOBACK] != '\0')
 					{
 					// Send this hot to back.
 					phot->SetPriority(++ms_sBackPriority);
@@ -5507,7 +5507,7 @@ static void ThingHotCall(	// Returns nothing.
 					SetSel(nullptr, nullptr);
 					}
 				// If EDIT_KEY_SETCAMERATRACK held down . . .
-				else if (aucKeys[EDIT_KEY_SETCAMERATRACK] != 0)
+            else if (aucKeys[EDIT_KEY_SETCAMERATRACK] != '\0')
 					{
 					// If there is an editor thing . . .
 					if (ms_pgething != nullptr)
@@ -6107,7 +6107,7 @@ static int16_t CreateView(					// Returns 0 on success.
 				}
 
 			// If an error occurred after allocating GUI . . .
-         if (sResult != 0)
+         if (sResult != SUCCESS)
 				{
 				delete pview->pgui;
 				}
@@ -6119,7 +6119,7 @@ static int16_t CreateView(					// Returns 0 on success.
 			}
 
 		// If an error occurred after allocating View . . .
-      if (sResult != 0)
+      if (sResult != SUCCESS)
 			{
 			delete pview;
 			}
@@ -7040,7 +7040,7 @@ static int16_t CopyItem(	// Returns 0 on success.
 			}
 
 		// If any errors . . .
-      if (sResult != 0)
+      if (sResult != SUCCESS)
 			{
 			ms_filePaste.Close();
 			}

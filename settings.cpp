@@ -117,17 +117,17 @@ CSettings::CSettings(void)
 CSettings::~CSettings()
 	{
 	// Make sure container exists
-	if (ms_pSettings != 0)
+   if (ms_pSettings != nullptr)
 		{
 
 		// Remove this object from container
 		ms_pSettings->Remove(m_pointer);
 
 		// If there are no more objects, then delete the container itself
-		if (ms_pSettings->GetHead() == SUCCESS)
+      if (ms_pSettings->GetHead() == nullptr)
 			{
 			delete ms_pSettings;
-			ms_pSettings = 0;
+         ms_pSettings = nullptr;
 			}
 
 		// Make sure to delete memory if it wasn't already deleted
@@ -151,7 +151,7 @@ int16_t CSettings::LoadPrefs(					// Returns 0 if successfull, non-zero otherwis
 	int16_t sResult = SUCCESS;
 
 	// Make sure container exists
-	if (ms_pSettings != 0)
+   if (ms_pSettings != nullptr)
 		{
 
 		// Open file for read access (text mode is default)
@@ -161,7 +161,7 @@ int16_t CSettings::LoadPrefs(					// Returns 0 if successfull, non-zero otherwis
 			{
 
 			// Do this for all CSettings objects
-			for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != 0; i = ms_pSettings->GetNext(i))
+         for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != nullptr; i = ms_pSettings->GetNext(i))
 				{
 				sResult = ms_pSettings->GetData(i)->LoadPrefs(&prefs);
 				if (sResult)
@@ -209,7 +209,7 @@ int16_t CSettings::SavePrefs(					// Returns 0 if successfull, non-zero otherwis
 	int16_t sResult = SUCCESS;
 
 	// Make sure container exists
-	if (ms_pSettings != 0)
+   if (ms_pSettings != nullptr)
 		{
 
 		// First open file for read-only access.  If this works, then at least
@@ -227,7 +227,7 @@ int16_t CSettings::SavePrefs(					// Returns 0 if successfull, non-zero otherwis
 				{
 
 				// Do this for all CSettings objects
-				for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != 0; i = ms_pSettings->GetNext(i))
+            for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != nullptr; i = ms_pSettings->GetNext(i))
 					{
 					sResult = ms_pSettings->GetData(i)->SavePrefs(&prefs);
 					if (sResult)
@@ -276,7 +276,7 @@ int16_t CSettings::LoadGame(						// Returns 0 if successfull, non-zero otherwis
 	int16_t sResult = SUCCESS;
 
 	// Make sure container exists
-	if (ms_pSettings != 0)
+   if (ms_pSettings != nullptr)
 		{
 
 		// Open file for read access in binary mode
@@ -286,7 +286,7 @@ int16_t CSettings::LoadGame(						// Returns 0 if successfull, non-zero otherwis
 			{
 
 			// Do this for all CSettings objects
-			for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != 0; i = ms_pSettings->GetNext(i))
+         for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != nullptr; i = ms_pSettings->GetNext(i))
 				{
 				sResult = ms_pSettings->GetData(i)->LoadGame(&fileGame);
 				if (sResult)
@@ -329,7 +329,7 @@ int16_t CSettings::SaveGame(						// Returns 0 if successfull, non-zero otherwis
 	int16_t sResult = SUCCESS;
 
 	// Make sure container exists
-	if (ms_pSettings != 0)
+   if (ms_pSettings != nullptr)
 		{
 
 		// Open file for write access in binary mode
@@ -340,7 +340,7 @@ int16_t CSettings::SaveGame(						// Returns 0 if successfull, non-zero otherwis
 			{
 
 			// Do this for all CSettings objects
-			for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != 0; i = ms_pSettings->GetNext(i))
+         for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != nullptr; i = ms_pSettings->GetNext(i))
 				{
 				sResult = ms_pSettings->GetData(i)->SaveGame(&fileGame);
 				if (sResult)
@@ -383,12 +383,12 @@ int16_t CSettings::PreDemo(						// Returns 0 if successfull, non-zero otherwise
 	int16_t sResult = SUCCESS;
 
 	// Make sure container exists
-	if (ms_pSettings != 0)
+   if (ms_pSettings != nullptr)
 		{
 
 		// Allocate a chunk of memory for settings to be saved to
 		ms_pMem = malloc(CSettings::MemFileSize);
-		if (ms_pMem != 0)
+      if (ms_pMem != nullptr)
 			{
 
 			// Open memory file
@@ -398,7 +398,7 @@ int16_t CSettings::PreDemo(						// Returns 0 if successfull, non-zero otherwise
 				{
 
 				// Do this for all CSettings objects
-				for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != 0; i = ms_pSettings->GetNext(i))
+            for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != nullptr; i = ms_pSettings->GetNext(i))
 					{
 					sResult = ms_pSettings->GetData(i)->PreDemo(&fileMem);
 					if (sResult)
@@ -447,11 +447,11 @@ int16_t CSettings::PostDemo(						// Returns 0 if successfull, non-zero otherwis
 	int16_t sResult = SUCCESS;
 
 	// Make sure container exists
-	if (ms_pSettings != 0)
+   if (ms_pSettings != nullptr)
 		{
 
 		// Make sure memory was allocated by PreDemo()
-		if (ms_pMem != 0)
+      if (ms_pMem != nullptr)
 			{
 
 			// Open previously allocated memory file
@@ -461,7 +461,7 @@ int16_t CSettings::PostDemo(						// Returns 0 if successfull, non-zero otherwis
 				{
 
 				// Do this for all CSettings objects
-				for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != 0; i = ms_pSettings->GetNext(i))
+            for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != nullptr; i = ms_pSettings->GetNext(i))
 					{
 					sResult = ms_pSettings->GetData(i)->PostDemo(&fileMem);
 					if (sResult)

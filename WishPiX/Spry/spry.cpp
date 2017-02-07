@@ -154,7 +154,7 @@ int16_t RSpry::Load(
 					for (int16_t i = 0; (i < sCount) && !sResult; i++)
 						{
 						RSprite* pSprite = new RSprite;
-						if (pSprite != 0)
+                  if (pSprite != nullptr)
 							{
 							sResult = pSprite->Load(pFile);
 							if (sResult == SUCCESS)

@@ -1407,7 +1407,7 @@ void CThing3d::OnBurnMsg(	// Returns nothing.
 	{
 	CFire*	pfire;
 	// If we don't already have a fire . . .
-	if (m_pRealm->m_idbank.GetThingByID((CThing**)&pfire, m_u16IdFire) != 0)
+	if (m_pRealm->m_idbank.GetThingByID((CThing**)&pfire, m_u16IdFire) != SUCCESS)
 		{
 		// Make a fire and remember its ID.
       if (CThing::ConstructWithID(CThing::CFireID, m_pRealm, (CThing**) &pfire) == SUCCESS)

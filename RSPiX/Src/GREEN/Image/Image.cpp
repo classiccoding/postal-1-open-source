@@ -1483,7 +1483,7 @@ int16_t RImage::LoadDib(RFile* pcf)
 																				}
 
 																				// If any errors occurred . . .
-																				if (sResult != 0)
+																				if (sResult != SUCCESS)
 																				{
 																					// Free the allocated memory.
 																					DestroyPalette();
@@ -1624,7 +1624,7 @@ int16_t RImage::LoadDib(RFile* pcf)
 					// This color depth is really not supported by RImage!
 					m_type = NOT_SUPPORTED;
 					TRACE("RImage:LoadDib() encountered a dib of colordepth 4, not supported!\n");
-					sResult = 1;
+               sResult = FAILURE;
 					break;
 
 				case 8:
@@ -1654,7 +1654,7 @@ int16_t RImage::LoadDib(RFile* pcf)
 					// unsupported colordepth
 					TRACE("RPalImage:LoadDib() encountered an unsupported colordepth!\n");
 					m_type = NOT_SUPPORTED;
-					sResult = 2;
+               sResult = FAILURE * 2;
 					break;
 			}
 		}
@@ -1684,7 +1684,7 @@ int16_t RImage::LoadDib(RFile* pcf)
 				if (Convert(BMP8) != BMP8)
 					{
 					TRACE("RImage::LoadDib(): Failed to convert BMP8RLE to BMP8.\n");
-					sResult = 2;
+               sResult = FAILURE * 2;
 					}
 				break;
          }

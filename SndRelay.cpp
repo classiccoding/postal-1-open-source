@@ -536,7 +536,7 @@ int16_t CSndRelay::Init(void)							// Returns 0 if successfull, non-zero otherw
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSndRelay::Kill(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	if (m_sprite.m_pImage != 0)
+   if (m_sprite.m_pImage != nullptr)
 		rspReleaseResource(&g_resmgrGame, &m_sprite.m_pImage);
 
 	m_pRealm->m_scene.RemoveSprite(&m_sprite);

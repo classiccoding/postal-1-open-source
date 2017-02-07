@@ -648,7 +648,7 @@ int16_t CPylon::GetResources(void)						// Returns 0 if successfull, non-zero ot
 					}
 
 				// If an error occurred after allocation . . .
-				if (sResult != 0)
+				if (sResult != SUCCESS)
 					{
 					delete m_pImage;
 					m_pImage	= nullptr;
