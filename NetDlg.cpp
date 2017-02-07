@@ -1663,13 +1663,13 @@ static void AddConsoleMsg(	// Returns nothing.
 		{
 		char szOutput[MAX_STATUS_STR];
 
-		va_list varp;
       if(pszFrmt != nullptr) // safety first
       {
+        va_list varp;
         va_start(varp, pszFrmt);
         vsprintf(szOutput, pszFrmt, varp);
+        va_end(varp);
       }
-		va_end(varp);
 
 		uint32_t	u32TextColor	= ms_plbNetConsole->m_u32TextColor;
 
