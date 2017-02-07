@@ -1842,10 +1842,9 @@ extern const char* NetErrorText(						// Returns pointer to text
 // Get the realm filename from the realm title, using the INI.
 //
 //////////////////////////////////////////////////////////////////////////////
-static int16_t GetRealmFileFromRealmTitle(	// Returns 0, if found; non-zero
-														// otherwise.
+static int16_t GetRealmFileFromRealmTitle(	// Returns SUCCESS, if found; negative otherwise.
 	bool	bCoopLevel,								// In:  true, if a coop level; false, if deathmatch level.
-	char*	pszRealmTitle,							// In:  Realm title.
+   const char*	pszRealmTitle,							// In:  Realm title.
 	char* pszRealmFileName,						// Out: Realm filename.
 	int16_t sMaxLen)									// In:  Max space available at 
 														// pszRealmFileName.
@@ -3079,7 +3078,7 @@ static int16_t BrowseForHost(
 						else
 							{
 							TRACE("BrowseForHost():  No host selected.\n");
-							sResult = FAILURE;
+                     sResult = FAILURE * 2;
 							}
 						break;
 						}
