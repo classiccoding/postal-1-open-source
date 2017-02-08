@@ -246,6 +246,9 @@ extern char g_pszOrganMenu_Exit[];
 extern char g_pszAudioMenu_Title[];
 extern char g_pszAudioMenu_Mixer[];
 extern char g_pszAudioMenu_SoundTest[];
+extern char g_pszAudioMenu_Language[];
+extern char g_pszAudioMenu_English[];
+extern char g_pszAudioMenu_Japanese[];
 
 extern char g_pszVideoMenu_Title[];
 extern char g_pszVideoMenu_Gamma[];
@@ -289,6 +292,7 @@ extern char g_pszStartGameMenu_Multiplayer[];
 extern char g_pszStartGameMenu_Demo[];
 
 extern char g_pszStartSinglePlayerMenu_Title[];
+extern char g_pszStartSinglePlayerMenu_NewCampaign[];
 extern char g_pszStartSinglePlayerMenu_New[];
 extern char g_pszStartSinglePlayerMenu_AddOn[];
 #if TARGET == POSTAL_2015

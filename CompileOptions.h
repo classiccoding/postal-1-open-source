@@ -517,12 +517,14 @@
 // That led to the creation of this macro to make this feature easy to maintain.
 ////////////////////////////////////////////////////////////////////////////////
 
-#if defined(TARGET) && defined(LOCALE)
+#define AUDIO_SAK_SEPARATOR_CHAR_ENGLISH "_"
+#define AUDIO_SAK_SEPARATOR_CHAR_JAPANESE "j"
 
+#if defined(TARGET) && defined(LOCALE)
 	#if LOCALE == JAPAN
-		#define AUDIO_SAK_SEPARATOR_CHAR		'j'
+		#define AUDIO_SAK_SEPARATOR_CHAR		AUDIO_SAK_SEPARATOR_CHAR_JAPANESE
 	#else
-		#define AUDIO_SAK_SEPARATOR_CHAR		'_'
+		#define AUDIO_SAK_SEPARATOR_CHAR		AUDIO_SAK_SEPARATOR_CHAR_ENGLISH
 	#endif
 
 #endif

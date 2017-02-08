@@ -564,6 +564,9 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszAudioMenu_Title[]							= "AUDIO";
 	extern char g_pszAudioMenu_Mixer[]							= "MIXER";
 	extern char g_pszAudioMenu_SoundTest[]						= "SOUND TEST";
+	extern char g_pszAudioMenu_Language[]						= "LANGUAGE";
+	extern char g_pszAudioMenu_English[]						= "English";
+	extern char g_pszAudioMenu_Japanese[]						= "Japanese";
 
 	extern char g_pszVideoMenu_Title[]							= "VIDEO";
 	extern char g_pszVideoMenu_Gamma[]							= "GAMMA";
@@ -615,10 +618,11 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 		extern char g_pszStartSinglePlayerMenu_New[]			= "NEW GAME (ALL LEVELS)";
 		extern char g_pszStartSinglePlayerMenu_AddOn[]		= "SPECIAL DELIVERY LEVELS";
 	#elif TARGET == POSTAL_2015
-		extern char g_pszStartSinglePlayerMenu_New[]		= "NEW GAME";
+		extern char g_pszStartSinglePlayerMenu_NewCampaign[]	= "NEW CAMPAIGN";
+		extern char g_pszStartSinglePlayerMenu_New[]		= "POSTAL";
 		extern char g_pszStartSinglePlayerMenu_AddOn[]		= "SPECIAL DELIVERY";
 		extern char g_pszStartSinglePlayerMenu_AddOn2[]		= "SUPER POSTAL";
-		extern char g_pszStartSinglePlayerMenu_AllLevels[]	= "ALL LEVELS";
+		extern char g_pszStartSinglePlayerMenu_AllLevels[]	= "EXCESS POSTAGE (ALL LEVELS)";
 	#else
 		#error Strings must be customized for current TARGET
 	#endif
@@ -631,7 +635,7 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 		#error Strings must be customized for current TARGET
 	#endif
 #endif
-	extern char g_pszStartSinglePlayerMenu_LoadLevel[]		= "LOAD LEVEL";
+	extern char g_pszStartSinglePlayerMenu_LoadLevel[]		= "LEVEL SELECT";
 	extern char g_pszStartSinglePlayerMenu_LoadGame[]		= "LOAD GAME";
 	extern char g_pszStartSinglePlayerMenu_Challenge[]		= "GAUNTLET CHALLENGE";
 
@@ -665,7 +669,7 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 
 	extern char g_pszMultiplayerSetupMenu_Title[]			= "MULTIPLAYER";
 	extern char g_pszMultiplayerSetupMenu_Name[]				= "NAME";
-	extern char g_pszMultiplayerSetupMenu_Color[]			= "COLOR";
+	extern char g_pszMultiplayerSetupMenu_Color[]			= "COAT COLOR";
 	extern char g_pszMultiplayerSetupMenu_Protocol[]		= "PROTOCOL";
 	extern char g_pszMultiplayerSetupMenu_Connection[]		= "CONNECTION";
 
@@ -723,6 +727,9 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszAudioMenu_Title[]							= "AUDIO";
 	extern char g_pszAudioMenu_Mixer[]							= "MISCHPULT";
 	extern char g_pszAudioMenu_SoundTest[]						= "SOUND-TEST";
+	extern char g_pszAudioMenu_Language[]						= "SPRACHE"; // Google Translated, but almost certainly right
+	extern char g_pszAudioMenu_English[]						= "Englisch"; // Google Translated
+	extern char g_pszAudioMenu_Japanese[]						= "Japanisch"; // Google Translated
 
 	extern char g_pszVideoMenu_Title[]							= "VIDEO";
 	extern char g_pszVideoMenu_Gamma[]							= "GAMMA";
@@ -765,6 +772,7 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszStartGameMenu_Demo[]						= "DEMO";
 
 	extern char g_pszStartSinglePlayerMenu_Title[]			= "EINZELSPIELER";
+	extern char g_pszStartSinglePlayerMenu_NewCampaign[]	= "NEUE KAMPAGNE"; // FIXME: Google Translated, probably wrong
 	extern char g_pszStartSinglePlayerMenu_New[]				= "ORIGINAL SPIEL";	// Mike's lame translation
 	extern char g_pszStartSinglePlayerMenu_AddOn[]			= "ADD-ON SPIEL"		// Mike's lame translation
 #if TARGET == POSTAL_2015
@@ -905,6 +913,7 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszStartGameMenu_Demo[]						= "DEMO";
 
 	extern char g_pszStartSinglePlayerMenu_Title[]			= "JOUEUR UNIQUE";
+	extern char g_pszStartSinglePlayerMenu_NewCampaign[]	= "NOUVELLE CAMPAGNE"; // FIXME: Google Translated, probably wrong
 	extern char g_pszStartSinglePlayerMenu_New[]				= "CHARGER ORIGINAL";	// Mike's lame translation
 	extern char g_pszStartSinglePlayerMenu_AddOn[]			= "CHARGER ADD-ON";		// Mike's lame translation
 #if TARGET == POSTAL_2015
