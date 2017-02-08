@@ -520,6 +520,15 @@ static int16_t StartGameInit(	// Returns 0 on success, non-zero to cancel menu.
 	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
 
+static bool NewCampaignMenu(		// Returns true to accept, false to deny choice.
+	Menu*	pmenuCurrent,			// Current menu.
+	int16_t	sMenuItem);				// Item chosen.
+
+static int16_t NewCampaignInit(	// Returns 0 on success, non-zero to cancel menu.
+	Menu*	pmenuCur,				// Current menu.
+	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
+
+
 static bool StartSingleMenu(		// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem);				// Item chosen.
@@ -576,6 +585,14 @@ static bool OptionsChoice(		// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem);				// Item chosen.
 
+static int16_t GameOptionsInit(		// Returns 0 on success, non-zero to cancel menu.
+	Menu*	pmenuCur,				// Current menu.
+	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
+
+static bool GameOptionsChoice(		// Returns true to accept, false to deny choice.
+	Menu*	pmenuCurrent,			// Current menu.
+	int16_t	sMenuItem);				// Item chosen.
+	
 static int16_t PlayOptionsInit(	// Returns 0 on success, non-zero to cancel menu.
 	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
@@ -707,6 +724,7 @@ static REdit*			ms_peditHostName	= NULL;
 static REdit*			ms_peditName	= NULL;
 static RTxt*			ms_ptxtColor	= NULL;
 static RTxt*			ms_ptxtProto  = NULL;
+static RTxt*			ms_ptxtLanguage	= NULL;
 
 static RMultiBtn*		ms_pmbCheckBox	= NULL;
 
@@ -1263,8 +1281,89 @@ extern Menu	menuOptions =
             #endif
 			{ g_pszOptionsMenu_Performance,	TRUE,			&menuFeatures,			NULL,	},
 			{ g_pszOptionsMenu_Difficulty,	TRUE,			&menuPlayOptions,		NULL,	},
-			{ g_pszOptionsMenu_Crosshair,	TRUE,			NULL,		NULL,	},
+			{ g_pszGameMenu_Title,			TRUE,			&menuGameOptions,		NULL,	},
+			{ "",										FALSE,		NULL,						NULL,	},
+			NULL							// Terminates list.
+		},
+	};
+
+// Game options menu.
+extern Menu	menuGameOptions =
+	{
+	OPTIONS_MENU_ID,
+
+	// Position info.
+		{	// x, y, w, h, sPosX, sPosY, sItemSpacingY, sIndicatorSpacingX,
+		MENU_RECT_MD,					// menu x, y, w, h
+		-60,								// menu header x offset
+		MENU_HEAD_Y_MD,				// menu header y offset
+		MENU_ITEM_X_MD,				// menu items x offset
+		MENU_ITEM_Y_MD,				// menu items y offset
+		MENU_ITEM_SPACE_Y_MD,		// vertical space between menu items
+		MENU_ITEM_IND_SPACE_X_MD,	// horizontal space between indicator and menu items
+		},
+
+	// Background info.
+		{	// pszFile, u32BackColor
+		MENU_BG_MD, 
+		MENU_BG_COLOR,		// Background color.
+		PAL_SET_START,			// Starting palette index to set.
+		PAL_SET_NUM,		// Number of entries to set.
+		PAL_MAP_START,		// Starting index of palette entries that can be mapped to.
+		PAL_MAP_NUM,		// Number of palette entries that can be mapped to.
+		},
+
+	// GUI settings.
+		{	// sTransparent.
+		TRUE,		// TRUE if GUI is to be BLiT with transparency.
+		},
+
+	// Flags.
+		(MenuFlags)(MenuPosCenter | MenuBackTiled | MenuItemTextShadow | MenuHeaderTextShadow | MenuHeaderTextCenter),
+
+	// Header and its font info.
+		{	// pszHeaderText, pszFontFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor.
+		g_pszGameMenu_Title,
+		SMASH_FONT,
+		HEAD_FONT_HEIGHT,	// Height of font.
+		HEAD_COLOR,			// Text RGBA.
+		HEAD_SHADOW_COLOR	// Text Shadow RGBA.
+		},
+
+	// Font info.
+		{	// pszFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor
+		SMASH_FONT,
+		ITEM_FONT_HEIGHT,	// Height of font.
+		ITEM_COLOR,			// Text RGBA.
+		ITEM_SHADOW_COLOR	// Text Shadow RGBA.
+		},
+
+	// Menu indicator.
+		{	// pszFile, type
+		MENU_INDICATOR,
+		RImage::FSPR8,
+		},
+
+	// Menu callbacks.
+		{	// fnInit, fnChoice,
+		GameOptionsInit,	// Called before menu is initialized.
+		GameOptionsChoice,	// Called when item is chosen.
+		},
+
+	// Menu auto items.
+		{	// sDefaultItem, sCancelItem,
+		0,		// Menu item (index in ami[]) selected initially.
+				// Negative indicates distance from number of items
+				// (e.g., -1 is the last item).
+		-1,	// Menu item (index in ami[]) chosen on cancel.
+				// Negative indicates distance from number of items
+				// (e.g., -1 is the last item).
+		},
+		
+	// Menu items.
+		{	// pszText,								sEnabled,	pmenu,					pgui
 			{ g_pszMultiplayerSetupMenu_Color,			TRUE,			NULL,				NULL, },
+			{ g_pszOptionsMenu_Crosshair,	TRUE,			NULL,		NULL,	},
 			#ifdef KID_FRIENDLY_OPTION
 			// Please note that this should always be the last option in the list,
 			// otherwise we can't remove it.
@@ -1274,7 +1373,6 @@ extern Menu	menuOptions =
 			NULL							// Terminates list.
 		},
 	};
-
 
 // Options menu.
 extern Menu	menuPlayOptions =
@@ -1449,18 +1547,18 @@ extern Menu	menuAudioOptions =
 
 	// Position info.
 		{	// x, y, w, h, sPosX, sPosY, sItemSpacingY, sIndicatorSpacingX,
-		MENU_RECT_SM,					// menu x, y, w, h
+		MENU_RECT_MD,					// menu x, y, w, h
 		-60,								// menu header x offset
-		MENU_HEAD_Y_SM,				// menu header y offset
-		MENU_ITEM_X_SM,				// menu items x offset
-		MENU_ITEM_Y_SM,				// menu items y offset
-		MENU_ITEM_SPACE_Y_SM,		// vertical space between menu items
-		MENU_ITEM_IND_SPACE_X_SM,	// horizontal space between indicator and menu items
+		MENU_HEAD_Y_MD,				// menu header y offset
+		MENU_ITEM_X_MD,				// menu items x offset
+		MENU_ITEM_Y_MD,				// menu items y offset
+		MENU_ITEM_SPACE_Y_MD,		// vertical space between menu items
+		MENU_ITEM_IND_SPACE_X_MD,	// horizontal space between indicator and menu items
 		},
 
 	// Background info.
 		{	// pszFile, u32BackColor
-		MENU_BG_SM, 
+		MENU_BG_MD, 
 		MENU_BG_COLOR,		// Background color.
 		PAL_SET_START,		// Starting palette index to set.
 		PAL_SET_NUM,		// Number of entries to set.
@@ -1519,6 +1617,7 @@ extern Menu	menuAudioOptions =
 		{	// pszText,				sEnabled,	pmenu,					pgui
 			{ g_pszAudioMenu_Mixer,				TRUE,			&menuVolumes,			NULL,				},
 			{ g_pszAudioMenu_SoundTest,		TRUE,			&menuOrgan,				NULL,				},
+			{ g_pszAudioMenu_Language,		TRUE,			NULL,					NULL,				},
 			{ "",										FALSE,		NULL,						NULL,				},
 			NULL							// Terminates list.
 		},
@@ -2641,6 +2740,92 @@ extern Menu	menuStartSingle =
 		
 	// Menu items.
 		{	// pszText,											sEnabled,	pmenu,				pgui
+			{ g_pszStartSinglePlayerMenu_NewCampaign,			TRUE,			&menuNewCampaign,					NULL,	},
+			{ g_pszStartSinglePlayerMenu_LoadGame,		TRUE,			NULL,					NULL, },
+#ifndef LOADLEVEL_REMOVED
+			{ g_pszStartSinglePlayerMenu_LoadLevel,	TRUE,			&menuLoadLevel,					NULL,	},
+#endif
+			{ g_pszStartSinglePlayerMenu_Challenge,	TRUE,			/*&menuChallenge,*/NULL,	NULL,	},
+			{ "",													FALSE,		NULL,					NULL, },
+			NULL							// Terminates list.
+		},
+	};
+	
+// Single player new campaign menu.
+extern Menu	menuNewCampaign =
+	{
+	START_SINGLE_MENU_ID,
+
+	// Position info.
+		{	// x, y, w, h, sPosX, sPosY, sItemSpacingY, sIndicatorSpacingX,
+		MENU_RECT_LG,					// menu x, y, w, h
+		-120,								// menu header x offset
+		MENU_HEAD_Y_LG,				// menu header y offset
+		MENU_ITEM_X_LG,				// menu items x offset
+		MENU_ITEM_Y_LG,				// menu items y offset
+		MENU_ITEM_SPACE_Y_LG,		// vertical space between menu items
+		MENU_ITEM_IND_SPACE_X_LG,	// horizontal space between indicator and menu items
+		},
+
+	// Background info.
+		{	// pszFile, u32BackColor
+		MENU_BG_LG, 
+		MENU_BG_COLOR,		// Background color.
+		PAL_SET_START,		// Starting palette index to set.
+		PAL_SET_NUM,		// Number of entries to set.
+		PAL_MAP_START,		// Starting index of palette entries that can be mapped to.
+		PAL_MAP_NUM,		// Number of palette entries that can be mapped to.
+		},
+
+	// GUI settings.
+		{	// sTransparent.
+		TRUE,		// TRUE if GUI is to be BLiT with transparency.
+		},
+
+	// Flags.
+		(MenuFlags)(MenuPosCenter | MenuBackTiled | MenuItemTextShadow | MenuHeaderTextShadow | MenuHeaderTextCenter),
+
+	// Header and its font info.
+		{	// pszHeaderText, pszFontFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor.
+		g_pszStartSinglePlayerMenu_NewCampaign,
+		SMASH_FONT,
+		HEAD_FONT_HEIGHT,	// Height of font.
+		HEAD_COLOR,			// Text RGBA.
+		HEAD_SHADOW_COLOR	// Text Shadow RGBA.
+		},
+
+	// Font info.
+		{	// pszFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor
+		SMASH_FONT,
+		ITEM_FONT_HEIGHT,	// Height of font.
+		ITEM_COLOR,			// Text RGBA.
+		ITEM_SHADOW_COLOR	// Text Shadow RGBA.
+		},
+
+	// Menu indicator.
+		{	// pszFile, type
+		MENU_INDICATOR,
+		RImage::FSPR8,
+		},
+
+	// Menu callbacks.
+		{	// fnInit, fnChoice,
+		NewCampaignInit,	// Called before menu is initialized.
+		NewCampaignMenu,	// Called when item is chosen.
+		},
+
+	// Menu auto items.
+		{	// sDefaultItem, sCancelItem,
+		0,		// Menu item (index in ami[]) selected initially.
+				// Negative indicates distance from number of items
+				// (e.g., -1 is the last item).
+		-1,	// Menu item (index in ami[]) chosen on cancel.
+				// Negative indicates distance from number of items
+				// (e.g., -1 is the last item).
+		},
+		
+	// Menu items.
+		{	// pszText,											sEnabled,	pmenu,				pgui
 			{ g_pszStartSinglePlayerMenu_New,			TRUE,			NULL,					NULL,	},
 #if defined(START_MENU_ADDON_ITEM)
 			{ g_pszStartSinglePlayerMenu_AddOn,			TRUE,			NULL,					NULL,	},	
@@ -2649,16 +2834,11 @@ extern Menu	menuStartSingle =
 			{ g_pszStartSinglePlayerMenu_AllLevels,		TRUE,			NULL,					NULL,	},
 #endif
 #endif
-            #ifndef LOADLEVEL_REMOVED
-			{ g_pszStartSinglePlayerMenu_LoadLevel,	TRUE,			&menuLoadLevel,					NULL,	},
-            #endif
-			{ g_pszStartSinglePlayerMenu_LoadGame,		TRUE,			NULL,					NULL, },
-			{ g_pszStartSinglePlayerMenu_Challenge,	TRUE,			/*&menuChallenge,*/NULL,	NULL,	},
 			{ "",													FALSE,		NULL,					NULL, },
 			NULL							// Terminates list.
 		},
 	};
-
+	
 // Single player start menu.
 extern Menu	menuChallenge =
 	{
@@ -3403,6 +3583,58 @@ static bool StartSingleMenu(	// Returns true to accept, false to deny choice.
 	else
 		PlaySample(g_smidMenuItemSelect, SampleMaster::UserFeedBack);
 
+	// Let game module handle it... Sorta.
+	// Because of the new menu split the numbers don't match up.
+	// Let's figure that out.
+	switch (sMenuItem)
+	{
+		case 1:
+			Game_StartSinglePlayerGame(6);
+			break;
+		#ifndef LOADLEVEL_REMOVED
+		case 2:
+			Game_StartSinglePlayerGame(5);
+			break;
+		case 3:
+		#else
+		case 2:
+		#endif // LOADLEVEL_REMOVED
+			Game_StartSinglePlayerGame(7);
+			break;
+	}
+
+	return bAcceptChoice;
+	}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Called to init or kill the New Campaign menu.
+//
+////////////////////////////////////////////////////////////////////////////////
+static int16_t NewCampaignInit(	// Returns 0 on success, non-zero to cancel menu.
+	Menu*	pmenuCur,				// Current menu.
+	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
+	{
+	return 0;
+	}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Called by the menu API when an item is chosen in menuNewCampaign.
+//
+////////////////////////////////////////////////////////////////////////////////
+static bool NewCampaignMenu(	// Returns true to accept, false to deny choice.
+	Menu*	pmenuCurrent,			// Current menu.
+	int16_t	sMenuItem)				// Item chosen.
+	{
+	bool	bAcceptChoice	= true;	// Assume accepting.
+
+	// Audible Feedback.
+	if (sMenuItem == -1)
+		PlaySample(g_smidMenuItemChange, SampleMaster::UserFeedBack);
+	else
+		PlaySample(g_smidMenuItemSelect, SampleMaster::UserFeedBack);
+
 	// Let game module handle it
 	Game_StartSinglePlayerGame(sMenuItem);
 
@@ -3637,16 +3869,61 @@ static int16_t OptionsInit(		// Returns 0 on success, non-zero to cancel menu.
 	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
+		return 0;
+	}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Called when a choice is made or changed on the options menu.
+//
+////////////////////////////////////////////////////////////////////////////////
+static bool OptionsChoice(		// Returns true to accept, false to deny choice.
+	Menu*	pmenuCurrent,			// Current menu.
+	int16_t	sMenuItem)				// Item chosen or -1 for change of focus.
+	{
+		if (sMenuItem == -1)
+			PlaySample(g_smidMenuItemChange, SampleMaster::UserFeedBack);
+		else
+			PlaySample(g_smidMenuItemSelect, SampleMaster::UserFeedBack);
+		return true;
+	}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Called to init or kill the game options menu.
+//
+////////////////////////////////////////////////////////////////////////////////
+static int16_t GameOptionsInit(		// Returns 0 on success, non-zero to cancel menu.
+	Menu*	pmenuCur,				// Current menu.
+	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
+	{
 	int16_t	sRes	= 0;	// Assume success.
 
 	if (sInit != FALSE)
 		{
-#ifndef MULTIPLAYER_REMOVED
-		int16_t sMenuItem = 5;
-#else
-		int16_t	sMenuItem	= 4;
-#endif
+		int16_t sMenuItem = 0;
 
+		if (rspGetResource(&g_resmgrShell, PLAYER_COLOR_GUI_FILE, &ms_ptxtColor) == 0)
+			{
+			// Keep in bounds just in case (anyone could type any number into the INI) . . .
+			if (	g_GameSettings.m_sPlayerColorIndex >= CGameSettings::ms_sNumPlayerColorDescriptions
+				||	g_GameSettings.m_sPlayerColorIndex >= CDude::MaxTextures
+				|| g_GameSettings.m_sPlayerColorIndex < 0)
+				{
+				g_GameSettings.m_sPlayerColorIndex	= 0;
+				}
+			// Set the text from the INI setting. Note that we are changing a
+			// resource!
+			ms_ptxtColor->SetText("%s", CGameSettings::ms_apszPlayerColorDescriptions[g_GameSettings.m_sPlayerColorIndex]);
+			ms_ptxtColor->Compose();
+			pmenuCur->ami[sMenuItem++].pgui	= ms_ptxtColor;
+			}
+		else
+			{
+			TRACE("MultiOptionsInit(): rspGetResource() failed.\n");
+			sRes	= 2;
+			}
+			
 		RMultiBtn**	ppmb	= (RMultiBtn**)&(pmenuCur->ami[sMenuItem++].pgui);
 		// Get check box for 'Crosshair'.
 		if (rspGetResourceInstance(&g_resmgrShell, GUI_CHECKBOX_FILE, ppmb) == 0)
@@ -3659,30 +3936,6 @@ static int16_t OptionsInit(		// Returns 0 on success, non-zero to cancel menu.
 			{
 			TRACE("ControlsInit(): rspGetResource() failed.\n");
 			sRes	= 1;
-			}
-		TRACE("Stop shooting, you sick bastard. I'm already dead.\n");
-		if (rspGetResource(&g_resmgrShell, PLAYER_COLOR_GUI_FILE, &ms_ptxtColor) == 0)
-			{
-			// Keep in bounds just in case (anyone could type any number into the INI) . . .
-			if (	g_GameSettings.m_sPlayerColorIndex >= CGameSettings::ms_sNumPlayerColorDescriptions
-				||	g_GameSettings.m_sPlayerColorIndex >= CDude::MaxTextures
-				|| g_GameSettings.m_sPlayerColorIndex < 0)
-				{
-				g_GameSettings.m_sPlayerColorIndex	= 0;
-				}
-			TRACE("g_GameSettings.m_sPlayerColorIndex = %d\n", g_GameSettings.m_sPlayerColorIndex);
-			// Set the text from the INI setting. Note that we are changing a
-			// resource!
-			ms_ptxtColor->SetText("%s", CGameSettings::ms_apszPlayerColorDescriptions[g_GameSettings.m_sPlayerColorIndex]);
-			ms_ptxtColor->Compose();
-			TRACE("Before ms_ptxtColor assignment. sMenuItem = %d\n", sMenuItem);
-			pmenuCur->ami[sMenuItem++].pgui	= ms_ptxtColor;
-			TRACE("After ms_ptxtColor assignment. sMenuItem = %d\n", sMenuItem);
-			}
-		else
-			{
-			TRACE("MultiOptionsInit(): rspGetResource() failed.\n");
-			sRes	= 2;
 			}
 		#ifdef KID_FRIENDLY_OPTION
 		if (g_GameSettings.m_sCompletedAllLevelsMode == TRUE || g_GameSettings.m_sAprilFools == TRUE)
@@ -3708,21 +3961,7 @@ static int16_t OptionsInit(		// Returns 0 on success, non-zero to cancel menu.
 		}
 	else
 		{
-#ifndef MULTIPLAYER_REMOVED
-		int16_t sMenuItem = 5;
-#else
-		int16_t	sMenuItem	= 4;
-#endif
-
-		RMultiBtn**	ppmb	= (RMultiBtn**)&(pmenuCur->ami[sMenuItem++].pgui);
-		if (*ppmb)
-			{
-			// Store new mouse usage setting.
-			g_GameSettings.m_sCrossHair = ((*ppmb)->m_sState == 1) ? TRUE : FALSE;
-
-			// Release resource.
-			rspReleaseResourceInstance(&g_resmgrShell, ppmb);
-			}
+		int16_t sMenuItem = 0;
 
 		if (ms_ptxtColor != NULL)
 			{
@@ -3734,6 +3973,17 @@ static int16_t OptionsInit(		// Returns 0 on success, non-zero to cancel menu.
 			pmenuCur->ami[sMenuItem++].pgui	= NULL;
 			TRACE("After ms_ptxtColor assignment. sMenuItem = %d\n", sMenuItem);
 			}
+			
+		RMultiBtn**	ppmb	= (RMultiBtn**)&(pmenuCur->ami[sMenuItem++].pgui);
+		if (*ppmb)
+			{
+			// Store new mouse usage setting.
+			g_GameSettings.m_sCrossHair = ((*ppmb)->m_sState == 1) ? TRUE : FALSE;
+
+			// Release resource.
+			rspReleaseResourceInstance(&g_resmgrShell, ppmb);
+			}
+
 		#ifdef KID_FRIENDLY_OPTION
 		if (g_GameSettings.m_sCompletedAllLevelsMode == TRUE || g_GameSettings.m_sAprilFools == TRUE)
 		{
@@ -3755,10 +4005,10 @@ static int16_t OptionsInit(		// Returns 0 on success, non-zero to cancel menu.
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Called when a choice is made or changed on the options menu.
+// Called when a choice is made or changed on the game options menu.
 //
 ////////////////////////////////////////////////////////////////////////////////
-static bool OptionsChoice(		// Returns true to accept, false to deny choice.
+static bool GameOptionsChoice(		// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem)				// Item chosen or -1 for change of focus.
 	{
@@ -3766,25 +4016,7 @@ static bool OptionsChoice(		// Returns true to accept, false to deny choice.
 
 	switch (sMenuItem)
 		{
-#ifndef MULTIPLAYER_REMOVED
-		case 5:
-#else
-		case 4:
-#endif
-			{
-			// Toggle crosshair.
-			g_GameSettings.m_sCrossHair = !g_GameSettings.m_sCrossHair;
-			RMultiBtn*	pmb	= (RMultiBtn*)pmenuCurrent->ami[sMenuItem].pgui;
-			ASSERT(pmb->m_type == RGuiItem::MultiBtn);
-			pmb->NextState();
-			pmb->Compose();
-			break;
-			}
-#ifndef MULTIPLAYER_REMOVED
-		case 6:
-#else
-		case 5:
-#endif
+			case 0:
 			// Increment and check to make sure we have a description and we have such a color . . .
 			g_GameSettings.m_sPlayerColorIndex++;
 			if (	g_GameSettings.m_sPlayerColorIndex >= CGameSettings::ms_sNumPlayerColorDescriptions
@@ -3798,12 +4030,18 @@ static bool OptionsChoice(		// Returns true to accept, false to deny choice.
 			ms_ptxtColor->SetText("%s", CGameSettings::ms_apszPlayerColorDescriptions[g_GameSettings.m_sPlayerColorIndex]);
 			ms_ptxtColor->Compose();
 			break;
+			case 1:
+			{
+			// Toggle crosshair.
+			g_GameSettings.m_sCrossHair = !g_GameSettings.m_sCrossHair;
+			RMultiBtn*	pmb	= (RMultiBtn*)pmenuCurrent->ami[sMenuItem].pgui;
+			ASSERT(pmb->m_type == RGuiItem::MultiBtn);
+			pmb->NextState();
+			pmb->Compose();
+			break;
+			}
 #ifdef KID_FRIENDLY_OPTION
-#ifndef MULTIPLAYER_REMOVED
-		case 7:
-#else
-		case 6:
-#endif
+			case 2:
 			// Toggle blood.
 			g_GameSettings.m_sKidMode = !g_GameSettings.m_sKidMode;
 			RMultiBtn*	kidMode	= (RMultiBtn*)pmenuCurrent->ami[sMenuItem].pgui;
@@ -3984,9 +4222,39 @@ static int16_t AudioOptionsInit(	// Returns 0 on success, non-zero to cancel men
 
 	if (sInit != FALSE)
 		{
+		if (rspGetResource(&g_resmgrShell, PLAYER_COLOR_GUI_FILE, &ms_ptxtLanguage) == 0)
+			{
+			// Keep in bounds just in case (anyone could type any number into the INI)
+			if (g_GameSettings.m_sAudioLanguage >= NUM_LANGUAGES
+				|| g_GameSettings.m_sAudioLanguage < 0)
+				{
+				#if LOCALE == JAPAN
+					g_GameSettings.m_sAudioLanguage = JAPANESE_AUDIO;
+				#else
+					g_GameSettings.m_sAudioLanguage	= ENGLISH_AUDIO;
+				#endif
+				}
+			// Set the text from the INI setting.
+			ms_ptxtLanguage->SetText("%s", CGameSettings::ms_apszAudioLanguageDescriptions[g_GameSettings.m_sAudioLanguage]);
+			ms_ptxtLanguage->Compose();
+			pmenuCur->ami[2].pgui	= ms_ptxtLanguage;
+			}
+		else
+			{
+			TRACE("AudioOptionsInit(): rspGetResource() failed.\n");
+			sRes	= 2;
+			}
 		}
 	else
 		{
+			if (ms_ptxtLanguage != NULL)
+			{
+			// Release resource.
+			rspReleaseResource(&g_resmgrShell, &ms_ptxtLanguage);
+
+			// Clear menu's pointer.
+			pmenuCur->ami[2].pgui	= NULL;
+			}
 		}
 
 	return sRes;
@@ -4003,14 +4271,29 @@ static bool AudioOptionsChoice(	// Returns true to accept, false to deny choice.
 	{
 	bool	bAcceptChoice	= true;	// Assume accepting.
 
-	Game_AudioOptionsChoice(sMenuItem);
-
 	// Audible Feedback.
 	if (sMenuItem == -1)
 		PlaySample(g_smidMenuItemChange, SampleMaster::UserFeedBack);
 	else
 		PlaySample(g_smidMenuItemSelect, SampleMaster::UserFeedBack);
 
+	if (sMenuItem == 2)
+	{
+		// Increment and check to make sure that we have such a language
+			g_GameSettings.m_sAudioLanguage++;
+			if (g_GameSettings.m_sAudioLanguage >= NUM_LANGUAGES
+				||	g_GameSettings.m_sAudioLanguage < 0)
+				{
+				g_GameSettings.m_sAudioLanguage = 0;
+				}
+
+			// Set the text from the INI setting.
+			ms_ptxtLanguage->SetText("%s", CGameSettings::ms_apszAudioLanguageDescriptions[g_GameSettings.m_sAudioLanguage]);
+			ms_ptxtLanguage->Compose();
+	}
+
+	Game_AudioOptionsChoice(sMenuItem);
+	
 	return bAcceptChoice;
 	}
 

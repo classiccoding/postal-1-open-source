@@ -147,6 +147,7 @@ class CGameSettings : CSettings
 		int16_t		m_sDifficulty;								// Difficulty level (0 to 11)
 		int16_t		m_sViolence;								// Violence level (0 to 11)
 		int16_t		m_sCrossHair;								// TRUE, to use crosshair.
+		int16_t		m_sAudioLanguage;
 #ifdef KID_FRIENDLY_OPTION
 		int16_t 	m_sKidMode;
 		int16_t		m_sCompletedAllLevelsMode;
@@ -230,6 +231,8 @@ class CGameSettings : CSettings
 		static char*	ms_apszPlayerColorDescriptions[];
 		// Number of color descriptions.
 		static const int16_t	ms_sNumPlayerColorDescriptions;
+		
+		static char*	ms_apszAudioLanguageDescriptions[];
 
 	public:
 		// Set settings to default values

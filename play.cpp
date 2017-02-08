@@ -3410,6 +3410,8 @@ class CPlayInput : public CPlay
 			// menuOptions.ami[5].sEnabled	= FALSE;
 			// Disable 'Organ' on 'Audio Options' menu.
 			menuAudioOptions.ami[1].sEnabled	= FALSE;
+			// Disable 'Language' on 'Audio Options' menu.
+			menuAudioOptions.ami[2].sEnabled	= FALSE;
 			// Disable 'Save' IF in multiplayer.
 			menuClientGame.ami[1].sEnabled = (pinfo->IsMP() == true) ? FALSE : TRUE;
 
@@ -3597,6 +3599,8 @@ class CPlayInput : public CPlay
 			menuOptions.ami[5].sEnabled		= TRUE;
 			// Re-enable 'Organ' on 'Audio Options' menu.
 			menuAudioOptions.ami[1].sEnabled	= TRUE;
+			// Re-enable 'Language' on 'Audio Options' menu.
+			menuAudioOptions.ami[2].sEnabled	= TRUE;
 
 			// Fade colors back in
 			PalTranOff();

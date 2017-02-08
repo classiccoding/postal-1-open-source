@@ -2475,12 +2475,34 @@ inline void GetSoundPaths(		// Returns nothing.
 	{
 	// Make the SAK and base path name.
 	char	szAudioResDescriptor[256];
-	sprintf(
-		szAudioResDescriptor,
-		"%ld%c%ld",
-		lSamplesPerSec,
-		AUDIO_SAK_SEPARATOR_CHAR,
-		lBitsPerSample);
+
+	switch (g_GameSettings.m_sAudioLanguage)
+	{
+		case JAPANESE_AUDIO:
+		sprintf(
+			szAudioResDescriptor,
+			"%ld%s%ld",
+			lSamplesPerSec,
+			AUDIO_SAK_SEPARATOR_CHAR_JAPANESE,
+			lBitsPerSample);
+		break;
+		case ENGLISH_AUDIO:
+		sprintf(
+			szAudioResDescriptor,
+			"%ld%s%ld",
+			lSamplesPerSec,
+			AUDIO_SAK_SEPARATOR_CHAR_ENGLISH,
+			lBitsPerSample);
+		break;
+		default:
+		sprintf(
+			szAudioResDescriptor,
+			"%ld%s%ld",
+			lSamplesPerSec,
+			AUDIO_SAK_SEPARATOR_CHAR,
+			lBitsPerSample);
+		break;
+	}
 
 	// Create the samples SAK sub path.
 	strcpy(pszSakPath, SAMPLES_SAK_SUBDIR);
@@ -2634,8 +2656,8 @@ static int16_t OpenSaks(void)
 		{
 		// Wahoo.  No worries.
 #if TARGET == POSTAL_2015
-			// is XMas mode activated ?
-			if (sXmasMode)
+			// Is Xmas mode activated? Is the audio setting on English (there is no Japanese audio for Christmas)?
+			if (sXmasMode && g_GameSettings.m_sAudioLanguage == ENGLISH_AUDIO)
 			{
 				if(lSamplesPerSec==22050 && lSrcBitsPerSample==16)
 				if (g_resmgrSamples.OpenSakAlt(FullPath(GAME_PATH_GAME, XMAS_SAK_SOUND), FullPath(GAME_PATH_GAME, XMAS_SCRIPT_SOUND) ) == 0)
@@ -2706,8 +2728,8 @@ static int16_t OpenSaks(void)
 					// Got one.
 					bSakFound	= true;
 #if TARGET == POSTAL_2015
-					// is XMas mode activated ?
-					if (sXmasMode)
+					// Is Xmas mode activated? Is the audio setting on English (there is no Japanese audio for Christmas)?
+					if (sXmasMode && g_GameSettings.m_sAudioLanguage == ENGLISH_AUDIO)
 						{
 						if(lSamplesPerSec==22050 && lSrcBitsPerSample==16)
 						if (g_resmgrSamples.OpenSakAlt(FullPath(GAME_PATH_GAME, XMAS_SAK_SOUND), FullPath(GAME_PATH_GAME, XMAS_SCRIPT_SOUND) ) == 0)
@@ -2865,7 +2887,6 @@ extern void Game_StartSinglePlayerGame(
 			m_szRealmFile[0] = 0;
 			m_bJustOneRealm = false;
 			break;
-		#if defined(START_MENU_ADDON_ITEM)
 			// "ADD-ON LEVELS"
 			case 1:
 				m_action = ACTION_PLAY_ADDON;
@@ -2873,7 +2894,6 @@ extern void Game_StartSinglePlayerGame(
 				m_szRealmFile[0] = 0;
 				m_bJustOneRealm = false;
 				break;
-		#if TARGET == POSTAL_2015
 			case 2:
 				m_action = ACTION_PLAY_ADDON2;
 				m_sRealmNum = 0;
@@ -2886,59 +2906,42 @@ extern void Game_StartSinglePlayerGame(
 				m_szRealmFile[0] = 0;
 				m_bJustOneRealm = false;
 				break;
-			#define START_MENU_ID_OFFSET	+2 // I am a bit confused by this
-		#else
-			#define START_MENU_ID_OFFSET	0
-		#endif
-		#else
-			#define START_MENU_ID_OFFSET	-1
-		#endif
+			case 4:
+				#ifdef MOBILE
+				m_action	= ACTION_CONTINUE_GAME;
+				#endif
+				break;
+			case 5:
+				#ifndef LOADLEVEL_REMOVED
+				#ifndef LOADLEVEL_DIALOG
+					{
+					// Static so dialog will "remember" the previously-used name
+					static char	szFile[RSP_MAX_PATH]	= "";
 
-#ifdef MOBILE
-		case 2 + START_MENU_ID_OFFSET:
-		m_action	= ACTION_CONTINUE_GAME;
-		break;
-		case 3 + START_MENU_ID_OFFSET:
-#else
-		// "LOAD" game
-		case 2 + START_MENU_ID_OFFSET:
-#endif
-        #ifndef LOADLEVEL_REMOVED
-        #ifndef LOADLEVEL_DIALOG
-			{
-			// Static so dialog will "remember" the previously-used name
-			static char	szFile[RSP_MAX_PATH]	= "";
+					// If not yet used, start out in appropriate directory
+					if (szFile[0] == '\0')
+						strcpy(szFile, FullPathHD(LEVEL_DIR));
 
-			// If not yet used, start out in appropriate directory
-			if (szFile[0] == '\0')
-				strcpy(szFile, FullPathHD(LEVEL_DIR));
+					if (rspOpenBox("Load Realm", szFile, szFile, sizeof(szFile), ".rlm") == 0)
+						{
+						// Convert path from system format to rspix format so it matches the
+						// way we normally call Play(), which is with a rspix path.
+						rspPathFromSystem(szFile, m_szRealmFile);
 
-			if (rspOpenBox("Load Realm", szFile, szFile, sizeof(szFile), ".rlm") == 0)
-				{
-				// Convert path from system format to rspix format so it matches the
-				// way we normally call Play(), which is with a rspix path.
-				rspPathFromSystem(szFile, m_szRealmFile);
-
-				m_action = ACTION_PLAY_SINGLE;
-				m_sRealmNum = -1;
-				m_bJustOneRealm = true;
-				}
-			break;
-			}
-
-		// For the final version, the LOAD above will actually be this, but
-		// it is still useful for testing the way it is now, so I'll add this
-		//	as a separate option - Load Saved Game
-		case 3 + START_MENU_ID_OFFSET:
-		#endif // LOADLEVEL_DIALOG
-        #endif // LOADLEVEL_REMOVED
-			m_action	= ACTION_LOAD_GAME;
-			break;
-#if (TARGET == POSTAL_2015)
-		case 4 + START_MENU_ID_OFFSET:
-			Game_StartChallengeGame(0); 
-			break;
-#endif
+						m_action = ACTION_PLAY_SINGLE;
+						m_sRealmNum = -1;
+						m_bJustOneRealm = true;
+						}
+					break;
+					}
+				#endif // LOADLEVEL_DIALOG
+				#endif // LOADLEVEL_REMOVED
+			case 6:
+				m_action	= ACTION_LOAD_GAME;
+				break;
+			case 7:
+				Game_StartChallengeGame(0); 
+				break;
 		}
 
 	// The main game loop resets the demo timer whenever it notices any user input.
@@ -3238,6 +3241,18 @@ extern void Game_AudioOptionsChoice(	// Returns nothing.
 		{
 		case 1:
 			m_action = ACTION_POSTAL_ORGAN;
+			break;
+		case 2:
+			// Reload the audio SAK for the correct language.
+			// I was expecting to have to find a better place to put
+			// this, so that it doesn't reload every single time the
+			// option is changed, but it actually seems to be very quick
+			// and even works mid-game... Sort of. It's still a bad idea
+			// to do that, so I've greyed out the option on the pause
+			// screen.
+			g_resmgrSamples.Purge();
+			g_resmgrSamples.CloseSak();
+			OpenSaks();
 			break;
 		}
 	}
