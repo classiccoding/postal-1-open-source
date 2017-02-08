@@ -1924,7 +1924,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 							// If there are default demos . . .
 							if(g_GameSettings.m_sNumAvailableDemos > 0)
 								{
-								sprintf(m_szDemoFile, "%s%d%s", FullPathHD(DEFAULT_DEMO_PREFIX), usDemoCount % MAX((int16_t) 1, g_GameSettings.m_sNumAvailableDemos), DEFAULT_DEMO_SUFFIX);
+								sprintf(m_szDemoFile, "%s%d%s", FullPathHD(DEFAULT_DEMO_PREFIX), usDemoCount % MAX((int16_t) 1, (int16_t)g_GameSettings.m_sNumAvailableDemos), DEFAULT_DEMO_SUFFIX);
 								}
 							}
 					

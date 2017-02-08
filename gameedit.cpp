@@ -4319,7 +4319,7 @@ static void PlayRealm(
 						CDude*	pdudeLocal	= nullptr;
                   if (prealm->m_idbank.GetThingByID((CThing**)&pdudeLocal, u16IdDude) == SUCCESS)
 							{
-							pdudeLocal->m_sTextureIndex = MAX((int16_t)0, MIN((int16_t)(CDude::MaxTextures - 1), g_GameSettings.m_sPlayerColorIndex));
+							pdudeLocal->m_sTextureIndex = MAX((int16_t)0, MIN((int16_t)(CDude::MaxTextures - 1), (int16_t)g_GameSettings.m_sPlayerColorIndex));
 
 							// Don't use later.
 							pdudeLocal	= nullptr;
@@ -4911,7 +4911,7 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 									if (pdude->m_sDudeNum == 0)
 										{
 										// Set him to the user selected color.
-										pdude->m_sTextureIndex = MAX((int16_t)0, MIN((int16_t)(CDude::MaxTextures - 1), g_GameSettings.m_sPlayerColorIndex));
+										pdude->m_sTextureIndex = MAX((int16_t)0, MIN((int16_t)(CDude::MaxTextures - 1), (int16_t)g_GameSettings.m_sPlayerColorIndex));
 										}
 
 									break;
