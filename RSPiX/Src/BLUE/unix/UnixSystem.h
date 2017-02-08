@@ -38,7 +38,7 @@
 #include <cstdint>
 
 #if defined(WIN32) || defined(__WIN32__) || defined(_MSC_VER)
-#warning I find your lack of POSIX disturbing. ;)
+//#warning I find your lack of POSIX disturbing. ;)
 
 #ifndef snprintf
 #define snprintf _snprintf

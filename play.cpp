@@ -3615,7 +3615,7 @@ class CPlayInput : public CPlay
 				{
 				CDude* pdudeLocal = pinfo->LocalDudePointer();
 				if (pdudeLocal)
-					pdudeLocal->m_sTextureIndex = MAX((int16_t)0, MIN((int16_t)(CDude::MaxTextures - 1), g_GameSettings.m_sPlayerColorIndex));
+					pdudeLocal->m_sTextureIndex = MAX((int16_t)0, MIN((int16_t)(CDude::MaxTextures - 1), (int16_t)g_GameSettings.m_sPlayerColorIndex));
 				}
 
 			// Re-enable 'Play Options' on 'Options' menu.
@@ -5193,7 +5193,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 									// If this was the last demo level, then do the martini effect
 									if (g_bLastLevelDemo)
 										{
-										RRect rect(0,40,640,400);
+										RRect rect(0,40,VIEW_W,VIEW_H);
 										MartiniDo(g_pimScreenBuf,
 													 0,
 													 0,
