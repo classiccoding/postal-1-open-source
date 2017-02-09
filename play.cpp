@@ -3136,8 +3136,8 @@ class CPlayInput : public CPlay
 							// Set so we'll go to the next realm
 							pinfo->SetGameState_NextRealm();
 
-#ifdef MOBILE //Disble scores for now, don't work
-							// Display high scoers
+#ifndef DISABLE_SP_CHALLENGE_SCORES
+							// Display high scores
 							ScoreDisplayHighScores(prealm);
 #endif
 							}
@@ -3433,9 +3433,11 @@ class CPlayInput : public CPlay
 				menuClientGame.ami[0].sEnabled = FALSE;
 #endif
 			// Disable 'Play Options' on 'Options' menu.
-			menuOptions.ami[5].sEnabled	= FALSE;
+			// menuOptions.ami[5].sEnabled	= FALSE;
 			// Disable 'Organ' on 'Audio Options' menu.
 			menuAudioOptions.ami[1].sEnabled	= FALSE;
+			// Disable 'Language' on 'Audio Options' menu.
+			menuAudioOptions.ami[2].sEnabled	= FALSE;
 			// Disable 'Save' IF in multiplayer.
 			menuClientGame.ami[1].sEnabled = (pinfo->IsMP() == true) ? FALSE : TRUE;
 
@@ -3618,10 +3620,10 @@ class CPlayInput : public CPlay
 					pdudeLocal->m_sTextureIndex = MAX((int16_t)0, MIN((int16_t)(CDude::MaxTextures - 1), (int16_t)g_GameSettings.m_sPlayerColorIndex));
 				}
 
-			// Re-enable 'Play Options' on 'Options' menu.
-			menuOptions.ami[5].sEnabled		= TRUE;
 			// Re-enable 'Organ' on 'Audio Options' menu.
 			menuAudioOptions.ami[1].sEnabled	= TRUE;
+			// Re-enable 'Language' on 'Audio Options' menu.
+			menuAudioOptions.ami[2].sEnabled	= TRUE;
 
 			// Fade colors back in
 			PalTranOff();
@@ -5320,7 +5322,15 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 											// special-case code handles everything that happens after that to do
 											// the actual ending scene for the game.
 											if (!info.Gauntlet() && !info.JustOneRealm() && info.RealmNum() == sNumLevels)
+											{
+#ifdef KID_FRIENDLY_OPTION
+												if (bAddOn == 3)
+												{
+													g_GameSettings.m_sCompletedAllLevelsMode = TRUE;
+												}
+#endif
 												g_bLastLevelDemo = true;
+											}
 											else
 												info.SetGameState_GameOver();
 											}

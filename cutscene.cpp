@@ -689,7 +689,6 @@ static CSwirlMe* pSwirl = nullptr;
 
 static void CutScene_RFileCallback(size_t lBytes);
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Start cutscene.
@@ -750,6 +749,45 @@ extern void CutSceneStart(
 	else
 		{
 		prefsRealm.GetVal(*pstrSection, "Bg", DEFAULT_BG, szText);
+		#ifdef KID_FRIENDLY_OPTION
+		if (g_GameSettings.m_sKidMode == TRUE)
+		{
+			if (strcmp(szText, "res/cutscene/jacketbg.bmp") == 0)
+			{
+				strcpy(szText, "res/unicorn/jacketbg.bmp");
+			}
+			else if (strcmp(szText, "res/cutscene/baboon.bmp") == 0 ||
+			strcmp(szText, "res/cutscene/bluehead.bmp") == 0 ||
+			strcmp(szText, "res/cutscene/dblood.bmp") == 0 ||
+			strcmp(szText, "res/cutscene/dholo.bmp") == 0 ||
+			strcmp(szText, "res/cutscene/dredeye.bmp") == 0 ||
+			strcmp(szText, "res/cutscene/flash.bmp") == 0 ||
+			strcmp(szText, "res/cutscene/forest.bmp") == 0 ||
+			strcmp(szText, "res/cutscene/glassguy.bmp") == 0 ||
+			strcmp(szText, "res/cutscene/guy.bmp") == 0 ||
+			strcmp(szText, "res/cutscene/hellbrth.bmp") == 0 ||
+			strcmp(szText, "res/cutscene/maskfire.bmp") == 0 ||
+			strcmp(szText, "res/cutscene/monster.bmp") == 0 ||
+			strcmp(szText, "res/cutscene/pit.bmp") == 0 ||
+			strcmp(szText, "res/cutscene/texbeast.bmp") == 0 ||
+			strcmp(szText, "res/cutscene/texteeth.bmp") == 0 ||
+			strcmp(szText, "res/cutscene/tossle.bmp") == 0 ||
+			strcmp(szText, "res/cutscene/war.bmp") == 0)
+			{
+				strcpy(szText, "res/unicorn/baboon.bmp");
+			}
+			else if (strcmp(szText, "res/cutscene/abstract.bmp") == 0 ||
+			strcmp(szText, "res/cutscene/real2.bmp") == 0 ||
+			strcmp(szText, "res/cutscene/ttlmorex.bmp") == 0)
+			{
+				strcpy(szText, "res/unicorn/abstract.bmp");
+			}
+			else if (strcmp(szText, "res/cutscene/red2.bmp") == 0)
+			{
+					strcpy(szText, "res/unicorn/red2.bmp");
+			}
+		}
+		#endif
 		if ((strlen(szText) + 1) >= RSP_MAX_PATH)
 			{
 			TRACE("CutScene(): Bg file name/path too long: '%s'!\n", szText);
@@ -1206,7 +1244,6 @@ static void CutScene_RFileCallback(size_t lBytes)
 			}
 		}
 	}
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // EOF

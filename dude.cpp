@@ -2246,7 +2246,14 @@ void CDude::Update(void)
 					// Play shot received.
 					PlaySample(g_smidDyingYell, SampleMaster::Voices);
 					// Start gore.
+#ifdef KID_FRIENDLY_OPTION
+					if (g_GameSettings.m_sKidMode == FALSE)
+					{
+#endif
 					StartBrainSplat();
+#ifdef KID_FRIENDLY_OPTION
+					}
+#endif
 					// Remember.
 					m_bBrainSplatted	= true;
 

@@ -908,10 +908,13 @@ void CCharacter::MakeBloody(
 								// sDamageAngle (If 360, there'll be no noticeable
 								// damage direction for the chunks).
 	{
+#ifdef KID_FRIENDLY_OPTION
+	if (g_GameSettings.m_sKidMode == FALSE)
+	{
+#endif
 	double	dHitY	= m_dY + GetRandSway(BLOOD_SPLAT_SWAY, m_pRealm->m_phood->m_dScale3d);
 	double	dHitX;
 	double	dHitZ;
-
 	// If writhing on the ground . . .
 	if (m_state == State_Writhing)
 		{
@@ -976,6 +979,9 @@ void CCharacter::MakeBloody(
 	// created the pool which, of course, is the desired
 	// effect.
 	MakeBloodPool();
+#ifdef KID_FRIENDLY_OPTION
+	}
+#endif
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -983,6 +989,10 @@ void CCharacter::MakeBloody(
 ////////////////////////////////////////////////////////////////////////////////
 void CCharacter::MakeBloodPool(void)
 	{
+#ifdef KID_FRIENDLY_OPTION
+	if (g_GameSettings.m_sKidMode == FALSE)
+	{
+#endif
 	CAnimThing*	pat	= new CAnimThing(m_pRealm);
 	if (pat != nullptr)
 		{
@@ -1009,6 +1019,9 @@ void CCharacter::MakeBloodPool(void)
 		// NOTE:  sAngle is currently not utilized.
 		pat->Setup(dHitX, dTerrainH, dHitZ);
 		}
+#ifdef KID_FRIENDLY_OPTION
+	}
+#endif
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1018,6 +1031,10 @@ void CCharacter::BloodToBackground(
 	int16_t	sAnimX2d,			// Position of animation in 2d.
 	int16_t	sAnimY2d)			// Position of animation in 2d.
 	{
+#ifdef KID_FRIENDLY_OPTION
+	if (g_GameSettings.m_sKidMode == FALSE)
+	{
+#endif
 	// Draw last frame of pool directly into background.
 	CAnimThing::ChannelAA*	paachannel;
 	if (rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(BLOOD_POOL_RES_NAME), &paachannel) == SUCCESS)
@@ -1059,6 +1076,9 @@ void CCharacter::BloodToBackground(
 		
 		rspReleaseResource(&g_resmgrGame, &paachannel);
 		}
+#ifdef KID_FRIENDLY_OPTION
+	}
+#endif
 	}
 
 
