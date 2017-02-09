@@ -279,8 +279,8 @@ typedef struct
 	{
 	char	szCheat[21];
 	UINPUT	input;
-	long	lLastValidInputTime;
-	short	sCurrentIndex;
+	int32_t	lLastValidInputTime;
+	int16_t	sCurrentIndex;
 	} Cheat;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -301,8 +301,8 @@ INPUT_MODE m_mode;
 
 // Buffer-related stuff
 U32* m_pBuf = 0;				// Pointer to buffer. Must be a U32 to maintain demo compatibility!
-long m_lBufIndex;					// Current index into buffer
-long m_lBufEntries;				// Total entries in buffer
+int32_t m_lBufIndex;					// Current index into buffer
+int32_t m_lBufEntries;				// Total entries in buffer
 
 // Cheat structs.
 // Add one plus the index of each string item so it's not recognizable when 
@@ -430,9 +430,9 @@ extern INPUT_MODE GetInputMode(void)				// Returns current mode
 // Init demo mode.  Must be called before setting playback or record modes.
 //
 ////////////////////////////////////////////////////////////////////////////////
-extern short InputDemoInit(void)
+extern int16_t InputDemoInit(void)
 	{
-	short sResult = 0;
+	int16_t sResult = 0;
 
 	// Reset index and number of entries
 	m_lBufIndex = 0;
@@ -472,10 +472,10 @@ void InputDemoKill(void)
 // Load previously saved input demo data
 //
 ////////////////////////////////////////////////////////////////////////////////
-extern short InputDemoLoad(							// Returns 0 if successfull, non-zero otherwise
+extern int16_t InputDemoLoad(							// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile)											// In:  RFile to load from
 	{
-	short sResult = 0;
+	int16_t sResult = 0;
 
 	ASSERT(m_pBuf);
 	if (m_pBuf)
@@ -487,7 +487,7 @@ extern short InputDemoLoad(							// Returns 0 if successfull, non-zero otherwis
 				{
 
 				// Load all entries
-				for (long l = 0; l < m_lBufEntries; l++)
+				for (int32_t l = 0; l < m_lBufEntries; l++)
 					pFile->Read(&m_pBuf[l]);
 				
 				// Check for errors
@@ -524,10 +524,10 @@ extern short InputDemoLoad(							// Returns 0 if successfull, non-zero otherwis
 // Save current input demo data
 //
 ////////////////////////////////////////////////////////////////////////////////
-extern short InputDemoSave(							// Returns 0 if successfull, non-zero otherwise
+extern int16_t InputDemoSave(							// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile)											// In:  RFile to save to
 	{
-	short sResult = 0;
+	int16_t sResult = 0;
 
 	ASSERT(m_pBuf);
 	if (m_pBuf)
@@ -536,7 +536,7 @@ extern short InputDemoSave(							// Returns 0 if successfull, non-zero otherwis
 		pFile->Write(m_lBufEntries);
 
 		// Save all entries
-		for (long l = 0; l < m_lBufEntries; l++)
+		for (int32_t l = 0; l < m_lBufEntries; l++)
 			pFile->Write(m_pBuf[l]);
 
 		// Check for errors
@@ -578,7 +578,7 @@ extern void ClearLocalInput(void)
 	memset(rspGetKeyStatusArray(), 0, 128);
 
 	// Clear cheats.
-	short	i;
+	int16_t	i;
 	for (i = 0; i < NUM_ELEMENTS(ms_acheats); i++)
 		{
 		ms_acheats[i].sCurrentIndex	= 0;
@@ -595,14 +595,14 @@ static void FindCheatCombos(	// Returns nothing.
 										// Out: Input with cheats.
 	RInputEvent* pie)				// In:  Latest input event or NULL.
 	{
-	long		lNow		= rspGetMilliseconds();
-	short	i;
+	int32_t		lNow		= rspGetMilliseconds();
+	int16_t	i;
 
 	if (pie)
 		{
 		if (pie->type == RInputEvent::Key)
 			{
-			long	lKey	= (pie->lKey & 0x00FF);
+			int32_t	lKey	= (pie->lKey & 0x00FF);
 			// Force alpha lower keys to upper keys
 			if (islower(lKey))
 				lKey	= toupper(lKey);
@@ -625,7 +625,7 @@ static void FindCheatCombos(	// Returns nothing.
 				// obvious when searching/viewing the exe.
 				char	c = DETWEAK_CHAR(pcheat->szCheat, pcheat->sCurrentIndex);
 				// If current key is hit . . .
-				if ( lKey == (long)c && c != 0)
+				if ( lKey == (int32_t)c && c != 0)
 					{
 					// Remember time of this key.
 					pcheat->lLastValidInputTime				= lNow;
@@ -673,9 +673,9 @@ bool CanCycleThroughWeapons()
 {
 #define WEAPON_SWITCH_HOLD_TIME 750
 #define WEAPON_SWITCH_CYCLE_TIME 350
-	static long lLastWeaponSwitchTime = 0;
+	static int32_t lLastWeaponSwitchTime = 0;
 	static bool bFastWeaponSwitching = false;
-	long lCurTime = rspGetMilliseconds();
+	int32_t lCurTime = rspGetMilliseconds();
 	bool bResult = false;
 
 	if (lLastWeaponSwitchTime == 0)
@@ -729,20 +729,20 @@ extern UINPUT GetLocalInput(				// Returns local input.
 		{
 // Set this to 0 to disable all possibility of any user input during the game
 #if 1
-		long				lCurTime			= prealm->m_time.GetGameTime();
-		static long		lPrevTime		= lCurTime;
+		int32_t				lCurTime			= prealm->m_time.GetGameTime();
+		static int32_t		lPrevTime		= lCurTime;
 		// Get ptr to Blue's key status array.  Only need to do this
 		// once.
 		static U8*		pu8KeyStatus	= rspGetKeyStatusArray();
 
-		short	sButtons	= 0;
-		short	sDeltaX	= 360;
+		int16_t	sButtons	= 0;
+		int16_t	sDeltaX	= 360;
 
 		// If utilizing mouse input . . .
 		if (g_InputSettings.m_sUseMouse != FALSE && rspIsBackground() == FALSE)
 			{
-			short	sPosX, sPosY;
-			short	sThreshY;
+			int16_t	sPosX, sPosY;
+			int16_t	sThreshY;
 			rspGetMouse(&sPosX, &sPosY, &sButtons);
 			rspSetMouse(MOUSE_RESET_X, MOUSE_RESET_Y);
 
@@ -760,18 +760,18 @@ extern UINPUT GetLocalInput(				// Returns local input.
 				dDeltaRot	-= 0.5;
 				}
 #endif
-//			TRACE("sDif = %d, dDeltaRot = %g\n", (MOUSE_RESET_X - sPosX), dDeltaRot);
+			//TRACE("sDif = %d, dDeltaRot = %g\n", (MOUSE_RESET_X - sPosX), dDeltaRot);
 
 			// Must cast to short before subtracting b/c this statement is really:
 			// sDeltaX = sDeltaX + dDeltaRot which became promoted to float before
 			// it was added and then truncated causing a bias in degree toward
 			// negative or rightward rotations.
-			sDeltaX	+= (short)dDeltaRot;
+			sDeltaX	+= (int16_t)dDeltaRot;
 
 			sThreshY	= MOUSE_Y_THRESH;
 			if (g_InputSettings.m_dMouseSensitivityY > 0.0)
 				{
-				sThreshY	= short( float(sThreshY) / g_InputSettings.m_dMouseSensitivityY);
+				sThreshY	= int16_t( float(sThreshY) / g_InputSettings.m_dMouseSensitivityY);
 				}
 			else
 				{
