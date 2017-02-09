@@ -2,6 +2,9 @@
 # !!! FIXME: Make this more robust. MUCH more robust.
 # !!! FIXME: ...or at least comment the rest of these options...
 
+BINDIR := ./bin
+SRCDIR := .
+
 ifeq ($(PANDORA),1)
   macosx := false
   CPUARCH := arm
@@ -9,6 +12,7 @@ ifeq ($(PANDORA),1)
   LINKER := g++
   steamworks := false
   CFLAGS += -mcpu=cortex-a8 -mfpu=neon -mfloat-abi=softfp -ftree-vectorize -ffast-math -DPANDORA
+  CLIENTEXE := $(BINDIR)/postal1-arm
 else ifeq ($(ODROID),1)
   macosx := false
   CPUARCH := arm
@@ -16,23 +20,31 @@ else ifeq ($(ODROID),1)
   LINKER := g++
   steamworks := false
   CFLAGS += -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=hard -ftree-vectorize -ffast-math -DODROID
+  CLIENTEXE := $(BINDIR)/postal1-arm
 else ifeq ($(linux_x86),1)
   target := linux_x86
-else
+  CFLAGS += -m32
+  CLIENTEXE := $(BINDIR)/postal1-x86
+else ifeq ($(macosx_x86),1)
   target := macosx_x86
   steamworks := true
+  CLIENTEXE := $(BINDIR)/postal1-x86
+else
+  target := linux_x86_64
+  CLIENTEXE := $(BINDIR)/postal1-x86_64
 endif
-
-BINDIR := ./bin
-SRCDIR := .
-#debug := true
-debug := false
 
 # ----------------------------------------------------- ... bleh.
 
 ifeq ($(strip $(target)),linux_x86)
   macosx := false
   CPUARCH := x86
+  CC := g++
+  LINKER := g++ -m32
+endif
+ifeq ($(strip $(target)),linux_x86_64)
+  macosx := false
+  CPUARCH := x86_64
   CC := g++
   LINKER := g++
 endif
@@ -221,7 +233,6 @@ SRCS := \
     # wtf is THIS?!
 	#RSPiX/Src/ORANGE/MTask/mtask.cpp \
 
-CLIENTEXE := $(BINDIR)/postal1-bin
 OBJS0 := $(SRCS:.s=.o)
 OBJS1 := $(OBJS0:.c=.o)
 OBJS2 := $(OBJS1:.cpp=.o)
@@ -231,7 +242,7 @@ OBJS := $(foreach f,$(OBJS4),$(BINDIR)/$(f))
 SRCS := $(foreach f,$(SRCS),$(SRCDIR)/$(f))
 
 # !!! FIXME: Get -Wall in here, some day.
-CFLAGS += -fsigned-char -g -DPLATFORM_UNIX -w
+CFLAGS += -fsigned-char -DPLATFORM_UNIX -w
 
 ifeq ($(strip $(macosx)),true)
   CFLAGS += -DPLATFORM_MACOSX
@@ -263,13 +274,6 @@ ifeq ($(strip $(expiring_beta)),true)
   CFLAGS += -DBETAEXPIRE=$(shell date +%s)
 endif
 
-ifeq ($(strip $(debug)),true)
-  CFLAGS += -DDEBUG -D_DEBUG -O0
-else
-  OPTFLAG := -O3
-  CFLAGS += -DNDEBUG -D_NDEBUG $(OPTFLAG)
-endif
-
 ifeq ($(strip $(macosx)),true)
   CFLAGS += -arch i386 -mmacosx-version-min=10.5
   LDFLAGS += -arch i386 -mmacosx-version-min=10.5
@@ -280,9 +284,13 @@ else
   ifeq ($(CPUARCH),arm)
     LIBS += -lSDL2
   else
-    LIBS += SDL2/libs/linux-x86/libSDL2-2.0.so.0
-    LDFLAGS += -Wl,-rpath,\$$ORIGIN
-    STEAMLDFLAGS += steamworks/sdk/redistributable_bin/linux32/libsteam_api.so
+	ifeq ($(CPUARCH),x86_64)
+	  LIBS += -lSDL2
+	else
+	  LIBS += SDL2/libs/linux-x86/libSDL2-2.0.so.0
+	  LDFLAGS += -Wl,-rpath,\$$ORIGIN
+	  STEAMLDFLAGS += steamworks/sdk/redistributable_bin/linux32/libsteam_api.so
+	endif
  endif
 endif
 
@@ -295,8 +303,18 @@ CFLAGS += -DALLOW_TWINSTICK
 
 .PHONY: all bindir
 
-all: $(CLIENTEXE)
 
+all: debugoff $(CLIENTEXE)
+
+
+debug: debugon $(CLIENTEXE)
+
+debugon:
+	$(eval CFLAGS += -DDEBUG -D_DEBUG -O0 -g)
+
+debugoff:
+	$(eval OPTFLAG := -O3)
+	$(eval CFLAGS += -DNDEBUG -D_NDEBUG -O2)
 
 $(BINDIR)/%.o: $(SRCDIR)/%.s
 	$(CC) $(CFLAGS) -DELF -x assembler-with-cpp -o $@ -c $<

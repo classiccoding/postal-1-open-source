@@ -272,7 +272,7 @@ extern INPUT_MODE GetInputMode(void);				// Returns current mode
 // Init demo mode.  Must be called before setting playback or record modes.
 //
 ////////////////////////////////////////////////////////////////////////////////
-extern short InputDemoInit(void);					// Returns 0 if successfull, non-zero otherwise
+extern int16_t InputDemoInit(void);					// Returns 0 if successfull, non-zero otherwise
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -289,7 +289,7 @@ extern void InputDemoKill(void);
 // Load previously saved input demo data
 //
 ////////////////////////////////////////////////////////////////////////////////
-extern short InputDemoLoad(							// Returns 0 if successfull, non-zero otherwise
+extern int16_t InputDemoLoad(							// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile);											// In:  RFile to load from
 
 
@@ -298,7 +298,7 @@ extern short InputDemoLoad(							// Returns 0 if successfull, non-zero otherwis
 // Save current input demo data
 //
 ////////////////////////////////////////////////////////////////////////////////
-extern short InputDemoSave(							// Returns 0 if successfull, non-zero otherwise
+extern int16_t InputDemoSave(							// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile);											// In:  RFile to save to
 
 
@@ -338,7 +338,7 @@ extern UINPUT GetLocalInput(				// Returns local input structure.
 // Get input for specified dude
 //
 ////////////////////////////////////////////////////////////////////////////////
-inline UINPUT GetInput(short sDudeNumber)
+inline UINPUT GetInput(int16_t sDudeNumber)
 	{
 	ASSERT(sDudeNumber < INPUT_MAX_DUDES);
 	extern UINPUT m_aInputs[INPUT_MAX_DUDES];
@@ -351,7 +351,7 @@ inline UINPUT GetInput(short sDudeNumber)
 // Set input for specified dude
 //
 ////////////////////////////////////////////////////////////////////////////////
-inline void SetInput(short sDudeNumber, UINPUT input)
+inline void SetInput(int16_t sDudeNumber, UINPUT input)
 	{
 	ASSERT(sDudeNumber < INPUT_MAX_DUDES);
 	extern UINPUT m_aInputs[INPUT_MAX_DUDES];
