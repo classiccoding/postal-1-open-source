@@ -116,6 +116,8 @@
 #ifndef GAMESETTINGS_H
 #define GAMESETTINGS_H
 
+#include <time.h>
+
 #include "RSPiX.h"
 #ifdef PATHS_IN_INCLUDES
 	#include "WishPiX/Prefs/prefs.h"
