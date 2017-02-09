@@ -190,7 +190,6 @@
 #include "dude.h"
 #include "toolbar.h"
 #include "update.h"
-#include "postal_limits.h"
 
 //////////////////////////////////////////////////////////////////////////////
 // Macros

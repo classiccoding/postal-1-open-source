@@ -3595,8 +3595,6 @@ class CPlayInput : public CPlay
 					pdudeLocal->m_sTextureIndex = MAX((int16_t)0, MIN((int16_t)(CDude::MaxTextures - 1), g_GameSettings.m_sPlayerColorIndex));
 				}
 
-			// Re-enable 'Play Options' on 'Options' menu.
-			menuOptions.ami[5].sEnabled		= TRUE;
 			// Re-enable 'Organ' on 'Audio Options' menu.
 			menuAudioOptions.ami[1].sEnabled	= TRUE;
 			// Re-enable 'Language' on 'Audio Options' menu.
