@@ -521,12 +521,14 @@
 // That led to the creation of this macro to make this feature easy to maintain.
 ////////////////////////////////////////////////////////////////////////////////
 
-#if defined(TARGET) && defined(LOCALE)
+#define AUDIO_SAK_SEPARATOR_CHAR_ENGLISH "_"
+#define AUDIO_SAK_SEPARATOR_CHAR_JAPANESE "j"
 
+#if defined(TARGET) && defined(LOCALE)
 	#if LOCALE == JAPAN
-		#define AUDIO_SAK_SEPARATOR_CHAR		'j'
+		#define AUDIO_SAK_SEPARATOR_CHAR		AUDIO_SAK_SEPARATOR_CHAR_JAPANESE
 	#else
-		#define AUDIO_SAK_SEPARATOR_CHAR		'_'
+		#define AUDIO_SAK_SEPARATOR_CHAR		AUDIO_SAK_SEPARATOR_CHAR_ENGLISH
 	#endif
 
 #endif
@@ -615,10 +617,24 @@
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
+// Kid Mode
+//
+// It occurs to me that POSTAL is a little violent.
+// Maybe parents out there want to allow their children to play POSTAL without
+// being influenced by its graphic content.
+// As a result, if this is defined, there will be an option on the menu to
+// disable blood in the game, as that is the only piece of objectionable
+// content in POSTAL.
+////////////////////////////////////////////////////////////////////////////////
+
+#define KID_FRIENDLY_OPTION
+
+////////////////////////////////////////////////////////////////////////////////
 // Miscellaneous Stuff
 ////////////////////////////////////////////////////////////////////////////////
 
 #define ALLOW_JOYSTICK
+// #define RESMGR_VERBOSE
 // #define DEBUG_LEVEL_CHEAT
 
 #endif // COMPILE_OPTIONS_H

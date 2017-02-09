@@ -474,7 +474,7 @@ class RResMgr
 		// Open an Alternate SAK file
 		// with an optionnal script file to overload name in Alternate SAK
 		// (used for XMas runtime patch)
-		int16_t OpenSakAlt(RString strSakFile, RString strScriptFile);
+		int16_t OpenSakAlt(RString strSakFile, RString strScriptFile = false);
 
 		// This function closes the Alt SAK file and all resource names
 		void CloseSakAlt()

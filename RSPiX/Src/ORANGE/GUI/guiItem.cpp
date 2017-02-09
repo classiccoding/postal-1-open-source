@@ -1780,6 +1780,7 @@ int16_t RGuiItem::GetRes(void)
 				RFile::LittleEndian) == SUCCESS)
 				{
 				// Success.
+				TRACE("Totally succeeded to load resource \"%s\".\n", m_szBkdResName);
 				}
 			else
 				{

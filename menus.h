@@ -96,6 +96,7 @@ extern Menu menuStartSingle;
 extern Menu menuStartMulti;
 extern Menu menuStartDemo;
 extern Menu	menuOptions;
+extern Menu	menuGameOptions;
 extern Menu menuControls;
 extern Menu menuKeyboard;
 extern Menu menuMouse;
@@ -113,6 +114,7 @@ extern Menu menuRotation;
 extern Menu menuJoinMulti;
 extern Menu menuHostMulti;
 extern Menu menuLoadLevel;
+extern Menu	menuNewCampaign;
 
 // Main menu
 extern Menu	menuMain;

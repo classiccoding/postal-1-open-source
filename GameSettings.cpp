@@ -149,6 +149,7 @@
 #include "net.h"
 #include "SampleMaster.h"
 #include "socket.h"
+#include "localize.h"
 #include "dude.h"	// For MaxTextures.
 
 //////////////////////////////////////////////////////////////////////////////
@@ -193,6 +194,15 @@ const char*	CGameSettings::ms_apszPlayerColorDescriptions[CDude::MaxTextures + 1
 // Number of color descriptions.
 const	uint16_t CGameSettings::ms_sNumPlayerColorDescriptions	= NUM_ELEMENTS(ms_apszPlayerColorDescriptions) - 1;
 
+char*	CGameSettings::ms_apszAudioLanguageDescriptions[NUM_LANGUAGES + 1]	=
+	{
+	g_pszAudioMenu_English,
+	g_pszAudioMenu_Japanese,
+	
+	// Add new audio languages above this line.
+	"Error",	// Try to catch errors.
+	};
+
 //////////////////////////////////////////////////////////////////////////////
 // Set settings to default values
 //////////////////////////////////////////////////////////////////////////////
@@ -210,6 +220,29 @@ CGameSettings::CGameSettings(void)
 	m_sDifficulty					= 5;
 	m_sViolence						= 11;
 	m_sCrossHair					= TRUE;
+#if LOCALE == JAPAN
+	m_sAudioLanguage = JAPANESE_AUDIO;
+#else
+	m_sAudioLanguage = ENGLISH_AUDIO;
+#endif
+#ifdef KID_FRIENDLY_OPTION
+	m_sCompletedAllLevelsMode		= FALSE;
+	time_t lTime;
+	struct tm * timeinfo;
+	RFile file;
+	time(&lTime);
+	timeinfo = localtime (&lTime);
+	if (timeinfo->tm_mon == 3 && timeinfo->tm_mday == 1)
+	{
+		TRACE("It's April Fools my dude!\n");
+		m_sAprilFools = TRUE;
+		m_sKidMode = TRUE;
+	} else {
+		TRACE("It ain't April Fools my dude!\n");
+		m_sAprilFools = FALSE;
+		m_sKidMode = FALSE;
+	}
+#endif
 										
 	m_szServerName[0]				= 0;
 	m_usServerPort					= 61663;
@@ -386,6 +419,38 @@ int16_t CGameSettings::LoadPrefs(
 	if (m_sViolence > 11)
 		m_sViolence = 11;
 	pPrefs->GetVal("Game", "UseCrossHair", m_sCrossHair, &m_sCrossHair);
+	
+	pPrefs->GetVal("Game", "AudioLanguage", m_sAudioLanguage, &m_sAudioLanguage);
+	if (m_sAudioLanguage < 0 || m_sAudioLanguage >= NUM_LANGUAGES)
+	{
+		#if LOCALE == JAPAN
+			m_sAudioLanguage = JAPANESE_AUDIO;
+		#else
+			m_sAudioLanguage = ENGLISH_AUDIO;
+		#endif
+	}
+	#ifdef KID_FRIENDLY_OPTION
+	if (m_sAprilFools == TRUE)
+	{
+		// As per Rich's request, the Kid Mode option is available to
+		// everyone on April Fool's Day, and on every other day, only to
+		// those who have completed the full campaign ("ALL LEVELS").
+		// It defaults to on on April Fool's, and off when it is
+		// unlocked via beating the campaign. Since we always want it to
+		// be automatically enabled on April Fool's, but we don't want
+		// this to interfere with the user's choice on other days, AND
+		// we don't want the option to be automatically re-enabled if
+		// they disable it and then restart the game on April Fool's,
+		// the best way I can think of to handle these situations is to
+		// keep track of the setting in a separate variable on April
+		// Fool's Day. I guess the other possibility is to force it to
+		// be enabled on April Fool's...
+		pPrefs->GetVal("Game", "KidModeAprilFools", m_sKidMode, &m_sKidMode);
+	} else {
+		pPrefs->GetVal("Game", "KidMode", m_sKidMode, &m_sKidMode);
+	}
+	pPrefs->GetVal("Game", "CompletedAllLevelsMode", m_sCompletedAllLevelsMode, &m_sCompletedAllLevelsMode);
+	#endif
 
 	pPrefs->GetVal("Multiplayer", "Server", m_szServerName, m_szServerName);
 	pPrefs->GetVal("Multiplayer", "Port", m_usServerPort, &m_usServerPort);
@@ -499,6 +564,16 @@ int16_t CGameSettings::SavePrefs(
 	pPrefs->SetVal("Game", "RecentDifficulty", m_sDifficulty);
 	pPrefs->SetVal("Game", "RecentViolence", m_sViolence);
 	pPrefs->SetVal("Game", "UseCrossHair", m_sCrossHair);
+	pPrefs->SetVal("Game", "AudioLanguage", m_sAudioLanguage);
+	#ifdef KID_FRIENDLY_OPTION
+	if (m_sAprilFools == TRUE)
+	{
+		pPrefs->SetVal("Game", "KidModeAprilFools", m_sKidMode);
+	} else {
+		pPrefs->SetVal("Game", "KidMode", m_sKidMode);
+	}
+	pPrefs->SetVal("Game", "CompletedAllLevelsMode", m_sCompletedAllLevelsMode);
+	#endif
 
 	pPrefs->SetVal("Multiplayer", "Server", m_szServerName);
 	pPrefs->SetVal("Multiplayer", "Port", m_usServerPort);

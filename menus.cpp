@@ -504,11 +504,9 @@ static bool VerifyExitMenuChoice(	// Returns true to accept, false to deny choic
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem);				// Item chosen.
 
-#ifdef UNUSED_FUNCTIONS
 static bool ClientGameMenuChoice(	// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem);				// Item chosen.
-#endif
 
 static bool EditorMenuChoice(	// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
@@ -519,15 +517,24 @@ static bool StartGameMenu(		// Returns true to accept, false to deny choice.
 	int16_t	sMenuItem);				// Item chosen.
 
 static int16_t StartGameInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
+
+static bool NewCampaignMenu(		// Returns true to accept, false to deny choice.
+	Menu*	pmenuCurrent,			// Current menu.
+	int16_t	sMenuItem);				// Item chosen.
+
+static int16_t NewCampaignInit(	// Returns 0 on success, non-zero to cancel menu.
+	Menu*	pmenuCur,				// Current menu.
+	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
+
 
 static bool StartSingleMenu(		// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem);				// Item chosen.
 
 static int16_t ChallengeInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
 
 static bool ChallengeChoice(	// Returns true to accept, false to deny choice.
@@ -535,7 +542,7 @@ static bool ChallengeChoice(	// Returns true to accept, false to deny choice.
 	int16_t	sMenuItem);				// Item chosen.
 
 static int16_t StartSingleInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
 
 static bool StartMultiMenu(	// Returns true to accept, false to deny choice.
@@ -543,7 +550,7 @@ static bool StartMultiMenu(	// Returns true to accept, false to deny choice.
 	int16_t	sMenuItem);				// Item chosen.
 
 static int16_t StartMultiInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
 
 static bool JoinMultiMenu(		// Returns true to accept, false to deny choice.
@@ -551,7 +558,7 @@ static bool JoinMultiMenu(		// Returns true to accept, false to deny choice.
 	int16_t	sMenuItem);				// Item chosen.
 
 static int16_t JoinMultiInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
 
 static bool HostMultiMenu(		// Returns true to accept, false to deny choice.
@@ -559,7 +566,7 @@ static bool HostMultiMenu(		// Returns true to accept, false to deny choice.
 	int16_t	sMenuItem);				// Item chosen.
 
 static int16_t HostMultiInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
 
 static bool StartDemoMenu(		// Returns true to accept, false to deny choice.
@@ -567,19 +574,27 @@ static bool StartDemoMenu(		// Returns true to accept, false to deny choice.
 	int16_t	sMenuItem);				// Item chosen.
 
 static int16_t StartDemoInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
 
 static int16_t OptionsInit(		// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
 
 static bool OptionsChoice(		// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem);				// Item chosen.
 
+static int16_t GameOptionsInit(		// Returns 0 on success, non-zero to cancel menu.
+	Menu*	pmenuCur,				// Current menu.
+	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
+
+static bool GameOptionsChoice(		// Returns true to accept, false to deny choice.
+	Menu*	pmenuCurrent,			// Current menu.
+	int16_t	sMenuItem);				// Item chosen.
+	
 static int16_t PlayOptionsInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
 
 static bool PlayOptionsChoice(	// Returns true to accept, false to deny choice.
@@ -587,7 +602,7 @@ static bool PlayOptionsChoice(	// Returns true to accept, false to deny choice.
 	int16_t	sMenuItem);					// Item chosen.
 
 static int16_t VideoOptionsInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,					// Current menu.
+	Menu*	pmenuCur,					// Current menu.
 	int16_t	sInit);						// TRUE, if initializing; FALSE, if killing.
 
 static bool VideoOptionsChoice(	// Returns true to accept, false to deny choice.
@@ -595,7 +610,7 @@ static bool VideoOptionsChoice(	// Returns true to accept, false to deny choice.
 	int16_t	sMenuItem);					// Item chosen.
 
 static int16_t AudioOptionsInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,					// Current menu.
+	Menu*	pmenuCur,					// Current menu.
 	int16_t	sInit);						// TRUE, if initializing; FALSE, if killing.
 
 static bool AudioOptionsChoice(	// Returns true to accept, false to deny choice.
@@ -603,7 +618,7 @@ static bool AudioOptionsChoice(	// Returns true to accept, false to deny choice.
 	int16_t	sMenuItem);					// Item chosen.
 
 static int16_t VolumesInit(		// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
 
 static bool VolumesChoice(		// Returns true to accept, false to deny choice.
@@ -611,7 +626,7 @@ static bool VolumesChoice(		// Returns true to accept, false to deny choice.
 	int16_t	sMenuItem);				// Item chosen.
 
 static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
 
 static bool ControlsChoice(	// Returns true to accept, false to deny choice.
@@ -619,7 +634,7 @@ static bool ControlsChoice(	// Returns true to accept, false to deny choice.
 	int16_t	sMenuItem);				// Item chosen.
 
 static int16_t RotationInit(		// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
 
 static bool RotationChoice(	// Returns true to accept, false to deny choice.
@@ -627,7 +642,7 @@ static bool RotationChoice(	// Returns true to accept, false to deny choice.
 	int16_t	sMenuItem);				// Item chosen.
 
 static int16_t MouseInit(			// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
 
 static bool MouseChoice(		// Returns true to accept, false to deny choice.
@@ -635,7 +650,7 @@ static bool MouseChoice(		// Returns true to accept, false to deny choice.
 	int16_t	sMenuItem);				// Item chosen.
 
 static int16_t KeyInit(			// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
 
 static bool KeyChoice(			// Returns true to accept, false to deny choice.
@@ -643,7 +658,7 @@ static bool KeyChoice(			// Returns true to accept, false to deny choice.
 	int16_t	sMenuItem);				// Item chosen.
 
 static int16_t JoyInit(			// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
 
 static bool JoyChoice(			// Returns true to accept, false to deny choice.
@@ -651,7 +666,7 @@ static bool JoyChoice(			// Returns true to accept, false to deny choice.
 	int16_t	sMenuItem);				// Item chosen.
 
 static int16_t LoadLevelInit(			// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
 
 static bool LoadLevelChoice(			// Returns true to accept, false to deny choice.
@@ -659,19 +674,19 @@ static bool LoadLevelChoice(			// Returns true to accept, false to deny choice.
 	int16_t	sMenuItem);
 
 static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,					// Current menu.
+	Menu*	pmenuCur,					// Current menu.
 	int16_t	sInit);						// TRUE, if initializing; FALSE, if killing.
 
 static bool MultiOptionsChoice(	// Returns true to accept, false to deny choice.
-   Menu*	pmenuCurrent,					// Current menu.
+	Menu*	pmenuCur,					// Current menu.
 	int16_t	sMenuItem);					// Item chosen.
 
 static int16_t FeaturesInit(		// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
 
 static bool FeaturesChoice(	// Returns true to accept, false to deny choice.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sMenuItem);				// Item chosen.
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -702,22 +717,23 @@ static void RotationScrollUpdateShort(		// Returns nothing.
 CMenuSettings	g_MenuSettings;
 
 // Controls.
-static RScrollBar*	ms_psbGamma					= nullptr;
+static RScrollBar*	ms_psbGamma					= NULL;
 
-static REdit*			ms_peditConnect	= nullptr;
-static REdit*			ms_peditHostName	= nullptr;
-static REdit*			ms_peditName	= nullptr;
-static RTxt*			ms_ptxtColor	= nullptr;
-static RTxt*			ms_ptxtProto  = nullptr;
+static REdit*			ms_peditConnect	= NULL;
+static REdit*			ms_peditHostName	= NULL;
+static REdit*			ms_peditName	= NULL;
+static RTxt*			ms_ptxtColor	= NULL;
+static RTxt*			ms_ptxtProto  = NULL;
+static RTxt*			ms_ptxtLanguage	= NULL;
 
-static RMultiBtn*		ms_pmbCheckBox	= nullptr;
+static RMultiBtn*		ms_pmbCheckBox	= NULL;
 
-static RScrollBar*	ms_psbDifficulty			= nullptr;
+static RScrollBar*	ms_psbDifficulty			= NULL;
 
-static RScrollBar*	ms_psbMouseSensitivityX	= nullptr;
-static RScrollBar*	ms_psbMouseSensitivityY	= nullptr;
+static RScrollBar*	ms_psbMouseSensitivityX	= NULL;
+static RScrollBar*	ms_psbMouseSensitivityY	= NULL;
 
-static RTxt*			ms_ptxtBandwidth	= nullptr;
+static RTxt*			ms_ptxtBandwidth	= NULL;
 
 static SampleMaster::SoundInstance		ms_siLastSamplePlayed	= 0;	// Last sample played.
 
@@ -735,7 +751,7 @@ static SampleMasterID*	ms_apsmidVolumeTesters[SampleMaster::MAX_NUM_SOUND_CATEGO
 	&g_smidWrithing2,			// Suffering
 	};
 
-static const char*			ms_apszDifficultyDescriptions[]	=
+static char*			ms_apszDifficultyDescriptions[]	=
 	{
 	"Easy",
 	"Easy",
@@ -753,7 +769,7 @@ static const char*			ms_apszDifficultyDescriptions[]	=
 char levelNames[22][256];
 
 // Main menu
-Menu	menuMain =
+extern Menu	menuMain =
 	{
 	MAIN_MENU_ID,
 
@@ -828,31 +844,31 @@ Menu	menuMain =
 	// Menu items.
 #if defined(SPAWN)
 		{	// pszText,						sEnabled,	pmenu,				pgui
-			{ g_pszStartMultiplayerMenu_Join,TRUE,	&menuJoinMulti,	nullptr,			},
-			{ g_pszMainMenu_Options,	TRUE,			&menuOptions,		nullptr,			},
-			{ g_pszMainMenu_Exit,		TRUE,			&menuVerifyExit,	nullptr,			},
-			nullptr							// Terminates list.
+			{ g_pszStartMultiplayerMenu_Join,TRUE,	&menuJoinMulti,	NULL,			},
+			{ g_pszMainMenu_Options,	TRUE,			&menuOptions,		NULL,			},
+			{ g_pszMainMenu_Exit,		TRUE,			&menuVerifyExit,	NULL,			},
+			NULL							// Terminates list.
 		},
 #else
 		{	// pszText,						sEnabled,	pmenu,				pgui
-			{ g_pszMainMenu_Start,		TRUE,			&menuStart/*Single*/,			nullptr,			},
-			{ g_pszMainMenu_Options,	TRUE,			&menuOptions,		nullptr,			},
+			{ g_pszMainMenu_Start,		TRUE,			&menuStart/*Single*/,			NULL,			},
+			{ g_pszMainMenu_Options,	TRUE,			&menuOptions,		NULL,			},
 
 			#ifndef EDITOR_REMOVED
-			{ g_pszMainMenu_Editor,		TRUE,			nullptr,					nullptr,			},
+			{ g_pszMainMenu_Editor,		TRUE,			NULL,					NULL,			},
 			#endif
 
 	#if defined(DEMO)
-			{ g_pszMainMenu_Buy,			TRUE,			nullptr,					nullptr,			},
+			{ g_pszMainMenu_Buy,			TRUE,			NULL,					NULL,			},
 	#endif
-			{ g_pszMainMenu_Exit,		TRUE,			&menuVerifyExit,	nullptr,			},
-			nullptr							// Terminates list.
+			{ g_pszMainMenu_Exit,		TRUE,			&menuVerifyExit,	NULL,			},
+			NULL							// Terminates list.
 		},
 #endif
 	};
 
 // Verify exit menu
-Menu	menuVerifyExit =
+extern Menu	menuVerifyExit =
 	{
 	VERIFY_EXIT_MENU_ID,
 
@@ -911,7 +927,7 @@ Menu	menuVerifyExit =
 
 	// Menu callbacks.
 		{	// fnInit, fnChoice,
-		nullptr,							// Called before menu is initialized.
+		NULL,							// Called before menu is initialized.
 		VerifyExitMenuChoice,	// Called when item is chosen.
 		},
 
@@ -927,14 +943,14 @@ Menu	menuVerifyExit =
 		
 	// Menu items.
 		{	// pszText,				sEnabled,	pmenu,		pgui
-			{ g_pszVerifyExitMenu_Yes,	TRUE,			nullptr,			nullptr,		},
-			{ g_pszVerifyExitMenu_No,	TRUE,			&menuMain,	nullptr,		},
-			nullptr							// Terminates list.
+			{ g_pszVerifyExitMenu_Yes,	TRUE,			NULL,			NULL,		},
+			{ g_pszVerifyExitMenu_No,	TRUE,			&menuMain,	NULL,		},
+			NULL							// Terminates list.
 		},
 	};
 
 // Verify exit menu
-Menu	g_menuVerifyQuitGame =
+extern Menu	g_menuVerifyQuitGame =
 	{
 	VERIFY_QUIT_GAME_MENU_ID,
 
@@ -993,7 +1009,7 @@ Menu	g_menuVerifyQuitGame =
 
 	// Menu callbacks.
 		{	// fnInit, fnChoice,
-		nullptr,							// Called before menu is initialized.
+		NULL,							// Called before menu is initialized.
 		Play_VerifyQuitMenuChoice,	// Called when item is chosen.
 		},
 
@@ -1009,14 +1025,14 @@ Menu	g_menuVerifyQuitGame =
 		
 	// Menu items.
 		{	// pszText,						sEnabled,	pmenu,		pgui
-			{ g_pszVerifyQuitMenu_Yes,	TRUE,			nullptr,			nullptr,		},
-			{ g_pszVerifyQuitMenu_No,	TRUE,			nullptr,			nullptr,		},
-			nullptr							// Terminates list.
+			{ g_pszVerifyQuitMenu_Yes,	TRUE,			NULL,			NULL,		},
+			{ g_pszVerifyQuitMenu_No,	TRUE,			NULL,			NULL,		},
+			NULL							// Terminates list.
 		},
 	};
 
 // Client game menu
-Menu	menuClientGame =
+extern Menu	menuClientGame =
 	{
 	CLIENT_GAME_MENU_ID,
 
@@ -1074,7 +1090,7 @@ Menu	menuClientGame =
 
 	// Menu callbacks.
 		{	// fnInit, fnChoice,
-		nullptr,							// Called before menu is initialized.
+		NULL,							// Called before menu is initialized.
 		Play_VerifyQuitMenuChoice,	// Called when item is chosen.
 		},
 
@@ -1090,16 +1106,16 @@ Menu	menuClientGame =
 		
 	// Menu items.
 		{	// pszText,		sEnabled,	pmenu,						pgui
-			{ g_pszGameMenu_Continue,	TRUE,			nullptr,							nullptr, },
-			{ g_pszGameMenu_Save,		TRUE,			nullptr,							nullptr, },
-			{ g_pszGameMenu_Options,	TRUE,			&menuOptions,				nullptr, },
-			{ g_pszGameMenu_Quit,		TRUE,			nullptr,							nullptr, },
-			nullptr							// Terminates list.
+			{ g_pszGameMenu_Continue,	TRUE,			NULL,							NULL, },
+			{ g_pszGameMenu_Save,		TRUE,			NULL,							NULL, },
+			{ g_pszGameMenu_Options,	TRUE,			&menuOptions,				NULL, },
+			{ g_pszGameMenu_Quit,		TRUE,			NULL,							NULL, },
+			NULL							// Terminates list.
 		},
 	};
 
 // Editor menu
-Menu	menuEditor =
+extern Menu	menuEditor =
 	{
 	EDITOR_MENU_ID,
 
@@ -1157,7 +1173,7 @@ Menu	menuEditor =
 
 	// Menu callbacks.
 		{	// fnInit, fnChoice,
-		nullptr,						// Called before menu is initialized.
+		NULL,						// Called before menu is initialized.
 		EditorMenuChoice,		// Called when item is chosen.
 		},
 
@@ -1173,15 +1189,15 @@ Menu	menuEditor =
 		
 	// Menu items.
 		{	// pszText,							sEnabled,	pmenu,					pgui
-			{ g_pszEditorMenu_Continue,	TRUE,			nullptr,						nullptr, },
-			{ g_pszEditorMenu_Options,		TRUE,			&menuOptions,			nullptr, },
-			{ g_pszEditorMenu_Quit,			TRUE,			nullptr,						nullptr, },
-			nullptr							// Terminates list.
+			{ g_pszEditorMenu_Continue,	TRUE,			NULL,						NULL, },
+			{ g_pszEditorMenu_Options,		TRUE,			&menuOptions,			NULL, },
+			{ g_pszEditorMenu_Quit,			TRUE,			NULL,						NULL, },
+			NULL							// Terminates list.
 		},
 	};
 
 // Options menu.
-Menu	menuOptions =
+extern Menu	menuOptions =
 	{
 	OPTIONS_MENU_ID,
 
@@ -1256,25 +1272,110 @@ Menu	menuOptions =
 	// Menu items.
 		{	// pszText,								sEnabled,	pmenu,					pgui
 #if 0
-			{ g_pszOptionsMenu_Video,			TRUE,			&menuVideoOptions,	nullptr,	},
+			{ g_pszOptionsMenu_Video,			TRUE,			&menuVideoOptions,	NULL,	},
 #endif
-			{ g_pszOptionsMenu_Audio,			TRUE,			&menuAudioOptions,	nullptr,	},
-			{ g_pszOptionsMenu_Controls,		TRUE,			&menuControls,			nullptr,	},
+			{ g_pszOptionsMenu_Audio,			TRUE,			&menuAudioOptions,	NULL,	},
+			{ g_pszOptionsMenu_Controls,		TRUE,			&menuControls,			NULL,	},
             #ifndef MULTIPLAYER_REMOVED
-			{ g_pszOptionsMenu_Multiplayer,	TRUE,			&menuMultiOptions,	nullptr,	},
+			{ g_pszOptionsMenu_Multiplayer,	TRUE,			&menuMultiOptions,	NULL,	},
             #endif
 			{ g_pszOptionsMenu_Performance,	TRUE,			&menuFeatures,			NULL,	},
 			{ g_pszOptionsMenu_Difficulty,	TRUE,			&menuPlayOptions,		NULL,	},
-			{ g_pszOptionsMenu_Crosshair,	TRUE,			NULL,		NULL,	},
-			{ g_pszMultiplayerSetupMenu_Color,			TRUE,			NULL,				NULL, },
+			{ g_pszGameMenu_Title,			TRUE,			&menuGameOptions,		NULL,	},
 			{ "",										FALSE,		NULL,						NULL,	},
 			NULL							// Terminates list.
 		},
 	};
 
+// Game options menu.
+extern Menu	menuGameOptions =
+	{
+	OPTIONS_MENU_ID,
+
+	// Position info.
+		{	// x, y, w, h, sPosX, sPosY, sItemSpacingY, sIndicatorSpacingX,
+		MENU_RECT_MD,					// menu x, y, w, h
+		-60,								// menu header x offset
+		MENU_HEAD_Y_MD,				// menu header y offset
+		MENU_ITEM_X_MD,				// menu items x offset
+		MENU_ITEM_Y_MD,				// menu items y offset
+		MENU_ITEM_SPACE_Y_MD,		// vertical space between menu items
+		MENU_ITEM_IND_SPACE_X_MD,	// horizontal space between indicator and menu items
+		},
+
+	// Background info.
+		{	// pszFile, u32BackColor
+		MENU_BG_MD, 
+		MENU_BG_COLOR,		// Background color.
+		PAL_SET_START,			// Starting palette index to set.
+		PAL_SET_NUM,		// Number of entries to set.
+		PAL_MAP_START,		// Starting index of palette entries that can be mapped to.
+		PAL_MAP_NUM,		// Number of palette entries that can be mapped to.
+		},
+
+	// GUI settings.
+		{	// sTransparent.
+		TRUE,		// TRUE if GUI is to be BLiT with transparency.
+		},
+
+	// Flags.
+		(MenuFlags)(MenuPosCenter | MenuBackTiled | MenuItemTextShadow | MenuHeaderTextShadow | MenuHeaderTextCenter),
+
+	// Header and its font info.
+		{	// pszHeaderText, pszFontFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor.
+		g_pszGameMenu_Title,
+		SMASH_FONT,
+		HEAD_FONT_HEIGHT,	// Height of font.
+		HEAD_COLOR,			// Text RGBA.
+		HEAD_SHADOW_COLOR	// Text Shadow RGBA.
+		},
+
+	// Font info.
+		{	// pszFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor
+		SMASH_FONT,
+		ITEM_FONT_HEIGHT,	// Height of font.
+		ITEM_COLOR,			// Text RGBA.
+		ITEM_SHADOW_COLOR	// Text Shadow RGBA.
+		},
+
+	// Menu indicator.
+		{	// pszFile, type
+		MENU_INDICATOR,
+		RImage::FSPR8,
+		},
+
+	// Menu callbacks.
+		{	// fnInit, fnChoice,
+		GameOptionsInit,	// Called before menu is initialized.
+		GameOptionsChoice,	// Called when item is chosen.
+		},
+
+	// Menu auto items.
+		{	// sDefaultItem, sCancelItem,
+		0,		// Menu item (index in ami[]) selected initially.
+				// Negative indicates distance from number of items
+				// (e.g., -1 is the last item).
+		-1,	// Menu item (index in ami[]) chosen on cancel.
+				// Negative indicates distance from number of items
+				// (e.g., -1 is the last item).
+		},
+		
+	// Menu items.
+		{	// pszText,								sEnabled,	pmenu,					pgui
+			{ g_pszMultiplayerSetupMenu_Color,			TRUE,			NULL,				NULL, },
+			{ g_pszOptionsMenu_Crosshair,	TRUE,			NULL,		NULL,	},
+			#ifdef KID_FRIENDLY_OPTION
+			// Please note that this should always be the last option in the list,
+			// otherwise we can't remove it.
+			{ g_pszOptionsMenu_KidMode,		TRUE,		NULL,		NULL, },
+			#endif
+			{ "",										FALSE,		NULL,						NULL,	},
+			NULL							// Terminates list.
+		},
+	};
 
 // Options menu.
-Menu	menuPlayOptions =
+extern Menu	menuPlayOptions =
 	{
 	PLAYOPTIONS_MENU_ID,
 
@@ -1348,14 +1449,14 @@ Menu	menuPlayOptions =
 		
 	// Menu items.
 		{	// pszText,										sEnabled,	pmenu,					pgui
-			{ g_pszDifficultyMenu_SetDifficulty,	TRUE,			nullptr,						nullptr,				},
-			{ "",												FALSE,		nullptr,						nullptr,				},
-			nullptr							// Terminates list.
+			{ g_pszDifficultyMenu_SetDifficulty,	TRUE,			NULL,						NULL,				},
+			{ "",												FALSE,		NULL,						NULL,				},
+			NULL							// Terminates list.
 		},
 	};
 
 // Postal music organ:
-Menu menuOrgan =
+extern Menu menuOrgan = 
 	{
 	ORGAN_MENU_ID,
 	// Position info.
@@ -1412,7 +1513,7 @@ Menu menuOrgan =
 
 	// Menu callbacks.
 		{	// fnInit, fnChoice,
-		nullptr,					// Called before menu is initialized.
+		NULL,					// Called before menu is initialized.
 		Organ_MenuChoice,	// Called when item is chosen.
 		},
 
@@ -1428,36 +1529,36 @@ Menu menuOrgan =
 		
 	// Menu items.
 		{	// pszText,											sEnabled,	pmenu,	pgui
-			{ "",													FALSE,		nullptr,		nullptr,				},
-			{ g_pszOrganMenu_SpecialKeysHeading,		FALSE,		nullptr,		nullptr,				},
-			{ g_pszOrganMenu_NumericKeysFunction,		FALSE,		nullptr,		nullptr,				},
-			{ g_pszOrganMenu_AlphaKeysFunction,			FALSE,		nullptr,		nullptr,				},
-			{ g_pszOrganMenu_TabKeyFunction,				FALSE,		nullptr,		nullptr,				},
-			{ "",													FALSE,		nullptr,		nullptr,				},
-			{ g_pszOrganMenu_Exit,							TRUE,			nullptr,		nullptr,				},
-			nullptr							// Terminates list.
+			{ "",													FALSE,		NULL,		NULL,				},
+			{ g_pszOrganMenu_SpecialKeysHeading,		FALSE,		NULL,		NULL,				},
+			{ g_pszOrganMenu_NumericKeysFunction,		FALSE,		NULL,		NULL,				},
+			{ g_pszOrganMenu_AlphaKeysFunction,			FALSE,		NULL,		NULL,				},
+			{ g_pszOrganMenu_TabKeyFunction,				FALSE,		NULL,		NULL,				},
+			{ "",													FALSE,		NULL,		NULL,				},
+			{ g_pszOrganMenu_Exit,							TRUE,			NULL,		NULL,				},
+			NULL							// Terminates list.
 		},
 	};
 
 // Audio Options menu.
-Menu	menuAudioOptions =
+extern Menu	menuAudioOptions =
 	{
 	AUDIO_MENU_ID,
 
 	// Position info.
 		{	// x, y, w, h, sPosX, sPosY, sItemSpacingY, sIndicatorSpacingX,
-		MENU_RECT_SM,					// menu x, y, w, h
+		MENU_RECT_MD,					// menu x, y, w, h
 		-60,								// menu header x offset
-		MENU_HEAD_Y_SM,				// menu header y offset
-		MENU_ITEM_X_SM,				// menu items x offset
-		MENU_ITEM_Y_SM,				// menu items y offset
-		MENU_ITEM_SPACE_Y_SM,		// vertical space between menu items
-		MENU_ITEM_IND_SPACE_X_SM,	// horizontal space between indicator and menu items
+		MENU_HEAD_Y_MD,				// menu header y offset
+		MENU_ITEM_X_MD,				// menu items x offset
+		MENU_ITEM_Y_MD,				// menu items y offset
+		MENU_ITEM_SPACE_Y_MD,		// vertical space between menu items
+		MENU_ITEM_IND_SPACE_X_MD,	// horizontal space between indicator and menu items
 		},
 
 	// Background info.
 		{	// pszFile, u32BackColor
-		MENU_BG_SM, 
+		MENU_BG_MD, 
 		MENU_BG_COLOR,		// Background color.
 		PAL_SET_START,		// Starting palette index to set.
 		PAL_SET_NUM,		// Number of entries to set.
@@ -1514,16 +1615,17 @@ Menu	menuAudioOptions =
 		
 	// Menu items.
 		{	// pszText,				sEnabled,	pmenu,					pgui
-			{ g_pszAudioMenu_Mixer,				TRUE,			&menuVolumes,			nullptr,				},
-			{ g_pszAudioMenu_SoundTest,		TRUE,			&menuOrgan,				nullptr,				},
-			{ "",										FALSE,		nullptr,						nullptr,				},
-			nullptr							// Terminates list.
+			{ g_pszAudioMenu_Mixer,				TRUE,			&menuVolumes,			NULL,				},
+			{ g_pszAudioMenu_SoundTest,		TRUE,			&menuOrgan,				NULL,				},
+			{ g_pszAudioMenu_Language,		TRUE,			NULL,					NULL,				},
+			{ "",										FALSE,		NULL,						NULL,				},
+			NULL							// Terminates list.
 		},
 	};
 
 
 // Video Options menu.
-Menu	menuVideoOptions =
+extern Menu	menuVideoOptions =
 	{
 	VIDEO_MENU_ID,
 
@@ -1597,14 +1699,14 @@ Menu	menuVideoOptions =
 		
 	// Menu items.
 		{	// pszText,					sEnabled,	pmenu,					pgui
-			{ g_pszVideoMenu_Gamma,	TRUE,			nullptr,						nullptr,				},
-			{ "",							FALSE,		nullptr,						nullptr,				},
-			nullptr							// Terminates list.
+			{ g_pszVideoMenu_Gamma,	TRUE,			NULL,						NULL,				},
+			{ "",							FALSE,		NULL,						NULL,				},
+			NULL							// Terminates list.
 		},
 	};
 
 // Controls menu.
-Menu	menuControls =
+extern Menu	menuControls =
 	{
 	CONTROLS_MENU_ID,
 
@@ -1678,25 +1780,25 @@ Menu	menuControls =
 		
 	// Menu items.
 		{	// pszText,												sEnabled,	pmenu,					pgui
-			{ g_pszControlsMenu_KeyboardSetup,				TRUE,			&menuKeyboard,			nullptr,				},
-			{ g_pszControlsMenu_MouseSetup,					TRUE,			&menuMouse,				nullptr,				},
+			{ g_pszControlsMenu_KeyboardSetup,				TRUE,			&menuKeyboard,			NULL,				},
+			{ g_pszControlsMenu_MouseSetup,					TRUE,			&menuMouse,				NULL,				},
 #if defined(ALLOW_JOYSTICK)
-			{ g_pszControlsMenu_JoystickSetup,				TRUE,			&menuJoystick,			nullptr,				},
+			{ g_pszControlsMenu_JoystickSetup,				TRUE,			&menuJoystick,			NULL,				},
 #endif // defined(ALLOW_JOYSTICK)
-			{ g_pszControlsMenu_TurningSpeeds,				TRUE,			&menuRotation,			nullptr,				},
+			{ g_pszControlsMenu_TurningSpeeds,				TRUE,			&menuRotation,			NULL,				},
 #if defined(ALLOW_JOYSTICK)
-			{ g_pszControlsMenu_UseJoystick,					TRUE,			nullptr,						nullptr,				},
+			{ g_pszControlsMenu_UseJoystick,					TRUE,			NULL,						NULL,				},
 #endif // defined(ALLOW_JOYSTICK)
-			{ g_pszControlsMenu_UseMouse,						TRUE,			nullptr,						nullptr,				},
-			{ g_pszControlsMenu_HorizMouseSensitivity,	TRUE,			nullptr,						nullptr,				},
-			{ g_pszControlsMenu_VertMouseSensitivity,		TRUE,			nullptr,						nullptr,				},
-			{ "",														FALSE,		nullptr,						nullptr,				},
-			nullptr							// Terminates list.
+			{ g_pszControlsMenu_UseMouse,						TRUE,			NULL,						NULL,				},
+			{ g_pszControlsMenu_HorizMouseSensitivity,	TRUE,			NULL,						NULL,				},
+			{ g_pszControlsMenu_VertMouseSensitivity,		TRUE,			NULL,						NULL,				},
+			{ "",														FALSE,		NULL,						NULL,				},
+			NULL							// Terminates list.
 		},
 	};
 
 // Keyboard menu.
-Menu	menuKeyboard =
+extern Menu	menuKeyboard =
 	{
 	KEYBOARD_MENU_ID,
 
@@ -1784,47 +1886,47 @@ Menu	menuKeyboard =
 	// current settings, but more will have to be added, if we ever change
 	// back and add more input functions.
 		{	// pszText,				sEnabled,	pmenu,					pgui
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			nullptr							// Terminates list.
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			NULL							// Terminates list.
 		},
 	};
 
 // Mouse menu.
-Menu	menuMouse =
+extern Menu	menuMouse =
 	{
 	MOUSE_MENU_ID,
 
@@ -1912,47 +2014,47 @@ Menu	menuMouse =
 	// current settings, but more will have to be added, if we ever change
 	// back and add more input functions.
 		{	// pszText,				sEnabled,	pmenu,					pgui
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			nullptr							// Terminates list.
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			NULL							// Terminates list.
 		},
 	};
 
 // Joystick menu.
-Menu	menuJoystick =
+extern Menu	menuJoystick =
 	{
 	JOYSTICK_MENU_ID,
 
@@ -2040,48 +2142,48 @@ Menu	menuJoystick =
 	// current settings, but more will have to be added, if we ever change
 	// back and add more input functions.
 		{	// pszText,				sEnabled,	pmenu,					pgui
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			nullptr							// Terminates list.
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			NULL							// Terminates list.
 		},
 	};
 
 
 // Level select.
-Menu	menuLoadLevel =
+extern Menu	menuLoadLevel =
 	{
 	LOAD_LEVEL_MENU_ID,
 
@@ -2170,35 +2272,35 @@ Menu	menuLoadLevel =
 	// back and add more input functions.
 
 		{	// pszText,				sEnabled,	pmenu,					pgui
-			{ levelNames[0], TRUE, nullptr, nullptr, },
-			{ levelNames[1], TRUE, nullptr, nullptr, },
-			{ levelNames[2], TRUE, nullptr, nullptr, },
-			{ levelNames[3], TRUE, nullptr, nullptr, },
-			{ levelNames[4], TRUE, nullptr, nullptr, },
-			{ levelNames[5], TRUE, nullptr, nullptr, },
-			{ levelNames[6], TRUE, nullptr, nullptr, },
-			{ levelNames[7], TRUE, nullptr, nullptr, },
-			{ levelNames[8], TRUE, nullptr, nullptr, },
-			{ levelNames[9], TRUE, nullptr, nullptr, },
-			{ levelNames[10], TRUE, nullptr, nullptr, },
-			{ levelNames[11], TRUE, nullptr, nullptr, },
-			{ levelNames[12], TRUE, nullptr, nullptr, },
-			{ levelNames[13], TRUE, nullptr, nullptr, },
-			{ levelNames[14], TRUE, nullptr, nullptr, },
-			{ levelNames[15], TRUE, nullptr, nullptr, },
-			{ levelNames[16], TRUE, nullptr, nullptr, },
-			{ levelNames[17], TRUE, nullptr, nullptr, },
-			{ levelNames[18], TRUE, nullptr, nullptr, },
-			{ levelNames[19], TRUE, nullptr, nullptr, },
-			{ levelNames[20], TRUE, nullptr, nullptr, },
-			{ levelNames[21], TRUE, nullptr, nullptr, },
-			{ "", FALSE, nullptr, nullptr, }, // This needs to be at the end of the list or ESC will load the last level
-			nullptr							// Terminates list.
+			{ levelNames[0], TRUE, NULL, NULL, },
+			{ levelNames[1], TRUE, NULL, NULL, },
+			{ levelNames[2], TRUE, NULL, NULL, },
+			{ levelNames[3], TRUE, NULL, NULL, },
+			{ levelNames[4], TRUE, NULL, NULL, },
+			{ levelNames[5], TRUE, NULL, NULL, },
+			{ levelNames[6], TRUE, NULL, NULL, },
+			{ levelNames[7], TRUE, NULL, NULL, },
+			{ levelNames[8], TRUE, NULL, NULL, },
+			{ levelNames[9], TRUE, NULL, NULL, },
+			{ levelNames[10], TRUE, NULL, NULL, },
+			{ levelNames[11], TRUE, NULL, NULL, },
+			{ levelNames[12], TRUE, NULL, NULL, },
+			{ levelNames[13], TRUE, NULL, NULL, },
+			{ levelNames[14], TRUE, NULL, NULL, },
+			{ levelNames[15], TRUE, NULL, NULL, },
+			{ levelNames[16], TRUE, NULL, NULL, },
+			{ levelNames[17], TRUE, NULL, NULL, },
+			{ levelNames[18], TRUE, NULL, NULL, },
+			{ levelNames[19], TRUE, NULL, NULL, },
+			{ levelNames[20], TRUE, NULL, NULL, },
+			{ levelNames[21], TRUE, NULL, NULL, },
+			{ "", FALSE, NULL, NULL, }, // This needs to be at the end of the list or ESC will load the last level
+			NULL							// Terminates list.
 		},
 	};
 
 // Features menu.
-Menu	menuFeatures =
+extern Menu	menuFeatures =
 	{
 	FEATURES_MENU_ID,
 
@@ -2272,18 +2374,18 @@ Menu	menuFeatures =
 		
 	// Menu items.
 		{	// pszText,										sEnabled,	pmenu,					pgui
-			{ g_pszPerformanceMenu_Transparency,	TRUE,			nullptr,						nullptr,				},
-			{ g_pszPerformanceMenu_3dLighting,		TRUE,			nullptr,						nullptr,				},
-			{ g_pszPerformanceMenu_Particles,		TRUE,			nullptr,						nullptr,				},
-			{ g_pszPerformanceMenu_DynamicVolume,	TRUE,			nullptr,						nullptr,				},
-			{ g_pszPerformanceMenu_AmbientSounds,	TRUE,			nullptr,						nullptr,				},
-			{ "",												FALSE,		nullptr,						nullptr,				},
-			nullptr							// Terminates list.
+			{ g_pszPerformanceMenu_Transparency,	TRUE,			NULL,						NULL,				},
+			{ g_pszPerformanceMenu_3dLighting,		TRUE,			NULL,						NULL,				},
+			{ g_pszPerformanceMenu_Particles,		TRUE,			NULL,						NULL,				},
+			{ g_pszPerformanceMenu_DynamicVolume,	TRUE,			NULL,						NULL,				},
+			{ g_pszPerformanceMenu_AmbientSounds,	TRUE,			NULL,						NULL,				},
+			{ "",												FALSE,		NULL,						NULL,				},
+			NULL							// Terminates list.
 		},
 	};
 
 // Rotation menu.
-Menu	menuRotation =
+extern Menu	menuRotation =
 	{
 	ROTATION_MENU_ID,
 
@@ -2357,19 +2459,19 @@ Menu	menuRotation =
 		
 	// Menu items.
 		{	// pszText,											sEnabled,	pmenu,					pgui
-			{ g_pszRotationSetupMenu_RunningSlow,		TRUE,			nullptr,						nullptr,				},
-			{ g_pszRotationSetupMenu_RunningFast,		TRUE,			nullptr,						nullptr,				},
-			{ g_pszRotationSetupMenu_StandingSlow,		TRUE,			nullptr,						nullptr,				},
-			{ g_pszRotationSetupMenu_StandingFast,		TRUE,			nullptr,						nullptr,				},
-			{ g_pszRotationSetupMenu_TapDegrees,		TRUE,			nullptr,						nullptr,				},
-			{ g_pszRotationSetupMenu_RestoreDefaults,	TRUE,			nullptr,						nullptr,				},
-			{ "",													FALSE,		nullptr,						nullptr,				},
-			nullptr							// Terminates list.
+			{ g_pszRotationSetupMenu_RunningSlow,		TRUE,			NULL,						NULL,				},
+			{ g_pszRotationSetupMenu_RunningFast,		TRUE,			NULL,						NULL,				},
+			{ g_pszRotationSetupMenu_StandingSlow,		TRUE,			NULL,						NULL,				},
+			{ g_pszRotationSetupMenu_StandingFast,		TRUE,			NULL,						NULL,				},
+			{ g_pszRotationSetupMenu_TapDegrees,		TRUE,			NULL,						NULL,				},
+			{ g_pszRotationSetupMenu_RestoreDefaults,	TRUE,			NULL,						NULL,				},
+			{ "",													FALSE,		NULL,						NULL,				},
+			NULL							// Terminates list.
 		},
 	};
 
 // Volumes menu.
-Menu	menuVolumes =
+extern Menu	menuVolumes =
 	{
 	VOLUME_MENU_ID,
 
@@ -2449,37 +2551,37 @@ Menu	menuVolumes =
 	// current settings, but more will have to be added, if we ever change
 	// back and add more volume categories.
 		{	// pszText,				sEnabled,	pmenu,					pgui
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			{ nullptr,					TRUE,			nullptr,						nullptr,				},
-			nullptr							// Terminates list.
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			{ NULL,					TRUE,			NULL,						NULL,				},
+			NULL							// Terminates list.
 		},
 	};
 
 // Start menu.
-Menu	menuStart =
+extern Menu	menuStart =
 	{
 	START_MENU_ID,
 
@@ -2553,18 +2655,18 @@ Menu	menuStart =
 		
 	// Menu items.
 		{	// pszText,											sEnabled,	pmenu,				pgui
-			{ g_pszStartGameMenu_SinglePlayer,			TRUE,			&menuStartSingle,	nullptr,	},
+			{ g_pszStartGameMenu_SinglePlayer,			TRUE,			&menuStartSingle,	NULL,	},
             #ifndef MULTIPLAYER_REMOVED
-			{ g_pszStartGameMenu_Multiplayer,			TRUE,			&menuStartMulti,	nullptr, },
+			{ g_pszStartGameMenu_Multiplayer,			TRUE,			&menuStartMulti,	NULL, },
             #endif
-			{ g_pszStartGameMenu_Demo,						TRUE,			&menuStartDemo,	nullptr,	},
-			{ "",													FALSE,		nullptr,					nullptr, },
-			nullptr							// Terminates list.
+			{ g_pszStartGameMenu_Demo,						TRUE,			&menuStartDemo,	NULL,	},
+			{ "",													FALSE,		NULL,					NULL, },
+			NULL							// Terminates list.
 		},
 	};
 
 // Single player start menu.
-Menu	menuStartSingle =
+extern Menu	menuStartSingle =
 	{
 	START_SINGLE_MENU_ID,
 
@@ -2638,26 +2740,107 @@ Menu	menuStartSingle =
 		
 	// Menu items.
 		{	// pszText,											sEnabled,	pmenu,				pgui
-			{ g_pszStartSinglePlayerMenu_New,			TRUE,			nullptr,					nullptr,	},
-#if defined(START_MENU_ADDON_ITEM)
-			{ g_pszStartSinglePlayerMenu_AddOn,			TRUE,			nullptr,					nullptr,	},	
-#if TARGET == POSTAL_2015
-			{ g_pszStartSinglePlayerMenu_AddOn2,		TRUE,			nullptr,					nullptr,	},
-			{ g_pszStartSinglePlayerMenu_AllLevels,		TRUE,			nullptr,					nullptr,	},
+			{ g_pszStartSinglePlayerMenu_NewCampaign,			TRUE,			&menuNewCampaign,					NULL,	},
+			{ g_pszStartSinglePlayerMenu_LoadGame,		TRUE,			NULL,					NULL, },
+#ifndef LOADLEVEL_REMOVED
+			{ g_pszStartSinglePlayerMenu_LoadLevel,	TRUE,			&menuLoadLevel,					NULL,	},
 #endif
-#endif
-            #ifndef LOADLEVEL_REMOVED
-			{ g_pszStartSinglePlayerMenu_LoadLevel,	TRUE,			&menuLoadLevel,					nullptr,	},
-            #endif
-			{ g_pszStartSinglePlayerMenu_LoadGame,		TRUE,			nullptr,					nullptr, },
-			{ g_pszStartSinglePlayerMenu_Challenge,	TRUE,			/*&menuChallenge,*/nullptr,	nullptr,	},
-			{ "",													FALSE,		nullptr,					nullptr, },
-			nullptr							// Terminates list.
+			{ g_pszStartSinglePlayerMenu_Challenge,	TRUE,			/*&menuChallenge,*/NULL,	NULL,	},
+			{ "",													FALSE,		NULL,					NULL, },
+			NULL							// Terminates list.
 		},
 	};
+	
+// Single player new campaign menu.
+extern Menu	menuNewCampaign =
+	{
+	START_SINGLE_MENU_ID,
 
+	// Position info.
+		{	// x, y, w, h, sPosX, sPosY, sItemSpacingY, sIndicatorSpacingX,
+		MENU_RECT_LG,					// menu x, y, w, h
+		-120,								// menu header x offset
+		MENU_HEAD_Y_LG,				// menu header y offset
+		MENU_ITEM_X_LG,				// menu items x offset
+		MENU_ITEM_Y_LG,				// menu items y offset
+		MENU_ITEM_SPACE_Y_LG,		// vertical space between menu items
+		MENU_ITEM_IND_SPACE_X_LG,	// horizontal space between indicator and menu items
+		},
+
+	// Background info.
+		{	// pszFile, u32BackColor
+		MENU_BG_LG, 
+		MENU_BG_COLOR,		// Background color.
+		PAL_SET_START,		// Starting palette index to set.
+		PAL_SET_NUM,		// Number of entries to set.
+		PAL_MAP_START,		// Starting index of palette entries that can be mapped to.
+		PAL_MAP_NUM,		// Number of palette entries that can be mapped to.
+		},
+
+	// GUI settings.
+		{	// sTransparent.
+		TRUE,		// TRUE if GUI is to be BLiT with transparency.
+		},
+
+	// Flags.
+		(MenuFlags)(MenuPosCenter | MenuBackTiled | MenuItemTextShadow | MenuHeaderTextShadow | MenuHeaderTextCenter),
+
+	// Header and its font info.
+		{	// pszHeaderText, pszFontFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor.
+		g_pszStartSinglePlayerMenu_NewCampaign,
+		SMASH_FONT,
+		HEAD_FONT_HEIGHT,	// Height of font.
+		HEAD_COLOR,			// Text RGBA.
+		HEAD_SHADOW_COLOR	// Text Shadow RGBA.
+		},
+
+	// Font info.
+		{	// pszFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor
+		SMASH_FONT,
+		ITEM_FONT_HEIGHT,	// Height of font.
+		ITEM_COLOR,			// Text RGBA.
+		ITEM_SHADOW_COLOR	// Text Shadow RGBA.
+		},
+
+	// Menu indicator.
+		{	// pszFile, type
+		MENU_INDICATOR,
+		RImage::FSPR8,
+		},
+
+	// Menu callbacks.
+		{	// fnInit, fnChoice,
+		NewCampaignInit,	// Called before menu is initialized.
+		NewCampaignMenu,	// Called when item is chosen.
+		},
+
+	// Menu auto items.
+		{	// sDefaultItem, sCancelItem,
+		0,		// Menu item (index in ami[]) selected initially.
+				// Negative indicates distance from number of items
+				// (e.g., -1 is the last item).
+		-1,	// Menu item (index in ami[]) chosen on cancel.
+				// Negative indicates distance from number of items
+				// (e.g., -1 is the last item).
+		},
+		
+	// Menu items.
+		{	// pszText,											sEnabled,	pmenu,				pgui
+			{ g_pszStartSinglePlayerMenu_New,			TRUE,			NULL,					NULL,	},
+#if defined(START_MENU_ADDON_ITEM)
+			{ g_pszStartSinglePlayerMenu_AddOn,			TRUE,			NULL,					NULL,	},	
+#if TARGET == POSTAL_2015
+			{ g_pszStartSinglePlayerMenu_AddOn2,		TRUE,			NULL,					NULL,	},
+			{ g_pszStartSinglePlayerMenu_AllLevels,		TRUE,			NULL,					NULL,	},
+#endif
+#endif
+			{ "",													FALSE,		NULL,					NULL, },
+			NULL							// Terminates list.
+		},
+	};
+	
 // Single player start menu.
-Menu	menuChallenge =
+extern Menu	menuChallenge =
 	{
 	CHALLENGE_MENU_ID,
 
@@ -2731,18 +2914,18 @@ Menu	menuChallenge =
 		
 	// Menu items.
 		{	// pszText,					sEnabled,		pmenu,		pgui
-			{ g_pszStartChallengeMenu_Gauntlet,		TRUE,			nullptr,			nullptr,	},
-			{ g_pszStartChallengeMenu_Timed,			TRUE,			nullptr,			nullptr,	},
-			{ g_pszStartChallengeMenu_Goal,			TRUE,			nullptr,			nullptr,	},
-			{ g_pszStartChallengeMenu_Flag,			TRUE,			nullptr,			nullptr,	},
-			{ g_pszStartChallengeMenu_CheckPoint,	TRUE,			nullptr,			nullptr,	},
-			{ "",												FALSE,		nullptr,			nullptr, },
-			nullptr							// Terminates list.
+			{ g_pszStartChallengeMenu_Gauntlet,		TRUE,			NULL,			NULL,	},
+			{ g_pszStartChallengeMenu_Timed,			TRUE,			NULL,			NULL,	},
+			{ g_pszStartChallengeMenu_Goal,			TRUE,			NULL,			NULL,	},
+			{ g_pszStartChallengeMenu_Flag,			TRUE,			NULL,			NULL,	},
+			{ g_pszStartChallengeMenu_CheckPoint,	TRUE,			NULL,			NULL,	},
+			{ "",												FALSE,		NULL,			NULL, },
+			NULL							// Terminates list.
 		},
 	};
 
 // Multiplayer start menu.
-Menu	menuStartMulti =
+extern Menu	menuStartMulti =
 	{
 	START_MULTI_MENU_ID,
 
@@ -2816,16 +2999,16 @@ Menu	menuStartMulti =
 		
 	// Menu items.
 		{	// pszText,										sEnabled,	pmenu,					pgui
-			{ g_pszStartMultiplayerMenu_Join,		TRUE,			&menuJoinMulti,		nullptr, },
-			{ g_pszStartMultiplayerMenu_Host,		TRUE,			&menuHostMulti,		nullptr,	},
-			{ g_pszStartMultiplayerMenu_Options,	TRUE,			&menuMultiOptions,	nullptr,	},
-			{ "",												FALSE,		nullptr,						nullptr, },
-			nullptr							// Terminates list.
+			{ g_pszStartMultiplayerMenu_Join,		TRUE,			&menuJoinMulti,		NULL, },
+			{ g_pszStartMultiplayerMenu_Host,		TRUE,			&menuHostMulti,		NULL,	},
+			{ g_pszStartMultiplayerMenu_Options,	TRUE,			&menuMultiOptions,	NULL,	},
+			{ "",												FALSE,		NULL,						NULL, },
+			NULL							// Terminates list.
 		},
 	};
 
 // Join Multiplayer menu.
-Menu	menuJoinMulti =
+extern Menu	menuJoinMulti =
 	{
 	JOIN_MULTI_MENU_ID,
 
@@ -2899,15 +3082,15 @@ Menu	menuJoinMulti =
 		
 	// Menu items.
 		{	// pszText,								sEnabled,	pmenu,					pgui
-			{ g_pszJoinGameMenu_Browse,		TRUE,			nullptr,						nullptr, },
-			{ g_pszJoinGameMenu_ConnectTo,	TRUE,			nullptr,						nullptr,	},
-			{ "",										FALSE,		nullptr,						nullptr, },
-			nullptr							// Terminates list.
+			{ g_pszJoinGameMenu_Browse,		TRUE,			NULL,						NULL, },
+			{ g_pszJoinGameMenu_ConnectTo,	TRUE,			NULL,						NULL,	},
+			{ "",										FALSE,		NULL,						NULL, },
+			NULL							// Terminates list.
 		},
 	};
 
 // Join Multiplayer menu.
-Menu	menuHostMulti =
+extern Menu	menuHostMulti =
 	{
 	HOST_MULTI_MENU_ID,
 
@@ -2981,14 +3164,14 @@ Menu	menuHostMulti =
 		
 	// Menu items.
 		{	// pszText,						sEnabled,	pmenu,					pgui
-			{ g_pszHostGameMenu_Start,	TRUE,			nullptr,						nullptr, },
-			{ "",								FALSE,		nullptr,						nullptr, },
-			nullptr							// Terminates list.
+			{ g_pszHostGameMenu_Start,	TRUE,			NULL,						NULL, },
+			{ "",								FALSE,		NULL,						NULL, },
+			NULL							// Terminates list.
 		},
 	};
 
 // Single player start menu.
-Menu	menuStartDemo =
+extern Menu	menuStartDemo =
 	{
 	START_DEMO_MENU_ID,
 
@@ -3062,19 +3245,19 @@ Menu	menuStartDemo =
 		
 	// Menu items.
 		{	// pszText,							sEnabled,	pmenu,		pgui
-//			{ g_pszStartDemoMenu_Browse,	TRUE,			nullptr,			nullptr,	},
-//			{ g_pszStartDemoMenu_Play,		TRUE,			nullptr,			nullptr,	},
-//			{ g_pszStartDemoMenu_Record,	TRUE,			nullptr,			nullptr,	},
-			{ g_pszStartDemoMenu_ConSite,	TRUE,			nullptr,			nullptr,	},
-			{ g_pszStartDemoMenu_Home,		TRUE,			nullptr,			nullptr,	},
-			{ g_pszStartDemoMenu_Bridge,	TRUE,			nullptr,			nullptr,	},
-			{ "",									FALSE,		nullptr,			nullptr, },
-			nullptr							// Terminates list.
+//			{ g_pszStartDemoMenu_Browse,	TRUE,			NULL,			NULL,	},
+//			{ g_pszStartDemoMenu_Play,		TRUE,			NULL,			NULL,	},
+//			{ g_pszStartDemoMenu_Record,	TRUE,			NULL,			NULL,	},
+			{ g_pszStartDemoMenu_ConSite,	TRUE,			NULL,			NULL,	},
+			{ g_pszStartDemoMenu_Home,		TRUE,			NULL,			NULL,	},
+			{ g_pszStartDemoMenu_Bridge,	TRUE,			NULL,			NULL,	},
+			{ "",									FALSE,		NULL,			NULL, },
+			NULL							// Terminates list.
 		},
 	};
 
 // Multiplayer options menu.
-Menu	menuMultiOptions =
+extern Menu	menuMultiOptions =
 	{
 	MULTIPLAYER_OPTIONS_MENU_ID,
 
@@ -3168,12 +3351,11 @@ static int16_t MainMenuInit(		// Returns 0 on succes, non-zero to cancel menu.
 	Menu*	pmenuCurrent,			// In:  Menu being init'ed or killed.
 	int16_t sInit)					// In:  TRUE, if initializing; FALSE, if killing.
 	{
-  UNUSED(pmenuCurrent);
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	Game_InitMainMenu(sInit);
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3243,7 +3425,7 @@ static bool VerifyExitMenuChoice(	// Returns true to accept, false to deny choic
 
 	return bAcceptChoice;
 	}
-#ifdef UNUSED_FUNCTIONS
+
 static bool ClientGameMenuChoice(	// Returns true to accept, false to deny choice.
 	Menu*	/*pmenuCurrent*/,		// Current menu.
 	int16_t	sMenuItem)				// Item chosen.
@@ -3269,26 +3451,25 @@ static bool ClientGameMenuChoice(	// Returns true to accept, false to deny choic
 
 	return bAcceptChoice;
 	}
-#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Called to init or kill the Start Game menu.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t StartGameInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
-   {
-  UNUSED(pmenuCurrent, sInit);
-   int16_t sResult	= SUCCESS;	// Assume success.
+	{
+	int16_t	sRes	= 0;	// Assume success.
 
 	//// Be sure the demo option reflects INI setting.
 	//if (g_GameSettings.m_sCanRecordDemos == FALSE)
 		//{
-		//menuStart.ami[2].pmenu	= nullptr;
+		//menuStart.ami[2].pmenu	= NULL;
 		//}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3300,7 +3481,6 @@ static bool StartGameMenu(		// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem)				// Item chosen.
 	{
-  UNUSED(pmenuCurrent);
 	bool	bAcceptChoice	= true;	// Assume accepting.
 
 	switch (sMenuItem)
@@ -3343,13 +3523,12 @@ static bool StartGameMenu(		// Returns true to accept, false to deny choice.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t ChallengeInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-  UNUSED(pmenuCurrent, sInit);
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3361,7 +3540,6 @@ static bool ChallengeChoice(	// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem)				// Item chosen.
 	{
-  UNUSED(pmenuCurrent);
 	bool	bAcceptChoice	= true;	// Assume accepting.
 
 	// Audible Feedback.
@@ -3382,11 +3560,10 @@ static bool ChallengeChoice(	// Returns true to accept, false to deny choice.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t StartSingleInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-  UNUSED(pmenuCurrent, sInit);
-   return SUCCESS;
+	return 0;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3398,7 +3575,58 @@ static bool StartSingleMenu(	// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem)				// Item chosen.
 	{
-  UNUSED(pmenuCurrent);
+	bool	bAcceptChoice	= true;	// Assume accepting.
+
+	// Audible Feedback.
+	if (sMenuItem == -1)
+		PlaySample(g_smidMenuItemChange, SampleMaster::UserFeedBack);
+	else
+		PlaySample(g_smidMenuItemSelect, SampleMaster::UserFeedBack);
+
+	// Let game module handle it... Sorta.
+	// Because of the new menu split the numbers don't match up.
+	// Let's figure that out.
+	switch (sMenuItem)
+	{
+		case 1:
+			Game_StartSinglePlayerGame(6);
+			break;
+		#ifndef LOADLEVEL_REMOVED
+		case 2:
+			Game_StartSinglePlayerGame(5);
+			break;
+		case 3:
+		#else
+		case 2:
+		#endif // LOADLEVEL_REMOVED
+			Game_StartSinglePlayerGame(7);
+			break;
+	}
+
+	return bAcceptChoice;
+	}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Called to init or kill the New Campaign menu.
+//
+////////////////////////////////////////////////////////////////////////////////
+static int16_t NewCampaignInit(	// Returns 0 on success, non-zero to cancel menu.
+	Menu*	pmenuCur,				// Current menu.
+	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
+	{
+	return 0;
+	}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Called by the menu API when an item is chosen in menuNewCampaign.
+//
+////////////////////////////////////////////////////////////////////////////////
+static bool NewCampaignMenu(	// Returns true to accept, false to deny choice.
+	Menu*	pmenuCurrent,			// Current menu.
+	int16_t	sMenuItem)				// Item chosen.
+	{
 	bool	bAcceptChoice	= true;	// Assume accepting.
 
 	// Audible Feedback.
@@ -3419,16 +3647,15 @@ static bool StartSingleMenu(	// Returns true to accept, false to deny choice.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t StartMultiInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-  UNUSED(pmenuCurrent);
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	if (sInit != FALSE)
 		RGuiItem::ms_print.SetFont(DEFAULT_GUI_FONT_HEIGHT, &g_fontPostal);
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3440,7 +3667,6 @@ static bool StartMultiMenu(	// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem)				// Item chosen.
 	{
-  UNUSED(pmenuCurrent);
 	bool	bAcceptChoice	= true;	// Assume accepting.
 
 	// Audible Feedback.
@@ -3459,16 +3685,16 @@ static bool StartMultiMenu(	// Returns true to accept, false to deny choice.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t JoinMultiInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	if (sInit != FALSE)
 		{
 		RGuiItem::ms_print.SetFont(DEFAULT_GUI_FONT_HEIGHT, &g_fontPostal);
 
-      if (rspGetResource(&g_resmgrShell, GUI_CONNECT_IP_FILE, &ms_peditConnect) == SUCCESS)
+		if (rspGetResource(&g_resmgrShell, GUI_CONNECT_IP_FILE, &ms_peditConnect) == 0)
 			{
 			// Set the text from the INI setting.  Note that we are changing a resource!
 			ms_peditConnect->m_sMaxText = sizeof(g_GameSettings.m_szServerName) - 1;
@@ -3476,12 +3702,12 @@ static int16_t JoinMultiInit(	// Returns 0 on success, non-zero to cancel menu.
 			ms_peditConnect->Compose();
 
 			// Let menu know about it.
-         pmenuCurrent->ami[1].pgui	= ms_peditConnect;
+			pmenuCur->ami[1].pgui	= ms_peditConnect;
 			}
 		else
 			{
 			TRACE("JoinMultiInit(): ms_presmgr->Get() failed.\n");
-			sResult = FAILURE;
+			sRes	= 1;
 			}
 		}
 	else
@@ -3490,10 +3716,10 @@ static int16_t JoinMultiInit(	// Returns 0 on success, non-zero to cancel menu.
 		rspReleaseResource(&g_resmgrShell, &ms_peditConnect);
 
 		// Clear menu's pointer.
-      pmenuCurrent->ami[1].pgui	= nullptr;
+		pmenuCur->ami[1].pgui	= NULL;
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3505,7 +3731,6 @@ static bool JoinMultiMenu(	// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem)				// Item chosen.
 	{
-  UNUSED(pmenuCurrent);
 	bool	bAcceptChoice	= true;	// Assume accepting.
 
 	// Audible Feedback.
@@ -3515,7 +3740,7 @@ static bool JoinMultiMenu(	// Returns true to accept, false to deny choice.
 		PlaySample(g_smidMenuItemSelect, SampleMaster::UserFeedBack);
 
 	// If specified, get server name (BEFORE calling the game module!)
-	if (ms_peditConnect != nullptr)
+	if (ms_peditConnect != NULL)
 		ms_peditConnect->GetText(g_GameSettings.m_szServerName, sizeof(g_GameSettings.m_szServerName) );
 
 	// Let game module handle it
@@ -3531,16 +3756,16 @@ static bool JoinMultiMenu(	// Returns true to accept, false to deny choice.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t HostMultiInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	if (sInit != FALSE)
 		{
 		RGuiItem::ms_print.SetFont(DEFAULT_GUI_FONT_HEIGHT, &g_fontPostal);
 
-      if (rspGetResource(&g_resmgrShell, GUI_HOST_NAME_FILE, &ms_peditHostName) == SUCCESS)
+		if (rspGetResource(&g_resmgrShell, GUI_HOST_NAME_FILE, &ms_peditHostName) == 0)
 			{
 			// Set the text from the INI setting.  Note that we are changing a resource!
 			ms_peditHostName->m_sMaxText = Net::MaxHostNameSize - 1;
@@ -3548,12 +3773,12 @@ static int16_t HostMultiInit(	// Returns 0 on success, non-zero to cancel menu.
 			ms_peditHostName->Compose();
 
 			// Let menu know about it.
-         pmenuCurrent->ami[0].pgui	= ms_peditHostName;
+			pmenuCur->ami[0].pgui	= ms_peditHostName;
 			}
 		else
 			{
 			TRACE("HostMultiInit(): ms_presmgr->Get() failed.\n");
-			sResult = FAILURE;
+			sRes	= 1;
 			}
 		}
 	else
@@ -3562,10 +3787,10 @@ static int16_t HostMultiInit(	// Returns 0 on success, non-zero to cancel menu.
 		rspReleaseResource(&g_resmgrShell, &ms_peditHostName);
 
 		// Clear menu's pointer.
-      pmenuCurrent->ami[0].pgui	= nullptr;
+		pmenuCur->ami[0].pgui	= NULL;
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3577,7 +3802,6 @@ static bool HostMultiMenu(		// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem)				// Item chosen.
 	{
-  UNUSED(pmenuCurrent);
 	bool	bAcceptChoice	= true;	// Assume accepting.
 
 	// Audible Feedback.
@@ -3587,7 +3811,7 @@ static bool HostMultiMenu(		// Returns true to accept, false to deny choice.
 		PlaySample(g_smidMenuItemSelect, SampleMaster::UserFeedBack);
 
 	// If specified, get host name (BEFORE calling the game module!)
-	if (ms_peditHostName != nullptr)
+	if (ms_peditHostName != NULL)
 		ms_peditHostName->GetText(g_GameSettings.m_szHostName, sizeof(g_GameSettings.m_szHostName) );
 
 	// Let game module handle it
@@ -3603,13 +3827,12 @@ static bool HostMultiMenu(		// Returns true to accept, false to deny choice.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t StartDemoInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-  UNUSED(pmenuCurrent, sInit);
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3621,8 +3844,9 @@ static bool StartDemoMenu(	// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem)				// Item chosen.
 	{
-  UNUSED(pmenuCurrent);
 	bool	bAcceptChoice	= true;	// Assume accepting.
+
+	bool	bPlay	= false;
 
 	// Audible Feedback.
 	if (sMenuItem == -1)
@@ -3642,89 +3866,10 @@ static bool StartDemoMenu(	// Returns true to accept, false to deny choice.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t OptionsInit(		// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t sResult = SUCCESS;	// Assume success.
-
-	if (sInit != FALSE)
-		{
-#ifndef MULTIPLAYER_REMOVED
-		int16_t sMenuItem = 5;
-#else
-		int16_t	sMenuItem	= 4;
-#endif
-
-      RMultiBtn**	ppmb	= (RMultiBtn**)&(pmenuCurrent->ami[sMenuItem++].pgui);
-		// Get check box for 'Crosshair'.
-      if (rspGetResourceInstance(&g_resmgrShell, GUI_CHECKBOX_FILE, ppmb) == SUCCESS)
-			{
-			// Set the initial state.
-			(*ppmb)->m_sState	= (g_GameSettings.m_sCrossHair != FALSE) ? 1 : 2;
-			(*ppmb)->Compose();
-			}
-		else
-			{
-			TRACE("ControlsInit(): rspGetResource() failed.\n");
-			sResult = FAILURE;
-			}
-		TRACE("Stop shooting, you sick bastard. I'm already dead.\n");
-		if (rspGetResource(&g_resmgrShell, PLAYER_COLOR_GUI_FILE, &ms_ptxtColor) == 0)
-			{
-			// Keep in bounds just in case (anyone could type any number into the INI) . . .
-			if (	g_GameSettings.m_sPlayerColorIndex >= CGameSettings::ms_sNumPlayerColorDescriptions
-				||	g_GameSettings.m_sPlayerColorIndex >= CDude::MaxTextures
-				|| g_GameSettings.m_sPlayerColorIndex < 0)
-				{
-				g_GameSettings.m_sPlayerColorIndex	= 0;
-				}
-			TRACE("g_GameSettings.m_sPlayerColorIndex = %d\n", g_GameSettings.m_sPlayerColorIndex);
-			// Set the text from the INI setting. Note that we are changing a
-			// resource!
-			ms_ptxtColor->SetText("%s", CGameSettings::ms_apszPlayerColorDescriptions[g_GameSettings.m_sPlayerColorIndex]);
-			ms_ptxtColor->Compose();
-			TRACE("Before ms_ptxtColor assignment. sMenuItem = %d\n", sMenuItem);
-			pmenuCurrent->ami[sMenuItem++].pgui	= ms_ptxtColor;
-			TRACE("After ms_ptxtColor assignment. sMenuItem = %d\n", sMenuItem);
-			}
-		else
-			{
-			TRACE("MultiOptionsInit(): rspGetResource() failed.\n");
-			sResult	= 2;
-			}
-		}
-	else
-		{
-#ifndef MULTIPLAYER_REMOVED
-		int16_t sMenuItem = 5;
-#else
-		int16_t	sMenuItem	= 4;
-#endif
-
-      RMultiBtn**	ppmb	= (RMultiBtn**)&(pmenuCurrent->ami[sMenuItem++].pgui);
-		if (*ppmb)
-			{
-			// Store new mouse usage setting.
-			g_GameSettings.m_sCrossHair = ((*ppmb)->m_sState == 1) ? TRUE : FALSE;
-
-			// Release resource.
-			rspReleaseResourceInstance(&g_resmgrShell, ppmb);
-			}
-
-		if (ms_ptxtColor != NULL)
-			{
-			// Release resource.
-			rspReleaseResource(&g_resmgrShell, &ms_ptxtColor);
-
-			// Clear menu's pointer.
-			TRACE("Before ms_ptxtColor assignment. sMenuItem = %d\n", sMenuItem);
-			pmenuCurrent->ami[sMenuItem++].pgui	= NULL;
-			TRACE("After ms_ptxtColor assignment. sMenuItem = %d\n", sMenuItem);
-			}
-			
-		}
-
-	return sResult;
+		return 0;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3736,29 +3881,142 @@ static bool OptionsChoice(		// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem)				// Item chosen or -1 for change of focus.
 	{
+		if (sMenuItem == -1)
+			PlaySample(g_smidMenuItemChange, SampleMaster::UserFeedBack);
+		else
+			PlaySample(g_smidMenuItemSelect, SampleMaster::UserFeedBack);
+		return true;
+	}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Called to init or kill the game options menu.
+//
+////////////////////////////////////////////////////////////////////////////////
+static int16_t GameOptionsInit(		// Returns 0 on success, non-zero to cancel menu.
+	Menu*	pmenuCur,				// Current menu.
+	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
+	{
+	int16_t	sRes	= 0;	// Assume success.
+
+	if (sInit != FALSE)
+		{
+		int16_t sMenuItem = 0;
+
+		if (rspGetResource(&g_resmgrShell, PLAYER_COLOR_GUI_FILE, &ms_ptxtColor) == 0)
+			{
+			// Keep in bounds just in case (anyone could type any number into the INI) . . .
+			if (	g_GameSettings.m_sPlayerColorIndex >= CGameSettings::ms_sNumPlayerColorDescriptions
+				||	g_GameSettings.m_sPlayerColorIndex >= CDude::MaxTextures
+				|| g_GameSettings.m_sPlayerColorIndex < 0)
+				{
+				g_GameSettings.m_sPlayerColorIndex	= 0;
+				}
+			// Set the text from the INI setting. Note that we are changing a
+			// resource!
+			ms_ptxtColor->SetText("%s", CGameSettings::ms_apszPlayerColorDescriptions[g_GameSettings.m_sPlayerColorIndex]);
+			ms_ptxtColor->Compose();
+			pmenuCur->ami[sMenuItem++].pgui	= ms_ptxtColor;
+			}
+		else
+			{
+			TRACE("MultiOptionsInit(): rspGetResource() failed.\n");
+			sRes	= 2;
+			}
+			
+		RMultiBtn**	ppmb	= (RMultiBtn**)&(pmenuCur->ami[sMenuItem++].pgui);
+		// Get check box for 'Crosshair'.
+		if (rspGetResourceInstance(&g_resmgrShell, GUI_CHECKBOX_FILE, ppmb) == 0)
+			{
+			// Set the initial state.
+			(*ppmb)->m_sState	= (g_GameSettings.m_sCrossHair != FALSE) ? 1 : 2;
+			(*ppmb)->Compose();
+			}
+		else
+			{
+			TRACE("ControlsInit(): rspGetResource() failed.\n");
+			sRes	= 1;
+			}
+		#ifdef KID_FRIENDLY_OPTION
+		if (g_GameSettings.m_sCompletedAllLevelsMode == TRUE || g_GameSettings.m_sAprilFools == TRUE)
+		{
+			RMultiBtn**	kidMode	= (RMultiBtn**)&(pmenuCur->ami[sMenuItem++].pgui);
+			if (rspGetResourceInstance(&g_resmgrShell, GUI_CHECKBOX_FILE, kidMode) == 0)
+				{
+				// Set the initial state.
+				(*kidMode)->m_sState	= (g_GameSettings.m_sKidMode != FALSE) ? 1 : 2;
+				(*kidMode)->Compose();
+				}
+			else
+				{
+				TRACE("ControlsInit(): rspGetResource() failed.\n");
+				sRes	= 3;
+				}
+		} else {
+			// Hide option.
+			pmenuCur->ami[sMenuItem].sEnabled = FALSE;
+			pmenuCur->ami[sMenuItem++].pszText = "\0";
+		}
+		#endif
+		}
+	else
+		{
+		int16_t sMenuItem = 0;
+
+		if (ms_ptxtColor != NULL)
+			{
+			// Release resource.
+			rspReleaseResource(&g_resmgrShell, &ms_ptxtColor);
+
+			// Clear menu's pointer.
+			TRACE("Before ms_ptxtColor assignment. sMenuItem = %d\n", sMenuItem);
+			pmenuCur->ami[sMenuItem++].pgui	= NULL;
+			TRACE("After ms_ptxtColor assignment. sMenuItem = %d\n", sMenuItem);
+			}
+			
+		RMultiBtn**	ppmb	= (RMultiBtn**)&(pmenuCur->ami[sMenuItem++].pgui);
+		if (*ppmb)
+			{
+			// Store new mouse usage setting.
+			g_GameSettings.m_sCrossHair = ((*ppmb)->m_sState == 1) ? TRUE : FALSE;
+
+			// Release resource.
+			rspReleaseResourceInstance(&g_resmgrShell, ppmb);
+			}
+
+		#ifdef KID_FRIENDLY_OPTION
+		if (g_GameSettings.m_sCompletedAllLevelsMode == TRUE || g_GameSettings.m_sAprilFools == TRUE)
+		{
+			RMultiBtn**	kidMode	= (RMultiBtn**)&(pmenuCur->ami[sMenuItem++].pgui);
+			if (*kidMode)
+				{
+				// Store new kidmode setting.
+				g_GameSettings.m_sKidMode = ((*kidMode)->m_sState == 1) ? TRUE : FALSE;
+				
+				// Release resource.
+				rspReleaseResourceInstance(&g_resmgrShell, kidMode);
+				}
+				
+			}
+		#endif
+		}
+	return sRes;
+	}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Called when a choice is made or changed on the game options menu.
+//
+////////////////////////////////////////////////////////////////////////////////
+static bool GameOptionsChoice(		// Returns true to accept, false to deny choice.
+	Menu*	pmenuCurrent,			// Current menu.
+	int16_t	sMenuItem)				// Item chosen or -1 for change of focus.
+	{
 	bool	bAcceptChoice	= true;	// Assume accepting.
 
 	switch (sMenuItem)
 		{
-#ifndef MULTIPLAYER_REMOVED
-		case 5:
-#else
-		case 4:
-#endif
-			{
-			// Toggle crosshair.
-			g_GameSettings.m_sCrossHair = !g_GameSettings.m_sCrossHair;
-			RMultiBtn*	pmb	= (RMultiBtn*)pmenuCurrent->ami[sMenuItem].pgui;
-			ASSERT(pmb->m_type == RGuiItem::MultiBtn);
-			pmb->NextState();
-			pmb->Compose();
-			break;
-			}
-#ifndef MULTIPLAYER_REMOVED
-		case 6:
-#else
-		case 5:
-#endif
+			case 0:
 			// Increment and check to make sure we have a description and we have such a color . . .
 			g_GameSettings.m_sPlayerColorIndex++;
 			if (	g_GameSettings.m_sPlayerColorIndex >= CGameSettings::ms_sNumPlayerColorDescriptions
@@ -3772,6 +4030,26 @@ static bool OptionsChoice(		// Returns true to accept, false to deny choice.
 			ms_ptxtColor->SetText("%s", CGameSettings::ms_apszPlayerColorDescriptions[g_GameSettings.m_sPlayerColorIndex]);
 			ms_ptxtColor->Compose();
 			break;
+			case 1:
+			{
+			// Toggle crosshair.
+			g_GameSettings.m_sCrossHair = !g_GameSettings.m_sCrossHair;
+			RMultiBtn*	pmb	= (RMultiBtn*)pmenuCurrent->ami[sMenuItem].pgui;
+			ASSERT(pmb->m_type == RGuiItem::MultiBtn);
+			pmb->NextState();
+			pmb->Compose();
+			break;
+			}
+#ifdef KID_FRIENDLY_OPTION
+			case 2:
+			// Toggle blood.
+			g_GameSettings.m_sKidMode = !g_GameSettings.m_sKidMode;
+			RMultiBtn*	kidMode	= (RMultiBtn*)pmenuCurrent->ami[sMenuItem].pgui;
+			ASSERT(kidMode->m_type == RGuiItem::MultiBtn);
+			kidMode->NextState();
+			kidMode->Compose();
+			break;
+#endif
 		}
 
 	// Audible Feedback.
@@ -3789,10 +4067,10 @@ static bool OptionsChoice(		// Returns true to accept, false to deny choice.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t PlayOptionsInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	if (sInit != FALSE)
 		{
@@ -3801,7 +4079,7 @@ static int16_t PlayOptionsInit(	// Returns 0 on success, non-zero to cancel menu
 		RGuiItem*	pgui;
 
 		// Get difficulty slider . . .
-      if (rspGetResource(&g_resmgrShell, GUI_DIFFICULTY_FILE, &pgui) == SUCCESS)
+		if (rspGetResource(&g_resmgrShell, GUI_DIFFICULTY_FILE, &pgui) == 0)
 			{
 			// Get the scrollbar . . .
 			ms_psbDifficulty	= (RScrollBar*)pgui->GetItemFromId(GUI_ID_DIFFICULTY_SLIDER);
@@ -3816,24 +4094,24 @@ static int16_t PlayOptionsInit(	// Returns 0 on success, non-zero to cancel menu
 				}
 
 			// Let menu know about it.
-         pmenuCurrent->ami[0].pgui	= pgui;
+			pmenuCur->ami[0].pgui	= pgui;
 			}
 		else
 			{
 			TRACE("PlayOptionsInit(): rspGetResource() failed.\n");
-			sResult = FAILURE;
+			sRes	= 1;
 			}
 		}
 	else
 		{
-      if (pmenuCurrent->ami[0].pgui)
+		if (pmenuCur->ami[0].pgui)
 			{
 			// Release the resource.
-         rspReleaseResource(&g_resmgrShell, &pmenuCurrent->ami[0].pgui);
+			rspReleaseResource(&g_resmgrShell, &pmenuCur->ami[0].pgui);
 			}
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3845,7 +4123,6 @@ static bool PlayOptionsChoice(	// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,				// Current menu.
 	int16_t	sMenuItem)					// Item chosen or -1 for change of focus.
 	{
-  UNUSED(pmenuCurrent);
 	bool	bAcceptChoice	= true;	// Assume accepting.
 
 	// Audible Feedback.
@@ -3863,16 +4140,16 @@ static bool PlayOptionsChoice(	// Returns true to accept, false to deny choice.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t VideoOptionsInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,					// Current menu.
+	Menu*	pmenuCur,					// Current menu.
 	int16_t	sInit)						// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	if (sInit != FALSE)
 		{
 		RGuiItem::ms_print.SetFont(DEFAULT_GUI_FONT_HEIGHT, &g_fontPostal);
 
-      if (rspGetResource(&g_resmgrShell, GUI_GAMMA_FILE, &ms_psbGamma) == SUCCESS)
+		if (rspGetResource(&g_resmgrShell, GUI_GAMMA_FILE, &ms_psbGamma) == 0)
 			{
 			// Set the update call.
 			ms_psbGamma->m_upcUser	= GammaScrollUpdate;
@@ -3890,26 +4167,26 @@ static int16_t VideoOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			ms_psbGamma->SetPos(lVal);
 
 			// Let menu know about it.
-         pmenuCurrent->ami[0].pgui	= ms_psbGamma;
+			pmenuCur->ami[0].pgui	= ms_psbGamma;
 			}
 		else
 			{
 			TRACE("VideoOptionsInit(): rspGetResource() failed.\n");
-			sResult = FAILURE;
+			sRes	= 1;
 			}
 		}
 	else
 		{
-		if (ms_psbGamma != nullptr)
+		if (ms_psbGamma != NULL)
 			{
 			// Release resource.
 			rspReleaseResource(&g_resmgrShell, &ms_psbGamma);
 			}
 		// Clear menu's pointer.
-      pmenuCurrent->ami[0].pgui	= nullptr;
+		pmenuCur->ami[0].pgui	= NULL;
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3921,7 +4198,6 @@ static bool VideoOptionsChoice(	// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,				// Current menu.
 	int16_t	sMenuItem)					// Item chosen or -1 for change of focus.
 	{
-  UNUSED(pmenuCurrent);
 	bool	bAcceptChoice	= true;	// Assume accepting.
 
 	// Audible Feedback.
@@ -3939,20 +4215,49 @@ static bool VideoOptionsChoice(	// Returns true to accept, false to deny choice.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t AudioOptionsInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,					// Current menu.
+	Menu*	pmenuCur,					// Current menu.
 	int16_t	sInit)						// TRUE, if initializing; FALSE, if killing.
 	{
-  UNUSED(pmenuCurrent);
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	if (sInit != FALSE)
 		{
+		if (rspGetResource(&g_resmgrShell, PLAYER_COLOR_GUI_FILE, &ms_ptxtLanguage) == 0)
+			{
+			// Keep in bounds just in case (anyone could type any number into the INI)
+			if (g_GameSettings.m_sAudioLanguage >= NUM_LANGUAGES
+				|| g_GameSettings.m_sAudioLanguage < 0)
+				{
+				#if LOCALE == JAPAN
+					g_GameSettings.m_sAudioLanguage = JAPANESE_AUDIO;
+				#else
+					g_GameSettings.m_sAudioLanguage	= ENGLISH_AUDIO;
+				#endif
+				}
+			// Set the text from the INI setting.
+			ms_ptxtLanguage->SetText("%s", CGameSettings::ms_apszAudioLanguageDescriptions[g_GameSettings.m_sAudioLanguage]);
+			ms_ptxtLanguage->Compose();
+			pmenuCur->ami[2].pgui	= ms_ptxtLanguage;
+			}
+		else
+			{
+			TRACE("AudioOptionsInit(): rspGetResource() failed.\n");
+			sRes	= 2;
+			}
 		}
 	else
 		{
+			if (ms_ptxtLanguage != NULL)
+			{
+			// Release resource.
+			rspReleaseResource(&g_resmgrShell, &ms_ptxtLanguage);
+
+			// Clear menu's pointer.
+			pmenuCur->ami[2].pgui	= NULL;
+			}
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3964,10 +4269,7 @@ static bool AudioOptionsChoice(	// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,				// Current menu.
 	int16_t	sMenuItem)					// Item chosen or -1 for change of focus.
 	{
-  UNUSED(pmenuCurrent);
 	bool	bAcceptChoice	= true;	// Assume accepting.
-
-	Game_AudioOptionsChoice(sMenuItem);
 
 	// Audible Feedback.
 	if (sMenuItem == -1)
@@ -3975,6 +4277,23 @@ static bool AudioOptionsChoice(	// Returns true to accept, false to deny choice.
 	else
 		PlaySample(g_smidMenuItemSelect, SampleMaster::UserFeedBack);
 
+	if (sMenuItem == 2)
+	{
+		// Increment and check to make sure that we have such a language
+			g_GameSettings.m_sAudioLanguage++;
+			if (g_GameSettings.m_sAudioLanguage >= NUM_LANGUAGES
+				||	g_GameSettings.m_sAudioLanguage < 0)
+				{
+				g_GameSettings.m_sAudioLanguage = 0;
+				}
+
+			// Set the text from the INI setting.
+			ms_ptxtLanguage->SetText("%s", CGameSettings::ms_apszAudioLanguageDescriptions[g_GameSettings.m_sAudioLanguage]);
+			ms_ptxtLanguage->Compose();
+	}
+
+	Game_AudioOptionsChoice(sMenuItem);
+	
 	return bAcceptChoice;
 	}
 
@@ -3984,21 +4303,21 @@ static bool AudioOptionsChoice(	// Returns true to accept, false to deny choice.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t VolumesInit(		// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-  UNUSED(pmenuCurrent);
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	if (sInit != FALSE)
 		{
 		RGuiItem::ms_print.SetFont(DEFAULT_GUI_FONT_HEIGHT, &g_fontPostal);
-      size_t i;
-      for (i = 0; i < SampleMaster::MAX_NUM_SOUND_CATEGORIES && sResult == SUCCESS && i < (NUM_ELEMENTS(pmenuCurrent->ami) - 2); i++)
+
+		int16_t i;
+		for (i = 0; i < SampleMaster::MAX_NUM_SOUND_CATEGORIES && sRes == 0 && i < (NUM_ELEMENTS(pmenuCur->ami) - 2); i++)
 			{
-         if (rspGetResourceInstance(&g_resmgrShell, GUI_VOLUME_FILE, (RScrollBar**)&(pmenuCurrent->ami[i].pgui)) == SUCCESS)
+			if (rspGetResourceInstance(&g_resmgrShell, GUI_VOLUME_FILE, (RScrollBar**)&(pmenuCur->ami[i].pgui)) == 0)
 				{
-            RScrollBar*	psb	= (RScrollBar*)(pmenuCurrent->ami[i].pgui);
+				RScrollBar*	psb	= (RScrollBar*)(pmenuCur->ami[i].pgui);
 				ASSERT(psb->m_type == RGuiItem::ScrollBar);
 
 				// Let the callback know which item this is.
@@ -4029,40 +4348,41 @@ static int16_t VolumesInit(		// Returns 0 on success, non-zero to cancel menu.
 					}
 
 				// Text.
-            pmenuCurrent->ami[i].pszText	= SampleMaster::ms_apszSoundCategories[i];
+				pmenuCur->ami[i].pszText	= SampleMaster::ms_apszSoundCategories[i];
 				}
 			else
 				{
 				TRACE("VolumesInit():  Failed to get resource.\n");
-				sResult = FAILURE;
+				sRes	= 1;
 				}
 			}
 
 		// Make the second to last one defaults.
-      pmenuCurrent->ami[i].sEnabled				= TRUE;
-      pmenuCurrent->ami[i++].pszText				= g_pszRotationSetupMenu_RestoreDefaults;
+		pmenuCur->ami[i].sEnabled				= TRUE;
+		pmenuCur->ami[i++].pszText				= g_pszRotationSetupMenu_RestoreDefaults;
 		// Make the last one back.
 #if 0
 		static char szBack[]						= "";
-      pmenuCurrent->ami[i].pszText				= szBack;
-      pmenuCurrent->ami[i].sEnabled				= FALSE;
+		pmenuCur->ami[i].pszText				= szBack;
+		pmenuCur->ami[i].sEnabled				= FALSE;
 #endif
-      pmenuCurrent->menuautoitems.sCancelItem	= i;
+		pmenuCur->menuautoitems.sCancelItem	= i;
 		}
 	else
-      {
-      for (size_t i = 0; i < SampleMaster::MAX_NUM_SOUND_CATEGORIES && sResult == SUCCESS && pmenuCurrent->ami[i].pszText; i++)
+		{
+		int16_t i;
+		for (i = 0; i < SampleMaster::MAX_NUM_SOUND_CATEGORIES && sRes == 0 && pmenuCur->ami[i].pszText; i++)
 			{
 			// If this resource was allocated . . .
-         if (pmenuCurrent->ami[i].pgui)
+			if (pmenuCur->ami[i].pgui)
 				{
 				// Release resource.
-            rspReleaseResourceInstance(&g_resmgrShell, &(pmenuCurrent->ami[i].pgui));
+				rspReleaseResourceInstance(&g_resmgrShell, &(pmenuCur->ami[i].pgui));
 				}
 			}
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -4085,8 +4405,9 @@ static bool VolumesChoice(		// Returns true to accept, false to deny choice.
 			break;
 		
 		case SampleMaster::MAX_NUM_SOUND_CATEGORIES:			// Restore defaults.
-         {
-         for (size_t i = 0; i < SampleMaster::MAX_NUM_SOUND_CATEGORIES && i < NUM_ELEMENTS(pmenuCurrent->ami); i++)
+			{
+			int16_t i;
+			for (i = 0; i < SampleMaster::MAX_NUM_SOUND_CATEGORIES && i < NUM_ELEMENTS(pmenuCurrent->ami); i++)
 				{
 				if (pmenuCurrent->ami[i].pgui)
 					{
@@ -4138,10 +4459,10 @@ static bool VolumesChoice(		// Returns true to accept, false to deny choice.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	if (sInit != FALSE)
 		{
@@ -4150,9 +4471,9 @@ static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
 #if defined(ALLOW_JOYSTICK)
 		int16_t	sMenuItem	= 4;
 
-      RMultiBtn**	ppmb	= (RMultiBtn**)&(pmenuCurrent->ami[sMenuItem++].pgui);
+		RMultiBtn**	ppmb	= (RMultiBtn**)&(pmenuCur->ami[sMenuItem++].pgui);
 		// Get check box for 'Use Joystick'.
-      if (rspGetResourceInstance(&g_resmgrShell, GUI_CHECKBOX_FILE, ppmb) == SUCCESS)
+		if (rspGetResourceInstance(&g_resmgrShell, GUI_CHECKBOX_FILE, ppmb) == 0)
 			{
 			// Set the initial state.
 			(*ppmb)->m_sState	= (g_InputSettings.m_sUseJoy != FALSE) ? 1 : 2;
@@ -4161,37 +4482,37 @@ static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
 		else
 			{
 			TRACE("ControlsInit(): rspGetResource() failed.\n");
-			sResult = FAILURE;
+			sRes	= 1;
 			}
 #else
 		int16_t	sMenuItem	= 3;
 #endif	// defined(ALLOW_JOYSTICK)
 
 		// Get check box for 'Use Mouse'.
-      if (rspGetResourceInstance(&g_resmgrShell, GUI_CHECKBOX_FILE, &ms_pmbCheckBox) == SUCCESS)
+		if (rspGetResourceInstance(&g_resmgrShell, GUI_CHECKBOX_FILE, &ms_pmbCheckBox) == 0)
 			{
 			// Set the initial state.
 			ms_pmbCheckBox->m_sState	= (g_InputSettings.m_sUseMouse != FALSE) ? 1 : 2;
 			ms_pmbCheckBox->Compose();
 
 			// Let menu know about it.
-         pmenuCurrent->ami[sMenuItem++].pgui	= ms_pmbCheckBox;
+			pmenuCur->ami[sMenuItem++].pgui	= ms_pmbCheckBox;
 			}
 		else
 			{
 			TRACE("ControlsInit(): rspGetResource() failed.\n");
-			sResult = FAILURE;
+			sRes	= 1;
 			}
 
 		// Get scrollbar for 'Mouse Sensitivity'.
-      if (rspGetResourceInstance(&g_resmgrShell, GUI_MOUSE_SENSITIVITY_FILE, &ms_psbMouseSensitivityX) == SUCCESS)
+		if (rspGetResourceInstance(&g_resmgrShell, GUI_MOUSE_SENSITIVITY_FILE, &ms_psbMouseSensitivityX) == 0)
 			{
 			// Set the initial state.
 
 			// Set the callback.
 			ms_psbMouseSensitivityX->m_upcUser			= MouseSensitivityScrollUpdate;
 			// Set the value to change.
-         ms_psbMouseSensitivityX->m_ulUserInstance	= (uintptr_t)&g_InputSettings.m_dMouseSensitivityX;
+			ms_psbMouseSensitivityX->m_ulUserInstance	= (U64)&g_InputSettings.m_dMouseSensitivityX;
 
 
 			// Set the initial position.  ms_psbGammaVal will get set via callback.
@@ -4199,23 +4520,23 @@ static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
 
 
 			// Let menu know about it.
-         pmenuCurrent->ami[sMenuItem++].pgui	= ms_psbMouseSensitivityX;
+			pmenuCur->ami[sMenuItem++].pgui	= ms_psbMouseSensitivityX;
 			}
 		else
 			{
 			TRACE("ControlsInit(): rspGetResource() failed.\n");
-			sResult	= 2;
+			sRes	= 2;
 			}
 
 		// Get scrollbar for 'Mouse Sensitivity'.
-      if (rspGetResourceInstance(&g_resmgrShell, GUI_MOUSE_SENSITIVITY_FILE, &ms_psbMouseSensitivityY) == SUCCESS)
+		if (rspGetResourceInstance(&g_resmgrShell, GUI_MOUSE_SENSITIVITY_FILE, &ms_psbMouseSensitivityY) == 0)
 			{
 			// Set the initial state.
 
 			// Set the callback.
 			ms_psbMouseSensitivityY->m_upcUser			= MouseSensitivityScrollUpdate;
 			// Set the value to change.
-         ms_psbMouseSensitivityY->m_ulUserInstance	= (uintptr_t)&g_InputSettings.m_dMouseSensitivityY;
+			ms_psbMouseSensitivityY->m_ulUserInstance	= (U64)&g_InputSettings.m_dMouseSensitivityY;
 
 
 			// Set the initial position.  ms_psbGammaVal will get set via callback.
@@ -4223,12 +4544,12 @@ static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
 
 
 			// Let menu know about it.
-         pmenuCurrent->ami[sMenuItem++].pgui	= ms_psbMouseSensitivityY;
+			pmenuCur->ami[sMenuItem++].pgui	= ms_psbMouseSensitivityY;
 			}
 		else
 			{
 			TRACE("ControlsInit(): rspGetResource() failed.\n");
-			sResult	= 3;
+			sRes	= 3;
 			}
 		}
 	else
@@ -4236,7 +4557,7 @@ static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
 #if defined(ALLOW_JOYSTICK)
 		int16_t	sMenuItem	= 4;
 
-      RMultiBtn**	ppmb	= (RMultiBtn**)&(pmenuCurrent->ami[sMenuItem++].pgui);
+		RMultiBtn**	ppmb	= (RMultiBtn**)&(pmenuCur->ami[sMenuItem++].pgui);
 		if (*ppmb)
 			{
 			// Store new mouse usage setting.
@@ -4259,29 +4580,29 @@ static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
 			}
 
 		// Clear menu's pointer.
-      pmenuCurrent->ami[sMenuItem++].pgui	= nullptr;
+		pmenuCur->ami[sMenuItem++].pgui	= NULL;
 
-		if (ms_psbMouseSensitivityX != nullptr)
+		if (ms_psbMouseSensitivityX != NULL)
 			{
 			// Release resource.
 			rspReleaseResourceInstance(&g_resmgrShell, &ms_psbMouseSensitivityX);
 			}
 
 		// Clear menu's pointer.
-      pmenuCurrent->ami[sMenuItem++].pgui	= nullptr;
+		pmenuCur->ami[sMenuItem++].pgui	= NULL;
 
-		if (ms_psbMouseSensitivityY != nullptr)
+		if (ms_psbMouseSensitivityY != NULL)
 			{
 			// Release resource.
 			rspReleaseResourceInstance(&g_resmgrShell, &ms_psbMouseSensitivityY);
 			}
 
 		// Clear menu's pointer.
-      pmenuCurrent->ami[sMenuItem++].pgui	= nullptr;
+		pmenuCur->ami[sMenuItem++].pgui	= NULL;
 		}
 
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -4340,13 +4661,13 @@ int16_t SetUpRotationScrollBar(		// Returns 0 on success.
 	ValType*	pvtRotationVal,		// In:  Rotation value to tune via scrollbar.
 	Menu*		pmenu,					// In:  Menu.
 	int16_t		sChoiceIndex,			// In:  Index of choice.
-   const char*		pszResName)				// In:  Resource name.
+	char*		pszResName)				// In:  Resource name.
 	{
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
-	RScrollBar*	psb	= nullptr;
+	RScrollBar*	psb	= NULL;
 
-   if (rspGetResourceInstance(&g_resmgrShell, pszResName, &psb) == SUCCESS)
+	if (rspGetResourceInstance(&g_resmgrShell, pszResName, &psb) == 0)
 		{
 		// Set the initial state.
 
@@ -4365,7 +4686,7 @@ int16_t SetUpRotationScrollBar(		// Returns 0 on success.
 			}
 
 		// Set the value to change.
-		psb->m_ulUserInstance	= (uint64_t)pvtRotationVal;
+		psb->m_ulUserInstance	= (U64)pvtRotationVal;
 
 
 		// Set the initial position.  psb will get set via callback.
@@ -4374,13 +4695,13 @@ int16_t SetUpRotationScrollBar(		// Returns 0 on success.
 	else
 		{
 		TRACE("SetUpRotationScrollBar(): rspGetResource() failed for \"%s\".\n", pszResName);
-		sResult = FAILURE;
+		sRes	= 1;
 		}
 
 	// Let menu know about it.
 	pmenu->ami[sChoiceIndex].pgui	= psb;
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -4389,36 +4710,36 @@ int16_t SetUpRotationScrollBar(		// Returns 0 on success.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t RotationInit(		// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	if (sInit != FALSE)
 		{
 		RGuiItem::ms_print.SetFont(DEFAULT_GUI_FONT_HEIGHT, &g_fontPostal);
 
 		// Get scrollbars for rotation parameters.
-      sResult	|= SetUpRotationScrollBar(&g_InputSettings.m_dMovingSlowDegreesPerSec,	pmenuCurrent, 0, GUI_ROTATION_FILE);
-      sResult	|= SetUpRotationScrollBar(&g_InputSettings.m_dMovingFastDegreesPerSec,	pmenuCurrent, 1, GUI_ROTATION_FILE);
-      sResult	|= SetUpRotationScrollBar(&g_InputSettings.m_dStillSlowDegreesPerSec,	pmenuCurrent, 2, GUI_ROTATION_FILE);
-      sResult	|= SetUpRotationScrollBar(&g_InputSettings.m_dStillFastDegreesPerSec,	pmenuCurrent, 3, GUI_ROTATION_FILE);
-      sResult	|= SetUpRotationScrollBar(&g_InputSettings.m_sTapRotationDegrees,			pmenuCurrent, 4, GUI_TAP_ROTATION_FILE);
+		sRes	|= SetUpRotationScrollBar(&g_InputSettings.m_dMovingSlowDegreesPerSec,	pmenuCur, 0, GUI_ROTATION_FILE);
+		sRes	|= SetUpRotationScrollBar(&g_InputSettings.m_dMovingFastDegreesPerSec,	pmenuCur, 1, GUI_ROTATION_FILE);
+		sRes	|= SetUpRotationScrollBar(&g_InputSettings.m_dStillSlowDegreesPerSec,	pmenuCur, 2, GUI_ROTATION_FILE);
+		sRes	|= SetUpRotationScrollBar(&g_InputSettings.m_dStillFastDegreesPerSec,	pmenuCur, 3, GUI_ROTATION_FILE);
+		sRes	|= SetUpRotationScrollBar(&g_InputSettings.m_sTapRotationDegrees,			pmenuCur, 4, GUI_TAP_ROTATION_FILE);
 		}
 	else
 		{
 		int16_t	i;
-      for (i = 0; pmenuCurrent->ami[i].pszText; i++)
+		for (i = 0; pmenuCur->ami[i].pszText; i++)
 			{
-         if (pmenuCurrent->ami[i].pgui)
+			if (pmenuCur->ami[i].pgui)
 				{
-            rspReleaseResourceInstance(&g_resmgrShell, (RScrollBar**)&(pmenuCurrent->ami[i].pgui) );
+				rspReleaseResourceInstance(&g_resmgrShell, (RScrollBar**)&(pmenuCur->ami[i].pgui) );
 				}
 			}
 		}
 
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -4461,16 +4782,16 @@ static bool RotationChoice(	// Returns true to accept, false to deny choice.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,					// Current menu.
+	Menu*	pmenuCur,					// Current menu.
 	int16_t	sInit)						// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	if (sInit != FALSE)
 		{					   
 		RGuiItem::ms_print.SetFont(DEFAULT_GUI_FONT_HEIGHT, &g_fontPostal);
 
-      if (rspGetResource(&g_resmgrShell, PLAYER_NAME_GUI_FILE, &ms_peditName) == SUCCESS)
+		if (rspGetResource(&g_resmgrShell, PLAYER_NAME_GUI_FILE, &ms_peditName) == 0)
 			{
 			// Set the text from the INI setting.  Note that we are changing a resource!
 			ms_peditName->m_sMaxText = Net::MaxPlayerNameSize - 1;
@@ -4478,7 +4799,7 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			ms_peditName->Compose();
 
 			// Let menu know about it.
-         pmenuCurrent->ami[0].pgui	= ms_peditName;
+			pmenuCur->ami[0].pgui	= ms_peditName;
 
 			// If any errors occurred after getting resource, this function will be
 			// called with sInit == FALSE.
@@ -4486,7 +4807,7 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 		else
 			{
 			TRACE("MultiOptionsInit(): rspGetResource() failed.\n");
-			sResult	= 1;
+			sRes	= 1;
 			}
 
 		if (rspGetResource(&g_resmgrShell, NET_PROTO_GUI_FILE, &ms_ptxtProto) == 0)
@@ -4496,15 +4817,15 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			ms_ptxtProto->SetText("%s", RSocket::GetProtoName((RSocket::ProtoType)g_GameSettings.m_usProtocol));
 			ms_ptxtProto->Compose();
 
-			pmenuCurrent->ami[1].pgui   = ms_ptxtProto;
+			pmenuCur->ami[1].pgui   = ms_ptxtProto;
 			}
 		else
 			{
 			 TRACE("MultiOptionsIni(): rspGetResource() failed.\n");
-          sResult = FAILURE * 4;
+			 sRes = 4;
 			}
 
-      if (rspGetResource(&g_resmgrShell, NET_CONNECTION_GUI_FILE, &ms_ptxtBandwidth) == SUCCESS)
+		if (rspGetResource(&g_resmgrShell, NET_CONNECTION_GUI_FILE, &ms_ptxtBandwidth) == 0)
 			{
 			// Set the text from the INI setting.  Note that we are changing a 
 			// resource!
@@ -4514,17 +4835,17 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			ms_ptxtBandwidth->SetText("%s", Net::BandwidthText[g_GameSettings.m_sNetBandwidth]);
 			ms_ptxtBandwidth->Compose();
 
-			pmenuCurrent->ami[2].pgui   = ms_ptxtBandwidth;
+			pmenuCur->ami[2].pgui   = ms_ptxtBandwidth;
 			}
 		else
 			{
 			TRACE("MultiOptionsInit(): rspGetResource() failed.\n");
-			sResult	= 5;
+			sRes	= 5;
 			}
 		}
 	else
 		{
-		if (ms_peditName != nullptr)
+		if (ms_peditName != NULL)
 			{
 			// Get the player name for storage purposes.
 			ms_peditName->GetText(g_GameSettings.m_szPlayerName, sizeof(g_GameSettings.m_szPlayerName) );
@@ -4533,7 +4854,7 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			rspReleaseResource(&g_resmgrShell, &ms_peditName);
 
 			// Clear menu's pointer.
-			pmenuCurrent->ami[0].pgui	= NULL;
+			pmenuCur->ami[0].pgui	= NULL;
 			}
 
 		if (ms_ptxtProto)
@@ -4542,7 +4863,7 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			rspReleaseResource(&g_resmgrShell, &ms_ptxtProto);
 
 			// Clear menu's pointer.
-         pmenuCurrent->ami[2].pgui	= nullptr;
+			pmenuCur->ami[2].pgui	= NULL;
 			}
 
 		if (ms_ptxtBandwidth)
@@ -4551,11 +4872,11 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			rspReleaseResource(&g_resmgrShell, &ms_ptxtBandwidth);
 
 			// Clear menu's pointer.
-         pmenuCurrent->ami[3].pgui	= nullptr;
+			pmenuCur->ami[3].pgui	= NULL;
 			}
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -4564,10 +4885,9 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 //
 ////////////////////////////////////////////////////////////////////////////////
 static bool MultiOptionsChoice(	// Returns true to accept, false to deny choice.
-   Menu*	pmenuCurrent,					// Current menu.
+	Menu*	pmenuCur,					// Current menu.
 	int16_t	sMenuItem)					// Item chosen.
 	{
-  UNUSED(pmenuCurrent);
 	bool	bAcceptChoice	= true;	// Assume accepting.
 
 	// Toggle the protocol to the next one in the list
@@ -4615,7 +4935,6 @@ static bool EditorMenuChoice(	// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem)				// Item chosen.
 	{
-  UNUSED(pmenuCurrent);
 	bool	bAcceptChoice	= true;	// Assume accepting.
 
 	switch (sMenuItem)
@@ -4645,21 +4964,21 @@ static bool EditorMenuChoice(	// Returns true to accept, false to deny choice.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t MouseInit(			// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	if (sInit == TRUE)
 		{
-      sResult	= InputSettingsDlg_InitMenu(pmenuCurrent);
+		sRes	= InputSettingsDlg_InitMenu(pmenuCur);
 		}
 	else
 		{
-      sResult	= InputSettingsDlg_KillMenu(pmenuCurrent);
+		sRes	= InputSettingsDlg_KillMenu(pmenuCur);
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -4690,21 +5009,21 @@ static bool MouseChoice(		// Returns true to accept, false to deny choice.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t KeyInit(			// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	if (sInit == TRUE)
 		{
-      sResult	= InputSettingsDlg_InitMenu(pmenuCurrent);
+		sRes	= InputSettingsDlg_InitMenu(pmenuCur);
 		}
 	else
 		{
-      sResult	= InputSettingsDlg_KillMenu(pmenuCurrent);
+		sRes	= InputSettingsDlg_KillMenu(pmenuCur);
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -4735,21 +5054,21 @@ static bool KeyChoice(			// Returns true to accept, false to deny choice.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t JoyInit(			// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	if (sInit == TRUE)
 		{
-      sResult	= InputSettingsDlg_InitMenu(pmenuCurrent);
+		sRes	= InputSettingsDlg_InitMenu(pmenuCur);
 		}
 	else
 		{
-      sResult	= InputSettingsDlg_KillMenu(pmenuCurrent);
+		sRes	= InputSettingsDlg_KillMenu(pmenuCur);
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -4780,17 +5099,17 @@ static bool JoyChoice(			// Returns true to accept, false to deny choice.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t LoadLevelInit(			// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 	
 	if (sInit == TRUE)
 		{
-      sResult	= Play_InitLevelSelectMenu(pmenuCurrent);
+		sRes	= Play_InitLevelSelectMenu(pmenuCur);
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -4826,21 +5145,21 @@ static bool LoadLevelChoice(			// Returns true to accept, false to deny choice.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t FeaturesInit(		// Returns 0 on success, non-zero to cancel menu.
-   Menu*	pmenuCurrent,				// Current menu.
+	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	if (sInit != FALSE)
 		{
 		RGuiItem::ms_print.SetFont(DEFAULT_GUI_FONT_HEIGHT, &g_fontPostal);
 
 		int16_t	sItem;
-      int16_t	sMaxFeatureItems	= NUM_ELEMENTS(pmenuCurrent->ami) - 1;
-      for (sItem = 0; sItem < sMaxFeatureItems && pmenuCurrent->ami[sItem + 1].pszText && sResult == SUCCESS; sItem++)
+		int16_t	sMaxFeatureItems	= NUM_ELEMENTS(pmenuCur->ami) - 1;
+		for (sItem = 0; sItem < sMaxFeatureItems && pmenuCur->ami[sItem + 1].pszText && sRes == 0; sItem++)
 			{
-         RMultiBtn**	ppmb	= (RMultiBtn**)&(pmenuCurrent->ami[sItem].pgui);
-         if (rspGetResourceInstance(&g_resmgrShell, GUI_CHECKBOX_FILE, ppmb) == SUCCESS)
+			RMultiBtn**	ppmb	= (RMultiBtn**)&(pmenuCur->ami[sItem].pgui);
+			if (rspGetResourceInstance(&g_resmgrShell, GUI_CHECKBOX_FILE, ppmb) == 0)
 				{
 				// Set the initial state.
 				int16_t	sState	= 1;
@@ -4869,17 +5188,17 @@ static int16_t FeaturesInit(		// Returns 0 on success, non-zero to cancel menu.
 			else
 				{
 				TRACE("FeaturesInit(): rspGetResource() failed.\n");
-				sResult = FAILURE;
+				sRes	= 1;
 				}
 			}
 		}
 	else
 		{
-      int16_t	sMaxFeatureItems	= NUM_ELEMENTS(pmenuCurrent->ami) - 1;
+		int16_t	sMaxFeatureItems	= NUM_ELEMENTS(pmenuCur->ami) - 1;
 		int16_t	sItem;
 		for (sItem = 0; sItem < sMaxFeatureItems; sItem++)
 			{
-         RMultiBtn**	ppmb	= (RMultiBtn**)&(pmenuCurrent->ami[sItem].pgui);
+			RMultiBtn**	ppmb	= (RMultiBtn**)&(pmenuCur->ami[sItem].pgui);
 			if (*ppmb)
 				{
 				// Get the final state.
@@ -4909,7 +5228,7 @@ static int16_t FeaturesInit(		// Returns 0 on success, non-zero to cancel menu.
 			}
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -4958,7 +5277,7 @@ static bool FeaturesChoice(	// Returns true to accept, false to deny choice.
 static void GammaScrollUpdate(	// Returns nothing.
 	RScrollBar*	psb)					// Scrollbar that got updated.
 	{
-	ASSERT(psb != nullptr);
+	ASSERT(psb != NULL);
 
 	// Get range.
 	int32_t	lMin, lMax;
@@ -4991,7 +5310,7 @@ static void GammaScrollUpdate(	// Returns nothing.
 static void DifficultyScrollUpdate(	// Returns nothing.
 	RScrollBar*	psb)						// Scrollbar that got updated.
 	{
-	ASSERT(psb != nullptr);
+	ASSERT(psb != NULL);
 
 	// Get the parent.
 	RGuiItem*	pguiParent	= psb->GetParent();
@@ -5031,7 +5350,7 @@ static void DifficultyScrollUpdate(	// Returns nothing.
 static void VolumesScrollUpdate(	// Returns nothing.
 	RScrollBar*	psb)					// Scrollbar that got updated.
 	{
-	ASSERT(psb != nullptr);
+	ASSERT(psb != NULL);
 
 	SampleMaster::SoundCategory	sc		= (SampleMaster::SoundCategory)psb->m_ulUserData;
 	int32_t									lMin, lMax, lRange;
@@ -5044,7 +5363,7 @@ static void VolumesScrollUpdate(	// Returns nothing.
 	SetCategoryVolume(sc, g_GameSettings.m_asCategoryVolumes[sc]);
 
 	SampleMasterID*	psmid	= ms_apsmidVolumeTesters[sc];
-	if (psmid == nullptr)
+	if (psmid == NULL)
 		{
 		psmid	= ms_apsmidVolumeTesters[0];
 		}
@@ -5139,7 +5458,7 @@ static void RotationScrollUpdateShort(	// Returns nothing.
 #if 1 //PLATFORM_UNIX
 static bool PickFileMenuChoice(Menu *pmenuCurrent, int16_t sMenuItem);
 
-Menu	g_menuPickFile =
+extern Menu	g_menuPickFile =
 	{
 	PICK_FILE_MENU_ID,
 
@@ -5175,7 +5494,7 @@ Menu	g_menuPickFile =
 
 	// Header and its font info.
 		{	// pszHeaderText, pszFontFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor.
-		nullptr, // filled in by PickFile().
+		NULL, // filled in by PickFile().
 		SMASH_FONT,
 		HEAD_FONT_HEIGHT,	// Height of font.
 		HEAD_COLOR,			// Text RGBA.
@@ -5198,7 +5517,7 @@ Menu	g_menuPickFile =
 
 	// Menu callbacks.
 		{	// fnInit, fnChoice,
-		nullptr,							// Called before menu is initialized.
+		NULL,							// Called before menu is initialized.
 		PickFileMenuChoice,	// Called when item is chosen.
 		},
 
@@ -5215,12 +5534,12 @@ Menu	g_menuPickFile =
 	// Menu items.
         // Filled in by PickFile().
 		{	// pszText,						sEnabled,	pmenu,		pgui
-			nullptr							// Terminates list.
+			NULL							// Terminates list.
 		},
 	};
 
 static volatile bool g_PickFileMenuDone = false;
-static volatile const char *g_PickFileMenuChoice = nullptr;
+static volatile const char *g_PickFileMenuChoice = NULL;
 static bool PickFileMenuChoice(Menu *pmenuCurrent, int16_t sMenuItem)
 {
     ASSERT(pmenuCurrent == &g_menuPickFile);
@@ -5248,14 +5567,14 @@ int16_t PickFile(const char *title, void (*enumer)(Menu *), char *buf, size_t bu
     memset(&g_menuPickFile.ami, '\0', sizeof (g_menuPickFile.ami));
     enumer(&g_menuPickFile);
     g_menuPickFile.menuautoitems.sCancelItem = Max;  // the null index
-    g_PickFileMenuChoice = nullptr;
+    g_PickFileMenuChoice = NULL;
     g_PickFileMenuDone = false;
     
 	int16_t sResult = StartMenu(&g_menuPickFile, &g_resmgrShell, g_pimScreenBuf);
-    if (sResult != SUCCESS)
+    if (sResult != 0)
     {
         TRACE("StartMenu failed! Can't pick file!\n");
-        return FAILURE;
+        return -1;
     }
 
     while (!g_PickFileMenuDone)
@@ -5274,21 +5593,20 @@ int16_t PickFile(const char *title, void (*enumer)(Menu *), char *buf, size_t bu
     	rspUpdateDisplay();
     }
 
-    if (g_PickFileMenuChoice != nullptr)
+    if (g_PickFileMenuChoice != NULL)
     {
         strncpy(buf, (const char *) g_PickFileMenuChoice, bufsize);
         buf[bufsize-1] = '\0';  // just in case.
     }
 
     TRACE("PickFile: Going with %s.\n", buf);
-// do not free string literals!
-/*
+
     for (int i = 0; (i < Max) && (g_menuPickFile.ami[i].pszText); i++)
         free(g_menuPickFile.ami[i].pszText);
-*/
+
     // put the old menu back.
 	StartMenu(currentMenu, &g_resmgrShell, g_pimScreenBuf);
-    return ((g_PickFileMenuChoice == nullptr) ? -1 : 0);
+    return ((g_PickFileMenuChoice == NULL) ? -1 : 0);
 }
 #endif  // PLATFORM_UNIX
 

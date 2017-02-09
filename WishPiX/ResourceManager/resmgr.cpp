@@ -179,6 +179,7 @@
 #include <fstream>
 
 #include "resmgr.h"
+#include "CompileOptions.h"
 
 
 //////////////////////////////////////////////////////////////////////
@@ -246,14 +247,24 @@ int16_t RResMgr::Get(									// Returns 0 on success.
 	GenericDestroyResFunc* pfnDestroy,			// In:  Pointer to "destroy" function object
 	GenericLoadResFunc* pfnLoad)					// In:  Pointer to "load" function object
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sReturn = SUCCESS;
+	#ifdef DEBUG
+		int16_t nowheretogo = 0;
+	#endif // DEBUG
 	// Map iterator (one of the best things about STL is how readable it is)
 	pair<resclassMap::iterator, bool> p(m_map.begin(), false);
-
+	#ifdef DEBUG
+	if (strcmp((char *) strFilename, "menu/menu_md.bmp") == 0)
+	{
+		TRACE("It's the final countdown!\n");
+		nowheretogo = 1;
+	}
+	#endif // DEBUG
 	// Create a temporary resource block.  Be carefull to set ONLY THE NAME
 	// at this point.  Any other values should be set only if it turns out
 	// that we need to create and load the requested resource!
 	CResourceBlock resBlock;
+	// TRACE("Getting %s\n", (char*)strFilename);
 	NormalizeResName(&strFilename);
 	resBlock.m_strFilename	= strFilename;
 
@@ -262,17 +273,23 @@ int16_t RResMgr::Get(									// Returns 0 on success.
 	// or where it was inserted if it did not previously exist.
 	p = m_map.insert(resclassMap::value_type (strFilename, resBlock));
 	// If the requested resource does not already exist, create the resource now and load it
-	if ((*(p.first)).second.m_vpRes == nullptr)
+	if ((*(p.first)).second.m_vpRes == NULL)
 		{
-      sResult = GetInstance(	// Returns 0 on success.
+		sReturn = GetInstance(	// Returns 0 on success.
 				strFilename,		// In:  Resource name
 				hRes,					// Out: Pointer to resource returned here
 				endian,				// In:  Endian nature of resource file
 				pfnCreate,			// In:  Pointer to "create" function object
 				pfnDestroy,			// In:  Pointer to "destroy" function object
 				pfnLoad);			// In:  Pointer to "load" function object
-      if (sResult == SUCCESS)
+		if (sReturn == 0)		
 			{
+			#ifdef DEBUG
+				if (nowheretogo == 1)
+				{
+					TRACE("Tito Dick 'Dickman', baby!\n");
+				}
+			#endif
 			// Fill in the resource block.
 			(*(p.first)).second.m_vpRes = *hRes;
 			(*(p.first)).second.m_pfnDestroy	= pfnDestroy;
@@ -289,13 +306,36 @@ int16_t RResMgr::Get(									// Returns 0 on success.
 #endif //_DEBUG
 			}
 		else
-         {
-            TRACE("RResMgr::Get - GetInstance() failed.\n");
+			{
+			#ifdef DEBUG
+				if (nowheretogo == 1)
+				{
+					TRACE("He raised Phil and loves the ladies.\n");
+				}
+			#endif // DEBUG
+			#ifdef RESMGR_VERBOSE
+				TRACE("RResMgr::Get - Break Yo Selfen hosen!  GetInstance() failed.\n");
+			#endif // RESMGR_VERBOSE
 			}
 		}
+		#ifdef DEBUG
+		else {
+			
+				if (nowheretogo == 1)
+				{
+					TRACE("It's the Al Peck's Quality Used Fruitshack\n");
+				}
+		}
+		#endif // DEBUG
 
-   if (sResult == SUCCESS)
+	if (sReturn == SUCCESS)
 		{
+		#ifdef DEBUG
+			if (nowheretogo == 1)
+			{
+				TRACE("Hoo-ugh!\n");
+			}
+		#endif // DEBUG
 		(*(p.first)).second.m_sRefCount++;
 		(*(p.first)).second.m_sAccessCount++;
 		*hRes = (*(p.first)).second.m_vpRes;
@@ -305,8 +345,8 @@ int16_t RResMgr::Get(									// Returns 0 on success.
 		}
 	else
 		{
-		*hRes = nullptr;
-		// In this case, m_vpRes is also nullptr, so we don't have to worry about a 
+		*hRes = NULL;
+		// In this case, m_vpRes is also NULL, so we don't have to worry about a 
 		// double delete.
 		m_map.erase(strFilename);
 		}
@@ -318,7 +358,7 @@ int16_t RResMgr::Get(									// Returns 0 on success.
 	delete pfnDestroy;	// Might be 0 (which is safe for delete)!  See comments above!
 	delete pfnLoad;
 	
-   return sResult;
+	return sReturn;
 	}
 
 //////////////////////////////////////////////////////////////////////
@@ -349,17 +389,17 @@ int16_t RResMgr::GetInstance(						// Returns 0 on success.
 	GenericDestroyResFunc* pfnDestroy,			// In:  Pointer to "destroy" function object
 	GenericLoadResFunc* pfnLoad)					// In:  Pointer to "load" function object
 	{
-   int16_t sResult	= SUCCESS;	// Assume success for return.
+	int16_t	sReturn	= SUCCESS;	// Assume success for return.
 	// Assume failure for safety.
-	*hRes	= nullptr;
+	*hRes	= NULL;
 	NormalizeResName(&strFilename);
 
 	// Create resource using the specified "create" function
-	void* pvInstance = nullptr;
-   if ((*pfnCreate)(&pvInstance) == SUCCESS)
+	void* pvInstance = NULL;
+	if ((*pfnCreate)(&pvInstance) == 0)
 		{
 		RFile		fileNoSak;
-		RFile*	pfileSrc	= nullptr;
+		RFile*	pfileSrc	= NULL;
 		// If a SAK file is in use, load it from that, otherwise
 		// load it from the disk file.
 		if (m_rfSak.IsOpen())
@@ -368,20 +408,22 @@ int16_t RResMgr::GetInstance(						// Returns 0 on success.
 		// If SAK file fails try loading from disk.
 		if (!pfileSrc)
 			{
-         if (fileNoSak.Open(/*FromSystempath(strFilename)*/strFilename, "rb", endian ) == SUCCESS)
+			if (fileNoSak.Open(/*FromSystempath(strFilename)*/strFilename, "rb", endian ) == 0)
 				pfileSrc	= &fileNoSak;
 			else
-            {
-               TRACE("RResMgr::GetInstance - Could not open resource file.\n");
+				{
+				#ifdef RESMGR_VERBOSE
+					TRACE("RResMgr::GetInstance - Break Yo Selfen hosen!  Could not open resource file.\n");
+				#endif // RESMGR_VERBOSE
 				}
 			}
 
-		if (pfileSrc != nullptr)
+		if (pfileSrc != NULL)
 			{
 			// Set endian for this file.
 			pfileSrc->SetEndian(endian);
 			// Let resource load itself from the file
-         sResult	= (*pfnLoad)(pvInstance, pfileSrc);
+			sReturn	= (*pfnLoad)(pvInstance, pfileSrc);
 			// Restore endian to SAK file mode (although this may or may not be
 			// the SAK file (it can't hurt (can it?) ) ).
 			pfileSrc->SetEndian(SAK_FILE_ENDIAN);
@@ -390,13 +432,15 @@ int16_t RResMgr::GetInstance(						// Returns 0 on success.
 				fileNoSak.Close();
 			}
 		else
-         {
-            TRACE("RResMgr::GetInstance - Could not get RFile* to resource data.\n");
-         sResult	= FAILURE;
+			{
+			#ifdef RESMGR_VERBOSE
+				TRACE("RResMgr::GetInstance - Break Yo Selfen hosen! Could not get RFile* to resource data.\n");
+			#endif // RESMGR_VERBOSE
+			sReturn	= FAILURE;
 			}
 
 		// If we fail after allocation . . .
-      if (sResult != SUCCESS)
+		if (sReturn != SUCCESS)
 			{
 			// Delete the object.
 			(*pfnDestroy)(pvInstance);
@@ -409,11 +453,11 @@ int16_t RResMgr::GetInstance(						// Returns 0 on success.
 		}
 	else
 		{
-      TRACE("RResMgr::GetInstance - Error allocating new resource\n");
-      sResult = FAILURE;
+		TRACE("RResMgr::GetInstance - Break Yo Selfen hosen! Error allocating new resource\n");
+		sReturn = FAILURE;
 		}
 
-   return sResult;
+	return sReturn;
 	}
 
 //////////////////////////////////////////////////////////////////////
@@ -565,11 +609,10 @@ void RResMgr::FreeAllResources(void)
 int16_t RResMgr::Statistics(RString strStatFile)
 {
 #if PLATFORM_UNIX   // avoid STL on Unix.  --ryan.
-  UNUSED(strStatFile);
     fprintf(stderr, "STUBBED: %s:%d\n", __FILE__, __LINE__);
     return FAILURE;
 #else
-   int16_t sResult = SUCCESS;
+	int16_t sReturn = SUCCESS;
 	ofstream txtout;
 	resclassMap::iterator i;
 	
@@ -611,9 +654,9 @@ int16_t RResMgr::Statistics(RString strStatFile)
 		TRACE("RResMgr::Statistics - Break Yo Self! Error - unable to open stat file %s\n",
 		      (char*) strStatFile);
 //		      (char*) strStatFile.c_str());
-      sResult = FAILURE;
+		sReturn = FAILURE;
 	}
-   return sResult;
+	return sReturn;
 #endif
 }
 
@@ -642,10 +685,9 @@ int16_t RResMgr::Statistics(RString strStatFile)
 int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
 {
 #if PLATFORM_UNIX   // avoid STL on Unix.  --ryan.
-  UNUSED(strScriptFile, strSakFile);
     return FAILURE;
 #else
-   int16_t sResult = SUCCESS;
+	int16_t sReturn = SUCCESS;
 	ifstream script;
 	RString line;
 	RString resname;
@@ -672,7 +714,8 @@ int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
 			}
 /*
 			script >> line;
-         if (line[0] == ';' || line.GetLen() == 0)) == SUCCESScript.getline(buffer, 256);
+			if (line[(long) 0] == ';' || line.GetLen() == 0)
+				script.getline(buffer, 256);
 			else
 			{
 				resname = line;
@@ -693,12 +736,12 @@ int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
 		accessVector::iterator iFilename;
 //		typeVector::iterator iType = m_TypeList.begin();
 		RFile	fileRes;
-		uint8_t	au8Transfer[TRANSFER_BUF_SIZE];
+		U8	au8Transfer[TRANSFER_BUF_SIZE];
 		int32_t	lNumBytes;
 		pair <dupSet::iterator, bool> p(m_duplicateSet.begin(), false);
 		m_duplicateSet.erase(m_duplicateSet.begin(), m_duplicateSet.end());
 
-      for (iFilename = m_LoadList.begin(); iFilename != m_LoadList.end() && sResult == SUCCESS; iFilename++) //, iType++)
+		for (iFilename = m_LoadList.begin(); iFilename != m_LoadList.end() && sReturn == SUCCESS; iFilename++) //, iType++)
 		{
 			// Insert this filename into the set.  If its already in there, p.second
 			// will be false.
@@ -711,8 +754,8 @@ int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
 				m_DirectoryMap[(*iFilename)] = sak.Tell();
 
 				// Open disk file . . .
-//				if (fileRes.Open( FromSystempath((char*) (*iFilename).c_str() ), "rb", SAK_FILE_ENDIAN) == SUCCESS)
-            if (fileRes.Open( FromSystempath((char*) (*iFilename) ), "rb", SAK_FILE_ENDIAN) == SUCCESS)
+//				if (fileRes.Open( FromSystempath((char*) (*iFilename).c_str() ), "rb", SAK_FILE_ENDIAN) == 0)
+				if (fileRes.Open( FromSystempath((char*) (*iFilename) ), "rb", SAK_FILE_ENDIAN) == 0)
 				{
 					do
 					{
@@ -732,7 +775,7 @@ int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
 				else
 				{
 					TRACE("CreateSak(): fileRes.Open() failed.\n");
-               sResult	= FAILURE;
+					sReturn	= FAILURE;
 				}
 			}
 		}
@@ -756,9 +799,9 @@ int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
 		TRACE("RResMgr::CreateSak - Break Yo Self! Error opening script file %s or sak file %s", 
 		      (char*) strScriptFile, (char*) strSakFile);
 //		      (char*) strScriptFile.c_str(), (char*) strSakFile.c_str());
-      sResult = FAILURE;
+		sReturn = FAILURE;
 	}
-   return sResult;
+	return sReturn;
 #endif
 }
 
@@ -786,7 +829,7 @@ int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
 
 int16_t RResMgr::WriteSakHeader(RFile* prf)
 {
-   int16_t sResult = SUCCESS;
+	int16_t sReturn = SUCCESS;
 	uint32_t ulFileType = SAK_COOKIE;
 	uint32_t ulCurrentVersion = SAK_CURRENT_VERSION;
 	uint16_t usNumPairs = m_DirectoryMap.size();
@@ -810,10 +853,10 @@ int16_t RResMgr::WriteSakHeader(RFile* prf)
 	else
 	{
 		TRACE("RResMgr::WriteSakHeader - Break Yo Self! Error writing to SAK header\n");
-      sResult = FAILURE;
+		sReturn = FAILURE;
 	}
 
-   return sResult;
+	return sReturn;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -838,7 +881,7 @@ int16_t RResMgr::WriteSakHeader(RFile* prf)
 
 int16_t RResMgr::OpenSak(RString strSakFile)
 {
-   int16_t sResult = SUCCESS;
+	int16_t sReturn = SUCCESS;
 	uint32_t ulFileType;
 	uint32_t ulFileVersion;
 	uint16_t usNumPairs;
@@ -884,23 +927,23 @@ int16_t RResMgr::OpenSak(RString strSakFile)
 			{
 				TRACE("RResMgr::OpenSak - Break Yo Self! This file is version %d and the current SAK version is %d\n", 
 				       ulFileVersion, SAK_CURRENT_VERSION);
-            sResult = FAILURE;
+				sReturn = FAILURE;
 			}		
 		}
 		else
 		{
 			TRACE("RResMgr::OpenSak - Not a valid SAK file, cookie should be 'SAK ' - what's up with dat?\n");
-         sResult = FAILURE;
+			sReturn = FAILURE;
 		}		
 	}
 	else
 	{
 		TRACE("RResMgr::OpenSak - Break Yo Self! Error opening sak file %s\n", 
 		      (char*) strSakFile);
-      sResult = FAILURE;
+		sReturn = FAILURE;
 	}
 
-   return sResult;
+	return sReturn;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -961,7 +1004,7 @@ void RResMgr::SetBasePath(RString strBasepath)
 
 int16_t RResMgr::OpenSakAlt(RString strSakFile, RString strScriptFile)
 {
-   int16_t sResult = SUCCESS;
+	int16_t sReturn = SUCCESS;
 	uint32_t ulFileType;
 	uint32_t ulFileVersion;
 	uint16_t usNumPairs;
@@ -993,7 +1036,7 @@ int16_t RResMgr::OpenSakAlt(RString strSakFile, RString strScriptFile)
 				script.getline(char_buffer, 256);
 				//clean the \r that can still be there
 				char* p;
-				if((p=strchr(char_buffer,'\r'))!=nullptr)
+				if((p=strchr(char_buffer,'\r'))!=NULL)
 					*p = '\0';
 				strFilename = char_buffer;
 				if (strFilename[(int32_t) 0] != ';' && strFilename[(int32_t) 0] != ' ' && strFilename.GetLen() > 0)
@@ -1004,7 +1047,7 @@ int16_t RResMgr::OpenSakAlt(RString strSakFile, RString strScriptFile)
 					script.getline(char_buffer, 256);
 					//clean the \r that can still be there
 					char* p;
-					if((p=strchr(char_buffer,'\r'))!=nullptr)
+					if((p=strchr(char_buffer,'\r'))!=NULL)
 						*p = '\0';
 					strFilename = char_buffer;
 					strFilename = char_buffer;
@@ -1016,7 +1059,7 @@ int16_t RResMgr::OpenSakAlt(RString strSakFile, RString strScriptFile)
 						script.getline(char_buffer, 256);
 						//clean the \r that can still be there
 						char* p;
-						if((p=strchr(char_buffer,'\r'))!=nullptr)
+						if((p=strchr(char_buffer,'\r'))!=NULL)
 							*p = '\0';
 						strFilename = char_buffer;
 						strFilename = char_buffer;
@@ -1063,20 +1106,20 @@ int16_t RResMgr::OpenSakAlt(RString strSakFile, RString strScriptFile)
 			{
 				TRACE("RResMgr::OpenSak - Break Yo Self! This file is version %d and the current SAK version is %d\n", 
 				       ulFileVersion, SAK_CURRENT_VERSION);
-            sResult = FAILURE;
+				sReturn = FAILURE;
 			}		
 		}
 		else
 		{
 			TRACE("RResMgr::OpenSak - Not a valid SAK file, cookie should be 'SAK ' - what's up with dat?\n");
-         sResult = FAILURE;
+			sReturn = FAILURE;
 		}		
 	}
 	else
 	{
 		TRACE("RResMgr::OpenSak - Break Yo Self! Error opening sak file %s\n", 
 		      (char*) strSakFile);
-      sResult = FAILURE;
+		sReturn = FAILURE;
 	}
 
 	if(num) 
@@ -1086,7 +1129,7 @@ int16_t RResMgr::OpenSakAlt(RString strSakFile, RString strScriptFile)
 			delete[] altMap[i].names;
 	}
 
-   return sResult;
+	return sReturn;
 }
 
 //////////////////////////////////////////////////////////////////////
