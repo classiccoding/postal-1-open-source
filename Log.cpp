@@ -43,12 +43,14 @@ int16_t OpenLogFile()
 		{
 			if (!g_GameSettings.m_rfNetSyncLog.IsOpen())
 			{
-#ifdef SYS_ENDIAN_BIG
+#if BYTE_ORDER == BIG_ENDIAN
 			if (g_GameSettings.m_rfNetSyncLog.Open(g_GameSettings.m_szNetSyncLogFile, 
             "wt+", RFile::BigEndian) != SUCCESS)
-#else
-			if (g_GameSettings.m_rfNetSyncLog.Open(g_GameSettings.m_szNetSyncLogFile, 
+#elif BYTE_ORDER == LITTLE_ENDIAN
+           if (g_GameSettings.m_rfNetSyncLog.Open(g_GameSettings.m_szNetSyncLogFile,
             "wt+", RFile::LittleEndian) != SUCCESS)
+#else
+# error NOT IMPLEMENTED
 #endif
 				{
 				sResult = 1;
@@ -100,18 +102,22 @@ int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
 	char szNum[256];
    uint32_t lTime = rspGetMilliseconds();
 
-	if ((ucMsgType == NetMsg::START_REALM)&&(bReceived))
-		{
-		g_GameSettings.m_lStartRealmTime = lTime;
-		_ltoa(lTime, szTime, 10);
-		}
+  if (ucMsgType == NetMsg::START_REALM && bReceived)
+  {
+    g_GameSettings.m_lStartRealmTime = lTime;
+    sResult = snprintf(szTime, sizeof(szTime), "%u", lTime) < 0 ? FAILURE : SUCCESS;
+    //_ltoa(lTime, szTime, 10);
+  }
+  sResult = snprintf(szTime, sizeof(szTime), "%u", lTime - g_GameSettings.m_lStartRealmTime) < 0 ? FAILURE : SUCCESS;
+  //_ltoa(lTime - g_GameSettings.m_lStartRealmTime, szTime, 10);
 
-	_ltoa(lTime - g_GameSettings.m_lStartRealmTime, szTime, 10);
 
-#ifdef SYS_ENDIAN_BIG
+#if BYTE_ORDER == BIG_ENDIAN
 	RFile::Endian endian = RFile::BigEndian;
+#elif BYTE_ORDER == LITTLE_ENDIAN
+   RFile::Endian endian = RFile::LittleEndian;
 #else
-	RFile::Endian endian = RFile::LittleEndian;
+#error NOT IMPLEMENTED
 #endif
 
 	szCallerMsg = 0;

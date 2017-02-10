@@ -1179,7 +1179,7 @@ extern void TheGame(void)
 			// development.  If someone out there happens to use this as their
 			// own path, then they will defeat this test for CD-ROM.  Oh well.
           const char* pszDevelopmentPath = "\\\\narnia\\projects\\";
-			if (strnicmp(FullPathCD("."), pszDevelopmentPath, strlen(pszDevelopmentPath)) != 0)
+         if (strncasecmp(FullPathCD("."), pszDevelopmentPath, strlen(pszDevelopmentPath)) != 0)
 				{
 #if defined(WIN32)
 				if (GetDriveType(FullPathCD(".") ) != DRIVE_CDROM)

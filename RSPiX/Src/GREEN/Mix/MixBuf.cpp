@@ -460,13 +460,15 @@ inline void Mix(			// Returns nothing.
 		// unsigned and the other as signed).  The order in this
 		// case determines which byte is read first -- the signed
 		// or the unsigned.
-		#if defined(SYS_ENDIAN_LITTLE)
+#if BYTE_ORDER == LITTLE_ENDIAN
 			sLowSrc = int16_t (*p8Src.pu8++);
 			sHighSrc = int16_t (*p8Src.ps8++);
-		#else
+#elif BYTE_ORDER == BIG_ENDIAN
 			sHighSrc = int16_t (*p8Src.ps8++);
 			sLowSrc = int16_t (*p8Src.pu8++);
-		#endif
+#else
+# error NOT IMPLEMENTED
+#endif
 
 		sVal = psLowTable[sLowSrc] + psHighTable[sHighSrc];	// scaled
 

@@ -148,12 +148,16 @@ struct c_string
 # include <BaseTsd.h>
 typedef SSIZE_T ssize_t;
 
-# if !defined(snprintf)
-#  define snprintf _snprintf
+# if !defined(_MSC_VER) || _MSC_VER < 1900
+# define constexpr inline
+#  if !defined(snprintf)
+#   define snprintf _snprintf
+#  endif
+#  if !defined(vsnprintf)
+#   define vsnprintf _vsnprintf
+#  endif
 # endif
-# if !defined(vsnprintf)
-#  define vsnprintf _vsnprintf
-# endif
+
 # if !defined(strcasecmp)
 #  define strcasecmp _stricmp
 # endif
@@ -351,8 +355,8 @@ inline char *itoa(int l, char *buf, int bufsize)
     return(buf);
 }
 
-#define strnicmp(x, y, z) strncasecmp(x, y, z)
-#define _ltoa(x, y, z) ltoa(x, y, z)
+// DEPRECATED!
+//#define _ltoa(x, y, z) ltoa(x, y, z)
 
 #endif // UNIXSYSTEM_H
 //////////////////////////////////////////////////////////////////////////////

@@ -182,7 +182,7 @@ typedef HRESULT (WINAPI *fnSHGetFolderPathW)(HWND hwnd, int nFolder, HANDLE hTok
 #elif LITTLE_ENDIAN
 # define ENDIAN_CONSISTENT	(m_endian != BigEndian)
 #else
-# error Unsupported endianness!
+# error NOT IMPLEMENTED
 #endif
 
 // Defines what is whitespace to this module.
