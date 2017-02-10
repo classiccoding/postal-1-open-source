@@ -299,7 +299,7 @@ extern void Game_AudioOptionsChoice(	// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 
 extern int16_t Game_SavePlayersGame(	// Returns SUCCESS if all goes well
-				char* pszSaveName,		// In:  Name of the save file
+            const char* pszSaveName,		// In:  Name of the save file
 				int16_t sDifficulty);		// In:  Current realm difficulty.
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -322,7 +322,7 @@ extern void SeedRandom(
 #if defined(_DEBUG) || defined(TRACENASSERT)
 
 	#define GetRandom()	GetRandomDebug(__FILE__, __LINE__)
-   extern int32_t GetRandomDebug(const char* FILE_MACRO, int32_t LINE_MACRO);
+   extern int32_t GetRandomDebug(const char* FILE_MACRO, size_t LINE_MACRO);
 
 #else
 
@@ -409,29 +409,29 @@ extern void PalTranOff(void);
 #define GAME_PATH_GAME		4
 #define GAME_PATH_HOODS		5
 
-extern char* FullPath(									// Returns full path in system format
+extern const char* FullPath(									// Returns full path in system format
 	int16_t sPathType,										// In:  PATH_CD, PATH_HD, or PATH_VD
    const char* pszPartialPath);								// In:  Partial path in RSPiX format
 
-extern char* FullPathCD(								// Returns full path in system format
+extern const char* FullPathCD(								// Returns full path in system format
    const char* pszPartialPath);								// In:  Partial path in RSPiX format
 
-extern char* FullPathHD(								// Returns full path in system format
+extern const char* FullPathHD(								// Returns full path in system format
 	const char* pszPartialPath);						// In:  Partial path in RSPiX format
 
-extern char* FullPathVD(								// Returns full path in system format
+extern const char* FullPathVD(								// Returns full path in system format
    const char* pszPartialPath);								// In:  Partial path in RSPiX format
 
-extern char* FullPathSound(							// Returns full path in system format
+extern const char* FullPathSound(							// Returns full path in system format
    const char* pszPartialPath);								// In:  Partial path in RSPiX format
 
-extern char* FullPathGame(								// Returns full path in system format
+extern const char* FullPathGame(								// Returns full path in system format
    const char* pszPartialPath);								// In:  Partial path in RSPiX format
 
-extern char* FullPathHoods(							// Returns full path in system format
+extern const char* FullPathHoods(							// Returns full path in system format
    const char* pszPartialPath);								// In:  Partial path in RSPiX format
 
-extern char* FullPathCustom(							// Returns full path in system format
+extern const char* FullPathCustom(							// Returns full path in system format
    const char*	pszFullPath,									// In:  Full path in in RSPiX format.
    const char* pszPartialPath);								// In:  Partial path in RSPiX format.
 

@@ -57,7 +57,7 @@ RFont::~RFont()
 	EraseAll();
 	}
 //========================================================
-int16_t RFont::Add(char* pszFileName)
+int16_t RFont::Add(const char* pszFileName)
 	{
 	RFile rfTemp;
 
@@ -263,7 +263,7 @@ int16_t RFont::AddLetter(RImage* pimLetter,int16_t sASCII,
    return sResult;
 	}
 
-int16_t RFont::Save(char* pszFileName)
+int16_t RFont::Save(const char* pszFileName)
 	{
 	RFile rfTemp;
 
@@ -285,7 +285,7 @@ int16_t RFont::Save(char* pszFileName)
 
 // THIS is the font we are loading!
 //
-int16_t RFont::Load(char* pszFileName)
+int16_t RFont::Load(const char* pszFileName)
 	{
 	RFile* pfileTemp = new RFile;
 
@@ -479,48 +479,48 @@ RFont::RFontSet* RFont::FindSize(int16_t sCellH,double *pdScale)
 // the fontset to remove.  It returns SUCCESS or FAILURE.
 //
 int16_t	RFont::DeleteSet(RFontSet* pRemove)
-	{
-	RFontSet* pFont = m_pFontSets;
-	// Must not degenerate the font:
-	if (m_sNumberOfScales < 2) return FAILURE;
+{
+  RFontSet* pFont = m_pFontSets;
+  // Must not degenerate the font:
+  if (m_sNumberOfScales < 2) return FAILURE;
 
-   // Find a match:
-	RFontSet* pPrevFont = nullptr;
+  // Find a match:
+  RFontSet* pPrevFont = nullptr;
 
-   while (pFont != nullptr && pFont != pRemove)
-   {
-     pPrevFont = pFont;
-     pFont = pFont->m_pNext;
-   }
+  while (pFont != nullptr && pFont != pRemove)
+  {
+    pPrevFont = pFont;
+    pFont = pFont->m_pNext;
+  }
 
-   if (pFont != pRemove)
-     return FAILURE;
-	// Found a match:
+  if (pFont != pRemove)
+    return FAILURE;
+  // Found a match:
 
-	// Handle special cases:
-   if (pRemove->m_pNext == nullptr)
-		{
-		// remove the tail
-		pPrevFont->m_pNext = nullptr;
-		m_sMaxCellHeight = pPrevFont->m_sCellHeight;
-		m_sMaxCellWidth = pPrevFont->m_sMaxWidth;
-		}
-   else if (pPrevFont == nullptr)
-		{
-		// remove the head
-		m_pFontSets = pRemove->m_pNext;
-		}
-	else
-		{
-		// remove from center.
-		pPrevFont->m_pNext = pRemove->m_pNext;
-		}
+  // Handle special cases:
+  if (pRemove->m_pNext == nullptr)
+  {
+    // remove the tail
+    pPrevFont->m_pNext = nullptr;
+    m_sMaxCellHeight = pPrevFont->m_sCellHeight;
+    m_sMaxCellWidth = pPrevFont->m_sMaxWidth;
+  }
+  else if (pPrevFont == nullptr)
+  {
+    // remove the head
+    m_pFontSets = pRemove->m_pNext;
+  }
+  else
+  {
+    // remove from center.
+    pPrevFont->m_pNext = pRemove->m_pNext;
+  }
 
-	m_sNumberOfScales--;
-	delete pRemove;
+  m_sNumberOfScales--;
+  delete pRemove;
 
-	return SUCCESS;
-	}
+  return SUCCESS;
+}
 
 //========================================================
 RFont::RFontSet::RFontSet()

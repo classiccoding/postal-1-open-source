@@ -1848,7 +1848,7 @@ void RGuiItem::ReleaseRes(void)
 //
 ////////////////////////////////////////////////////////////////////////
 int16_t RGuiItem::Load(	// Returns 0 on success.
-	char* pszFileName)	// Name of file to load from.
+   const char* pszFileName)	// Name of file to load from.
 	{
    int16_t sResult = SUCCESS;	// Assume success.
 
@@ -1953,7 +1953,7 @@ int16_t RGuiItem::Load(	// Returns 0 on success.
 ////////////////////////////////////////////////////////////////////////
 RGuiItem* RGuiItem::LoadInstantiate(	// Returns newly allocated GUI item
 													// on success or nullptr on failure.
-	char*	pszFileName)						// Name of file to instantiate from.
+   const char*	pszFileName)						// Name of file to instantiate from.
 	{
 	RGuiItem*	pgui	= nullptr;	// Assume nothing.
 
@@ -2264,7 +2264,7 @@ int16_t RGuiItem::ReadMembers(	// Returns 0 on success.
 //
 ////////////////////////////////////////////////////////////////////////
 int16_t RGuiItem::Save(	// Returns 0 on success.
-	char* pszFileName)	// Name of file to save to.
+   const char* pszFileName)	// Name of file to save to.
 	{
    int16_t sResult = SUCCESS;	// Assume success.
 

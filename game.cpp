@@ -753,12 +753,12 @@ int16_t		g_sRealmNumToSave;
 bool		g_bLastLevelDemo = false;
 
 // The secret cookie value used to determine if the humongous file exists
-static U32	ms_u32Cookie = COOKIE_VALUE;
+static uint32_t	ms_u32Cookie = COOKIE_VALUE;
 
 // These variables are generally controlled via the menu system
 static ACTION m_action;
-static int32_t m_lDemoBaseTime;
-static int32_t m_lDemoTimeOut;
+static uint32_t m_lDemoBaseTime;
+static uint32_t m_lDemoTimeOut;
 static char	m_szRealmFile[RSP_MAX_PATH+1];
 static char m_szDemoFile[RSP_MAX_PATH+1];
 static int16_t m_sRealmNum;
@@ -806,12 +806,12 @@ static void GameGetRegistry(void);
 static void GameEndingSequence(void);
 
 static int16_t GetRealmToRecord(
-	char* pszRealmFile,
-	int16_t sMaxFileLen);
+   char* pszRealmFile,
+   size_t sMaxFileLen);
 
 static int16_t GetDemoFile(
-	char* pszDemoFile,
-	int16_t sMaxFileLen);
+   char* pszDemoFile,
+   size_t sMaxFileLen);
 
 // Callback gets called when OS is about to switch app into the background
 static void BackgroundCall(void);
@@ -841,7 +841,7 @@ static void CloseSynchLogs(void);	// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 
 extern int16_t Game_LoadPlayersGame(	// Returns SUCCESS if loaded saved game file
-				char* pszSaveName,		// In:  Name of the saved game file to open
+            const char* pszSaveName,		// In:  Name of the saved game file to open
 				int16_t* psDifficulty,		// Out: Saved game realm difficulty.
 				ACTION* paction);			// Out: Saved game action.
 
@@ -886,7 +886,7 @@ static void EnumExistingSaveGames(Menu *menu)
     if (menu->ami[0].sEnabled)
     {
     	struct tm *tm;
-    	if ((tm = localtime((const time_t*)&statbuf.st_mtime)) == NULL)
+      if ((tm = localtime((const time_t*)&statbuf.st_mtime)) == nullptr)
     		str = "unknown";
     	else
     	{
@@ -912,7 +912,7 @@ static void EnumExistingSaveGames(Menu *menu)
         if (menu->ami[i+1].sEnabled)
         {
             struct tm *tm;
-            if ((tm = localtime((const time_t*)&statbuf.st_mtime)) == NULL)
+            if ((tm = localtime((const time_t*)&statbuf.st_mtime)) == nullptr)
                 str = "unknown";
             else
             {
@@ -938,7 +938,7 @@ static void EnumExistingSaveGames(Menu *menu)
 		if (menu->ami[i].sEnabled)
 		{
 			struct tm *tm;
-			if ((tm = localtime(&statbuf.st_mtime)) == NULL)
+         if ((tm = localtime(&statbuf.st_mtime)) == nullptr)
 				str = "unknown";
 			else
 			{
@@ -1127,7 +1127,7 @@ extern void TheGame(void)
 #if defined(CHECK_FOR_COOKIE)
 				if (file.Seek(COOKIE_FILE_POSITION, SEEK_SET) == 0)
 					{
-					U32	u32Cookie	= 0;
+               uint32_t	u32Cookie	= 0;
 					if (file.Read(&u32Cookie) == 1)
 						{
 						if (u32Cookie == ms_u32Cookie)
@@ -1178,7 +1178,7 @@ extern void TheGame(void)
 			// Check for the special case where the path is the one we use for
 			// development.  If someone out there happens to use this as their
 			// own path, then they will defeat this test for CD-ROM.  Oh well.
-			char* pszDevelopmentPath = "\\\\narnia\\projects\\";
+          const char* pszDevelopmentPath = "\\\\narnia\\projects\\";
 			if (strnicmp(FullPathCD("."), pszDevelopmentPath, strlen(pszDevelopmentPath)) != 0)
 				{
 #if defined(WIN32)
@@ -1282,7 +1282,7 @@ extern void TheGame(void)
 			// scenario where a shitty sound driver causes us to think a sound is always
 			// playing.
 			// Wait for all samples to finish.
-			int32_t	lTimeOutTime	= rspGetMilliseconds() + TIME_OUT_FOR_ABORT_SOUNDS;
+         uint32_t	lTimeOutTime	= rspGetMilliseconds() + TIME_OUT_FOR_ABORT_SOUNDS;
 			// Wait for them to stop.
 			while (IsSamplePlaying() == true && rspGetMilliseconds() < lTimeOutTime)
 				{
@@ -1316,8 +1316,8 @@ extern void TheGame(void)
 		}
 
 	// Remove the callbacks
-	rspSetBackgroundCallback(NULL);
-	rspSetForegroundCallback(NULL);
+   rspSetBackgroundCallback(nullptr);
+   rspSetForegroundCallback(nullptr);
 	}
 
 
@@ -1329,9 +1329,7 @@ extern void TheGame(void)
 static int16_t GameCore(void)		// Returns 0 on success.
 	{
 	int16_t sResult = 0;
-	uint16_t usDemoCount = 0;
-	bool	bMPath = false,
-			bMPathServer = false;
+   uint16_t usDemoCount = 0;
 
 #ifdef CHECK_EXPIRATION_DATE
 	#ifdef WIN32
@@ -1342,8 +1340,8 @@ static int16_t GameCore(void)		// Returns 0 on success.
 		char acTime[100];
 		uint32_t lTime = g_lExpTime + (((365 * 70UL) + 17) * 24 * 60 * 60); // time_fudge 1900->1970
 		strcpy(acTime, ctime(&lTime));
-		char* pCR = strchr(acTime, '\n');
-		if (pCR != NULL)
+       const char* pCR = strchr(acTime, '\n');
+      if (pCR != nullptr)
 			*pCR = 0;
 		#define NEXT_LINE "\r\r"
 	#endif	// WIN32
@@ -1409,7 +1407,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 	bool bMenuActive = false;
 	ACTION	actionNext	= ACTION_NOTHING;	// Initialized for safety.
 
-	Menu*	pmenuStart	= NULL;				// Next menu to start if not NULL.
+   Menu*	pmenuStart	= nullptr;				// Next menu to start if not nullptr.
 	bool	bPalTran		= true;				// true to PalTranOn() before next
 													// menu.
 	bool	bTitleImage	= true;				// true to display title image before
@@ -1459,7 +1457,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 				{
 				bMenuActive = true;
 				// Restore defaults.
-				pmenuStart	= NULL;
+            pmenuStart	= nullptr;
 				bPalTran		= true;
 				bTitleImage	= true;
 				bTitleMusak	= true;
@@ -1520,8 +1518,8 @@ static int16_t GameCore(void)		// Returns 0 on success.
 					g_bLastLevelDemo = false;
 
 					Play(
-						NULL,									// No client (not network game)
-						NULL,									// No server (not network game)
+                  nullptr,									// No client (not network game)
+                  nullptr,									// No server (not network game)
 						INPUT_MODE_LIVE,					// Input mode
 						m_sRealmNum,						// Realm number OR -1 to use realm file
 						m_szRealmFile,						// Realm file
@@ -1535,7 +1533,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						0,										// Use cooperative levels (MP only)
 						0,										// Use cooperative mode (MP only)
 						0,										// Frame time (MP only)
-						NULL);								// Demo mode file
+                  nullptr);								// Demo mode file
 
 #ifdef MOBILE
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
@@ -1579,7 +1577,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						// Use the net game dialog to join a multiplayer game
 						CNetClient* pnetclient = new CNetClient;
 						NetMsg msg;
-						if (DoNetGameDialog(pnetclient, bBrowse, NULL, &msg) == 0)
+                  if (DoNetGameDialog(pnetclient, bBrowse, nullptr, &msg) == 0)
 							{
 							// If the game was actually started...
 							if (msg.msg.nothing.ucType == NetMsg::START_GAME)
@@ -1587,7 +1585,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 								PalTranOff();
 								// Go back to the main menu when done and do
 								// all the deluxe stuff.
-								pmenuStart	= NULL;
+                        pmenuStart	= nullptr;
 								bPalTran		= true;
 								bTitleImage	= true;
 								bTitleMusak	= true;
@@ -1599,7 +1597,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 
 								Play(
 									pnetclient,								// Client
-									NULL,										// No server (not hosting game)
+                           nullptr,										// No server (not hosting game)
 									INPUT_MODE_LIVE,						// Input mode
 									msg.msg.startGame.sRealmNum,		// Realm number OR -1 to use realm file
 									msg.msg.startGame.acRealmFile,	// Realm file
@@ -1613,7 +1611,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 									msg.msg.startGame.sCoopLevels,	// Cooperative or Deathmatch levels (MP only)
 									msg.msg.startGame.sCoopMode,		// Cooperative or Deathmatch mode (MP only)
 									msg.msg.startGame.sFrameTime,		// Frame time (MP only)
-									NULL);									// Demo mode file
+                           nullptr);									// Demo mode file
 
 #ifdef MOBILE
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
@@ -1669,7 +1667,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 								PalTranOff();
 								// Go back to the main menu when done and do
 								// all the deluxe stuff.
-								pmenuStart	= NULL;
+                        pmenuStart	= nullptr;
 								bPalTran		= true;
 								bTitleImage	= true;
 								bTitleMusak	= true;
@@ -1695,7 +1693,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 									msg.msg.startGame.sCoopLevels,	// Cooperative or Deathmatch levels (MP only)
 									msg.msg.startGame.sCoopMode,		// Cooperative or Deathmatch mode (MP only)
 									msg.msg.startGame.sFrameTime,		// Frame time (MP only)
-									NULL);									// Demo mode file
+                           nullptr);									// Demo mode file
 
 #ifdef MOBILE
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
@@ -1738,8 +1736,8 @@ static int16_t GameCore(void)		// Returns 0 on success.
 					// set via the callback, Game_StartChallengeGame().
 					// ***ADD FLAG(S) TO THIS CALL INDICATING THIS IS A CHALLENGE GAME***
 					Play(
-						NULL,									// No client (not network game)
-						NULL,									// No server (not network game)
+                  nullptr,									// No client (not network game)
+                  nullptr,									// No server (not network game)
 						INPUT_MODE_LIVE,					// Input mode
 						m_sRealmNum,						// Realm number OR -1 to use realm file
 						m_szRealmFile,						// Realm file
@@ -1753,7 +1751,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						0,										// Cooperative (MP only)
 						0,										// Use cooperative mode (MP only)
 						0,										// Frame time (MP only)
-						NULL);								// Demo mode file
+                  nullptr);								// Demo mode file
 
 #ifdef MOBILE
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
@@ -1781,8 +1779,8 @@ static int16_t GameCore(void)		// Returns 0 on success.
 					// set via the callback, Game_StartChallengeGame().
 					// ***ADD FLAG(S) TO THIS CALL INDICATING THIS IS A CHALLENGE GAME***
 					Play(
-						NULL,									// No client (not network game)
-						NULL,									// No server (not network game)
+                  nullptr,									// No client (not network game)
+                  nullptr,									// No server (not network game)
 						INPUT_MODE_LIVE,					// Input mode
 						m_sRealmNum,						// Realm number OR -1 to use realm file
 						m_szRealmFile,						// Realm file
@@ -1796,7 +1794,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						0,										// Cooperative (MP only)
 						0,										// Use cooperative mode (MP only)
 						0,										// Frame time (MP only)
-						NULL);								// Demo mode file
+                  nullptr);								// Demo mode file
 #ifdef MOBILE
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
 #endif
@@ -1821,8 +1819,8 @@ static int16_t GameCore(void)		// Returns 0 on success.
 					// set via the callback, Game_StartChallengeGame().
 					// ***ADD FLAG(S) TO THIS CALL INDICATING THIS IS A CHALLENGE GAME***
 					Play(
-						NULL,									// No client (not network game)
-						NULL,									// No server (not network game)
+                  nullptr,									// No client (not network game)
+                  nullptr,									// No server (not network game)
 						INPUT_MODE_LIVE,					// Input mode
 						m_sRealmNum,						// Realm number OR -1 to use realm file
 						m_szRealmFile,						// Realm file
@@ -1836,7 +1834,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						0,										// Cooperative (MP only)
 						0,										// Use cooperative mode (MP only)
 						0,										// Frame time (MP only)
-						NULL);								// Demo mode file
+                  nullptr);								// Demo mode file
 #ifdef MOBILE
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
 #endif
@@ -1858,8 +1856,8 @@ static int16_t GameCore(void)		// Returns 0 on success.
 					// set via the callback, Game_StartChallengeGame().
 					// ***ADD FLAG(S) TO THIS CALL INDICATING THIS IS A CHALLENGE GAME***
 					Play(
-						NULL,									// No client (not network game)
-						NULL,									// No server (not network game)
+                  nullptr,									// No client (not network game)
+                  nullptr,									// No server (not network game)
 						INPUT_MODE_LIVE,					// Input mode
 						m_sRealmNum,						// Realm number OR -1 to use realm file
 						m_szRealmFile,						// Realm file
@@ -1873,7 +1871,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						0,										// Cooperative (MP only)
 						0,										// Use cooperative mode (MP only)
 						0,										// Frame time (MP only)
-						NULL);								// Demo mode file
+                  nullptr);								// Demo mode file
 #ifdef MOBILE
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
 #endif
@@ -1952,8 +1950,8 @@ static int16_t GameCore(void)		// Returns 0 on success.
 										bMenuActive = false;
 
 										Play(
-											NULL,									// No client (not network game)
-											NULL,									// No server (not network game)
+                                 nullptr,									// No client (not network game)
+                                 nullptr,									// No server (not network game)
 											INPUT_MODE_PLAYBACK,				// Input mode
 											-1,									// Always use specific realm file
 											szRealmFile,						// Realm file to be played
@@ -2083,8 +2081,8 @@ static int16_t GameCore(void)		// Returns 0 on success.
 									bMenuActive = false;
 
 									Play(
-										NULL,									// No client (not network game)
-										NULL,									// No server (not network game)
+                              nullptr,									// No client (not network game)
+                              nullptr,									// No server (not network game)
 										INPUT_MODE_RECORD,				// Input mode
 										-1,									// Always use specific realm file
 										szRealmFile,						// Realm file to be played
@@ -2184,8 +2182,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						strcpy(szFileSaved, FullPathHD(SAVEGAME_DIR));
 
 					// Display option dialog to let user choose a realm file
-					#if 1 //PLATFORM_UNIX
-                    char tmp[RSP_MAX_PATH];
+               #if 1 //PLATFORM_UNIX
 					if (PickFile("Choose Game Slot", EnumExistingSaveGames, szFileSaved, sizeof(szFileSaved)) == 0)
                     {
 #ifdef MOBILE
@@ -2236,7 +2233,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 				// Oooops
 				//------------------------------------------------------------------------------
 				default:
-					TRACE("GameCore(): Unrecognized action: %ld!\n", (int32_t)m_action);
+               TRACE("GameCore(): Unrecognized action: %i!\n", (int32_t)m_action);
 					break;
 				}
 
@@ -2306,8 +2303,8 @@ static void ResetDemoTimer(void)
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t GetRealmToRecord(	// Returns 0 on success, negative on error, 1 if      
 											// not subpathable (i.e., returned path is full path).
-	char* pszRealmFile,				
-	int16_t sMaxFileLen)
+   char* pszRealmFile,
+   size_t sMaxFileLen)
 	{
 	int16_t sResult = 0;
 
@@ -2323,7 +2320,7 @@ static int16_t GetRealmToRecord(	// Returns 0 on success, negative on error, 1 i
 	if (sResult >= 0)
 		{
 		// Convert path to RSPiX path.
-		char*	pszFullPath	= rspPathFromSystem(szFile);
+       const char*	pszFullPath	= rspPathFromSystem(szFile);
 		// Check if result will fit into specified buffer
 		if (strlen(pszFullPath) < sMaxFileLen)
 			{
@@ -2346,80 +2343,81 @@ static int16_t GetRealmToRecord(	// Returns 0 on success, negative on error, 1 i
 ////////////////////////////////////////////////////////////////////////////////
 extern int16_t SubPathOpenBox(		// Returns 0 on success, negative on error, 1 if 
 											// not subpathable (i.e., returned path is full path).
-	char*	pszFullPath,				// In:  Full path to be relative to (system format).
-	char* pszBoxTitle,				// In:  Title of box.
-	char*	pszDefFileName,			// In:  Default filename (system format).
-	char* pszChosenFileName,		// Out: User's choice (system format).
-	int16_t sStrSize,					// In:  Amount of memory pointed to by pszChosenFileName.
-	char*	pszFilter /*= NULL*/)	// In:  If not NULL, '.' delimited extension based filename
+   const char*	pszFullPath,				// In:  Full path to be relative to (system format).
+   const char* pszBoxTitle,				// In:  Title of box.
+   const char*	pszDefFileName,			// In:  Default filename (system format).
+   char* pszChosenFileName,		// Out: User's choice (system format).
+   size_t sStrSize,					// In:  Amount of memory pointed to by pszChosenFileName.
+   const char*	pszFilter /*= nullptr*/)	// In:  If not nullptr, '.' delimited extension based filename
 											//	filter specification.  Ex: ".cpp.h.exe.lib" or "cpp.h.exe.lib"
 											// Note: Cannot use '.' in filter.  Preceding '.' ignored.
-	{
-	int16_t	sResult;
+{
+  UNUSED(sStrSize);
+  int16_t	sResult;
 
-	char	szBasePath[RSP_MAX_PATH];
-	int32_t	lBasePathLen	= strlen(pszFullPath);
-	if (lBasePathLen < sizeof(szBasePath) )
-		{
-		strcpy(szBasePath, pszFullPath);
+  char	szBasePath[RSP_MAX_PATH];
+  size_t	lBasePathLen	= strlen(pszFullPath);
+  if (lBasePathLen < sizeof(szBasePath) )
+  {
+    strcpy(szBasePath, pszFullPath);
 
-		// Get index to last character
-		int16_t sLastIndex = lBasePathLen;
-		if (sLastIndex > 0)
-			sLastIndex--;
+    // Get index to last character
+    int16_t sLastIndex = lBasePathLen;
+    if (sLastIndex > 0)
+      sLastIndex--;
 
-		#ifdef WIN32
-			// If base path doesn't end with a slash, add one
-			if (szBasePath[sLastIndex] != RSP_SYSTEM_PATH_SEPARATOR)
-				{
-				if ((sLastIndex + 2) < RSP_MAX_PATH)
-					{
-					szBasePath[sLastIndex+1] = RSP_SYSTEM_PATH_SEPARATOR;
-					szBasePath[sLastIndex+2] = 0;
-					}
-				else
-					{
-					sResult = -1;
-					TRACE("SubPathOpenBox(): Path would've exceed max length with separator tacked on!\n");
-					}
-				}
-		#else
-			// If base path ends with a colon, get rid of it
-			if (szBasePath[sLastIndex] == RSP_SYSTEM_PATH_SEPARATOR)
-				szBasePath[sLastIndex] = 0;
-		#endif
+#ifdef WIN32
+    // If base path doesn't end with a slash, add one
+    if (szBasePath[sLastIndex] != RSP_SYSTEM_PATH_SEPARATOR)
+    {
+      if ((sLastIndex + 2) < RSP_MAX_PATH)
+      {
+        szBasePath[sLastIndex+1] = RSP_SYSTEM_PATH_SEPARATOR;
+        szBasePath[sLastIndex+2] = 0;
+      }
+      else
+      {
+        sResult = -1;
+        TRACE("SubPathOpenBox(): Path would've exceed max length with separator tacked on!\n");
+      }
+    }
+#else
+    // If base path ends with a colon, get rid of it
+    if (szBasePath[sLastIndex] == RSP_SYSTEM_PATH_SEPARATOR)
+      szBasePath[sLastIndex] = 0;
+#endif
 
-		char szChosenFileName[RSP_MAX_PATH];
+    char szChosenFileName[RSP_MAX_PATH];
 
-		// Display open dialog to let user choose a file
-		sResult = rspOpenBox(pszBoxTitle, pszDefFileName, szChosenFileName, sizeof(szChosenFileName), pszFilter);
-		if (sResult == 0)
-			{
-			// Attempt to remove path from the specified name
-			int32_t	lFullPathLen	= strlen(szBasePath);
-			if (rspStrnicmp(szChosenFileName, szBasePath, lFullPathLen) == 0)
-				{
-				// Copy sub path to destination.
-				strcpy(pszChosenFileName, szChosenFileName + lFullPathLen);
-				}
-			else
-				{
-				// Not subpathable.
-				sResult	= 1;
-				// Return fullpath.
-				// Copy full path to destination.
-				strcpy(pszChosenFileName, szChosenFileName);
-				}
-			}
-		}
-	else
-		{
-		sResult	= -2;
-		TRACE("SubPathOpenBox(): pszFullPath string too long.\n");
-		}
+    // Display open dialog to let user choose a file
+    sResult = rspOpenBox(pszBoxTitle, pszDefFileName, szChosenFileName, sizeof(szChosenFileName), pszFilter);
+    if (sResult == 0)
+    {
+      // Attempt to remove path from the specified name
+      int32_t	lFullPathLen	= strlen(szBasePath);
+      if (rspStrnicmp(szChosenFileName, szBasePath, lFullPathLen) == 0)
+      {
+        // Copy sub path to destination.
+        strcpy(pszChosenFileName, szChosenFileName + lFullPathLen);
+      }
+      else
+      {
+        // Not subpathable.
+        sResult	= 1;
+        // Return fullpath.
+        // Copy full path to destination.
+        strcpy(pszChosenFileName, szChosenFileName);
+      }
+    }
+  }
+  else
+  {
+    sResult	= -2;
+    TRACE("SubPathOpenBox(): pszFullPath string too long.\n");
+  }
 
-	return sResult;
-	}
+  return sResult;
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2428,36 +2426,36 @@ extern int16_t SubPathOpenBox(		// Returns 0 on success, negative on error, 1 if
 //
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t GetDemoFile(
-	char* pszDemoFile,
-	int16_t sMaxFileLen)
-	{
-	int16_t sResult = 0;
-	
-	// Static so dialog will "remember" the previously-used name
-	static char szFile[RSP_MAX_PATH] = "";
+   char* pszDemoFile,
+   size_t sMaxFileLen)
+{
+  int16_t sResult = 0;
 
-	// If not yet used, start out in appropriate directory
-	if (szFile[0] == '\0')
-		strcpy(szFile, FullPathVD(DEMO_DIR));
+  // Static so dialog will "remember" the previously-used name
+  static char szFile[RSP_MAX_PATH] = "";
 
-	// Display save dialog to let user choose a file
-	sResult = rspSaveBox(g_pszSaveDemoTitle, szFile, szFile, sizeof(szFile), DEMO_EXT);
-	if (sResult == 0)
-		{
-		// Check if result will fit into specified buffer
-		if (strlen(szFile) < sMaxFileLen)
-			{
-			strcpy(pszDemoFile, szFile);
-			}
-		else
-			{
-			sResult = -1;
-			TRACE("GetDemoFile(): File name too long to return in specified buffer!\n");
-			}
-		}
+  // If not yet used, start out in appropriate directory
+  if (szFile[0] == '\0')
+    strcpy(szFile, FullPathVD(DEMO_DIR));
 
-	return sResult;
-	}
+  // Display save dialog to let user choose a file
+  sResult = rspSaveBox(g_pszSaveDemoTitle, szFile, szFile, sizeof(szFile), DEMO_EXT);
+  if (sResult == 0)
+  {
+    // Check if result will fit into specified buffer
+    if (strlen(szFile) < sMaxFileLen)
+    {
+      strcpy(pszDemoFile, szFile);
+    }
+    else
+    {
+      sResult = -1;
+      TRACE("GetDemoFile(): File name too long to return in specified buffer!\n");
+    }
+  }
+
+  return sResult;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Macro to get the sound SAK and (for the event there is no SAK) dir path.
@@ -2465,61 +2463,61 @@ static int16_t GetDemoFile(
 inline void GetSoundPaths(		// Returns nothing.
 	int32_t	lSamplesPerSec,		// In:  The sample rate in samples per second.
 	int32_t	lBitsPerSample,		// In:  The number of bits per sample.
-	char* pszSakPath,				// Out: The subpath and name of the sound SAK.
+   char* pszSakPath,				// Out: The subpath and name of the sound SAK.
 										// Should be able to store at least RSP_MAX_PATH
 										// characters here.
-	char* pszNoSakDir)			// Out: The full path of the sound dir to use when 
+   char* pszNoSakDir)			// Out: The full path of the sound dir to use when
 										// there is no sak.
 										// Should be able to store at least RSP_MAX_PATH
 										// characters here.
-	{
-	// Make the SAK and base path name.
-	char	szAudioResDescriptor[256];
+{
+  // Make the SAK and base path name.
+  char	szAudioResDescriptor[256];
 
-	switch (g_GameSettings.m_sAudioLanguage)
-	{
-		case JAPANESE_AUDIO:
-		sprintf(
-			szAudioResDescriptor,
-			"%ld%s%ld",
-			lSamplesPerSec,
-			AUDIO_SAK_SEPARATOR_CHAR_JAPANESE,
-			lBitsPerSample);
-		break;
-		case ENGLISH_AUDIO:
-		sprintf(
-			szAudioResDescriptor,
-			"%ld%s%ld",
-			lSamplesPerSec,
-			AUDIO_SAK_SEPARATOR_CHAR_ENGLISH,
-			lBitsPerSample);
-		break;
-		default:
-		sprintf(
-			szAudioResDescriptor,
-			"%ld%s%ld",
-			lSamplesPerSec,
-			AUDIO_SAK_SEPARATOR_CHAR,
-			lBitsPerSample);
-		break;
-	}
+  switch (g_GameSettings.m_sAudioLanguage)
+  {
+    case JAPANESE_AUDIO:
+      sprintf(
+            szAudioResDescriptor,
+            "%i%s%i",
+            lSamplesPerSec,
+            AUDIO_SAK_SEPARATOR_CHAR_JAPANESE,
+            lBitsPerSample);
+      break;
+    case ENGLISH_AUDIO:
+      sprintf(
+            szAudioResDescriptor,
+            "%i%s%i",
+            lSamplesPerSec,
+            AUDIO_SAK_SEPARATOR_CHAR_ENGLISH,
+            lBitsPerSample);
+      break;
+    default:
+      sprintf(
+            szAudioResDescriptor,
+            "%i%s%i",
+            lSamplesPerSec,
+            AUDIO_SAK_SEPARATOR_CHAR,
+            lBitsPerSample);
+      break;
+  }
 
-	// Create the samples SAK sub path.
-	strcpy(pszSakPath, SAMPLES_SAK_SUBDIR);
-	strcat(pszSakPath, szAudioResDescriptor);
-	strcat(pszSakPath, ".sak");
+  // Create the samples SAK sub path.
+  strcpy(pszSakPath, SAMPLES_SAK_SUBDIR);
+  strcat(pszSakPath, szAudioResDescriptor);
+  strcat(pszSakPath, ".sak");
 
-	// Create the samples NO SAK sub path.
-	char	szSamplesNoSakSubPath[RSP_MAX_PATH];
-	strcpy(szSamplesNoSakSubPath, "sound/");
-	strcat(szSamplesNoSakSubPath, szAudioResDescriptor);
-	// Note that g_GameSettings.m_szNoSakDir is already system
-	// specific and already contains the appropriate ending
-	// path delimiter, if any, appropriate to the current
-	// platform.
-	strcpy(pszNoSakDir, g_GameSettings.m_szNoSakDir);
-	strcat(pszNoSakDir, rspPathToSystem(szSamplesNoSakSubPath) );
-	}
+  // Create the samples NO SAK sub path.
+  char	szSamplesNoSakSubPath[RSP_MAX_PATH];
+  strcpy(szSamplesNoSakSubPath, "sound/");
+  strcat(szSamplesNoSakSubPath, szAudioResDescriptor);
+  // Note that g_GameSettings.m_szNoSakDir is already system
+  // specific and already contains the appropriate ending
+  // path delimiter, if any, appropriate to the current
+  // platform.
+  strcpy(pszNoSakDir, g_GameSettings.m_szNoSakDir);
+  strcat(pszNoSakDir, rspPathToSystem(szSamplesNoSakSubPath) );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -2584,28 +2582,28 @@ static int16_t OpenSaks(void)
 	if (RMix::GetMode(				// Returns 0 on success;            
 											// nonzero if no mode.              
 			&lSamplesPerSec,			// Sample rate in samples per second
-											// returned here, if not NULL.
+                                 // returned here, if not nullptr.
 			&lDevBitsPerSample,		// Bits per sample of device,
-											// returned here, if not NULL.
-			NULL,							// Number of channels (1 == mono, 
+                                 // returned here, if not nullptr.
+         nullptr,							// Number of channels (1 == mono,
 											// 2 == stereo) returned here, 
-											// if not NULL.
-			NULL,							// Amount of time in ms to lead the 
+                                 // if not nullptr.
+         nullptr,							// Amount of time in ms to lead the
 											// current play cursor returned here,
-											// if not NULL.  This could also be 
+                                 // if not nullptr.  This could also be
 											// described as the maximum amount of
 											// time in ms that can occur between 
 											// calls to rspDoSound.
-			NULL,							// Maximum buffer time.  This is the amt
+         nullptr,							// Maximum buffer time.  This is the amt
 											// that *plBufferTime can be increased to.
 											// This is indicative of how much space
 											// was/will-be allocated for the sound
 											// output device on rspLockSoundOut.
 			&lMixBitsPerSample,		// Bits per sample at which samples are
-											// mixed, if not NULL.
+                                 // mixed, if not nullptr.
 			&lSrcBitsPerSample)		// Bits per sample at which samples must
 											// be to be mixed (0 if no requirement), 
-											// if not NULL.
+                                 // if not nullptr.
 		== 0)
 		{
 		// Sample quality values set by rspGetSoundOutMode().
@@ -2643,7 +2641,7 @@ static int16_t OpenSaks(void)
 		lSamplesPerSec = 44100;
 	else
 		{
-		TRACE("OpenSaks(): Unsupported sample rate: %ld!\n", (int32_t)lSamplesPerSec);
+      TRACE("OpenSaks(): Unsupported sample rate: %i!\n", (int32_t)lSamplesPerSec);
 		ASSERT(0);
 		}
 
@@ -2678,7 +2676,7 @@ static int16_t OpenSaks(void)
 		if (sInSoundMode)
 			{
 			char	szSoundQuality[256];
-			sprintf(szSoundQuality, "%.3f kHz, %hd Bit",
+         sprintf(szSoundQuality, "%.3f kHz, %hd Bit, %s",
 				(float)lSamplesPerSec/(float)1000,
 				(int16_t)lSrcBitsPerSample,
 				(MAIN_AUDIO_CHANNELS == 1) ? "Mono" : "Stereo");
@@ -2710,7 +2708,7 @@ static int16_t OpenSaks(void)
 						{ 22050, 16 },
 					};
 
-			int16_t	sModeIndex;
+         size_t	sModeIndex;
 			bool	bSakFound	= false;
 
 			for (sModeIndex = 0; sModeIndex < NUM_ELEMENTS(amodes) && bSakFound == false; sModeIndex++)
@@ -2819,9 +2817,8 @@ static int16_t LoadAssets(void)
 		return -1;
 		}
 
-	int16_t i;
-	int32_t lTotalTime = 0;
-	for (i = 0; i < TitleGetNumTitles(); i++)
+   uint32_t lTotalTime = 0;
+   for (size_t i = 0; i < TitleGetNumTitles(); i++)
 		lTotalTime += g_GameSettings.m_alTitleDurations[i];
 
 	// Fake lots of loading with a simple timing loop
@@ -2998,26 +2995,27 @@ extern void Game_StartLevelOnce(
 ////////////////////////////////////////////////////////////////////////////////
 extern bool Game_StartMultiPlayerGame(
 	int16_t sMenuItem)
-	{
-	bool bAccept = true;
+{
+  UNUSED(sMenuItem);
+  bool bAccept = true;
 
-	#if defined(MULTIPLAYER_DISABLED)
-		rspMsgBox(RSP_MB_ICN_INFO | RSP_MB_BUT_OK, APP_NAME, g_pszMultiplayerDisabled);
-		bAccept = false;
-	#else
-		// Do nothing if multiplayer is available
-	#endif
+#if defined(MULTIPLAYER_DISABLED)
+  rspMsgBox(RSP_MB_ICN_INFO | RSP_MB_BUT_OK, APP_NAME, g_pszMultiplayerDisabled);
+  bAccept = false;
+#else
+  // Do nothing if multiplayer is available
+#endif
 
-	// The main game loop resets the demo timer whenever it notices any user input.
-	// However, when the user is in a dialog or message box, the OS handles all the
-	// user input, and the main game loop won't know anything about what's going on
-	// in there.  If the user spends a long time in there, the demo timer will
-	// expire.  We don't want that to happen, so we manually reset the demo timer
-	// here in recognition of the fact that some kind of user input obviously occurred.
-	ResetDemoTimer();
+  // The main game loop resets the demo timer whenever it notices any user input.
+  // However, when the user is in a dialog or message box, the OS handles all the
+  // user input, and the main game loop won't know anything about what's going on
+  // in there.  If the user spends a long time in there, the demo timer will
+  // expire.  We don't want that to happen, so we manually reset the demo timer
+  // here in recognition of the fact that some kind of user input obviously occurred.
+  ResetDemoTimer();
 
-	return bAccept;
-	}
+  return bAccept;
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3026,29 +3024,29 @@ extern bool Game_StartMultiPlayerGame(
 //
 ////////////////////////////////////////////////////////////////////////////////
 extern void Game_JoinMultiPlayerGame(
-	int16_t sMenuItem)
-	{
-	switch (sMenuItem)
-		{
-		// "BROWSE"
-		case 0:
-			m_action = ACTION_PLAY_BROWSE;
-			break;
+    int16_t sMenuItem)
+{
+  switch (sMenuItem)
+  {
+    // "BROWSE"
+    case 0:
+      m_action = ACTION_PLAY_BROWSE;
+      break;
 
-		// "CONNECT"
-		case 1:
-			m_action = ACTION_PLAY_CONNECT;
-			break;
-		}
+      // "CONNECT"
+    case 1:
+      m_action = ACTION_PLAY_CONNECT;
+      break;
+  }
 
-	// The main game loop resets the demo timer whenever it notices any user input.
-	// However, when the user is in a dialog or message box, the OS handles all the
-	// user input, and the main game loop won't know anything about what's going on
-	// in there.  If the user spends a long time in there, the demo timer will
-	// expire.  We don't want that to happen, so we manually reset the demo timer
-	// here in recognition of the fact that some kind of user input obviously occurred.
-	ResetDemoTimer();
-	}
+  // The main game loop resets the demo timer whenever it notices any user input.
+  // However, when the user is in a dialog or message box, the OS handles all the
+  // user input, and the main game loop won't know anything about what's going on
+  // in there.  If the user spends a long time in there, the demo timer will
+  // expire.  We don't want that to happen, so we manually reset the demo timer
+  // here in recognition of the fact that some kind of user input obviously occurred.
+  ResetDemoTimer();
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3084,7 +3082,7 @@ extern void Game_HostMultiPlayerGame(
 extern void Game_StartDemoGame(
 	int16_t sMenuItem)
 	{
-	char*	pszDemoFile	= NULL;
+   char*	pszDemoFile	= nullptr;
 	char	szLevelDir[RSP_MAX_PATH]	= "";
 	char  szTitle[256] = "";
 	TRACE("sMenuItem = %d\n", sMenuItem);
@@ -3267,7 +3265,7 @@ extern void Game_AudioOptionsChoice(	// Returns nothing.
 extern void Game_StartChallengeGame(	// Returns nothing.
 	int16_t sMenuItem)							// In:  Chosen menu item.
 	{
-	char*	pszRealmFile	= NULL;
+   char*	pszRealmFile	= nullptr;
 	char	szLevelDir[RSP_MAX_PATH]	= "";
 	char	szTitle[256]					= "";
 
@@ -3393,7 +3391,7 @@ extern void Game_InitMainMenu(	// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 
 extern int16_t Game_SavePlayersGame(
-				char* pszSaveName,		// In:  Name of the save file
+             const char* pszSaveName,		// In:  Name of the save file
 				int16_t sDifficulty)		// In:  Current realm difficulty.
 {
 	RFile rf;
@@ -3427,7 +3425,7 @@ extern int16_t Game_SavePlayersGame(
 ////////////////////////////////////////////////////////////////////////////////
 
 extern int16_t Game_LoadPlayersGame(
-				char* pszSaveName,		// In:  Name of the saved game file to open
+             const char* pszSaveName,		// In:  Name of the saved game file to open
 				int16_t* psDifficulty,		// Out: Saved game realm difficulty.
 				ACTION* paction)			// Out: Saved game action.
 {
@@ -3548,8 +3546,8 @@ void GameEndingSequence(void)
 //					bMenuActive = false;
 
 					Play(
-						NULL,									// No client (not network game)
-						NULL,									// No server (not network game)
+                  nullptr,									// No client (not network game)
+                  nullptr,									// No server (not network game)
 						INPUT_MODE_PLAYBACK,				// Input mode
 						-1,									// Always use specific realm file
 						szRealmFile,						// Realm file to be played
@@ -3628,11 +3626,11 @@ void GameEndingSequence(void)
 // Returns a ptr to just the portion of the file path that specifies the file
 // name (excluding the path).
 ////////////////////////////////////////////////////////////////////////////////
-static char* GetFileNameFromPath(	// Returns file name.
-	char*	pszFullPath)					// In:  File's full path.
+static const char* GetFileNameFromPath(	// Returns file name.
+   const char*	pszFullPath)					// In:  File's full path.
 	{
 	// Scan back for the separator or the beginning.
-	char*	pszIndex	= pszFullPath + (strlen(pszFullPath) - 1);
+   const char*	pszIndex	= pszFullPath + (strlen(pszFullPath) - 1);
 
 	while (pszIndex >= pszFullPath && *pszIndex != RSP_SYSTEM_PATH_SEPARATOR)
 		{
@@ -3720,10 +3718,10 @@ static void CloseSynchLogs(void)	// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 extern int SynchLog(	// Result of expr.
 	double	expr,		// In:  Expression to evaluate.
-	char*		pszFile,	// In:  Calling file.
+    const char*		pszFile,	// In:  Calling file.
 	int32_t		lLine,	// In:  Calling line.
-	char*		pszExpr,	// In:  Original C++ source expression.
-	U32		u32User)	// In:  A user value that is intended to be consistent.
+    const char*		pszExpr,	// In:  Original C++ source expression.
+   uint32_t		u32User)	// In:  A user value that is intended to be consistent.
 	{
 	#if defined(_DEBUG) || defined(TRACENASSERT)
 		if (ms_fileSynchLog.IsOpen() )
@@ -3732,7 +3730,7 @@ extern int SynchLog(	// Result of expr.
 				{
 				fprintf(
 					ms_fileSynchLog.m_fs, 
-					"[Seq: %ld] %s : %ld  <$%s$> == %0.8f; User == %lu\n", 
+               "[Seq: %i] %s : %i  <$%s$> == %0.8f; User == %u\n",
 					ms_lSynchLogSeq++,
 					GetFileNameFromPath(pszFile),
 					lLine,
@@ -3747,11 +3745,11 @@ extern int SynchLog(	// Result of expr.
 				int32_t		lLineIn;
 				int32_t		lSeqIn;
 				double	exprIn;
-				U32		u32UserIn;
+            uint32_t		u32UserIn;
 
 				if (fscanf(
 					ms_fileSynchLog.m_fs,
-					"[Seq: %ld] %s : %ld  <$%1024[^$]$> == %g; User == %lu\n", 
+               "[Seq: %i] %s : %i  <$%1024[^$]$> == %lg; User == %u\n",
 					&lSeqIn,
 					szFileIn,
 					&lLineIn,
@@ -3768,9 +3766,9 @@ extern int SynchLog(	// Result of expr.
 						char	szOut[2048];
 						sprintf(
 							szOut,
-							"'If' sequence (%ld) mismatch!\n\n"
-							"   Was <<%s>> at %s(%ld) which got %g; User == %lu\n\n"
-							"   Now <<%s>> at %s(%ld) which got %g; User == %lu",
+                     "'If' sequence (%i) mismatch!\n\n"
+                     "   Was <<%s>> at %s(%i) which got %g; User == %u\n\n"
+                     "   Now <<%s>> at %s(%i) which got %g; User == %u",
 							ms_lSynchLogSeq,
 							szExprIn,
 							szFileIn,
@@ -3897,13 +3895,13 @@ static void GameGetRegistry(void)
 
 	// Get the current time and convert it to a string so it can be encoded
 	time( &lTime );
-	sprintf(szTime, "%ld", lTime);
+   sprintf(szTime, "%i", lTime);
 
 	// Decrypte the registry key path so the key can be opened
 	Decrypt((char*) szKey, szName, sEncryptedKeyLength);
 	szName[sEncryptedKeyLength-2] = 0;
 	lError = RegCreateKeyEx(HKEY_LOCAL_MACHINE, szName, 0,
-	               "", 	REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL,
+                  "", 	REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr,
 						&hkResult, &dwDisposition);
 	// Destroy the source and result.
 	memset(szName, 0xeb, sEncryptedKeyLength);
@@ -3949,12 +3947,12 @@ static void GameGetRegistry(void)
 
 		FormatMessage( 
 			 FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-			 NULL,
+          nullptr,
 			 GetLastError(),
 			 MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
 			 (LPTSTR) &lpMsgBuf,
 			 0,
-			 NULL 
+          nullptr
 		);
 
 		// Display the string.
@@ -4110,12 +4108,12 @@ static void GameSetRegistry(void)
 
 	time( &lTime );
 	lTime = MAX(lTime, g_lRegTime);
-	sprintf(szTime, "%ld", lTime);
+   sprintf(szTime, "%i", lTime);
 
 	Decrypt((char*) szKey, szName, sEncryptedKeyLength);
 	szName[sEncryptedKeyLength-2] = 0;
 	lError = RegCreateKeyEx(HKEY_LOCAL_MACHINE, szName, 0,
-	               "", 	REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL,
+                  "", 	REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr,
 						&hkResult, &dwDisposition);
 	memset(szName, 0xea, sEncryptedKeyLength);
 
@@ -4135,12 +4133,12 @@ static void GameSetRegistry(void)
 
 		FormatMessage( 
 			 FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-			 NULL,
+          nullptr,
 			 GetLastError(),
 			 MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
 			 (LPTSTR) &lpMsgBuf,
 			 0,
-			 NULL 
+          nullptr
 		);
 
 		// Display the string.
@@ -4197,10 +4195,10 @@ extern void SeedRand(
 //
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(_DEBUG) || defined(TRACENASSERT)
-	extern int32_t GetRandomDebug(char* FILE_MACRO, int32_t LINE_MACRO)
+   extern int32_t GetRandomDebug(const char* FILE_MACRO, size_t LINE_MACRO)
 		{
 		// Get next random number
-		int32_t lNewVal = (((m_lRandom = m_lRandom * 214013L + 2531011L) >> 16) & 0x7fff);
+      int32_t lNewVal = (((m_lRandom = m_lRandom * 214013L + 2531011L) >> 16) & 0x7fff);
 
 		if (m_pfileRandom)
 			{
@@ -4208,7 +4206,7 @@ extern void SeedRand(
 				{
 				fprintf(
 					m_pfileRandom->m_fs,
-					"%s : %ld rand = %ld\n", 
+               "%s : %lu rand = %i\n",
 					GetFileNameFromPath(FILE_MACRO),
 					LINE_MACRO,
 					lNewVal);
@@ -4218,12 +4216,12 @@ extern void SeedRand(
 				}
 			else
 				{
-				int32_t lSavedVal;
-				int32_t lSavedLine;
+            int32_t lSavedVal;
+            size_t lSavedLine;
 				char szSavedFile[1024];
 				fscanf(
 					m_pfileRandom->m_fs,
-					"%s : %ld rand = %ld\n", 
+               "%s : %lu rand = %i\n",
 					szSavedFile,
 					&lSavedLine,
 					&lSavedVal);
@@ -4237,14 +4235,14 @@ extern void SeedRand(
 						RSP_MB_ICN_INFO | RSP_MB_BUT_OK,
 						"Postal",
 						"Random number sequence mismatch!\n\n"
-						"   Was %s(%ld) which got %ld\n\n"
-						"   Now %s(%ld) which got %ld",
+                  "   Was %s(%lu) which got %i\n\n"
+                  "   Now %s(%lu) which got %i",
 						szSavedFile,
-						(int32_t)lSavedLine,
-						(int32_t)lSavedVal,
+                  lSavedLine,
+                  lSavedVal,
 						GetFileNameFromPath(FILE_MACRO),
 						LINE_MACRO,
-						(int32_t)lNewVal);
+                  lNewVal);
 
 					// Make this easy to debug
 					ASSERT(0);
@@ -4351,9 +4349,9 @@ extern void SetGammaLevel(	// Returns nothing.
 
 	return; // don't set gamma for now
 
-	U8	au8RedMap[256];
-	U8	au8GreenMap[256];
-	U8	au8BlueMap[256];
+   uint8_t	au8RedMap[256];
+   uint8_t	au8GreenMap[256];
+   uint8_t	au8BlueMap[256];
 
 	int16_t i;
 	int16_t	sClipVal;
@@ -4362,9 +4360,9 @@ extern void SetGammaLevel(	// Returns nothing.
 			i++)
 		{
 		sClipVal	= MAX((int16_t)0, MIN(int16_t(pow((double)i / 100.0, GAMMA_EXPONENT) * sBase), (int16_t)255));
-		au8RedMap[i]	= (U8)sClipVal;
-		au8GreenMap[i]	= (U8)sClipVal;
-		au8BlueMap[i]	= (U8)sClipVal;
+      au8RedMap[i]	= (uint8_t)sClipVal;
+      au8GreenMap[i]	= (uint8_t)sClipVal;
+      au8BlueMap[i]	= (uint8_t)sClipVal;
 		}
 
 	// Update map.
@@ -4374,7 +4372,7 @@ extern void SetGammaLevel(	// Returns nothing.
 		au8RedMap,
 		au8GreenMap,
 		au8BlueMap,
-		sizeof(U8));
+      sizeof(uint8_t));
 
 	// Update hardware through new map.
 	rspUpdatePalette();
@@ -4394,9 +4392,9 @@ extern	void	SetBrightnessContrast(
 						double dContrast		// -1.0 = low contrast, 0.0 = normal, 1.0 = high
 						)
 	{
-	U8	au8RedMap[256];
-	U8	au8GreenMap[256];
-	U8	au8BlueMap[256];
+   uint8_t	au8RedMap[256];
+   uint8_t	au8GreenMap[256];
+   uint8_t	au8BlueMap[256];
 
 	// I will scale the ranges to within reasonable limits:
 	ASSERT( (dBrightness >= -1.0) || (dBrightness <= 1.0));
@@ -4416,9 +4414,9 @@ extern	void	SetBrightnessContrast(
 		if (sLev < 0) sLev = 0;
 		if (sLev > 255) sLev = 255;
 
-		au8RedMap[i]	= (U8)sLev;
-		au8GreenMap[i]	= (U8)sLev;
-		au8BlueMap[i]	= (U8)sLev;
+      au8RedMap[i]	= (uint8_t)sLev;
+      au8GreenMap[i]	= (uint8_t)sLev;
+      au8BlueMap[i]	= (uint8_t)sLev;
 		}
 
 	// Update map.
@@ -4428,7 +4426,7 @@ extern	void	SetBrightnessContrast(
 		au8RedMap,
 		au8GreenMap,
 		au8BlueMap,
-		sizeof(U8));
+      sizeof(uint8_t));
 
 	// Update hardware through new map.
 	rspUpdatePalette();
@@ -4471,9 +4469,9 @@ extern int16_t GetGammaLevel(void)	// Returns current brighten value.
 // will still cause a problem, but that would never happen :)
 static char m_acFullPath[RSP_MAX_PATH + RSP_MAX_PATH];
 
-extern char* FullPath(									// Returns full path in system format
+extern const char* FullPath(									// Returns full path in system format
 	int16_t sPathType,										// In:  PATH_CD, PATH_HD, or PATH_VD
-	char* pszPartialPath)								// In:  Partial path in RSPiX format
+    const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with the specified base path (copy the string from the game settings)
 	if (sPathType == GAME_PATH_CD)
@@ -4500,8 +4498,8 @@ extern char* FullPath(									// Returns full path in system format
 	}
 
 
-extern char* FullPathCD(								// Returns full path in system format
-	char* pszPartialPath)								// In:  Partial path in RSPiX format
+extern const char* FullPathCD(								// Returns full path in system format
+    const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
 	ASSERT(strlen(g_GameSettings.m_pszCDPath) < RSP_MAX_PATH);
@@ -4526,8 +4524,8 @@ extern char* FullPathCD(								// Returns full path in system format
 	}
 
 
-extern char* FullPathHD(								// Returns full path in system format
-	const char* pszPartialPath)								// In:  Partial path in RSPiX format
+extern const char* FullPathHD(								// Returns full path in system format
+    const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
 	ASSERT(strlen(g_GameSettings.m_pszHDPath) < RSP_MAX_PATH);
@@ -4552,8 +4550,8 @@ extern char* FullPathHD(								// Returns full path in system format
 	}
 
 
-extern char* FullPathVD(								// Returns full path in system format
-	char* pszPartialPath)								// In:  Partial path in RSPiX format
+extern const char* FullPathVD(								// Returns full path in system format
+    const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
 	ASSERT(strlen(g_GameSettings.m_pszVDPath) < RSP_MAX_PATH);
@@ -4578,8 +4576,8 @@ extern char* FullPathVD(								// Returns full path in system format
 	}
 
 
-extern char* FullPathSound(								// Returns full path in system format
-	char* pszPartialPath)								// In:  Partial path in RSPiX format
+extern const char* FullPathSound(								// Returns full path in system format
+    const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
 	ASSERT(strlen(g_GameSettings.m_pszSoundPath) < RSP_MAX_PATH);
@@ -4604,8 +4602,8 @@ extern char* FullPathSound(								// Returns full path in system format
 	}
 
 
-extern char* FullPathGame(								// Returns full path in system format
-	char* pszPartialPath)								// In:  Partial path in RSPiX format
+extern const char* FullPathGame(								// Returns full path in system format
+    const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
 	ASSERT(strlen(g_GameSettings.m_pszGamePath) < RSP_MAX_PATH);
@@ -4629,8 +4627,8 @@ extern char* FullPathGame(								// Returns full path in system format
 	return m_acFullPath;
 	}
 
-extern char* FullPathHoods(								// Returns full path in system format
-	char* pszPartialPath)								// In:  Partial path in RSPiX format
+extern const char* FullPathHoods(								// Returns full path in system format
+    const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
 	ASSERT(strlen(g_GameSettings.m_pszHoodsPath) < RSP_MAX_PATH);
@@ -4655,11 +4653,11 @@ extern char* FullPathHoods(								// Returns full path in system format
 	}
 
 
-extern char* FullPathCustom(							// Returns full path in system format
-	char*	pszFullPath,									// In:  Full path in in RSPiX format.
-	char* pszPartialPath)								// In:  Partial path in RSPiX format.
+extern const char* FullPathCustom(							// Returns full path in system format
+    const char*	pszFullPath,									// In:  Full path in in RSPiX format.
+    const char* pszPartialPath)								// In:  Partial path in RSPiX format.
 	{
-	char*	pszFullSystemPath	= rspPathToSystem(pszFullPath);
+    const char*	pszFullSystemPath	= rspPathToSystem(pszFullPath);
 	// Start with proper base path
 	ASSERT(strlen(pszFullSystemPath) < RSP_MAX_PATH);
 	strcpy(m_acFullPath, pszFullSystemPath);
@@ -4694,111 +4692,111 @@ extern char* FullPathCustom(							// Returns full path in system format
 //
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CorrectifyBasePath(								// Returns 0 if successfull, non-zero otherwise
-	char* pszBasePath,									// I/O: Base path to be corrected
-	int16_t sMaxPathLen)									// In:  Maximum length of base path
-	{
-	int16_t sResult = 0;
+   char* pszBasePath,									// I/O: Base path to be corrected
+   size_t sMaxPathLen)									// In:  Maximum length of base path
+{
+  int16_t sResult = 0;
 
-	// Make sure they aren't passing an empty string, which should be be left alone
-	if (strlen(pszBasePath) > 0)
-		{
+  // Make sure they aren't passing an empty string, which should be be left alone
+  if (strlen(pszBasePath) > 0)
+  {
 
-		// Make sure they aren't passing a string that's already too large!
-		if ((strlen(pszBasePath) + 1) <= sMaxPathLen)
-			{
+    // Make sure they aren't passing a string that's already too large!
+    if ((strlen(pszBasePath) + 1) <= sMaxPathLen)
+    {
 
-			//------------------------------------------------------------------------------
-			// Convert path from relative to absolute.  We do this by setting the current
-			// directory to the specified path and then asking for the current directory,
-			// which is always returned as an absolute path.  If the path is already
-			// absolute to begin with, it *should* be unchanged as a result.
-			//------------------------------------------------------------------------------
+      //------------------------------------------------------------------------------
+      // Convert path from relative to absolute.  We do this by setting the current
+      // directory to the specified path and then asking for the current directory,
+      // which is always returned as an absolute path.  If the path is already
+      // absolute to begin with, it *should* be unchanged as a result.
+      //------------------------------------------------------------------------------
 
-			// Get original directory (let it allocate buffer of at LEAST specified size, more if needed)
-			
-			// 09/05/97, PPL
-			// Apparently, the getcwd function works completely (well, maybe not completely) different
-			// on the MAC.  We need to go ahead and allocate our own buffer and free it later because
-			// if a NULL is passed in, a NULL is returned.  This should not have any adverse effects
-			// on the PC version.
-			//char* pszOrigDir = getcwd(NULL, RSP_MAX_PATH);
-			char* pszOrigDir = (char*)malloc(RSP_MAX_PATH);
-			if (pszOrigDir != NULL)
-				{
-				// Let's go ahead and get the current working directory here, once we're sure that
-				// the string to store it has been properly allocated.
-				pszOrigDir = getcwd(pszOrigDir, RSP_MAX_PATH);
+      // Get original directory (let it allocate buffer of at LEAST specified size, more if needed)
 
-				// Change to specified directory, which may be relative or absolute
-				if (chdir(pszBasePath) == 0)
-					{
-					// Get directory, which is always returned as absolute
-					if (getcwd(pszBasePath, sMaxPathLen) == NULL)
-						{
-						sResult = -1;
-						TRACE("CorrectifyBasePath(): Couldn't get current directory (was set to '%s')!\n", pszBasePath);
-						}
-					}
-				else
-					{
-					sResult = -1;
-					TRACE("CorrectifyBasePath(): Couldn't change to specified directory: '%s'!\n", pszBasePath);
-					}
+      // 09/05/97, PPL
+      // Apparently, the getcwd function works completely (well, maybe not completely) different
+      // on the MAC.  We need to go ahead and allocate our own buffer and free it later because
+      // if a nullptr is passed in, a nullptr is returned.  This should not have any adverse effects
+      // on the PC version.
+      //char* pszOrigDir = getcwd(nullptr, RSP_MAX_PATH);
+      char* pszOrigDir = (char*)malloc(RSP_MAX_PATH);
+      if (pszOrigDir != nullptr)
+      {
+        // Let's go ahead and get the current working directory here, once we're sure that
+        // the string to store it has been properly allocated.
+        pszOrigDir = getcwd(pszOrigDir, RSP_MAX_PATH);
 
-				// Restore original directory
-				if (chdir(pszOrigDir) != 0)
-					{
-					sResult = -1;
-					TRACE("CorrectifyBasePath(): Couldn't restore original directory: '%s'!\n", pszOrigDir);
-					}
+        // Change to specified directory, which may be relative or absolute
+        if (chdir(pszBasePath) == 0)
+        {
+          // Get directory, which is always returned as absolute
+          if (getcwd(pszBasePath, sMaxPathLen) == nullptr)
+          {
+            sResult = -1;
+            TRACE("CorrectifyBasePath(): Couldn't get current directory (was set to '%s')!\n", pszBasePath);
+          }
+        }
+        else
+        {
+          sResult = -1;
+          TRACE("CorrectifyBasePath(): Couldn't change to specified directory: '%s'!\n", pszBasePath);
+        }
 
-				// Free buffer that was allocated by getcwd()
-				free(pszOrigDir);
-				pszOrigDir = 0;
-				}
+        // Restore original directory
+        if (chdir(pszOrigDir) != 0)
+        {
+          sResult = -1;
+          TRACE("CorrectifyBasePath(): Couldn't restore original directory: '%s'!\n", pszOrigDir);
+        }
 
-			//------------------------------------------------------------------------------
-			// Ensure that path ends properly, either with or without the system-specific
-			// separator character, depending on which system we're on.
-			//------------------------------------------------------------------------------
-			if (sResult == 0)
-				{
-				// Get index to last character
-				int16_t sLastIndex = strlen(pszBasePath);
-				if (sLastIndex > 0)
-					sLastIndex--;
+        // Free buffer that was allocated by getcwd()
+        free(pszOrigDir);
+        pszOrigDir = 0;
+      }
 
-				#if 1 //def WIN32
-					// If base path doesn't end with a slash, add one
-					if (pszBasePath[sLastIndex] != RSP_SYSTEM_PATH_SEPARATOR)
-						{
-						if ((sLastIndex + 2) < RSP_MAX_PATH)
-							{
-							pszBasePath[sLastIndex+1] = RSP_SYSTEM_PATH_SEPARATOR;
-							pszBasePath[sLastIndex+2] = 0;
-							}
-						else
-							{
-							sResult = -1;
-							TRACE("CorrectifyBasePath(): Path would've exceed max length with separator tacked on!\n");
-							}
-						}
-				#else
-					// If base path ends with a colon, get rid of it
-					if (pszBasePath[sLastIndex] == RSP_SYSTEM_PATH_SEPARATOR)
-						pszBasePath[sLastIndex] = 0;
-				#endif
-				}
-			}
-		else
-			{
-			sResult = -1;
-			TRACE("CorrectifyBasePath(): Specified path is already longer than the specified maximum length!\n");
-			}
-		}
+      //------------------------------------------------------------------------------
+      // Ensure that path ends properly, either with or without the system-specific
+      // separator character, depending on which system we're on.
+      //------------------------------------------------------------------------------
+      if (sResult == 0)
+      {
+        // Get index to last character
+        int16_t sLastIndex = strlen(pszBasePath);
+        if (sLastIndex > 0)
+          sLastIndex--;
 
-	return sResult;
-	}
+#if 1 //def WIN32
+        // If base path doesn't end with a slash, add one
+        if (pszBasePath[sLastIndex] != RSP_SYSTEM_PATH_SEPARATOR)
+        {
+          if ((sLastIndex + 2) < RSP_MAX_PATH)
+          {
+            pszBasePath[sLastIndex+1] = RSP_SYSTEM_PATH_SEPARATOR;
+            pszBasePath[sLastIndex+2] = 0;
+          }
+          else
+          {
+            sResult = -1;
+            TRACE("CorrectifyBasePath(): Path would've exceed max length with separator tacked on!\n");
+          }
+        }
+#else
+        // If base path ends with a colon, get rid of it
+        if (pszBasePath[sLastIndex] == RSP_SYSTEM_PATH_SEPARATOR)
+          pszBasePath[sLastIndex] = 0;
+#endif
+      }
+    }
+    else
+    {
+      sResult = -1;
+      TRACE("CorrectifyBasePath(): Specified path is already longer than the specified maximum length!\n");
+    }
+  }
+
+  return sResult;
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////

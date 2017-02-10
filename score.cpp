@@ -244,7 +244,7 @@ extern bool EnableSteamCloud;
 #define MAX_HIGH_SCORES					16
 
 // defaults to -1 for some reason
-// #define LONG_MAX 0x7FFFFFFFL
+// #define INT32_MAX 0x7FFFFFFFL
 
 //////////////////////////////////////////////////////////////////////////////
 // Variables
@@ -253,8 +253,10 @@ extern bool EnableSteamCloud;
 CScoreboard g_scoreboard;
 RPrint		ms_print;
 
-static int32_t	ms_lScoreMaxTimeOut;		// Optional score timeout (max time spent
+#ifdef HIGH_SCORE_DLG
+static uint32_t	ms_lScoreMaxTimeOut;		// Optional score timeout (max time spent
 												// on score screen).
+#endif
 
 //////////////////////////////////////////////////////////////////////////////
 // Functions.
@@ -264,7 +266,7 @@ static int32_t	ms_lScoreMaxTimeOut;		// Optional score timeout (max time spent
 // Helper to make a time value.
 //////////////////////////////////////////////////////////////////////////////
 inline char* CreateTimeString(	// Returns time string.  No failures.
-	int32_t	lTimeVal)					// In:  Time value in milliseconds.
+   uint32_t	lTimeVal)					// In:  Time value in milliseconds.
 	{
 	static char	szTime[100];
 
@@ -275,7 +277,7 @@ inline char* CreateTimeString(	// Returns time string.  No failures.
 	return szTime;
 	}
 
-
+#ifdef HIGH_SCORE_DLG
 //////////////////////////////////////////////////////////////////////////////
 // GuiReleaseRes - Release a resource that the requesting GUI wants to 
 // discard.
@@ -309,7 +311,7 @@ static int16_t GuiGetRes(		// Returns 0 on success; non-zero on failure.
 	if (rspGetResource(&g_resmgrShell, szFile, &pgui->m_pimBkdRes) == 0)
 		{
 		// Set palette via resource.
-		ASSERT(pgui->m_pimBkdRes->m_pPalette != NULL);
+		ASSERT(pgui->m_pimBkdRes->m_pPalette != nullptr);
 		ASSERT(pgui->m_pimBkdRes->m_pPalette->m_type == RPal::PDIB);
 
 		rspSetPaletteEntries(
@@ -331,7 +333,9 @@ static int16_t GuiGetRes(		// Returns 0 on success; non-zero on failure.
 
 	return sResult;
 	}
+#endif
 
+#ifdef UNUSED_FUNCTIONS
 //////////////////////////////////////////////////////////////////////////////
 // EditInputUserFeedback -- Whines when the user causes an input 
 // disgruntlement.
@@ -341,9 +345,12 @@ static void EditInputUserFeedback(	// Called when a user input notification
 												// should occur.
 	REdit*	pedit)						// In:  Edit field.
 	{
+  UNUSED(pedit);
 	PlaySample(g_smidEmptyWeapon, SampleMaster::UserFeedBack);
 	}
+#endif
 
+#ifdef HIGH_SCORE_DLG
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Callback from RProcessGui for system update.
@@ -366,7 +373,7 @@ static int32_t SysUpdate(			// Returns a non-zero ID to abort or zero
 
 	return lIdRes;
 	}
-
+#endif
 //////////////////////////////////////////////////////////////////////////////
 // ScoreInit - Set up the RPrint for the score
 //////////////////////////////////////////////////////////////////////////////
@@ -413,9 +420,9 @@ void ScoreResetDisplay(void)
 // ScoreRegisterKill - Characters should call this when they die
 //////////////////////////////////////////////////////////////////////////////
 
-void ScoreRegisterKill(CRealm* pRealm, U16 u16DeadGuy, U16 u16Killer)
+void ScoreRegisterKill(CRealm* pRealm, uint16_t u16DeadGuy, uint16_t u16Killer)
 {
-	CThing* pShooter = NULL;
+	CThing* pShooter = nullptr;
 	pRealm->m_idbank.GetThingByID(&pShooter, u16Killer);
 	if (pShooter && pShooter->GetClassID() == CThing::CDudeID)
 	{
@@ -880,13 +887,16 @@ void ScoreSetMode(CScoreboard::ScoringMode Mode)
 
 void ScoreDisplayHighScores(	// Returns nothing.
 	CRealm* pRealm,				// In:  Realm won.
-	CNetClient* pclient,			// In:  Client ptr for MP mode, or NULL in SP mode.
+	CNetClient* pclient,			// In:  Client ptr for MP mode, or nullptr in SP mode.
 	int32_t lMaxTimeOut)				// In:  Max time on score screen (quits after this
 										// duration, if not -1).
 {
-	RGuiItem* pguiRoot;
-	RGuiItem::ms_print.SetFont(15, &g_fontPostal);
-	RProcessGui guiDialog;
+  UNUSED(lMaxTimeOut);
+#ifdef HIGH_SCORE_DLG
+   RGuiItem* pguiRoot;
+   RProcessGui guiDialog;
+#endif
+   RGuiItem::ms_print.SetFont(15, &g_fontPostal);
 	int16_t sResult;
 	char szScoringExplanation[512]	= "";
 	int32_t alScores[MAX_HIGH_SCORES];
@@ -902,13 +912,13 @@ void ScoreDisplayHighScores(	// Returns nothing.
 
 	ValType	vtScoringUnit	= Value;
 
-	TRACE("LONG_MAX = %d\n", LONG_MAX);
+   TRACE("INT32_MAX = %d\n", INT32_MAX);
 	// Let's just not do any of this for modes that have no scoring . . .
 	if (pRealm->m_ScoringMode >= CRealm::Timed && pRealm->m_ScoringMode <= CRealm::MPLastManTimedFrag && GetInputMode() != INPUT_MODE_PLAYBACK)
 	{
 		// Determine player's score and note how we determined it in a string
 		// for the user.
-		int32_t	lPlayerScore	= 0;
+      int32_t	lPlayerScore	= 0;
 		switch (pRealm->m_ScoringMode)
 			{
 			case CRealm::Standard:
@@ -932,7 +942,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 				else
 					{
 					// Really bad elapsed time.
-					lPlayerScore	= LONG_MAX;
+               lPlayerScore = INT32_MAX;
 					}
 
 				vtScoringUnit	= Time;
@@ -948,7 +958,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 				else
 					{
 					// Really bad elapsed time.
-					lPlayerScore	= LONG_MAX;
+               lPlayerScore = INT32_MAX;
 					}
 
 				vtScoringUnit	= Time;
@@ -959,12 +969,12 @@ void ScoreDisplayHighScores(	// Returns nothing.
 				// Time left, if goal met.
 				if (pRealm->m_sFlagbaseCaptured >= pRealm->m_sFlagsGoal)
 					{
-					lPlayerScore	= pRealm->m_lScoreTimeDisplay;
+               lPlayerScore = pRealm->m_lScoreTimeDisplay;
 					}
 				else
 					{
 					// Really bad time.
-					lPlayerScore	= LONG_MIN;
+               lPlayerScore = INT32_MIN;
 					}
 
 				vtScoringUnit	= Time;
@@ -975,12 +985,12 @@ void ScoreDisplayHighScores(	// Returns nothing.
 				// Time left, if goal met.
 				if (pRealm->m_sPopulationDeaths >= pRealm->m_sKillsGoal)
 					{
-					lPlayerScore	= pRealm->m_lScoreTimeDisplay;
+               lPlayerScore = pRealm->m_lScoreTimeDisplay;
 					}
 				else
 					{
 					// Really bad time.
-					lPlayerScore	= LONG_MIN;
+               lPlayerScore = INT32_MIN;
 					}
 
 				vtScoringUnit	= Time;
@@ -1103,7 +1113,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 				if (sIndex < pRealm->m_asClassNumThings[CThing::CDudeID])
 					{
 					strncpy(astrTempNames[sIndex], pclient->GetPlayerName(sIndex), MAX_PLAYER_NAME_LEN);
-					// Strncpy does not NULL terminate if the 'n' is less than or equal to the length
+					// Strncpy does not nullptr terminate if the 'n' is less than or equal to the length
 					// of the src string.
 					astrTempNames[sIndex][MAX_PLAYER_NAME_LEN]	= '\0';
 
@@ -1112,7 +1122,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 				else
 					{
 					astrTempNames[sIndex][0]	= '\0';
-					alTempScores[sIndex]			= LONG_MIN + 1;
+               alTempScores[sIndex]			= INT32_MIN + 1;
 					}
 				}
 
@@ -1130,7 +1140,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 			for (sDstIndex = 0;	sDstIndex < MAX_HIGH_SCORES; sDstIndex++)
 				{
 				sHighestScoreIndex	= -1;
-				lHighestScore			= LONG_MIN;
+            lHighestScore			= INT32_MIN;
 
 				// Find the highest score of the ones not yet copied.
 				for (sSrcIndex = 0; sSrcIndex < MAX_HIGH_SCORES; sSrcIndex++)
@@ -1186,10 +1196,10 @@ void ScoreDisplayHighScores(	// Returns nothing.
 			RListBox*	plbScores	= (RListBox*) pguiRoot->GetItemFromId(1000);
 
 			// Set to the input field if the player gets a high score.
-			RGuiItem*	pguiPlayersName	= NULL;
+			RGuiItem*	pguiPlayersName	= nullptr;
 		#endif
 			// Create and add all score items.
-			int16_t	sScoreIndex;
+         int16_t	sScoreIndex;
 			bool	bGotAllScoreItems	= true;
 		#ifdef HIGH_SCORE_DLG
 			if (plbScores)
@@ -1250,7 +1260,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 								if (vtScoringUnit == Value)
 									{
 									// Value.
-									pguiScore->SetText("%ld %s", alScores[sScoreIndex], g_apszScoreUnits[pRealm->m_ScoringMode] );
+									pguiScore->SetText("%i %s", alScores[sScoreIndex], g_apszScoreUnits[pRealm->m_ScoringMode] );
 									}
 								else
 									{
@@ -1311,9 +1321,9 @@ void ScoreDisplayHighScores(	// Returns nothing.
 					TRACE("plbScores is false or something.\n");
 				}
 
-			if (ptextExplain1 != NULL &&
-				 ptextExplain2 != NULL &&
-				 plbScores		!= NULL &&
+			if (ptextExplain1 != nullptr &&
+				 ptextExplain2 != nullptr &&
+				 plbScores		!= nullptr &&
 				 bGotAllScoreItems == true)
 			{
 				// Get some colors free.
@@ -1353,7 +1363,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 //				rspSetMouseCursorShowLevel(1);
 
 				// Make sure there's no timeout on while player is adding their name.
-				ms_lScoreMaxTimeOut	= LONG_MAX;
+            ms_lScoreMaxTimeOut	= INT32_MAX;
 
 				// If we want a high score from this player . . .
 				if (sPlayersScorePosition >= 0 && pRealm->m_flags.bMultiplayer == false)
@@ -1368,7 +1378,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 					// Do the dialog once to get the name.
 					guiDialog.DoModal(pguiRoot, pguiOk, pguiCancel);
 					// Clear the focus.
-					RGuiItem::SetFocus(NULL);
+					RGuiItem::SetFocus(nullptr);
 
 					ASSERT(pguiPlayersName);
 					// Get the user's name for saving.
@@ -1388,7 +1398,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 					}
 				else
 					{
-					ms_lScoreMaxTimeOut	= LONG_MAX;
+               ms_lScoreMaxTimeOut	= INT32_MAX;
 					}
 
 				// Set the focus to the listbox's vertical scrollbar so that the arrows will work.

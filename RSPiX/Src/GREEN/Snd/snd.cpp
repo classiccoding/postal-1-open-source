@@ -752,7 +752,7 @@ void* RSnd::PlayCall(RMix::Msg	msg,
 				TRACE("PlayCall(): Unable to close sound channel.\n");
 				}
 #if 0
-			TRACE("Remaining: %lu, Size: %lu, State: %s, Sample: 0x%08lx.\n",
+			TRACE("Remaining: %u, Size: %u, State: %s, Sample: 0x%08lx.\n",
 					m_ulRemaining, m_ulSampleSize,
 					(m_sState == Ending ? "Ending" :
 						(m_sState == Playing ? "Playing" :

@@ -423,7 +423,7 @@ int16_t RImageFile::Load(			// Returns SUCCESS on success or FAILURE on failure.
 					default:	// No current support.
 						TRACE("RImage::Load - Error: Unsupported version.\n");
 						TRACE("RImage::Load - Current RImage version %d\n", IMAGE_CURRENT_VERSION);
-						TRACE("RImage::Load - This file's version %lu\n", ulVersion);
+						TRACE("RImage::Load - This file's version %u\n", ulVersion);
 						TRACE("RImage::Load - See ImageFile.cpp for details on "
 							"supporting older RImage formats.\n");
 						sResult = FAILURE;

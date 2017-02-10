@@ -57,13 +57,13 @@ public:
 		RFontSet* m_pNext;
 		};
 	//--------------- USER STUFF
-	int16_t Save(char* pszFileName);
+   int16_t Save(const char* pszFileName);
 	int16_t Save(RFile* pcf);
-	int16_t Load(char* pszFileName);
+   int16_t Load(const char* pszFileName);
 	int16_t Load(RFile* pcf);
 	//--------------- UTILITY STUFF
 
-	int16_t Add(char* pszFileName);
+   int16_t Add(const char* pszFileName);
 	int16_t Add(RFile* pcf);
 	int16_t AddLetter(RImage* pimLetter, // if FSPR1, don't need other arguements
 		int16_t sASCII=-1,int16_t sKernL=0,int16_t sKernR=0);

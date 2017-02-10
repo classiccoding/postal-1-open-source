@@ -99,126 +99,127 @@
 // taking warp-around into account.  Note that the given index must NEVER be
 // modified, even temporarily, because that could cause bugs when the queue is
 // used by interrupt-driven and normal code at the same time.
-#define QNEXT(i) 		((size_t)(i+1) >= QSIZE ? 0 : i+1)
-#define QPREV(i)		((i-1) >= 0 ? i-1 : QSIZE-1)
+#define QNEXT(i) 		(i+1 >= QSIZE ? 0 : i+1)
+#define QPREV(i)		(i-1 >= 0 ? i-1 : QSIZE-1)
 
-template <class T, int16_t sSize> class RQueue
-	{
-	public:
-		// Default constructor.  You must call SetSize() before queue can be used.
-		//   NOTICE: With mixed usage of normal and interrupt-driven code, this would
-		//   typically be called from the normal code.  It could be called from
-		//   interrupt, but it seems sort of weird.
-		RQueue(void) { Reset(); }
+template <class T, int16_t sSize>
+class RQueue
+{
+public:
+  // Default constructor.  You must call SetSize() before queue can be used.
+  //   NOTICE: With mixed usage of normal and interrupt-driven code, this would
+  //   typically be called from the normal code.  It could be called from
+  //   interrupt, but it seems sort of weird.
+  RQueue(void) { Reset(); }
 
-		// Destructor.
-		//   NOTICE: With mixed usage of normal and interrupt-driven code, this would
-		//   typically be called from the normal code.  It could be called from
-		//   interrupt, but it seems sort of weird.
-		~RQueue(void) { }
-		
-		// Reset the queue, thereby losing track of everything that may be in it.
-		//   NOTICE: No problems with mixed usage of normal and interrupt-driven code!
-		void Reset(void)
-			{
-			// Head and tail both start at 0
-			m_sHead = 0;
-			m_sTail = 0;
-			}
-		
-		// Enqueue the indicated item (0 = success, non-zero = didn't fit)
-		//   NOTICE: No problems with mixed usage of normal and interrupt-driven code!
-		int16_t EnQ(T* pT)
-			{
-			// Make sure it isn't already full	
-			if (IsNotFull())
-				{
-				// Add value at tail of queue, then increment tail (NOTE: Must be
-				// done in this order to allow interrupt-driven usage.)
-				m_aptQ[m_sTail] = pT;
-				m_sTail = QNEXT(m_sTail);
-            return SUCCESS;	// success!
-				}
-			else
-            return FAILURE;	// failure!
-			}
+  // Destructor.
+  //   NOTICE: With mixed usage of normal and interrupt-driven code, this would
+  //   typically be called from the normal code.  It could be called from
+  //   interrupt, but it seems sort of weird.
+  ~RQueue(void) { }
 
-		
-      // Dequeue the next item (nullptr = empty)
-		//   NOTICE: No problems with mixed usage of normal and interrupt-driven code!
-		T* DeQ(void)
-			{
-			// Check if there's anything to dequeue
-			if (IsNotEmpty())
-				{
-				// Get value at head of queue, then increment head (NOTE: Must be
-				// done in this order to allow interrupt-driven usage.)
-				T* ptTemp = m_aptQ[m_sHead];
-				m_sHead = QNEXT(m_sHead);
-				return ptTemp;
-				}
-			else
-            return nullptr;
-			}
-		
-      // Remove the item at the tail of the queue (nullptr = empty).
-		//   WARNING: NEVER call this under mixed usage of normal and interrupt-driven
-		//   code!  It would only be safe if (1) called from normal code when interrupts
-		//   are disabled or (2) from interrupt code when it is certain that normal code
-		//   is not accessing the queue. 
-		T* RemoveTail(void)
-			{
-			// Check if there's anything to remove
-			if (IsNotEmpty())
-				{
-				// Decrement tail, then get the item that was at the tail.
-				m_sTail = QPREV(m_sTail);
-				return m_aptQ[m_sTail];
-				}
-			else
-            return nullptr;
-			}
-		
-		// Check if queue is empty (returns TRUE if it's empty)
-		//   NOTICE: No problems with mixed usage of normal and interrupt-driven code!
-		int16_t IsEmpty(void)
-			{ return (int16_t)(m_sHead == m_sTail); }
-		
-		// Check if queue is not empty (returns TRUE if it's not empty)
-		//   NOTICE: No problems with mixed usage of normal and interrupt-driven code!
-		int16_t IsNotEmpty(void)
-			{ return (int16_t)(m_sHead != m_sTail); }
-		
-		// Check if queue is full (returns TRUE if it's full)
-		//   NOTICE: No problems with mixed usage of normal and interrupt-driven code!
-		int16_t IsFull(void)
-			{ return (int16_t)(QNEXT(m_sTail) == m_sHead); }
-		
-		// Check if queue is not full (returns TRUE if it's not full)
-		//   NOTICE: No problems with mixed usage of normal and interrupt-driven code!
-		int16_t IsNotFull(void)
-			{ return (int16_t)(QNEXT(m_sTail) != m_sHead); }
-			
-		// Get number of items currently in the queue
-		//   WARNING: With mixed usage of normal and interrupt-driven code, this could
-		//   yield innacurate results!  In such cases you can call this function repeatedly
-		//   until it returns the same result two times in a row.  This works fine as long
-		//   as interrupts aren't occuring relentlessly at an extremely high rate!
-		int16_t NumItems(void)
-			{ return m_sTail >= m_sHead ? m_sTail - m_sHead : (m_sTail + QSIZE) - m_sHead; };
-			
-		// "Peek" at head item in the queue
-		//   WARNING: Could yield inaccurate results if EnQ() or DeQ() are interrupt-driven!
-      T* Peek(void) { return (IsNotEmpty() ? m_aptQ[m_sHead] : nullptr); }
-		
-		// "Peek" at tail item in the queue.
-		//   WARNING: Could yield inaccurate results if EnQ() or DeQ() are interrupt-driven!
-      T* PeekTail(void) { return (IsNotEmpty() ? m_aptQ[QPREV(m_sTail)] : nullptr); }
+  // Reset the queue, thereby losing track of everything that may be in it.
+  //   NOTICE: No problems with mixed usage of normal and interrupt-driven code!
+  void Reset(void)
+  {
+    // Head and tail both start at 0
+    m_sHead = 0;
+    m_sTail = 0;
+  }
 
-	protected:		
-		volatile int16_t m_sHead;		// volatile since it could change on interrupt!
-		volatile int16_t m_sTail;		// volatile since it could change on interrupt!
-		T*					m_aptQ[sSize + 1];
-	};
-	
+  // Enqueue the indicated item (0 = success, non-zero = didn't fit)
+  //   NOTICE: No problems with mixed usage of normal and interrupt-driven code!
+  int16_t EnQ(T* pT)
+  {
+    // Make sure it isn't already full
+    if (IsNotFull())
+    {
+      // Add value at tail of queue, then increment tail (NOTE: Must be
+      // done in this order to allow interrupt-driven usage.)
+      m_aptQ[m_sTail] = pT;
+      m_sTail = QNEXT(m_sTail);
+      return SUCCESS;	// success!
+    }
+    else
+      return FAILURE;	// failure!
+  }
+
+
+  // Dequeue the next item (nullptr = empty)
+  //   NOTICE: No problems with mixed usage of normal and interrupt-driven code!
+  T* DeQ(void)
+  {
+    // Check if there's anything to dequeue
+    if (IsNotEmpty())
+    {
+      // Get value at head of queue, then increment head (NOTE: Must be
+      // done in this order to allow interrupt-driven usage.)
+      T* ptTemp = m_aptQ[m_sHead];
+      m_sHead = QNEXT(m_sHead);
+      return ptTemp;
+    }
+    else
+      return nullptr;
+  }
+
+  // Remove the item at the tail of the queue (nullptr = empty).
+  //   WARNING: NEVER call this under mixed usage of normal and interrupt-driven
+  //   code!  It would only be safe if (1) called from normal code when interrupts
+  //   are disabled or (2) from interrupt code when it is certain that normal code
+  //   is not accessing the queue.
+  T* RemoveTail(void)
+  {
+    // Check if there's anything to remove
+    if (IsNotEmpty())
+    {
+      // Decrement tail, then get the item that was at the tail.
+      m_sTail = QPREV(m_sTail);
+      return m_aptQ[m_sTail];
+    }
+    else
+      return nullptr;
+  }
+
+  // Check if queue is empty (returns TRUE if it's empty)
+  //   NOTICE: No problems with mixed usage of normal and interrupt-driven code!
+  int16_t IsEmpty(void)
+  { return (int16_t)(m_sHead == m_sTail); }
+
+  // Check if queue is not empty (returns TRUE if it's not empty)
+  //   NOTICE: No problems with mixed usage of normal and interrupt-driven code!
+  int16_t IsNotEmpty(void)
+  { return (int16_t)(m_sHead != m_sTail); }
+
+  // Check if queue is full (returns TRUE if it's full)
+  //   NOTICE: No problems with mixed usage of normal and interrupt-driven code!
+  int16_t IsFull(void)
+  { return (int16_t)(QNEXT(m_sTail) == m_sHead); }
+
+  // Check if queue is not full (returns TRUE if it's not full)
+  //   NOTICE: No problems with mixed usage of normal and interrupt-driven code!
+  int16_t IsNotFull(void)
+  { return (int16_t)(QNEXT(m_sTail) != m_sHead); }
+
+  // Get number of items currently in the queue
+  //   WARNING: With mixed usage of normal and interrupt-driven code, this could
+  //   yield innacurate results!  In such cases you can call this function repeatedly
+  //   until it returns the same result two times in a row.  This works fine as long
+  //   as interrupts aren't occuring relentlessly at an extremely high rate!
+  size_t NumItems(void)
+  { return m_sTail >= m_sHead ? m_sTail - m_sHead : (m_sTail + QSIZE) - m_sHead; }
+
+  // "Peek" at head item in the queue
+  //   WARNING: Could yield inaccurate results if EnQ() or DeQ() are interrupt-driven!
+  T* Peek(void) { return (IsNotEmpty() ? m_aptQ[m_sHead] : nullptr); }
+
+  // "Peek" at tail item in the queue.
+  //   WARNING: Could yield inaccurate results if EnQ() or DeQ() are interrupt-driven!
+  T* PeekTail(void) { return (IsNotEmpty() ? m_aptQ[QPREV(m_sTail)] : nullptr); }
+
+protected:
+  volatile uintptr_t m_sHead;		// volatile since it could change on interrupt!
+  volatile uintptr_t m_sTail;		// volatile since it could change on interrupt!
+  T*					m_aptQ[sSize + 1];
+};
+
 #endif // QUEUE_H

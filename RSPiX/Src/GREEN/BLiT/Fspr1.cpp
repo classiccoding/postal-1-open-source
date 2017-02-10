@@ -84,15 +84,16 @@ typedef	struct
 
 ConversionInfoFSPR1 gFSPR1 = 
 	{
-	(uint32_t) 0,
-	(int16_t) -1,
-	(int16_t) -1,
-	(int16_t) -1,
-	(int16_t) -1,
+   (uint32_t) 0,
+   (int16_t) -1,
+   (int16_t) -1,
+   (int16_t) -1,
+   (int16_t) -1,
    (RImage**) nullptr,
-	(uint32_t)	0xffffff01,	// And the color to the correct depth
-	(uint32_t)	0,
-	(int16_t) TRUE
+   (uint32_t) 0xffffff01,	// And the color to the correct depth
+   (uint32_t) 0,
+   (int16_t)  0,
+   (int16_t)  TRUE
 	}; // Defaults...
 
 void ResetFSPR1();

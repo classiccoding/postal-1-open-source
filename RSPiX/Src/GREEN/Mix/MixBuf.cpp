@@ -709,7 +709,7 @@ int16_t RMixBuf::SetSize(uint32_t ulSize)
 		}
 	else
 		{
-		TRACE("SetSize(%lu): Unable to allocate buffer.\n", ulSize);
+		TRACE("SetSize(%u): Unable to allocate buffer.\n", ulSize);
       sResult = FAILURE;
 		}
 

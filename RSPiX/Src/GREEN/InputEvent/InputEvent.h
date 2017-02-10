@@ -63,39 +63,39 @@
 //////////////////////////////////////////////////////////////////////////////
 
 // Input event structure for rsp*InputEvent[s]() functions.
-typedef struct
-	{
-	typedef enum
-		{
-		None,		// No event.  Use this value to indicate no event.
-		Mouse,	// Mouse event.
-		Key,		// Keyboard event.
-		Joy		// Joystick event (NYI) ???
-		} Type;
+struct RInputEvent
+{
+  enum Type
+  {
+    None,		// No event.  Use this value to indicate no event.
+    Mouse,	// Mouse event.
+    Key,		// Keyboard event.
+    Joy		// Joystick event (NYI) ???
+  };
 
-	Type	type;		// Type of event { Mouse, Key, Joy }.
-	int32_t	lTime;	// Time at which event occurred.
-	int16_t	sUsed;	// Indicates that this event has been used.
-						// Set this if your API utilizes this event so that others
-						// know that it's already been absorbed.
-   uintptr_t	lUser;	// User value.  Use as you please.
+  Type      type;		// Type of event { Mouse, Key, Joy }.
+  int32_t  lTime;	// Time at which event occurred.
+  int16_t   sUsed;	// Indicates that this event has been used.
+  // Set this if your API utilizes this event so that others
+  // know that it's already been absorbed.
+  uintptr_t	lUser;	// User value.  Use as you please.
 
-	union
-		{
-		struct	// Mouse event.
-			{
-			int16_t sPosX;		// X position of event.
-			int16_t	sPosY;		// Y position of event.
-			int16_t	sButtons;	// Buttons status at event (ala rspGetMouseEvent).
-			int16_t	sEvent;		// Event type (ala rspGetMouseEvent).
-			};
-		
-		struct	// Keyboard event.
-			{
-			int32_t	lKey;			// Key value and modifiers (ala rspGetKey).
-			};
-		};
-	} RInputEvent;
+  union
+  {
+    struct	// Mouse event.
+    {
+      int16_t sPosX;		// X position of event.
+      int16_t sPosY;		// Y position of event.
+      int16_t sButtons;	// Buttons status at event (ala rspGetMouseEvent).
+      int16_t sEvent;		// Event type (ala rspGetMouseEvent).
+    };
+
+    struct	// Keyboard event.
+    {
+      int32_t lKey;			// Key value and modifiers (ala rspGetKey).
+    };
+  };
+};
 
 // Input event structure for XInput events. (Used only for menu navigation)
 const int XInputButtons = 18;
