@@ -177,9 +177,9 @@ typedef HRESULT (WINAPI *fnSHGetFolderPathW)(HWND hwnd, int nFolder, HANDLE hTok
 //////////////////////////////////////////////////////////////////////////////
 // Module specific macros.
 //////////////////////////////////////////////////////////////////////////////
-#if BIG_ENDIAN
+#if BYTE_ORDER == BIG_ENDIAN
 # define ENDIAN_CONSISTENT	(m_endian != LittleEndian)
-#elif LITTLE_ENDIAN
+#elif BYTE_ORDER == LITTLE_ENDIAN
 # define ENDIAN_CONSISTENT	(m_endian != BigEndian)
 #else
 # error NOT IMPLEMENTED
