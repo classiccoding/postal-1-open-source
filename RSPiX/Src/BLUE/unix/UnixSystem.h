@@ -68,6 +68,8 @@ using namespace std;
 # define FAILURE -1
 #endif
 
+typedef const char* c_string;
+
 #else
 
 #undef SUCCESS
@@ -115,6 +117,25 @@ struct errcode_t
     return reinterpret_cast<T>(code);
   }
 };
+
+struct c_string
+{
+  const char* data;
+
+  template<typename T>
+  constexpr c_string& operator =(T other)
+  {
+    static_assert(sizeof(c_string) != sizeof(T), "did you mean to use nullptr?");
+    data = other;
+    return *this;
+  }
+
+  constexpr operator const char*(void)
+  {
+    return data;
+  }
+};
+
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -203,24 +224,6 @@ typedef struct {	uint64_t	hi;
 #define UNUSED(...) UNUSED_IMPL( VA_NUM_ARGS(__VA_ARGS__))(__VA_ARGS__ )
 
 #define UNHANDLED_SWITCH    default: TRACE("Unhandled switch\n"); break
-
-struct c_string
-{
-  const char* data;
-
-  template<typename T>
-  constexpr c_string& operator =(T other)
-  {
-    static_assert(sizeof(c_string) != sizeof(T), "did you mean to use nullptr?");
-    data = other;
-    return *this;
-  }
-
-  constexpr operator const char*(void)
-  {
-    return data;
-  }
-};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Pixel types
