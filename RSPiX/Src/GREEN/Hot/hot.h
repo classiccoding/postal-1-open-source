@@ -67,7 +67,7 @@
 #else
 	#include "slist.h"
 	#include "List.h"
-	#include "InputEvent.h"
+   #include "InputEvent.h"
 #endif // PATHS_IN_INCLUDES
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -87,25 +87,25 @@ class RHot
 		typedef void (*REventCall)(	// Returns nothing.
 						RHot*	phot,			// Ptr to the RHot that generated the
 												// callback.
-						int16_t sEvent);		// Event that occurred.
+                  int16_t sEvent);		// Event that occurred.
 												// Uses blue.h macros (RSP_MB?_*).
 
 		typedef void (*REventPosCall)(	// Returns nothing.
 						RHot*	phot,				// Ptr to the RHot that generated the
 													// callback.
-						int16_t sEvent,			// Event that occurred.
+                  int16_t sEvent,			// Event that occurred.
 													// Uses blue.h macros (RSP_MB?_*).
-						int16_t sPosX,			// Mouse x position at button event
+                  int16_t sPosX,			// Mouse x position at button event
 													// relative to hotbox's upper, left
 													// corner.
-						int16_t sPosY);			// Mouse y position at button event
+                  int16_t sPosY);			// Mouse y position at button event
 													// relative to hotbox's upper, left
 													// corner.
 
 		typedef void (*InputEventCall)(	// Returns nothing.
 						RHot* phot,				// In:  Ptr to RHot that generated the
 													// callback.
-						RInputEvent*	pie);	// In:  Ptr to input event that generated
+                  RInputEvent*	pie);	// In:  Ptr to input event that generated
 													// the callback.  Note that the coordinates
 													// of this event are relative to hotbox's
 													// upper, left corner.
@@ -116,7 +116,7 @@ class RHot
 													// RHot callbacks and will certainly affect 
 													// the RInputEvent passed to RHot::Do().
 
-		typedef RSList <RHot, int16_t>	SListHots;	// Sorted list of RHots.
+      typedef RSList <RHot, int16_t>	SListHots;	// Sorted list of RHots.
 		typedef RList <RHot>				ListHots;	// List of RHots.
 
 	public:
@@ -125,38 +125,38 @@ class RHot
 
 		// Constructura Especial that sets some intial values.
 		RHot(	
-			int16_t sX,									// X position of new hotbox.
-			int16_t sY,									// Y position of new hotbox.
-			int16_t sW,									// Width of new hotbox.
-			int16_t sH,									// Height of new hotbox.
+         int16_t sX,									// X position of new hotbox.
+         int16_t sY,									// Y position of new hotbox.
+         int16_t sW,									// Width of new hotbox.
+         int16_t sH,									// Height of new hotbox.
 			REventCall fnEventCall = nullptr,		// Callback on mouse event.
 			int16_t	sActive	= FALSE,					// Initially active, if TRUE.
          uintptr_t	ulUser	= 0,						// User value.
-			int16_t sPriority = RHOT_NO_PRIORITY);// Priority.  Default == non-prioritized.
+         int16_t sPriority = RHOT_NO_PRIORITY);// Priority.  Default == non-prioritized.
 
 		// Constructura Especial el Segundario or something that sets some
 		// intial values.
 		RHot(	
-			int16_t sX,									// X position of new hotbox.
-			int16_t sY,									// Y position of new hotbox.
-			int16_t sW,									// Width of new hotbox.
-			int16_t sH,									// Height of new hotbox.
+         int16_t sX,									// X position of new hotbox.
+         int16_t sY,									// Y position of new hotbox.
+         int16_t sW,									// Width of new hotbox.
+         int16_t sH,									// Height of new hotbox.
 			REventPosCall fnEventPosCall,			// Callback on mouse event.
-			int16_t	sActive	= FALSE,					// Initially active, if TRUE.
+         int16_t	sActive	= FALSE,					// Initially active, if TRUE.
          uintptr_t	ulUser	= 0,						// User value.
-			int16_t sPriority = RHOT_NO_PRIORITY);// Priority.  Default == non-prioritized.
+         int16_t sPriority = RHOT_NO_PRIORITY);// Priority.  Default == non-prioritized.
 
 		// Constructura Especial el Tres or something that sets some
 		// intial values.
 		RHot(	
-			int16_t sX,									// X position of new hotbox.
-			int16_t sY,									// Y position of new hotbox.
-			int16_t sW,									// Width of new hotbox.
-			int16_t sH,									// Height of new hotbox.
+         int16_t sX,									// X position of new hotbox.
+         int16_t sY,									// Y position of new hotbox.
+         int16_t sW,									// Width of new hotbox.
+         int16_t sH,									// Height of new hotbox.
 			InputEventCall fnInputEventCall,		// Callback on mouse event.
 			int16_t	sActive	= FALSE,					// Initially active, if TRUE.
          uintptr_t	ulUser	= 0,						// User value.
-			int16_t sPriority = RHOT_NO_PRIORITY);// Priority.  Default == non-prioritized.
+         int16_t sPriority = RHOT_NO_PRIORITY);// Priority.  Default == non-prioritized.
 
 		// Destructor.
 		~RHot();
@@ -173,7 +173,7 @@ class RHot
 		// list so that the new priorty is recognized.
 		// See CPP comment header in regards to specifics of this value.
 		void SetPriority(		// Returns nothing.
-			int16_t sPriority);	// New priority for hotbox.  Lower value
+         int16_t sPriority);	// New priority for hotbox.  Lower value
 									// equals higher priority.
 									// RHOT_NO_PRIORITY(default) indicates non-prioritized.
 
@@ -181,7 +181,7 @@ class RHot
 		// This has the effect of having the hotbox scanned relative to the
 		// parent and only within the area of the parent.
 		void SetParent(			// Returns nothing.
-			RHot* photParent);	// Hotbox to be parent of this hotbox or nullptr
+         RHot* photParent);	// Hotbox to be parent of this hotbox or nullptr
 										// for none.
 
 		// Activates/Deactivates capturing for this hotbox.
@@ -210,9 +210,9 @@ class RHot
 		// This is purely provided for backward compatibility.
 		int16_t Do(							// Returns priority of item that used event
 												// or RHOT_NO_PRIORITY if none.
-			int16_t	sPosX,					// In:  X position for event.
-			int16_t	sPosY,					// In:  Y position for event.
-			int16_t sEvent)					// In:  A RSPiX Blue mouse button event
+         int16_t	sPosX,					// In:  X position for event.
+         int16_t	sPosY,					// In:  Y position for event.
+         int16_t sEvent)					// In:  A RSPiX Blue mouse button event
 												// (see <Mac/Win/Etc>Blue.h).
 			{
 			// Create an event.
@@ -243,19 +243,19 @@ class RHot
 
 		// Get the child position equivalent coordinates.
 		void GetChildPos(	// Returns nothing.
-			int16_t* psX,		// In:  Top-level position.
+         int16_t* psX,		// In:  Top-level position.
 								// Out: Child position.
-			int16_t* psY);	// In:  Top-level position.
+         int16_t* psY);	// In:  Top-level position.
 								// Out: Child position.    
 
 		// Get the top position equivalent coordinates.
 		void GetTopPos(	// Returns nothing.
-			int16_t* psX,		// In:  Child position.
+         int16_t* psX,		// In:  Child position.
 								// Out: Top-level position.
-			int16_t* psY);	// In:  Child position.
+         int16_t* psY);	// In:  Child position.
 								// Out: Top-level position.    
 
-		RHot*	GetParent(void)	// Returns ptr to RHot that is parent to this Rhot.
+      RHot*	GetParent(void)	// Returns ptr to RHot that is parent to this Rhot.
 			{
 			return m_photParent;
 			}
@@ -277,21 +277,21 @@ class RHot
 	protected:	// Instantiable members.
 		int16_t		m_sActive;		// TRUE if active, FALSE otherwise.
 		int16_t		m_sCapture;		// TRUE, if capturing events.
-		int16_t		m_sPriority;	// Priority for hotbox.  Lower value     
+      int16_t		m_sPriority;	// Priority for hotbox.  Lower value
 										// equals closer to front (higher priority).
 										// RHOT_NO_PRIORITY(default) indicates non-prioritized.
 										// See CPP comment header in regards to specifics
 										// of this value.
-		RHot*		m_photParent;	// Pointer to parent RHot or nullptr, if none.
+      RHot*		m_photParent;	// Pointer to parent RHot or nullptr, if none.
 
 	
 	public:	// To be modified by the User.
-		int16_t		m_sX;				// The x-coordinate of this hotbox relative to
+      int16_t		m_sX;				// The x-coordinate of this hotbox relative to
 										// its parent.
-		int16_t		m_sY;				// The y-coordinate of this hotbox relative to
+      int16_t		m_sY;				// The y-coordinate of this hotbox relative to
 										// its parent.
-		int16_t		m_sW;				// The width of this hotbox.
-		int16_t		m_sH;				// The height of this hotbox.
+      int16_t		m_sW;				// The width of this hotbox.
+      int16_t		m_sH;				// The height of this hotbox.
 
 		REventCall		m_ecUser;	// User callback on button events.
 											// All callbacks can be used simultaneously.

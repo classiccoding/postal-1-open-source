@@ -70,8 +70,8 @@ public:
 	void DumpPalette(RImage* pimDst,int16_t sX,int16_t sY); // must be 256 lines high!
 	int16_t Load(RFile* pFile);
 	int16_t Save(RFile* pFile);
-	int16_t Load(char* pszFile);
-	int16_t Save(char* pszFile);
+   int16_t Load(const char* pszFile);
+   int16_t Save(const char* pszFile);
 	int16_t Alloc(int16_t sDepth);
 	void Erase();
 	//==========================================================
@@ -168,8 +168,8 @@ public:
 	// This 
 	int16_t Load(RFile* pFile);
 	int16_t Save(RFile* pFile);
-	int16_t Load(char* pszFile);
-	int16_t Save(char* pszFile);
+   int16_t Load(const char* pszFile);
+   int16_t Save(const char* pszFile);
 	//==========================================================
 private:
 

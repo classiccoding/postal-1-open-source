@@ -100,7 +100,7 @@ CNetMsgr::InfoMsg CNetMsgr::ms_aInfoMsg[NetMsg::NumMessages] =
 		{	NetMsg::DROPPED				,	INFO(Dropped)			},
 		{	NetMsg::DROP_ACK				,	INFO(DropAck)			},
 		{	NetMsg::INPUT_REQ				,	INFO(InputReq)			},
-		{	NetMsg::INPUT_DATA			,	(size_t) (INFO(InputData))	},
+      {	NetMsg::INPUT_DATA			,	INFO(InputData)      },
 		{	NetMsg::INPUT_MARK			,	INFO(InputMark)		},
 		{	NetMsg::CHAT_REQ				,	INFO(ChatReq)			},
 		{	NetMsg::CHAT					,	INFO(Chat)				},

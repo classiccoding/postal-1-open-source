@@ -422,8 +422,8 @@ const char* g_pszNetStat_TimeoutError					= "Network error (time-out)";
 const char* g_pszNetStat_ListenError					= "Network error (can't listen)";
 const char* g_pszNetStat_ConnectError					= "Network error (can't connect)";
 const char* g_pszNetStat_ConnectTimeoutError			= "Network error (connection attempt timed-out)";
-const char* g_pszNetStat_ClientVersionMismatchError_lu_lu	= "Version mismatch--dropping (Host ver is %lu -- Our ver is %lu)";
-const char* g_pszNetStat_ServerVersionMismatchError_lu_lu	= "Version mismatch--dropping client (Client ver is %lu -- Our ver is %lu)";
+const char* g_pszNetStat_ClientVersionMismatchError_lu_lu	= "Version mismatch--dropping (Host ver is %u -- Our ver is %u)";
+const char* g_pszNetStat_ServerVersionMismatchError_lu_lu	= "Version mismatch--dropping client (Client ver is %u -- Our ver is %u)";
 const char* g_pszNetStat_CantOpenPeerSocketError	= "Network error (couldn't connect to other players)";
 const char* g_pszNetStat_LoginDeniedError				= "Login failed";
 const char* g_pszNetStat_JoinDeniedError				= "Host refused join request";
@@ -707,7 +707,7 @@ void UploadLinkInteger(			// Returns nothing.
 			else
 				{
 				// Unsigned.
-				pgui->SetText("%lu", (uint32_t)i);
+            pgui->SetText("%u", (uint32_t)i);
 				}
 #else
 			// Hardwire to signed b/c bool was displaying a warning regarding the
@@ -1116,7 +1116,7 @@ static void DlgBeGone(void)
 //
 //////////////////////////////////////////////////////////////////////////////
 static int16_t SetupDlg(		// Returns 0 on success.
-	char*	pszGuiFile,			// In:  Full path to GUI file.
+    const char* pszGuiFile,			// In:  Full path to GUI file.
 	DLG_TYPE	type)				// In:  Type of dialog.
 	{
    int16_t sResult = SUCCESS;	// Assume success.

@@ -273,7 +273,7 @@ int16_t RResMgr::Get(									// Returns 0 on success.
 	// or where it was inserted if it did not previously exist.
 	p = m_map.insert(resclassMap::value_type (strFilename, resBlock));
 	// If the requested resource does not already exist, create the resource now and load it
-	if ((*(p.first)).second.m_vpRes == NULL)
+   if ((*(p.first)).second.m_vpRes == nullptr)
 		{
 		sReturn = GetInstance(	// Returns 0 on success.
 				strFilename,		// In:  Resource name
@@ -345,8 +345,8 @@ int16_t RResMgr::Get(									// Returns 0 on success.
 		}
 	else
 		{
-		*hRes = NULL;
-		// In this case, m_vpRes is also NULL, so we don't have to worry about a 
+      *hRes = nullptr;
+      // In this case, m_vpRes is also nullptr, so we don't have to worry about a
 		// double delete.
 		m_map.erase(strFilename);
 		}
@@ -391,15 +391,15 @@ int16_t RResMgr::GetInstance(						// Returns 0 on success.
 	{
 	int16_t	sReturn	= SUCCESS;	// Assume success for return.
 	// Assume failure for safety.
-	*hRes	= NULL;
+   *hRes	= nullptr;
 	NormalizeResName(&strFilename);
 
 	// Create resource using the specified "create" function
-	void* pvInstance = NULL;
+   void* pvInstance = nullptr;
 	if ((*pfnCreate)(&pvInstance) == 0)
 		{
 		RFile		fileNoSak;
-		RFile*	pfileSrc	= NULL;
+      RFile*	pfileSrc	= nullptr;
 		// If a SAK file is in use, load it from that, otherwise
 		// load it from the disk file.
 		if (m_rfSak.IsOpen())
@@ -418,7 +418,7 @@ int16_t RResMgr::GetInstance(						// Returns 0 on success.
 				}
 			}
 
-		if (pfileSrc != NULL)
+      if (pfileSrc != nullptr)
 			{
 			// Set endian for this file.
 			pfileSrc->SetEndian(endian);
@@ -609,6 +609,7 @@ void RResMgr::FreeAllResources(void)
 int16_t RResMgr::Statistics(RString strStatFile)
 {
 #if PLATFORM_UNIX   // avoid STL on Unix.  --ryan.
+    UNUSED(strStatFile);
     fprintf(stderr, "STUBBED: %s:%d\n", __FILE__, __LINE__);
     return FAILURE;
 #else
@@ -685,6 +686,7 @@ int16_t RResMgr::Statistics(RString strStatFile)
 int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
 {
 #if PLATFORM_UNIX   // avoid STL on Unix.  --ryan.
+    UNUSED(strScriptFile, strSakFile);
     return FAILURE;
 #else
 	int16_t sReturn = SUCCESS;
@@ -736,7 +738,7 @@ int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
 		accessVector::iterator iFilename;
 //		typeVector::iterator iType = m_TypeList.begin();
 		RFile	fileRes;
-		U8	au8Transfer[TRANSFER_BUF_SIZE];
+		uint8_t	au8Transfer[TRANSFER_BUF_SIZE];
 		int32_t	lNumBytes;
 		pair <dupSet::iterator, bool> p(m_duplicateSet.begin(), false);
 		m_duplicateSet.erase(m_duplicateSet.begin(), m_duplicateSet.end());
@@ -1036,7 +1038,7 @@ int16_t RResMgr::OpenSakAlt(RString strSakFile, RString strScriptFile)
 				script.getline(char_buffer, 256);
 				//clean the \r that can still be there
 				char* p;
-				if((p=strchr(char_buffer,'\r'))!=NULL)
+            if((p=strchr(char_buffer,'\r'))!=nullptr)
 					*p = '\0';
 				strFilename = char_buffer;
 				if (strFilename[(int32_t) 0] != ';' && strFilename[(int32_t) 0] != ' ' && strFilename.GetLen() > 0)
@@ -1047,7 +1049,7 @@ int16_t RResMgr::OpenSakAlt(RString strSakFile, RString strScriptFile)
 					script.getline(char_buffer, 256);
 					//clean the \r that can still be there
 					char* p;
-					if((p=strchr(char_buffer,'\r'))!=NULL)
+               if((p=strchr(char_buffer,'\r'))!=nullptr)
 						*p = '\0';
 					strFilename = char_buffer;
 					strFilename = char_buffer;
@@ -1059,7 +1061,7 @@ int16_t RResMgr::OpenSakAlt(RString strSakFile, RString strScriptFile)
 						script.getline(char_buffer, 256);
 						//clean the \r that can still be there
 						char* p;
-						if((p=strchr(char_buffer,'\r'))!=NULL)
+                  if((p=strchr(char_buffer,'\r'))!=nullptr)
 							*p = '\0';
 						strFilename = char_buffer;
 						strFilename = char_buffer;

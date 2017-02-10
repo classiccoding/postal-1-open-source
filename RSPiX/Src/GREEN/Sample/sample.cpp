@@ -533,7 +533,7 @@ int32_t RSample::Read(int32_t lAmount)
 			}
 		else
 			{
-			TRACE("Read(%lu): Unable to allocate data chunk.\n", lAmount);
+			TRACE("Read(%u): Unable to allocate data chunk.\n", lAmount);
 			lRes = -1L;
 			}
 		}
@@ -563,7 +563,7 @@ int32_t RSample::Read(int32_t lAmount)
 				}
 			else
 				{
-				TRACE("Read(%lu): Error reading stream.\n");
+				TRACE("Read(%u): Error reading stream.\n");
 				lRes = -2L;
 				}
 			}

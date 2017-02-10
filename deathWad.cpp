@@ -111,31 +111,31 @@ const int16_t		CDeathWad::ms_sCollisionRadius			= 30;
 const double	CDeathWad::ms_dKickVelocity				= 350.0;
 // Max a WAD can hold.
 const CStockPile CDeathWad::ms_stockpileMax				=
-	{
-	0,				// m_sHitPoints
-					                     
-	5,				// m_sNumGrenades
-	0,				// m_sNumFireBombs
-	1,				// m_sNumMissiles
-	1,				// m_sNumNapalms
-	0,				// m_sNumBullets
-	0,				// m_sNumShells
-	50,			// m_sNumFuel
-	0,				// m_sNumMines
-	0,				// m_sNumHeatseekers
-					                     
-	0,				// m_sMachineGun
-	0,				// m_sMissileLauncher
-	0,				// m_sShotGun
-	0,				// m_sSprayCannon
-	0,				// m_sFlameThrower
-	0,				// m_sNapalmLauncher
-	0,				// m_sDeathWadLauncher
-					                     
-	0,				// m_sKevlarLayers
-					                     
-	0,				// m_sBackpack
-	};
+{
+  0,				// m_sHitPoints
+
+  5,				// m_sNumGrenades
+  0,				// m_sNumFireBombs
+  1,				// m_sNumMissiles
+  1,				// m_sNumNapalms
+  0,				// m_sNumBullets
+  0,				// m_sNumShells
+  50,			// m_sNumFuel
+  0,				// m_sNumMines
+  0,				// m_sNumHeatseekers
+
+  0,				// m_sMachineGun
+  0,				// m_sMissileLauncher
+  0,				// m_sShotGun
+  0,				// m_sSprayCannon
+  0,				// m_sFlameThrower
+  0,				// m_sNapalmLauncher
+  0,				// m_sDeathWadLauncher
+
+  0,				// m_sKevlarLayers
+
+  0,				// m_sBackpack
+};
 
 // Let this auto-init to 0
 int16_t CDeathWad::ms_sFileCount;

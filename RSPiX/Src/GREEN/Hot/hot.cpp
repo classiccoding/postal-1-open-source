@@ -45,7 +45,7 @@
 //							afraid that there needed to be a way to let child hots
 //							when the parent was destroyed.  Now, when a parent is
 //							destroyed, it goes through all its children doing a 
-//							photChild->SetParent(NULL).
+//							photChild->SetParent(nullptr).
 //
 //		01/13/97	JMI	Added Do() that takes an event.  Now the old Do() calls
 //							this when it finds an event.
@@ -147,14 +147,14 @@ RHot::RHot()
 //
 //////////////////////////////////////////////////////////////////////////////
 RHot::RHot(
-	int16_t sX,										// X position of new hotbox.
-	int16_t sY,										// Y position of new hotbox.
-	int16_t sW,										// Width of new hotbox.
-	int16_t sH,										// Height of new hotbox.
+   int16_t sX,										// X position of new hotbox.
+   int16_t sY,										// Y position of new hotbox.
+   int16_t sW,										// Width of new hotbox.
+   int16_t sH,										// Height of new hotbox.
    REventCall fnEventCall /*= nullptr*/,		// Callback on mouse event.
 	int16_t	sActive /*= FALSE*/,					// Initially active, if TRUE.
    uintptr_t	ulUser /*= 0*/,						// User value.
-	int16_t sPriority /*= RHOT_NO_PRIORITY*/)// Priority.  Default == non-prioritized.
+   int16_t sPriority /*= RHOT_NO_PRIORITY*/)// Priority.  Default == non-prioritized.
 	{
 	// Reset all members.
 	Init();
@@ -180,14 +180,14 @@ RHot::RHot(
 //
 //////////////////////////////////////////////////////////////////////////////
 RHot::RHot(
-	int16_t sX,										// X position of new hotbox.
-	int16_t sY,										// Y position of new hotbox.
-	int16_t sW,										// Width of new hotbox.
-	int16_t sH,										// Height of new hotbox.
+   int16_t sX,										// X position of new hotbox.
+   int16_t sY,										// Y position of new hotbox.
+   int16_t sW,										// Width of new hotbox.
+   int16_t sH,										// Height of new hotbox.
 	REventPosCall fnEventPosCall,				// Callback on mouse event.
 	int16_t	sActive /*= FALSE*/,					// Initially active, if TRUE.
    uintptr_t	ulUser /*= 0*/,						// User value.
-	int16_t sPriority /*= RHOT_NO_PRIORITY*/)// Priority.  Default == non-prioritized.
+   int16_t sPriority /*= RHOT_NO_PRIORITY*/)// Priority.  Default == non-prioritized.
 	{
 	// Reset all members.
 	Init();
@@ -213,14 +213,14 @@ RHot::RHot(
 //
 //////////////////////////////////////////////////////////////////////////////
 RHot::RHot(
-	int16_t sX,										// X position of new hotbox.
-	int16_t sY,										// Y position of new hotbox.
-	int16_t sW,										// Width of new hotbox.
-	int16_t sH,										// Height of new hotbox.
+   int16_t sX,										// X position of new hotbox.
+   int16_t sY,										// Y position of new hotbox.
+   int16_t sW,										// Width of new hotbox.
+   int16_t sH,										// Height of new hotbox.
 	InputEventCall fnInputEventCall,			// Callback on mouse event.
 	int16_t	sActive /*= FALSE*/,					// Initially active, if TRUE.
    uintptr_t	ulUser /*= 0*/,						// User value.
-	int16_t sPriority /*= RHOT_NO_PRIORITY*/)// Priority.  Default == non-prioritized.
+   int16_t sPriority /*= RHOT_NO_PRIORITY*/)// Priority.  Default == non-prioritized.
 	{
 	// Reset all members.
 	Init();
@@ -283,7 +283,7 @@ void RHot::SetActive(	// Returns nothing.
 		if (sActive == TRUE)
 			{
 			// If this item has a parent . . .
-			RHot*	photParent	= GetParent();
+         RHot*	photParent	= GetParent();
          if (photParent != nullptr)
 				{
 				// Add us into its list.
@@ -336,7 +336,7 @@ void RHot::SetActive(	// Returns nothing.
 //
 //////////////////////////////////////////////////////////////////////////////
 void RHot::SetPriority(	// Returns 0 on success.
-	int16_t sPriority)			// New priority for hotbox.  Lower value
+   int16_t sPriority)			// New priority for hotbox.  Lower value
 									// equals higher priority.
 									// RHOT_NO_PRIORITY(default) indicates non-prioritized.
 	{
@@ -493,7 +493,7 @@ int16_t	RHot::Do(			// Returns priority of item called back or
 								// Out: Depends on callbacks.  Generally,
 								// pie->sUsed = TRUE, if used.
 	{
-	int16_t	sPriorityCalled	= RHOT_NO_PRIORITY;	// Assume no callback.
+   int16_t	sPriorityCalled	= RHOT_NO_PRIORITY;	// Assume no callback.
 
 	// Make sure we're dealing with the correct event type . . .
 	if (pie->type == RInputEvent::Mouse)
@@ -504,8 +504,8 @@ int16_t	RHot::Do(			// Returns priority of item called back or
 			// Process capture items.
 			// Notify all hotboxes that are capturing.
 			// Note that capture items have no priority.
-			int16_t sChildPosX;
-			int16_t	sChildPosY;
+         int16_t sChildPosX;
+         int16_t	sChildPosY;
 			RHot* phot	= m_listCapturing.GetHead();
          while (phot != nullptr)
 				{
@@ -630,12 +630,12 @@ int16_t	RHot::Do(			// Returns priority of item called back or
 //
 //////////////////////////////////////////////////////////////////////////////
 void RHot::GetChildPos(	// Returns nothing.
-	int16_t* psX,				// In:  Top-level position.
+   int16_t* psX,				// In:  Top-level position.
 								// Out: Child position.
-	int16_t* psY)				// In:  Top-level position.
+   int16_t* psY)				// In:  Top-level position.
 								// Out: Child position.
 	{
-	RHot*	photParent	= m_photParent;
+   RHot*	photParent	= m_photParent;
    while (photParent != nullptr)
 		{
 		// Move through parent's coordinate system.
@@ -653,12 +653,12 @@ void RHot::GetChildPos(	// Returns nothing.
 //
 //////////////////////////////////////////////////////////////////////////////
 void RHot::GetTopPos(	// Returns nothing.
-	int16_t* psX,				// In:  Child position.
+   int16_t* psX,				// In:  Child position.
 								// Out: Top-level position.
-	int16_t* psY)				// In:  Child position.
+   int16_t* psY)				// In:  Child position.
 								// Out: Top-level position.    
 	{
-	RHot*	photParent	= m_photParent;
+   RHot*	photParent	= m_photParent;
    while (photParent != nullptr)
 		{
 		// Move through parent's coordinate system.

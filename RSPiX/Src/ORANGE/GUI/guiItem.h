@@ -478,7 +478,7 @@ class RGuiItem : public RProps <uint32_t, uint32_t>
 		// that type before loading.  Useful for loading generic *.GUI files.
 		// See LoadInstance(char*).
 		int16_t Load(					// Returns 0 on success.
-			char* pszFileName);	// Name of file to load from.
+         const char* pszFileName);	// Name of file to load from.
 
 		// This will load the GUI tree (i.e., 'this' item and its children).
 		// If you override this function, you should call this base version
@@ -494,7 +494,7 @@ class RGuiItem : public RProps <uint32_t, uint32_t>
 		// This will open the specified file with write access in an RFile and
 		// pass it to Save(RFile*).
 		int16_t Save(					// Returns 0 on success.
-			char* pszFileName);	// Name of file to save to.
+         const char* pszFileName);	// Name of file to save to.
 
 		// This will save the GUI tree (i.e., 'this' item and its children).
 		// If you override this function, you should call this base version
@@ -594,7 +594,7 @@ class RGuiItem : public RProps <uint32_t, uint32_t>
 		// file.
 		static RGuiItem* LoadInstantiate(	// Returns newly allocated GUI item
 														// on success or nullptr on failure.
-			char*	pszFileName);					// Name of file to instantiate from.
+         const char*	pszFileName);					// Name of file to instantiate from.
 
 		// Instantiate a GUI tree from a file.  Allocates a GUI item of the
 		// proper (specified in the file) type and loads it using the specified

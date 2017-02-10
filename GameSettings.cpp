@@ -192,9 +192,9 @@ const char*	CGameSettings::ms_apszPlayerColorDescriptions[CDude::MaxTextures + 1
 	};
 
 // Number of color descriptions.
-const	uint16_t CGameSettings::ms_sNumPlayerColorDescriptions	= NUM_ELEMENTS(ms_apszPlayerColorDescriptions) - 1;
+const size_t CGameSettings::ms_sNumPlayerColorDescriptions = NUM_ELEMENTS(ms_apszPlayerColorDescriptions) - 1;
 
-char*	CGameSettings::ms_apszAudioLanguageDescriptions[NUM_LANGUAGES + 1]	=
+const char* CGameSettings::ms_apszAudioLanguageDescriptions[NUM_LANGUAGES + 1] =
 	{
 	g_pszAudioMenu_English,
 	g_pszAudioMenu_Japanese,

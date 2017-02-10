@@ -77,7 +77,7 @@ uint8_t rspMatchColorRGB(int32_t r,int32_t g,int32_t b,int16_t sStart,int16_t sN
 // It counts on RSP SetPalette to go through a gamma correction table on the PC.
 // Higher level functions can do actual image conversions.
 
-int16_t RAlpha::Load(char* pszFile)
+int16_t RAlpha::Load(const char* pszFile)
 	{
 	RFile file;
 
@@ -93,7 +93,7 @@ int16_t RAlpha::Load(char* pszFile)
    return sResult;
 	}
 
-int16_t RAlpha::Save(char* pszFile)
+int16_t RAlpha::Save(const char* pszFile)
 	{
 	RFile *fp = new RFile;
 
@@ -711,7 +711,7 @@ int16_t RMultiAlpha::Save(RFile* pFile)
 	return 0;
 	}
 
-int16_t RMultiAlpha::Load(char* pszFile)
+int16_t RMultiAlpha::Load(const char* pszFile)
 	{
 	RFile fplocal;
 	RFile *fp = &fplocal; // needs to be freed automatically!
@@ -733,7 +733,7 @@ int16_t RMultiAlpha::Load(char* pszFile)
    return sResult;
 	}
 
-int16_t RMultiAlpha::Save(char* pszFile)
+int16_t RMultiAlpha::Save(const char* pszFile)
 	{
 	RFile *fp = new RFile;
 

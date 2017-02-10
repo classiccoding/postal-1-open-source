@@ -263,7 +263,7 @@ int16_t RPalFile::Load(			// Returns SUCCESS on success or FAILURE on failure.
 					default:	// No current support.
 						TRACE("RPal::Load - Error: Unsupported version.\n");
 						TRACE("RPal::Load - Current RPal version %d\n", PAL_CURRENT_VERSION);
-						TRACE("RPal::Load - This file's version %lu\n", ulVersion);
+						TRACE("RPal::Load - This file's version %u\n", ulVersion);
 						TRACE("RPal::Load - See PalFile.cpp for details on "
 							"supporting older RPal formats.\n");
 						sResult = FAILURE;

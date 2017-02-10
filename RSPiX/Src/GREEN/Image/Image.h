@@ -307,15 +307,15 @@ class RImage
 		Type	m_typeDestination;		// Type to convert to upon load
 												// (New version 2)
 		uint32_t			m_ulSize;			// Image data's size
-		int16_t			m_sWinWidth;		// Width of image
-		int16_t			m_sWinHeight;		// Height of image
-		int16_t			m_sWidth;			// Width of buffer   (new version 2)
-		int16_t			m_sHeight;			// Height of buffer (new version 2)
-		int16_t			m_sWinX;				// Position of image in the buffer
-		int16_t			m_sWinY;				// Position of image in the buffer
+      int16_t			m_sWinWidth;		// Width of image
+      int16_t			m_sWinHeight;		// Height of image
+      int16_t			m_sWidth;			// Width of buffer   (new version 2)
+      int16_t			m_sHeight;			// Height of buffer (new version 2)
+      int16_t			m_sWinX;				// Position of image in the buffer
+      int16_t			m_sWinY;				// Position of image in the buffer
 
-		int32_t			m_lPitch;			// Pitch of image
-		int16_t			m_sDepth;			// Color depth of image
+      int32_t			m_lPitch;			// Pitch of image
+      int16_t			m_sDepth;			// Color depth of image
 		uint8_t*		m_pData;				// Pointer to data
 		RPal*			m_pPalette;			// Pointer to palette class
 		uint8_t*		m_pSpecial;			// Generic pointer for expandability
