@@ -124,7 +124,7 @@ struct errcode_t
 #include <BLUE/portable_endian.h>
 
 #if defined(__WINDOWS__)
-# pragma message I find your lack of POSIX disturbing. ;)
+# pragma message("I find your lack of POSIX disturbing. ;)")
 # include <BaseTsd.h>
 typedef SSIZE_T ssize_t;
 
