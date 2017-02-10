@@ -35,65 +35,9 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+
+#include <climits>
 #include <cstdint>
-
-#if defined(WIN32) || defined(__WIN32__) || defined(_MSC_VER)
-//#warning I find your lack of POSIX disturbing. ;)
-
-#ifndef snprintf
-#define snprintf _snprintf
-#endif
-#ifndef vsnprintf
-#define vsnprintf _vsnprintf
-#endif
-#ifndef strcasecmp
-#define strcasecmp _stricmp
-#endif
-
-#include <BaseTsd.h>
-
-typedef SSIZE_T ssize_t;
-
-#ifndef __WORDSIZE
-#define __WORDSIZE WORDSIZE
-#endif
-
-# if __WORDSIZE == 64
-#  define __INT64_C(c)	c ## L
-#  define __UINT64_C(c)	c ## UL
-# else
-#  define __INT64_C(c)	c ## LL
-#  define __UINT64_C(c)	c ## ULL
-# endif
-
-/* Limits of integral types.  */
-
-/* Minimum of signed integral types.  */
-# define INT8_MIN		(-128)
-# define INT16_MIN		(-32767-1)
-# define INT32_MIN		(-2147483647-1)
-# define INT64_MIN		(-__INT64_C(9223372036854775807)-1)
-/* Maximum of signed integral types.  */
-# define INT8_MAX		(127)
-# define INT16_MAX		(32767)
-# define INT32_MAX		(2147483647)
-# define INT64_MAX		(__INT64_C(9223372036854775807))
-
-/* Maximum of unsigned integral types.  */
-# define UINT8_MAX		(255)
-# define UINT16_MAX		(65535)
-# define UINT32_MAX		(4294967295U)
-# define UINT64_MAX		(__UINT64_C(18446744073709551615))
-
-#else
-#include <sys/types.h>
-#endif
-
-#if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
-#define SYS_ENDIAN_BIG 1
-#else
-#define SYS_ENDIAN_LITTLE 1
-#endif
 
 #include <map>
 using namespace std;
@@ -104,16 +48,143 @@ using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
 #define PATHS_IN_INCLUDES
 
+////////////////////////////////////////////////////////////////////////////////
+// Handy defines.
+////////////////////////////////////////////////////////////////////////////////
+#ifndef TRUE
+# define TRUE     1
+#endif
+
+#ifndef FALSE
+# define FALSE    0
+#endif
+
+#if !defined(STRICT) && !defined(PENDANT)
+#ifndef SUCCESS
+# define SUCCESS  0
+#endif
+
+#ifndef FAILURE
+# define FAILURE -1
+#endif
+
+#else
+
+#undef SUCCESS
+#undef FAILURE
+
+enum errcode : error_t
+{
+  FAILURE = -1,
+  SUCCESS,
+};
+
+constexpr errcode operator * (errcode c, error_t mult)
+  { return errcode(error_t(c) * mult); }
+
+static_assert(errcode::SUCCESS == 0, "enumeration error");
+
+struct errcode_t
+{
+  error_t code;
+#if defined(PENDANT)
+  constexpr errcode_t& operator =(errcode c)
+  {
+    code = c;
+    return *this;
+  }
+
+  constexpr errcode_t& operator =(errcode_t c)
+  {
+    code = c.code;
+    return *this;
+  }
+#else
+  template<typename T>
+  constexpr errcode_t& operator =(T c)
+  {
+    static_assert(sizeof(T) <= sizeof(errcode_t), "not large enough");
+    code = c;
+    return *this;
+  }
+#endif
+  template<typename T>
+  constexpr operator T(void)
+  {
+    static_assert(sizeof(T) >= sizeof(errcode_t), "data would truncate");
+    return reinterpret_cast<T>(code);
+  }
+};
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
-// Usefull pragms
+// Standard types, type limits, standard functions and endian detection
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <BLUE/portable_endian.h>
+
+#if defined(__WINDOWS__)
+# pragma message I find your lack of POSIX disturbing. ;)
+# include <BaseTsd.h>
+typedef SSIZE_T ssize_t;
+
+# if !defined(snprintf)
+#  define snprintf _snprintf
+# endif
+# if !defined(vsnprintf)
+#  define vsnprintf _vsnprintf
+# endif
+# if !defined(strcasecmp)
+#  define strcasecmp _stricmp
+# endif
+
+# define NOTE(x) __pragma(message("NOTE: " x))
+
+#include <BLUE/stdint_msvc.h>
+#else
+# include <sys/types.h>
+#define DO_PRAGMA(x) _Pragma (#x)
+# if !defined(__GNUC__) || __GNUC_PREREQ(4,4)
+#  define NOTE(x) DO_PRAGMA(message("NOTE: " x))
+# else
+#  define NOTE(x) DO_PRAGMA(warning("NOTE: " x)
+# endif
+#endif
+
+static_assert(sizeof(uintptr_t) == sizeof(void*), "your compiler is broken!");
+
+#if CHAR_BIT != 8
+# error "unsupported char size"
+#endif
+
+/* Minimum of unsigned integral types.  */
+# define UINT8_MIN 0
+# define UINT16_MIN 0
+# define UINT32_MIN 0
+# define UINT64_MIN 0
+
+// 128-bit got a little trickier...
+#if BYTE_ORDER == LITTLE_ENDIAN
+typedef struct {	uint64_t	lo;
+                  int64_t	hi;} int128_t;
+typedef struct {	uint64_t	lo;
+                  uint64_t	hi;} uint128_t;
+#elif BYTE_ORDER == BIG_ENDIAN
+typedef struct {	int64_t	hi;
+                  uint64_t	lo;} int128_t;
+typedef struct {	uint64_t	hi;
+                  uint64_t	lo;} uint128_t;
+#elif BYTE_ORDER == PDP_ENDIAN
+# error Middle-endian is not implemented.
+#elif defined(BYTE_ORDER)
+# error Unknown endian format detected!
+#else
+# error The endianness of your machine could not be detected!
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
-// Basic RSPiX Types
+// Macros to avoid warnings
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef __RSPX_TYPES
-#define __RSPX_TYPES
 
 #define UNUSED1(a)                (void)(a)
 #define UNUSED2(a,b)             UNUSED1(a),UNUSED1(b)
@@ -133,109 +204,92 @@ using namespace std;
 
 #define UNHANDLED_SWITCH    default: TRACE("Unhandled switch\n"); break
 
-#define UINT8_MIN 0
-#define UINT16_MIN 0
-#define UINT32_MIN 0
-#define UINT64_MIN 0
+struct c_string
+{
+  const char* data;
 
-  static_assert(sizeof(uintptr_t) == sizeof(void*), "your compiler is broken!");
+  template<typename T>
+  constexpr c_string& operator =(T other)
+  {
+    static_assert(sizeof(c_string) != sizeof(T), "did you mean to use nullptr?");
+    data = other;
+    return *this;
+  }
 
-	// 128-bit got a little trickier...
-	#ifdef SYS_ENDIAN_LITTLE
-		typedef struct {	uint64_t	lo;
-                        int64_t	hi;} int128_t;
-		typedef struct {	uint64_t	lo;
-                        uint64_t	hi;} uint128_t;
-	#else	// defined(SYS_ENDIAN_BIG)
-
-		typedef struct {	int64_t	hi;
-                        uint64_t	lo;} int128_t;
-		typedef struct {	uint64_t	hi;
-                        uint64_t	lo;} uint128_t;
-	#endif
-
-	// These pixel types take the endian order of the system into account.
-	typedef uint8_t RPixel;
-	typedef uint16_t RPixel16;
-	typedef struct
-		{
-		uint8_t	u8Red;
-		uint8_t	u8Green;
-		uint8_t	u8Blue;
-		} RPixel24;
-	typedef struct
-		{
-		uint8_t	u8Alpha;
-		uint8_t	u8Red;
-		uint8_t	u8Green;
-		uint8_t	u8Blue;
-		} RPixel32;
-	inline bool operator==(const RPixel24& lhs, const RPixel24& rhs)
-		{ return ((lhs.u8Blue == rhs.u8Blue) && (lhs.u8Green == rhs.u8Green) && (lhs.u8Red == rhs.u8Red)) ? true : false; }
-	inline bool operator==(const RPixel32& lhs, const RPixel32& rhs)
-		{ return ((lhs.u8Blue == rhs.u8Blue) && (lhs.u8Green == rhs.u8Green) && (lhs.u8Red == rhs.u8Red) && (lhs.u8Alpha == rhs.u8Alpha)) ? true : false; }
-
-#endif // __RSPX_TYPES
-
+  constexpr operator const char*(void)
+  {
+    return data;
+  }
+};
 
 ////////////////////////////////////////////////////////////////////////////////
-// Handy macros.
+// Pixel types
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef TRUE
-#define TRUE	1
-#endif
 
-#ifndef FALSE
-#define FALSE	0
-#endif
+// These pixel types take the endian order of the system into account.
+typedef uint8_t RPixel;
+typedef uint16_t RPixel16;
 
-#ifndef SUCCESS
-#define SUCCESS	0
-#endif
+typedef struct
+{
+  uint8_t	u8Red;
+  uint8_t	u8Green;
+  uint8_t	u8Blue;
+} RPixel24;
 
-#ifndef FAILURE
-#define FAILURE	-1
-#endif
+typedef struct
+{
+  uint8_t	u8Alpha;
+  uint8_t	u8Red;
+  uint8_t	u8Green;
+  uint8_t	u8Blue;
+} RPixel32;
+
+constexpr bool operator==(const RPixel24& lhs, const RPixel24& rhs)
+  { return (lhs.u8Blue == rhs.u8Blue) && (lhs.u8Green == rhs.u8Green) && (lhs.u8Red == rhs.u8Red); }
+constexpr bool operator==(const RPixel32& lhs, const RPixel32& rhs)
+  { return (lhs.u8Blue == rhs.u8Blue) && (lhs.u8Green == rhs.u8Green) && (lhs.u8Red == rhs.u8Red) && (lhs.u8Alpha == rhs.u8Alpha); }
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Usefull Templates
 ////////////////////////////////////////////////////////////////////////////////
 #undef MIN
 template <class T>
-inline T MIN(T a,T b) { return (a < b) ? a : b; }
+constexpr T MIN(T a,T b) { return (a < b) ? a : b; }
 
 #undef MAX
 template <class T>
-inline T MAX(T a,T b) { return (a > b) ? a : b; }
+constexpr T MAX(T a,T b) { return (a > b) ? a : b; }
 
 #undef SWAP	// Swaps two identical typed variables
 template <class T>
-inline void SWAP(T &a,T &b) { T temp = a; a = b; b = temp; }
+constexpr void SWAP(T &a,T &b) { T temp = a; a = b; b = temp; }
 
 #undef SQR // squares a number
 template <class T>
-inline T SQR(T x) { return x * x; }
+constexpr T SQR(T x) { return x * x; }
 
 #undef ABS // returns the absolute value of a parameter
 template <class T>
-inline T ABS(T x) { return (x < 0) ? -x : x; }
+constexpr T ABS(T x) { return (x < 0) ? -x : x; }
 
 template <class T> // returns the square of the absolute value
-inline T ABS2(T x,T y) { return SQR(x)+SQR(y); }
+constexpr T ABS2(T x,T y) { return SQR(x)+SQR(y); }
 
 template <class T> // returns the square of the absolute value
-inline T ABS2(T x,T y,T z) { return SQR(x) + SQR(y) + SQR(z); }
+constexpr T ABS2(T x,T y,T z) { return SQR(x) + SQR(y) + SQR(z); }
 
 #undef SGN // returns a binary sign (+1 or -1)
 template <class T>
-inline T SGN(T x) { return (x < 0) ? (T)-1 : (T)1; }
+constexpr T SGN(T x) { return (x < 0) ? (T)-1 : (T)1; }
 
 #undef SGN3 // returns a trinary sign (+1, 0, or -1)
 template <class T>
-inline T SGN3(T x) { return (x == 0) ? (T)0 : ((x < 0) ? (T)-1 : (T)1); }
+constexpr T SGN3(T x) { return (x == 0) ? (T)0 : ((x < 0) ? (T)-1 : (T)1); }
 
 template <class T> // attaches a sign to a value
-inline T ADD_SGN(T sign,T val) { return (sign < 0) ? -val : val; }
+constexpr T ADD_SGN(T sign,T val) { return (sign < 0) ? -val : val; }
 
 template <class T> // symmetric mod wrt sign, good for DELTAS
 // (This is the mathematically standard mod)
