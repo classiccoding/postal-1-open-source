@@ -184,16 +184,18 @@
 #define SHADOW_X_PIXELS	1
 #define SHADOW_Y_PIXELS	1
 
-#ifdef SYS_ENDIAN_LITTLE
+#if BYTE_ORDER == LITTLE_ENDIAN
 	#define ALPHA(u32)	((u32 & 0x000000FF) >> 0)
 	#define RED(u32)		((u32 & 0x0000FF00) >> 8)
 	#define GREEN(u32)	((u32 & 0x00FF0000) >> 16)
 	#define BLUE(u32)		((u32 & 0xFF000000) >> 24)
-#else
+#elif BYTE_ORDER == BIG_ENDIAN
 	#define ALPHA(u32)	((u32 & 0xFF000000) >> 24)
 	#define RED(u32)		((u32 & 0x00FF0000) >> 16)
 	#define GREEN(u32)	((u32 & 0x0000FF00) >> 8)
 	#define BLUE(u32)		((u32 & 0x000000FF) >> 0)
+#else
+# error NOT IMPLEMENTED
 #endif
 
 //////////////////////////////////////////////////////////////////////////////
