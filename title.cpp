@@ -225,6 +225,10 @@ static SampleMaster::SoundInstance  ms_siEndingAudio;
 
 static bool	ms_bDisableRipcordStaticLogo	= false;
 
+#if TARGET == POSTAL_1997
+NOTE("Proceeding without updated copyright screen notice.")
+#endif
+
 // These are the images (in the order) to display.
 static const char* ms_apszFiles[] =
 {
@@ -237,7 +241,11 @@ static const char* ms_apszFiles[] =
   #ifdef TITLE_SHOW_DISTRIBUTOR
   "Title/distrib.bmp",
   #endif
+  #if TARGET == POSTAL_1997
+  "Title/Logo.bmp",
+  #else
   "Title/Logo2.bmp",
+  #endif
   "Title/Postal.bmp"
 };
 
@@ -255,12 +263,14 @@ static const char* ms_apszFiles[] =
 
 static void TitleRFileCallback(size_t lBytes)
 {
-	int32_t lCurrentTime = rspGetMilliseconds();
-	if ((lCurrentTime - ms_lTitleRFileCallbackTime) > TITLE_SOUND_UPDATE_INTERVAL)
-	{
-		UpdateSystem();
-		ms_lTitleRFileCallbackTime = rspGetMilliseconds();
-	}
+  UNUSED(lBytes);
+
+  int32_t lCurrentTime = rspGetMilliseconds();
+  if ((lCurrentTime - ms_lTitleRFileCallbackTime) > TITLE_SOUND_UPDATE_INTERVAL)
+  {
+    UpdateSystem();
+    ms_lTitleRFileCallbackTime = rspGetMilliseconds();
+  }
 }
 
 
