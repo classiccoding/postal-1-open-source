@@ -1212,7 +1212,7 @@ CTexEdit::SetToNotify(
 	if (pgui)
 		{
 		pgui->m_bcUser				= pfn;
-		pgui->m_ulUserInstance	= (uint64_t)this;
+      pgui->m_ulUserInstance	= reinterpret_cast<uintptr_t>(this);
 		}
 	}
 
@@ -1229,7 +1229,7 @@ CTexEdit::SetToNotify(
 	if (pgui)
 		{
 		pgui->m_fnInputEvent		= pfn;
-		pgui->m_ulUserInstance	= (uint64_t)this;
+      pgui->m_ulUserInstance	= reinterpret_cast<uintptr_t>(this);
 		}
 	}
 
@@ -1248,7 +1248,7 @@ CTexEdit::SetToNotify(
 		if (psb->m_type == RGuiItem::ScrollBar)
 			{
 			psb->m_upcUser			= pfn;
-			psb->m_ulUserInstance	= (uint64_t)this;
+         psb->m_ulUserInstance	= reinterpret_cast<uintptr_t>(this);
 			}
 		}
 	}

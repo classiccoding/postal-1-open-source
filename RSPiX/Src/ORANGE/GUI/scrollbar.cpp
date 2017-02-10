@@ -226,20 +226,20 @@ RScrollBar::RScrollBar()
 
 	m_btnThumb.SetParent(this);
 	m_btnThumb.m_hot.m_iecUser	= ThumbHotCall;
-	m_btnThumb.m_hot.m_ulUser	= (uint64_t)this;
+   m_btnThumb.m_hot.m_ulUser	= reinterpret_cast<uintptr_t>(this);
 	m_btnThumb.m_targetFocus	= Parent;	// Passes focus to parent (this).
 
 	m_btnUp.SetParent(this);
 	m_btnUp.m_hot.m_iecUser		= UpHotCall;
-	m_btnUp.m_hot.m_ulUser		= (uint64_t)this;
-	m_btnUp.m_ulUserInstance	= (uint64_t)this;
+   m_btnUp.m_hot.m_ulUser		= reinterpret_cast<uintptr_t>(this);
+   m_btnUp.m_ulUserInstance	= reinterpret_cast<uintptr_t>(this);
 	m_btnUp.m_backcall			= DrawUpArrow;
 	m_btnUp.m_targetFocus		= Parent;	// Passes focus to parent (this).
 
 	m_btnDown.SetParent(this);
 	m_btnDown.m_hot.m_iecUser	= DownHotCall;
-	m_btnDown.m_hot.m_ulUser	= (uint64_t)this;
-	m_btnDown.m_ulUserInstance	= (uint64_t)this;
+   m_btnDown.m_hot.m_ulUser	= reinterpret_cast<uintptr_t>(this);
+   m_btnDown.m_ulUserInstance	= reinterpret_cast<uintptr_t>(this);
 	m_btnDown.m_backcall			= DrawDownArrow;
 	m_btnDown.m_targetFocus		= Parent;	// Passes focus to parent (this).
 

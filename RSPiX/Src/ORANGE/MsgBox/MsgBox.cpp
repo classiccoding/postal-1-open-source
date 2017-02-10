@@ -374,7 +374,7 @@ RGuiItem* RMsgBox::AddItem(	// Returns pgui on success.
 										// already have been set).
 	{
 	// Store RMsgBox instance.
-	pgui->m_ulUserInstance	= (uint64_t)this;
+   pgui->m_ulUserInstance	= reinterpret_cast<uintptr_t>(this);
 	// Let RGuiItem know where to call.
 	pgui->m_bcUser				= ItemBtnUpCall;
 
