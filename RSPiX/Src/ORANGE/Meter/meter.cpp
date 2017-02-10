@@ -139,7 +139,7 @@ RMeter::RMeter()
 
 	m_guiMeter.SetParent(this);
 	m_guiMeter.m_bcUser				= BtnCall;
-	m_guiMeter.m_ulUserInstance	= (uint64_t)this;
+   m_guiMeter.m_ulUserInstance	= reinterpret_cast<uintptr_t>(this);
 	}
 
 //////////////////////////////////////////////////////////////////////////////
