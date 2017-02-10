@@ -69,26 +69,25 @@ using namespace std;
 #endif
 
 typedef const char* c_string;
+typedef int errcode_t;
 
 #else
 
 #undef SUCCESS
 #undef FAILURE
 
-enum errcode : error_t
+enum errcode : int
 {
   FAILURE = -1,
   SUCCESS,
 };
 
-constexpr errcode operator * (errcode c, error_t mult)
-  { return errcode(error_t(c) * mult); }
-
-static_assert(errcode::SUCCESS == 0, "enumeration error");
+constexpr errcode operator * (errcode c, int mult)
+  { return errcode(reintepret_cast<int>(c) * mult); }
 
 struct errcode_t
 {
-  error_t code;
+  int code;
 #if defined(PENDANT)
   constexpr errcode_t& operator =(errcode c)
   {
