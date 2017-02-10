@@ -69,7 +69,7 @@ typedef union	{
 	int32_t	val; // ********* Full 32 bit signed value
 	struct	
 		{
-#ifdef SYS_ENDIAN_BIG // big endian
+#if BYTE_ORDER == BIG_ENDIAN
 //-----------------------------------------------
 		union
 			{
@@ -81,7 +81,7 @@ typedef union	{
 			};
 		uint16_t frac; // unsigned 16-bit fractional part
 //-----------------------------------------------
-#else // little endian
+#elif BYTE_ORDER == LITTLE_ENDIAN
 		uint16_t frac;
 		union	// for 256v level z-coloring:
 			{
@@ -91,6 +91,8 @@ typedef union	{
 				int8_t upper;
 				};
 			};
+#else
+# error NOT IMPLEMENTED
 #endif
 		};
 	} RFixedS32;
@@ -181,12 +183,14 @@ typedef union	{
 	uint16_t	val;
 	struct	
 		{
-#ifdef SYS_ENDIAN_BIG // big endian
+#if BYTE_ORDER == BIG_ENDIAN
 		uint8_t	mod;
 		uint8_t frac;
-#else // little endian
+#elif BYTE_ORDER == LITTLE_ENDIAN
 		uint8_t frac;
 		uint8_t	mod;
+#else
+# error NOT IMPLEMENTED
 #endif
 		};
 	} RFixedU16;
@@ -197,14 +201,16 @@ typedef union	{
 	int16_t	val;
 	struct	
 		{
-#ifdef SYS_ENDIAN_BIG // big endian
+#if BYTE_ORDER == BIG_ENDIAN
 		int8_t	mod;
 		uint8_t frac;
-#else // little endian
+#elif BYTE_ORDER == LITTLE_ENDIAN
 		uint8_t frac;
 		int8_t	mod;
+#else
+# error NOT IMPLEMENTED
 #endif
-		};
+      };
 	} RFixedS16;
 //-------------------------------------
 

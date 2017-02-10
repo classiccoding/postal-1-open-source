@@ -281,22 +281,23 @@ class CBufQ
          size_t	lNumPut	= 0;
 			uint8_t*	pu8Buf	= (uint8_t*)pu16Buf;
 
-			#ifdef SYS_ENDIAN_BIG
+#if BYTE_ORDER == BIG_ENDIAN
             do
 					{
 					Put(*pu8Buf++);
 					if (!Put(*pu8Buf++))
 						break;
                } while (++lNumPut < lNum);
-			#else
-            do
+#elif BYTE_ORDER == LITTLE_ENDIAN            do
 					{
 					Put(*(pu8Buf + 1));
 					if (!Put(*(pu8Buf + 0)))
 						break;
 					pu8Buf	+= 2;
                } while (++lNumPut < lNum);
-			#endif
+#else
+# error NOT IMPLEMENTED
+#endif
 			
 			return lNumPut;
 			}
@@ -327,7 +328,7 @@ class CBufQ
          size_t	lNumPut	= 0;
 			uint8_t*	pu8Buf	= (uint8_t*)pu32Buf;
 
-			#ifdef SYS_ENDIAN_BIG
+#if BYTE_ORDER == BIG_ENDIAN
             do
 					{
 					Put(*pu8Buf++);
@@ -336,8 +337,7 @@ class CBufQ
 					if (!Put(*pu8Buf++))
 						break;
                } while (++lNumPut < lNum);
-			#else
-            do
+#elif BYTE_ORDER == LITTLE_ENDIAN            do
 					{
 					Put(*(pu8Buf + 3));
 					Put(*(pu8Buf + 2));
@@ -346,7 +346,9 @@ class CBufQ
 						break;
 					pu8Buf	+= 4;
                } while (++lNumPut < lNum);
-			#endif
+#else
+# error NOT IMPLEMENTED
+#endif
 
 			return lNumPut;
 			}
@@ -420,22 +422,23 @@ class CBufQ
          size_t	lNumGot	= 0;
 			uint8_t*	pu8Buf	= (uint8_t*)pu16Buf;
 
-			#ifdef SYS_ENDIAN_BIG
+#if BYTE_ORDER == BIG_ENDIAN
             do
 					{
 					Get(pu8Buf++);
 					if (!Get(pu8Buf++))
 						break;
                } while (++lNumGot < lNum);
-			#else
-            do
+#elif BYTE_ORDER == LITTLE_ENDIAN            do
 					{
 					Get(pu8Buf + 1);
 					if (!Get(pu8Buf + 0))
 						break;
 					pu8Buf	+= 2;
                } while (++lNumGot < lNum);
-			#endif
+#else
+# error NOT IMPLEMENTED
+#endif
 
 			return lNumGot;
 			}
@@ -454,7 +457,7 @@ class CBufQ
          size_t	lNumGot	= 0;
 			uint8_t*	pu8Buf	= (uint8_t*)pu32Buf;
 
-			#ifdef SYS_ENDIAN_BIG
+#if BYTE_ORDER == BIG_ENDIAN
             do
 					{
 					Get(pu8Buf++);
@@ -463,8 +466,7 @@ class CBufQ
 					if (!Get(pu8Buf++))
 						break;
                } while (++lNumGot < lNum);
-			#else
-            do
+#elif BYTE_ORDER == LITTLE_ENDIAN            do
 					{
 					Get(pu8Buf + 3);
 					Get(pu8Buf + 2);
@@ -473,7 +475,9 @@ class CBufQ
 						break;
 					pu8Buf	+= 4;
                } while (++lNumGot < lNum);
-			#endif
+#else
+# error NOT IMPLEMENTED
+#endif
 
 			return lNumGot;
 			}

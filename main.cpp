@@ -398,10 +398,12 @@ static void assert_types_are_sane(void)
     static_assert(sizeof (uint64_t) == 8, "your compiler is broken");
 
     uint32_t val = 0x02000001;
-#if SYS_ENDIAN_BIG
+#if BYTE_ORDER == BIG_ENDIAN
     ASSERT(*((uint8_t*) &val) == 0x02);
-#else
+#elif BYTE_ORDER == LITTLE_ENDIAN
     ASSERT(*((uint8_t*) &val) == 0x01);
+#else
+# error NOT IMPLEMENTED
 #endif
 }
 
