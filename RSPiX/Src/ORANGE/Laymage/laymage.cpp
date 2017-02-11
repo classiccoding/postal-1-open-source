@@ -232,10 +232,10 @@ int16_t RLaymage::AllocateChannelBuffers(uint32_t ulSize)
 
 	ClearChannelBuffers();
 
-	m_pcChannels[LAYMAGE_RED] = (char*) calloc(ulSize, 1);
-	m_pcChannels[LAYMAGE_GREEN] = (char*) calloc(ulSize, 1);
-	m_pcChannels[LAYMAGE_BLUE] = (char*) calloc(ulSize, 1);
-	m_pcChannels[LAYMAGE_ALPHA] = (char*) calloc(ulSize, 1);
+   m_pcChannels[LAYMAGE_RED] = (uint8_t*) calloc(ulSize, 1);
+   m_pcChannels[LAYMAGE_GREEN] = (uint8_t*) calloc(ulSize, 1);
+   m_pcChannels[LAYMAGE_BLUE] = (uint8_t*) calloc(ulSize, 1);
+   m_pcChannels[LAYMAGE_ALPHA] = (uint8_t*) calloc(ulSize, 1);
 
 	if (m_pcChannels[LAYMAGE_RED] &&
 	    m_pcChannels[LAYMAGE_GREEN] &&
@@ -1030,16 +1030,16 @@ int16_t RLaymage::ReadLayerName(int16_t sLayerNum, RFile* pcfLayer)
 //
 //////////////////////////////////////////////////////////////////////
 
-int16_t RLaymage::RLE_Decompress(char* pcBuffer, uint32_t ulCompSize, RFile* pcfRLE)
+int16_t RLaymage::RLE_Decompress(uint8_t* pcBuffer, uint32_t ulCompSize, RFile* pcfRLE)
 {
    int16_t sResult;
 	uint32_t ulRead = 0;
 	uint32_t ulBufferPos = 0;
 	uint32_t ulBufferFill = 0;
-	int8_t cData;
+   uint8_t cData;
    uint8_t cFlag;
 	uint8_t ucRun;
-	uint16_t i;
+   uint8_t i;
 
 	if (pcfRLE && pcfRLE->IsOpen())
 	{
@@ -1049,7 +1049,7 @@ int16_t RLaymage::RLE_Decompress(char* pcBuffer, uint32_t ulCompSize, RFile* pcf
 		{
 			pcfRLE->Read(&cFlag);
 			ulRead++;
-			if (cFlag < 0)
+         if (cFlag & 0x80)
 			{
 				if (cFlag == 0x80)
 				{
@@ -1059,11 +1059,11 @@ int16_t RLaymage::RLE_Decompress(char* pcBuffer, uint32_t ulCompSize, RFile* pcf
 				else
 				{
 					// Calculate number of a single byte pattern
-					ucRun = -cFlag + 1;
+               ucRun = (cFlag & 0x7F) + 1;
 					// Read the pattern
 					pcfRLE->Read(&cData);
 					ulRead++;
-					for (i = 0; i < ucRun; i++)
+               for (i = 0; i < ucRun; ++i)
 						pcBuffer[ulBufferPos++] = cData;
 					ulBufferFill += ucRun;
 				}
@@ -1079,10 +1079,7 @@ int16_t RLaymage::RLE_Decompress(char* pcBuffer, uint32_t ulCompSize, RFile* pcf
 			}	
 		}
 
-		if (pcfRLE->Error())
-         sResult = FAILURE;
-		else
-         sResult = SUCCESS;
+      sResult = pcfRLE->Error() == TRUE ? FAILURE : SUCCESS;
 	}
 	else
       sResult = FAILURE;
@@ -1145,10 +1142,10 @@ int16_t RLaymage::ConvertToImage(int16_t sLayerNum, uint32_t ulTop, uint32_t ulB
 		for (row = ulTop; row < ulBottom; row++)
 			for (col = ulLeft; col < ulRight; col++)
 			{
-				ulPixel = ((uint8_t) m_pcChannels[LAYMAGE_ALPHA][i]) * 0x01000000 |
-							 ((uint8_t) m_pcChannels[LAYMAGE_RED][i])   * 0x00010000 |
-							 ((uint8_t) m_pcChannels[LAYMAGE_GREEN][i]) * 0x00000100 |
-							 ((uint8_t) m_pcChannels[LAYMAGE_BLUE][i]);
+            ulPixel = (m_pcChannels[LAYMAGE_ALPHA][i] << 24) |
+                      (m_pcChannels[LAYMAGE_RED][i]   << 16) |
+                      (m_pcChannels[LAYMAGE_GREEN][i] <<  8) |
+                      m_pcChannels[LAYMAGE_BLUE][i];
 				i++;
 
 				ulp32[row*lDestPitch + col] = ulPixel;
