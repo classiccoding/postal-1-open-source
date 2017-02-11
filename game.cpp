@@ -2862,94 +2862,94 @@ extern void Game_StartSinglePlayerGame(
 	int16_t sMenuItem)
 	{
 
-	// we reset these as we go along.
-	const bool usedCheats = ((Flag_Achievements & FLAG_USED_CHEATS) != 0);
-	Flag_Achievements = FLAG_USED_M16 | FLAG_KILLED_EVERYTHING | FLAG_KILLED_ONLY_HOSTILES | FLAG_HIGHEST_DIFFICULTY;
-	if (usedCheats)
-		Flag_Achievements |= FLAG_USED_CHEATS;
+  // we reset these as we go along.
+  const bool usedCheats = ((Flag_Achievements & FLAG_USED_CHEATS) != 0);
+  Flag_Achievements = FLAG_USED_M16 | FLAG_KILLED_EVERYTHING | FLAG_KILLED_ONLY_HOSTILES | FLAG_HIGHEST_DIFFICULTY;
+  if (usedCheats)
+    Flag_Achievements |= FLAG_USED_CHEATS;
 
-	playthroughMS = 0;
+  playthroughMS = 0;
 
-// If its a spawn version, then don't allow them to play single player
-// games, and to make it harder, we will take out some of the code for
-// single player games so its harder to hack back in.
+  // If its a spawn version, then don't allow them to play single player
+  // games, and to make it harder, we will take out some of the code for
+  // single player games so its harder to hack back in.
 #ifndef SPAWN
 
-	switch (sMenuItem)
-		{
-		// "ORIGINAL LEVELS"
-		case 0:
-			m_action = ACTION_PLAY_SINGLE;
-			m_sRealmNum = 0;
-			m_szRealmFile[0] = 0;
-			m_bJustOneRealm = false;
-			break;
-			// "ADD-ON LEVELS"
-			case 1:
-				m_action = ACTION_PLAY_ADDON;
-				m_sRealmNum = 0;
-				m_szRealmFile[0] = 0;
-				m_bJustOneRealm = false;
-				break;
-			case 2:
-				m_action = ACTION_PLAY_ADDON2;
-				m_sRealmNum = 0;
-				m_szRealmFile[0] = 0;
-				m_bJustOneRealm = false;
-				break;
-			case 3:
-				m_action = ACTION_PLAY_ALL;
-				m_sRealmNum = 0;
-				m_szRealmFile[0] = 0;
-				m_bJustOneRealm = false;
-				break;
-			case 4:
-				#ifdef MOBILE
-				m_action	= ACTION_CONTINUE_GAME;
-				#endif
-				break;
-			case 5:
-				#ifndef LOADLEVEL_REMOVED
-				#ifndef LOADLEVEL_DIALOG
-					{
-					// Static so dialog will "remember" the previously-used name
-					static char	szFile[RSP_MAX_PATH]	= "";
+  switch (sMenuItem)
+  {
+    // "ORIGINAL LEVELS"
+    case 0:
+      m_action = ACTION_PLAY_SINGLE;
+      m_sRealmNum = 0;
+      m_szRealmFile[0] = 0;
+      m_bJustOneRealm = false;
+      break;
+      // "ADD-ON LEVELS"
+    case 1:
+      m_action = ACTION_PLAY_ADDON;
+      m_sRealmNum = 0;
+      m_szRealmFile[0] = 0;
+      m_bJustOneRealm = false;
+      break;
+    case 2:
+      m_action = ACTION_PLAY_ADDON2;
+      m_sRealmNum = 0;
+      m_szRealmFile[0] = 0;
+      m_bJustOneRealm = false;
+      break;
+    case 3:
+      m_action = ACTION_PLAY_ALL;
+      m_sRealmNum = 0;
+      m_szRealmFile[0] = 0;
+      m_bJustOneRealm = false;
+      break;
+    case 4:
+#ifdef MOBILE
+      m_action	= ACTION_CONTINUE_GAME;
+#endif
+      break;
+    case 5:
+#ifndef LOADLEVEL_REMOVED
+#ifndef LOADLEVEL_DIALOG
+    {
+      // Static so dialog will "remember" the previously-used name
+      static char	szFile[RSP_MAX_PATH]	= "";
 
-					// If not yet used, start out in appropriate directory
-					if (szFile[0] == '\0')
-						strcpy(szFile, FullPathHD(LEVEL_DIR));
+      // If not yet used, start out in appropriate directory
+      if (szFile[0] == '\0')
+        strcpy(szFile, FullPathHD(LEVEL_DIR));
 
-					if (rspOpenBox("Load Realm", szFile, szFile, sizeof(szFile), ".rlm") == 0)
-						{
-						// Convert path from system format to rspix format so it matches the
-						// way we normally call Play(), which is with a rspix path.
-						rspPathFromSystem(szFile, m_szRealmFile);
+      if (rspOpenBox("Load Realm", szFile, szFile, sizeof(szFile), ".rlm") == 0)
+      {
+        // Convert path from system format to rspix format so it matches the
+        // way we normally call Play(), which is with a rspix path.
+        rspPathFromSystem(szFile, m_szRealmFile);
 
-						m_action = ACTION_PLAY_SINGLE;
-						m_sRealmNum = -1;
-						m_bJustOneRealm = true;
-						}
-					break;
-					}
-				#endif // LOADLEVEL_DIALOG
-				#endif // LOADLEVEL_REMOVED
-			case 6:
-				m_action	= ACTION_LOAD_GAME;
-				break;
-			case 7:
-				Game_StartChallengeGame(0); 
-				break;
-		}
+        m_action = ACTION_PLAY_SINGLE;
+        m_sRealmNum = -1;
+        m_bJustOneRealm = true;
+      }
+      break;
+    }
+#endif // LOADLEVEL_DIALOG
+#endif // LOADLEVEL_REMOVED
+    case 6:
+      m_action	= ACTION_LOAD_GAME;
+      break;
+    case 7:
+      Game_StartChallengeGame(0);
+      break;
+  }
 
-	// The main game loop resets the demo timer whenever it notices any user input.
-	// However, when the user is in a dialog or message box, the OS handles all the
-	// user input, and the main game loop won't know anything about what's going on
-	// in there.  If the user spends a long time in there, the demo timer will
-	// expire.  We don't want that to happen, so we manually reset the demo timer
-	// here in recognition of the fact that some kind of user input obviously occurred.
-	ResetDemoTimer();
+  // The main game loop resets the demo timer whenever it notices any user input.
+  // However, when the user is in a dialog or message box, the OS handles all the
+  // user input, and the main game loop won't know anything about what's going on
+  // in there.  If the user spends a long time in there, the demo timer will
+  // expire.  We don't want that to happen, so we manually reset the demo timer
+  // here in recognition of the fact that some kind of user input obviously occurred.
+  ResetDemoTimer();
 #endif // SPAWN
-	}
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -3082,13 +3082,15 @@ extern void Game_HostMultiPlayerGame(
 extern void Game_StartDemoGame(
 	int16_t sMenuItem)
 	{
+#if TARGET != POSTAL_2015
    char*	pszDemoFile	= nullptr;
 	char	szLevelDir[RSP_MAX_PATH]	= "";
 	char  szTitle[256] = "";
+#endif
 	TRACE("sMenuItem = %d\n", sMenuItem);
 	switch (sMenuItem)
 		{
-#if TARGET == POSTAL_2015			
+#if TARGET == POSTAL_2015
 		case 0:
 			sprintf(m_szDemoFile, "%s/default0.dmo", FullPathHD(DEMO_LEVEL_DIR));
 			m_action = ACTION_DEMO_PLAYBACK;
@@ -4206,7 +4208,7 @@ extern void SeedRand(
 				{
 				fprintf(
 					m_pfileRandom->m_fs,
-               "%s : %lu rand = %i\n",
+               "%s : %zu rand = %i\n",
 					GetFileNameFromPath(FILE_MACRO),
 					LINE_MACRO,
 					lNewVal);
@@ -4221,7 +4223,7 @@ extern void SeedRand(
 				char szSavedFile[1024];
 				fscanf(
 					m_pfileRandom->m_fs,
-               "%s : %lu rand = %i\n",
+               "%s : %zu rand = %i\n",
 					szSavedFile,
 					&lSavedLine,
 					&lSavedVal);
@@ -4235,8 +4237,8 @@ extern void SeedRand(
 						RSP_MB_ICN_INFO | RSP_MB_BUT_OK,
 						"Postal",
 						"Random number sequence mismatch!\n\n"
-                  "   Was %s(%lu) which got %i\n\n"
-                  "   Now %s(%lu) which got %i",
+                  "   Was %s(%zu) which got %i\n\n"
+                  "   Now %s(%zu) which got %i",
 						szSavedFile,
                   lSavedLine,
                   lSavedVal,
@@ -4470,32 +4472,33 @@ extern int16_t GetGammaLevel(void)	// Returns current brighten value.
 static char m_acFullPath[RSP_MAX_PATH + RSP_MAX_PATH];
 
 extern const char* FullPath(									// Returns full path in system format
-	int16_t sPathType,										// In:  PATH_CD, PATH_HD, or PATH_VD
+    int16_t sPathType,										// In:  PATH_CD, PATH_HD, or PATH_VD
     const char* pszPartialPath)								// In:  Partial path in RSPiX format
-	{
-	// Start with the specified base path (copy the string from the game settings)
-	if (sPathType == GAME_PATH_CD)
-		return FullPathCD(pszPartialPath);
-	else if (sPathType == GAME_PATH_HD)
-		return FullPathHD(pszPartialPath);
-	else if (sPathType == GAME_PATH_VD)
-		return FullPathVD(pszPartialPath);
-	else if (sPathType == GAME_PATH_SOUND)
-		return FullPathSound(pszPartialPath);
-	else if (sPathType == GAME_PATH_GAME)
-		return FullPathGame(pszPartialPath);
-	else if (sPathType == GAME_PATH_HOODS)
-		return FullPathHoods(pszPartialPath);
-	else 
-		{
-		TRACE("FullPath(): Unknown path type: %d -- I predict an ASSERT() will occur soon...\n", (int16_t)sPathType);
-		ASSERT(1);
+{
+  // Start with the specified base path (copy the string from the game settings)
+  switch(sPathType)
+  {
+    case GAME_PATH_CD:
+      return FullPathCD(pszPartialPath);
+    case GAME_PATH_HD:
+      return FullPathHD(pszPartialPath);
+    case GAME_PATH_VD:
+      return FullPathVD(pszPartialPath);
+    case GAME_PATH_SOUND:
+      return FullPathSound(pszPartialPath);
+    case GAME_PATH_GAME:
+      return FullPathGame(pszPartialPath);
+    case GAME_PATH_HOODS:
+      return FullPathHoods(pszPartialPath);
+    default:
+      TRACE("FullPath(): Unknown path type: %hi -- I predict an ASSERT() will occur soon...\n", sPathType);
+      ASSERT(1);
 
-		// In case they want to ignore the assert, just return a pointer to an empty string
-		m_acFullPath[0] = 0;
-		return m_acFullPath;
-		}
-	}
+      // In case they want to ignore the assert, just return a pointer to an empty string
+      m_acFullPath[0] = '\0';
+      return m_acFullPath;
+  }
+}
 
 
 extern const char* FullPathCD(								// Returns full path in system format
