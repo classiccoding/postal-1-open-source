@@ -105,10 +105,10 @@ int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
   if (ucMsgType == NetMsg::START_REALM && bReceived)
   {
     g_GameSettings.m_lStartRealmTime = lTime;
-    sResult = snprintf(szTime, sizeof(szTime), "%u", lTime) < 0 ? FAILURE : SUCCESS;
+    sResult = snprintf(szTime, 10, "%u", lTime) < 0 ? FAILURE : SUCCESS;
     //_ltoa(lTime, szTime, 10);
   }
-  sResult = snprintf(szTime, sizeof(szTime), "%u", lTime - g_GameSettings.m_lStartRealmTime) < 0 ? FAILURE : SUCCESS;
+  sResult = snprintf(szTime, 10, "%u", lTime - g_GameSettings.m_lStartRealmTime) < 0 ? FAILURE : SUCCESS;
   //_ltoa(lTime - g_GameSettings.m_lStartRealmTime, szTime, 10);
 
 
@@ -161,8 +161,9 @@ int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
 	prfLog->Write(szTime);
 	prfLog->Write(" ");
 
-	// Write starting sequence sent/received
-	itoa(seqStart, szSeq, 10);
+   // Write starting sequence sent/received
+   snprintf(szSeq, 10, "%u", seqStart);
+   //itoa(seqStart, szSeq, 10);
 	prfLog->Write(szSeq);
 	prfLog->Write(" ");
 
