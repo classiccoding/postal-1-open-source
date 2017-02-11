@@ -336,7 +336,7 @@ inline bool rspObjCmp(const T* p1, const T* p2, size_t count)
 	return true;
 	}
 
-
+/* DEPRECATED!
 inline char *ltoa(int32_t l, char *buf, int bufsize)
 {
     snprintf(buf, bufsize, "%i", l);
@@ -345,18 +345,18 @@ inline char *ltoa(int32_t l, char *buf, int bufsize)
 
 inline char *ltoa(uint32_t l, char *buf, int bufsize)
 {
-    snprintf(buf, bufsize, "%i", l);
+    snprintf(buf, bufsize, "%u", l);
     return(buf);
 }
 
 inline char *itoa(int l, char *buf, int bufsize)
 {
-    snprintf(buf, bufsize, "%d", l);
+    snprintf(buf, bufsize, "%i", l);
     return(buf);
 }
 
-// DEPRECATED!
-//#define _ltoa(x, y, z) ltoa(x, y, z)
+#define _ltoa(x, y, z) ltoa(x, y, z)
+*/
 
 #endif // UNIXSYSTEM_H
 //////////////////////////////////////////////////////////////////////////////
