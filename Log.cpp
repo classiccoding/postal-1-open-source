@@ -105,10 +105,10 @@ int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
   if (ucMsgType == NetMsg::START_REALM && bReceived)
   {
     g_GameSettings.m_lStartRealmTime = lTime;
-    sResult = snprintf(szTime, 10, "%u", lTime) < 0 ? FAILURE : SUCCESS;
+    sResult = snprintf(szTime, sizeof(szTime), "%u", lTime) < 0 ? FAILURE : SUCCESS;
     //_ltoa(lTime, szTime, 10);
   }
-  sResult = snprintf(szTime, 10, "%u", lTime - g_GameSettings.m_lStartRealmTime) < 0 ? FAILURE : SUCCESS;
+  sResult = snprintf(szTime, sizeof(szTime), "%u", lTime - g_GameSettings.m_lStartRealmTime) < 0 ? FAILURE : SUCCESS;
   //_ltoa(lTime - g_GameSettings.m_lStartRealmTime, szTime, 10);
 
 
@@ -153,7 +153,8 @@ int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
 
 	// Write package ID
 	char szPackageID[256];
-	ltoa((int32_t)u16PackageID, szPackageID, 10);
+   snprintf(szPackageID, sizeof(szPackageID), "%u", u16PackageID);
+   //ltoa((int32_t)u16PackageID, szPackageID, 10);
 	prfLog->Write(szPackageID);
 	prfLog->Write(" ");
 
@@ -162,13 +163,14 @@ int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
 	prfLog->Write(" ");
 
    // Write starting sequence sent/received
-   snprintf(szSeq, 10, "%u", seqStart);
+   snprintf(szSeq, sizeof(szSeq), "%u", seqStart);
    //itoa(seqStart, szSeq, 10);
 	prfLog->Write(szSeq);
 	prfLog->Write(" ");
 
 	// Write number of sequences sent/received
-	ltoa(sNum, szNum, 10);
+   snprintf(szNum, sizeof(szNum), "%u", sNum);
+   //ltoa(sNum, szNum, 10);
 	prfLog->Write(szNum);
 	prfLog->Write(" ");
 
@@ -306,7 +308,8 @@ int16_t WriteInputData(uint32_t *input)
 	// For convenience
 	RFile *prfLog = &(g_GameSettings.m_rfNetSyncLog);
 	
-	ltoa(*input, szInput, 16);
+   snprintf(szInput, sizeof(szInput), "%x", *input);
+   //ltoa(*input, szInput, 16);
 
 	prfLog->Write(szInput);
 	prfLog->Write("\n");
