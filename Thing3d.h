@@ -289,11 +289,14 @@ class CThing3d : public CThing
 			} State;
 
 		// A 2D point.  Used by the attrib check arrays.
-		typedef struct
-			{
-			int16_t	sX;
-			int16_t	sZ;
-			} Point2D;
+
+      struct Point2D
+      {
+         int16_t	sX;
+         int16_t	sZ;
+      };
+
+      typedef std::array<const Point2D, 8> AttributeTest2D;
 
 	//---------------------------------------------------------------------------
 	// Variables
@@ -357,7 +360,7 @@ class CThing3d : public CThing
 		int16_t	m_sLayerOverride;				// Layer override.  If > 0, used instead of
 													// layer dictated by attributes.
 
-		const Point2D*	m_pap2dAttribCheckPoints;	// Points to the ms_apt3dAttribCheck*[]
+      const AttributeTest2D*	m_pap2dAttribCheckPoints;	// Points to the ms_apt3dAttribCheck*[]
 																// that best reflects this object.
 
 
@@ -373,10 +376,10 @@ class CThing3d : public CThing
 
 		// These are arrays of pts to be checked on the attribute map for various
 		// size of CThing3d derived things.
-		static const Point2D		ms_apt2dAttribCheckSmall[];
-		static const Point2D		ms_apt2dAttribCheckMedium[];
-		static const Point2D		ms_apt2dAttribCheckLarge[];
-		static const Point2D		ms_apt2dAttribCheckHuge[];
+      static const AttributeTest2D ms_apt2dAttribCheckSmall;
+      static const AttributeTest2D ms_apt2dAttribCheckMedium;
+      static const AttributeTest2D ms_apt2dAttribCheckLarge;
+      static const AttributeTest2D ms_apt2dAttribCheckHuge;
 
 	//---------------------------------------------------------------------------
 	// Constructor(s) / destructor
@@ -384,7 +387,7 @@ class CThing3d : public CThing
 	protected:
 		// Constructor
 		CThing3d(CRealm* pRealm, CThing::ClassIDType id)
-			: CThing(pRealm, id)
+         : CThing(pRealm, id)
 			{
 			// Must call Zero() to initialize the stockpile since it has
 			// no constructor.
@@ -420,8 +423,8 @@ class CThing3d : public CThing
 			m_lTimer = 0;
 			m_sLayerOverride	= -1;
 
-			// Default to the standard.
-			m_pap2dAttribCheckPoints	= ms_apt2dAttribCheckMedium;
+         // Default to the standard.
+         m_pap2dAttribCheckPoints	= &ms_apt2dAttribCheckMedium;
 			}
 
 	public:

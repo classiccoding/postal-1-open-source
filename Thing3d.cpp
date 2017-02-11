@@ -240,9 +240,6 @@
 // damage cause (e.g., bullets, etc.) ).
 #define DAMAGE2VEL_RATIO				1.0
 
-// Terminates arrays of attrib check points.
-#define ATTRIB_CHECK_TERMINATOR		-32768
-
 ////////////////////////////////////////////////////////////////////////////////
 // Variables/data
 ////////////////////////////////////////////////////////////////////////////////
@@ -256,165 +253,161 @@ int16_t		CThing3d::ms_sBurntBrightness		= -40;	// Brightness level after being b
 // These points are relative to the thing's origin.
 // These are arrays of pts to be checked on the attribute map for various
 // size of CThing3d derived things.
-const CThing3d::Point2D		CThing3d::ms_apt2dAttribCheckSmall[]	=
-	{
-	//	+	+	+
-	//	+	x	+
-	//	+	+	+
-		{ -2,	-2,	},
-		{ 0,	-2,	},
-		{ 2,	-2,	},
-		{ -2,	0,		},
-		{	2,	0,		},
-		{ -2,	2,		},
-		{ 0,	2,		},
-		{ 2,	2,		},
-		// Add more points above this one.
-		{ ATTRIB_CHECK_TERMINATOR, }
-	};
+const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckSmall =
+{
+  (CThing3d::Point2D)
+  //	+	+	+
+  //	+	x	+
+  //	+	+	+
+  { -2, -2 },
+  {  0, -2 },
+  {  2, -2 },
+  { -2,  0 },
+  {  2,  0 },
+  { -2,  2 },
+  {  0,  2 },
+  {  2,  2 },
+};
 
-const CThing3d::Point2D		CThing3d::ms_apt2dAttribCheckMedium[]	=
-	{
-	//	+	+	+
-	//	+	x	+
-	//	+	+	+
-		{ -6,	-6,	},
-		{ 0,	-6,	},
-		{ 6,	-6,	},
-		{ -6,	0,		},
-		{	6,	0,		},
-		{ -6, 6,		},
-		{ 0,	6,		},
-		{ 6,	6,		},
-		// Add more points above this one.
-		{ ATTRIB_CHECK_TERMINATOR, }
-	};
+const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckMedium =
+{
+  (CThing3d::Point2D)
+  //	+	+	+
+  //	+	x	+
+  //	+	+	+
+  { -6, -6 },
+  {  0, -6 },
+  {  6, -6 },
+  { -6,  0 },
+  {  6,  0 },
+  { -6,  6 },
+  {  0,  6 },
+  {  6,  6 },
+};
 
-const CThing3d::Point2D		CThing3d::ms_apt2dAttribCheckLarge[]	=
-	{
-	//	+	+	+
-	//	+	x	+
-	//	+	+	+
-		{ -12,	-12,	},
-		{ 0,		-12,	},
-		{ 12,		-12,	},
-		{ -12,	0,		},
-		{	12,	0,		},
-		{ -12,	12,	},
-		{ 0,		12,	},
-		{ 12,		12,	},
-		// Add more points above this one.
-		{ ATTRIB_CHECK_TERMINATOR, }
-	};
+const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckLarge =
+{
+  (CThing3d::Point2D)
+  //	+	+	+
+  //	+	x	+
+  //	+	+	+
+  { -12, -12 },
+  {   0, -12 },
+  {  12, -12 },
+  { -12,   0 },
+  {  12,   0 },
+  { -12,  12 },
+  {   0,  12 },
+  {  12,  12 },
+};
 
-const CThing3d::Point2D		CThing3d::ms_apt2dAttribCheckHuge[]		=
-	{
-	//	+	+	+
-	//	+	x	+
-	//	+	+	+
-		{ -48,	-48,	},
-		{ 0,		-48,	},
-		{ 48,		-48,	},
-		{ -48,	0,		},
-		{	48,	0,		},
-		{ -48,	48,	},
-		{ 0,		48,	},
-		{ 48,		48,	},
-		// Add more points above this one.
-		{ ATTRIB_CHECK_TERMINATOR, }
-	};
+const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckHuge =
+{
+  (CThing3d::Point2D)
+  //	+	+	+
+  //	+	x	+
+  //	+	+	+
+  { -48, -48 },
+  {   0, -48 },
+  {  48, -48 },
+  { -48,   0 },
+  {  48,   0 },
+  { -48,  48 },
+  {   0,  48 },
+  {  48,  48 },
+};
 
 
 const char* CThing3d::ms_apszStateNames[] =
 {
-	"State_Idle",
-	"State_Shot",
-	"State_Blownup",
-	"State_Burning",
-	"State_Die",
-	"State_Dead",
-	"State_RunOver",
-	"State_Vomit",
-	"State_Suicide",
-	"State_Persistent",
-	"State_Stand",
-	"State_Throw",
-	"State_ThrowRelease",
-	"State_ThrowFinish",
-	"State_ThrowDone",
-	"State_Run",
-	"State_Shooting",
-	"State_RunAndShoot",
-	"State_Strafe",
-	"State_StrafeAndShoot",
-	"State_Launch",
-	"State_LaunchRelease",
-	"State_LaunchFinish",
-	"State_LaunchDone",
-	"State_GetUp",
-	"State_Duck",
-	"State_Rise",
-	"State_Jump",
-	"State_JumpForward",
-	"State_Land",
-	"State_LandForward",
-	"State_Fall",
-	"State_March",
-	"State_Mingle",
-	"State_Panic",
-	"State_Load",
-	"State_Patrol",
-	"State_Shoot",
-	"State_Wait",
-	"State_Stop",
-	"State_Hunt",
-	"State_HuntNext",
-	"State_Engage",
-	"State_Guard",
-	"State_Reposition",
-	"State_Retreat",
-	"State_PopBegin",
-	"State_PopWait",
-	"State_Popout",
-	"State_PopShoot",
-	"State_RunShootBegin",
-	"State_RunShootRun",
-	"State_RunShootWait",
-	"State_RunShoot",
-	"State_Delete",
-	"State_Writhing",
-	"State_Execute",
-	"State_PutDown",
-	"State_PickUp",
-	"State_PutOutFire",
-	"State_Walk",
-	"State_Hide",
-	"State_MoveNext",
-	"State_PositionSet",
-	"State_PositionMove",
-	"State_HideBegin",
-	"State_ShootRun",
-	"State_HuntHold",
-	"State_Climb",
-	"State_ObjectReleased",
-	"PanicBegin",
-	"PanicContinue",
-	"WalkBegin",
-	"WalkContinue",
-	"DelayShoot",
-	"AvoidFire",
-	"Helping",
-	"MarchNext",
-	"WalkNext",
-	"Please Add State Description",
-	"Please Add State Description",
-	"Please Add State Description",
-	"Please Add State Description",
-	"Please Add State Description",
-	"Please Add State Description",
-	"Please Add State Description",
-	"Please Add State Description",
-	"Please Add State Description",
+  "State_Idle",
+  "State_Shot",
+  "State_Blownup",
+  "State_Burning",
+  "State_Die",
+  "State_Dead",
+  "State_RunOver",
+  "State_Vomit",
+  "State_Suicide",
+  "State_Persistent",
+  "State_Stand",
+  "State_Throw",
+  "State_ThrowRelease",
+  "State_ThrowFinish",
+  "State_ThrowDone",
+  "State_Run",
+  "State_Shooting",
+  "State_RunAndShoot",
+  "State_Strafe",
+  "State_StrafeAndShoot",
+  "State_Launch",
+  "State_LaunchRelease",
+  "State_LaunchFinish",
+  "State_LaunchDone",
+  "State_GetUp",
+  "State_Duck",
+  "State_Rise",
+  "State_Jump",
+  "State_JumpForward",
+  "State_Land",
+  "State_LandForward",
+  "State_Fall",
+  "State_March",
+  "State_Mingle",
+  "State_Panic",
+  "State_Load",
+  "State_Patrol",
+  "State_Shoot",
+  "State_Wait",
+  "State_Stop",
+  "State_Hunt",
+  "State_HuntNext",
+  "State_Engage",
+  "State_Guard",
+  "State_Reposition",
+  "State_Retreat",
+  "State_PopBegin",
+  "State_PopWait",
+  "State_Popout",
+  "State_PopShoot",
+  "State_RunShootBegin",
+  "State_RunShootRun",
+  "State_RunShootWait",
+  "State_RunShoot",
+  "State_Delete",
+  "State_Writhing",
+  "State_Execute",
+  "State_PutDown",
+  "State_PickUp",
+  "State_PutOutFire",
+  "State_Walk",
+  "State_Hide",
+  "State_MoveNext",
+  "State_PositionSet",
+  "State_PositionMove",
+  "State_HideBegin",
+  "State_ShootRun",
+  "State_HuntHold",
+  "State_Climb",
+  "State_ObjectReleased",
+  "PanicBegin",
+  "PanicContinue",
+  "WalkBegin",
+  "WalkContinue",
+  "DelayShoot",
+  "AvoidFire",
+  "Helping",
+  "MarchNext",
+  "WalkNext",
+  "Please Add State Description",
+  "Please Add State Description",
+  "Please Add State Description",
+  "Please Add State Description",
+  "Please Add State Description",
+  "Please Add State Description",
+  "Please Add State Description",
+  "Please Add State Description",
+  "Please Add State Description",
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1508,14 +1501,13 @@ void CThing3d::GetFloorAttributes(	// Returns nothing.
 	uint16_t	u16CurAttrib;
 	uint16_t	u16CombinedAttrib	= 0;
 //	int16_t	sLightTally			= 0;
-	int16_t	sMaxHeight			= -32767;
+   int16_t	sMaxHeight			= INT16_MIN;
 	int16_t	sCurHeight;
 
-	const Point2D*	p2d;
-	for (p2d = m_pap2dAttribCheckPoints; p2d->sX != ATTRIB_CHECK_TERMINATOR; p2d++)
-		{
-		u16CurAttrib = m_pRealm->GetFloorMapValue((int16_t) sX + p2d->sX,
-		                                          (int16_t) sZ + p2d->sZ,
+   for(const Point2D& point : *m_pap2dAttribCheckPoints)
+   {
+      u16CurAttrib = m_pRealm->GetFloorMapValue(sX + point.sX,
+                                                sZ + point.sZ,
 																 REALM_ATTR_NOT_WALKABLE | 0x0000);
 
 		// Combine attributes - and the height for now (since it will be masked out at end)
@@ -1555,12 +1547,11 @@ void CThing3d::GetEffectAttributes(	// Returns nothing.
 	uint16_t	u16CombinedAttrib	= 0;
 	int16_t	sLightTally			= 0;
 
-	const Point2D*	p2d;
-	for (p2d = m_pap2dAttribCheckPoints; p2d->sX != ATTRIB_CHECK_TERMINATOR; p2d++)
+   for(const Point2D& point : *m_pap2dAttribCheckPoints)
 		{
 		u16CurAttrib = m_pRealm->GetEffectAttribute(
-			(int16_t) sX + p2d->sX,
-			(int16_t) sZ + p2d->sZ
+         sX + point.sX,
+         sZ + point.sZ
 			);
 
 		// Combine attributes other than height.
@@ -1586,12 +1577,11 @@ void CThing3d::GetLayer(	// Returns nothing.
 	{
 	uint16_t	u16CombinedLayer	= 0;
 
-	const Point2D*	p2d;
-	for (p2d = m_pap2dAttribCheckPoints; p2d->sX != ATTRIB_CHECK_TERMINATOR; p2d++)
+   for(const Point2D& point : *m_pap2dAttribCheckPoints)
 		{
 		u16CombinedLayer	|= m_pRealm->GetLayer(
-			(int16_t) sX + p2d->sX,
-			(int16_t) sZ + p2d->sZ
+         sX + point.sX,
+         sZ + point.sZ
 			);
 		}
 
