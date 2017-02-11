@@ -181,7 +181,7 @@ class RLaymage
 
 		// Array of channel pointers for temporarily storing the 
 		// Photoshop channels before converting to RImage
-		char* m_pcChannels[LAYMAGE_MAXCHANNELS];
+      uint8_t* m_pcChannels[LAYMAGE_MAXCHANNELS];
 
 		// Read the header of the Photoshop file and set the
 		//	width, height, number of layers and positions
@@ -208,7 +208,7 @@ class RLaymage
 
 		// RLE decompression routine to decompress the Photoshop channel
 		// data.
-		int16_t RLE_Decompress(char* pcBuffer, uint32_t ulCompSize, RFile* pcfRLE);
+      int16_t RLE_Decompress(uint8_t* pcBuffer, uint32_t ulCompSize, RFile* pcfRLE);
 				
 		// Convert the m_pcChannels of Photoshop Alpha, R, G and B data into
 		// a RImage 32-bit ARGB format.  The data in the channels is bounded by
