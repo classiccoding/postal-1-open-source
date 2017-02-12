@@ -138,7 +138,7 @@ struct c_string
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
-// Standard types, type limits, standard functions and endian detection
+// types, type limits, standard functions and endian detection
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <BLUE/portable_endian.h>
@@ -149,12 +149,18 @@ struct c_string
 typedef SSIZE_T ssize_t;
 
 # if !defined(_MSC_VER) || _MSC_VER < 1900
-# define constexpr inline
+#  define constexpr inline
 #  if !defined(snprintf)
 #   define snprintf _snprintf
 #  endif
 #  if !defined(vsnprintf)
 #   define vsnprintf _vsnprintf
+#  endif
+#  if !defined(mkdir)
+#   define mkdir _mkdir
+#  endif
+#  if !defined(PATH_MAX)
+#   define PATH_MAX _MAX_PATH
 #  endif
 # endif
 
@@ -162,18 +168,31 @@ typedef SSIZE_T ssize_t;
 #  define strcasecmp _stricmp
 # endif
 
+# if !defined(F_OK)
+#  define F_OK 00
+# endif
+
+# if !defined(R_OK)
+#  define R_OK 04
+# endif
+
+
 # define NOTE(x) __pragma(message("NOTE: " x))
 
-#include <BLUE/stdint_msvc.h>
+# include <BLUE/stdint_msvc.h>
+
+# define SYSTEM_PATH_SEPARATOR	'\\'
 #else
 # include <sys/types.h>
-#define DO_PRAGMA(x) _Pragma (#x)
+# define DO_PRAGMA(x) _Pragma (#x)
 # if !defined(__GNUC__) || __GNUC_PREREQ(4,4)
 #  define NOTE(x) DO_PRAGMA(message("NOTE: " x))
 # else
 #  define NOTE(x) DO_PRAGMA(warning("NOTE: " x)
 # endif
+# define SYSTEM_PATH_SEPARATOR	'/'
 #endif
+
 
 static_assert(sizeof(uintptr_t) == sizeof(void*), "your compiler is broken!");
 
@@ -186,6 +205,11 @@ static_assert(sizeof(uintptr_t) == sizeof(void*), "your compiler is broken!");
 # define UINT16_MIN 0
 # define UINT32_MIN 0
 # define UINT64_MIN 0
+
+
+
+typedef uint32_t milliseconds_t;
+typedef uint64_t microseconds_t;
 
 // 128-bit got a little trickier...
 #if BYTE_ORDER == LITTLE_ENDIAN

@@ -737,11 +737,11 @@ RResMgr	g_resmgrShell;
 RResMgr	g_resmgrRes;
 
 // Time and Date values
-int32_t g_lRegTime;
-int32_t g_lRegValue;
-int32_t g_lExpTime;
-int32_t g_lExpValue;
-int32_t g_lReleaseTime;
+milliseconds_t g_lRegTime;
+milliseconds_t g_lRegValue;
+milliseconds_t g_lExpTime;
+milliseconds_t g_lExpValue;
+milliseconds_t g_lReleaseTime;
 
 // Stockpile used to transfer loaded/saved data to/from the CDude's stockpile
 CStockPile g_stockpile;
@@ -757,10 +757,10 @@ static uint32_t	ms_u32Cookie = COOKIE_VALUE;
 
 // These variables are generally controlled via the menu system
 static ACTION m_action;
-static uint32_t m_lDemoBaseTime;
-static uint32_t m_lDemoTimeOut;
-static char	m_szRealmFile[RSP_MAX_PATH+1];
-static char m_szDemoFile[RSP_MAX_PATH+1];
+static milliseconds_t m_lDemoBaseTime;
+static milliseconds_t m_lDemoTimeOut;
+static char	m_szRealmFile[PATH_MAX+1];
+static char m_szDemoFile[PATH_MAX+1];
 static int16_t m_sRealmNum;
 static bool m_bJustOneRealm;
 
@@ -772,7 +772,7 @@ static int32_t m_lRandom = 1;
 static RFile* m_pfileRandom = 0;
 
 // Used by if-logging schtuff.
-static int32_t	ms_lSynchLogSeq	= 0;
+static milliseconds_t	ms_lSynchLogSeq	= 0;
 
 static RFile	ms_fileSynchLog;
 
@@ -868,7 +868,7 @@ uint32_t Flag_Achievements = 0;
 #include <sys/stat.h>
 static void EnumExistingSaveGames(Menu *menu)
 {
-    char gamename[RSP_MAX_PATH];
+    char gamename[PATH_MAX];
     int i = 0;
     int Max = (sizeof(menu->ami) / sizeof(menu->ami[0])) - 1;
     if (Max > MAX_SAVE_SLOTS)
@@ -1934,7 +1934,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 							if (fileDemo.Open(m_szDemoFile, "rb", RFile::LittleEndian) == 0)
 								{
 								// Read name of realm file
-								char szRealmFile[RSP_MAX_PATH];
+                        char szRealmFile[PATH_MAX];
 								fileDemo.Read(szRealmFile);
 								// Read whether it's a full path.
 								int16_t	sRealmFileIsFullPath;
@@ -2048,7 +2048,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						{
 
 						// Get name of realm to play
-						char szRealmFile[RSP_MAX_PATH];
+                  char szRealmFile[PATH_MAX];
 						int16_t	sGetRealmResult	= GetRealmToRecord(szRealmFile, sizeof(szRealmFile));
 						switch (sGetRealmResult)
 							{
@@ -2063,7 +2063,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						if (sGetRealmResult >= 0)
 							{
 							// Get name of demo file to save to
-							char szDemoFile[RSP_MAX_PATH];
+                     char szDemoFile[PATH_MAX];
 							if (GetDemoFile(szDemoFile, sizeof(szDemoFile)) == 0)
 								{
 								// Open demo file
@@ -2175,7 +2175,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 				case ACTION_LOAD_GAME:
 					{
 					// Static so dialog will "remember" the previously-used name
-					static char szFileSaved[RSP_MAX_PATH] = "";
+               static char szFileSaved[PATH_MAX] = "";
 
 					// If not yet used, start out in appropirate directory
 					if (szFileSaved[0] == '\0')
@@ -2222,7 +2222,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 #ifdef MOBILE
 				case ACTION_CONTINUE_GAME:
 					{
-						static char szFileSaved[RSP_MAX_PATH] = "";
+                  static char szFileSaved[PATH_MAX] = "";
 						snprintf(szFileSaved, sizeof (szFileSaved), "%s/auto.gme", SAVEGAME_DIR);
 						Game_LoadPlayersGame(szFileSaved, &ms_sLoadedDifficulty, &actionNext);
 						m_bJustOneRealm = false;
@@ -2309,7 +2309,7 @@ static int16_t GetRealmToRecord(	// Returns 0 on success, negative on error, 1 i
 	int16_t sResult = 0;
 
 	// Static so dialog will "remember" the previously-used name
-	static char	szFile[RSP_MAX_PATH]	= "";
+   static char	szFile[PATH_MAX]	= "";
 
 	// If not yet used, start out in appropriate directory
 //	if (szFile[0] == '\0')
@@ -2355,7 +2355,7 @@ extern int16_t SubPathOpenBox(		// Returns 0 on success, negative on error, 1 if
   UNUSED(sStrSize);
   int16_t	sResult;
 
-  char	szBasePath[RSP_MAX_PATH];
+  char	szBasePath[PATH_MAX];
   size_t	lBasePathLen	= strlen(pszFullPath);
   if (lBasePathLen < sizeof(szBasePath) )
   {
@@ -2368,11 +2368,11 @@ extern int16_t SubPathOpenBox(		// Returns 0 on success, negative on error, 1 if
 
 #ifdef WIN32
     // If base path doesn't end with a slash, add one
-    if (szBasePath[sLastIndex] != RSP_SYSTEM_PATH_SEPARATOR)
+    if (szBasePath[sLastIndex] != SYSTEM_PATH_SEPARATOR)
     {
-      if ((sLastIndex + 2) < RSP_MAX_PATH)
+      if ((sLastIndex + 2) < PATH_MAX)
       {
-        szBasePath[sLastIndex+1] = RSP_SYSTEM_PATH_SEPARATOR;
+        szBasePath[sLastIndex+1] = SYSTEM_PATH_SEPARATOR;
         szBasePath[sLastIndex+2] = 0;
       }
       else
@@ -2383,11 +2383,11 @@ extern int16_t SubPathOpenBox(		// Returns 0 on success, negative on error, 1 if
     }
 #else
     // If base path ends with a colon, get rid of it
-    if (szBasePath[sLastIndex] == RSP_SYSTEM_PATH_SEPARATOR)
+    if (szBasePath[sLastIndex] == SYSTEM_PATH_SEPARATOR)
       szBasePath[sLastIndex] = 0;
 #endif
 
-    char szChosenFileName[RSP_MAX_PATH];
+    char szChosenFileName[PATH_MAX];
 
     // Display open dialog to let user choose a file
     sResult = rspOpenBox(pszBoxTitle, pszDefFileName, szChosenFileName, sizeof(szChosenFileName), pszFilter);
@@ -2432,7 +2432,7 @@ static int16_t GetDemoFile(
   int16_t sResult = 0;
 
   // Static so dialog will "remember" the previously-used name
-  static char szFile[RSP_MAX_PATH] = "";
+  static char szFile[PATH_MAX] = "";
 
   // If not yet used, start out in appropriate directory
   if (szFile[0] == '\0')
@@ -2464,11 +2464,11 @@ inline void GetSoundPaths(		// Returns nothing.
 	int32_t	lSamplesPerSec,		// In:  The sample rate in samples per second.
 	int32_t	lBitsPerSample,		// In:  The number of bits per sample.
    char* pszSakPath,				// Out: The subpath and name of the sound SAK.
-										// Should be able to store at least RSP_MAX_PATH
+                              // Should be able to store at least PATH_MAX
 										// characters here.
    char* pszNoSakDir)			// Out: The full path of the sound dir to use when
 										// there is no sak.
-										// Should be able to store at least RSP_MAX_PATH
+                              // Should be able to store at least PATH_MAX
 										// characters here.
 {
   // Make the SAK and base path name.
@@ -2508,7 +2508,7 @@ inline void GetSoundPaths(		// Returns nothing.
   strcat(pszSakPath, ".sak");
 
   // Create the samples NO SAK sub path.
-  char	szSamplesNoSakSubPath[RSP_MAX_PATH];
+  char	szSamplesNoSakSubPath[PATH_MAX];
   strcpy(szSamplesNoSakSubPath, "sound/");
   strcat(szSamplesNoSakSubPath, szAudioResDescriptor);
   // Note that g_GameSettings.m_szNoSakDir is already system
@@ -2645,8 +2645,8 @@ static int16_t OpenSaks(void)
 		ASSERT(0);
 		}
 
-	char	szSamplesSakSubPath[RSP_MAX_PATH];
-	char	szSamplesNoSakFullPath[RSP_MAX_PATH];
+   char	szSamplesSakSubPath[PATH_MAX];
+   char	szSamplesNoSakFullPath[PATH_MAX];
 	GetSoundPaths(lSamplesPerSec, lSrcBitsPerSample, szSamplesSakSubPath, szSamplesNoSakFullPath);
 
 	// Attempt to load the Sample SAK . . .
@@ -2817,14 +2817,14 @@ static int16_t LoadAssets(void)
 		return -1;
 		}
 
-   uint32_t lTotalTime = 0;
+   milliseconds_t lTotalTime = 0;
    for (size_t i = 0; i < TitleGetNumTitles(); i++)
 		lTotalTime += g_GameSettings.m_alTitleDurations[i];
 
 	// Fake lots of loading with a simple timing loop
-	int32_t	lTime;
-	int32_t	lLastTime	= rspGetMilliseconds();
-	int32_t	lEndTime		= lLastTime + lTotalTime;
+   milliseconds_t	lTime;
+   milliseconds_t	lLastTime	= rspGetMilliseconds();
+   milliseconds_t	lEndTime		= lLastTime + lTotalTime;
 	do
 		{
 		lTime		= rspGetMilliseconds();
@@ -2913,7 +2913,7 @@ extern void Game_StartSinglePlayerGame(
 #ifndef LOADLEVEL_DIALOG
     {
       // Static so dialog will "remember" the previously-used name
-      static char	szFile[RSP_MAX_PATH]	= "";
+      static char	szFile[PATH_MAX]	= "";
 
       // If not yet used, start out in appropriate directory
       if (szFile[0] == '\0')
@@ -3084,7 +3084,7 @@ extern void Game_StartDemoGame(
 	{
 #if TARGET != POSTAL_2015
    char*	pszDemoFile	= nullptr;
-	char	szLevelDir[RSP_MAX_PATH]	= "";
+   char	szLevelDir[PATH_MAX]	= "";
 	char  szTitle[256] = "";
 #endif
 	TRACE("sMenuItem = %d\n", sMenuItem);
@@ -3108,7 +3108,7 @@ extern void Game_StartDemoGame(
 		case 0:
 		{
 			// Get the filename of the demo to load.
-			static char szFile[RSP_MAX_PATH] = "";
+         static char szFile[PATH_MAX] = "";
 			sprintf(szLevelDir, "%s", DEMO_LEVEL_DIR);
 			pszDemoFile = szFile;
 			// If not yet used, start out in appropriate directory
@@ -3268,7 +3268,7 @@ extern void Game_StartChallengeGame(	// Returns nothing.
 	int16_t sMenuItem)							// In:  Chosen menu item.
 	{
    char*	pszRealmFile	= nullptr;
-	char	szLevelDir[RSP_MAX_PATH]	= "";
+   char	szLevelDir[PATH_MAX]	= "";
 	char	szTitle[256]					= "";
 
 	switch (sMenuItem)
@@ -3285,7 +3285,7 @@ extern void Game_StartChallengeGame(	// Returns nothing.
 		case 1:
 			{
 			// Static so dialog will "remember" the previously-used name
-			static char	szFile[RSP_MAX_PATH]	= "";
+         static char	szFile[PATH_MAX]	= "";
 			pszRealmFile	= szFile;
 			strcpy(szLevelDir, TIMED_CHALLENGE_LEVEL_DIR);
 			strcpy(szTitle, TIMED_CHALLENGE_OPEN_TITLE);
@@ -3297,7 +3297,7 @@ extern void Game_StartChallengeGame(	// Returns nothing.
 		case 2:
 			{
 			// Static so dialog will "remember" the previously-used name
-			static char	szFile[RSP_MAX_PATH]	= "";
+         static char	szFile[PATH_MAX]	= "";
 			pszRealmFile	= szFile;
 			strcpy(szLevelDir, GOAL_CHALLENGE_LEVEL_DIR);
 			strcpy(szTitle, GOAL_CHALLENGE_OPEN_TITLE);
@@ -3309,7 +3309,7 @@ extern void Game_StartChallengeGame(	// Returns nothing.
 		case 3:
 			{
 			// Static so dialog will "remember" the previously-used name
-			static char	szFile[RSP_MAX_PATH]	= "";
+         static char	szFile[PATH_MAX]	= "";
 			pszRealmFile	= szFile;
 			strcpy(szLevelDir, FLAG_CHALLENGE_LEVEL_DIR);
 			strcpy(szTitle, FLAG_CHALLENGE_OPEN_TITLE);
@@ -3321,7 +3321,7 @@ extern void Game_StartChallengeGame(	// Returns nothing.
 		case 4:
 			{
 			// Static so dialog will "remember" the previously-used name
-			static char	szFile[RSP_MAX_PATH]	= "";
+         static char	szFile[PATH_MAX]	= "";
 			pszRealmFile	= szFile;
 			strcpy(szLevelDir, CHECKPOINT_CHALLENGE_LEVEL_DIR);
 			strcpy(szTitle, CHECKPOINT_CHALLENGE_OPEN_TITLE);
@@ -3347,7 +3347,7 @@ extern void Game_StartChallengeGame(	// Returns nothing.
 			// MASSIVE BUG IN rspPathFromSystem() on the Mac -- it doesn't allow
 			// the src and dst to be the same, even though the doc says it can!!!!
 			// Workaround is to use temporary buffer.
-			char szTmp[RSP_MAX_PATH];
+         char szTmp[PATH_MAX];
 			strcpy(szTmp, m_szRealmFile);
 			rspPathFromSystem(szTmp, m_szRealmFile);
 			m_action				= ACTION_PLAY_CHALLENGE;
@@ -3483,7 +3483,7 @@ extern int16_t Game_LoadPlayersGame(
 		#endif
 
 		// new in version 49.
-		playthroughMS = -1;  // disable the achievement for old save games.
+      playthroughMS = 0;  // disable the achievement for old save games.
 		if (ulFileVersion >= 49)
 			rf.Read(&playthroughMS);
 
@@ -3532,7 +3532,7 @@ void GameEndingSequence(void)
 		if (fileDemo.Open(m_szDemoFile, "rb", RFile::LittleEndian) == 0)
 			{
 			// Read name of realm file
-			char szRealmFile[RSP_MAX_PATH];
+         char szRealmFile[PATH_MAX];
 			fileDemo.Read(szRealmFile);
 			// Read whether it's a full path.
 			int16_t	sRealmFileIsFullPath;
@@ -3612,7 +3612,7 @@ void GameEndingSequence(void)
 
 	UnlockAchievement(ACHIEVEMENT_COMPLETE_GAME);
 
-	if (playthroughMS < MAX_PLAYTHROUGH_ACHIEVEMENT_MS)
+   if (playthroughMS && playthroughMS < MAX_PLAYTHROUGH_ACHIEVEMENT_MS)
 		UnlockAchievement(ACHIEVEMENT_COMPLETE_GAME_IN_X_MINUTES);
 	if ((Flag_Achievements & FLAG_MASK_WEAPONS) == FLAG_USED_M16)
 		UnlockAchievement(ACHIEVEMENT_USE_ONLY_M16);
@@ -3634,7 +3634,7 @@ static const char* GetFileNameFromPath(	// Returns file name.
 	// Scan back for the separator or the beginning.
    const char*	pszIndex	= pszFullPath + (strlen(pszFullPath) - 1);
 
-	while (pszIndex >= pszFullPath && *pszIndex != RSP_SYSTEM_PATH_SEPARATOR)
+   while (pszIndex >= pszFullPath && *pszIndex != SYSTEM_PATH_SEPARATOR)
 		{
 		pszIndex--;
 		}
@@ -3742,7 +3742,7 @@ extern int SynchLog(	// Result of expr.
 				}
 			else
 				{
-				char		szFileIn[RSP_MAX_PATH];
+            char		szFileIn[PATH_MAX];
 				char		szExprIn[1024];
 				int32_t		lLineIn;
 				int32_t		lSeqIn;
@@ -4469,7 +4469,7 @@ extern int16_t GetGammaLevel(void)	// Returns current brighten value.
 // size changes as a result of the conversion to system format, in which
 // case our tests would miss it until it's too late.  A massive overrun
 // will still cause a problem, but that would never happen :)
-static char m_acFullPath[RSP_MAX_PATH + RSP_MAX_PATH];
+static char m_acFullPath[PATH_MAX + PATH_MAX];
 
 extern const char* FullPath(									// Returns full path in system format
     int16_t sPathType,										// In:  PATH_CD, PATH_HD, or PATH_VD
@@ -4505,22 +4505,22 @@ extern const char* FullPathCD(								// Returns full path in system format
     const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
-	ASSERT(strlen(g_GameSettings.m_pszCDPath) < RSP_MAX_PATH);
+   ASSERT(strlen(g_GameSettings.m_pszCDPath) < PATH_MAX);
 	strcpy(m_acFullPath, g_GameSettings.m_pszCDPath);
 	// Make sure partial path isn't too long.  It is possible that the conversion
 	// to the system format will change its length slightly, but it shouldn't be
 	// enough to make a real difference to this test.
-	ASSERT(strlen(pszPartialPath) < RSP_MAX_PATH);
+   ASSERT(strlen(pszPartialPath) < PATH_MAX);
 
 	// Check if the combination of the partial and base path will be too long.
-	ASSERT((strlen(pszPartialPath) + strlen(m_acFullPath)) < RSP_MAX_PATH);
+   ASSERT((strlen(pszPartialPath) + strlen(m_acFullPath)) < PATH_MAX);
 
 	// Convert specified partial path from rspix to system format, putting the
 	// result immediately following the base path
 	rspPathToSystem(pszPartialPath, m_acFullPath + strlen(m_acFullPath));
 
 	// Make sure result isn't too long (our buffer can handle it, but it's still a problem)
-	ASSERT(strlen(m_acFullPath) < RSP_MAX_PATH);
+   ASSERT(strlen(m_acFullPath) < PATH_MAX);
 
 	// Return pointer to full path
 	return m_acFullPath;
@@ -4531,22 +4531,22 @@ extern const char* FullPathHD(								// Returns full path in system format
     const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
-	ASSERT(strlen(g_GameSettings.m_pszHDPath) < RSP_MAX_PATH);
+   ASSERT(strlen(g_GameSettings.m_pszHDPath) < PATH_MAX);
 	strcpy(m_acFullPath, g_GameSettings.m_pszHDPath);
 	// Make sure partial path isn't too long.  It is possible that the conversion
 	// to the system format will change its length slightly, but it shouldn't be
 	// enough to make a real difference to this test.
-	ASSERT(strlen(pszPartialPath) < RSP_MAX_PATH);
+   ASSERT(strlen(pszPartialPath) < PATH_MAX);
 
 	// Check if the combination of the partial and base path will be too long.
-	ASSERT((strlen(pszPartialPath) + strlen(m_acFullPath)) < RSP_MAX_PATH);
+   ASSERT((strlen(pszPartialPath) + strlen(m_acFullPath)) < PATH_MAX);
 
 	// Convert specified partial path from rspix to system format, putting the
 	// result immediately following the base path
 	rspPathToSystem(pszPartialPath, m_acFullPath + strlen(m_acFullPath));
 
 	// Make sure result isn't too long (our buffer can handle it, but it's still a problem)
-	ASSERT(strlen(m_acFullPath) < RSP_MAX_PATH);
+   ASSERT(strlen(m_acFullPath) < PATH_MAX);
 
 	// Return pointer to full path
 	return m_acFullPath;
@@ -4557,22 +4557,22 @@ extern const char* FullPathVD(								// Returns full path in system format
     const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
-	ASSERT(strlen(g_GameSettings.m_pszVDPath) < RSP_MAX_PATH);
+   ASSERT(strlen(g_GameSettings.m_pszVDPath) < PATH_MAX);
 	strcpy(m_acFullPath, g_GameSettings.m_pszVDPath);
 	// Make sure partial path isn't too long.  It is possible that the conversion
 	// to the system format will change its length slightly, but it shouldn't be
 	// enough to make a real difference to this test.
-	ASSERT(strlen(pszPartialPath) < RSP_MAX_PATH);
+   ASSERT(strlen(pszPartialPath) < PATH_MAX);
 
 	// Check if the combination of the partial and base path will be too long.
-	ASSERT((strlen(pszPartialPath) + strlen(m_acFullPath)) < RSP_MAX_PATH);
+   ASSERT((strlen(pszPartialPath) + strlen(m_acFullPath)) < PATH_MAX);
 
 	// Convert specified partial path from rspix to system format, putting the
 	// result immediately following the base path
 	rspPathToSystem(pszPartialPath, m_acFullPath + strlen(m_acFullPath));
 
 	// Make sure result isn't too long (our buffer can handle it, but it's still a problem)
-	ASSERT(strlen(m_acFullPath) < RSP_MAX_PATH);
+   ASSERT(strlen(m_acFullPath) < PATH_MAX);
 
 	// Return pointer to full path
 	return m_acFullPath;
@@ -4583,22 +4583,22 @@ extern const char* FullPathSound(								// Returns full path in system format
     const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
-	ASSERT(strlen(g_GameSettings.m_pszSoundPath) < RSP_MAX_PATH);
+   ASSERT(strlen(g_GameSettings.m_pszSoundPath) < PATH_MAX);
 	strcpy(m_acFullPath, g_GameSettings.m_pszSoundPath);
 	// Make sure partial path isn't too long.  It is possible that the conversion
 	// to the system format will change its length slightly, but it shouldn't be
 	// enough to make a real difference to this test.
-	ASSERT(strlen(pszPartialPath) < RSP_MAX_PATH);
+   ASSERT(strlen(pszPartialPath) < PATH_MAX);
 
 	// Check if the combination of the partial and base path will be too long.
-	ASSERT((strlen(pszPartialPath) + strlen(m_acFullPath)) < RSP_MAX_PATH);
+   ASSERT((strlen(pszPartialPath) + strlen(m_acFullPath)) < PATH_MAX);
 
 	// Convert specified partial path from rspix to system format, putting the
 	// result immediately following the base path
 	rspPathToSystem(pszPartialPath, m_acFullPath + strlen(m_acFullPath));
 
 	// Make sure result isn't too long (our buffer can handle it, but it's still a problem)
-	ASSERT(strlen(m_acFullPath) < RSP_MAX_PATH);
+   ASSERT(strlen(m_acFullPath) < PATH_MAX);
 
 	// Return pointer to full path
 	return m_acFullPath;
@@ -4609,22 +4609,22 @@ extern const char* FullPathGame(								// Returns full path in system format
     const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
-	ASSERT(strlen(g_GameSettings.m_pszGamePath) < RSP_MAX_PATH);
+   ASSERT(strlen(g_GameSettings.m_pszGamePath) < PATH_MAX);
 	strcpy(m_acFullPath, g_GameSettings.m_pszGamePath);
 	// Make sure partial path isn't too long.  It is possible that the conversion
 	// to the system format will change its length slightly, but it shouldn't be
 	// enough to make a real difference to this test.
-	ASSERT(strlen(pszPartialPath) < RSP_MAX_PATH);
+   ASSERT(strlen(pszPartialPath) < PATH_MAX);
 
 	// Check if the combination of the partial and base path will be too long.
-	ASSERT((strlen(pszPartialPath) + strlen(m_acFullPath)) < RSP_MAX_PATH);
+   ASSERT((strlen(pszPartialPath) + strlen(m_acFullPath)) < PATH_MAX);
 
 	// Convert specified partial path from rspix to system format, putting the
 	// result immediately following the base path
 	rspPathToSystem(pszPartialPath, m_acFullPath + strlen(m_acFullPath));
 
 	// Make sure result isn't too long (our buffer can handle it, but it's still a problem)
-	ASSERT(strlen(m_acFullPath) < RSP_MAX_PATH);
+   ASSERT(strlen(m_acFullPath) < PATH_MAX);
 
 	// Return pointer to full path
 	return m_acFullPath;
@@ -4634,22 +4634,22 @@ extern const char* FullPathHoods(								// Returns full path in system format
     const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
-	ASSERT(strlen(g_GameSettings.m_pszHoodsPath) < RSP_MAX_PATH);
+   ASSERT(strlen(g_GameSettings.m_pszHoodsPath) < PATH_MAX);
 	strcpy(m_acFullPath, g_GameSettings.m_pszHoodsPath);
 	// Make sure partial path isn't too long.  It is possible that the conversion
 	// to the system format will change its length slightly, but it shouldn't be
 	// enough to make a real difference to this test.
-	ASSERT(strlen(pszPartialPath) < RSP_MAX_PATH);
+   ASSERT(strlen(pszPartialPath) < PATH_MAX);
 
 	// Check if the combination of the partial and base path will be too long.
-	ASSERT((strlen(pszPartialPath) + strlen(m_acFullPath)) < RSP_MAX_PATH);
+   ASSERT((strlen(pszPartialPath) + strlen(m_acFullPath)) < PATH_MAX);
 
 	// Convert specified partial path from rspix to system format, putting the
 	// result immediately following the base path
 	rspPathToSystem(pszPartialPath, m_acFullPath + strlen(m_acFullPath));
 
 	// Make sure result isn't too long (our buffer can handle it, but it's still a problem)
-	ASSERT(strlen(m_acFullPath) < RSP_MAX_PATH);
+   ASSERT(strlen(m_acFullPath) < PATH_MAX);
 
 	// Return pointer to full path
 	return m_acFullPath;
@@ -4662,23 +4662,23 @@ extern const char* FullPathCustom(							// Returns full path in system format
 	{
     const char*	pszFullSystemPath	= rspPathToSystem(pszFullPath);
 	// Start with proper base path
-	ASSERT(strlen(pszFullSystemPath) < RSP_MAX_PATH);
+   ASSERT(strlen(pszFullSystemPath) < PATH_MAX);
 	strcpy(m_acFullPath, pszFullSystemPath);
 
 	// Make sure partial path isn't too long.  It is possible that the conversion
 	// to the system format will change its length slightly, but it shouldn't be
 	// enough to make a real difference to this test.
-	ASSERT(strlen(pszPartialPath) < RSP_MAX_PATH);
+   ASSERT(strlen(pszPartialPath) < PATH_MAX);
 
 	// Check if the combination of the partial and base path will be too long.
-	ASSERT((strlen(pszPartialPath) + strlen(m_acFullPath)) < RSP_MAX_PATH);
+   ASSERT((strlen(pszPartialPath) + strlen(m_acFullPath)) < PATH_MAX);
 
 	// Convert specified partial path from rspix to system format, putting the
 	// result immediately following the base path
 	rspPathToSystem(pszPartialPath, m_acFullPath + strlen(m_acFullPath));
 
 	// Make sure result isn't too long (our buffer can handle it, but it's still a problem)
-	ASSERT(strlen(m_acFullPath) < RSP_MAX_PATH);
+   ASSERT(strlen(m_acFullPath) < PATH_MAX);
 
 	// Return pointer to full path
 	return m_acFullPath;
@@ -4722,13 +4722,13 @@ int16_t CorrectifyBasePath(								// Returns 0 if successfull, non-zero otherwi
       // on the MAC.  We need to go ahead and allocate our own buffer and free it later because
       // if a nullptr is passed in, a nullptr is returned.  This should not have any adverse effects
       // on the PC version.
-      //char* pszOrigDir = getcwd(nullptr, RSP_MAX_PATH);
-      char* pszOrigDir = (char*)malloc(RSP_MAX_PATH);
+      //char* pszOrigDir = getcwd(nullptr, PATH_MAX);
+      char* pszOrigDir = (char*)malloc(PATH_MAX);
       if (pszOrigDir != nullptr)
       {
         // Let's go ahead and get the current working directory here, once we're sure that
         // the string to store it has been properly allocated.
-        pszOrigDir = getcwd(pszOrigDir, RSP_MAX_PATH);
+        pszOrigDir = getcwd(pszOrigDir, PATH_MAX);
 
         // Change to specified directory, which may be relative or absolute
         if (chdir(pszBasePath) == 0)
@@ -4771,11 +4771,11 @@ int16_t CorrectifyBasePath(								// Returns 0 if successfull, non-zero otherwi
 
 #if 1 //def WIN32
         // If base path doesn't end with a slash, add one
-        if (pszBasePath[sLastIndex] != RSP_SYSTEM_PATH_SEPARATOR)
+        if (pszBasePath[sLastIndex] != SYSTEM_PATH_SEPARATOR)
         {
-          if ((sLastIndex + 2) < RSP_MAX_PATH)
+          if ((sLastIndex + 2) < PATH_MAX)
           {
-            pszBasePath[sLastIndex+1] = RSP_SYSTEM_PATH_SEPARATOR;
+            pszBasePath[sLastIndex+1] = SYSTEM_PATH_SEPARATOR;
             pszBasePath[sLastIndex+2] = 0;
           }
           else
@@ -4786,7 +4786,7 @@ int16_t CorrectifyBasePath(								// Returns 0 if successfull, non-zero otherwi
         }
 #else
         // If base path ends with a colon, get rid of it
-        if (pszBasePath[sLastIndex] == RSP_SYSTEM_PATH_SEPARATOR)
+        if (pszBasePath[sLastIndex] == SYSTEM_PATH_SEPARATOR)
           pszBasePath[sLastIndex] = 0;
 #endif
       }

@@ -168,7 +168,7 @@ class CHood : public CThing
 
 		bool m_bResourcesExist;									// Flags whether resources exist
 
-		char m_acBaseName[RSP_MAX_PATH];						// Base name for all resources.
+		char m_acBaseName[PATH_MAX];						// Base name for all resources.
 
 		int16_t	m_sRealmRotX;										// Realm X rotation.
 		int16_t	m_sSceneRotX;										// Scene transform X rotation.

@@ -244,7 +244,7 @@ class RMeter : public RDlg
 
 	public:	// Member variables.
 		int32_t				m_lCurVal;							// Value for next draw.
-		int32_t				m_lStartPeriod;					// Start period.
+      milliseconds_t				m_lStartPeriod;					// Start period.
 		char				m_szUnit[MAX_UNIT_LEN + 1];	// Unit of measurement text.
 		int32_t				m_lMin;								// Minimum value on meter.
 		int32_t				m_lMax;								// Maximum value on meter.
@@ -254,9 +254,9 @@ class RMeter : public RDlg
 		uint32_t				m_u32Needle;						// Needle, bar, etc. color.
 		uint32_t				m_u32Overflow;						// Needle color for over/underflow.
 
-		int32_t				m_lDuration;						// Time between updates in
+      milliseconds_t				m_lDuration;						// Time between updates in
 																	// milliseconds.
-		int32_t				m_lNextUpdate;						// Time of next update in 
+      milliseconds_t				m_lNextUpdate;						// Time of next update in
 																	// milliseconds.
 		int32_t				m_lCurTotal;						// Current total.
 		int32_t				m_lNumValues;						// Number of values since

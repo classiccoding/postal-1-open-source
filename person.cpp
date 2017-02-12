@@ -290,12 +290,12 @@ double CPerson::ms_dInRangeLow = 190*190;		// Squared distance to be in range wi
 double CPerson::ms_dInRangeHigh = 230*230;	// Squared distance to be in range with weapon
 double CPerson::ms_dThrowHorizVel = 200;		// Throw out at this velocity
 double CPerson::ms_dMaxCrawlVel = 2.5;			// Speed at which cop crawls
-int32_t CPerson::ms_lMinCommentTime = 10000;		// Amount of time before making a comment
-int32_t CPerson::ms_lCommentTimeVariance = 35000;// Random amount added on.
-int32_t CPerson::ms_lRandomAvoidTime = 200;		// Time to wander before looking again
-int32_t CPerson::ms_lReseekTime = 1000;			// Do a 'find' again 
-int32_t CPerson::ms_lWatchWaitTime = 5000;		// Time to watch shot go
-int32_t CPerson::ms_lReselectDudeTime	= 3000;	// Time to go without finding a dude
+milliseconds_t CPerson::ms_lMinCommentTime = 10000;		// Amount of time before making a comment
+milliseconds_t CPerson::ms_lCommentTimeVariance = 35000;// Random amount added on.
+milliseconds_t CPerson::ms_lRandomAvoidTime = 200;		// Time to wander before looking again
+milliseconds_t CPerson::ms_lReseekTime = 1000;			// Do a 'find' again
+milliseconds_t CPerson::ms_lWatchWaitTime = 5000;		// Time to watch shot go
+milliseconds_t CPerson::ms_lReselectDudeTime	= 3000;	// Time to go without finding a dude
 															// before calling SelectDude() to find
 															// possibly a closer one.
 int16_t CPerson::ms_sLogTabUserGlobal = 0;		// Logic table variable for group effects
@@ -595,7 +595,7 @@ void CPerson::Update(void)
 
 	if (!m_sSuspend)
 	{
-		int32_t lThisTime = m_pRealm->m_time.GetGameTime();
+      milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
 
 		// See if its time to reevaluate the states
 		if (lThisTime > m_lEvalTimer)
@@ -1048,7 +1048,7 @@ static void LogicUserBrowse(	// Returns nothing
 	ASSERT(pguiLogicFileName != nullptr);
 
 	// Get the logic file name . . .
-	char	szLogicFile[RSP_MAX_PATH];
+	char	szLogicFile[PATH_MAX];
 	strcpy(szLogicFile, FullPathHD(pguiLogicFileName->m_szText));
 
 	if (rspOpenBox(
@@ -1058,7 +1058,7 @@ static void LogicUserBrowse(	// Returns nothing
 		sizeof(szLogicFile),
       "lgk.") == SUCCESS)
 	{
-		char	szHDPath[RSP_MAX_PATH];
+		char	szHDPath[PATH_MAX];
 		strcpy(szHDPath, FullPathHD(""));
 		// Attempt to remove HD path . . .
       if (rspStrnicmp(szLogicFile, szHDPath, strlen(szHDPath) ) == SUCCESS)
@@ -1643,7 +1643,7 @@ int16_t CPerson::GetResources(void)						// Returns 0 if successfull, non-zero o
 
 
 	// Get execution target points -- NOT essential.
-	char	szExeTargetResName[RSP_MAX_PATH];
+	char	szExeTargetResName[PATH_MAX];
 	sprintf(szExeTargetResName, "%s_writhing_exe.trans", g_apersons[m_ePersonType].Anim.pszBaseName);
 	sLoadResult	= rspGetResource(&g_resmgrGame, szExeTargetResName, &m_ptransExecutionTarget);
    if (sLoadResult == SUCCESS)
@@ -1701,7 +1701,7 @@ int16_t CPerson::FreeResources(void)						// Returns 0 if successfull, non-zero 
 ////////////////////////////////////////////////////////////////////////////////
 
 SampleMaster::SoundInstance CPerson::PlaySoundWrithing(
-			int32_t* plDuration)					// Out:  Duration of sample, if not nullptr.
+         milliseconds_t* plDuration)					// Out:  Duration of sample, if not nullptr.
 {
 	m_siPlaying = 0;
 	SampleMasterID*	psmid	= &g_smidNil;
@@ -1751,8 +1751,8 @@ SampleMaster::SoundInstance CPerson::PlaySoundShot(void)
 {
 	m_siPlaying = 0;
 	SampleMasterID*	psmid	= &g_smidNil;
-	int32_t lThisTime = m_pRealm->m_time.GetGameTime();
-	int32_t	lSampleDuration	= 0;	// Safety.
+   milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
+   milliseconds_t	lSampleDuration	= 0;	// Safety.
 
 	if (lThisTime > m_lSampleTimeIsPlaying)
 	{

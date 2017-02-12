@@ -155,7 +155,7 @@ static int16_t		ms_sResetItemOld;					// Index of item that restores the old def
 static int16_t		ms_sMouseButtons;
 static int16_t		ms_sJoyButtons;
 
-static uint32_t			ms_lFlashTimer;
+static milliseconds_t			ms_lFlashTimer;
 
 // This array contains RSP_SK_* macros for the keys that should be 
 // inaccessible to the user when it comes to mapping the input keys.

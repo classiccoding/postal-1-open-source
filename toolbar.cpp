@@ -180,7 +180,7 @@ public:
 	bool	m_bExists;		// bar or full?
 	bool	m_bSelected;	// selected or not?
 	bool	m_bTreasure;	// found in a power up
-	int32_t	m_lMilli;		// relative time in milliseconds for timing stuff
+   milliseconds_t	m_lMilli;		// relative time in milliseconds for timing stuff
 	State	m_eState;		// short cut for applying state
 	State	m_ePrevState;	// Stored for event triggering
 	double	m_dValue;	// if ammo
@@ -209,7 +209,7 @@ public:
 	static	int16_t		ms_sAttentionColor;
 	static	RImage*	ms_pimCompositeBuffer;
 	static	RImage*	ms_pimCompositeBufferScaled;
-	static	int32_t		ms_lLastTime;
+   static	milliseconds_t		ms_lLastTime;
 	//----------------------------------------------------------------------
 	CToolItem()
 		{
@@ -755,7 +755,7 @@ int16_t		CToolItem::ms_sAmmoGoneColor	=	255;
 int16_t		CToolItem::ms_sAttentionColor	=	255;
 RImage*	    CToolItem::ms_pimCompositeBuffer  = nullptr;
 RImage*	    CToolItem::ms_pimCompositeBufferScaled  = nullptr;
-int32_t		CToolItem::ms_lLastTime = 0;
+milliseconds_t		CToolItem::ms_lLastTime = 0;
 
 
 // Time to arrange the basic bar relationhips:

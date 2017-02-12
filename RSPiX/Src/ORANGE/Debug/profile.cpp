@@ -47,9 +47,9 @@
 #include "ORANGE/str/str.h"
 
 #if WIN32
-   int64_t i64GetTimeSpeed=7;	// how long does the time command take?
+   microseconds_t i64GetTimeSpeed=7;	// how long does the time command take?
 #else
-   int64_t i64GetTimeSpeed=8;	// Mike's guess on the mac
+   microseconds_t i64GetTimeSpeed=8;	// Mike's guess on the mac
 #endif
 
 
@@ -181,7 +181,7 @@ void	RProfile::EndProfile(char* pszFieldName)
 	// *****************************************************************************
 	// ************************************ TIME NOT BILLED CORRECTLY : START ******
 	// *****************************************************************************
-   int64_t i64EntryTime = rspGetAppMicroseconds() - i64GetTimeSpeed; // Track Overhead
+   microseconds_t i64EntryTime = rspGetAppMicroseconds() - i64GetTimeSpeed; // Track Overhead
 	// *****************************************************************************
 	// ************************************ TIME NOT BILLED CORRECTLY : .END. ******
 	// *****************************************************************************

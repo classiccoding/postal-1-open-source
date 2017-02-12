@@ -1542,7 +1542,7 @@ int16_t CDude::CDudeAnim3D::Get(	// Returns 0 on success.
 											// in this anim.
 	{
    int16_t sResult;
-	char	szResName[RSP_MAX_PATH];
+	char	szResName[PATH_MAX];
 	sprintf(szResName, "%s.sop", pszBaseFileName);
    sResult	=  rspGetResource(&g_resmgrGame, szResName, &m_psops);
 	sprintf(szResName, "%s.mesh", pszBaseFileName);
@@ -1855,10 +1855,10 @@ void CDude::Update(void)
 	if (!m_sSuspend)
 		{
 		// Get new time
-		int32_t lThisTime = m_pRealm->m_time.GetGameTime();
+      milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
 
 		// Advance the animation timer.
-		int32_t	lDifTime		= lThisTime - m_lAnimPrevUpdateTime;
+      milliseconds_t	lDifTime		= lThisTime - m_lAnimPrevUpdateTime;
 		m_lAnimTime			+= lDifTime;
 
 		// Update prev time.
@@ -3773,7 +3773,7 @@ int16_t CDude::GetResources(void)						// Returns 0 if successfull, non-zero oth
 
 	// Get the different textures this dude could have.
 	int16_t i;
-	char	szResName[RSP_MAX_PATH];
+	char	szResName[PATH_MAX];
 	for (i = 0; i < MaxTextures && sResult == SUCCESS; i++)
 		{
 		sprintf(szResName, "3d/main_color%d.tex", i);

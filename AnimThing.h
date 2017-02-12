@@ -74,10 +74,10 @@ class CAnimThing : public CThing
 
 		int16_t m_sSuspend;							// Suspend flag
 		int16_t	m_sLoop;								// Loops, if true.
-		char	m_szResName[RSP_MAX_PATH];		// Resource name.
+		char	m_szResName[PATH_MAX];		// Resource name.
 														
-		int32_t	m_lAnimTime;						// Cummulative animation time.
-		int32_t	m_lAnimPrevTime;					// Last animation time.
+      milliseconds_t	m_lAnimTime;						// Cummulative animation time.
+      milliseconds_t	m_lAnimPrevTime;					// Last animation time.
 														
 		uint16_t			m_u16IdSendMsg;			// ID of CThing to send msg to when done.
 		GameMessage	m_msg;						// Message to send to m_pthingSendMsg.

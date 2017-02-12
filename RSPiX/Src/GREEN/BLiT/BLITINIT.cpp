@@ -134,9 +134,7 @@ RInitBLiT::RInitBLiT()
 	pimScreenVisible->m_pSpecial = (uint8_t*) BUF_VRAM;
 	pimScreenBackPlane->m_pSpecial = (uint8_t*) BUF_VRAM2;
 
-#ifdef WIN32
 	TRACE("BLiT has initialized\n");
-#endif
 	}
 
 // Be very careful (and precise) about this stuff:

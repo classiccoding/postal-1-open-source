@@ -155,13 +155,6 @@
 #include <io.h>
 #include <direct.h>
 #include <malloc.h>
-#define PATH_MAX MAX_PATH
-#ifndef F_OK
-#define F_OK 00
-#endif
-#ifndef R_OK
-#define R_OK 04
-#endif
 typedef HRESULT (WINAPI *fnSHGetFolderPathW)(HWND hwnd, int nFolder, HANDLE hToken, DWORD dwFlags, LPWSTR pszPath);
 #endif
 

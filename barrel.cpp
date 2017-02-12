@@ -422,8 +422,8 @@ void CBarrel::Resume(void)
 ////////////////////////////////////////////////////////////////////////////////
 void CBarrel::Update(void)
 {
-	int32_t lThisTime;
-	int32_t lTimeDifference;
+   milliseconds_t lThisTime;
+   milliseconds_t lTimeDifference;
 
 	if (!m_sSuspend)
 	{

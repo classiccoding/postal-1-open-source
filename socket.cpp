@@ -695,8 +695,8 @@ int16_t RSocket::GetAddress(								// Returns 0 on success, non-zero otherwise
 	int16_t sResult = SUCCESS;
 	
 	// Get rid of leading and trailing whitespace
-	char azName[RSP_MAX_PATH];
-	if (strlen(pszName) < RSP_MAX_PATH)
+	char azName[PATH_MAX];
+	if (strlen(pszName) < PATH_MAX)
 		{
 		// Skip over leading whitespace
       while ((*pszName != '\0') && isspace(*pszName))

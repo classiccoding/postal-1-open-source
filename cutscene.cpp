@@ -243,7 +243,7 @@ class	CCutSceneInfo
 		RFont* m_pFont;
 		char	m_szTitle[256];
 		char	m_szText[4096];
-		char	m_szMusic[RSP_MAX_PATH];
+		char	m_szMusic[PATH_MAX];
 		uint8_t	m_ucForeText;
 		uint8_t	m_ucShadowText;
 		RImage*	m_pimBGLayer;
@@ -254,7 +254,7 @@ class	CCutSceneInfo
 		int16_t m_sDelW;
 		int16_t m_sDelH;
       size_t m_lTotalBytes;
-      uint32_t m_lTimeToUpdate;
+      milliseconds_t m_lTimeToUpdate;
       size_t m_lBytesSoFar;
 		uint8_t m_u8BloodColor;
 		int16_t m_sLastDistance;
@@ -313,12 +313,12 @@ int16_t	MartiniDo(	RImage*	pimBackground,	// actually, this is the ONLY graphic
 						int16_t	sStartX,				// logical start position of image
 						int16_t	sStartY,				// NOTE: it will be clipped so won't actually hit this point!
 						RMultiAlpha*	pAlpha,	// only need 50% - see cut scenes
-						int32_t	lMilliLen,			// how long to do the effect
+                  milliseconds_t	lMilliLen,			// how long to do the effect
 						int16_t	sRadius,				// Your tuning pleasure
-						int32_t	lSpinTime,			// in milliseconds
-						int32_t	lSwayTime,			// in milliseconds
+                  milliseconds_t	lSpinTime,			// in milliseconds
+                  milliseconds_t	lSwayTime,			// in milliseconds
 						RRect*  prCenter,			// if not nullptr, use this portion of the image only!
-						int32_t	lFadeTime,			// fade to black, in milliseconds.
+                  milliseconds_t	lFadeTime,			// fade to black, in milliseconds.
 						SampleMaster::SoundInstance siFade	// to make sound fade out
 					)
 	{
@@ -369,10 +369,10 @@ int16_t	MartiniDo(	RImage*	pimBackground,	// actually, this is the ONLY graphic
 	uint8_t PaletteCopy[256 * 3] = {0,};
 	rspGetPaletteEntries(10,236,PaletteCopy+30,PaletteCopy + 31,PaletteCopy + 32,3);
 
-	int32_t lStartTime = rspGetMilliseconds();
-	int32_t	lCurrentTime = -1;
+   milliseconds_t lStartTime = rspGetMilliseconds();
+   milliseconds_t	lCurrentTime = 0;
 
-	int32_t	lStartFadeTime = lMilliLen - lFadeTime;  // lCurrentTime is relative to lStartTime
+   milliseconds_t	lStartFadeTime = lMilliLen - lFadeTime;  // lCurrentTime is relative to lStartTime
 
 	// Attempt to do a fade out while swirling....
 	while (((lCurrentTime = (rspGetMilliseconds() - lStartTime)) < lMilliLen) && !(rspGetQuitStatus()))
@@ -788,7 +788,7 @@ extern void CutSceneStart(
 			}
 		}
 		#endif
-		if ((strlen(szText) + 1) >= RSP_MAX_PATH)
+		if ((strlen(szText) + 1) >= PATH_MAX)
 			{
 			TRACE("CutScene(): Bg file name/path too long: '%s'!\n", szText);
 			strcpy(szText, DEFAULT_BG);
@@ -1175,7 +1175,7 @@ static void CutScene_RFileCallback(size_t lBytes)
 				ms_pCut->m_lBytesSoFar += lBytes;
 
 				// Check if time for an update
-            uint32_t lNow = rspGetMilliseconds();
+            milliseconds_t lNow = rspGetMilliseconds();
 				if ((lNow - ms_pCut->m_lTimeToUpdate) > PROGRESS_BAR_UPDATE_TIME)
 					{
 					// Get percentage that's been loaded so far (result is from 0 to 1)

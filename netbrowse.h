@@ -47,11 +47,11 @@ class CNetBrowse
 		class CHost
 			{
 			public:
-				char					m_acName[Net::MaxHostNameSize];	// Name
-				RSocket::Address	m_address;								// Address
-				int32_t					m_lMagic;								// Magic number
-				int32_t					m_lLastHeardFrom;						// Time we last heard from this host
-            uintptr_t				m_u32User;								// User-definable value
+            char              m_acName[Net::MaxHostNameSize];	// Name
+            RSocket::Address  m_address;								// Address
+            int32_t           m_lMagic;								// Magic number
+            milliseconds_t    m_lLastHeardFrom;						// Time we last heard from this host
+            uintptr_t         m_u32User;								// User-definable value
 
 			public:
 				// Constructor
@@ -103,7 +103,7 @@ class CNetBrowse
 	//------------------------------------------------------------------------------
 	protected:
 		RSocket			m_socketBrowse;						// Socket used to browse for hosts
-      uint32_t				m_lLastBroadcast;						// Last broadcast time
+      milliseconds_t				m_lLastBroadcast;						// Last broadcast time
 		uint16_t	m_usBasePort;							// Base port
 
 	//------------------------------------------------------------------------------

@@ -324,8 +324,8 @@ void test(RImage* pimF,RImage* pimB)
 
 	int32_t lKey = 0;
 #ifdef UNUSED_VARIABLES
-   int32_t	lTime = rspGetMilliseconds();
-   int32_t lPrevTime = lTime;
+   milliseconds_t	lTime = rspGetMilliseconds();
+   milliseconds_t lPrevTime = lTime;
 #endif
 	rspSetMouse(sCenterX,sCenterY);
 

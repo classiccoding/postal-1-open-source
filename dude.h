@@ -546,11 +546,11 @@ class CDude : public CCharacter
 																// yet been triggered.
 
 
-		int32_t			m_lNextBulletTime;				// Next time a bullet can be fired.
-		int32_t			m_lLastShotTime;					// Last time the dude was shot.
-		int32_t			m_lLastYellTime;					// Last time the dude yelled in pain
+      milliseconds_t			m_lNextBulletTime;				// Next time a bullet can be fired.
+      milliseconds_t			m_lLastShotTime;					// Last time the dude was shot.
+      milliseconds_t			m_lLastYellTime;					// Last time the dude yelled in pain
 																// from being shot or something.
-		int32_t			m_lNextIdleTime;					// Idle animation timer.
+      milliseconds_t			m_lNextIdleTime;					// Idle animation timer.
 
 		WeaponType	m_weapontypeCur;					// Dude's current weapon type.
 		WeaponType	m_weaponShooting;					// The weapon type the dude is currently

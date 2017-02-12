@@ -165,7 +165,7 @@ class CCharacter : public CThing3d
 		SampleMaster::SoundInstance	m_siLastWeaponPlayInstance;
 		// Set time that sound should be stopped (as long as we keep updating
 		// this, it won't get stopped).
-		int32_t	m_lStopLoopingWeaponSoundTime;
+      milliseconds_t	m_lStopLoopingWeaponSoundTime;
 
 
 

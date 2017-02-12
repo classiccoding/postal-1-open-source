@@ -243,9 +243,6 @@ extern bool EnableSteamCloud;
 
 #define MAX_HIGH_SCORES					16
 
-// defaults to -1 for some reason
-// #define INT32_MAX 0x7FFFFFFFL
-
 //////////////////////////////////////////////////////////////////////////////
 // Variables
 //////////////////////////////////////////////////////////////////////////////
@@ -254,7 +251,7 @@ CScoreboard g_scoreboard;
 RPrint		ms_print;
 
 #ifdef HIGH_SCORE_DLG
-static uint32_t	ms_lScoreMaxTimeOut;		// Optional score timeout (max time spent
+static milliseconds_t	ms_lScoreMaxTimeOut;		// Optional score timeout (max time spent
 												// on score screen).
 #endif
 
@@ -305,7 +302,7 @@ static int16_t GuiGetRes(		// Returns 0 on success; non-zero on failure.
 	// Allocate and load new resources.  We get the name of the file (which
 	// is ASSUMED to have NO PATH!!) from the gui itself, then tack on the
 	// path we need and get the resource from the resource manager.
-	char szFile[RSP_MAX_PATH * 2];
+	char szFile[PATH_MAX * 2];
 	sprintf(szFile, "%s%s", GUI_RES_DIR, pgui->m_szBkdResName);
 
 	if (rspGetResource(&g_resmgrShell, szFile, &pgui->m_pimBkdRes) == 0)
@@ -888,7 +885,7 @@ void ScoreSetMode(CScoreboard::ScoringMode Mode)
 void ScoreDisplayHighScores(	// Returns nothing.
 	CRealm* pRealm,				// In:  Realm won.
 	CNetClient* pclient,			// In:  Client ptr for MP mode, or nullptr in SP mode.
-	int32_t lMaxTimeOut)				// In:  Max time on score screen (quits after this
+   milliseconds_t lMaxTimeOut)				// In:  Max time on score screen (quits after this
 										// duration, if not -1).
 {
   UNUSED(lMaxTimeOut);
@@ -1363,7 +1360,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 //				rspSetMouseCursorShowLevel(1);
 
 				// Make sure there's no timeout on while player is adding their name.
-            ms_lScoreMaxTimeOut	= INT32_MAX;
+            ms_lScoreMaxTimeOut	= UINT32_MAX;
 
 				// If we want a high score from this player . . .
 				if (sPlayersScorePosition >= 0 && pRealm->m_flags.bMultiplayer == false)
@@ -1392,14 +1389,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 				// Don't set time out time until after player has entered name for
 				// reduced frustration.
 				// If timeout specified . . . 
-				if (lMaxTimeOut >= 0)
-					{
-					ms_lScoreMaxTimeOut	= rspGetMilliseconds() + lMaxTimeOut;
-					}
-				else
-					{
-               ms_lScoreMaxTimeOut	= INT32_MAX;
-					}
+            ms_lScoreMaxTimeOut	= rspGetMilliseconds() + lMaxTimeOut;
 
 				// Set the focus to the listbox's vertical scrollbar so that the arrows will work.
 				plbScores->m_sbVert.SetFocus();

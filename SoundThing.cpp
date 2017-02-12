@@ -332,17 +332,17 @@ void CSoundThing::Update(void)
 	if (!m_sSuspend)
 		{
 		// Get current time
-		int32_t lCurTime = m_pRealm->m_time.GetGameTime();
+      milliseconds_t lCurTime = m_pRealm->m_time.GetGameTime();
 
 		// If enabled and (non-ambient or ambients allowed) . . .
 		if (m_bEnabled == true && (m_sAmbient == FALSE || g_GameSettings.m_sPlayAmbientSounds) )
 			{
 			// If current time hits next starting time (or if we're in the init state)
-			if ((lCurTime >= m_lNextStartTime) || (m_sWhichTime < 0))
+         if ((lCurTime >= m_lNextStartTime) || (m_sWhichTime < 0))
 				{
-				int32_t	lSampleDuration	= 0;
-				int32_t	lLoopStartTime;
-				int32_t	lLoopEndTime	= m_lLoopBackFrom;
+            milliseconds_t	lSampleDuration	= 0;
+            milliseconds_t	lLoopStartTime;
+            milliseconds_t	lLoopEndTime	= m_lLoopBackFrom;
 				if (m_sUseLooping)
 					{
 					lLoopStartTime	= m_lLoopBackTo;
@@ -411,7 +411,7 @@ void CSoundThing::Update(void)
 						lLoopEndTime = lSampleDuration;
 						}
 
-					if (lLoopStartTime < 0 && m_sUseLooping)
+               if (lLoopStartTime > INT32_MAX && m_sUseLooping)
 						{
 						lLoopStartTime = 0;
 						}
@@ -422,7 +422,7 @@ void CSoundThing::Update(void)
 						}
 
 					// If using loop parameters and loop backs are not infinite . . .
-					if (m_sUseLooping && m_lNumLoopBacks >= 0)
+               if (m_sUseLooping && m_lNumLoopBacks < INT32_MAX)
 						{
 						// Calculate time until we stop looping . . .
 						m_lStopLoopingTime	= lCurTime + (m_lNumLoopBacks + 1) * (lLoopEndTime - lLoopStartTime) + lLoopStartTime;
@@ -578,7 +578,7 @@ static void BrowseCall(		// Returns nothing.
 		sprintf(szTitle, g_pszGenericBrowseFor_s_Title, "sound file");
 
 		// Create full system path from existing RSPiX subpath.
-		char	szSystemPath[RSP_MAX_PATH];
+		char	szSystemPath[PATH_MAX];
 		char*	pszSakpath	= g_resmgrSamples.GetBasePath();
 		if (pguiName->m_szText[0] == '\0')
 			{
@@ -718,7 +718,7 @@ int16_t CSoundThing::EditModify(void)
 
 		SetGuiItemVal(pgui, 401, m_lLoopBackTo);
 		SetGuiItemVal(pgui, 402, (m_lLoopBackFrom == 0) ? 1 : m_lLoopBackFrom);
-		SetGuiItemVal(pgui, 403, (m_lNumLoopBacks < 0) ? 0 : m_lNumLoopBacks);
+      SetGuiItemVal(pgui, 403, (m_lNumLoopBacks > INT32_MAX) ? 0 : m_lNumLoopBacks);
 
 		// Init "End" checkbox.
 		RMultiBtn*	pmbLoopFromEnd	= (RMultiBtn*)pgui->GetItemFromId(404);
@@ -739,7 +739,7 @@ int16_t CSoundThing::EditModify(void)
 		RMultiBtn*	pmbLoopInfinitely	= (RMultiBtn*)pgui->GetItemFromId(405);
 		ASSERT(pmbLoopInfinitely);
 		ASSERT(pmbLoopInfinitely->m_type == RGuiItem::MultiBtn);
-		pmbLoopInfinitely->m_sState	= (m_lNumLoopBacks < 0) ? 2 : 1;
+      pmbLoopInfinitely->m_sState	= (m_lNumLoopBacks > INT32_MAX) ? 2 : 1;
 		pmbLoopInfinitely->Compose();
 		// Set the callback so we can tell when state changes.
 		pmbLoopInfinitely->m_bcUser	= CheckEnableGuiCall;

@@ -175,11 +175,11 @@ extern RResMgr	g_resmgrShell;
 extern RResMgr	g_resmgrRes;
 
 // Time codes for registry values and expiration date
-extern int32_t g_lRegTime;
-extern int32_t g_lRegValue;
-extern int32_t g_lExpTime;
-extern int32_t g_lExpValue;
-extern int32_t g_lReleaseTime;
+extern milliseconds_t g_lRegTime;
+extern milliseconds_t g_lRegValue;
+extern milliseconds_t g_lExpTime;
+extern milliseconds_t g_lExpValue;
+extern milliseconds_t g_lReleaseTime;
 
 // Loaded and saved games use this stockpile to transfer to/from the
 // dude's stockpile
@@ -498,11 +498,6 @@ extern int16_t GetGammaLevel(void);					// Returns current brighten value
 extern void Game_StartLevelOnce(
 	int16_t sMenuItem);
 
-#ifdef WIN32
-#define snprintf _snprintf
-#define mkdir _mkdir
-#endif
-
 extern bool StatsAreAllowed;
 
 extern int Stat_BulletsFired;
@@ -520,7 +515,7 @@ extern int Stat_KilledCivilians;
 extern int Stat_TotalKilled;
 extern int Stat_LevelsPlayed;
 
-extern int32_t playthroughMS;
+extern milliseconds_t playthroughMS;
 
 extern uint32_t Flag_Achievements;
 #define FLAG_USED_M16             (1<<0)

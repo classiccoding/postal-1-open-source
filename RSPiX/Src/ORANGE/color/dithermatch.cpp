@@ -73,7 +73,7 @@ int16_t	rspDither(
 					int32_t	lInc,
 					// User interaction
 					PDitherCallBack func,
-               uint32_t  lMilli // milliseconds per callback
+               milliseconds_t  lMilli // milliseconds per callback
 					)
 	{
 	ASSERT(pimSrc);
@@ -95,7 +95,7 @@ int16_t	rspDither(
 
    int16_t sResult = SUCCESS;
 //	int32_t	lPalOffset = lInc * sStartMap;
-   uint32_t	lLastTime = rspGetMilliseconds();
+   milliseconds_t	lLastTime = rspGetMilliseconds();
 
 	//--------- Set up receiving vessel:
 	if (pimDst->CreateImage(pimSrc->m_sWidth,pimSrc->m_sHeight,
@@ -340,7 +340,7 @@ int16_t	rspSimpleMap(
 					int32_t	lInc,
 					// User interaction
 					PDitherCallBack func,
-               uint32_t  lMilli // milliseconds per callback
+               milliseconds_t lMilli // milliseconds per callback
 					)
 	{
 	ASSERT(pimSrc);
@@ -362,7 +362,7 @@ int16_t	rspSimpleMap(
 
    int16_t sResult = SUCCESS;
 //	int32_t	lPalOffset = lInc * sStartMap;
-   uint32_t	lLastTime = rspGetMilliseconds();
+   milliseconds_t	lLastTime = rspGetMilliseconds();
 
 	//--------- Set up receiving vessel:
 	if (pimDst->CreateImage(pimSrc->m_sWidth,pimSrc->m_sHeight,
@@ -456,7 +456,7 @@ int16_t	rspDither(
 					int32_t	lInc,
 					// User interaction
 					PDitherCallBack func,
-               uint32_t  lMilli // milliseconds per callback
+               milliseconds_t  lMilli // milliseconds per callback
 					)
 	{
 	ASSERT(pimSrc);
@@ -478,7 +478,7 @@ int16_t	rspDither(
 
    int16_t sResult = SUCCESS;
 //	int32_t	lPalOffset = lInc * sStartMap;
-   uint32_t	lLastTime = rspGetMilliseconds();
+   milliseconds_t	lLastTime = rspGetMilliseconds();
 
 	//--------- Set up receiving vessel:
 	if (pimDst->CreateImage(pimSrc->m_sWidth,pimSrc->m_sHeight,
@@ -753,7 +753,7 @@ int16_t	rspDither(
 					int32_t	lInc,
 					// User interaction
 					PDitherCallBack func,
-               uint32_t  lMilli // milliseconds per callback
+               milliseconds_t lMilli // milliseconds per callback
 					)
 	{
 	ASSERT(pimSrc);
@@ -775,7 +775,7 @@ int16_t	rspDither(
 
    int16_t sResult = SUCCESS;
 //	int32_t	lPalOffset = lInc * sStartMap;
-   uint32_t	lLastTime = rspGetMilliseconds();
+   milliseconds_t	lLastTime = rspGetMilliseconds();
 
 	//--------- Set up receiving vessel:
 	if (pimDst->CreateImage(pimSrc->m_sWidth,pimSrc->m_sHeight,
@@ -1034,7 +1034,7 @@ int16_t	rspSimpleMap(
 					int32_t	lInc,
 					// User interaction
 					PDitherCallBack func,
-               uint32_t  lMilli // milliseconds per callback
+               milliseconds_t  lMilli // milliseconds per callback
 					)
 	{
 	ASSERT(pimSrc);
@@ -1056,7 +1056,7 @@ int16_t	rspSimpleMap(
 
    int16_t sResult = SUCCESS;
 //	int32_t	lPalOffset = lInc * sStartMap;
-   uint32_t	lLastTime = rspGetMilliseconds();
+   milliseconds_t	lLastTime = rspGetMilliseconds();
 
 	//--------- Set up receiving vessel:
 	if (pimDst->CreateImage(pimSrc->m_sWidth,pimSrc->m_sHeight,

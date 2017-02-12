@@ -193,7 +193,7 @@ void ScoreDisplayStatus(CRealm* pRealm);
 void ScoreDisplayHighScores(			// Returns nothing.
 	CRealm* pRealm,						// In:  Realm won.
 	CNetClient* pclient	= nullptr,		// In:  Client ptr for MP mode, or nullptr in SP mode.
-	int32_t lMaxTimeOut	= -1);			// In:  Max time on score screen (quits after this
+   milliseconds_t lMaxTimeOut	= INT32_MAX);			// In:  Max time on score screen (quits after this
 												// duration, if not -1).
 
 // Get the name for a new high score

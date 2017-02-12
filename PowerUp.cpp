@@ -543,7 +543,7 @@ int16_t CPowerUp::GetResources(void)						// Returns 0 if successfull, non-zero 
 	// Safe to call even if no resource.
 	FreeResources();
 
-	char	szResName[RSP_MAX_PATH];
+	char	szResName[PATH_MAX];
 	GetResName(szResName);
 
 	sResult	= m_anim.Get(

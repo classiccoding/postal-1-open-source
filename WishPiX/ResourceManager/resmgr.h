@@ -665,7 +665,7 @@ class RResMgr
 			RString strSystemPartial = rspPathToSystem((char*) strResourceName);
 			m_strFullpath = m_strBasepath + strSystemPartial;
 			// Make sure that the RString is not too long for rspix functions
-			ASSERT(m_strFullpath.GetLen() < RSP_MAX_PATH);
+			ASSERT(m_strFullpath.GetLen() < PATH_MAX);
 			return (char*) m_strFullpath;
 			}
 

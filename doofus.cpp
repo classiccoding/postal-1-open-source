@@ -1331,7 +1331,7 @@ double CDoofus::SQDistanceToDude()
 
 void CDoofus::AlignToBouy(void)
 {
-	int32_t lThisTime = m_pRealm->m_time.GetGameTime();
+   milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
 	if (lThisTime > m_lAlignTimer || m_bRecentlyStuck)
 	{
 		// If he got stuck and is now free, pick a new bouy
@@ -1523,7 +1523,7 @@ void CDoofus::Update(void)
 {
 	if (!m_sSuspend)
 	{
-		int32_t lThisTime = m_pRealm->m_time.GetGameTime();
+      milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
 
 		// Check for new messages that may change the state
 		ProcessMessages();
@@ -1787,8 +1787,8 @@ void CDoofus::Logic_Die(void)
 
 void CDoofus::Logic_Writhing(void)
 {
-	int32_t lThisTime = m_pRealm->m_time.GetGameTime();
-	int32_t lTimeDifference = lThisTime - m_lPrevTime;
+   milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
+   milliseconds_t lTimeDifference = lThisTime - m_lPrevTime;
 
 	// Send to back.
 	m_sLayerOverride	= CRealm::LayerSprite1; 
@@ -1854,9 +1854,9 @@ void CDoofus::Logic_Writhing(void)
 
 void CDoofus::Logic_Guard(void)
 {
-	int32_t lThisTime;
+   milliseconds_t lThisTime;
 #ifdef UNUSED_VARIABLES
-	int32_t lTimeDifference;
+   milliseconds_t lTimeDifference;
 	double dSeconds;
 #endif
 
@@ -1974,7 +1974,7 @@ void CDoofus::Logic_HuntHold(void)
 	if (!ReevaluateState())
 	{
 		// Check to see if the dude has moved and you should move	
-		int32_t lThisTime = m_pRealm->m_time.GetGameTime();
+      milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
 
 		if (lThisTime > m_lTimer)
 		{
@@ -2027,8 +2027,8 @@ void CDoofus::Logic_HuntHold(void)
 
 void CDoofus::Logic_MoveNext(void)
 {
-	int32_t lThisTime = m_pRealm->m_time.GetGameTime();
-	int32_t lElapsedTime = lThisTime - m_lPrevTime;
+   milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
+   milliseconds_t lElapsedTime = lThisTime - m_lPrevTime;
 	double dSeconds = lElapsedTime / 1000.0;
 	double dStartX = m_dX;
 	double dStartZ = m_dZ;
@@ -2148,7 +2148,7 @@ void CDoofus::Logic_PositionSet(void)
 {
 	if (!ReevaluateState())
 	{
-		int32_t lThisTime = m_pRealm->m_time.GetGameTime();
+      milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
 		int16_t sVarRot = GetRandom() % 40;
 		double dTargetDist = SQDistanceToDude();
 		double dTestAngle;
@@ -2271,7 +2271,7 @@ void CDoofus::Logic_PositionSet(void)
 
 void CDoofus::Logic_DelayShoot(void)
 {
-	int32_t lThisTime = m_pRealm->m_time.GetGameTime();
+   milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
 
 	// See if its time to shoot yet
 	if (lThisTime > m_lTimer)
@@ -2302,8 +2302,8 @@ void CDoofus::Logic_DelayShoot(void)
 
 void CDoofus::Logic_PositionMove(void)
 {
-	int32_t lThisTime = m_pRealm->m_time.GetGameTime();
-	int32_t lTimeDifference = lThisTime - m_lPrevTime;
+   milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
+   milliseconds_t lTimeDifference = lThisTime - m_lPrevTime;
 	double dSeconds = lTimeDifference / 1000.0;
 
 	if (lThisTime > m_lTimer)
@@ -2495,7 +2495,7 @@ void CDoofus::Logic_PylonDetect(void)
 
 void CDoofus::Logic_HideBegin(void)
 {
-	int32_t lThisTime = m_pRealm->m_time.GetGameTime();
+   milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
 	// If we'renot using the run animation yet then switch to it
 	if (m_panimCur != &m_animRun)
 	{
@@ -2543,7 +2543,7 @@ void CDoofus::Logic_Hide(void)
 
 void CDoofus::Logic_PopBegin(void)
 {
-	int32_t lThisTime = m_pRealm->m_time.GetGameTime();
+   milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
 	double dStartX = m_dX;
 	double dStartZ = m_dZ;
 
@@ -2638,8 +2638,8 @@ void CDoofus::Logic_PopWait(void)
 
 void CDoofus::Logic_Popout(void)
 {
-	int32_t lThisTime = m_pRealm->m_time.GetGameTime();
-	int32_t lElapsedTime = lThisTime - m_lPrevTime;
+   milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
+   milliseconds_t lElapsedTime = lThisTime - m_lPrevTime;
 	double dSeconds = lElapsedTime / 1000.0;
 	m_lAnimTime += lElapsedTime;
 	m_eCurrentAction = Action_Popout;
@@ -2687,8 +2687,8 @@ void CDoofus::Logic_Popout(void)
 
 void CDoofus::Logic_Shoot(void)
 {
-	int32_t lThisTime = m_pRealm->m_time.GetGameTime();
-	int32_t lTimeDifference = lThisTime - m_lPrevTime;
+   milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
+   milliseconds_t lTimeDifference = lThisTime - m_lPrevTime;
 
 	// Switch behavior on weapon type.
 	switch (m_eWeaponType)
@@ -2797,8 +2797,8 @@ void CDoofus::Logic_ShootRun(void)
 
 void CDoofus::Logic_RunShootBegin(void)
 {
-	int32_t lThisTime = m_pRealm->m_time.GetGameTime();
-	int32_t lElapsedTime = lThisTime - m_lPrevTime;
+   milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
+   milliseconds_t lElapsedTime = lThisTime - m_lPrevTime;
 	double dStartX = m_dX;
 	double dStartZ = m_dZ;
 
@@ -2860,8 +2860,8 @@ void CDoofus::Logic_RunShootBegin(void)
 
 void CDoofus::Logic_RunShoot(void)
 {
-	int32_t lThisTime = m_pRealm->m_time.GetGameTime();
-	int32_t lElapsedTime = lThisTime - m_lPrevTime;
+   milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
+   milliseconds_t lElapsedTime = lThisTime - m_lPrevTime;
 
 	// If its not using the run animation, then switch to it
 	if (m_panimCur != &m_animRun)
@@ -2998,7 +2998,7 @@ void CDoofus::Logic_RunShoot(void)
 
 void CDoofus::Logic_RunShootWait(void)
 {
-	int32_t lThisTime = m_pRealm->m_time.GetGameTime();
+   milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
 	
 	RunIdleAnimation();
 
@@ -3203,7 +3203,7 @@ void CDoofus::Logic_WalkContinue(void)
 
 void CDoofus::Logic_Helping(void)
 {
-	int32_t lThisTime = m_pRealm->m_time.GetGameTime();
+   milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
 
 	if (lThisTime > m_lTimer)
 	{
@@ -3527,7 +3527,7 @@ void CDoofus::OnShotMsg(Shot_Message* pMessage)
 		}
 		else
 		{
-			int32_t lThisTime = m_pRealm->m_time.GetGameTime();
+         milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
 			if (lThisTime > m_lShotTimeout)
 			{
 				m_lShotTimeout = lThisTime + m_lShotReactionTimeout;
@@ -3829,7 +3829,7 @@ CWeapon* CDoofus::ShootWeapon(CSmash::Bits bitsInclude,
 
 void CDoofus::RunIdleAnimation(void)
 {
-	int32_t lThisTime = m_pRealm->m_time.GetGameTime();
+   milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
 
 	if (m_panimCur == &m_animStand)
 	{
@@ -3892,7 +3892,7 @@ void CDoofus::RunIdleAnimation(void)
 				// See if it is done standing yet.  If so, you have
 				// already previously decided to end the crouch animation
 				// so now pick the stand animation
-				if (m_lAnimTime < 0)
+            if (m_lAnimTime > INT32_MAX)
 				{
 					m_panimCur = &m_animStand;
 					m_lAnimTime = 0;

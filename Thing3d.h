@@ -327,8 +327,8 @@ class CThing3d : public CThing
 													// Y axis.
 		double m_dExtRotVelZ;				// Rate of rotation in degrees per second around
 													// Z axis.
-		int32_t   m_lTimer;						// General purpose timer for states
-		int32_t   m_lPrevTime;					// Previous update time
+      milliseconds_t   m_lTimer;						// General purpose timer for states
+      milliseconds_t   m_lPrevTime;					// Previous update time
 		int16_t  m_sPrevHeight;				// Previous height
 		int16_t  m_sSuspend;					// Suspend flag
 
@@ -341,8 +341,8 @@ class CThing3d : public CThing
 		
 		// Animation specific variables.
 		CAnim3D*	m_panimCur;					// Pointer to current animation.
-		int32_t		m_lAnimTime;				// Time from start of animation.
-		int32_t		m_lAnimPrevUpdateTime;	// Last time m_lAnimTime was updated.
+      milliseconds_t		m_lAnimTime;				// Time from start of animation.
+      milliseconds_t		m_lAnimPrevUpdateTime;	// Last time m_lAnimTime was updated.
 													// Used to determine the delta time to add
 													// to m_lAnimTime.
 		RTransform	m_trans;					// Transform to apply on Render.
@@ -749,11 +749,11 @@ class CThing3d : public CThing
 																	// Negative indicates to use the distance to the
 																	// ear to determine the volume.
 			SampleMaster::SoundInstance*	psi = nullptr,	// Out: Handle for adjusting sound volume
-			int32_t* plSampleDuration = nullptr,				// Out: Sample duration in ms, if not nullptr.
-			int32_t lLoopStartTime = -1,						// In:  Where to loop back to in milliseconds.
+         milliseconds_t* plSampleDuration = nullptr,				// Out: Sample duration in ms, if not nullptr.
+         milliseconds_t lLoopStartTime = UINT32_MAX,						// In:  Where to loop back to in milliseconds.
 																	//	-1 indicates no looping (unless m_sLoop is
 																	// explicitly set).
-			int32_t lLoopEndTime = 0,							// In:  Where to loop back from in milliseconds.
+         milliseconds_t lLoopEndTime = 0,							// In:  Where to loop back from in milliseconds.
 																	// In:  If less than 1, the end + lLoopEndTime is used.
 			bool bPurgeSample = false);					// In:  Call ReleaseAndPurge rather than Release after playing
 

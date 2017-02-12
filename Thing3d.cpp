@@ -1809,11 +1809,11 @@ void CThing3d::PlaySample(									// Returns nothing.
 																	// Negative indicates to use the distance to the
 																	// ear to determine the volume.
 	SampleMaster::SoundInstance*	psi /*= nullptr*/,	// Out: Handle for adjusting sound volume
-	int32_t* plSampleDuration /*= nullptr*/,					// Out: Sample duration in ms, if not nullptr.
-	int32_t lLoopStartTime /*= -1*/,							// In:  Where to loop back to in milliseconds.
+   milliseconds_t* plSampleDuration /*= nullptr*/,					// Out: Sample duration in ms, if not nullptr.
+   milliseconds_t lLoopStartTime /*= -1*/,							// In:  Where to loop back to in milliseconds.
 																	//	-1 indicates no looping (unless m_sLoop is
 																	// explicitly set).
-	int32_t lLoopEndTime /*= 0*/,								// In:  Where to loop back from in milliseconds.
+   milliseconds_t lLoopEndTime /*= 0*/,								// In:  Where to loop back from in milliseconds.
 																	// In:  If less than 1, the end + lLoopEndTime is used.
 	bool bPurgeSample /*= false*/)						// In:  Call ReleaseAndPurge rather than Release after playing
 	{

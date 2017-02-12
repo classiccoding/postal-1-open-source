@@ -57,7 +57,7 @@
 //
 // Convert a RSPiX path into a system-specific path.
 // NOTE: It is safe for the source and destination to point to the same string.
-// NOTE: Assumes path lengths are limited to RSP_MAX_PATH.
+// NOTE: Assumes path lengths are limited to PATH_MAX.
 //
 ////////////////////////////////////////////////////////////////////////////////
 extern char* rspPathToSystem(			// Returns pszSystem
@@ -66,7 +66,7 @@ extern char* rspPathToSystem(			// Returns pszSystem
 	{
    ASSERT(pszRSPiX != nullptr);
    ASSERT(pszSystem != nullptr);
-	ASSERT(strlen(pszRSPiX) <= RSP_MAX_PATH);
+   ASSERT(strlen(pszRSPiX) <= PATH_MAX);
 
 	// Check for backslashes, which are NOT supposed to be used in RSPiX paths.
 	#ifdef _DEBUG
@@ -84,16 +84,16 @@ extern char* rspPathToSystem(			// Returns pszSystem
 //
 // Convert a RSPiX path into a system-specific path.
 // NOTE: This function returns a pointer to a static buffer!!!
-// NOTE: Assumes path lengths are limited to RSP_MAX_PATH.
+// NOTE: Assumes path lengths are limited to PATH_MAX.
 //
 ////////////////////////////////////////////////////////////////////////////////
 extern char* rspPathToSystem(			// Returns pointer to system-specific path (static!!!)
 	const char* pszRSPiX)				// In:  RSPiX path
 	{
    ASSERT(pszRSPiX != nullptr);
-	ASSERT(strlen(pszRSPiX) <= RSP_MAX_PATH);
+   ASSERT(strlen(pszRSPiX) <= PATH_MAX);
 	
-	static char acDest[RSP_MAX_PATH+1];
+   static char acDest[PATH_MAX+1];
 	return rspPathToSystem(pszRSPiX, acDest);
 	}
 
@@ -102,7 +102,7 @@ extern char* rspPathToSystem(			// Returns pointer to system-specific path (stat
 //
 // Convert a system-specific path into a RSPiX path.
 // NOTE: It is safe for the source and destination to point to the same string.
-// NOTE: Assumes path lengths are limited to RSP_MAX_PATH.
+// NOTE: Assumes path lengths are limited to PATH_MAX.
 //
 ////////////////////////////////////////////////////////////////////////////////
 extern char* rspPathFromSystem(		// Returns pszRSPiX
@@ -111,7 +111,7 @@ extern char* rspPathFromSystem(		// Returns pszRSPiX
 {
   ASSERT(pszSystem != nullptr);
   ASSERT(pszRSPiX != nullptr);
-  ASSERT(strlen(pszSystem) <= RSP_MAX_PATH);
+  ASSERT(strlen(pszSystem) <= PATH_MAX);
 
   if (pszRSPiX != pszSystem)  // yes, pointer comparison.
     strcpy(pszRSPiX, pszSystem);
@@ -123,16 +123,16 @@ extern char* rspPathFromSystem(		// Returns pszRSPiX
 //
 // Convert a system-specific path into a RSPiX path.
 // NOTE: This function returns a pointer to a static buffer!!!
-// NOTE: Assumes path lengths are limited to RSP_MAX_PATH.
+// NOTE: Assumes path lengths are limited to PATH_MAX.
 //
 ////////////////////////////////////////////////////////////////////////////////
 extern char* rspPathFromSystem(		// Returns pointer to RSPiX path (static!!!)
 	const char* pszSystem)				// In:  System path
 	{
    ASSERT(pszSystem != nullptr);
-	ASSERT(strlen(pszSystem) <= RSP_MAX_PATH);
+   ASSERT(strlen(pszSystem) <= PATH_MAX);
 	
-	static char acDest[RSP_MAX_PATH+1];
+   static char acDest[PATH_MAX+1];
 	return rspPathFromSystem(pszSystem, acDest);
 	}
 

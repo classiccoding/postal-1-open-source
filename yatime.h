@@ -85,10 +85,10 @@ class CTime
 	// Variables
 	//---------------------------------------------------------------------------
 	protected:
-		int32_t m_lResetTime;
-		int32_t m_lLastTime;
-		int32_t m_lGameTime;
-		int32_t m_lForceInterval;
+      milliseconds_t m_lResetTime;
+      milliseconds_t m_lLastTime;
+      milliseconds_t m_lGameTime;
+      milliseconds_t m_lForceInterval;
 		int16_t	m_sNumSuspends;		// Number of Suspend()s that have occurred w/o
 											// corresponding Resume()s.
 
@@ -151,9 +151,9 @@ class CTime
 		// game time will only be moved forward by DefaultElapsedRealTime.
 		////////////////////////////////////////////////////////////////////////////////
 		void Update(
-			int32_t lForceElapsed = 0)
+         milliseconds_t lForceElapsed = 0)
 			{
-			int32_t lNewTime;
+         milliseconds_t lNewTime;
 			if (lForceElapsed == 0)
 				{
 				// Get current time
@@ -194,7 +194,7 @@ class CTime
 		// Get game time since last Reset().  Note that this is NOT compatible with
 		// the time returned by rspGetMilliseconds()!
 		////////////////////////////////////////////////////////////////////////////////
-		int32_t GetGameTime(void)
+      milliseconds_t GetGameTime(void)
 			{
 			// Return current game time
 			return m_lGameTime;
@@ -203,7 +203,7 @@ class CTime
 		////////////////////////////////////////////////////////////////////////////////
 		// Get real time since last Reset().
 		////////////////////////////////////////////////////////////////////////////////
-		int32_t GetRealTime(void)
+      milliseconds_t GetRealTime(void)
 			{
 			// Return real elapsed time since last reset
 			return rspGetMilliseconds() - m_lResetTime;

@@ -178,21 +178,6 @@ extern int16_t rspExec(			// Returns 0 on success.
 // File Path API
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifdef WIN32
-#ifndef PATH_MAX  // !!! FIXME: where is this really defined?
-#define PATH_MAX 260
-#endif
-#endif
-
-#define RSP_MAX_PATH                        PATH_MAX
-#define RSP_PATH_SEPARATOR				'/'
-
-#ifdef WIN32
-#define RSP_SYSTEM_PATH_SEPARATOR	'\\'
-#else
-#define RSP_SYSTEM_PATH_SEPARATOR	'/'
-#endif
-
 extern int16_t rspGetTempPath(			// Returns 0 on success, non-zero otherwise
 	char* pszPath,							// Out: Temp path returned here if available.
 	int16_t	sMaxPathLen);					// In:  Max path length (to avoid overwrites)
