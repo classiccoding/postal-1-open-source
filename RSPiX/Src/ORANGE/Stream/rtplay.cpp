@@ -273,7 +273,7 @@ int16_t CRtPlay::RtInfoCall(	uint8_t* puc, int32_t lSize, uint16_t usType, uint8
 		{
 		uint16_t	usCmd;
 		uint32_t		ulChannels;
-		int32_t		lTimeVal;
+    milliseconds_t		lTimeVal;
 		int32_t		lVal;
 
 		// Get type of info.

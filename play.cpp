@@ -2744,7 +2744,7 @@ class CPlayInput : public CPlay
 			{
         UNUSED(pinfo);
 			// Reset time he's been dead ('cause he isn't dead yet)
-			m_lDemoDeadTime = -1;
+         m_lDemoDeadTime = 0;
 			
 			// Get the key status array
 			m_pau8KeyStatus		= rspGetKeyStatusArray();
@@ -3166,7 +3166,7 @@ class CPlayInput : public CPlay
 							if (pdudeLocal->IsDead() == true)
 								{
 								// If this is the first time here, reset the timer
-                        if (m_lDemoDeadTime > INT32_MAX)
+                        if (!m_lDemoDeadTime)
 									m_lDemoDeadTime = prealm->m_time.GetGameTime();
 
 								// If he's been dead long enough, end the game

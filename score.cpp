@@ -263,7 +263,7 @@ static milliseconds_t	ms_lScoreMaxTimeOut;		// Optional score timeout (max time 
 // Helper to make a time value.
 //////////////////////////////////////////////////////////////////////////////
 inline char* CreateTimeString(	// Returns time string.  No failures.
-   uint32_t	lTimeVal)					// In:  Time value in milliseconds.
+   milliseconds_t	lTimeVal)					// In:  Time value in milliseconds.
 	{
 	static char	szTime[100];
 
