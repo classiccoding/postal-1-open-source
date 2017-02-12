@@ -785,7 +785,7 @@ int16_t CRealm::Open(										// Returns 0 if successfull, non-zero otherwise
 			sResult = pfile->Open(rspPathToSystem((char*)pszFileName), "rb", RFile::LittleEndian);
 			if (sResult != SUCCESS)
 				{
-				char pszFullPath[RSP_MAX_PATH];
+            char pszFullPath[PATH_MAX];
 				strcpy(pszFullPath, FullPathHD((char*) pszFileName));
 				sResult = pfile->Open((char*)pszFullPath, "rb", RFile::LittleEndian);
 				if (sResult != SUCCESS)
@@ -2294,7 +2294,7 @@ int16_t CRealm::GetEffectMapValue(int16_t sX, int16_t sZ)
 ////////////////////////////////////////////////////////////////////////////////
 // Makes a 2D path based on the current hood setting for 'Use top-view 2Ds'.
 // Note that this function returns to you a ptr to its one and only static
-// string of length RSP_MAX_PATH.  Do not write to this string and do not
+// string of length PATH_MAX.  Do not write to this string and do not
 // store this string.  It is best to just use this call to pass a string to
 // a function that will just use it right away (i.e., will not store it or
 // modify it).
@@ -2305,7 +2305,7 @@ const char* CRealm::Make2dResPath(	// Returns a ptr to an internal static buffer
 												// on the current hood settings.
 	const char* pszResName)				// In:  Resource name to prepend path to.
 	{
-	static char	szFullPath[RSP_MAX_PATH];
+   static char	szFullPath[PATH_MAX];
 
 	ASSERT(m_s2dResPathIndex < NUM_ELEMENTS(ms_apsz2dResPaths) );
 

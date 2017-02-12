@@ -302,7 +302,7 @@ void CExplode::Update(void)
 		m_MessageQueue.Empty();
 
 		// Get new time
-		int32_t lThisTime = m_pRealm->m_time.GetGameTime(); 
+      milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
 		
 		if (m_lTimer < m_pAnimChannel->TotalTime())
 		{

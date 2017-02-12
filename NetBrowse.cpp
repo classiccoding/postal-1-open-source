@@ -127,7 +127,7 @@ void CNetBrowse::Update(
 	Hosts* phostsRemoved)								// I/O:  List of hosts that were removed
 	{
 	// Check if it's time to broadcast
-   uint32_t lTime = rspGetMilliseconds();
+   milliseconds_t lTime = rspGetMilliseconds();
 	if ((lTime - m_lLastBroadcast) > Net::BroadcastInterval)
 		{
 		// Create message

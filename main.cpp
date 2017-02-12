@@ -417,7 +417,7 @@ static void assert_types_are_sane(void)
 int _argc = 0;
 char **_argv = nullptr;
 
-int32_t playthroughMS = 0;
+milliseconds_t playthroughMS = 0;
 
 #if WITH_STEAMWORKS
 bool WaitingForInitialSteamStats = true;
@@ -865,7 +865,7 @@ rspSetProfileOutput("profile.out");
 					while (bRetry)
 						{
 						// Keep trying until it works or time runs out, whichever comes first
-						int32_t	lTime = rspGetMilliseconds();
+                  milliseconds_t	lTime = rspGetMilliseconds();
 						bool	bDone	= false;
 						do	{
 							// Try to set mode

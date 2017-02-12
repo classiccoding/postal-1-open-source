@@ -530,7 +530,7 @@ static void BrowseBtnUp(	// Returns nothing.  Called on button released in
 	if (pguiBaseName)
 		{
 		// Create full system path from existing RSPiX subpath.
-		char	szSystemPath[RSP_MAX_PATH];
+		char	szSystemPath[PATH_MAX];
 		if (pguiBaseName->m_szText[0] == '\0')
 			{
 			pguiBaseName->SetText(".");
@@ -1031,8 +1031,8 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 		// Free any resources that might have been loaded by a previous (unsuccessfull) attempt
 		FreeResources();
 
-		char	szFileName[RSP_MAX_PATH];			// Temp storage to create filenames.
-		char	szBasePath[RSP_MAX_PATH];			// Temp storage of file path.
+		char	szFileName[PATH_MAX];			// Temp storage to create filenames.
+		char	szBasePath[PATH_MAX];			// Temp storage of file path.
 		
 		// Create the real base file path.
 		sprintf(szBasePath, "hoods/%s/%s", m_acBaseName, m_acBaseName);

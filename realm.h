@@ -1077,7 +1077,7 @@ class CRealm
 
 		// Makes a 2D path based on the current hood setting for 'Use top-view 2Ds'.
 		// Note that this function returns to you a ptr to its one and only static
-		// string of length RSP_MAX_PATH.  Do not write to this string and do not
+		// string of length PATH_MAX.  Do not write to this string and do not
 		// store this string.  It is best to just use this call to pass a string to
 		// a function that will just use it right away (i.e., will not store it or
 		// modify it).

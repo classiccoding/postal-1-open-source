@@ -83,9 +83,9 @@ class CExplode : public CThing
 
 
 	protected:
-		int32_t m_lTimer;												// General purpose timer
+      milliseconds_t m_lTimer;												// General purpose timer
 
-		int32_t m_lPrevTime;											// Previous update time
+      milliseconds_t m_lPrevTime;											// Previous update time
 
 		CSprite2		m_sprite;									// Sprite 
 		ChannelAA*	m_pAnimChannel;							// Alpha Explosion animation stored as a channel

@@ -1127,7 +1127,7 @@ static bool	ms_bDrawNetwork = true;
 // ID of item most recently pressed or 0, if none.
 static int32_t	ms_lPressedId	= 0;
 // Realm filename.  Assuming only one Realm loaded at once.
-static char	ms_szFileName[RSP_MAX_PATH]	= "";
+static char	ms_szFileName[PATH_MAX]	= "";
 
 static int16_t	ms_sMoving		= FALSE;	// TRUE, if moving/placing a thing (ms_pthingSel).
 
@@ -1221,7 +1221,7 @@ static uint16_t				ms_u16TerrainMask;
 static uint16_t				ms_u16LayerMask;
 
 // Used by RFile callback function
-static int32_t		ms_lRFileCallbackTime;
+static milliseconds_t		ms_lRFileCallbackTime;
 static int32_t		ms_lFileBytesSoFar;
 static char		ms_szFileOpDescriptionFrmt[512];
 static RPrint	ms_printFile;
@@ -3235,7 +3235,7 @@ static void GetCursor(	// Returns nothing.
 	// Init mouse drag stuff
 	static int16_t sDragX;
 	static int16_t sDragY;
-	static int32_t lDragTime;
+   static milliseconds_t lDragTime;
 
 	// Init mouse pressed stuff.
 	static int16_t sPressed	= FALSE;
@@ -4099,7 +4099,7 @@ static void PlayRealm(
 			rspHideMouseCursor();
 
 		// Create a temporary filename
-		char	szFileName[RSP_MAX_PATH];
+      char	szFileName[PATH_MAX];
       if (TmpFileName(szFileName, sizeof(szFileName)) == SUCCESS)
 			{
 			// Attach file counter callback to RFile and setup necessary components.
@@ -6470,7 +6470,7 @@ static int16_t LoadTriggerRegions(	// Returns 0 on success.
    int16_t sResult = SUCCESS;	// Assume success.
 
 	// Change filename to .RGN name.
-	char	szRgnName[RSP_MAX_PATH];
+   char	szRgnName[PATH_MAX];
 	RlmNameToRgnName(pszRealmName, szRgnName);
 
 	RFile	file;
@@ -6504,7 +6504,7 @@ static int16_t SaveTriggerRegions(	// Returns 0 on success.
    int16_t sResult = SUCCESS;	// Assume success.
 
 	// Change filename to .RGN name.
-	char	szRgnName[RSP_MAX_PATH];
+   char	szRgnName[PATH_MAX];
 	RlmNameToRgnName(pszRealmName, szRgnName);
 
 	RFile	file;
@@ -7362,7 +7362,7 @@ static void MyRFileCallback(size_t lBytes)
 	{
 	ms_lFileBytesSoFar	+= lBytes;
 
-	int32_t lNow = rspGetMilliseconds();
+   milliseconds_t lNow = rspGetMilliseconds();
 	if ((lNow - ms_lRFileCallbackTime) > MY_RFILE_CALLBACK_INTERVAL)
 		{
 		// Do an update
@@ -7553,7 +7553,7 @@ static int16_t TmpFileName(								// Returns 0 if successfull, non-zero otherwi
 	#if defined(WIN32)
    UNUSED(sMaxSize);
 
-		char	szPath[RSP_MAX_PATH];
+      char	szPath[PATH_MAX];
 		uint32_t	ulLen	= GetTempPath(sizeof(szPath), szPath);
 		if (ulLen >= sizeof(szPath) )
 			{
@@ -7731,7 +7731,7 @@ static bool RealmOpProgress(			// Returns true to continue; false to
 	{
 	static int32_t	lLastProgressPos;
 	static int32_t	lProgressX, lProgressY, lProgressW, lProgressH;
-	static int32_t	lLastCallTime;
+   static milliseconds_t	lLastCallTime;
 
 	// Just need to get the key status array once.
 	uint8_t*	pau8KeyStatus	= rspGetKeyStatusArray();
@@ -7774,7 +7774,7 @@ static bool RealmOpProgress(			// Returns true to continue; false to
 			lProgressH + 2);
 		}
 
-	int32_t lNow = rspGetMilliseconds();
+   milliseconds_t lNow = rspGetMilliseconds();
 	if ((lNow - lLastCallTime) > PROGRESS_CALLBACK_INTERVAL)
 		{
 		// Do an update

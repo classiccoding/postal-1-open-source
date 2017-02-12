@@ -372,9 +372,9 @@ int16_t RPrefs::Write()
 					// number portion of it and try again until we find a file that
 					// doesn't exist, and that becomes our temp file name.
 					bool bGotTmp = false;
-					char acTmpFileName[RSP_MAX_PATH + 20];
+					char acTmpFileName[PATH_MAX + 20];
 					strcpy(acTmpFileName, m_pszFileName);
-					char* pTmp = strrchr(acTmpFileName, RSP_SYSTEM_PATH_SEPARATOR);
+					char* pTmp = strrchr(acTmpFileName, SYSTEM_PATH_SEPARATOR);
 					pTmp = (pTmp != nullptr) ? pTmp + 1 : acTmpFileName;
 					for (int32_t lCount = 0; !bGotTmp && (lCount < 9999999L); lCount++)
 						{

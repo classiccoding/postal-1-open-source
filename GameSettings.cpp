@@ -337,7 +337,7 @@ int16_t CGameSettings::LoadPrefs(
 	strcpy(m_pszCDPath, ".");
 #endif
 
-	sResult = (strlen(m_pszCDPath) + 1) <= RSP_MAX_PATH ? 0 : -1;
+	sResult = (strlen(m_pszCDPath) + 1) <= PATH_MAX ? 0 : -1;
    if (sResult == SUCCESS)
 		sResult = CorrectifyBasePath(m_pszCDPath, sizeof(m_pszCDPath));
 	if (sResult)
@@ -347,7 +347,7 @@ int16_t CGameSettings::LoadPrefs(
 #if defined(PANDORA) || defined(ODROID)
 	strcpy(m_pszHDPath, ".");
 #endif
-	sResult = (strlen(m_pszHDPath) + 1) <= RSP_MAX_PATH ? 0 : -1;
+	sResult = (strlen(m_pszHDPath) + 1) <= PATH_MAX ? 0 : -1;
    if (sResult == SUCCESS)
 		sResult = CorrectifyBasePath(m_pszHDPath, sizeof(m_pszHDPath));
 	if (sResult)
@@ -357,7 +357,7 @@ int16_t CGameSettings::LoadPrefs(
 #if defined(PANDORA) || defined(ODROID)
 	strcpy(m_pszVDPath, ".");
 #endif
-	sResult = (strlen(m_pszVDPath) + 1) <= RSP_MAX_PATH ? 0 : -1;
+	sResult = (strlen(m_pszVDPath) + 1) <= PATH_MAX ? 0 : -1;
    if (sResult == SUCCESS)
 		sResult = CorrectifyBasePath(m_pszVDPath, sizeof(m_pszVDPath));
 	if (sResult)
@@ -367,7 +367,7 @@ int16_t CGameSettings::LoadPrefs(
 #if defined(PANDORA) || defined(ODROID)
 	strcpy(m_pszSoundPath, ".");
 #endif
-	sResult = (strlen(m_pszSoundPath) + 1) <= RSP_MAX_PATH ? 0 : -1;
+	sResult = (strlen(m_pszSoundPath) + 1) <= PATH_MAX ? 0 : -1;
    if (sResult == SUCCESS)
 		sResult = CorrectifyBasePath(m_pszSoundPath, sizeof(m_pszSoundPath));
 	if (sResult)
@@ -377,7 +377,7 @@ int16_t CGameSettings::LoadPrefs(
 #if defined(PANDORA) || defined(ODROID)
 	strcpy(m_pszGamePath, ".");
 #endif
-	sResult = (strlen(m_pszGamePath) + 1) <= RSP_MAX_PATH ? 0 : -1;
+	sResult = (strlen(m_pszGamePath) + 1) <= PATH_MAX ? 0 : -1;
    if (sResult == SUCCESS)
 		sResult = CorrectifyBasePath(m_pszGamePath, sizeof(m_pszGamePath));
 	if (sResult)
@@ -387,14 +387,14 @@ int16_t CGameSettings::LoadPrefs(
 #if defined(PANDORA) || defined(ODROID)
 	strcpy(m_pszHoodsPath, ".");
 #endif
-	sResult = (strlen(m_pszHoodsPath) + 1) <= RSP_MAX_PATH ? 0 : -1;
+	sResult = (strlen(m_pszHoodsPath) + 1) <= PATH_MAX ? 0 : -1;
    if (sResult == SUCCESS)
 		sResult = CorrectifyBasePath(m_pszHoodsPath, sizeof(m_pszHoodsPath));
 	if (sResult)
 		rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszCriticalErrorTitle, g_pszBadPath_s_s, "Hoods", "Paths");
 
 	pPrefs->GetVal("Paths", "NoSakDir", "", m_szNoSakDir);
-	sResult = (strlen(m_szNoSakDir) + 1) <= RSP_MAX_PATH ? 0 : -1;
+	sResult = (strlen(m_szNoSakDir) + 1) <= PATH_MAX ? 0 : -1;
    if (sResult == SUCCESS)
 		sResult = CorrectifyBasePath(m_szNoSakDir, sizeof(m_szNoSakDir));
 	if (sResult)
@@ -406,7 +406,7 @@ int16_t CGameSettings::LoadPrefs(
 		sResult = FAILURE;
 		rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszCriticalErrorTitle, g_pszBadPath_s_s, "File", "Realms");
 		}
-	else if ((strlen(m_pszRealmPrefsFile) + 1) >= RSP_MAX_PATH)
+	else if ((strlen(m_pszRealmPrefsFile) + 1) >= PATH_MAX)
 		{
 		sResult = FAILURE;
 		rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszCriticalErrorTitle, g_pszBadPath_s_s, "File", "Realms");
@@ -466,7 +466,7 @@ int16_t CGameSettings::LoadPrefs(
 	pPrefs->GetVal("Multiplayer", "HostMaxPlayers", m_sHostMaxPlayers, &m_sHostMaxPlayers);
 	if (m_sHostMaxPlayers > Net::MaxNumIDs)
 		m_sHostMaxPlayers = Net::MaxNumIDs;
-	char szHostName[RSP_MAX_PATH];
+	char szHostName[PATH_MAX];
 	pPrefs->GetVal("Multiplayer", "HostName", "", szHostName);
 	strncpy(m_szHostName, szHostName, sizeof(m_szHostName));
 	m_szHostName[sizeof(m_szHostName)-1] = 0;

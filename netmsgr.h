@@ -1311,8 +1311,8 @@ class CNetMsgr
 		RSocket::Address	m_address;							// Address we're connected to
 		CBufQ					m_bufIn;								// Input buffer
 		CBufQ					m_bufOut;							// Output buffer
-		int32_t					m_lMsgRecvTime;					// When most-recent message was recieved
-		int32_t					m_lMsgSentTime;					// When most-recent message was sent
+      milliseconds_t					m_lMsgRecvTime;					// When most-recent message was recieved
+      milliseconds_t					m_lMsgSentTime;					// When most-recent message was sent
 		NetMsg::Error		m_error;								// Error value.
 
 	// Made public by JMB for TAPI access

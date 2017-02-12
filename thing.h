@@ -803,7 +803,7 @@ class CThing
 			return false;
 			}
 
-		int32_t rspGetMilliseconds(void)
+      milliseconds_t rspGetMilliseconds(void)
 			{
 			ASSERT(0);
 			return 0;

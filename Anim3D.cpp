@@ -186,7 +186,7 @@ int16_t CAnim3D::Get(					// Returns 0 on success.
 											// in this anim.
 	{
 	int16_t sResult;
-	char	szResName[RSP_MAX_PATH];
+	char	szResName[PATH_MAX];
 	sprintf(szResName, "%s.sop", pszBaseFileName);
 	sResult	=  rspGetResource(&g_resmgrGame, szResName, &m_psops);
    if (sResult == SUCCESS)
@@ -274,7 +274,7 @@ int16_t CAnim3D::Get(					// Returns 0 on success.
 	int16_t		sLoopFlags)				// In:  Looping flags to apply to all channels
 											// in this anim.
 	{
-	char	szVerbedBaseName[RSP_MAX_PATH];
+	char	szVerbedBaseName[PATH_MAX];
 	sprintf(szVerbedBaseName, "%s_%s", pszBaseFileName, pszVerb);
 	
 	return Get(szVerbedBaseName, pszRigidName, pszEventName, pszWeaponTransName, sLoopFlags);
@@ -297,11 +297,11 @@ int16_t CAnim3D::Get(					// Returns 0 on success.
 	int16_t		sLoopFlags)				// In:  Looping flags to apply to all channels
 											// in this anim.
 {
-	char	szVerbedBaseName[RSP_MAX_PATH];
+	char	szVerbedBaseName[PATH_MAX];
 	sprintf(szVerbedBaseName, "%s_%s", pszBaseFileName, pszVerb);
 
 	int16_t sResult;
-	char	szResName[RSP_MAX_PATH];
+	char	szResName[PATH_MAX];
 	sprintf(szResName, "%s.sop", szVerbedBaseName);
 	sResult	=  rspGetResource(&g_resmgrGame, szResName, &m_psops);
    if (sResult == SUCCESS)

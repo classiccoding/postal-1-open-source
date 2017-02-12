@@ -233,7 +233,7 @@ class RChanCore
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		virtual void CreateItems(
-			int32_t lNumItems)										// In:  Number of items
+         uint32_t lNumItems)										// In:  Number of items
 			= 0;														// Abstract function!
 
 
@@ -243,11 +243,11 @@ class RChanCore
 		// LOGICAL number of items, not the PHYSICAL number of items, which could
 		// be less due to compression.
 		//
-		// Some types of channels do not store discrete data items and will return -1
+      // Some types of channels do not store discrete data items and will return -1
 		// to indicate that this does not apply.
 		//
 		////////////////////////////////////////////////////////////////////////////////
-		virtual int32_t NumItems(void)										// Returns total number of items
+      virtual uint32_t NumItems(void)										// Returns total number of items
 			= 0;														// Abstract function!
 
 
@@ -287,7 +287,7 @@ class RChanCore
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		virtual bool IsRealItem(								// Returns true if "real", false otherwise
-			int32_t lNum)												// In:  Item number
+         uint32_t lNum)												// In:  Item number
 			= 0;														// Abstract function!
 
 
@@ -304,7 +304,7 @@ class RChanCore
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		virtual datat* GetItem(									// Returns value at specified time
-			int32_t lNum)												// In:  Item number
+         uint32_t lNum)												// In:  Item number
 			= 0;														// Abstract function!
 
 
@@ -321,7 +321,7 @@ class RChanCore
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		virtual void SetItem(
-			int32_t lNum,												// In:  Item number
+         uint32_t lNum,												// In:  Item number
 			const datat* pdata)									// In:  Pointer to data to be added
 			= 0;														// Abstract function!
 
@@ -340,7 +340,7 @@ class RChanCore
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		virtual datat* GetAtTime(								// Returns value at specified time
-			int32_t lTime)												// In:  Channel time
+         milliseconds_t lTime)												// In:  Channel time
 			= 0;														// Abstract function!
 
 
@@ -349,7 +349,7 @@ class RChanCore
 		// Get the total amount of time (ms) represented by this channel
 		//
 		////////////////////////////////////////////////////////////////////////////////
-		virtual int32_t TotalTime(void)							// Returns total channel time
+      virtual milliseconds_t TotalTime(void)							// Returns total channel time
 			= 0;														// Abstract function!
 
 
@@ -359,7 +359,7 @@ class RChanCore
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		virtual void SetTotalTime(
-			int32_t lTotalTime)										// In:  Total time
+         milliseconds_t lTotalTime)										// In:  Total time
 			= 0;														// Abstract function!
 
 
@@ -371,7 +371,7 @@ class RChanCore
 		// return a value of 0 to indicate "not applicable".
 		//
 		////////////////////////////////////////////////////////////////////////////////
-		virtual int32_t Resolution(void)							// Returns timing resolution
+      virtual milliseconds_t Resolution(void)							// Returns timing resolution
 			= 0;														// Abstract function!
 
 
@@ -384,7 +384,7 @@ class RChanCore
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		virtual void SetResolution(
-			int32_t lResolution)										// In:  New resolution
+         milliseconds_t lResolution)										// In:  New resolution
 			= 0;														// Abstract function!
 
 
@@ -547,7 +547,7 @@ class RChanCoreNothing : public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		void CreateItems(
-			int32_t lNumItems)										// In:  Number of items
+         uint32_t lNumItems)										// In:  Number of items
 			{
         UNUSED(lNumItems);
 			}
@@ -563,9 +563,9 @@ class RChanCoreNothing : public RChanCore<datat>
 		// to indicate that this does not apply.
 		//
 		////////////////////////////////////////////////////////////////////////////////
-		int32_t NumItems(void)										// Returns total number of items
+      uint32_t NumItems(void)										// Returns total number of items
 			{
-			return -1;
+         return UINT32_MAX;
 			}
 
 
@@ -609,7 +609,7 @@ class RChanCoreNothing : public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		bool IsRealItem(											// Returns true if "real", false otherwise
-			int32_t lNum)												// In:  Item number
+         uint32_t lNum)												// In:  Item number
 			{
         UNUSED(lNum);
 			return false;
@@ -629,7 +629,7 @@ class RChanCoreNothing : public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		datat* GetItem(											// Returns value at specified time
-			int32_t lNum)												// In:  Item number
+         uint32_t lNum)												// In:  Item number
 			{
         UNUSED(lNum);
          return nullptr;
@@ -649,7 +649,7 @@ class RChanCoreNothing : public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		void SetItem(
-			int32_t lNum,												// In:  Item number
+         uint32_t lNum,												// In:  Item number
 			const datat* pdata)									// In:  Pointer to data to be added
 			{
         UNUSED(lNum, pdata);
@@ -672,7 +672,7 @@ class RChanCoreNothing : public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		datat* GetAtTime(											// Returns pointer to value
-			int32_t lTime)												// In:  Channel time
+         milliseconds_t lTime)												// In:  Channel time
 			{
         UNUSED(lTime);
          return nullptr;
@@ -684,7 +684,7 @@ class RChanCoreNothing : public RChanCore<datat>
 		// Get the total amount of time (ms) represented by this channel
 		//
 		////////////////////////////////////////////////////////////////////////////////
-		int32_t TotalTime(void)
+      milliseconds_t TotalTime(void)
 			{
 			return 0;
 			}
@@ -696,7 +696,7 @@ class RChanCoreNothing : public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		void SetTotalTime(
-			int32_t lTotalTime)										// In:  Total time
+         milliseconds_t lTotalTime)										// In:  Total time
 			{
         UNUSED(lTotalTime);
 			}
@@ -710,7 +710,7 @@ class RChanCoreNothing : public RChanCore<datat>
 		// return a value of 0 to indicate "not applicable".
 		//
 		////////////////////////////////////////////////////////////////////////////////
-		int32_t Resolution(void)
+      milliseconds_t Resolution(void)
 			{
 			return 0;
 			}
@@ -725,7 +725,7 @@ class RChanCoreNothing : public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		void SetResolution(
-			int32_t lResolution)										// In:  New resolution
+         milliseconds_t lResolution)										// In:  New resolution
 			{
         UNUSED(lResolution);
 			}
@@ -750,9 +750,9 @@ class RChanCoreArray : public RChanCore<datat>
 	// Variables
 	//------------------------------------------------------------------------------
 	protected:
-		int32_t m_lTotalTime;										// Total time
-		int32_t m_lInterval;											// Time interval (ex: at 20 fps this would be 50)
-		int32_t m_lNumItems;											// Number of data items
+      milliseconds_t m_lTotalTime;										// Total time
+      milliseconds_t m_lInterval;											// Time interval (ex: at 20 fps this would be 50)
+      uint32_t m_lNumItems;											// Number of data items
 		datat* m_pArray;											// Pointer to array of elements
 
 
@@ -819,19 +819,19 @@ class RChanCoreArray : public RChanCore<datat>
 			// Call base class implimentation
 			sResult = RChanCore<datat>::Load(pFile, sFileVersion);
 			if (sResult == SUCCESS)
-				{
+            {
 				// Read a bunch 'o stuff
 				pFile->Read(&m_lTotalTime);
 				pFile->Read(&m_lInterval);
-				pFile->Read(&m_lNumItems);
-				if (!pFile->Error() && (m_lNumItems > 0))
+            pFile->Read(&m_lNumItems);
+            if (!pFile->Error() && m_lNumItems > 0)
 					{
 					// Create array of items
 					m_pArray = new datat[m_lNumItems];
                ASSERT(m_pArray != nullptr);
 
 					// Let each item load itself
-					for (int32_t l = 0; (l < m_lNumItems) && (sResult == SUCCESS); l++)
+               for (uint32_t l = 0; l < m_lNumItems && sResult == SUCCESS; ++l)
 						sResult = rspAnyLoad(&(m_pArray[l]), pFile);
 					}
 				else
@@ -866,7 +866,7 @@ class RChanCoreArray : public RChanCore<datat>
 				pFile->Write(&m_lNumItems);
 
 				// Let each item save itself
-				for (int32_t l = 0; (l < m_lNumItems) && (sResult == SUCCESS); l++)
+            for (uint32_t l = 0; l < m_lNumItems && sResult == SUCCESS; ++l)
 					sResult = rspAnySave(&(m_pArray[l]), pFile);
 				}
 
@@ -884,7 +884,7 @@ class RChanCoreArray : public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		void CreateItems(
-			int32_t lNumItems)										// In:  Number of items
+         uint32_t lNumItems)										// In:  Number of items
 			{
 			Alloc(lNumItems);
 			}
@@ -900,7 +900,7 @@ class RChanCoreArray : public RChanCore<datat>
 		// to indicate that this does not apply.
 		//
 		////////////////////////////////////////////////////////////////////////////////
-		int32_t NumItems(void)										// Returns total number of items
+      uint32_t NumItems(void)										// Returns total number of items
 			{
 			return m_lNumItems;
 			}
@@ -946,7 +946,7 @@ class RChanCoreArray : public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		bool IsRealItem(											// Returns true if "real", false otherwise
-			int32_t lNum)												// In:  Item number
+         uint32_t lNum)												// In:  Item number
 			{
         UNUSED(lNum);
 			// Every item is real
@@ -967,7 +967,7 @@ class RChanCoreArray : public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		datat* GetItem(											// Returns value at specified time
-			int32_t lNum)												// In:  Item number
+         uint32_t lNum)												// In:  Item number
 			{
 			ASSERT(lNum < m_lNumItems);
 			return m_pArray + lNum;
@@ -987,7 +987,7 @@ class RChanCoreArray : public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		void SetItem(
-			int32_t lNum,												// In:  Item number
+         uint32_t lNum,												// In:  Item number
 			const datat* pdata)									// In:  Pointer to data to be added
 			{
 			ASSERT(lNum < m_lNumItems);
@@ -1011,7 +1011,7 @@ class RChanCoreArray : public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		datat* GetAtTime(											// Returns pointer to value
-			int32_t lTime)												// In:  Channel time
+         milliseconds_t lTime)												// In:  Channel time
 			{
 			if (lTime >= m_lTotalTime)
 				{
@@ -1036,7 +1036,7 @@ class RChanCoreArray : public RChanCore<datat>
 		// Get the total amount of time (ms) represented by this channel
 		//
 		////////////////////////////////////////////////////////////////////////////////
-		int32_t TotalTime(void)
+      milliseconds_t TotalTime(void)
 			{
 			return m_lTotalTime;
 			}
@@ -1048,7 +1048,7 @@ class RChanCoreArray : public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		void SetTotalTime(
-			int32_t lTotalTime)										// In:  Total time
+         milliseconds_t lTotalTime)										// In:  Total time
 			{
 			m_lTotalTime = lTotalTime;
 			}
@@ -1062,7 +1062,7 @@ class RChanCoreArray : public RChanCore<datat>
 		// return a value of 0 to indicate "not applicable".
 		//
 		////////////////////////////////////////////////////////////////////////////////
-		int32_t Resolution(void)
+      milliseconds_t Resolution(void)
 			{
 			return m_lInterval;
 			}
@@ -1077,7 +1077,7 @@ class RChanCoreArray : public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		void SetResolution(
-			int32_t lResolution)										// In:  New resolution
+         milliseconds_t lResolution)										// In:  New resolution
 			{
 			m_lInterval = lResolution;
 			}
@@ -1089,7 +1089,7 @@ class RChanCoreArray : public RChanCore<datat>
 		// Allocate array
 		//
 		////////////////////////////////////////////////////////////////////////////////
-		void Alloc(int32_t lNum)
+      void Alloc(uint32_t lNum)
 			{
 			Free();
 			m_pArray = new datat[lNum];
@@ -1151,10 +1151,10 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 	// Variables
 	//------------------------------------------------------------------------------
 	protected:
-		int32_t m_lTotalTime;										// Total time
-		int32_t m_lInterval;											// Time interval (ex: at 20 fps this would be 50)
-		int32_t m_lNumItems;											// Logical number of data items
-		int32_t m_lRealNumItems;									// Actual number of data items, which may be less
+      milliseconds_t m_lTotalTime;										// Total time
+      milliseconds_t m_lInterval;											// Time interval (ex: at 20 fps this would be 50)
+      uint32_t m_lNumItems;											// Logical number of data items
+      uint32_t m_lRealNumItems;									// Actual number of data items, which may be less
 																		// than m_lNumItems if items were compressed.
 		datat** m_pArrayOfPtrs;									// Pointer to array of pointers to data items.
 																		// This extra level of indirection makes it easy
@@ -1239,7 +1239,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 				pFile->Read(&m_lTotalTime);
 				pFile->Read(&m_lInterval);
 				pFile->Read(&m_lNumItems);
-				if (!pFile->Error() && (m_lNumItems > 0))
+            if (!pFile->Error() && m_lNumItems > 0)
 					{
 					// Create array of pointers to data items
 					m_pArrayOfPtrs = new datat*[m_lNumItems];
@@ -1257,12 +1257,12 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 					// pointer that index specifies.  This way, multiple pointers can
 					// refer to the same data item, which is how this data is compressed.
 					m_lRealNumItems = 0;
-					for (int32_t l = 0; (l < m_lNumItems) && (sResult == SUCCESS); l++)
+               for (uint32_t l = 0; l < m_lNumItems && sResult == SUCCESS; ++l)
 						{
-						int32_t lValue;
+                  uint32_t lValue;
 						if (pFile->Read(&lValue) == 1)
 							{
-							if (lValue == -1)
+                     if (lValue == UINT32_MAX)
 								{
 								m_pArrayOfPtrs[l] = new datat;
 								m_pArrayOfFlags[l] = 0;
@@ -1329,12 +1329,12 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 				// the data item we're pointing at, and we write that index.  Of course,
 				// in that case, we don't write the data item itself since it was already
 				// saved ealier.
-				for (int32_t l = 0; (l < m_lNumItems) && (sResult == SUCCESS); l++)
+            for (uint32_t l = 0; l < m_lNumItems && sResult == SUCCESS; ++l)
 					{
                if (m_pArrayOfFlags[l] == 0)
 						{
 						// Write -1 followed by data item
-						pFile->Write((int32_t)-1);
+                  pFile->Write(UINT32_MAX);
 						sResult = pFile->Error();
 						if (sResult == SUCCESS)
 							sResult = rspAnySave(m_pArrayOfPtrs[l], pFile);
@@ -1342,7 +1342,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 					else
 						{
 						// Find index of pointer whose data we're pointing to
-						int32_t j;
+                  uint32_t j;
 						for (j = 0; j < l; j++)
 							{
 							if (m_pArrayOfPtrs[l] == m_pArrayOfPtrs[j])
@@ -1377,7 +1377,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		void CreateItems(
-			int32_t lNumItems)										// In:  Number of items
+         uint32_t lNumItems)										// In:  Number of items
 			{
 			Alloc(lNumItems);
 			}
@@ -1393,7 +1393,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 		// to indicate that this does not apply.
 		//
 		////////////////////////////////////////////////////////////////////////////////
-		int32_t NumItems(void)										// Returns total number of items
+      uint32_t NumItems(void)										// Returns total number of items
 			{
 			return m_lNumItems;
 			}
@@ -1421,12 +1421,12 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 			// aren't already compressed.  If two such items are the same, then change
 			// the second item's pointer to point at the first item, then delete the
 			// second item and mark it as "compressed".
-			for (int32_t i = 0; i < m_lNumItems; i++)
+         for (uint32_t i = 0; i < m_lNumItems; i++)
 				{
 				// Only if this isn't already compressed
             if (m_pArrayOfFlags[i] == 0)
 					{
-					for (int32_t j = i + 1; j < m_lNumItems; j++)
+               for (uint32_t j = i + 1; j < m_lNumItems; j++)
 						{
 						// Only if this isn't already compressed
                   if (m_pArrayOfFlags[j] == 0)
@@ -1466,7 +1466,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 			// Any data type that utilizes this type of channel must therefore support the
 			// assignment operator.
 			//
-			for (int32_t i = 0; i < m_lNumItems; i++)
+         for (uint32_t i = 0; i < m_lNumItems; i++)
 				{
 				if (m_pArrayOfFlags[i] == 1)
 					{
@@ -1493,7 +1493,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		bool IsRealItem(											// Returns true if "real", false otherwise
-			int32_t lNum)												// In:  Item number
+         uint32_t lNum)												// In:  Item number
 			{
 			// If flag is 0 then item is real
          if (m_pArrayOfFlags[lNum] == 0)
@@ -1516,7 +1516,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		datat* GetItem(											// Returns value at specified time
-			int32_t lNum)												// In:  Item number
+         uint32_t lNum)												// In:  Item number
 			{
 			ASSERT(lNum < m_lNumItems);
 			return m_pArrayOfPtrs[lNum];
@@ -1536,7 +1536,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		void SetItem(
-			int32_t lNum,												// In:  Item number
+         uint32_t lNum,												// In:  Item number
 			const datat* pdata)									// In:  Pointer to data to be added
 			{
 			ASSERT(lNum < m_lNumItems);
@@ -1560,7 +1560,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		datat* GetAtTime(											// Returns pointer to value
-			int32_t lTime)												// In:  Channel time
+         milliseconds_t lTime)												// In:  Channel time
 			{
 			if (lTime >= m_lTotalTime)
 				{
@@ -1585,7 +1585,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 		// Get the total amount of time (ms) represented by this channel
 		//
 		////////////////////////////////////////////////////////////////////////////////
-		int32_t TotalTime(void)
+      milliseconds_t TotalTime(void)
 			{
 			return m_lTotalTime;
 			}
@@ -1597,7 +1597,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		void SetTotalTime(
-			int32_t lTotalTime)										// In:  Total time
+         milliseconds_t lTotalTime)										// In:  Total time
 			{
 			m_lTotalTime = lTotalTime;
 			}
@@ -1611,7 +1611,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 		// return a value of 0 to indicate "not applicable".
 		//
 		////////////////////////////////////////////////////////////////////////////////
-		int32_t Resolution(void)
+      milliseconds_t Resolution(void)
 			{
 			return m_lInterval;
 			}
@@ -1626,7 +1626,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		void SetResolution(
-			int32_t lResolution)										// In:  New resolution
+         milliseconds_t lResolution)										// In:  New resolution
 			{
 			m_lInterval = lResolution;
 			}
@@ -1638,7 +1638,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 		// Allocate array
 		//
 		////////////////////////////////////////////////////////////////////////////////
-		void Alloc(int32_t lNum)
+      void Alloc(uint32_t lNum)
 			{
 			Free();
 
@@ -1654,7 +1654,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 			ASSERT(m_pArrayOfFlags);
 
 			// Create actual data items and mark each item as uncompressed
-			for(int32_t l = 0; l < m_lNumItems; l++)
+         for(uint32_t l = 0; l < m_lNumItems; l++)
 				{
 				m_pArrayOfPtrs[l] = new datat;
 				ASSERT(m_pArrayOfPtrs[l]);
@@ -1675,7 +1675,7 @@ class RChanCoreArrayOfPtrs: public RChanCore<datat>
 			// don't actually delete it (the pointer that owns the data will delete it).
 			if (m_pArrayOfPtrs)
 				{
-				for(int32_t l = 0; l < m_lNumItems; l++)
+            for(uint32_t l = 0; l < m_lNumItems; l++)
 					{
                if (m_pArrayOfFlags[l] == 0)
 						delete m_pArrayOfPtrs[l];
@@ -1986,7 +1986,7 @@ class RChannel
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		void CreateItems(
-			int32_t lNumItems)										// In:  Number of items
+         uint32_t lNumItems)										// In:  Number of items
 			{
 			m_pcore->CreateItems(lNumItems);
 			}
@@ -2048,7 +2048,7 @@ class RChannel
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		bool IsRealItem(											// Returns true if "real", false otherwise
-			int32_t lNum)												// In:  Item number
+         uint32_t lNum)												// In:  Item number
 			{
 			return m_pcore->IsRealItem(lNum);
 			}
@@ -2067,7 +2067,7 @@ class RChannel
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		datat* GetItem(											// Returns value at specified time
-			int32_t lNum)												// In:  Item number
+         uint32_t lNum)												// In:  Item number
 			{
 			return m_pcore->GetItem(lNum);
 			}
@@ -2086,7 +2086,7 @@ class RChannel
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		void SetItem(
-			int32_t lNum,												// In:  Item number
+         uint32_t lNum,												// In:  Item number
 			const datat* pdata)									// In:  Pointer to data to be added
 			{
 			m_pcore->SetItem(lNum, pdata);
@@ -2107,7 +2107,7 @@ class RChannel
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		datat* GetAtTime(											// Returns value at specified time
-			int32_t lTime)												// In:  Channel time
+         milliseconds_t lTime)												// In:  Channel time
 			{
 			return m_pcore->GetAtTime(lTime);
 			}
@@ -2118,7 +2118,7 @@ class RChannel
 		// Get the total amount of time (ms) represented by this channel
 		//
 		////////////////////////////////////////////////////////////////////////////////
-		int32_t TotalTime(void)										// Returns total channel time
+      milliseconds_t TotalTime(void)										// Returns total channel time
 			{
 			return m_pcore->TotalTime();
 			}
@@ -2130,7 +2130,7 @@ class RChannel
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		void SetTotalTime(
-			int32_t lTotalTime)										// In:  Total time
+         milliseconds_t lTotalTime)										// In:  Total time
 			{
 			m_pcore->SetTotalTime(lTotalTime);
 			}
@@ -2144,7 +2144,7 @@ class RChannel
 		// return a value of 0 to indicate "not applicable".
 		//
 		////////////////////////////////////////////////////////////////////////////////
-		int32_t Resolution(void)									// Returns timing resolution
+      milliseconds_t Resolution(void)									// Returns timing resolution
 			{
 			return m_pcore->Resolution();
 			}
@@ -2159,7 +2159,7 @@ class RChannel
 		//
 		////////////////////////////////////////////////////////////////////////////////
 		void SetResolution(
-			int32_t lResolution)										// In:  New resolution
+         milliseconds_t lResolution)										// In:  New resolution
 			{
 			m_pcore->SetResolution(lResolution);
 			}

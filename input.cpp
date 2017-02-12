@@ -671,9 +671,9 @@ bool CanCycleThroughWeapons()
 {
 #define WEAPON_SWITCH_HOLD_TIME 750
 #define WEAPON_SWITCH_CYCLE_TIME 350
-	static int32_t lLastWeaponSwitchTime = 0;
+   static milliseconds_t lLastWeaponSwitchTime = 0;
 	static bool bFastWeaponSwitching = false;
-	int32_t lCurTime = rspGetMilliseconds();
+   milliseconds_t lCurTime = rspGetMilliseconds();
 	bool bResult = false;
 
 	if (lLastWeaponSwitchTime == 0)

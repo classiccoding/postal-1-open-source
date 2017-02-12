@@ -383,9 +383,9 @@
 #include "update.h"
 
 #ifdef WIN32
-	#include <direct.h>
+# include <direct.h>
 #else
-	#include <unistd.h>
+# include <sys/stat.h>
 #endif
 
 

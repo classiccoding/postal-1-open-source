@@ -613,7 +613,7 @@ class CPlayInfo
 		CNetServer*		m_pserver;						// Server object or nullptr if not server or not network game
 
 		int16_t				m_sRealmNum;					// Realm number
-		char				m_szRealm[RSP_MAX_PATH+1];	// Realm file
+      char				m_szRealm[PATH_MAX+1];	// Realm file
 		bool				m_bJustOneRealm;				// Play just this one realm (ignored if sRealmNum < 0)
 
 		CRealm*			m_prealm;
@@ -640,7 +640,7 @@ class CPlayInfo
 		uint16_t				m_idLocalDude;					// Local dude's ID
 		uint16_t				m_idGripTarget;				// Grip target's ID
 		bool				m_bDoRealmFrame;				// Whether to do a realm frame
-		int32_t				m_lSumUpdateDisplayTimes;
+      milliseconds_t				m_lSumUpdateDisplayTimes;
 		bool				m_bXRayAll;						// X Ray all status.
 		bool				m_bInMenu;						// Whether we're in the menu
 		bool				m_bUserQuitMP;					// Whether local user wants to quit MP game
@@ -1413,7 +1413,7 @@ class CPlayGroup
 			RDRect*	pdr	= pinfo->m_drl.GetHead();
 			while (pdr)
 				{
-				int32_t lTime = rspGetMilliseconds();
+            milliseconds_t lTime = rspGetMilliseconds();
 
 				// Update the portion of the display.
 				rspCacheDirtyRect(pdr->sX, pdr->sY, pdr->sW, pdr->sH);
@@ -1565,13 +1565,13 @@ class CPlayNet : public CPlay
 
 		bool				m_bCheckForAbortKey;				// Whether to check for user abort
 		bool				m_bTimeBombActive;				// Whether time bomb is active
-      uint32_t				m_lTimeBomb;						// Time when bomb explodes
+      milliseconds_t				m_lTimeBomb;						// Time when bomb explodes
 
 		bool				m_bShowNetFeedback;				// Whether to show net feedback thingy
 
 		bool				m_bFirstCoreLoopUserInput;
 		REdit*			m_apeditChats[NUM_CHATS];		// Received chat edit fields.
-      uint32_t				m_lLastChatMoveTime;				// Last time chats were adjusted.
+      milliseconds_t				m_lLastChatMoveTime;				// Last time chats were adjusted.
 
 	//------------------------------------------------------------------------------
 	// Functions
@@ -2622,7 +2622,7 @@ class CPlayStatus : public CPlay
 #include <sys/stat.h>
 static void EnumSaveGamesSlots(Menu *menu)
 {
-    char gamename[RSP_MAX_PATH];
+    char gamename[PATH_MAX];
     int Max = (sizeof(menu->ami) / sizeof(menu->ami[0])) - 1;
     if (Max > MAX_SAVE_SLOTS)
         Max = MAX_SAVE_SLOTS;
@@ -2681,7 +2681,7 @@ class CPlayInput : public CPlay
 	// Variables
 	//------------------------------------------------------------------------------
 	private:
-		int32_t				m_lDemoDeadTime;				// Time dude has been dead for
+      milliseconds_t				m_lDemoDeadTime;				// Time dude has been dead for
 		uint8_t*				m_pau8KeyStatus;				// Key status array
 		REdit*			m_peditChatIn;					// Outgoing chat.
 
@@ -3166,7 +3166,7 @@ class CPlayInput : public CPlay
 							if (pdudeLocal->IsDead() == true)
 								{
 								// If this is the first time here, reset the timer
-								if (m_lDemoDeadTime < 0)
+                        if (m_lDemoDeadTime > INT32_MAX)
 									m_lDemoDeadTime = prealm->m_time.GetGameTime();
 
 								// If he's been dead long enough, end the game
@@ -3192,7 +3192,7 @@ class CPlayInput : public CPlay
 							}
 
 						// Govern the speed of the loop
-						while (prealm->m_time.GetRealTime() - prealm->m_time.GetGameTime() < 0)
+                  while (prealm->m_time.GetRealTime() < prealm->m_time.GetGameTime())
 							;
 						}
 					}
@@ -3498,7 +3498,7 @@ class CPlayInput : public CPlay
 				case MenuActionSaveGame:
                {
 					// Static so dialog will "remember" the previously-used name
-					static char	szFile[RSP_MAX_PATH]	= "";
+               static char	szFile[PATH_MAX]	= "";
 
 					// If not yet used, start out in appropriate directory
 					if (szFile[0] == '\0')
@@ -5013,7 +5013,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 					/*** 12/5/97 AJC ***/
 					// Outer loop keeps playing one realm after another
 					do	{
-						int32_t startRealmMS = -1;
+                  milliseconds_t startRealmMS = 0;
 
 						// Clear game status
 						info.SetGameState_Ok();
@@ -5245,11 +5245,8 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 						else
 							playgroup.PrepareRealmErr(&info);
 
-						const int32_t endRealmMS = rspGetMilliseconds();
-						const int32_t timePlayedMS = ((startRealmMS > 0) && (endRealmMS > 0) && (endRealmMS > startRealmMS)) ? endRealmMS - startRealmMS : -1;
-						const int32_t newPlaythroughMS = playthroughMS + timePlayedMS;
-						if (!g_bLastLevelDemo)  // don't charge the last level demo to playthroughMS.
-							playthroughMS = ((playthroughMS < 0) || (timePlayedMS < 0) || (newPlaythroughMS < 0)) ? -1 : newPlaythroughMS;
+                  if (!g_bLastLevelDemo && playthroughMS)  // don't charge the last level demo to playthroughMS.
+                     playthroughMS += rspGetMilliseconds() - startRealmMS;
 
 						// End the cutscene.  It normally gets called above, but if an error
 						// occurs it doesn't, so this is the backup.  Multiple calls are safe.
@@ -5429,7 +5426,7 @@ extern void Play_SnapPicture(void)
 		g_pimScreenBuf->m_pPalette	= &palPicture;
 
 		// Save picture to file
-		char szFileName[RSP_MAX_PATH];
+      char szFileName[PATH_MAX];
       sprintf(szFileName, "PostalShot%03d.bmp", ms_lCurPicture++);
 
 		// This will require direct access to the composite buffer.
@@ -5530,7 +5527,7 @@ extern int16_t Play_GetRealmInfo(						// Returns 0 if successfull, 1 if no such
 		Play_GetRealmSectionAndEntry(bNetwork, bCoop, bGauntlet, bAddOn, sRealmNum, sDifficulty, &strSection, &strEntry);
 
 		// Get realm file name from prefs file
-		char szText[RSP_MAX_PATH * 2];
+      char szText[PATH_MAX * 2];
 		prefsRealm.GetVal((char*)strSection, (char*)strEntry, "", szText);
 		if (strlen(szText) == 0)
 			{
@@ -5710,7 +5707,7 @@ void Play_GetApplicationDescriptor(			// Returns nothing.
 	strcpy(pszText, DEFAULT_APP_TIMESTAMP);
 
 	#if defined(WIN32)
-		char	szModuleFileName[RSP_MAX_PATH];
+      char	szModuleFileName[PATH_MAX];
 		if (GetModuleFileName(nullptr, szModuleFileName, sizeof(szModuleFileName)) > 0)
 			{
 			struct _stat statExe;

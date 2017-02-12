@@ -567,8 +567,8 @@ void CSentry::Update(void)
 #ifdef UNUSED_VARIABLE
 	int16_t sHeight = m_sPrevHeight;
 #endif
-	int32_t lThisTime;
-	int32_t lTimeDifference;
+   milliseconds_t lThisTime;
+   milliseconds_t lTimeDifference;
 	int32_t lSqDistanceToDude = 0;
 	int16_t sTargetAngle;
 	int16_t sAngleCCL;

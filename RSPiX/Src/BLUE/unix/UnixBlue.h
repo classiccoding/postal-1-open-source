@@ -568,12 +568,12 @@ extern void rspUnshieldMouseCursor(void);
 // Time API
 ////////////////////////////////////////////////////////////////////////////////
 
-extern uint64_t rspGetMicroseconds(			// Returns time in microseconds
+extern microseconds_t rspGetMicroseconds(			// Returns time in microseconds
 	int16_t sReset = FALSE);					// In:  TRUE to reset count, FALSE otherwise
 
-extern uint32_t rspGetMilliseconds(void);	// Returns time in milliseconds
+extern milliseconds_t rspGetMilliseconds(void);	// Returns time in milliseconds
 
-extern uint64_t rspGetAppMicroseconds(void);	// Returns microseconds since app started
+extern microseconds_t rspGetAppMicroseconds(void);	// Returns microseconds since app started
 
 
 ////////////////////////////////////////////////////////////////////////////////

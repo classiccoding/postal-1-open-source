@@ -290,7 +290,7 @@ int16_t RMeter::Draw(					// Returns 0 on success.
 	// If visible . . .
 	if (m_sVisible != FALSE)
 		{
-		int32_t	lTime	= rspGetMilliseconds();
+      milliseconds_t	lTime	= rspGetMilliseconds();
 		if (lTime >= m_lNextUpdate)
 			{
 			// First copy precomposed stuff.

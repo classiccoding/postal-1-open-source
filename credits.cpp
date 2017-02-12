@@ -155,10 +155,10 @@ public:
 	char	m_szNewName[64];			// resource name
 	bool	m_bActive;					
 	// All times in milliseconds...
-	int32_t	m_lActivationTime;		// also delay time
-	int32_t	m_lFadeOutTime;			//	also in delta time form
-	int32_t	m_lBlackTime;				//	also in delta time form
-	int32_t	m_lFadeInTime;				//	also in delta time form
+   milliseconds_t	m_lActivationTime;		// also delay time
+   milliseconds_t	m_lFadeOutTime;			//	also in delta time form
+   milliseconds_t	m_lBlackTime;				//	also in delta time form
+   milliseconds_t	m_lFadeInTime;				//	also in delta time form
 	uint8_t	m_TransitionPalette[1024];
 	typedef enum { Inactive,FadeOut,Black,FadeIn } BackState;
 	BackState	m_eState;
@@ -379,7 +379,7 @@ class CScrollMaster
 public:
 	int32_t			m_lGlobalHeight;
 	int32_t			m_lCurrentTopY;
-	int32_t			m_lCurrentBottomY;
+   int32_t			m_lCurrentBottomY;
 	int32_t			m_lTotalChunks;
 	CTextChunk*	m_pTopActiveChunk;
 	CTextChunk*	m_pBottomActiveChunk;
@@ -1174,8 +1174,8 @@ int16_t Credits(SampleMasterID* pMusic,
 		true);
 
 
-	int32_t	lTimeToFade = 15000;
-	int32_t	lStartTime = rspGetMilliseconds();
+   milliseconds_t	lTimeToFade = 15000;
+   milliseconds_t	lStartTime = rspGetMilliseconds();
 
 	// Copy the palette:
 	uint8_t PaletteCopy[256 * 3] = {0,};
@@ -1183,7 +1183,7 @@ int16_t Credits(SampleMasterID* pMusic,
 	rspGetPaletteEntries(10,236,PaletteCopy+30,PaletteCopy + 31,PaletteCopy + 32,3);
 
 	//====================================================================
-	int32_t lCurTime;
+   milliseconds_t lCurTime;
 
 	while ( (lCurTime = rspGetMilliseconds() - lStartTime) < lTimeToFade)
 		{

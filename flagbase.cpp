@@ -328,8 +328,8 @@ int16_t CFlagbase::Shutdown(void)							// Returns 0 if successfull, non-zero ot
 void CFlagbase::Update(void)
 {
 //	int16_t sHeight = m_sPrevHeight;
-	int32_t lThisTime;
-	int32_t lTimeDifference;
+   milliseconds_t lThisTime;
+   milliseconds_t lTimeDifference;
 //	int32_t lSqDistanceToDude = 0;
 	CSmash* pSmashed = nullptr;
 

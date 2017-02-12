@@ -550,8 +550,8 @@ void CBand::Update(void)
 	double dZ;
 	double dStartX;
 	double dStartZ;
-	int32_t lThisTime;
-	int32_t lTimeDifference;
+   milliseconds_t lThisTime;
+   milliseconds_t lTimeDifference;
 	CThing* pDemon = nullptr;
 
 	if (!m_sSuspend)

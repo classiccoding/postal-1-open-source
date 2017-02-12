@@ -469,7 +469,7 @@ int16_t CDemon::Load(								// Returns 0 if successfull, non-zero otherwise
 				{
 				// For backwards compatability.
 				int32_t	alDummy[2];
-				char	szResNameDummy[RSP_MAX_PATH];
+				char	szResNameDummy[PATH_MAX];
 				pFile->Read(&alDummy[0]/*(long*)&m_bInitiallyEnabled*/);
 				pFile->Read(&alDummy[0]/*(long*)&m_bInitiallyRepeats*/);
 				pFile->Read(alDummy/*m_lMinTime*/, 2);

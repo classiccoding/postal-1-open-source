@@ -31,7 +31,7 @@
 #include "Blue.h"
 #include <SDL2/SDL.h>
 
-static uint32_t MicrosecondsBase = 0;
+static microseconds_t MicrosecondsBase = 0;
 
 //////////////////////////////////////////////////////////////////////////////
 // Functions.
@@ -43,9 +43,9 @@ static uint32_t MicrosecondsBase = 0;
 //
 //////////////////////////////////////////////////////////////////////////////
 extern void Time_Init(void)
-	{
-    MicrosecondsBase = SDL_GetTicks();
-	}
+{
+  MicrosecondsBase = rspGetAppMicroseconds();
+}
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -54,10 +54,10 @@ extern void Time_Init(void)
 // Returns the time in a long.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern uint32_t rspGetMilliseconds(void)
-	{
-        return SDL_GetTicks();
-	}
+extern milliseconds_t rspGetMilliseconds(void)
+{
+  return SDL_GetTicks();
+}
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -68,21 +68,18 @@ extern uint32_t rspGetMilliseconds(void)
 // Returns the time in a long.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern uint64_t rspGetMicroseconds(	// Returns microseconds between now and
-											// last
-	int16_t sReset /*= FALSE*/)		// Set to TRUE to reset timer.  If you never
-											// reset the timer, it will wrap within
-											// just over 35 minutes.
-	{
-    uint32_t microsecs = SDL_GetTicks();
-    uint32_t lTime = microsecs - MicrosecondsBase; // sorry, no time travel allowed
+extern microseconds_t rspGetMicroseconds(	// Returns microseconds between now and last
+    int16_t sReset /*= FALSE*/)		// Set to TRUE to reset timer.  If you never reset the timer, it will wrap within just over 35 minutes.
+{
+  microseconds_t microsecs = rspGetAppMicroseconds();
+  microseconds_t lTime = microsecs - MicrosecondsBase; // sorry, no time travel allowed
 
-		// If reset requested . . .
-	if (sReset != FALSE)
-		MicrosecondsBase = microsecs;
+  // If reset requested . . .
+  if (sReset != FALSE)
+    MicrosecondsBase = microsecs;
 
-	return lTime * 1000;
-	}
+  return lTime;
+}
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -96,10 +93,10 @@ extern uint64_t rspGetMicroseconds(	// Returns microseconds between now and
 // Returns the time in an __int64.
 //
 //////////////////////////////////////////////////////////////////////////////
-extern uint64_t rspGetAppMicroseconds()
-	{
-        return SDL_GetTicks() * 1000;
-	}
+extern microseconds_t rspGetAppMicroseconds()
+{
+  return microseconds_t(SDL_GetTicks()) * 1000;
+}
 
 //////////////////////////////////////////////////////////////////////////////
 // EOF

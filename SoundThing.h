@@ -99,9 +99,9 @@ class CSoundThing : public CThing
 	public:
 		bool m_bInitiallyEnabled;
 		bool m_bInitiallyRepeats;
-		int32_t m_lMinTime[2];
-		int32_t m_lRndTime[2];
-		char	m_szResName[RSP_MAX_PATH];		// Resource name
+      milliseconds_t m_lMinTime[2];
+      milliseconds_t m_lRndTime[2];
+		char	m_szResName[PATH_MAX];		// Resource name
 
 		SampleMasterID m_id;
 
@@ -113,17 +113,17 @@ class CSoundThing : public CThing
 
 		SampleMaster::SoundInstance	m_siChannel;
 
-		int32_t m_lLastStartTime;
-		int32_t m_lNextStartTime;
+      milliseconds_t m_lLastStartTime;
+      milliseconds_t m_lNextStartTime;
 		int16_t m_sWhichTime;
 		bool m_bEnabled;
 		bool m_bRepeats;
 
 		int16_t	m_sUseLooping;						// TRUE, to use looping parameters.
-		int32_t	m_lStopLoopingTime;				// Time that we stop looping the sample.
-		int32_t	m_lNumLoopBacks;					// Number of times to play loop area of sample.
-		int32_t	m_lLoopBackTo;						// Where to loop back to.
-		int32_t	m_lLoopBackFrom;					// Where to loop back from.
+      milliseconds_t	m_lStopLoopingTime;				// Time that we stop looping the sample.
+      uint32_t	m_lNumLoopBacks;					// Number of times to play loop area of sample.
+      milliseconds_t	m_lLoopBackTo;						// Where to loop back to.
+      milliseconds_t	m_lLoopBackFrom;					// Where to loop back from.
 
 		int16_t m_sSuspend;							// Suspend flag
 

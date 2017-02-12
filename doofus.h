@@ -304,12 +304,12 @@ class CDoofus : public CCharacter
 		int16_t m_sNextX;						// Position of next Bouy
 		int16_t m_sNextZ;						// Position of next Bouy
 		int16_t m_sRotateDir;					// Direction to rotate when avoiding obstacles
-		int32_t	m_lAlignTimer;					// Recheck position to bouy every so often
-		int32_t	m_lEvalTimer;					// Reevaluate state every so often
-		int32_t	m_lShotTimeout;				// Only do Shot animation every so often
-		int32_t	m_lStuckTimeout;				// time given to recovery from stuck state
-		int32_t	m_lShootTimer;					// Limit number of shots from a gun.
-		int32_t	m_lCommentTimer;				// Time between random comments
+      milliseconds_t	m_lAlignTimer;					// Recheck position to bouy every so often
+      milliseconds_t	m_lEvalTimer;					// Reevaluate state every so often
+      milliseconds_t	m_lShotTimeout;				// Only do Shot animation every so often
+      milliseconds_t	m_lStuckTimeout;				// time given to recovery from stuck state
+      milliseconds_t	m_lShootTimer;					// Limit number of shots from a gun.
+      milliseconds_t	m_lCommentTimer;				// Time between random comments
 		int16_t	m_usCommentCounter;			// Number of comments
 		CDoofus::Action m_eSuggestedAction;	// Suggested logic action
 		CDoofus::Action m_eCurrentAction;	// Currently running action
@@ -338,19 +338,19 @@ class CDoofus : public CCharacter
 													// in one direction while moving in another direction.
 		double			m_dShootAngle;
 
-		int32_t				m_lIdleTimer;		// Timer for idle animations.
+      milliseconds_t				m_lIdleTimer;		// Timer for idle animations.
 		bool				m_bAnimUp;			// Run animation up or down for idle animation. (crouch)
 
-		int32_t				m_lSampleTimeIsPlaying; // Expected time for this sample
+      milliseconds_t				m_lSampleTimeIsPlaying; // Expected time for this sample
 		bool				m_bRecentlyStuck;			// Flag for when you get stuck on a wall.		
 		bool				m_bCivilian;				// Flag for civilian/hostile
 		bool				m_bRegisteredBirth;		// true, once we've registered our birth with the realm.
 
-		int32_t				m_lGuardTimeout;			// Tunable personatorium value with doofus default
-		int32_t				m_lShootTimeout;			// Tunable time between shots - based on difficulty level
-		int32_t				m_lRunShootInterval;		// Tunable personatorium value with doofus default.
-		int32_t				m_lShotReactionTimeout;	// Tunable personatorium value with doofus default
-		int32_t				m_lLastHelpCallTime;	// Last time someone called for help
+      milliseconds_t				m_lGuardTimeout;			// Tunable personatorium value with doofus default
+      milliseconds_t				m_lShootTimeout;			// Tunable time between shots - based on difficulty level
+      milliseconds_t				m_lRunShootInterval;		// Tunable personatorium value with doofus default.
+      milliseconds_t				m_lShotReactionTimeout;	// Tunable personatorium value with doofus default
+      milliseconds_t				m_lLastHelpCallTime;	// Last time someone called for help
 
 		CSprite3			m_spriteWeapon;			// Sprite for weapon.
 		ClassIDType		m_eFallbackWeaponType;	// Fallback weapon type or TotalIDs for none.

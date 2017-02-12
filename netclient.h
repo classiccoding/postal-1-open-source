@@ -100,8 +100,8 @@ class CNetClient
 				bool					m_bInactive;							// True after last active sequence was used
 //				Net::SEQ				m_seqWhatHeNeeds;						// What input seq he needs from me
 //				Net::SEQ				m_seqWhatINeed;						// What input seq I need from him
-//				int32_t					m_lNextSendTime;						// When to next send inputs to him
-				int32_t					m_lLastReceiveTime;					// When we last got data from him *SPA
+//				milliseconds_t		m_lNextSendTime;						// When to next send inputs to him
+            milliseconds_t		m_lLastReceiveTime;					// When we last got data from him *SPA
 
 //				FQueue<int32_t, NumAvgItems>	m_qPings;					// Queue of ping times for running average
 //				int32_t					m_lRunnigAvgPing;						// Running average
@@ -183,7 +183,7 @@ class CNetClient
 		State						m_state;							// My state
 		NetMsg					m_msgError;						// Error type
 		NetMsg::Status			m_status;						// Status type
-      uint32_t						m_lTimeOut;						// Timer used to detect time-outs
+      milliseconds_t			m_lTimeOut;						// Timer used to detect time-outs
 
 		Net::ID					m_id;								// My id
 		Net::ID					m_idServer;						// Server's client's ID
@@ -198,22 +198,22 @@ class CNetClient
 		Net::SEQ					m_seqFrame;						// My frame sequence
 		Net::SEQ					m_seqMaxAhead;					// Max ahead for input versus frame
 		Net::SEQ					m_seqInputNotYetSent;		// Input seq that we did NOT send yet
-		CNetInput					m_netinput;						// My input buffer
-      uint32_t						m_lFrameTime;					// Current frame time
-      uint32_t						m_lNextLocalInputTime;		// When to get next local input
+      CNetInput				m_netinput;						// My input buffer
+      milliseconds_t			m_lFrameTime;					// Current frame time
+      milliseconds_t			m_lNextLocalInputTime;		// When to get next local input
 		bool						m_bNextRealmPending;			// Whether next realm is pending
 
 		CPeer						m_aPeers[Net::MaxNumIDs];	// Array of peers
 		/** SPA **/
-      uint32_t						m_lStartTime;					// The start from which time to calculate the frame delta
-      uint32_t						m_alAvgFrameTimes[8];		// Array to hold the last several average frame times
+      milliseconds_t			m_lStartTime;					// The start from which time to calculate the frame delta
+      milliseconds_t			m_alAvgFrameTimes[8];		// Array to hold the last several average frame times
 		/** SPA **/
 
 		/** 12/16/97 AJC **/
-		uint16_t							m_u16PackageID;				// Unique number for every package sent
+      uint16_t					m_u16PackageID;				// Unique number for every package sent
 		/** 12/16/97 AJC **/
 		bool						m_bSendNextFrame;		// 12/30/97 *SPA True if we have all the info to render the current frame (m_seqFrame)
-      uint32_t						m_lMaxWaitTime;
+      milliseconds_t			m_lMaxWaitTime;
 		//------------------------------------------------------------------------------
 	// Functions
 	//------------------------------------------------------------------------------

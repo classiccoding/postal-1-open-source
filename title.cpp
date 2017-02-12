@@ -214,7 +214,7 @@ int32_t m_lCummUnits;		// I will brace myself for an onslaught of jokes.
 double m_adTitlePercent[MAX_TITLES+1];
 static int16_t	m_sValid			= FALSE;
 
-static int32_t		ms_lTitleRFileCallbackTime = 0;
+static milliseconds_t		ms_lTitleRFileCallbackTime = 0;
 
 // Indicates the currently displayed image.
 static size_t	ms_sImageNum		= 0;
@@ -265,7 +265,7 @@ static void TitleRFileCallback(size_t lBytes)
 {
   UNUSED(lBytes);
 
-  int32_t lCurrentTime = rspGetMilliseconds();
+  milliseconds_t lCurrentTime = rspGetMilliseconds();
   if ((lCurrentTime - ms_lTitleRFileCallbackTime) > TITLE_SOUND_UPDATE_INTERVAL)
   {
     UpdateSystem();
@@ -699,11 +699,11 @@ extern int16_t EndTitle(void)				// Returns 0 if successfull, non-zero otherwise
 
 void Title_GameEndSequence(void)
 {
-	int32_t lDisplayTime = 0;
-	int32_t lTotalTime = 0;
-	int32_t lSectionTime = 0;
-	int32_t lCurrentTime;
-	int32_t lUpdateTime;
+   milliseconds_t lDisplayTime = 0;
+   milliseconds_t lTotalTime = 0;
+   milliseconds_t lSectionTime = 0;
+   milliseconds_t lCurrentTime;
+   milliseconds_t lUpdateTime;
 	TRACE("So this is the big end of game sequence eh?\n");
 
 	// Play the sound

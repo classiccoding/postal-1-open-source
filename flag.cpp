@@ -354,8 +354,8 @@ int16_t CFlag::Shutdown(void)							// Returns 0 if successfull, non-zero otherw
 void CFlag::Update(void)
 {
 //	int16_t sHeight = m_sPrevHeight;
-	int32_t lThisTime;
-	int32_t lTimeDifference;
+   milliseconds_t lThisTime;
+   milliseconds_t lTimeDifference;
 	CSmash* pSmashed = nullptr;
 
 	if (!m_sSuspend)

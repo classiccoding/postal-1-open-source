@@ -360,18 +360,18 @@ public:
 	RProfile(); // in cpp file
 
 	//----------------------------
-   int64_t	m_lCount;		// to determine my own overhead!
-   int64_t	m_lTotTime;		// Total overhead used by profiling!
+   microseconds_t	m_lCount;		// to determine my own overhead!
+   microseconds_t	m_lTotTime;		// Total overhead used by profiling!
 
-   int64_t	m_lInitTime;		// start of program
-   int64_t	m_lDeceasedTime;	// end of program
+   microseconds_t	m_lInitTime;		// start of program
+   microseconds_t	m_lDeceasedTime;	// end of program
 
-   int64_t	m_lBeginTime;	// when user kicks off profiling
-   int64_t  m_lFirstTime;	// first time a profile range is entered in active mode
+   microseconds_t	m_lBeginTime;	// when user kicks off profiling
+   microseconds_t  m_lFirstTime;	// first time a profile range is entered in active mode
 
 	//===== Let's try to max out a theme here:
-   int64_t	m_lFastTimeIn;
-   int64_t	m_lFastTimeOut;
+   microseconds_t	m_lFastTimeIn;
+   microseconds_t	m_lFastTimeOut;
 	//----------------------------
 	
 	int16_t	m_sLastUnaccounted;// Used for one frame lag timing of unknown overhead...

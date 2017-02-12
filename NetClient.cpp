@@ -1509,7 +1509,7 @@ bool CNetClient::CanDoFrame(							// Returns true if frame can be done, false o
 			}
 
 		// Check to see if we've not been able to render this frame for a while *SPA
-      uint32_t lCurTime = rspGetMilliseconds();
+      milliseconds_t lCurTime = rspGetMilliseconds();
 		if (lCurTime > m_lMaxWaitTime)
 			{
 			for (Net::ID id = 0; id < Net::MaxNumIDs; id++)
@@ -1630,7 +1630,7 @@ bool CNetClient::IsLocalInputNeeded(void)
 	if (m_bPlaying)
 		{
 		// Check if timer expired
-//		long lCurTime = rspGetMilliseconds();
+//		milliseconds_t lCurTime = rspGetMilliseconds();
 //		if (lCurTime > m_lNextLocalInputTime)
 //			{
 			// The input seq is only allowed to get m_seqMaxAhead ahead of the
@@ -1756,7 +1756,7 @@ Net::ID CNetClient::CheckForLostPeer(void)
 				{
 				if (id != m_id)
 					{
-               uint32_t lElapsedTime = rspGetMilliseconds() - m_aPeers[id].m_lLastReceiveTime;
+               milliseconds_t lElapsedTime = rspGetMilliseconds() - m_aPeers[id].m_lLastReceiveTime;
 					if (lElapsedTime > g_GameSettings.m_lPeerDropMaxWaitTime)
 						return id;
 					}

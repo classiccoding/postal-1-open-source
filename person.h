@@ -148,14 +148,14 @@ class CPerson : public CDoofus
 		static double ms_dInRangeHigh;	// Squared distance to be in range with weapon
 		static double ms_dThrowHorizVel;	// Horizontal throw velocity
 		static double ms_dMaxCrawlVel;	// Speed at which cop crawls when writhing
-		static int32_t ms_lRandomAvoidTime;	// Time to wander before looking again
-		static int32_t ms_lReseekTime;		// Do a 'find' again 
-		static int32_t ms_lWatchWaitTime;	// Time to watch shot go
-		static int32_t ms_lReselectDudeTime;// Time to go without finding a dude
+      static milliseconds_t ms_lRandomAvoidTime;	// Time to wander before looking again
+      static milliseconds_t ms_lReseekTime;		// Do a 'find' again
+      static milliseconds_t ms_lWatchWaitTime;	// Time to watch shot go
+      static milliseconds_t ms_lReselectDudeTime;// Time to go without finding a dude
 													// before calling SelectDude() to find
 													// possibly a closer one.
-		static int32_t ms_lMinCommentTime;	// Min time before making a random comment
-		static int32_t ms_lCommentTimeVariance;// Random amount added on to comment timer.
+      static milliseconds_t ms_lMinCommentTime;	// Min time before making a random comment
+      static milliseconds_t ms_lCommentTimeVariance;// Random amount added on to comment timer.
 
 	public:
 		static int16_t ms_sLogTabUserGlobal;// Global state set and read by logic tables
@@ -260,7 +260,7 @@ class CPerson : public CDoofus
 
 		// Function to choose and play the writhing sound effect
 		virtual SampleMaster::SoundInstance PlaySoundWrithing(
-			int32_t* plDuration);					// Out:  Duration of sample, if not nullptr.
+         milliseconds_t* plDuration);					// Out:  Duration of sample, if not nullptr.
 
 		// Function to choose and play the Shot sound effect
 		virtual SampleMaster::SoundInstance PlaySoundShot(void);

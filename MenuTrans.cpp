@@ -128,8 +128,8 @@ static RImage* m_pim;
 
 static int16_t m_sStep;
 static bool m_bFinishASAP;
-static uint32_t m_lTotalTime;
-static uint32_t m_lBaseTime;
+static milliseconds_t m_lTotalTime;
+static milliseconds_t m_lBaseTime;
 
 static double m_dReduce = 1.0;
 

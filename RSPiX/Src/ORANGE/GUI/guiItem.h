@@ -972,7 +972,7 @@ class RGuiItem : public RProps <uint32_t, uint32_t>
 														// the cursor was pressed AND released
 														// within this item's hot area.
 
-		char					m_szBkdResName[RSP_MAX_PATH];	// Name of background res
+		char					m_szBkdResName[PATH_MAX];	// Name of background res
 																		// file to get into 
 																		// m_pimBkdRes.
 		int16_t					m_sBkdResTransparent;	// TRUE, if m_pimBkdRes is to be

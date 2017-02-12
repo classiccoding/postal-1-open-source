@@ -967,7 +967,7 @@ int16_t RResMgr::OpenSak(RString strSakFile)
 //						  function.
 //
 // Returns:
-//		none - ASSERTS if the path is too long (> RSP_MAX_PATH)
+//		none - ASSERTS if the path is too long (> PATH_MAX)
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -978,10 +978,10 @@ void RResMgr::SetBasePath(RString strBasepath)
 		sLast--;
 
 	// If base path doesn't end with a slash, add one
-	if (strBasepath[(int32_t) sLast] != RSP_SYSTEM_PATH_SEPARATOR)
-		strBasepath += RSP_SYSTEM_PATH_SEPARATOR;
+	if (strBasepath[(int32_t) sLast] != SYSTEM_PATH_SEPARATOR)
+		strBasepath += SYSTEM_PATH_SEPARATOR;
 	// Make sure it is short enough to work with rspix functions
-	ASSERT(strBasepath.GetLen() < RSP_MAX_PATH);
+	ASSERT(strBasepath.GetLen() < PATH_MAX);
 	m_strBasepath = strBasepath;
 }
 

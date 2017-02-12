@@ -77,12 +77,12 @@ class CItem3d : public CThing3d
 	public:
 
 		CAnim3D		m_anim;									// One animation.
-		char			m_szAnimBaseName[RSP_MAX_PATH];	// Name of animation.
+		char			m_szAnimBaseName[PATH_MAX];	// Name of animation.
 		ItemType		m_type;									// Item type if known.
 
-		char			m_szAnimRigidName[RSP_MAX_PATH];	// Rigid body transform anim name.
+		char			m_szAnimRigidName[PATH_MAX];	// Rigid body transform anim name.
 		CAnim3D		m_animChild;									// Optional child anim.
-		char			m_szChildAnimBaseName[RSP_MAX_PATH];	// Name of child anim.
+		char			m_szChildAnimBaseName[PATH_MAX];	// Name of child anim.
 
 		CSprite3		m_spriteChild;							// Child sprite.  Never 
 																	// explicitly added to scene

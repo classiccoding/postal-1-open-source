@@ -100,7 +100,7 @@ int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
 	char szTime[256]; 
 	char szSeq[256];
 	char szNum[256];
-   uint32_t lTime = rspGetMilliseconds();
+   milliseconds_t lTime = rspGetMilliseconds();
 
   if (ucMsgType == NetMsg::START_REALM && bReceived)
   {

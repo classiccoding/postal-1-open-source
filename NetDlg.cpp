@@ -556,7 +556,7 @@ static RListBox*	ms_plbHostBrowse	= nullptr;		// Browse for host listbox.
 
 // Other static vars.
 
-static uint32_t			ms_lWatchdogTime = 0;			// Watchdog timer
+static milliseconds_t			ms_lWatchdogTime = 0;			// Watchdog timer
 static bool			ms_bNetBlockingAbort = false;	// Net blocking abort flag
 
 static uint32_t			ms_lNumConsoleEntries		= 0;			// Track number of chat items.
@@ -566,7 +566,7 @@ static uint16_t		ms_sSetupRealmNum = 0;
 static char			ms_szSetupRealmFile[Net::MaxRealmNameSize];
 //static int32_t			ms_lSetupLastChatComplaint = 0;
 
-static uint32_t			ms_lNextOptionsUpdateTime;		// Next time to send an options update.
+static milliseconds_t			ms_lNextOptionsUpdateTime;		// Next time to send an options update.
 
 static RTxt*		ms_ptxtNetProb	= nullptr;			// Net problem GUI.
 static bool			m_bNetWatchdogExpired	= false;	// Whether net blocking expired
@@ -1015,7 +1015,7 @@ static int16_t ShowLevels(void)						// Returns 0 on success.
 
 		#if !defined(ENABLE_PLAY_SPECIFIC_REALMS_ONLY)
 			// Add all the available realms.
-			char	szRealm[RSP_MAX_PATH+1];
+         char	szRealm[PATH_MAX+1];
 			char	szTitle[512];
 			int16_t	i	= 0;
          while (sResult == SUCCESS)
@@ -1328,7 +1328,7 @@ int16_t DlgGetRes(											// Returns 0 if successfull, non-zero otherwise
 	// Allocate and load new resources.  We get the name of the file (which
 	// is ASSUMED to have NO PATH!!) from the gui itself, then tack on the
 	// path we need and get the resource from the resource manager.
-	char szFile[RSP_MAX_PATH * 2];
+   char szFile[PATH_MAX * 2];
 	sprintf(szFile, "%s%s", GUI_DIR, pgui->m_szBkdResName);
 
    if (rspGetResource(&g_resmgrShell, szFile, &pgui->m_pimBkdRes) == SUCCESS)
@@ -1502,7 +1502,7 @@ static DLG_ACTION UpdateDialog(						// Returns dialog action
 	if (action == DLG_NOTHING)
 		{
 		// Temporarily timed based. ***
-      uint32_t	lCurTime	= rspGetMilliseconds();
+      milliseconds_t	lCurTime	= rspGetMilliseconds();
 		if (lCurTime > ms_lNextOptionsUpdateTime)
 			{
 			if (bReset)
@@ -2101,7 +2101,7 @@ static void OnSetupGameMsg(
 			if (pmsg->msg.setupGame.sRealmNum > -1)
 				{
 				// Convert realm number to file name
-				char szFile[RSP_MAX_PATH];
+            char szFile[PATH_MAX];
 				if (Play_GetRealmInfo(
 					true,					// Multiplayer
 					pmsg->msg.setupGame.sCoopLevels ? true : false,	// Cooperative or Deathmatch levels
@@ -2122,7 +2122,7 @@ static void OnSetupGameMsg(
 				// acRealmFile, due to a bizzarre twist of events, is never a filename
 				// but, rather, the title of the realm.  The only way we can get a filename
 				// from this title is to scan the NetRealm's in the INI.
-				char	szRealmFileName[RSP_MAX_PATH];
+            char	szRealmFileName[PATH_MAX];
 				if (GetRealmFileFromRealmTitle(
 					pmsg->msg.setupGame.sCoopLevels ? true : false,	// Cooperative or Deathmatch levels
 					pmsg->msg.setupGame.acRealmFile,
