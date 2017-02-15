@@ -24,6 +24,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef NETBROWSE_H
 #define NETBROWSE_H
+
+#include "CompileOptions.h"
+
 #if !defined(MULTIPLAYER_REMOVED)
 
 

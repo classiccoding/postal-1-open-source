@@ -27,6 +27,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef NETCLIENT_H
 #define NETCLIENT_H
+
+#include "CompileOptions.h"
+
 #if !defined(MULTIPLAYER_REMOVED)
 
 #include "RSPiX.h"

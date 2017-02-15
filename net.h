@@ -29,7 +29,7 @@
 #ifndef NET_H
 #define NET_H
 
-#include <CompileOptions.h>
+#include "CompileOptions.h"
 
 #if defined(MULTIPLAYER_REMOVED)
 typedef int CNetClient;

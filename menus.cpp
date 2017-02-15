@@ -869,13 +869,13 @@ Menu	menuMain =
 			{ g_pszMainMenu_Start,		TRUE,			&menuStart/*Single*/,			nullptr,			},
 			{ g_pszMainMenu_Options,	TRUE,			&menuOptions,		nullptr,			},
 
-			#ifndef EDITOR_REMOVED
-			{ g_pszMainMenu_Editor,		TRUE,			nullptr,					nullptr,			},
-			#endif
+#if !defined(EDITOR_REMOVED) || defined(EDITOR_DISABLED)
+         { g_pszMainMenu_Editor,		TRUE,			nullptr,					nullptr,			},
+#endif // !defined(EDITOR_REMOVED) || defined(EDITOR_DISABLED)
 
-	#if defined(DEMO)
+#if defined(DEMO)
 			{ g_pszMainMenu_Buy,			TRUE,			nullptr,					nullptr,			},
-	#endif
+#endif
 			{ g_pszMainMenu_Exit,		TRUE,			&menuVerifyExit,	nullptr,			},
 			nullptr							// Terminates list.
 		},
@@ -1189,11 +1189,11 @@ Menu	menuEditor =
 	// Menu callbacks.
 		{	// fnInit, fnChoice,
       nullptr,						// Called before menu is initialized.
-#if defined(MULTIPLAYER_REMOVED)
+#if defined(EDITOR_REMOVED) && !defined(EDITOR_DISABLED)
          nullptr,
-#else // defined(MULTIPLAYER_REMOVED)
+#else // defined(EDITOR_REMOVED) && !defined(EDITOR_DISABLED)
       EditorMenuChoice,		// Called when item is chosen.
-#endif // defined(MULTIPLAYER_REMOVED)
+#endif // defined(EDITOR_REMOVED) && !defined(EDITOR_DISABLED)
 		},
 
 	// Menu auto items.
@@ -1295,10 +1295,9 @@ Menu	menuOptions =
 #endif
 			{ g_pszOptionsMenu_Audio,			TRUE,			&menuAudioOptions,	nullptr,	},
 			{ g_pszOptionsMenu_Controls,		TRUE,			&menuControls,			nullptr,	},
-            #if !defined(MULTIPLAYER_REMOVED)
-
+#if !defined(MULTIPLAYER_REMOVED) || defined(MULTIPLAYER_DISABLED)
 			{ g_pszOptionsMenu_Multiplayer,	TRUE,			&menuMultiOptions,	nullptr,	},
-            #endif
+#endif // !defined(MULTIPLAYER_REMOVED) || defined(MULTIPLAYER_DISABLED)
 			{ g_pszOptionsMenu_Performance,	TRUE,			&menuFeatures,			nullptr,	},
 			{ g_pszOptionsMenu_Difficulty,	TRUE,			&menuPlayOptions,		nullptr,	},
 			{ g_pszGameMenu_Title,			TRUE,			&menuGameOptions,		nullptr,	},
@@ -4978,7 +4977,7 @@ static bool MultiOptionsChoice(	// Returns true to accept, false to deny choice.
 }
 #endif
 
-#ifndef EDITOR_REMOVED
+#if !defined(EDITOR_REMOVED) || defined(EDITOR_DISABLED)
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Called when a choice is made or changed on the Editor menu.
@@ -5011,7 +5010,8 @@ static bool EditorMenuChoice(	// Returns true to accept, false to deny choice.
 
   return bAcceptChoice;
 }
-#endif
+#endif // !defined(EDITOR_REMOVED) || defined(EDITOR_DISABLED)
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Called to init or kill the Mouse menu.
