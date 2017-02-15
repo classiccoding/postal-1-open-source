@@ -495,9 +495,9 @@
 // Turn off multiplayer on MacOSX/Linux...not worth it.  --ryan.
 //  This just takes it out of the menus...code is still compiled in.
 #if 1 //PLATFORM_UNIX
-//#define MULTIPLAYER_REMOVED
-//#define EDITOR_REMOVED
-//#define LOADLEVEL_REMOVED  // bleh, no file dialog thingey.  :/
+#define MULTIPLAYER_REMOVED
+#define EDITOR_REMOVED
+#define LOADLEVEL_REMOVED  // bleh, no file dialog thingey.  :/
 #endif
 
 #if !defined(MULTIPLAYER_REMOVED) && defined(MULTIPLAYER_DISABLED)
@@ -506,6 +506,10 @@
 
 #if !defined(EDITOR_REMOVED) && defined(EDITOR_DISABLED)
 #define EDITOR_REMOVED
+#endif
+
+#if !defined(ALLOW_JOYSTICK) && defined(ALLOW_TWINSTICK)
+#define ALLOW_JOYSTICK
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
