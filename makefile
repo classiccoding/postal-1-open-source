@@ -240,7 +240,7 @@ OBJS := $(foreach f,$(OBJS4),$(BINDIR)/$(f))
 SRCS := $(foreach f,$(SRCS),$(SRCDIR)/$(f))
 
 # !!! FIXME: Get -Wall in here, some day.
-CFLAGS += -fsigned-char -DPLATFORM_UNIX -w
+CFLAGS += -DPLATFORM_UNIX -w
 
 ifeq ($(strip $(macosx)),true)
   CFLAGS += -DPLATFORM_MACOSX
@@ -296,8 +296,6 @@ ifeq ($(strip $(steamworks)),true)
   CFLAGS += -DWITH_STEAMWORKS=1 -Isteamworks/sdk/public
   LDFLAGS += $(STEAMLDFLAGS)
 endif
-
-CFLAGS += -DALLOW_TWINSTICK
 
 .PHONY: all bindir
 
