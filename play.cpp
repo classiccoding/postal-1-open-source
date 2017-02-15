@@ -334,6 +334,7 @@
 #define PLAY_CPP
 
 #include "RSPiX.h"
+#include "CompileOptions.h"
 #include "main.h"
 #include "input.h"
 #include "game.h"
