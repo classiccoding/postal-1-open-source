@@ -32,6 +32,8 @@
 #include "Blue.h"
 #include <math.h>
 
+#include "CompileOptions.h"
+
 #if defined(ALLOW_JOYSTICK)
 
 //////////////////////////////////////////////////////////////////////////////

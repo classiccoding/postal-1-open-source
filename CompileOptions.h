@@ -493,12 +493,15 @@
 #endif
 
 // Turn off multiplayer on MacOSX/Linux...not worth it.  --ryan.
-//  This just takes it out of the menus...code is still compiled in.
-#if 1 //PLATFORM_UNIX
+
 #define MULTIPLAYER_REMOVED
 #define EDITOR_REMOVED
-#define LOADLEVEL_REMOVED  // bleh, no file dialog thingey.  :/
-#endif
+//#define LOADLEVEL_REMOVED  // bleh, no file dialog thingey.  :/
+#define ALLOW_TWINSTICK // enable extended joystick support
+
+//#define RESMGR_VERBOSE
+//#define DEBUG_LEVEL_CHEAT
+
 
 #if !defined(MULTIPLAYER_REMOVED) && defined(MULTIPLAYER_DISABLED)
 #define MULTIPLAYER_REMOVED
@@ -640,13 +643,6 @@
 
 #define KID_FRIENDLY_OPTION
 
-////////////////////////////////////////////////////////////////////////////////
-// Miscellaneous Stuff
-////////////////////////////////////////////////////////////////////////////////
-
-//#define ALLOW_JOYSTICK
-// #define RESMGR_VERBOSE
-// #define DEBUG_LEVEL_CHEAT
 
 #endif // COMPILE_OPTIONS_H
 ////////////////////////////////////////////////////////////////////////////////
