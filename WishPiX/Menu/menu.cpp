@@ -1288,6 +1288,10 @@ extern void DoMenuInput(		// Returns nothing.
 	int16_t UseJoystick)
 										// Out: pie->sUsed = TRUE, if used.
 	{
+#if !defined(ALLOW_JOYSTICK)
+  UNUSED(UseJoystick);
+#endif // defined(ALLOW_JOYSTICK)
+
 	// If there is a current menu . . .
 	if (ms_pmenu != nullptr)
 		{
@@ -1355,7 +1359,7 @@ extern void DoMenuInput(		// Returns nothing.
 					break;
 				}
 			}
-
+#if defined(ALLOW_JOYSTICK)
 		if (UseJoystick)
 		{
 			XInputState xis = {};	// Current XInput state			
@@ -1403,7 +1407,7 @@ extern void DoMenuInput(		// Returns nothing.
 				|| xis.ButtonState[XINPUT_BUTTON_START] == XInputState::Press)
 				sChooseCurrent = TRUE;
 		}
-
+#endif // defined(ALLOW_JOYSTICK)
 #ifdef MOBILE
 		if (pie->sUsed == FALSE && pie->type == RInputEvent::Mouse)
 		{
