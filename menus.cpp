@@ -4348,7 +4348,7 @@ static int16_t VolumesInit(		// Returns 0 on success, non-zero to cancel menu.
 					}
 
 				// Text.
-				pmenuCur->ami[i].pszText	= SampleMaster::ms_apszSoundCategories[i];
+				pmenuCur->ami[i].pszText	= (char*)SampleMaster::ms_apszSoundCategories[i];
 				}
 			else
 				{
@@ -4512,7 +4512,7 @@ static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
 			// Set the callback.
 			ms_psbMouseSensitivityX->m_upcUser			= MouseSensitivityScrollUpdate;
 			// Set the value to change.
-			ms_psbMouseSensitivityX->m_ulUserInstance	= (U64)&g_InputSettings.m_dMouseSensitivityX;
+			ms_psbMouseSensitivityX->m_ulUserInstance	= (uint64_t)&g_InputSettings.m_dMouseSensitivityX;
 
 
 			// Set the initial position.  ms_psbGammaVal will get set via callback.
@@ -4536,7 +4536,7 @@ static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
 			// Set the callback.
 			ms_psbMouseSensitivityY->m_upcUser			= MouseSensitivityScrollUpdate;
 			// Set the value to change.
-			ms_psbMouseSensitivityY->m_ulUserInstance	= (U64)&g_InputSettings.m_dMouseSensitivityY;
+			ms_psbMouseSensitivityY->m_ulUserInstance	= (uint64_t)&g_InputSettings.m_dMouseSensitivityY;
 
 
 			// Set the initial position.  ms_psbGammaVal will get set via callback.
@@ -4686,7 +4686,7 @@ int16_t SetUpRotationScrollBar(		// Returns 0 on success.
 			}
 
 		// Set the value to change.
-		psb->m_ulUserInstance	= (U64)pvtRotationVal;
+		psb->m_ulUserInstance	= (uint64_t)pvtRotationVal;
 
 
 		// Set the initial position.  psb will get set via callback.

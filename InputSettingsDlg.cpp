@@ -245,7 +245,7 @@ extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
    for (sInputIndex = 0; sInputIndex < CInputSettings::NumInputFunctions && sResult == SUCCESS; sInputIndex++)
 		{
 		// Set text describing input function for this menu item.
-		pmenu->ami[sInputIndex].pszText	= CInputSettings::ms_ainputinfo[sInputIndex].pszDescription;
+		pmenu->ami[sInputIndex].pszText	= (char*)CInputSettings::ms_ainputinfo[sInputIndex].pszDescription;
 		// Enable item.
 		pmenu->ami[sInputIndex].sEnabled	= TRUE;
 		// Load GUI for input method description.

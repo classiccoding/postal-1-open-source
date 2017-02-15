@@ -413,7 +413,7 @@ void ScoreResetDisplay(void)
 // ScoreRegisterKill - Characters should call this when they die
 //////////////////////////////////////////////////////////////////////////////
 
-void ScoreRegisterKill(CRealm* pRealm, U16 u16DeadGuy, U16 u16Killer)
+void ScoreRegisterKill(CRealm* pRealm, uint16_t u16DeadGuy, uint16_t u16Killer)
 {
 	CThing* pShooter = NULL;
 	pRealm->m_idbank.GetThingByID(&pShooter, u16Killer);

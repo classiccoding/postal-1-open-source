@@ -192,7 +192,7 @@ const char*	CGameSettings::ms_apszPlayerColorDescriptions[CDude::MaxTextures + 1
 	};
 
 // Number of color descriptions.
-const	uint16_t CGameSettings::ms_sNumPlayerColorDescriptions	= NUM_ELEMENTS(ms_apszPlayerColorDescriptions) - 1;
+const	int16_t CGameSettings::ms_sNumPlayerColorDescriptions	= NUM_ELEMENTS(ms_apszPlayerColorDescriptions) - 1;
 
 char*	CGameSettings::ms_apszAudioLanguageDescriptions[NUM_LANGUAGES + 1]	=
 	{
@@ -477,9 +477,9 @@ int16_t CGameSettings::LoadPrefs(
 	pPrefs->GetVal("Multiplayer", "GetInputInterval", m_sNetGetInputInterval, &m_sNetGetInputInterval);
 	pPrefs->GetVal("Multiplayer", "SendInputInterval", m_sNetSendInputInterval, &m_sNetSendInputInterval);
 	pPrefs->GetVal("Multiplayer", "MaxFrameLag", m_sNetMaxFrameLag, &m_sNetMaxFrameLag);
-   m_sNetMaxFrameLag = CLAMP(m_sNetMaxFrameLag, static_cast<uint16_t>(0), static_cast<uint16_t>(Net::MaxAheadSeq));
+   m_sNetMaxFrameLag = CLAMP(m_sNetMaxFrameLag, static_cast<int16_t>(0), static_cast<int16_t>(Net::MaxAheadSeq));
 	pPrefs->GetVal("Multiplayer", "TimePerFrame", m_sNetTimePerFrame, &m_sNetTimePerFrame);
-   m_sNetTimePerFrame = CLAMP(m_sNetTimePerFrame, static_cast<uint16_t>(Net::MinFrameTime), static_cast<uint16_t>(200));
+   m_sNetTimePerFrame = CLAMP(m_sNetTimePerFrame, static_cast<int16_t>(Net::MinFrameTime), static_cast<int16_t>(200));
 	pPrefs->GetVal("Multiplayer", "MaxBlockingTime", m_lNetMaxBlockingTime, &m_lNetMaxBlockingTime);
 	pPrefs->GetVal("Multiplayer", "ForceAbortTime", m_lNetForceAbortTime, &m_lNetForceAbortTime);
 /*** 12/5/97 AJC ***/
