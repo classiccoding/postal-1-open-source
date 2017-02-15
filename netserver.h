@@ -30,8 +30,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef NETSERVER_H
 #define NETSERVER_H
-#if !defined(MULTIPLAYER_REMOVED)
 
+#include "CompileOptions.h"
+
+#if !defined(MULTIPLAYER_REMOVED)
 
 #include "RSPiX.h"
 #include "netmsgr.h"

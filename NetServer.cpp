@@ -35,6 +35,9 @@
 //							such that platform mismatch was never detected.
 //
 ////////////////////////////////////////////////////////////////////////////////
+
+#include "CompileOptions.h"
+
 #if !defined(MULTIPLAYER_REMOVED)
 
 #include "RSPiX.h"
