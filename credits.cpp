@@ -101,6 +101,8 @@
 #include "ORANGE/Parse/SimpleBatch.h"
 #include "GREEN/Mix/MixBuf.h"
 
+#include "CompileOptions.h"
+
 // try to hook the sound scaling tables for the palette
 
 ////////////////////////////////////////////////////////////////////////////////

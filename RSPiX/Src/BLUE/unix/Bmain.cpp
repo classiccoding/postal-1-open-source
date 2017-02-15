@@ -47,6 +47,8 @@
 #include <SDL2/SDL.h>
 #include "BLUE/Blue.h"
 
+#include "CompileOptions.h"
+
 SDL_Window *sdlWindow = nullptr;
 SDL_Surface *sdlShadowSurface = nullptr;
 
