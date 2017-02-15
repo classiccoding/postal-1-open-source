@@ -753,7 +753,7 @@ int16_t		g_sRealmNumToSave;
 bool		g_bLastLevelDemo = false;
 
 // The secret cookie value used to determine if the humongous file exists
-static U32	ms_u32Cookie = COOKIE_VALUE;
+static uint32_t	ms_u32Cookie = COOKIE_VALUE;
 
 // These variables are generally controlled via the menu system
 static ACTION m_action;
@@ -2346,12 +2346,12 @@ static int16_t GetRealmToRecord(	// Returns 0 on success, negative on error, 1 i
 ////////////////////////////////////////////////////////////////////////////////
 extern int16_t SubPathOpenBox(		// Returns 0 on success, negative on error, 1 if 
 											// not subpathable (i.e., returned path is full path).
-	char*	pszFullPath,				// In:  Full path to be relative to (system format).
-	char* pszBoxTitle,				// In:  Title of box.
-	char*	pszDefFileName,			// In:  Default filename (system format).
+	const char*	pszFullPath,				// In:  Full path to be relative to (system format).
+	const char* pszBoxTitle,				// In:  Title of box.
+	const char*	pszDefFileName,			// In:  Default filename (system format).
 	char* pszChosenFileName,		// Out: User's choice (system format).
-	int16_t sStrSize,					// In:  Amount of memory pointed to by pszChosenFileName.
-	char*	pszFilter /*= NULL*/)	// In:  If not NULL, '.' delimited extension based filename
+	size_t sStrSize,					// In:  Amount of memory pointed to by pszChosenFileName.
+	const char*	pszFilter /*= NULL*/)	// In:  If not NULL, '.' delimited extension based filename
 											//	filter specification.  Ex: ".cpp.h.exe.lib" or "cpp.h.exe.lib"
 											// Note: Cannot use '.' in filter.  Preceding '.' ignored.
 	{
@@ -3723,7 +3723,7 @@ extern int SynchLog(	// Result of expr.
 	char*		pszFile,	// In:  Calling file.
 	int32_t		lLine,	// In:  Calling line.
 	char*		pszExpr,	// In:  Original C++ source expression.
-	U32		u32User)	// In:  A user value that is intended to be consistent.
+	uint32_t	u32User)	// In:  A user value that is intended to be consistent.
 	{
 	#if defined(_DEBUG) || defined(TRACENASSERT)
 		if (ms_fileSynchLog.IsOpen() )
@@ -4351,9 +4351,9 @@ extern void SetGammaLevel(	// Returns nothing.
 
 	return; // don't set gamma for now
 
-	U8	au8RedMap[256];
-	U8	au8GreenMap[256];
-	U8	au8BlueMap[256];
+	uint8_t	au8RedMap[256];
+	uint8_t	au8GreenMap[256];
+	uint8_t	au8BlueMap[256];
 
 	int16_t i;
 	int16_t	sClipVal;
@@ -4362,9 +4362,9 @@ extern void SetGammaLevel(	// Returns nothing.
 			i++)
 		{
 		sClipVal	= MAX((int16_t)0, MIN(int16_t(pow((double)i / 100.0, GAMMA_EXPONENT) * sBase), (int16_t)255));
-		au8RedMap[i]	= (U8)sClipVal;
-		au8GreenMap[i]	= (U8)sClipVal;
-		au8BlueMap[i]	= (U8)sClipVal;
+		au8RedMap[i]	= (uint8_t)sClipVal;
+		au8GreenMap[i]	= (uint8_t)sClipVal;
+		au8BlueMap[i]	= (uint8_t)sClipVal;
 		}
 
 	// Update map.
@@ -4374,7 +4374,7 @@ extern void SetGammaLevel(	// Returns nothing.
 		au8RedMap,
 		au8GreenMap,
 		au8BlueMap,
-		sizeof(U8));
+		sizeof(uint8_t));
 
 	// Update hardware through new map.
 	rspUpdatePalette();
@@ -4394,9 +4394,9 @@ extern	void	SetBrightnessContrast(
 						double dContrast		// -1.0 = low contrast, 0.0 = normal, 1.0 = high
 						)
 	{
-	U8	au8RedMap[256];
-	U8	au8GreenMap[256];
-	U8	au8BlueMap[256];
+	uint8_t	au8RedMap[256];
+	uint8_t	au8GreenMap[256];
+	uint8_t	au8BlueMap[256];
 
 	// I will scale the ranges to within reasonable limits:
 	ASSERT( (dBrightness >= -1.0) || (dBrightness <= 1.0));
@@ -4416,9 +4416,9 @@ extern	void	SetBrightnessContrast(
 		if (sLev < 0) sLev = 0;
 		if (sLev > 255) sLev = 255;
 
-		au8RedMap[i]	= (U8)sLev;
-		au8GreenMap[i]	= (U8)sLev;
-		au8BlueMap[i]	= (U8)sLev;
+		au8RedMap[i]	= (uint8_t)sLev;
+		au8GreenMap[i]	= (uint8_t)sLev;
+		au8BlueMap[i]	= (uint8_t)sLev;
 		}
 
 	// Update map.
@@ -4428,7 +4428,7 @@ extern	void	SetBrightnessContrast(
 		au8RedMap,
 		au8GreenMap,
 		au8BlueMap,
-		sizeof(U8));
+		sizeof(uint8_t));
 
 	// Update hardware through new map.
 	rspUpdatePalette();
@@ -4473,7 +4473,7 @@ static char m_acFullPath[RSP_MAX_PATH + RSP_MAX_PATH];
 
 extern char* FullPath(									// Returns full path in system format
 	int16_t sPathType,										// In:  PATH_CD, PATH_HD, or PATH_VD
-	char* pszPartialPath)								// In:  Partial path in RSPiX format
+	const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with the specified base path (copy the string from the game settings)
 	if (sPathType == GAME_PATH_CD)
@@ -4501,7 +4501,7 @@ extern char* FullPath(									// Returns full path in system format
 
 
 extern char* FullPathCD(								// Returns full path in system format
-	char* pszPartialPath)								// In:  Partial path in RSPiX format
+	const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
 	ASSERT(strlen(g_GameSettings.m_pszCDPath) < RSP_MAX_PATH);
@@ -4553,7 +4553,7 @@ extern char* FullPathHD(								// Returns full path in system format
 
 
 extern char* FullPathVD(								// Returns full path in system format
-	char* pszPartialPath)								// In:  Partial path in RSPiX format
+	const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
 	ASSERT(strlen(g_GameSettings.m_pszVDPath) < RSP_MAX_PATH);
@@ -4579,7 +4579,7 @@ extern char* FullPathVD(								// Returns full path in system format
 
 
 extern char* FullPathSound(								// Returns full path in system format
-	char* pszPartialPath)								// In:  Partial path in RSPiX format
+	const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
 	ASSERT(strlen(g_GameSettings.m_pszSoundPath) < RSP_MAX_PATH);
@@ -4605,7 +4605,7 @@ extern char* FullPathSound(								// Returns full path in system format
 
 
 extern char* FullPathGame(								// Returns full path in system format
-	char* pszPartialPath)								// In:  Partial path in RSPiX format
+	const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
 	ASSERT(strlen(g_GameSettings.m_pszGamePath) < RSP_MAX_PATH);
@@ -4630,7 +4630,7 @@ extern char* FullPathGame(								// Returns full path in system format
 	}
 
 extern char* FullPathHoods(								// Returns full path in system format
-	char* pszPartialPath)								// In:  Partial path in RSPiX format
+	const char* pszPartialPath)								// In:  Partial path in RSPiX format
 	{
 	// Start with proper base path
 	ASSERT(strlen(g_GameSettings.m_pszHoodsPath) < RSP_MAX_PATH);
@@ -4656,10 +4656,10 @@ extern char* FullPathHoods(								// Returns full path in system format
 
 
 extern char* FullPathCustom(							// Returns full path in system format
-	char*	pszFullPath,									// In:  Full path in in RSPiX format.
-	char* pszPartialPath)								// In:  Partial path in RSPiX format.
+	const char*	pszFullPath,									// In:  Full path in in RSPiX format.
+	const char* pszPartialPath)								// In:  Partial path in RSPiX format.
 	{
-	char*	pszFullSystemPath	= rspPathToSystem(pszFullPath);
+	const char*	pszFullSystemPath	= rspPathToSystem(pszFullPath);
 	// Start with proper base path
 	ASSERT(strlen(pszFullSystemPath) < RSP_MAX_PATH);
 	strcpy(m_acFullPath, pszFullSystemPath);
@@ -4695,7 +4695,7 @@ extern char* FullPathCustom(							// Returns full path in system format
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CorrectifyBasePath(								// Returns 0 if successfull, non-zero otherwise
 	char* pszBasePath,									// I/O: Base path to be corrected
-	int16_t sMaxPathLen)									// In:  Maximum length of base path
+	size_t sMaxPathLen)									// In:  Maximum length of base path
 	{
 	int16_t sResult = 0;
 
