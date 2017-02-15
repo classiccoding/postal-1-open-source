@@ -255,6 +255,7 @@ class CFireball : public CWeapon
 				);
 			}
 
+#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -275,6 +276,7 @@ class CFireball : public CWeapon
 
 		// Called by editor to render object
 		void EditRender(void);
+#endif // !defined(EDITOR_REMOVED)
 
 		// Allows whoever creates the fire to control what gets burned by it
 		// the defaults are set initially to Characters
@@ -283,7 +285,7 @@ class CFireball : public CWeapon
 			m_u32CollideIncludeBits = u32Include;
 			m_u32CollideDontcareBits = u32Dontcare;
 			m_u32CollideExcludeBits = u32Exclude;
-		};
+      }
 
 		// Turns messages on which will send burn messages to things the fire
 		// is touching.

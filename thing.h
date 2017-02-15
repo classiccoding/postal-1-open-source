@@ -691,6 +691,7 @@ class CThing
 			{
 			}
 
+#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		virtual int16_t EditNew(									// Returns 0 if successfull, non-zero otherwise
 			int16_t /*sX*/,											// In:  New x coord
@@ -750,6 +751,7 @@ class CThing
 		virtual void EditRender(void)
 			{
 			}
+#endif // !defined(EDITOR_REMOVED)
 
 		// Get the sprite for this thing.  If there's more than one, pick one
 		// or none to return.

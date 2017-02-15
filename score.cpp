@@ -250,7 +250,7 @@ extern bool EnableSteamCloud;
 CScoreboard g_scoreboard;
 RPrint		ms_print;
 
-#ifdef HIGH_SCORE_DLG
+#if defined(HIGH_SCORE_DLG) && !defined(MULTIPLAYER_REMOVED)
 static milliseconds_t	ms_lScoreMaxTimeOut;		// Optional score timeout (max time spent
 												// on score screen).
 #endif
@@ -274,7 +274,7 @@ inline char* CreateTimeString(	// Returns time string.  No failures.
 	return szTime;
 	}
 
-#ifdef HIGH_SCORE_DLG
+#if defined(HIGH_SCORE_DLG) && !defined(MULTIPLAYER_REMOVED)
 //////////////////////////////////////////////////////////////////////////////
 // GuiReleaseRes - Release a resource that the requesting GUI wants to 
 // discard.
@@ -347,7 +347,7 @@ static void EditInputUserFeedback(	// Called when a user input notification
 	}
 #endif
 
-#ifdef HIGH_SCORE_DLG
+#if defined(HIGH_SCORE_DLG) && !defined(MULTIPLAYER_REMOVED)
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Callback from RProcessGui for system update.
@@ -438,7 +438,12 @@ void ScoreRegisterKill(CRealm* pRealm, uint16_t u16DeadGuy, uint16_t u16Killer)
 bool ScoreUpdateDisplay(RImage* pim, RRect* prc, CRealm* pRealm, CNetClient* pclient,
 								int16_t sDstX,int16_t sDstY,CHood* pHood)
 {
-	RRect rcBox;
+#if defined(MULTIPLAYER_REMOVED)
+  UNUSED(pim, prc, pRealm, pclient, sDstX, sDstY, pHood);
+  return false;
+#else
+
+   RRect rcBox;
 	RRect	rcDst;
 	rcDst.sX	= prc->sX + STATUS_PRINT_X;
 	rcDst.sY = prc->sY + STATUS_PRINT_Y;
@@ -854,7 +859,8 @@ bool ScoreUpdateDisplay(RImage* pim, RRect* prc, CRealm* pRealm, CNetClient* pcl
 		bDrew	= true;
 	}
 
-	return bDrew;
+   return bDrew;
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -877,7 +883,6 @@ void ScoreSetMode(CScoreboard::ScoringMode Mode)
 	g_scoreboard.SetScoringMode(Mode);
 }
 
-
 //////////////////////////////////////////////////////////////////////////////
 // ScoreDisplayHighScores
 //////////////////////////////////////////////////////////////////////////////
@@ -888,6 +893,9 @@ void ScoreDisplayHighScores(	// Returns nothing.
    milliseconds_t lMaxTimeOut)				// In:  Max time on score screen (quits after this
 										// duration, if not -1).
 {
+#if defined(MULTIPLAYER_REMOVED)
+  UNUSED(pRealm, pclient, lMaxTimeOut);
+#else
   UNUSED(lMaxTimeOut);
 #ifdef HIGH_SCORE_DLG
    RGuiItem* pguiRoot;
@@ -1461,8 +1469,8 @@ void ScoreDisplayHighScores(	// Returns nothing.
 		}
 #endif
 	}
+#endif
 }
-
 //////////////////////////////////////////////////////////////////////////////
 // ScoreHighestKills
 //

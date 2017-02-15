@@ -225,6 +225,7 @@ class CWeapon : public CThing
 		// Render object
 		virtual void Render(void);
 
+#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		virtual int16_t EditNew(									// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -251,6 +252,7 @@ class CWeapon : public CThing
 		{
         UNUSED(pRect);
 		}
+#endif // !defined(EDITOR_REMOVED)
 
 		// Get the coordinates of this thing.
 		virtual					// Overriden here.

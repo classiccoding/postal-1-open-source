@@ -25,7 +25,7 @@
 //							error message instead of just the error type.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef NETCLIENT_H
+#if !defined(NETCLIENT_H) && !defined(MULTIPLAYER_REMOVED)
 #define NETCLIENT_H
 
 #include "RSPiX.h"

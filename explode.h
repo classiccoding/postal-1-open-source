@@ -190,9 +190,9 @@ class CExplode : public CThing
 			int16_t sY,												// In: New y coord
 			int16_t sZ,												// In: New z coord
 			uint16_t	u16ShooterID,									// In: Who is responsible for this explosion
-			int16_t sAnim = 0);										// In: Which explosion to use, standard = 0,
-																		//     grenade = 1 etc.
+         int16_t sAnim = 0);										// In: Which explosion to use, standard = 0, grenade = 1 etc.
 
+#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -213,6 +213,7 @@ class CExplode : public CThing
 
 		// Called by editor to render object
 		void EditRender(void);
+#endif // !defined(EDITOR_REMOVED)
 
 	//---------------------------------------------------------------------------
 	// Internal functions

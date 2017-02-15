@@ -148,9 +148,12 @@
 #include "game.h"
 #include "net.h"
 #include "SampleMaster.h"
-#include "socket.h"
 #include "localize.h"
 #include "dude.h"	// For MaxTextures.
+
+#if !defined(MULTIPLAYER_REMOVED)
+#include "socket.h"
+#endif // !defined(MULTIPLAYER_REMOVED)
 
 //////////////////////////////////////////////////////////////////////////////
 // Macros.
@@ -246,7 +249,9 @@ CGameSettings::CGameSettings(void)
 										
 	m_szServerName[0]				= 0;
 	m_usServerPort					= 61663;
+#if !defined(MULTIPLAYER_REMOVED)
 	m_usProtocol					= RSocket::FirstProtocol;
+#endif // !defined(MULTIPLAYER_REMOVED)
 	m_szPlayerName[0]				= 0;
 	m_sPlayerColorIndex			= 0;
 	m_sNetBandwidth				= Net::Analog28_8;
@@ -455,8 +460,10 @@ int16_t CGameSettings::LoadPrefs(
 	pPrefs->GetVal("Multiplayer", "Server", m_szServerName, m_szServerName);
 	pPrefs->GetVal("Multiplayer", "Port", m_usServerPort, &m_usServerPort);
 	pPrefs->GetVal("Multiplayer", "Protocol", m_usProtocol, &m_usProtocol);
-	if (m_usProtocol >= RSocket::NumProtocols)
+#if !defined(MULTIPLAYER_REMOVED)
+   if (m_usProtocol >= RSocket::NumProtocols)
 		m_usProtocol = RSocket::FirstProtocol;
+#endif // !defined(MULTIPLAYER_REMOVED)
 	pPrefs->GetVal("Multiplayer", "Name", m_szPlayerName, m_szPlayerName);
 	pPrefs->GetVal("Multiplayer", "Color", m_sPlayerColorIndex, &m_sPlayerColorIndex);
 	pPrefs->GetVal("Multiplayer", "Bandwidth", m_sNetBandwidth, &m_sNetBandwidth);

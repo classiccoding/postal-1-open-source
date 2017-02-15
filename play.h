@@ -70,11 +70,16 @@
 
 #include "RSPiX.h"
 #include "menus.h"
-#include "netclient.h"
-#include "netserver.h"
 #include "input.h"
 #include "camera.h"
 #include "dude.h"
+
+#if defined(MULTIPLAYER_REMOVED)
+#include "net.h"
+#else // defined(MULTIPLAYER_REMOVED)
+#include "netclient.h"
+#include "netserver.h"
+#endif // defined(MULTIPLAYER_REMOVED)
 
 #ifdef MOBILE
 #include "android/android.h"

@@ -68,6 +68,9 @@
 #  include <libkern/OSByteOrder.h>
 # elif defined(__BSD__)
 #  include <sys/endian.h>
+#elif defined(__DREAMCAST__)
+#  include <machine/endian.h>
+#  include <arpa/inet.h>
 # else
 #  error platform not supported
 # endif
@@ -211,5 +214,18 @@
 #   define be64toh(x) (x)
 #   define le64toh(x) __bswap_64 (x)
 #  endif
+# elif defined(__DREAMCAST__) && !defined(be16toh)
+#   define htobe16(x) htons(x)
+#   define htole16(x) (x)
+#   define be16toh(x) ntohs(x)
+#   define le16toh(x) (x)
+#   define htobe32(x) htonl(x)
+#   define htole32(x) (x)
+#   define be32toh(x) ntohl(x)
+#   define le32toh(x) (x)
+#   define htobe64(x) htonll(x)
+#   define htole64(x) (x)
+#   define be64toh(x) ntohll(x)
+#   define le64toh(x) (x)
 # endif
 #endif

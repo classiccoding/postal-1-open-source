@@ -30,6 +30,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef NETSERVER_H
 #define NETSERVER_H
+#if !defined(MULTIPLAYER_REMOVED)
+
 
 #include "RSPiX.h"
 #include "netmsgr.h"
@@ -434,6 +436,7 @@ class CNetServer
 	};
 
 
+#endif // !defined(MULTIPLAYER_REMOVED)
 #endif //NETSERVER_H
 ////////////////////////////////////////////////////////////////////////////////
 // EOF

@@ -575,13 +575,16 @@
 #include "MenuTrans.h"
 #include "SampleMaster.h"
 #include "net.h"
-#include "NetDlg.h"
 #include "input.h"
 #include "InputSettingsDlg.h"
 #include "encrypt.h"
 #include "credits.h"
 
 #include "CompileOptions.h"
+
+#if !defined(MULTIPLAYER_REMOVED)
+#include "NetDlg.h"
+#endif // !defined(MULTIPLAYER_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Macros/types/etc.
@@ -1388,7 +1391,9 @@ static int16_t GameCore(void)		// Returns 0 on success.
 
 	// Clear any events that might be in the queue
 	rspClearAllInputEvents();
+#if defined(ALLOW_JOYSTICK)
 	ClearXInputState();
+#endif // defined(ALLOW_JOYSTICK)
 
 	// Get the registry value
 	GameGetRegistry();
@@ -1555,7 +1560,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 				case ACTION_PLAY_BROWSE:
 				case ACTION_PLAY_CONNECT:
 // If multiplayer is disabled, leave out this code to make it harder to hack back in
-#ifndef MULTIPLAYER_DISABLED
+#if !defined(MULTIPLAYER_REMOVED)
 					{
 					// Set flag as to whether we're browsing or connecting
 					bool bBrowse = (m_action == ACTION_PLAY_BROWSE) ? true : false;
@@ -1631,7 +1636,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszAppName, "The selected network protocol has failed to initialize.  Please contact your system administrator or network vendor.\n");
 						}
 					}
-#endif //MULTIPLAYER_DISABLED
+#endif // !defined(MULTIPLAYER_REMOVED)
 					break;
 
 				//------------------------------------------------------------------------------
@@ -1639,7 +1644,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 				//------------------------------------------------------------------------------
 				case ACTION_PLAY_HOST:
 // If multiplayer is disabled, leave out this code to make it harder to hack back in
-#ifndef MULTIPLAYER_DISABLED
+#if !defined(MULTIPLAYER_REMOVED)
 					{
 					// Startup sockets with selected protocol
 					if (RSocket::Startup((RSocket::ProtoType)g_GameSettings.m_usProtocol, false) == 0)
@@ -1713,7 +1718,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK, g_pszAppName, "The selected network protocol has failed to initialize.  Please contact your system administrator or network vendor.\n");
 						}
 					}
-#endif //MULTIPLAYER_DISABLED
+#endif // !defined(MULTIPLAYER_REMOVED)
 					break;
 
 				//------------------------------------------------------------------------------
@@ -2140,7 +2145,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 				//------------------------------------------------------------------------------
 				// Go to the editor
 				//------------------------------------------------------------------------------
-				#if !defined(EDITOR_DISABLED)
+            #if !defined(EDITOR_REMOVED)
 					case ACTION_EDITOR:
 						// End menu
 						StopMenu();
@@ -3173,7 +3178,7 @@ extern void Game_Buy(void)
 ////////////////////////////////////////////////////////////////////////////////
 extern void Game_StartEditor(void)
 	{
-	#if defined(EDITOR_DISABLED)
+   #if !defined(EDITOR_REMOVED) && defined(EDITOR_DISABLED)
 		rspMsgBox(RSP_MB_ICN_INFO | RSP_MB_BUT_OK, APP_NAME, g_pszEditorDisabled);
 	#else
 		m_action = ACTION_EDITOR;
@@ -3215,7 +3220,7 @@ extern void Game_ControlsMenu(
 			case 2:
 #if defined(ALLOW_JOYSTICK)
 				m_action	= ACTION_EDIT_INPUT_SETTINGS;
-#endif	// defined(ALLOW_JOYSTICK)
+#endif // defined(ALLOW_JOYSTICK)
 				break;
 			}
 

@@ -1520,7 +1520,7 @@ void CRealm::Render(
 	}
 */
 
-
+#if !defined(EDITOR_REMOVED)
 ////////////////////////////////////////////////////////////////////////////////
 // Edit mode: Update the realm
 ////////////////////////////////////////////////////////////////////////////////
@@ -1674,6 +1674,7 @@ void CRealm::EditModify(void)
 		}
 	}
 }
+#endif // !defined(EDITOR_REMOVED)
 
 #ifdef MOBILE
 extern "C"

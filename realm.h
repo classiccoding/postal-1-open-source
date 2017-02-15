@@ -903,6 +903,7 @@ class CRealm
 		// Render
 		void Render(void);
 
+#if !defined(EDITOR_REMOVED)
 		// Edit-mode update
 		void EditUpdate(void);
 
@@ -911,6 +912,7 @@ class CRealm
 
 		// Edit-Modify dialog - set properties for the realm like scoring & play mode.
 		void EditModify(void);
+#endif // !defined(EDITOR_REMOVED)
 
 		// Give the current network for this realm
 		CNavigationNet* GetCurrentNavNet(void)

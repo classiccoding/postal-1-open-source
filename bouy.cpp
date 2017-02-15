@@ -441,7 +441,7 @@ void CBouy::Render(void)
 {
 }
 
-
+#if !defined(EDITOR_REMOVED)
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -586,6 +586,7 @@ void CBouy::EditHotSpot(	// Returns nothiing.
 	*psX	= (m_pImage->m_sWidth / 2);
 	*psY	= m_pImage->m_sHeight;
 	}
+#endif // !defined(EDITOR_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Get all required resources
@@ -662,7 +663,6 @@ int16_t CBouy::GetResources(void)						// Returns 0 if successfull, non-zero oth
 	
 	return sResult;
 	}
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // Free all resources

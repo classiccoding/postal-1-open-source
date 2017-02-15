@@ -3075,7 +3075,9 @@ if (!demoCompat)
 	//else
 		//m_bUseRotTS = false;
 }
-#ifdef ALLOW_TWINSTICK
+
+#if defined(ALLOW_JOYSTICK) && defined(ALLOW_TWINSTICK)
+
 if (!demoCompat)
 {
 	GetDudeVelocity(&m_dJoyMoveVel, &m_dJoyMoveAngle);
@@ -3126,7 +3128,8 @@ if (!demoCompat)
 			m_dRot = m_dJoyMoveAngle;
 	}
 }
-#endif
+#endif // defined(ALLOW_JOYSTICK) && defined(ALLOW_TWINSTICK)
+
 	//TRACE("TSD Acc %f MA %f AA %f Fire %i\n", m_dAcc, m_dRotTS, m_dRot, m_bJoyFire);
 	//TRACE("JoyVel %f JoyAngle %f Fire %i FireAngle %f\n", m_dJoyMoveVel, m_dJoyMoveAngle, m_bJoyFire, m_dJoyFireAngle);
 
@@ -3430,11 +3433,11 @@ else
 #else
 	// Update Velocities ////////////////////////////////////////////////////////
 
-#if defined(ALLOW_TWINSTICK)
+#if defined(ALLOW_JOYSTICK) && defined(ALLOW_TWINSTICK)
 	if (!demoCompat && m_dJoyMoveVel != 0)
 		UpdateVelocities(dSeconds, dMaxForeVel * m_dJoyMoveVel, dMaxBackVel * m_dJoyMoveVel);
 	else
-#endif // ALLOW_TWINSTICK
+#endif // defined(ALLOW_JOYSTICK) && defined(ALLOW_TWINSTICK)
 	UpdateVelocities(dSeconds, dMaxForeVel, dMaxBackVel);
 	
 	// Get New Position /////////////////////////////////////////////////////////
@@ -3573,6 +3576,7 @@ void CDude::Render(void)
 		}
 	}
 
+#if !defined(EDITOR_REMOVED)
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -3588,6 +3592,7 @@ int16_t CDude::EditNew(									// Returns 0 if successfull, non-zero otherwise
 
 	return sResult;
 	}
+#endif // !defined(EDITOR_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Helper inline to get a GUI, set its text to the value, and recompose it.
@@ -3606,6 +3611,7 @@ void SetText(					// Returns nothing.
 		}
 	}
 
+#if !defined(EDITOR_REMOVED)
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to modify object
 ////////////////////////////////////////////////////////////////////////////////
@@ -3648,7 +3654,7 @@ int16_t CDude::EditModify(void)				// Returns 0 if successfull, non-zero otherwi
 
 	return sResult;
 	}
-
+#endif // !defined(EDITOR_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Init dude

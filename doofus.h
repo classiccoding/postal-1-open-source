@@ -455,6 +455,7 @@ class CDoofus : public CCharacter
 		// Startup object
 		virtual int16_t Startup(void);							// Returns 0 if successfull, non-zero otherwise
 
+#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		virtual int16_t EditNew(									// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -463,6 +464,7 @@ class CDoofus : public CCharacter
 
 		// Called by editor to render object
 		virtual void EditRender(void);
+#endif // !defined(EDITOR_REMOVED)
 
 		// Override to swap the animation and direction rotations temporarily
 		virtual void Render(void);

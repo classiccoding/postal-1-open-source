@@ -233,7 +233,7 @@
 			&& g_InputSettings.m_asPlayJoyButtons[input]	!= 0)
 #else
 	#define IS_JOY_INPUT(input)
-#endif	// defined(ALLOW_JOYSTICK)
+#endif // defined(ALLOW_JOYSTICK)
 
 // Minimum memory buffer to use for recording input data.  To figure out a
 // reasonable size, multiply a high number of frames per second by a large
@@ -831,7 +831,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 				}
 #endif	// ALLOW_TWINSTICK
 			}
-#endif	// defined(ALLOW_JOYSTICK)
+#endif // defined(ALLOW_JOYSTICK)
 
 		if (IS_INPUT(CInputSettings::Forward))
 			input |= INPUT_FORWARD;

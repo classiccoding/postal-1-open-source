@@ -143,7 +143,7 @@ void rspClearMouseInputEvents(void);	// Returns nothing.
 int16_t rspGetNextInputEvent(	// Returns 1 if there is an event, 0 if none.
 	RInputEvent*	pie);			// Out: Filled with input event type and details.
 
-
+#if defined(ALLOW_JOYSTICK)
 // XInput menu controls.
 
 // Clears the XInput state. Returns nothing.
@@ -156,7 +156,7 @@ int16_t GetLastXInputState(XInputState* xis);	// Returns the last known XInputSt
 
 // Returns 1 if any button on the controller is pressed.
 int16_t IsXInputButtonPressed();
-
+#endif // defined(ALLOW_JOYSTICK)
 #endif	// INPUT_EVENT_H
 //////////////////////////////////////////////////////////////////////////////
 // EOF

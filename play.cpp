@@ -1710,7 +1710,10 @@ class CPlayNet : public CPlay
 		int16_t PrepareRealm(										// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			CNetClient* pclient = pinfo->Client();
+#if defined(MULTIPLAYER_REMOVED)
+        UNUSED(pinfo);
+#else // defined(MULTIPLAYER_REMOVED)
+         CNetClient* pclient = pinfo->Client();
 			if (pclient)
 				{
 				// Clear server flags even if there's no server so we can rely on these flags
@@ -1775,6 +1778,7 @@ class CPlayNet : public CPlay
 				// Tell the server we've got the realm ready to go
 				pclient->SendRealmStatus(true);
 				}
+#endif // defined(MULTIPLAYER_REMOVED)
          return SUCCESS;
 			}
 
@@ -1786,7 +1790,10 @@ class CPlayNet : public CPlay
 		int16_t StartRealm(											// Returns 0 if successfull, non-zero otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			if (pinfo->IsMP())
+#if defined(MULTIPLAYER_REMOVED)
+        UNUSED(pinfo);
+#else // defined(MULTIPLAYER_REMOVED)
+         if (pinfo->IsMP())
 				{
 				// Most of the players will likely end up waiting for at least one other
 				// player to start, which means they are staring at a blank screen.  To
@@ -1807,6 +1814,7 @@ class CPlayNet : public CPlay
 					m_bShowNetFeedback = true;
 					}
 				}
+#endif // defined(MULTIPLAYER_REMOVED)
          return SUCCESS;
 			}
 
@@ -1818,6 +1826,9 @@ class CPlayNet : public CPlay
 			CPlayInfo* pinfo,										// I/O: Play info
 			RInputEvent* pie)										// I/O: Input event
 			{
+#if defined(MULTIPLAYER_REMOVED)
+        UNUSED(pinfo, pie);
+#else // defined(MULTIPLAYER_REMOVED)
 			if (pinfo->IsMP())
 				{
 				// Get pointers to make this more readable
@@ -1978,6 +1989,7 @@ class CPlayNet : public CPlay
 
 					}
 				}
+#endif // defined(MULTIPLAYER_REMOVED)
 			}
 
 
@@ -1988,6 +2000,9 @@ class CPlayNet : public CPlay
 		void CoreLoopUpdate(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
+#if defined(MULTIPLAYER_REMOVED)
+        UNUSED(pinfo);
+#else // defined(MULTIPLAYER_REMOVED)
 			// If we're in MP mode, then  there's always a client and there may be a server
 			if (pinfo->IsMP())
 				{
@@ -2238,6 +2253,7 @@ class CPlayNet : public CPlay
 					MoveChatsUp(pinfo);
 					}
 				}
+#endif // defined(MULTIPLAYER_REMOVED)
 			}
 
 
@@ -2248,7 +2264,10 @@ class CPlayNet : public CPlay
 		void CoreLoopRender(
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			if (pinfo->IsMP())
+#if defined(MULTIPLAYER_REMOVED)
+        UNUSED(pinfo);
+#else // defined(MULTIPLAYER_REMOVED)
+         if (pinfo->IsMP())
 				{
 				// Draw chats, if any.
 				DrawChats(pinfo);
@@ -2269,6 +2288,7 @@ class CPlayNet : public CPlay
 						}
 					}
 				}
+#endif // defined(MULTIPLAYER_REMOVED)
 			}
 
 
@@ -2279,8 +2299,11 @@ class CPlayNet : public CPlay
 		bool IsCoreLoopDone(										// Returns true if done, false otherwise
 			CPlayInfo* pinfo)										// I/O: Play info
 			{
-			bool bDone;
-			if (pinfo->IsMP())
+         bool bDone = true;
+#if defined(MULTIPLAYER_REMOVED)
+        UNUSED(pinfo);
+#else // defined(MULTIPLAYER_REMOVED)
+         if (pinfo->IsMP())
 				{
 				// This is the ultimate abort flag
 				if (m_bAbortNow)
@@ -2298,7 +2321,8 @@ class CPlayNet : public CPlay
 				{
 				// If client doesn't exist, use base-class implimentation
 				bDone = CPlay::IsCoreLoopDone(pinfo);
-				}
+            }
+#endif // defined(MULTIPLAYER_REMOVED)
 			return bDone;
 			}
 	};
@@ -2382,9 +2406,12 @@ class CPlayStatus : public CPlay
 				/*** 12/3/97 AJC ***/
 				m_seqCurrFrameSeq = 0;
 				m_lFramePerSecond = 0;
-				if (pinfo->IsMP())
+#if !defined(MULTIPLAYER_REMOVED)
+
+            if (pinfo->IsMP())
 					m_seqPrevFrameSeq = pinfo->Client()->GetInputSeqNotYetSent();
-				m_lPrevSeqTime	= rspGetMilliseconds();
+#endif // !defined(MULTIPLAYER_REMOVED)
+            m_lPrevSeqTime	= rspGetMilliseconds();
 				/*** 12/3/97 AJC ***/
 
 				m_lSumIterationTimes	= 0;
@@ -2473,6 +2500,7 @@ class CPlayStatus : public CPlay
 			{
 			if (!pinfo->m_bBadRealmMP)
 				{
+#if !defined(MULTIPLAYER_REMOVED)
 
 				/**** 12/3/97  AJC ****/
 				if (pinfo->IsMP())
@@ -2492,6 +2520,7 @@ class CPlayStatus : public CPlay
 						}
 					}
 				/**** 12/3/97  AJC ****/
+#endif // !defined(MULTIPLAYER_REMOVED)
 
 				//==============================================================================
 				// Check for death stuff
@@ -2830,7 +2859,7 @@ class CPlayInput : public CPlay
 										}
 									}
 							#endif // !SALES_DEMO
-
+#if defined(ALLOW_JOYSTICK)
 							// Handle pause button on joystick
 							if (g_InputSettings.m_sUseJoy)
 							{
@@ -2845,6 +2874,7 @@ class CPlayInput : public CPlay
 										StartMenu(pinfo);
 								}
 							}
+#endif // defined(ALLOW_JOYSTICK)
 
 							// Process local key events
 							if (pie->type == RInputEvent::Key && pie->sUsed == FALSE)
@@ -2853,7 +2883,9 @@ class CPlayInput : public CPlay
 								switch (pie->lKey & 0x0000FFFF)
 									{
 									case KEY_NEXT_LEVEL:
-										if (pinfo->IsMP())
+
+#if !defined(MULTIPLAYER_REMOVED)
+                              if (pinfo->IsMP())
 											{
 											// Only the server's local user can advance to the next level, but even
 											// then only when the game is playing.  The actual handling of this
@@ -2862,7 +2894,8 @@ class CPlayInput : public CPlay
 												pinfo->m_bNextRealmMP = true;
 											}
 										else
-											{
+#endif // !defined(MULTIPLAYER_REMOVED)
+                                 {
 											// If sales demo cheat is enabled, we can go to the next level
 											#if defined(SALES_DEMO)
 												if (g_bEnableLevelAdvanceWithoutGoal)
@@ -2950,7 +2983,9 @@ class CPlayInput : public CPlay
 
 									case KEY_TALK1:
 									case KEY_TALK2:
-										if (m_peditChatIn && pinfo->IsMP() && pinfo->m_bChatting == false)
+#if !defined(MULTIPLAYER_REMOVED)
+
+                              if (m_peditChatIn && pinfo->IsMP() && pinfo->m_bChatting == false)
 											{
 											// Activate talk mode.
 											pinfo->m_bChatting	= true;
@@ -2959,10 +2994,13 @@ class CPlayInput : public CPlay
 
 											pie->sUsed	= TRUE;
 											}
-										break;
+#endif // !defined(MULTIPLAYER_REMOVED)
+                              break;
 									}
 
-								// If in talk mode . . .
+#if !defined(MULTIPLAYER_REMOVED)
+
+                        // If in talk mode . . .
 								if (pinfo->m_bChatting == true && m_peditChatIn && pinfo->IsMP() )
 									{
 									switch (pie->lKey)
@@ -3019,16 +3057,20 @@ class CPlayInput : public CPlay
 											break;
 										}
 									}
-								}
+#endif // !defined(MULTIPLAYER_REMOVED)
+                        }
 							else
 								{
-								// If we're in chat mode, even if there's no input for the chat box,
+#if !defined(MULTIPLAYER_REMOVED)
+
+                        // If we're in chat mode, even if there's no input for the chat box,
 								// we need to call the Edit's Do() so it can flash the caret and stuff.
 								if (pinfo->m_bChatting == true && m_peditChatIn && pinfo->IsMP() )
 									{
 									m_peditChatIn->Do(pie);
 									}
-								}
+#endif // !defined(MULTIPLAYER_REMOVED)
+                        }
 
 							// Note that this key's status element in the key status array could be determined once and
 							// stored statically, but, if we do this, the key cannot be changed during gameplay.  That
@@ -3121,7 +3163,9 @@ class CPlayInput : public CPlay
 					// may require that the user pressed the end-of-level key.
 					//==============================================================================
 
-					if (pinfo->IsMP())
+#if !defined(MULTIPLAYER_REMOVED)
+
+               if (pinfo->IsMP())
 						{
 						if (pinfo->IsServer() && pinfo->Client()->IsPlaying())
 							{
@@ -3130,7 +3174,8 @@ class CPlayInput : public CPlay
 							}
 						}
 					else
-						{
+#endif // !defined(MULTIPLAYER_REMOVED)
+                  {
 						if (prealm->IsEndOfLevelGoalMet(bEndLevelKey))
 							{
 							// Set so we'll go to the next realm
@@ -4189,9 +4234,10 @@ class CPlayRealm : public CPlay
 				// Setup warp pointers
 				CListNode<CThing>*	plnWarpHead	= &(prealm->m_aclassHeads[CThing::CWarpID]);
 				CListNode<CThing>*	plnWarp		= plnWarpHead->m_pnNext;
-				CListNode<CThing>*	plnWarpTail	= &(prealm->m_aclassTails[CThing::CWarpID]);
+#if !defined(MULTIPLAYER_REMOVED)
+            CListNode<CThing>*	plnWarpTail	= &(prealm->m_aclassTails[CThing::CWarpID]);
 
-				// Multiplayer mode is handled separately
+            // Multiplayer mode is handled separately
 				if (pinfo->IsMP())
 					{
 					// Get convenient pointer
@@ -4249,7 +4295,8 @@ class CPlayRealm : public CPlay
 						}
 					}
 				else
-					{
+#endif // !defined(MULTIPLAYER_REMOVED)
+               {
 					// Use the first warp
 					pwarp	= (CWarp*)plnWarp->m_powner;
 					ASSERT(pwarp != nullptr);
@@ -4774,7 +4821,11 @@ class CPlayCutscene : public CPlay
 					CutSceneUpdate();
 					UpdateSystem();
 					if (((rspGetNextInputEvent(&ie) == 1) && (ie.type == RInputEvent::Key))
+#if defined(ALLOW_JOYSTICK)
 						|| IsXInputButtonPressed())
+#else // defined(ALLOW_JOYSTICK)
+                   )
+#endif
 						break;
 					}
 				}

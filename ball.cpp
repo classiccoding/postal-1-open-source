@@ -399,6 +399,7 @@ void CBall::Render(void)
 	m_pRealm->m_scene.UpdateSprite(&m_sprite);
 	}
 
+#if !defined(EDITOR_REMOVED)
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -606,6 +607,7 @@ void CBall::EditHotSpot(			// Returns nothiing.
 	*psX	= m_sCurRadius;
 	*psY	= m_sCurRadius;
 	}
+#endif // !defined(EDITOR_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Get all required resources

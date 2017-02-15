@@ -673,6 +673,7 @@ void CThing3d::Render(void)
 	m_sprite.m_psphere = (RP3d*) m_panimCur->m_pbounds->GetAtTime(m_lAnimTime);
 	}
 
+#if !defined(EDITOR_REMOVED)
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to render object
 ////////////////////////////////////////////////////////////////////////////////
@@ -805,6 +806,7 @@ void CThing3d::EditHotSpot(		// Returns nothiing.
 	*psX	= sX - rc.sX;
 	*psY	= sY - rc.sY;
 	}
+#endif // !defined(EDITOR_REMOVED)
 
 //---------------------------------------------------------------------------
 // Useful generic thing3d state-specific functionality.

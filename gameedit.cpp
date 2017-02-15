@@ -711,7 +711,7 @@
 #include <set>
 
 // This is used to get rid of all trace of the editor code when it's disabled
-#if !defined(EDITOR_DISABLED)
+#if !defined(EDITOR_REMOVED)
 
 #include "game.h"
 #include "update.h"
@@ -7834,8 +7834,7 @@ static bool RealmOpProgress(			// Returns true to continue; false to
 	return bContinue;
 	}
 #endif
-
-#endif // !defined(EDITOR_DISABLED)
+#endif // !defined(EDITOR_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // EOF

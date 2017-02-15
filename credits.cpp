@@ -981,7 +981,9 @@ lRunningTime = lPrevTime = rspGetMilliseconds();
 		// Get key and mouse button inputs
 		rspGetMouse(nullptr, nullptr, &sButtons);
 		rspGetKey(&lKey);
+#if defined(ALLOW_JOYSTICK)
 		sJoyPress = IsXInputButtonPressed();
+#endif // defined(ALLOW_JOYSTICK)
 
 		// Clear mouse events to avoid overflowing the queue
 		rspClearMouseEvents();
