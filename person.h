@@ -243,6 +243,7 @@ class CPerson : public CDoofus
 		// Render object.
 		void Render(void);
 
+#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -257,6 +258,7 @@ class CPerson : public CDoofus
 
 		// Called by editor to render object.
 		void EditRender(void);
+#endif // !defined(EDITOR_REMOVED)
 
 		// Function to choose and play the writhing sound effect
 		virtual SampleMaster::SoundInstance PlaySoundWrithing(

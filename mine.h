@@ -223,6 +223,7 @@ class CMine : public CWeapon
 		// Init - common initialization code for startup, setup & edit new
 		int16_t Init(void);
 
+#if !defined(EDITOR_REMOVED)
 		// Puts up a dialog box in the editor to select mine type
 		int16_t EditModify(void);
 
@@ -265,6 +266,7 @@ class CMine : public CWeapon
 				CWeapon::EditHotSpot(psX, psY);
 				}
 			}
+#endif // !defined(EDITOR_REMOVED)
 
 	//---------------------------------------------------------------------------
 	// Optional static functions

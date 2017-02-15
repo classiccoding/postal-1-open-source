@@ -336,6 +336,7 @@ class CBouy : public CThing
 		// Render object
 		void Render(void);
 
+#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -366,6 +367,7 @@ class CBouy : public CThing
 										// EditRect() pos.
 			int16_t*	psY);			// Out: Y coord of 2D hotspot relative to
 										// EditRect() pos.
+#endif // !defined(EDITOR_REMOVED)
 
 		// Get the coordinates of this thing.
 		virtual					// Overriden here.

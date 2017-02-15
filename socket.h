@@ -29,6 +29,8 @@
 
 #ifndef SOCKET_H
 #define SOCKET_H
+#if !defined(MULTIPLAYER_REMOVED)
+
 
 #include "RSPiX.h"
 
@@ -618,6 +620,7 @@ inline bool operator==(const RSocket::Address& lhs, const RSocket::Address& rhs)
 	}
 
 
+#endif // !defined(MULTIPLAYER_REMOVED)
 #endif //SOCKET_H
 
 ////////////////////////////////////////////////////////////////////////////////

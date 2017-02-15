@@ -338,7 +338,7 @@ int16_t CAnimThing::Setup(									// Returns 0 if successfull, non-zero otherwi
 	return sResult;
 	}
 
-
+#if !defined(EDITOR_REMOVED)
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -535,7 +535,7 @@ void CAnimThing::EditRender(void)
 	// we can call the normal Render().
 	Render();
 	}
-
+#endif // !defined(EDITOR_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Get all required resources

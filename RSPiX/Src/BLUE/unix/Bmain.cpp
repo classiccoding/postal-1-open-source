@@ -87,7 +87,9 @@ int16_t rspInitBlue(void)
 
 	Disp_Init();
     Key_Init();
+#if defined(ALLOW_JOYSTICK)
     Joy_Init();
+#endif // defined(ALLOW_JOYSTICK)
 
    return sResult;
 	}

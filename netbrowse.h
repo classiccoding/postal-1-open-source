@@ -24,6 +24,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef NETBROWSE_H
 #define NETBROWSE_H
+#if !defined(MULTIPLAYER_REMOVED)
+
 
 #include "RSPiX.h"
 #include "socket.h"
@@ -168,7 +170,7 @@ class CNetBrowse
 			RSocket::Address* paddress);						// Out: Addresss
 	};
 
-
+#endif // !defined(MULTIPLAYER_REMOVED)
 #endif //NETBROWSE_H
 ////////////////////////////////////////////////////////////////////////////////
 // EOF

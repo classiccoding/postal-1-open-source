@@ -28,8 +28,12 @@
 #include "RSPiX.h"
 #include "game.h"
 #include "net.h"
-#include "netmsgr.h"
 #include "Log.h"
+
+#if !defined(MULTIPLAYER_REMOVED)
+#include "netmsgr.h"
+#endif // !defined(MULTIPLAYER_REMOVED)
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // OpenLogFile()
@@ -81,6 +85,7 @@ int16_t CloseLogFile()
 	return sResult;
 	}
 
+#if !defined(MULTIPLAYER_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // WriteTimeStamp()
@@ -320,6 +325,7 @@ int16_t WriteInputData(uint32_t *input)
 	}
 
 /*** 12/7/97 AJC ***/
+#endif // !defined(MULTIPLAYER_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // EOF

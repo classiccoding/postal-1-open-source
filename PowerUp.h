@@ -186,6 +186,7 @@ class CPowerUp : public CItem3d
 		// Render object
 		void Render(void);
 
+#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -194,6 +195,7 @@ class CPowerUp : public CItem3d
 
 		// Called by editor to modify object
 		int16_t EditModify(void);									// Returns 0 if successfull, non-zero otherwise
+#endif // !defined(EDITOR_REMOVED)
 
 	//---------------------------------------------------------------------------
 	// Handy external functions

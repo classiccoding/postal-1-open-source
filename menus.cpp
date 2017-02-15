@@ -376,11 +376,14 @@
 #include "input.h"
 #include "MenuSettings.h"
 #include "InputSettingsDlg.h"
-#include "socket.h"
 #include "organ.h"
 #include "net.h"
 #include "CompileOptions.h"	// For ALLOW_JOYSTICK macro.
 #include "update.h"
+
+#if !defined(MULTIPLAYER_REMOVED)
+#include "socket.h"
+#endif
 
 #ifdef WIN32
 # include <direct.h>
@@ -510,9 +513,11 @@ static bool ClientGameMenuChoice(	// Returns true to accept, false to deny choic
 	int16_t	sMenuItem);				// Item chosen.
 #endif
 
+#if !defined(EDITOR_REMOVED)
 static bool EditorMenuChoice(	// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem);				// Item chosen.
+#endif // !defined(EDITOR_REMOVED)
 
 static bool StartGameMenu(		// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
@@ -675,6 +680,7 @@ static bool LoadLevelChoice(			// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem);
 
+#if !defined(MULTIPLAYER_REMOVED)
 static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel menu.
    Menu*	pmenuCurrent,					// Current menu.
 	int16_t	sInit);						// TRUE, if initializing; FALSE, if killing.
@@ -682,6 +688,7 @@ static int16_t MultiOptionsInit(	// Returns 0 on success, non-zero to cancel men
 static bool MultiOptionsChoice(	// Returns true to accept, false to deny choice.
    Menu*	pmenuCurrent,					// Current menu.
 	int16_t	sMenuItem);					// Item chosen.
+#endif // !defined(MULTIPLAYER_REMOVED
 
 static int16_t FeaturesInit(		// Returns 0 on success, non-zero to cancel menu.
    Menu*	pmenuCurrent,				// Current menu.
@@ -723,9 +730,13 @@ static RScrollBar*	ms_psbGamma					= nullptr;
 
 static REdit*			ms_peditConnect	= nullptr;
 static REdit*			ms_peditHostName	= nullptr;
+
+#if !defined(MULTIPLAYER_REMOVED)
 static REdit*			ms_peditName	= nullptr;
-static RTxt*			ms_ptxtColor	= nullptr;
 static RTxt*			ms_ptxtProto  = nullptr;
+#endif // !defined(MULTIPLAYER_REMOVED)
+
+static RTxt*			ms_ptxtColor	= nullptr;
 static RTxt*			ms_ptxtLanguage	= nullptr;
 
 static RMultiBtn*		ms_pmbCheckBox	= nullptr;
@@ -735,7 +746,9 @@ static RScrollBar*	ms_psbDifficulty			= nullptr;
 static RScrollBar*	ms_psbMouseSensitivityX	= nullptr;
 static RScrollBar*	ms_psbMouseSensitivityY	= nullptr;
 
+#if !defined(MULTIPLAYER_REMOVED)
 static RTxt*			ms_ptxtBandwidth	= nullptr;
+#endif // !defined(MULTIPLAYER_REMOVED)
 
 static SampleMaster::SoundInstance		ms_siLastSamplePlayed	= 0;	// Last sample played.
 
@@ -1175,8 +1188,12 @@ Menu	menuEditor =
 
 	// Menu callbacks.
 		{	// fnInit, fnChoice,
-		nullptr,						// Called before menu is initialized.
-		EditorMenuChoice,		// Called when item is chosen.
+      nullptr,						// Called before menu is initialized.
+#if defined(MULTIPLAYER_REMOVED)
+         nullptr,
+#else // defined(MULTIPLAYER_REMOVED)
+      EditorMenuChoice,		// Called when item is chosen.
+#endif // defined(MULTIPLAYER_REMOVED)
 		},
 
 	// Menu auto items.
@@ -1278,7 +1295,8 @@ Menu	menuOptions =
 #endif
 			{ g_pszOptionsMenu_Audio,			TRUE,			&menuAudioOptions,	nullptr,	},
 			{ g_pszOptionsMenu_Controls,		TRUE,			&menuControls,			nullptr,	},
-            #ifndef MULTIPLAYER_REMOVED
+            #if !defined(MULTIPLAYER_REMOVED)
+
 			{ g_pszOptionsMenu_Multiplayer,	TRUE,			&menuMultiOptions,	nullptr,	},
             #endif
 			{ g_pszOptionsMenu_Performance,	TRUE,			&menuFeatures,			nullptr,	},
@@ -2658,7 +2676,8 @@ Menu	menuStart =
 	// Menu items.
 		{	// pszText,											sEnabled,	pmenu,				pgui
 			{ g_pszStartGameMenu_SinglePlayer,			TRUE,			&menuStartSingle,	nullptr,	},
-            #ifndef MULTIPLAYER_REMOVED
+            #if !defined(MULTIPLAYER_REMOVED)
+
 			{ g_pszStartGameMenu_Multiplayer,			TRUE,			&menuStartMulti,	nullptr, },
             #endif
 			{ g_pszStartGameMenu_Demo,						TRUE,			&menuStartDemo,	nullptr,	},
@@ -3317,8 +3336,13 @@ Menu	menuMultiOptions =
 
 	// Menu callbacks.
 		{	// fnInit, fnChoice,
+#if defined(MULTIPLAYER_REMOVED)
+         nullptr,
+         nullptr,
+#else // defined(MULTIPLAYER_REMOVED)
 		MultiOptionsInit,		// Called before menu is initialized.
 		MultiOptionsChoice,	// Called when item is chosen.
+#endif // defined(MULTIPLAYER_REMOVED)
 		},
 
 	// Menu auto items.
@@ -3492,7 +3516,7 @@ static bool StartGameMenu(		// Returns true to accept, false to deny choice.
 
   switch (sMenuItem)
   {
-#ifndef MULTIPLAYER_REMOVED
+#if !defined(MULTIPLAYER_REMOVED) || defined(MULTIPLAYER_DISABLED)
     case 1:
       // This is necessary to give the game a chance to inform the
       // player in case multiplayer mode is disabled.  The return
@@ -3501,9 +3525,9 @@ static bool StartGameMenu(		// Returns true to accept, false to deny choice.
       break;
 
     case 2:
-#else
+#else // !defined(MULTIPLAYER_REMOVED) || defined(MULTIPLAYER_DISABLED)
     case 1:
-#endif
+#endif // !defined(MULTIPLAYER_REMOVED) || defined(MULTIPLAYER_DISABLED)
 
       //// If we can't record...
       //if (g_GameSettings.m_sCanRecordDemos == FALSE)
@@ -4634,6 +4658,11 @@ static bool ControlsChoice(	// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem)				// Item chosen.
 {
+#if !defined(ALLOW_JOYSTICK)
+  UNUSED(pmenuCurrent);
+#endif // !defined(ALLOW_JOYSTICK)
+
+
   bool	bAcceptChoice	= true;	// Assume accepting.
 
   switch (sMenuItem)
@@ -4795,6 +4824,7 @@ static bool RotationChoice(	// Returns true to accept, false to deny choice.
 
 	return bAcceptChoice;
 	}
+#if !defined(MULTIPLAYER_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -4946,7 +4976,9 @@ static bool MultiOptionsChoice(	// Returns true to accept, false to deny choice.
 
   return bAcceptChoice;
 }
+#endif
 
+#ifndef EDITOR_REMOVED
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Called when a choice is made or changed on the Editor menu.
@@ -4979,7 +5011,7 @@ static bool EditorMenuChoice(	// Returns true to accept, false to deny choice.
 
   return bAcceptChoice;
 }
-
+#endif
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Called to init or kill the Mouse menu.

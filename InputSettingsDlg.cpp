@@ -813,6 +813,7 @@ extern int16_t EditInputSettings(void)	// Returns nothing.
 		DoMenuInput(&ie, 1);
 		DoMenuOutput(g_pimScreenBuf);
 
+#if defined(ALLOW_JOYSTICK)
 		// Joystick: erase keybind with Back button
 		XInputState xis = {};
 		GetLastXInputState(&xis);
@@ -821,6 +822,7 @@ extern int16_t EditInputSettings(void)	// Returns nothing.
 			bDeleteKeybind = true;
 			GetXInputState(&xis); // throw out this state
 		}
+#endif // defined(ALLOW_JOYSTICK)
 
 		if (bDeleteKeybind)
 		{

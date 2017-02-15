@@ -456,8 +456,10 @@ int16_t CDispenser::Save(		// Returns 0 if successfull, non-zero otherwise
 		CThing*	pthing;
 		if (InstantiateDispensee(&pthing, false) == SUCCESS)
 			{
+#if !defined(EDITOR_REMOVED)
 			// Update position.
 			pthing->EditMove(m_sX, m_sY, m_sZ);
+#endif
 			// Resave.
 			SaveDispensee(pthing);
 			// Get rid of.
@@ -652,6 +654,7 @@ void CDispenser::Update(void)
 		}
 	}
 
+#if !defined(EDITOR_REMOVED)
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -1166,6 +1169,7 @@ void CDispenser::EditHotSpot(	// Returns nothiing.
 	*psX	= m_sDispenseeHotSpotX;
 	*psY	= m_sDispenseeHotSpotY;
 	}
+#endif // !defined(EDITOR_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Init dispenser
@@ -1300,12 +1304,14 @@ int16_t CDispenser::InstantiateDispensee(	// Returns 0 on success.
 						// Success.  
 						m_u16IdDispensee	= idInstance;
 
+#if !defined(EDITOR_REMOVED)
 						// If in edit mode . . .
 						if (bEditMode == true)
 							{
 							// Update position.
 							(*ppthing)->EditMove(m_sX, m_sY, m_sZ);
 							}
+#endif // !defined(EDITOR_REMOVED)
 
 						// Startup, if requested.  We only give one chance
 						// UNlike CRealm::Startup().
@@ -1396,7 +1402,10 @@ int16_t CDispenser::RenderDispensee(	// Returns 0 on success.
 	CThing*	pthing)						// In:  Instance of Dispensee to render.
 	{
 	int16_t sResult = SUCCESS;	// Assume success.
-	
+
+#if defined(EDITOR_REMOVED)
+   UNUSED(pthing);
+#else // defined(EDITOR_REMOVED)
 	// If in edit mode . . .
 	if (m_bEditMode == true)
 		{
@@ -1502,6 +1511,7 @@ int16_t CDispenser::RenderDispensee(	// Returns 0 on success.
 			sResult = FAILURE;
 			}
 		}
+#endif // defined(EDITOR_REMOVED)
 
 	return sResult;
 	}

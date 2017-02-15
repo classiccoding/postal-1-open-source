@@ -27,6 +27,8 @@
 int16_t OpenLogFile();
 int16_t CloseLogFile();
 
+#if !defined(MULTIPLAYER_REMOVED)
+
 ////////////////////////////////////////////////////////////////////////////////
 // WriteTimeStamp()
 //			Write the network time log
@@ -46,7 +48,7 @@ int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
 //		global variables used:		g_GameSettings
 ////////////////////////////////////////////////////////////////////////////////
 extern int16_t WriteInputData(uint32_t *input);
-
+#endif // !defined(MULTIPLAYER_REMOVED)
 
 #endif //LOG_H
 ////////////////////////////////////////////////////////////////////////////////

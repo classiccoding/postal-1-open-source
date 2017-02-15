@@ -30,6 +30,7 @@
 
 #ifndef PROTOBSDIP_H
 #define PROTOBSDIP_H
+#if !defined(MULTIPLAYER_REMOVED)
 
 #ifdef WIN32
 #include <winsock.h>
@@ -273,6 +274,7 @@ class RProtocolBSDIP : public RSocket::RProtocol
 		void Init(void);
 };
 
+#endif // !defined(MULTIPLAYER_REMOVED)
 #endif //PROTOBSDIP_H
 
 //////////////////////////////////////////////////////////////////////////////

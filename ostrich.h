@@ -132,6 +132,7 @@ class COstrich : public CDoofus
 		// Render object
 		void Render(void);
 
+#if !defined(EDITOR_REMOVED)
 		// Called by editor when a new object is created
 		int16_t EditNew(int16_t sX, int16_t sY, int16_t sZ);
 
@@ -139,6 +140,7 @@ class COstrich : public CDoofus
 		int16_t EditModify(void);									// Returns 0 if successfull, non-zero otherwise
 		// Called by editor to render object
 //		void EditRender(void);
+#endif // !defined(EDITOR_REMOVED)
 
 	//---------------------------------------------------------------------------
 	// Message handlers that are called by CCharacter ProcessMessage().  These

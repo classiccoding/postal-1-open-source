@@ -29,6 +29,12 @@
 #ifndef NET_H
 #define NET_H
 
+#include <CompileOptions.h>
+
+#if defined(MULTIPLAYER_REMOVED)
+typedef int CNetClient;
+typedef int CNetServer;
+#endif // defined(MULTIPLAYER_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 //

@@ -223,6 +223,7 @@ class CDemon : public CThing
 			int16_t sY,												// In: New y coord
 			int16_t sZ);												// In: New z coord
 
+#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -256,6 +257,7 @@ class CDemon : public CThing
 
 		// Called by editor to render object
 		void EditRender(void);
+#endif // !defined(EDITOR_REMOVED)
 
 		// Get the coordinates of this thing.
 		virtual					// Overriden here.

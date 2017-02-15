@@ -335,7 +335,7 @@ void CNavigationNet::Render(void)
 	{
 	}
 
-
+#if !defined(EDITOR_REMOVED)
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor after load to set up the nav net list box in the editor
 // similar to EditNew but without the positioning.
@@ -566,7 +566,7 @@ void CNavigationNet::EditHotSpot(	// Returns nothiing.
 	*psX	= (m_pImage->m_sWidth / 2);
 	*psY	= m_pImage->m_sHeight;
 	}
-
+#endif // !defined(EDITOR_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Get all required resources
