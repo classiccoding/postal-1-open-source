@@ -3076,7 +3076,7 @@ if (!demoCompat)
 		//m_bUseRotTS = false;
 }
 
-#if defined(ALLOW_JOYSTICK) && defined(ALLOW_TWINSTICK)
+#if defined(ALLOW_TWINSTICK)
 
 if (!demoCompat)
 {
@@ -3128,7 +3128,7 @@ if (!demoCompat)
 			m_dRot = m_dJoyMoveAngle;
 	}
 }
-#endif // defined(ALLOW_JOYSTICK) && defined(ALLOW_TWINSTICK)
+#endif // defined(ALLOW_TWINSTICK)
 
 	//TRACE("TSD Acc %f MA %f AA %f Fire %i\n", m_dAcc, m_dRotTS, m_dRot, m_bJoyFire);
 	//TRACE("JoyVel %f JoyAngle %f Fire %i FireAngle %f\n", m_dJoyMoveVel, m_dJoyMoveAngle, m_bJoyFire, m_dJoyFireAngle);
@@ -3433,11 +3433,11 @@ else
 #else
 	// Update Velocities ////////////////////////////////////////////////////////
 
-#if defined(ALLOW_JOYSTICK) && defined(ALLOW_TWINSTICK)
+#if defined(ALLOW_TWINSTICK)
 	if (!demoCompat && m_dJoyMoveVel != 0)
 		UpdateVelocities(dSeconds, dMaxForeVel * m_dJoyMoveVel, dMaxBackVel * m_dJoyMoveVel);
 	else
-#endif // defined(ALLOW_JOYSTICK) && defined(ALLOW_TWINSTICK)
+#endif // defined(ALLOW_TWINSTICK)
 	UpdateVelocities(dSeconds, dMaxForeVel, dMaxBackVel);
 	
 	// Get New Position /////////////////////////////////////////////////////////

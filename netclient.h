@@ -25,8 +25,9 @@
 //							error message instead of just the error type.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#if !defined(NETCLIENT_H) && !defined(MULTIPLAYER_REMOVED)
+#ifndef NETCLIENT_H
 #define NETCLIENT_H
+#if !defined(MULTIPLAYER_REMOVED)
 
 #include "RSPiX.h"
 #include "socket.h"
@@ -553,6 +554,7 @@ class CNetClient
 	};
 
 
+#endif // !defined(MULTIPLAYER_REMOVED)
 #endif //NETCLIENT_H
 ////////////////////////////////////////////////////////////////////////////////
 // EOF
