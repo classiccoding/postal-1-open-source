@@ -49,20 +49,19 @@
 // *************************************************************************
 
 // OS identifiers
-# if !defined(__WINDOWS__) && (defined(_WIN16) || defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(_WIN32_WCE))
+# if (defined(_WIN16) || defined(_WIN32) || defined(_WIN64)) && !defined(__WINDOWS__)
 #  define __WINDOWS__
-# elif !defined(__BSD__) && (defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__bsdi__) || defined(__DragonFly__))
+# elif (defined(__OpenBSD__) || defined(__NetBSD__) || defined(__FreeBSD__) || defined(__DragonFly__)) && !defined(__BSD__)
 #  define __BSD__
-# endif
-# if !defined(__unix__) && (defined(__APPLE__) || defined(__linux__) || defined(__CYGWIN__) || defined(__BSD__))
-#  define __unix__
+# elif defined(__CYGWIN__) && !defined(__linux__)
+#  define __linux__
 # endif
 
 // OS includes
 # if defined(__WINDOWS__)
 #  include <winsock2.h>
 #  include <sys/param.h>
-# elif defined(__linux__) || defined(__CYGWIN__)
+# elif defined(__linux__)
 #  include <endian.h>
 #  include <byteswap.h>
 # elif defined(__APPLE__)
@@ -73,8 +72,14 @@
 #  include <machine/endian.h>
 #  include <arpa/inet.h>
 # else
-#  error Unknown platform.  Please add support in "portable_endian.h"
+#  error platform not supported
 # endif
+
+# if !defined(__unix__) && (defined(__APPLE__) || defined(__linux__) || defined(__BSD__))
+#  define __unix__
+# endif
+
+
 
 // universal fixups
 # if !defined(BYTE_ORDER)
