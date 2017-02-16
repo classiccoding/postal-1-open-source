@@ -359,16 +359,15 @@
 #include "toolbar.h"
 #include "title.h"
 #include "credits.h"
-#ifdef WIN32
-	#include "log.h"
-#endif
 
-#if defined(WIN32)
-	// For file timestamp.
-	#include <windows.h>
-	#include <time.h>
-	#include <sys/types.h>
-	#include <sys/stat.h>
+#if defined(__WINDOWS__)
+#include "log.h"
+
+// For file timestamp.
+#include <windows.h>
+#include <time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #endif
 
 #if WITH_STEAMWORKS
@@ -5053,10 +5052,10 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 
 
 					/*** 12/5/97 AJC ***/
-	#ifdef WIN32
+#if defined(__WINDOWS__)
 					if (info.IsMP())
 						OpenLogFile();
-	#endif
+#endif
 
 #ifdef MOBILE
 					bool doAutoSaveGame = false; //This is set to true when you complete a level, so it's auto saved when the next realm starts
@@ -5400,10 +5399,10 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 						} while (!sResult && !info.IsGameOver() && !g_bLastLevelDemo);
 
 					/*** 12/5/97 AJC ***/
-	#ifdef WIN32
+#if defined(__WINDOWS__)
 					if (info.IsMP())
 						CloseLogFile();
-	#endif
+#endif
 					/*** 12/5/97 AJC ***/
 
 					}
@@ -5757,7 +5756,7 @@ void Play_GetApplicationDescriptor(			// Returns nothing.
 	ASSERT(strlen(DEFAULT_APP_TIMESTAMP) < sMaxBytes);
 	strcpy(pszText, DEFAULT_APP_TIMESTAMP);
 
-	#if defined(WIN32)
+#if defined(__WINDOWS__)
       char	szModuleFileName[PATH_MAX];
 		if (GetModuleFileName(nullptr, szModuleFileName, sizeof(szModuleFileName)) > 0)
 			{
@@ -5778,7 +5777,7 @@ void Play_GetApplicationDescriptor(			// Returns nothing.
 					}
 				}
 			}
-	#endif
+#endif
 
 #ifdef _DEBUG
 	if (strlen(pszText) + strlen(DEBUG_STR) < sMaxBytes)
