@@ -148,11 +148,10 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include "CompileOptions.h"
+#include "RSPiX.h"
 
 #if !defined(MULTIPLAYER_REMOVED)
 
-#include "RSPiX.h"
 #include "socket.h"
 
 

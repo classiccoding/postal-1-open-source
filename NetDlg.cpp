@@ -280,13 +280,10 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include "CompileOptions.h"
+#include "RSPiX.h"
 
 #if !defined(MULTIPLAYER_REMOVED)
 
-#include "RSPiX.h"
-
-#include "CompileOptions.h"
 #include "GameSettings.h"
 #include "game.h"
 #include "play.h"

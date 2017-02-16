@@ -173,7 +173,6 @@
 #include "game.h"
 #include "update.h"
 #include "SampleMaster.h"
-#include "CompileOptions.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Macros/types/etc.

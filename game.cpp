@@ -580,8 +580,6 @@
 #include "encrypt.h"
 #include "credits.h"
 
-#include "CompileOptions.h"
-
 #if !defined(MULTIPLAYER_REMOVED)
 #include "NetDlg.h"
 #endif // !defined(MULTIPLAYER_REMOVED)

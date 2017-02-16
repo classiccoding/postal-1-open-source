@@ -179,8 +179,6 @@
 #include <fstream>
 
 #include "resmgr.h"
-#include "CompileOptions.h"
-
 
 //////////////////////////////////////////////////////////////////////
 // Macros.

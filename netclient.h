@@ -28,11 +28,10 @@
 #ifndef NETCLIENT_H
 #define NETCLIENT_H
 
-#include "CompileOptions.h"
+#include "RSPiX.h"
 
 #if !defined(MULTIPLAYER_REMOVED)
 
-#include "RSPiX.h"
 #include "socket.h"
 #include "net.h"
 #include "netmsgr.h"

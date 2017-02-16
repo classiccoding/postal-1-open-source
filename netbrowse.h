@@ -25,12 +25,10 @@
 #ifndef NETBROWSE_H
 #define NETBROWSE_H
 
-#include "CompileOptions.h"
+#include "RSPiX.h"
 
 #if !defined(MULTIPLAYER_REMOVED)
 
-
-#include "RSPiX.h"
 #include "socket.h"
 #include "net.h"
 

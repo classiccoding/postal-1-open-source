@@ -97,11 +97,8 @@
 #include "game.h"
 #include "update.h"
 #include "SampleMaster.h"
-#include "CompileOptions.h"
 #include "ORANGE/Parse/SimpleBatch.h"
 #include "GREEN/Mix/MixBuf.h"
-
-#include "CompileOptions.h"
 
 // try to hook the sound scaling tables for the palette
 

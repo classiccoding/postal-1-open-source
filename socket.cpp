@@ -82,14 +82,12 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "CompileOptions.h"
+#include "RSPiX.h"
 
 #if !defined(MULTIPLAYER_REMOVED)
 
-
 #include <ctype.h>
 
-#include "RSPiX.h"
 #include "socket.h"
 
 

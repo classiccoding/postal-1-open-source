@@ -378,7 +378,6 @@
 #include "InputSettingsDlg.h"
 #include "organ.h"
 #include "net.h"
-#include "CompileOptions.h"	// For ALLOW_JOYSTICK macro.
 #include "update.h"
 
 #if !defined(MULTIPLAYER_REMOVED)

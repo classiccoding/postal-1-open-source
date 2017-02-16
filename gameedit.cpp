@@ -710,8 +710,6 @@
 #include <ctype.h>
 #include <set>
 
-#include "CompileOptions.h"
-
 // This is used to get rid of all trace of the editor code when it's disabled
 #if !defined(EDITOR_REMOVED)
 
@@ -741,9 +739,6 @@
 #include "play.h"
 
 #include "score.h"
-
-#include "CompileOptions.h"
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // Macros/types/etc.

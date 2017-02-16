@@ -129,8 +129,6 @@
 #include "localize.h"
 #include "SampleMaster.h"
 
-#include "CompileOptions.h"
-
 #define MAX_TITLE_SCREENS	10
 
 // Game settings
