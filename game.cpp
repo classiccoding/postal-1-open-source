@@ -865,7 +865,6 @@ int Stat_LevelsPlayed = 0;
 
 uint32_t Flag_Achievements = 0;
 
-#if 1 //PLATFORM_UNIX
 #include <sys/stat.h>
 static void EnumExistingSaveGames(Menu *menu)
 {
@@ -954,7 +953,6 @@ static void EnumExistingSaveGames(Menu *menu)
 
 #endif
 }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -2185,7 +2183,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						strcpy(szFileSaved, FullPathHD(SAVEGAME_DIR));
 
 					// Display option dialog to let user choose a realm file
-               #if 1 //PLATFORM_UNIX
+               #if 1 //__unix__
 					if (PickFile("Choose Game Slot", EnumExistingSaveGames, szFileSaved, sizeof(szFileSaved)) == 0)
                     {
 #ifdef MOBILE
@@ -4275,7 +4273,7 @@ extern void SeedRand(
 // generates a fatal "multiple definitions of rand()" error.  For now, only
 // do this in debug mode.
 #ifdef _DEBUG
-#ifndef PLATFORM_UNIX
+#if defined(__WINDOWS__) || defined(__APPLE__)
 extern int rand(void)
 	{
 	rspMsgBox(

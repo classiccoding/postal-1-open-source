@@ -68,12 +68,17 @@
 #  include <libkern/OSByteOrder.h>
 # elif defined(__BSD__)
 #  include <sys/endian.h>
-#elif defined(__DREAMCAST__)
+# elif defined(__DREAMCAST__)
 #  include <machine/endian.h>
 #  include <arpa/inet.h>
 # else
 #  error platform not supported
 # endif
+
+# if !defined(__unix__) && (defined(__APPLE__) || defined(__linux__) || defined(__BSD__))
+#  define __unix__
+# endif
+
 
 
 // universal fixups

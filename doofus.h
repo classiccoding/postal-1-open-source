@@ -728,7 +728,7 @@ class CDoofus : public CCharacter
 		// Check for cheaters and make the game interesting
 		inline void Cheater(void)
 		{
-            #if 0 //!PLATFORM_UNIX   // This isn't cheating, this is beta expiration. --ryan.
+#if 0 //!__unix__   // This isn't cheating, this is beta expiration. --ryan.
 			if (g_lRegValue < 0 || g_lExpValue < 0 || g_lCookieMonster == SAFE_DATE)
 			{
 				GameMessage msg;
@@ -747,7 +747,7 @@ class CDoofus : public CCharacter
 					pNext = pNext->m_pnNext;
 				}	
 			}
-            #endif
+#endif
 		}
 
 		// Look up a WeaponDetails by CThing class ID.
