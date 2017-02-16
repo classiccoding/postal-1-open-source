@@ -31,11 +31,10 @@
 #ifndef NETSERVER_H
 #define NETSERVER_H
 
-#include "CompileOptions.h"
+#include "RSPiX.h"
 
 #if !defined(MULTIPLAYER_REMOVED)
 
-#include "RSPiX.h"
 #include "netmsgr.h"
 #include "net.h"
 #include "socket.h"

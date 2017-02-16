@@ -188,7 +188,6 @@
 
 #include "RSPiX.h"
 #include "input.h"
-#include "CompileOptions.h"
 
 #ifdef MOBILE
 #include "android/android.h"

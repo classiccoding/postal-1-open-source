@@ -497,7 +497,7 @@
 #define MULTIPLAYER_REMOVED
 #define EDITOR_REMOVED
 //#define LOADLEVEL_REMOVED  // bleh, no file dialog thingey.  :/
-#define ALLOW_TWINSTICK // enable extended joystick support
+//#define ALLOW_TWINSTICK // enable extended joystick support
 
 //#define RESMGR_VERBOSE
 //#define DEBUG_LEVEL_CHEAT

@@ -193,7 +193,6 @@
 
 #include "SampleMaster.h"
 #include "game.h"
-#include "CompileOptions.h"
 
 //////////////////////////////////////////////////////////////////////////////
 // Module specific macros.

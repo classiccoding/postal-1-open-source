@@ -94,11 +94,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "CompileOptions.h"
+#include "RSPiX.h"
 
 #if !defined(MULTIPLAYER_REMOVED)
 
-#include "RSPiX.h"
 #include "netclient.h"
 #include "NetDlg.h"
 

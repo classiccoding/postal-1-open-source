@@ -1118,7 +1118,6 @@
 #include "chunk.h"
 #include "warp.h"
 #include "score.h"
-#include "CompileOptions.h"	// For sales cheat.
 #include "play.h"
 
 //#ifdef MOBILE

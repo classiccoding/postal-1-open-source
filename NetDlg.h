@@ -45,11 +45,10 @@
 #ifndef NETDLG_H
 #define NETDLG_H
 
-#include "CompileOptions.h"
+#include "RSPiX.h"
 
 #if !defined(MULTIPLAYER_REMOVED)
 
-#include "RSPiX.h"
 #include "netclient.h"
 #include "netserver.h"
 

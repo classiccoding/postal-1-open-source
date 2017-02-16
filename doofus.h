@@ -198,7 +198,6 @@
 #include "bouy.h"
 #include "dude.h"
 #include "pylon.h"
-#include "CompileOptions.h"
 
 // CDoofus is the class for the enemy guys
 class CDoofus : public CCharacter

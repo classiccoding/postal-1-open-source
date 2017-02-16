@@ -30,8 +30,6 @@
 #ifndef UNIXSYSTEM_H
 #define UNIXSYSTEM_H
 
-#include <SDL2/SDL.h>
-
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -40,7 +38,8 @@
 #include <cstdint>
 
 #include <map>
-using namespace std;
+
+#include <CompileOptions.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // For compilers that support partial paths in #include's, define this.  For
