@@ -384,7 +384,7 @@
 #include "socket.h"
 #endif
 
-#ifdef WIN32
+#if defined(__WINDOWS__)
 # include <direct.h>
 #else
 # include <sys/stat.h>

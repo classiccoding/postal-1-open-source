@@ -25,7 +25,7 @@
 #ifndef CYAN
 #define CYAN
 
-#ifndef WIN32
+#if !defined(__WINDOWS__)
 #include <sys/param.h>
 #endif
 

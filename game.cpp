@@ -552,7 +552,7 @@
 #include "RSPiX.h"
 
 #include <time.h>
-#ifdef WIN32
+#if defined(__WINDOWS__)
 	#include <direct.h>
 #else
 	#include <unistd.h>
@@ -1180,7 +1180,7 @@ extern void TheGame(void)
           const char* pszDevelopmentPath = "\\\\narnia\\projects\\";
          if (strncasecmp(FullPathCD("."), pszDevelopmentPath, strlen(pszDevelopmentPath)) != 0)
 				{
-#if defined(WIN32)
+#if defined(__WINDOWS__)
 				if (GetDriveType(FullPathCD(".") ) != DRIVE_CDROM)
 #else
 				#error MUST_BE_ON_CD feature is currently implemented only for Win32
@@ -1331,11 +1331,11 @@ static int16_t GameCore(void)		// Returns 0 on success.
    uint16_t usDemoCount = 0;
 
 #ifdef CHECK_EXPIRATION_DATE
-	#ifdef WIN32
+# ifdef __WINDOWS__
 		char acTime[100];
 		strcpy(acTime, asctime(gmtime(&g_lExpTime)));
 		#define NEXT_LINE "\n\n"
-	#else
+# else
 		char acTime[100];
 		uint32_t lTime = g_lExpTime + (((365 * 70UL) + 17) * 24 * 60 * 60); // time_fudge 1900->1970
 		strcpy(acTime, ctime(&lTime));
@@ -1343,7 +1343,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
       if (pCR != nullptr)
 			*pCR = 0;
 		#define NEXT_LINE "\r\r"
-	#endif	// WIN32
+# endif // __WINDOWS__
 
 	rspMsgBox(
 		RSP_MB_ICN_INFO | RSP_MB_BUT_OK,
@@ -1378,9 +1378,9 @@ static int16_t GameCore(void)		// Returns 0 on success.
 		acTime);
 #endif	// CHECK_EXPIRATION_DATE
 
-	#ifndef _WIN32
+#if !defined(__WINDOWS__)
 	UnlockAchievement(ACHIEVEMENT_PLAY_ON_NON_WINDOWS_PLATFORM);
-	#endif
+#endif
 
 	// Clear end of game flag - play will set the flag if the player wins the game
 	g_bLastLevelDemo = false;
@@ -2367,7 +2367,7 @@ extern int16_t SubPathOpenBox(		// Returns 0 on success, negative on error, 1 if
     if (sLastIndex > 0)
       sLastIndex--;
 
-#ifdef WIN32
+#if defined(__WINDOWS__)
     // If base path doesn't end with a slash, add one
     if (szBasePath[sLastIndex] != SYSTEM_PATH_SEPARATOR)
     {
@@ -3871,7 +3871,7 @@ static void GameGetRegistry(void)
 	szKey[35] = 0xfe;
 	szKey[36] = 0x00;
 
-#ifdef WIN32
+# ifdef __WINDOWS__
 
 	DWORD dwDisposition;
 	DWORD dwType;
@@ -3970,7 +3970,7 @@ static void GameGetRegistry(void)
 		g_lRegTime = EXPIRATION_DATE;
  	}
 
-#else // WIN32
+# else // __WINDOWS__
 	// Do mac version here.
 	char szPath[512];
 	time( &lTime );
@@ -4024,7 +4024,7 @@ static void GameGetRegistry(void)
 	}
 	
 
-#endif // WIN32
+# endif // __WINDOWS__
 	if (g_lRegTime < RELEASE_DATE)
 		g_lRegTime = EXPIRATION_DATE;
 
@@ -4085,7 +4085,7 @@ static void GameSetRegistry(void)
 	szKey[35] = 0xf5;
 	szKey[36] = 0x00;
 
-#ifdef WIN32
+# ifdef __WINDOWS__
 
 	char szTime[40];
 	DWORD dwDisposition;
@@ -4150,7 +4150,7 @@ static void GameSetRegistry(void)
 		// Free the buffer.
 		LocalFree( lpMsgBuf );
  	}
-#else // WIN32
+# else // __WINDOWS__
 	// Do the Mac version here
 	char szPath[512];
 	RFile rfPref;
@@ -4174,7 +4174,7 @@ static void GameSetRegistry(void)
  	}
 	// Open the prefs file and write the value here.
 
-#endif // WIN32
+# endif // __WINDOWS__
 
 #endif // CHECK_EXPIRATION_DATE
 }
@@ -4770,7 +4770,6 @@ int16_t CorrectifyBasePath(								// Returns 0 if successfull, non-zero otherwi
         if (sLastIndex > 0)
           sLastIndex--;
 
-#if 1 //def WIN32
         // If base path doesn't end with a slash, add one
         if (pszBasePath[sLastIndex] != SYSTEM_PATH_SEPARATOR)
         {
@@ -4785,11 +4784,6 @@ int16_t CorrectifyBasePath(								// Returns 0 if successfull, non-zero otherwi
             TRACE("CorrectifyBasePath(): Path would've exceed max length with separator tacked on!\n");
           }
         }
-#else
-        // If base path ends with a colon, get rid of it
-        if (pszBasePath[sLastIndex] == SYSTEM_PATH_SEPARATOR)
-          pszBasePath[sLastIndex] = 0;
-#endif
       }
     }
     else
