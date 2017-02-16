@@ -1583,7 +1583,7 @@ inline					// Speed.
 int32_t WriteASCII(		// Returns number of complete TYPE items successfully 
 							// written.
 	TYPE*		ptData,	// In:  Pointer to array of TYPE items for write data.
-	int32_t		lNum,		// In:  Number of TYPE items to read.
+	size_t		lNum,		// In:  Number of TYPE items to read.
 	FILE*		pfsOut,	// In:  File stream to use for output.
    const char*		pszFrmt)	// In:  Output printf style format specifier.
 	{
