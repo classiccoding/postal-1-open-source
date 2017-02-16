@@ -118,7 +118,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #define MAIN_CPP
 
-#ifdef WIN32
+#if defined(__WINDOWS__)
     #include <direct.h>
 #else
     #include <sys/time.h>
@@ -146,7 +146,7 @@
 #endif
 
 #if WITH_STEAMWORKS
-#ifdef WIN32
+#if defined(__WINDOWS__)
 #define WIN32_LEAN_AND_MEAN 1
 #include <windows.h>
 #endif
@@ -529,7 +529,7 @@ public:
 
 static bool touchFile(const char *fname, const int64 stamp)
 {
-#ifdef WIN32
+#if defined(__WINDOWS__)
     HANDLE hFile = CreateFileA(fname, GENERIC_READ | FILE_WRITE_ATTRIBUTES,
                                FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
     if (hFile == INVALID_HANDLE_VALUE)

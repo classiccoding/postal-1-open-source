@@ -573,8 +573,8 @@ CRealm::CRealm()
 	{
 	time_t lTime;
 	time(&lTime);
-#ifndef WIN32
-	// Mac version time adjusment back to UTC time.
+#if !defined(__WINDOWS__)
+   // time adjusment back to UTC time.
 	lTime -= ((365 * 70UL) + 17) * 24 * 60 * 60; // time_fudge 1900->1970
 #endif
 	g_lRegValue = lTime - g_lRegTime;
