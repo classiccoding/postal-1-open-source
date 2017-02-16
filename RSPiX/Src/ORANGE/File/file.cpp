@@ -135,12 +135,12 @@
 // Headers.
 //////////////////////////////////////////////////////////////////////////////
 #include <stdlib.h>
-#include <memory.h>
+//#include <memory.h>
 #include <string.h>
 #include <limits.h>
 #include <float.h>	// For float and double limits.
 
-#if PLATFORM_UNIX
+#ifdef __unix__
 #include <unistd.h>
 #include <dirent.h>
 #include <sys/param.h>
@@ -271,7 +271,8 @@ RFile::~RFile(void)
 // Methods.
 //////////////////////////////////////////////////////////////////////////////
 
-#if PLATFORM_UNIX
+#ifdef __unix__
+#include <dirent.h>
 // this is from PhysicsFS originally ( http://icculus.org/physfs/ )
 //  (also zlib-licensed.)
 static int locateOneElement(char *buf)
@@ -315,7 +316,7 @@ static int locateOneElement(char *buf)
 
 static void locateCorrectCase(char *buf)
 {
-#if PLATFORM_UNIX
+#ifdef __unix__
    char *ptr = buf;
 //	char *prevptr = buf;
 
@@ -1531,7 +1532,7 @@ int32_t RFile::Write(const void* pData, size_t lNum)
 					// overrun amount.
 					int32_t	lCurPos			= m_pucCur - m_pucFile;
 					int32_t	lDistanceToEOF	= m_lSize - lCurPos;
-					int32_t	lNewSize			= m_lSize + MAX(m_lGrowSize, (lNum - lDistanceToEOF) );
+               int32_t	lNewSize			= m_lSize + MAX<size_t>(m_lGrowSize, (lNum - lDistanceToEOF) );
 
 					// Enlarge . . .
 					uint8_t*	pucNewFile	= (uint8_t*)realloc(m_pucFile, lNewSize);
