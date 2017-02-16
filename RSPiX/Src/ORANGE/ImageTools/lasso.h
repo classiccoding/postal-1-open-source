@@ -84,9 +84,9 @@ typedef short (*RLassoNextEvalCall)(	// Returns TRUE if the specified pixel
 // is, of course, clipped to pimDst.  As this copy occurs, we erase the
 // shape in pimSrc so that the next rspLassoNext will scan right by it.
 template <class COLOR>		// Can be uint8_t, uint16_t, or uint32_t.
-#if defined(__WINDOWS__)
+#ifdef WIN32	// Mac assumes extern.
 	extern 
-#endif // __WINDOWS__
+#endif // WIN32
 int16_t rspLassoNext(	// Returns 0 if a polygon found,
 									// 1 if no polygon found,
 									// negative if an error occurred (most likely

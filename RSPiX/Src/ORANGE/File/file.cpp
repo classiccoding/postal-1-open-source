@@ -149,7 +149,7 @@
 #include <ctype.h>
 #endif
 
-#if defined(__WINDOWS__)
+#ifdef WIN32
 #define WIN32_LEAN_AND_MEAN 1
 #include <windows.h>
 #include <io.h>
@@ -187,7 +187,7 @@ typedef HRESULT (WINAPI *fnSHGetFolderPathW)(HWND hwnd, int nFolder, HANDLE hTok
 //////////////////////////////////////////////////////////////////////////////
 // Module specific pragmas.
 //////////////////////////////////////////////////////////////////////////////
-#if defined(__WINDOWS__)
+#if defined(WIN32)
 	#pragma warning (disable: 4127) // conditional expression is constant.
 #endif
 
@@ -312,12 +312,6 @@ static int locateOneElement(char *buf)
 	closedir(dirp);
 	return 0;
 }
-#elif defined(__DREAMCAST__)
-#include <kos/fs.h>
-#include <dc/fs_iso9660.h>
-
-locateOneElement
-
 #endif
 
 static void locateCorrectCase(char *buf)
@@ -361,7 +355,7 @@ extern const char *FindCorrectFile(const char *_pszName, const char *pszMode)
         }
         else
         {
-            #if defined(__WINDOWS__)
+            #ifdef WIN32
             /*
              * Vista and later has a new API for this, but SHGetFolderPath works there,
              *  and apparently just wraps the new API. This is the new way to do it:
@@ -461,9 +455,7 @@ extern const char *FindCorrectFile(const char *_pszName, const char *pszMode)
         sprintf(finalname, "%s%s", prefpath, pszName);
     }
 
-#if !defined(__WINDOWS__)
     locateCorrectCase(finalname);
-#endif
 
     if (bail_early)  // don't choose between prefpath and basedir?
         return(finalname);
@@ -480,7 +472,7 @@ extern const char *FindCorrectFile(const char *_pszName, const char *pszMode)
                 if (access(finalname, F_OK) == -1)
                 {
                     TRACE("Making directory \"%s\"\n", finalname);
-                    #if defined(__WINDOWS__)
+                    #ifdef WIN32
                     mkdir(finalname);
                     #else
                     mkdir(finalname, S_IRWXU);
@@ -1591,7 +1583,7 @@ inline					// Speed.
 int32_t WriteASCII(		// Returns number of complete TYPE items successfully 
 							// written.
 	TYPE*		ptData,	// In:  Pointer to array of TYPE items for write data.
-	size_t		lNum,		// In:  Number of TYPE items to read.
+	int32_t		lNum,		// In:  Number of TYPE items to read.
 	FILE*		pfsOut,	// In:  File stream to use for output.
    const char*		pszFrmt)	// In:  Output printf style format specifier.
 	{

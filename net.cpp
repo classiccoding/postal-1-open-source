@@ -27,14 +27,14 @@
 
 #include "net.h"
 
-#if defined(__WINDOWS__)
+#ifdef WIN32
 	#define NETNAMESPACE
 #else
 	#define NETNAMESPACE		Net::
 #endif
 
 // Lookup tables associated with the CNetLimits::NetBandwidth enums.
-#if defined(__WINDOWS__)
+#ifdef WIN32
 namespace Net
 	{
 #endif
@@ -63,7 +63,7 @@ namespace Net
 		"100Mb LAN (or T3)"				// LAN100Mb
 		};
 
-#if defined(__WINDOWS__)
+#ifdef WIN32
 	}
 #endif
 
