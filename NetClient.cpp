@@ -1223,7 +1223,7 @@ void CNetClient::ReceiveFromPeers(void)
 						m_aPeers[id].m_lLastReceiveTime = rspGetMilliseconds();
 
 /*						// 12/7/97 AJC
-#ifdef WIN32
+#if defined(__WINDOWS__)
 						if (g_GameSettings.m_bLogNetTime)
 							{
 							WriteTimeStamp("ReceiveFromPeers()", 
@@ -1405,7 +1405,7 @@ void CNetClient::SendToPeer(Net::ID id,				// id of peer to send to
 
 
 /*	// 12/7/97 AJC
-#ifdef WIN32
+#if defined(__WINDOWS__)
 	if (g_GameSettings.m_bLogNetTime)
 		{
 		if (!bSeqReq)

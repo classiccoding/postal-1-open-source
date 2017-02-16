@@ -78,7 +78,7 @@ typedef int CNetServer;
 
 
 
-#ifdef WIN32
+#if defined(__WINDOWS__)
 namespace Net
 	{
 #else
@@ -282,7 +282,7 @@ class Net
 		} Bandwidth;
 
 	// In a namespace this data is extern, but in a class it's static
-	#ifdef WIN32
+   #if defined(__WINDOWS__)
 		#define NETCRAPTHING extern
 	#else
 		#define NETCRAPTHING static

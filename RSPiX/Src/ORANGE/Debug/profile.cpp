@@ -46,7 +46,7 @@
 #include "profile.h"
 #include "ORANGE/str/str.h"
 
-#if WIN32
+#if defined(__WINDOWS__)
    microseconds_t i64GetTimeSpeed=7;	// how long does the time command take?
 #else
    microseconds_t i64GetTimeSpeed=8;	// Mike's guess on the mac

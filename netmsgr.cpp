@@ -244,7 +244,7 @@ bool CNetMsgr::GetMsg(									// True if message was available, false otherwise
 							bGotOne = true;
 
 /*							// 12/7/97 AJC 
-#ifdef WIN32
+#if defined(__WINDOWS__)
 							if (g_GameSettings.m_bLogNetTime)
 								{
 								if (ucMsg == NetMsg::INPUT_DATA)
@@ -301,7 +301,7 @@ bool CNetMsgr::GetMsg(									// True if message was available, false otherwise
 		m_error = NetMsg::NoError;
 
 /*		// 12/7/97 AJC
-#ifdef WIN32
+#if defined(__WINDOWS__)
 		if (g_GameSettings.m_bLogNetTime)
 			{
 			WriteTimeStamp("CNetMsgr::GetMsg()", 
@@ -412,7 +412,7 @@ void CNetMsgr::SendMsg(
 		if (bSendNow)
 			{
 /*			// 12/7/97 AJC 
-#ifdef WIN32
+#if defined(__WINDOWS__)
 			if (g_GameSettings.m_bLogNetTime)
 				{
 				if (ucMsg == NetMsg::INPUT_DATA)
