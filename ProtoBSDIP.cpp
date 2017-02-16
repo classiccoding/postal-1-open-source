@@ -166,7 +166,7 @@
 WSADATA							RProtocolBSDIP::ms_WSAData;
 bool								RProtocolBSDIP::ms_bDidStartup;
 bool								RProtocolBSDIP::ms_bWSAStartup;
-#if defined(__WINDOWS__)
+#ifdef WIN32
 bool								RProtocolBSDIP::ms_bWSASetBlockingHook;
 RSocket::FuncNum				RProtocolBSDIP::ms_funcnum;
 RSocket::BLOCK_CALLBACK		RProtocolBSDIP::ms_callback;
@@ -239,7 +239,7 @@ int16_t RProtocolBSDIP::Startup(void)
 			{
 			ms_bWSAStartup = true;
 			
-         #if defined(__WINDOWS__)
+			#ifdef WIN32
 			// Confirm that this winsock implimentation supports 1.1.  If it supports
 			// version greater than 1.1 in addition to 1.1, it will still return 1.1
 			// since that's what we inquired about.
@@ -295,7 +295,7 @@ int16_t RProtocolBSDIP::Startup(void)
 //////////////////////////////////////////////////////////////////////////////
 void RProtocolBSDIP::Shutdown(void)
 	{
-   #if defined(__WINDOWS__)
+	#ifdef WIN32
 	if (ms_bWSASetBlockingHook)
 		{
 		// Remove blocking hook
@@ -349,7 +349,7 @@ int16_t RProtocolBSDIP::Open(							// Returns 0 if successful, non-zero otherwi
 		if (m_sock == INVALID_SOCKET)
 			{
 			// If callback was specified, use it.
-            #if defined(__WINDOWS__)
+            #ifdef WIN32
 			if (callback != nullptr)
 				m_callback = callback;
 			
@@ -375,7 +375,7 @@ int16_t RProtocolBSDIP::Open(							// Returns 0 if successful, non-zero otherwi
 				{
 
 				// Create socket
-                #if defined(__WINDOWS__)
+                #ifdef WIN32
 				ms_funcnum = RSocket::OtherFunc;
                 #endif
 
@@ -1395,7 +1395,7 @@ int16_t RProtocolBSDIP::GetMaxDatagramSize(			// Returns zero on success, non-ze
 	{
 	int16_t sResult = SUCCESS;
 	
-    #if defined(__WINDOWS__)
+    #ifdef WIN32
 	if (ms_bDidStartup)
 		{
 		*plSize = (int32_t)ms_WSAData.iMaxUdpDg;
@@ -1424,7 +1424,7 @@ int16_t RProtocolBSDIP::GetMaxSockets(				// Returns 0 if successfull, non-zero 
 	{
 	int16_t sResult = SUCCESS;
 
-   #if defined(__WINDOWS__)
+	#ifdef WIN32
 	if (ms_bDidStartup)
 		{
 		*plNum = (int32_t)ms_WSAData.iMaxSockets;
@@ -1532,7 +1532,7 @@ void RProtocolBSDIP::CreateBroadcastAddress(
 	pip->address.sin_family = AF_INET;
 	pip->address.sin_port = htons(usPort);
 
-    #if defined(__WINDOWS__)
+    #ifdef WIN32
 	pip->address.sin_addr.S_un.S_addr = htonl(INADDR_BROADCAST);
     #else
 	pip->address.sin_addr.s_addr = htonl(INADDR_BROADCAST);
@@ -1574,7 +1574,7 @@ void RProtocolBSDIP::SetAddressPort(
 // while calling this, so it seems like a better idea to return 0 all the time.
 ////////////////////////////////////////////////////////////////////////////////
 /* static */
-#if defined(__WINDOWS__)
+#ifdef WIN32
 intptr_t CALLBACK RProtocolBSDIP::BlockingHook(void)
 	{
 	// !!!

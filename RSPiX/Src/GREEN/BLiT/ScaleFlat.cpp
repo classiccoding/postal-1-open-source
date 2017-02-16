@@ -625,7 +625,7 @@ int16_t rspBlitT(RImage* pimSrc,RImage* pimDst,RRect* prSrc,const RRect* prDst,
 
 // easy call overloads:
 //
-#if defined(__WINDOWS__)
+#if WIN32
 	inline
 #else
 	extern
@@ -659,7 +659,7 @@ int16_t rspBlitT(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,
 
 // easy call overloads:
 //
-#if defined(__WINDOWS__)
+#if WIN32
 	inline
 #else
 	extern

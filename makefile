@@ -316,7 +316,7 @@ $(BINDIR)/%.o: $(SRCDIR)/%.s
 	$(CC) $(CFLAGS) -DELF -x assembler-with-cpp -o $@ -c $<
 
 $(BINDIR)/%.o: $(SRCDIR)/%.cpp
-	$(CC) -c -o $@ $< $(CFLAGS) -std=c++11
+	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(BINDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) -c -o $@ $< $(CFLAGS)
