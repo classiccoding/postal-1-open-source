@@ -5506,7 +5506,6 @@ static void RotationScrollUpdateShort(	// Returns nothing.
 //  requires external dependencies like GTK+ on Linux, and may not play well
 //  with a fullscreen display mode on any platform. Better to just render
 //  into the existing framebuffer.  --ryan.
-#if 1 //PLATFORM_UNIX
 static bool PickFileMenuChoice(Menu *pmenuCurrent, int16_t sMenuItem);
 
 Menu	g_menuPickFile =
@@ -5659,7 +5658,6 @@ int16_t PickFile(const char *title, void (*enumer)(Menu *), char *buf, size_t bu
 	StartMenu(currentMenu, &g_resmgrShell, g_pimScreenBuf);
     return ((g_PickFileMenuChoice == nullptr) ? -1 : 0);
 }
-#endif  // PLATFORM_UNIX
 
 
 ////////////////////////////////////////////////////////////////////////////////

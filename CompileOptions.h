@@ -357,7 +357,7 @@
 			#elif defined (DEMO)
 				#define PREFS_FILE	"Postal Plus Demo.ini"
 			#else
-				#if PLATFORM_UNIX
+            #ifdef __unix__
 					#define PREFS_FILE	"postal_plus.ini"
 				#else
 					#define PREFS_FILE	"Postal Plus.ini"

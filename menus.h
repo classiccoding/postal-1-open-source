@@ -128,13 +128,10 @@ extern Menu menuEditor;
 // Verify Quit Game.
 extern Menu	g_menuVerifyQuitGame;
 
-#if 1 //PLATFORM_UNIX
-
 #ifdef MOBILE
 #define MAX_SAVE_SLOTS 5
 #else
 #define MAX_SAVE_SLOTS 9
-#endif
 
 int16_t PickFile(const char *title, void (*enumer)(Menu *), char *buf, size_t bufsize);
 #endif
