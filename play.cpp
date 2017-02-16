@@ -2647,7 +2647,7 @@ class CPlayStatus : public CPlay
 	};
 
 
-#if 1 //PLATFORM_UNIX
+#if 1 //__unix__
 #include <sys/stat.h>
 static void EnumSaveGamesSlots(Menu *menu)
 {
@@ -3550,7 +3550,7 @@ class CPlayInput : public CPlay
 						strcpy(szFile, FullPathHD(SAVEGAME_DIR));
 
 					// Display open dialog to let user choose a file
-					#if 1 //PLATFORM_UNIX
+               #if 1 //__unix__
                if (PickFile("Choose Game Slot", EnumSaveGamesSlots, szFile, sizeof(szFile)) == SUCCESS)
                     {
 #ifdef MOBILE
