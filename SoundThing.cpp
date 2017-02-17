@@ -445,7 +445,7 @@ void CSoundThing::Update(void)
 				// Pick random time between 0 and specified random time
 				int32_t	lRnd = (int32_t)(((float)GetRand() / (float)RAND_MAX) * (float)m_lRndTime[m_sWhichTime]);
 				// Make sure this at least the length of the sample.
-				int32_t	lWaitDuration	= MAX(int32_t(m_lMinTime[m_sWhichTime] + lRnd), lSampleDuration);
+				int32_t	lWaitDuration	= MAX(int32_t(m_lMinTime[m_sWhichTime] + lRnd), int32_t(lSampleDuration));
 				// Calculate next starting time
 				m_lNextStartTime = m_lLastStartTime + lWaitDuration;
 				}
