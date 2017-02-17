@@ -5,7 +5,8 @@
 #ifndef _MSC_STDINT_H_ // [
 #define _MSC_STDINT_H_
 
-#if 1
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <limits.h>
 #include <stdint.h>
 #include <BaseTsd.h>
@@ -45,8 +46,7 @@ typedef SSIZE_T ssize_t;
 # define UINT64_MAX		(__UINT64_C(18446744073709551615))
 #endif
 
-#else
-
+#if 0
 // ISO C9x  compliant stdint.h for Microsoft Visual Studio
 // Based on ISO/IEC 9899:TC2 Committee draft (May 6, 2005) WG14/N1124
 //
