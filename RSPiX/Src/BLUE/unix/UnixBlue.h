@@ -97,7 +97,8 @@ extern int32_t macReserveMemBytes;
                            if (rspAssert(__FILE__, __LINE__, #a) == SUCCESS)  \
                               break
 #else
-    #define ASSERT SDL_assert
+# include <cassert>
+# define ASSERT assert
 #endif
 #else
 	// This causes the compiler to "optimize" out the data and the function call.
