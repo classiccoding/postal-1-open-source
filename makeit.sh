@@ -46,6 +46,12 @@ do
 	then
 		remove="yes"
 	fi
+	if [ "$i" = "smp" ]
+	then
+		thread=$(cat /proc/cpuinfo | awk '/^processor/{print $3}' | tail -1)
+		thread=$(( $thread + 2 ))
+		thread="-j$thread"
+	fi
 done
 
 if [ "$x86" = "yes" ]
