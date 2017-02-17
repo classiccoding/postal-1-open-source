@@ -63,7 +63,8 @@ fi
 if [ "$remove" = "yes" ]
 then
 	after="clean"
+	thread=""
 fi
 
 bindir="$bindir$bindir1$bindir2"
-eval "BINDIR=$bindir $before make -e $after"
+eval "BINDIR=$bindir $before make -e $after $thread"
