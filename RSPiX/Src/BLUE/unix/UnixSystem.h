@@ -142,7 +142,7 @@ struct c_string
 
 #include <BLUE/portable_endian.h>
 
-#if defined(__WINDOWS__)
+#if defined(WIN32)
 # pragma message("I find your lack of POSIX disturbing. ;)")
 # include <BaseTsd.h>
 typedef SSIZE_T ssize_t;
