@@ -185,34 +185,34 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Original version from 1997
-#define POSTAL_1997		0
+#define POSTAL_1997    0
 
 // This is an add-on pack that adds Japanese voice and a couple of Japanese
 // levels to the original Postal.
-#define JAPAN_ADD_ON		1
+#define JAPAN_ADD_ON   1
 
 // This is a standalone product that used Japanese voice and included all the
 // original levels, Special Delivery levels, and two new Japanese levels.
-#define SUPER_POSTAL		2
+#define SUPER_POSTAL   2
 
 // This is a standalone product that combines the original levels and
 // Special Delivery levels.
-#define POSTAL_PLUS		3
+#define POSTAL_PLUS    3
 
 // Added a define for POSTAL_2015 (Steam version)
-#define POSTAL_2015		4
+#define POSTAL_2015    4
 
 // If it's defined, make sure it's valid.  See end of file for what
 // happens when it's not defined.
 #if defined(TARGET)
-	#if   TARGET == JAPAN_ADD_ON
-	#elif TARGET == SUPER_POSTAL
-	#elif TARGET == POSTAL_PLUS
-	#elif TARGET == POSTAL_2015
-   #elif TARGET == POSTAL_1997
-	#else 
-		#error TARGET is set to an unrecognized value
-	#endif
+# if   TARGET == JAPAN_ADD_ON
+# elif TARGET == SUPER_POSTAL
+# elif TARGET == POSTAL_PLUS
+# elif TARGET == POSTAL_2015
+# elif TARGET == POSTAL_1997
+# else
+#  error TARGET is set to an unrecognized value
+# endif
 #endif
 
 
@@ -227,28 +227,26 @@
 // based on this macro.
 ////////////////////////////////////////////////////////////////////////////////
 
-#define US					1
-#define UK					2
-#define ARIAN				3
-#define MIME				4
-#define JAPAN				5
+#define US       1
+#define UK       2
+#define GERMAN   3
+#define FRENCH   4
+#define JAPAN    5
 
 // Synomyms for the humor-impaired
-#define GERMAN				ARIAN
-#define FRENCH				MIME
 
 // If it's defined, make sure it's valid.  See end of file for what
 // happens when it's not defined.
 #if defined(LOCALE)
-	// Verify that it was set to a good value
-	#if   LOCALE == US
-	#elif LOCALE == UK
-	#elif LOCALE == ARIAN
-	#elif LOCALE == MIME
-	#elif LOCALE == JAPAN
-	#else 
-		#error LOCALE is set to an unrecognized value
-	#endif
+// Verify that it was set to a good value
+# if   LOCALE == US
+# elif LOCALE == UK
+# elif LOCALE == ARIAN
+# elif LOCALE == MIME
+# elif LOCALE == JAPAN
+# else
+#  error LOCALE is set to an unrecognized value
+# endif
 #endif
 
 
@@ -278,8 +276,8 @@
 // You can NOT use DEMO and SPAWN at the same time!
 ////////////////////////////////////////////////////////////////////////////////
 
-#if defined (SPAWN) && defined (DEMO)
-	#error DEMO and SPAWN cannot be used together.
+#if defined(SPAWN) && defined(DEMO)
+# error DEMO and SPAWN cannot be used together.
 #endif
 
 
@@ -297,8 +295,8 @@
 // You can NOT use DEMO and SPAWN at the same time!
 ////////////////////////////////////////////////////////////////////////////////
 
-#if defined (SPAWN) && defined (DEMO)
-	#error DEMO and SPAWN cannot be used together.
+#if defined(SPAWN) && defined(DEMO)
+# error DEMO and SPAWN cannot be used together.
 #endif
 
 
@@ -322,25 +320,23 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #if defined(TARGET) && defined(LOCALE)
-
-	#if TARGET == POSTAL_PLUS
-		#if defined(SPAWN)
-			#define APP_NAME				"Postal Plus MP"
-			#define MAIN_MENU_TITLE		"POSTAL PLUS MP"
-		#elif defined (DEMO)
-			#define APP_NAME				"Postal Plus Demo"
-			#define MAIN_MENU_TITLE		"POSTAL PLUS DEMO"
-		#else
-			#define APP_NAME				"Postal Plus"
-			#define MAIN_MENU_TITLE		"POSTAL PLUS"
-		#endif
-	#else
-		// Prior to this point, all targets used the same name, so for
-		// consistency sake, let's leave it that way.
-		#define APP_NAME				"Postal"
-		#define MAIN_MENU_TITLE		"POSTAL"
-	#endif
-
+# if TARGET == POSTAL_PLUS
+#  if defined(SPAWN)
+#   define APP_NAME         "Postal Plus MP"
+#   define MAIN_MENU_TITLE  "POSTAL PLUS MP"
+#  elif defined (DEMO)
+#   define APP_NAME         "Postal Plus Demo"
+#   define MAIN_MENU_TITLE  "POSTAL PLUS DEMO"
+#  else
+#   define APP_NAME         "Postal Plus"
+#   define MAIN_MENU_TITLE  "POSTAL PLUS"
+#  endif
+# else
+// Prior to this point, all targets used the same name, so for
+// consistency sake, let's leave it that way.
+#  define APP_NAME          "Postal"
+#  define MAIN_MENU_TITLE   "POSTAL"
+# endif
 #endif
 
 
@@ -349,37 +345,35 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #if defined(TARGET) && defined(LOCALE)
-
-	#if LOCALE == US
-		#if TARGET == POSTAL_PLUS
-			#if defined(SPAWN)
-				#define PREFS_FILE	"Postal Plus MP.ini"
-			#elif defined (DEMO)
-				#define PREFS_FILE	"Postal Plus Demo.ini"
-			#else
-            #ifdef __unix__
-					#define PREFS_FILE	"postal_plus.ini"
-				#else
-					#define PREFS_FILE	"Postal Plus.ini"
-				#endif
-			#endif
-		#else
-			#define PREFS_FILE	"POSTAL.INI"
-		#endif
-	#elif LOCALE == UK
-		#define PREFS_FILE	"PostalUK.INI"
-	#elif LOCALE == FRENCH
-		#define PREFS_FILE	"PostalFr.INI"
-	#elif LOCALE == GERMAN
-		#define PREFS_FILE	"PostalGr.INI"
-	#elif LOCALE == JAPAN
-		#if TARGET == JAPAN_ADD_ON
-			#define PREFS_FILE	"Postal Japan Add On.ini"
-		#elif TARGET == SUPER_POSTAL
-			#define PREFS_FILE	"Super Postal.ini"
-		#endif
-	#endif
-
+# if LOCALE == US
+#  if TARGET == POSTAL_PLUS
+#   if defined(SPAWN)
+#    define PREFS_FILE      "Postal Plus MP.ini"
+#   elif defined (DEMO)
+#    define PREFS_FILE      "Postal Plus Demo.ini"
+#   else
+#    if defined(__unix__)
+#     define PREFS_FILE     "postal_plus.ini"
+#    else
+#     define PREFS_FILE     "Postal Plus.ini"
+#    endif
+#   endif
+#  else
+#   define PREFS_FILE	    "POSTAL.INI"
+#  endif
+# elif LOCALE == UK
+#  define PREFS_FILE	    "PostalUK.INI"
+# elif LOCALE == FRENCH
+#  define PREFS_FILE	    "PostalFr.INI"
+# elif LOCALE == GERMAN
+#  define PREFS_FILE	    "PostalGr.INI"
+# elif LOCALE == JAPAN
+#  if TARGET == JAPAN_ADD_ON
+#   define PREFS_FILE	    "Postal Japan Add On.ini"
+#  elif TARGET == SUPER_POSTAL
+#   define PREFS_FILE	    "Super Postal.ini"
+#  endif
+# endif
 #endif
 
 
@@ -406,12 +400,12 @@
 //										again, we might be able to use the fact that
 //										newer versions (Japan and Postal Plus) have used
 //										specifically-named ini files.
-// 
+//
 //		MUST_BE_ON_CD				When defined, the program makes sure that the
 //										drive refered to by the CD path is actually a
 //										CD-ROM drive as far as the operating system knows.
 //										This only works for Windows.
-//		
+//
 //		CHECK_FOR_COOKIE			When defined, the program will check for a
 //										"cookie" (special value) at a particular position
 //										in a particularly large file on the CD.  If the
@@ -457,39 +451,38 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #if defined(TARGET) && defined(LOCALE)
-
-	#if TARGET == JAPAN_ADD_ON
-		#if defined(SPAWN)
-			#define EDITOR_DISABLED
-		#else
-			#define PROMPT_FOR_ORIGINAL_CD
-			#define START_MENU_ADDON_ITEM
-			#define TITLE_SHOW_DISTRIBUTOR
-		#endif
-	#elif TARGET == SUPER_POSTAL
-		#if defined(SPAWN)
-			#define EDITOR_DISABLED
-		#else
-			#define TITLE_SHOW_DISTRIBUTOR
-		#endif
-	#elif TARGET == POSTAL_PLUS
-		#if defined(SPAWN)
-			#define EDITOR_DISABLED
-		#elif defined (DEMO)
-			#define EDITOR_DISABLED
-			#define MULTIPLAYER_DISABLED
-			#define ENABLE_PLAY_SPECIFIC_REALMS_ONLY
-			#define SHOW_EXIT_SCREEN
-		#elif defined(WIN32)
-			//#define MUST_BE_ON_CD
-			//#define START_MENU_ADDON_ITEM
-		#endif
-	#elif TARGET == POSTAL_2015
-		#define MULTIPLAYER_REMOVED
-		#define EDITOR_REMOVED
-		//#define LOADLEVEL_REMOVED
-		#define START_MENU_ADDON_ITEM
-	#endif
+# if TARGET == JAPAN_ADD_ON
+#  if defined(SPAWN)
+#   define EDITOR_DISABLED
+#  else
+#   define PROMPT_FOR_ORIGINAL_CD
+#   define START_MENU_ADDON_ITEM
+#   define TITLE_SHOW_DISTRIBUTOR
+#  endif
+# elif TARGET == SUPER_POSTAL
+#  if defined(SPAWN)
+#   define EDITOR_DISABLED
+#  else
+#   define TITLE_SHOW_DISTRIBUTOR
+#  endif
+# elif TARGET == POSTAL_PLUS
+#  if defined(SPAWN)
+#   define EDITOR_DISABLED
+#  elif defined (DEMO)
+#   define EDITOR_DISABLED
+#   define MULTIPLAYER_DISABLED
+#   define ENABLE_PLAY_SPECIFIC_REALMS_ONLY
+#   define SHOW_EXIT_SCREEN
+#  elif defined(WIN32)
+//#   define MUST_BE_ON_CD
+//#   define START_MENU_ADDON_ITEM
+#  endif
+# elif TARGET == POSTAL_2015
+#  define MULTIPLAYER_REMOVED
+#  define EDITOR_REMOVED
+//#  define LOADLEVEL_REMOVED
+#  define START_MENU_ADDON_ITEM
+# endif
 #endif
 
 // Turn off multiplayer on MacOSX/Linux...not worth it.  --ryan.
@@ -504,15 +497,15 @@
 
 
 #if !defined(MULTIPLAYER_REMOVED) && defined(MULTIPLAYER_DISABLED)
-#define MULTIPLAYER_REMOVED
+# define MULTIPLAYER_REMOVED
 #endif
 
 #if !defined(EDITOR_REMOVED) && defined(EDITOR_DISABLED)
-#define EDITOR_REMOVED
+# define EDITOR_REMOVED
 #endif
 
 #if !defined(ALLOW_JOYSTICK) && defined(ALLOW_TWINSTICK)
-#define ALLOW_JOYSTICK
+# define ALLOW_JOYSTICK
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -539,12 +532,11 @@
 #define AUDIO_SAK_SEPARATOR_CHAR_JAPANESE "j"
 
 #if defined(TARGET) && defined(LOCALE)
-	#if LOCALE == JAPAN
-		#define AUDIO_SAK_SEPARATOR_CHAR		AUDIO_SAK_SEPARATOR_CHAR_JAPANESE
-	#else
-		#define AUDIO_SAK_SEPARATOR_CHAR		AUDIO_SAK_SEPARATOR_CHAR_ENGLISH
-	#endif
-
+# if LOCALE == JAPAN
+#  define AUDIO_SAK_SEPARATOR_CHAR    AUDIO_SAK_SEPARATOR_CHAR_JAPANESE
+# else
+#  define AUDIO_SAK_SEPARATOR_CHAR    AUDIO_SAK_SEPARATOR_CHAR_ENGLISH
+# endif
 #endif
 
 
@@ -598,9 +590,9 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#define RELEASE_DATE						869443200	// Real release date - change before sending 7/20/97
-#define EXPIRATION_DATE					(22896000+852076800-1)	// 11:59pm Sepember 30, 1997 (day 273)
-#define SAFE_DATE							2047483000	// We'll all be dead.
+#define RELEASE_DATE      869443200               // Real release date - change before sending 7/20/97
+#define EXPIRATION_DATE   (22896000+852076800-1)  // 11:59pm Sepember 30, 1997 (day 273)
+#define SAFE_DATE         2047483000              // We'll all be dead.
 
 // These macros cause customized expiration messages to be displayed instead
 // of the standard expiration message.  These particular messages are obsolete,
@@ -625,9 +617,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #if defined(ENABLE_PLAY_SPECIFIC_REALMS_ONLY)
-	#define SPECIFIC_MP_REALM_TEXT			"Build Your Own Death"
-	#define SPECIFIC_MP_REALM_FILE			"res/levels/multi/mpconsit.rlm"
-	#define SPECIFIC_MP_REALM_NUM				10
+# define SPECIFIC_MP_REALM_TEXT    "Build Your Own Death"
+# define SPECIFIC_MP_REALM_FILE    "res/levels/multi/mpconsit.rlm"
+# define SPECIFIC_MP_REALM_NUM     10
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
