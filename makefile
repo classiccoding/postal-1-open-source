@@ -239,8 +239,7 @@ OBJS4 := $(OBJS3:.s=.o)
 OBJS := $(foreach f,$(OBJS4),$(BINDIR)/$(f))
 SRCS := $(foreach f,$(SRCS),$(SRCDIR)/$(f))
 
-# !!! FIXME: Get -Wall in here, some day.
-CFLAGS += -DPLATFORM_UNIX -w
+CFLAGS += -std=c++11 -w
 
 ifeq ($(strip $(macosx)),true)
   CFLAGS += -DPLATFORM_MACOSX
