@@ -1,4 +1,13 @@
+#ifndef _MSC_VER // [
+#error "Use this header only with Microsoft Visual C++ compilers!"
+#endif // _MSC_VER ]
+
+#ifndef _MSC_STDINT_H_ // [
+#define _MSC_STDINT_H_
+
 #if 1
+#include <limits.h>
+#include <stdint.h>
 #include <BaseTsd.h>
 
 typedef SSIZE_T ssize_t;
@@ -6,7 +15,7 @@ typedef SSIZE_T ssize_t;
 #ifndef __WORDSIZE
 #define __WORDSIZE WORDSIZE
 #endif
-
+#ifndef __INT64_C
 # if __WORDSIZE == 64
 #  define __INT64_C(c)	c ## L
 #  define __UINT64_C(c)	c ## UL
@@ -14,9 +23,10 @@ typedef SSIZE_T ssize_t;
 #  define __INT64_C(c)	c ## LL
 #  define __UINT64_C(c)	c ## ULL
 # endif
+#endif
 
 /* Limits of integral types.  */
-
+#ifndef INT8_MIN
 /* Minimum of signed integral types.  */
 # define INT8_MIN		(-128)
 # define INT16_MIN		(-32767-1)
@@ -33,6 +43,8 @@ typedef SSIZE_T ssize_t;
 # define UINT16_MAX		(65535)
 # define UINT32_MAX		(4294967295U)
 # define UINT64_MAX		(__UINT64_C(18446744073709551615))
+#endif
+
 #else
 
 // ISO C9x  compliant stdint.h for Microsoft Visual Studio
@@ -66,12 +78,7 @@ typedef SSIZE_T ssize_t;
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef _MSC_VER // [
-#error "Use this header only with Microsoft Visual C++ compilers!"
-#endif // _MSC_VER ]
 
-#ifndef _MSC_STDINT_H_ // [
-#define _MSC_STDINT_H_
 
 #if _MSC_VER > 1000
 #pragma once
@@ -281,5 +288,5 @@ typedef uint64_t  uintmax_t;
 #endif // __STDC_CONSTANT_MACROS ]
 
 
-#endif // _MSC_STDINT_H_ ]
 #endif
+#endif // _MSC_STDINT_H_ ]
