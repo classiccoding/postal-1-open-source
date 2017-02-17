@@ -55,7 +55,7 @@ class CNavigationNet : public CThing
 			#if __MWERKS__ >= 0x1100
 				ITERATOR_TRAITS(const CBouy*);
 			#endif
-			typedef map <uint8_t, CBouy*, less<uint8_t>, allocator<CBouy*> > nodeMap;
+			typedef std::map <uint8_t, CBouy*, std::less<uint8_t>, std::allocator<CBouy*> > nodeMap;
 		#else
 			typedef map <uint8_t, CBouy*, less<uint8_t> > nodeMap;
 		#endif
