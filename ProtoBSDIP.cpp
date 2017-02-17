@@ -301,7 +301,7 @@ void RProtocolBSDIP::Shutdown(void)
 		// Remove blocking hook
 		if (WSAUnhookBlockingHook() == SOCKET_ERROR)
 			TRACE("RProtocolBSDIP::Unhook(): Error returned by WSAUnhookBlockingHook(): %i\n", WSAGetLastError());
-		
+
 		ms_bWSASetBlockingHook = false;
 		}
 	#endif
@@ -311,13 +311,13 @@ void RProtocolBSDIP::Shutdown(void)
 		// Cleanup winsock API
 		if (WSACleanup() == SOCKET_ERROR)
 			TRACE("RProtocolBSDIP::Shutdown(): Error returned by WSACleanup(): %i\n", WSAGetLastError());
-		
+
 		ms_bWSAStartup = false;
 		}
-	
+
 	// Set protocol
 	ms_prototype = RSocket::NO_PROTOCOL;
-	
+
 	ms_bDidStartup = false;
 	}
 
@@ -334,12 +334,12 @@ int16_t RProtocolBSDIP::Open(							// Returns 0 if successful, non-zero otherwi
 	RSocket::BLOCK_CALLBACK callback /*nullptr */)	// In:  Blocking callback (or nullptr to keep current)
 	{
 
-#ifdef __unix__
+#if defined(__unix__)
   UNUSED(usPort, sType, sOptionFlags, callback);
     return(-1);  // !!! FIXME
 #else
 	int16_t sResult = SUCCESS;
-	
+
 	// Make sure startup was called.  Only this function needs to do this
 	// because all the others check for a valid socket, which can only be
 	// created via this function.
@@ -352,14 +352,14 @@ int16_t RProtocolBSDIP::Open(							// Returns 0 if successful, non-zero otherwi
             #ifdef WIN32
 			if (callback != nullptr)
 				m_callback = callback;
-			
+
 			// Set current callback
 			ms_callback = m_callback;
 			#endif
 
 			// Save type
 			m_sType = sType;
-			
+
 			// Select socket type
 			int iType;
 			if (sType == RSocket::typStream)
@@ -386,7 +386,7 @@ int16_t RProtocolBSDIP::Open(							// Returns 0 if successful, non-zero otherwi
 					m_bListening = false;
 					m_bConnected = false;
 					m_bConnecting = false;
-					
+
 					// Check if they want blocking turned off
 					if (sOptionFlags & RSocket::optDontBlock)
 						{
@@ -494,7 +494,7 @@ int16_t RProtocolBSDIP::Open(							// Returns 0 if successful, non-zero otherwi
 int16_t RProtocolBSDIP::Close(							// Returns 0 if successfull, non-zero otherwise
 	bool bForceNow /*= true */)						// In:  'true' means do it now, false follows normal rules
 	{
-#ifdef __unix__
+#if defined(__unix__)
   UNUSED(bForceNow);
     return(-1);  // !!! FIXME
 #else
@@ -562,7 +562,7 @@ int16_t RProtocolBSDIP::Close(							// Returns 0 if successfull, non-zero other
 ////////////////////////////////////////////////////////////////////////////////
 int16_t RProtocolBSDIP::Broadcast(void)				// Returns 0 if successfull, non-zero otherwise
 	{
-#ifdef __unix__
+#if defined(__unix__)
     return(-1);  // !!! FIXME
 #else
 	int16_t sResult = SUCCESS;
@@ -608,7 +608,7 @@ int16_t RProtocolBSDIP::Broadcast(void)				// Returns 0 if successfull, non-zero
 int16_t RProtocolBSDIP::Listen(							// Returns 0 if successfull, non-zero otherwise
 	int16_t sMaxQueued /* = 5*/)							// In:  Maximum number of queued connection requests
 	{
-#ifdef __unix__
+#if defined(__unix__)
   UNUSED(sMaxQueued);
     return(-1);  // !!! FIXME
 #else
@@ -670,7 +670,7 @@ int16_t RProtocolBSDIP::Accept(						// Returns 0 on success, non-zero otherwise
 	RSocket::RProtocol* pProtocolClient,			// I/O: Client protocol
 	RSocket::Address* paddressClient)				// Out: Client address
 	{
-#ifdef __unix__
+#if defined(__unix__)
   UNUSED(pProtocolClient, paddressClient);
     return(-1);  // !!! FIXME
 #else
@@ -760,7 +760,7 @@ int16_t RProtocolBSDIP::Accept(						// Returns 0 on success, non-zero otherwise
 int16_t RProtocolBSDIP::Connect(						// Returns 0 if successfull, non-zero otherwise
 	RSocket::Address* paddress)						// In:  Remote address to connect to
 	{
-#ifdef __unix__
+#if defined(__unix__)
   UNUSED(paddress);
     return(-1);  // !!! FIXME
 #else
@@ -879,7 +879,7 @@ int16_t RProtocolBSDIP::Send(							// Returns 0 on success, non-zero otherwise
    size_t lNumBytes,										// In:  Number of bytes to send
    size_t* plActualBytes)									// Out: Actual number of bytes sent
 	{
-#ifdef __unix__
+#if defined(__unix__)
   UNUSED(pBuf, lNumBytes, plActualBytes);
     return(-1);  // !!! FIXME
 #else
@@ -943,7 +943,7 @@ int16_t RProtocolBSDIP::SendTo(							// Returns 0 on success, non-zero otherwis
    size_t* plActualBytes,									// Out: Actual number of bytes sent
 	RSocket::Address* paddress)						// In:  Address to send to
 	{
-#ifdef __unix__
+#if defined(__unix__)
   UNUSED(pBuf, lNumBytes, plActualBytes, paddress);
     return(-1);  // !!! FIXME
 #else
@@ -1015,7 +1015,7 @@ int16_t RProtocolBSDIP::Receive(						// Returns 0 on success, non-zero otherwis
    size_t lMaxBytes,										// In:  Maximum number of bytes that fit in the buffer
    size_t* plActualBytes)									// Out: Actual number of bytes recieved into the buffer
 	{
-#ifdef __unix__
+#if defined(__unix__)
   UNUSED(pBuf, lMaxBytes, plActualBytes);
     return(-1);  // !!! FIXME
 #else
@@ -1079,7 +1079,7 @@ int16_t RProtocolBSDIP::ReceiveFrom(					// Returns 0 on success, non-zero other
    size_t* plActualBytes,									// Out: Actual number of bytes recieved into buffer
 	RSocket::Address* paddress)						// Out: Source address returned here
 	{
-#ifdef __unix__
+#if defined(__unix__)
   UNUSED(pBuf, lMaxBytes, plActualBytes, paddress);
     return(-1);  // !!! FIXME
 #else
@@ -1144,7 +1144,7 @@ int16_t RProtocolBSDIP::ReceiveFrom(					// Returns 0 on success, non-zero other
 //////////////////////////////////////////////////////////////////////////////
 bool RProtocolBSDIP::CanAcceptWithoutBlocking(void)
 	{
-#ifdef __unix__
+#if defined(__unix__)
     return(false);
 #else
 	bool bResult = false;
@@ -1193,7 +1193,7 @@ bool RProtocolBSDIP::CanAcceptWithoutBlocking(void)
 //////////////////////////////////////////////////////////////////////////////
 bool RProtocolBSDIP::CanSendWithoutBlocking(void)
 	{
-#ifdef __unix__
+#if defined(__unix__)
     return(-1);  // !!! FIXME
 #else
 	bool bResult = false;
@@ -1244,7 +1244,7 @@ bool RProtocolBSDIP::CanSendWithoutBlocking(void)
 //////////////////////////////////////////////////////////////////////////////
 bool RProtocolBSDIP::CanReceiveWithoutBlocking(void)
 	{
-#ifdef __unix__
+#if defined(__unix__)
     return(-1);  // !!! FIXME
 #else
 	bool bResult = false;
@@ -1295,7 +1295,7 @@ bool RProtocolBSDIP::CanReceiveWithoutBlocking(void)
 //////////////////////////////////////////////////////////////////////////////
 size_t RProtocolBSDIP::CheckReceivableBytes(void)
 	{
-#ifdef __unix__
+#if defined(__unix__)
     return(0);  // !!! FIXME
 #else
 	u_long lResult = 0;
@@ -1337,7 +1337,7 @@ size_t RProtocolBSDIP::CheckReceivableBytes(void)
 //////////////////////////////////////////////////////////////////////////////
 bool RProtocolBSDIP::IsError(void)
 	{
-#ifdef __unix__
+#if defined(__unix__)
     return(true);  // !!! FIXME
 #else
 	bool bResult = false;
@@ -1451,17 +1451,17 @@ int16_t RProtocolBSDIP::GetAddress(					// Returns 0 if successfull, non-zero ot
 	uint16_t usPort,											// In:  Host's port number
 	RSocket::Address* paddress)						// Out: Address
 	{
-#ifdef __unix__
+#if defined(__unix__)
   UNUSED(pszName, usPort, paddress);
     return(-1);  // !!! FIXME
 #else
 	int16_t sResult = SUCCESS;
-	
+
 	if (ms_bDidStartup)
 		{
 		// Cast address to IP address to make it easier to work with
 		AddressIP* pip = (AddressIP*)paddress;
-		
+
 		// If the string contains only digits and/or dots and there's at least one dot
 		// then we assume it's a dotted address.
 		if ((strspn(pszName, "0123456789.") >= strlen(pszName)) && (strchr(pszName, '.') != nullptr))
