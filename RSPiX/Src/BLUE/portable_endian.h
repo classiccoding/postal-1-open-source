@@ -158,7 +158,7 @@
 #  define le32toh(x) letoh32(x)
 #  define be64toh(x) betoh64(x)
 #  define le64toh(x) letoh64(x)
-# elif defined(__WINDOWS__)
+# elif defined(WIN32)
 #  if BYTE_ORDER == LITTLE_ENDIAN
 #   define htobe16(x) htons(x)
 #   define htole16(x) (x)

@@ -4273,7 +4273,7 @@ extern void SeedRand(
 // generates a fatal "multiple definitions of rand()" error.  For now, only
 // do this in debug mode.
 #ifdef _DEBUG
-#if defined(__WINDOWS__) || defined(__APPLE__)
+#if defined(WIN32) || defined(__APPLE__)
 extern int rand(void)
 	{
 	rspMsgBox(
