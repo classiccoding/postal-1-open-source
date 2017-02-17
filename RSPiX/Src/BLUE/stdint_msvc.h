@@ -5,8 +5,6 @@
 #ifndef _MSC_STDINT_H_ // [
 #define _MSC_STDINT_H_
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <limits.h>
 #include <stdint.h>
 #include <BaseTsd.h>
