@@ -239,7 +239,7 @@ OBJS4 := $(OBJS3:.s=.o)
 OBJS := $(foreach f,$(OBJS4),$(BINDIR)/$(f))
 SRCS := $(foreach f,$(SRCS),$(SRCDIR)/$(f))
 
-CFLAGS += -std=c++11 -w
+CFLAGS += -w
 
 ifeq ($(strip $(macosx)),true)
   CFLAGS += -DPLATFORM_MACOSX
@@ -296,6 +296,8 @@ ifeq ($(strip $(steamworks)),true)
   LDFLAGS += $(STEAMLDFLAGS)
 endif
 
+CXXFLAGS = $(CFLAGS) -std=c++11
+
 .PHONY: all bindir
 
 
@@ -308,14 +310,14 @@ debugon:
 	$(eval CFLAGS += -DDEBUG -D_DEBUG -O0 -g)
 
 debugoff:
-	$(eval OPTFLAG := -O3)
+	$(eval OPTFLAG = -O3)
 	$(eval CFLAGS += -DNDEBUG -D_NDEBUG -O2)
 
 $(BINDIR)/%.o: $(SRCDIR)/%.s
 	$(CC) $(CFLAGS) -DELF -x assembler-with-cpp -o $@ -c $<
 
 $(BINDIR)/%.o: $(SRCDIR)/%.cpp
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -c -o $@ $< $(CXXFLAGS)
 
 $(BINDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) -c -o $@ $< $(CFLAGS)
