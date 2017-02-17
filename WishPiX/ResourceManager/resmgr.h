@@ -216,7 +216,8 @@
 	#include <vector>
 	#include <set>
 	#include <functional>
-	#include <algorithm>
+  #include <algorithm>
+  #include <memory>
 #else
 	#include <map.h>
 	#include <vector.h>
@@ -225,10 +226,6 @@
 
 #define SAK_COOKIE 0x204b4153		// Looks like "SAK " in the file
 #define SAK_CURRENT_VERSION 1		// Current version of SAK file format
-
-#ifdef __GNUC__
-using namespace std;
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -376,21 +373,21 @@ class CResourceBlock
 	#if __MWERKS__ >= 0x1100
 		ITERATOR_TRAIT(const RString);
 	#endif
-	typedef map <RString, CResourceBlock, less<RString>, allocator<CResourceBlock> > resclassMap;
-	typedef map <void*, RString, less<void*>, allocator<RString> > ptrLookupMap;
-	typedef vector <RString, allocator<RString> > accessVector;
-	typedef set <RString, less<RString>, allocator<RString> > dupSet;
-	typedef vector <uint16_t, allocator<uint16_t> > typeVector;
-	typedef map <RString, int32_t, less<RString>, allocator<int32_t> > dirMap;
-	typedef set <int32_t, less<int32_t>, allocator<int32_t> > dirOffsets;
+  typedef std::map<RString, CResourceBlock, std::less<RString>, std::allocator<CResourceBlock> > resclassMap;
+  typedef std::map<void*, RString, std::less<void*>, std::allocator<RString> > ptrLookupMap;
+  typedef std::vector<RString, std::allocator<RString> > accessVector;
+  typedef std::set<RString, std::less<RString>, std::allocator<RString> > dupSet;
+  typedef std::vector<uint16_t, std::allocator<uint16_t> > typeVector;
+  typedef std::map<RString, int32_t, std::less<RString>, std::allocator<int32_t> > dirMap;
+  typedef std::set<int32_t, std::less<int32_t>, std::allocator<int32_t> > dirOffsets;
 #else
-	typedef map <RString, CResourceBlock, less<RString> > resclassMap;
-	typedef map <void*, RString, less<void*> > ptrLookupMap;
-	typedef vector <RString > accessVector;
-	typedef set <RString, less<RString> > dupSet;
-	typedef vector <uint16_t > typeVector;
-	typedef map <RString, int32_t, less<RString> > dirMap;
-	typedef set <int32_t, less<int32_t> > dirOffsets;
+  typedef std::map<RString, CResourceBlock, std::less<RString> > resclassMap;
+  typedef std::map<void*, RString, std::less<void*> > ptrLookupMap;
+  typedef std::vector<RString > accessVector;
+  typedef std::set<RString, std::less<RString> > dupSet;
+  typedef std::vector<uint16_t > typeVector;
+  typedef std::map<RString, int32_t, std::less<RString> > dirMap;
+  typedef std::set<int32_t, std::less<int32_t> > dirOffsets;
 #endif
 
 
