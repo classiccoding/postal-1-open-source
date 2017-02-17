@@ -76,7 +76,7 @@ class CThing;	// Another handy forward.
 // AFTER the CSprite class is fully defined!  In other words, it's a
 // trick!
 template <class T>
-	struct SpriteLess : binary_function<T*, T*, bool>
+  struct SpriteLess : std::binary_function<T*, T*, bool>
 		{
 		bool operator()(const T* a, const T* b) const
 			{
