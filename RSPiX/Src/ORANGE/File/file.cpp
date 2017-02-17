@@ -140,7 +140,7 @@
 #include <limits.h>
 #include <float.h>	// For float and double limits.
 
-#ifdef __unix__
+#if defined(__unix__)
 #include <unistd.h>
 #include <dirent.h>
 #include <sys/param.h>
@@ -271,7 +271,7 @@ RFile::~RFile(void)
 // Methods.
 //////////////////////////////////////////////////////////////////////////////
 
-#ifdef __unix__
+#if defined(__unix__)
 #include <dirent.h>
 // this is from PhysicsFS originally ( http://icculus.org/physfs/ )
 //  (also zlib-licensed.)
@@ -316,7 +316,7 @@ static int locateOneElement(char *buf)
 
 static void locateCorrectCase(char *buf)
 {
-#ifdef __unix__
+#if defined(__unix__)
    char *ptr = buf;
 //	char *prevptr = buf;
 

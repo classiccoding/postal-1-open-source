@@ -18,13 +18,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
 //	Profile.h
-// 
+//
 // History:
 //		06/11/97 JRD	Started.
 //
 //		06/12/97 JRD	Revamped user interfaceChanged to appear as though
 //							it's not really a class instance.  Worked on timing refinement
-//		
+//
 //		06/13/97 JRD	Finally got 2nd order self timing working - accurate to 60ns.
 //							Added ability to have inside out (exclusions) loops.
 //
@@ -46,7 +46,7 @@
 #include "profile.h"
 #include "ORANGE/str/str.h"
 
-#if WIN32
+#if defined(WIN32)
    microseconds_t i64GetTimeSpeed=7;	// how long does the time command take?
 #else
    microseconds_t i64GetTimeSpeed=8;	// Mike's guess on the mac
