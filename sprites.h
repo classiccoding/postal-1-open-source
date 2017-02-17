@@ -88,11 +88,11 @@ template <class T>
 	#if __MWERKS__ >= 0x1100
 		ITERATOR_TRAITS(const CSprite*);
 	#endif
-	typedef multiset<CSprite*, SpriteLess<CSprite>, allocator<CSprite*> > msetSprites;
-	typedef vector<CSprite*, allocator<CSprite*> > vSprites;
+  typedef std::multiset<CSprite*, SpriteLess<CSprite>, std::allocator<CSprite*> > msetSprites;
+  typedef std::vector<CSprite*, std::allocator<CSprite*> > vSprites;
 #else
-	typedef multiset<CSprite*, SpriteLess<CSprite> > msetSprites;
-	typedef vector<CSprite*> vSprites;
+  typedef std::multiset<CSprite*, SpriteLess<CSprite> > msetSprites;
+  typedef std::vector<CSprite*> vSprites;
 #endif
 
 
