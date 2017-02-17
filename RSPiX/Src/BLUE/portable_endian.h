@@ -61,7 +61,7 @@
 // OS includes
 # if defined(WIN32)
 #  include <winsock2.h>
-#  include <sys/param.h>
+//#  include <sys/param.h>
 # elif defined(__linux__) || defined(__CYGWIN__)
 #  include <endian.h>
 #  include <byteswap.h>
