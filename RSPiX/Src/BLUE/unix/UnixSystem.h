@@ -46,7 +46,6 @@
 // those that don't, don't define it.
 ////////////////////////////////////////////////////////////////////////////////
 #define PATHS_IN_INCLUDES
-#define _CRT_SECURE_NO_WARNINGS
 
 ////////////////////////////////////////////////////////////////////////////////
 // Handy defines.
@@ -59,14 +58,16 @@
 # define FALSE    0
 #endif
 
-#if !defined(STRICT) && !defined(PENDANT)
-#ifndef SUCCESS
-# define SUCCESS  0
-#endif
+#if 1
+//!defined(STRICT) && !defined(PENDANT)
 
-#ifndef FAILURE
-# define FAILURE -1
-#endif
+# ifndef SUCCESS
+#  define SUCCESS  0
+# endif
+
+# ifndef FAILURE
+#  define FAILURE -1
+# endif
 
 typedef const char* c_string;
 typedef int errcode_t;
