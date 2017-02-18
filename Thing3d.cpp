@@ -263,14 +263,14 @@ const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckSmall =
   //	+	+	+
   //	+	x	+
   //	+	+	+
-  { -2, -2 },
-  {  0, -2 },
-  {  2, -2 },
-  { -2,  0 },
-  {  2,  0 },
-  { -2,  2 },
-  {  0,  2 },
-  {  2,  2 },
+  CThing3d::Point2D( -2, -2 ),
+  CThing3d::Point2D(  0, -2 ),
+  CThing3d::Point2D(  2, -2 ),
+  CThing3d::Point2D( -2,  0 ),
+  CThing3d::Point2D(  2,  0 ),
+  CThing3d::Point2D( -2,  2 ),
+  CThing3d::Point2D(  0,  2 ),
+  CThing3d::Point2D(  2,  2 ),
 };
 
 const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckMedium =
