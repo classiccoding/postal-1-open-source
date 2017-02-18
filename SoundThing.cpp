@@ -445,7 +445,7 @@ void CSoundThing::Update(void)
 				// Pick random time between 0 and specified random time
 				int32_t	lRnd = (int32_t)(((float)GetRand() / (float)RAND_MAX) * (float)m_lRndTime[m_sWhichTime]);
 				// Make sure this at least the length of the sample.
-				int32_t	lWaitDuration	= MAX(int32_t(m_lMinTime[m_sWhichTime] + lRnd), lSampleDuration);
+        milliseconds_t	lWaitDuration	= MAX<milliseconds_t>(milliseconds_t(m_lMinTime[m_sWhichTime] + lRnd), lSampleDuration);
 				// Calculate next starting time
 				m_lNextStartTime = m_lLastStartTime + lWaitDuration;
 				}
@@ -492,7 +492,7 @@ void CSoundThing::Render(void)
 	//	here.
 
 	// Adjust volume of last play instance.  Clip just in case.
-	SetInstanceVolume(m_siChannel, MIN((int32_t)255L, m_lCollectiveVolume) );
+  SetInstanceVolume(m_siChannel, MIN<int32_t>((int32_t)255L, m_lCollectiveVolume) );
 
 	// Reset volume.
 	m_lCollectiveVolume	= 0;
