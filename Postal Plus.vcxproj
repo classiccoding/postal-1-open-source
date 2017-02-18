@@ -90,7 +90,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>Win32</TargetEnvironment>
@@ -100,7 +100,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>.\SDL2\include;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;.\steamworks\sdk\public;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;NOSHMALLOC;TRACENASSERT;WIN32;_WINDOWS;LOCALE=US;TARGET=POSTAL_2015;WITH_STEAMWORKS=0;ALLOW_TWINSTICK;DEBUG_LEVEL_CHEAT;RSP_DEBUG_OUT_FILE;RSP_TRACE_LOG_NAME="Postal.log";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;NOSHMALLOC;TRACENASSERT;WIN32;_WINDOWS;LOCALE=US;TARGET=POSTAL_2015;WITH_STEAMWORKS=0;ALLOW_TWINSTICK;DEBUG_LEVEL_CHEAT;RSP_DEBUG_OUT_FILE;RSP_TRACE_LOG_NAME="Postal.log";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader />
       <PrecompiledHeaderFile>RSPiX.H</PrecompiledHeaderFile>
@@ -115,7 +115,7 @@
       <CompileAs>Default</CompileAs>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>_DEBUG;POSTAL_PLUS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;POSTAL_PLUS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
@@ -132,7 +132,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>Win32</TargetEnvironment>
@@ -143,7 +143,7 @@
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>.\SDL2\include;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;.\steamworks\sdk\public;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;LOCALE=US;TARGET=POSTAL_2015;WITH_STEAMWORKS=0;ALLOW_TWINSTICK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS;LOCALE=US;TARGET=POSTAL_2015;WITH_STEAMWORKS=0;ALLOW_TWINSTICK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -157,7 +157,7 @@
       <CompileAs>Default</CompileAs>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>NDEBUG;POSTAL_PLUS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;POSTAL_PLUS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
@@ -173,7 +173,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">
     <Midl>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>Win32</TargetEnvironment>
@@ -185,7 +185,7 @@
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>.\SDL2\include;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;.\steamworks\sdk\public;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;LOCALE=US;TARGET=POSTAL_PLUS;WITH_STEAMWORKS=0;ALLOW_TWINSTICK;TRACENASSERT;RSP_DEBUG_OUT_FILE;RSP_TRACE_LOG_NAME="Postal Plus.log";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS;LOCALE=US;TARGET=POSTAL_PLUS;WITH_STEAMWORKS=0;ALLOW_TWINSTICK;TRACENASSERT;RSP_DEBUG_OUT_FILE;RSP_TRACE_LOG_NAME="Postal Plus.log";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -200,7 +200,7 @@
       <CompileAs>Default</CompileAs>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>NDEBUG;POSTAL_PLUS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;POSTAL_PLUS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
@@ -216,7 +216,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Optimized Debug|Win32'">
     <Midl>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>Win32</TargetEnvironment>
@@ -227,7 +227,7 @@
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>.\RSPiX\c\Win32\SmartHeap\Include;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;.\RSPiX\c\Win32\HeapAgent\Include;.\steamworks\sdk\public;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;TRACENASSERT;WIN32;_WINDOWS;LOCALE=US;TARGET=POSTAL_PLUS;WITH_STEAMWORKS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;TRACENASSERT;WIN32;_WINDOWS;LOCALE=US;TARGET=POSTAL_PLUS;WITH_STEAMWORKS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -243,7 +243,7 @@
       <CompileAs>Default</CompileAs>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>NDEBUG;POSTAL_PLUS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;POSTAL_PLUS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
