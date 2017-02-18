@@ -253,9 +253,17 @@ int16_t		CThing3d::ms_sBurntBrightness		= -40;	// Brightness level after being b
 // These points are relative to the thing's origin.
 // These are arrays of pts to be checked on the attribute map for various
 // size of CThing3d derived things.
+
+//#if defined(WIN32)
+//      typedef Point2D AttributeTest2D[8];
+//#else
+
+
 const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckSmall =
 {
+#if !defined(WIN32)
   (CThing3d::Point2D)
+#endif
   //	+	+	+
   //	+	x	+
   //	+	+	+
