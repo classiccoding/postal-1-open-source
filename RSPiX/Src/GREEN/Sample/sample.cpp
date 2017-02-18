@@ -83,15 +83,18 @@
 //////////////////////////////////////////////////////////////////////////////
 // Macros.
 //////////////////////////////////////////////////////////////////////////////
-#define SAMPLE_TYPE_UNKNOWN	0x0000
-#define SAMPLE_TYPE_WAVE		0x0001
+#define SAMPLE_TYPE_UNKNOWN  0x0000
+#define SAMPLE_TYPE_WAVE     0x0001
 
-#ifndef WAVE_FORMAT_PCM
-#define WAVE_FORMAT_PCM		0x0001
-#define WAVE_FORMAT_ADPCM	0x0002
+#if !defined(WAVE_FORMAT_PCM)
+# define WAVE_FORMAT_PCM     0x0001
 #endif // WAVE_FORMAT_PCM
 
-#define DEFAULT_READBUFSIZE	16384
+#if !defined(WAVE_FORMAT_ADPCM)
+# define WAVE_FORMAT_ADPCM   0x0002
+#endif // WAVE_FORMAT_ADPCM
+
+#define DEFAULT_READBUFSIZE  16384
 
 //////////////////////////////////////////////////////////////////////////////
 // Functions.

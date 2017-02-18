@@ -359,7 +359,6 @@
 //							the START menu has an Add-On item.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define MENUS_CPP
 
 #include "RSPiX.h"
 #ifdef PATHS_IN_INCLUDES

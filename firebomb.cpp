@@ -143,7 +143,6 @@
 //		08/28/97 BRH	Added cache of large fire sound.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define FIREBOMB_CPP
 
 #include "RSPiX.h"
 #include <math.h>

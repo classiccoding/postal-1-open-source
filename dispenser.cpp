@@ -135,7 +135,6 @@
 //							holding down ALT key when you choose EditModify().
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define DISPENSER_CPP
 
 #include "RSPiX.h"
 #include <math.h>

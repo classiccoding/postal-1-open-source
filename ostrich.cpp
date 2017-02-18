@@ -86,7 +86,6 @@
 //		09/04/97 BRH	Added ostrich dying sound.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define OSTRICH_CPP
 
 #include "RSPiX.h"
 #include <math.h>

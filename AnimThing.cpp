@@ -65,7 +65,6 @@
 // destroy itself.  It's a mini Postal movie player.
 //
 //////////////////////////////////////////////////////////////////////////////
-#define ANIMTHING_CPP
 
 #include "RSPiX.h"
 #include <math.h>

@@ -331,7 +331,6 @@
 //							from the INI.  Previously, it was 16.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define PLAY_CPP
 
 #include "RSPiX.h"
 #include "main.h"

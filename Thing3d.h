@@ -296,9 +296,11 @@ class CThing3d : public CThing
       {
          int16_t	sX;
          int16_t	sZ;
+         Point2D(int16_t x, int16_t z)
+           : sX(x), sZ(z) { }
       };
 
-      typedef std::array<const Point2D, 8> AttributeTest2D;
+      typedef Point2D AttributeTest2D[8];
 
 	//---------------------------------------------------------------------------
 	// Variables

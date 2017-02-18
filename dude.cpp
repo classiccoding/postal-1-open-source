@@ -1100,7 +1100,6 @@
 //							a warp (the warp gives you additional stuff).
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define DUDE_CPP
 
 #include "RSPiX.h"
 #include <math.h>

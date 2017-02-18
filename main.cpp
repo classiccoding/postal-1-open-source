@@ -116,7 +116,6 @@
 //		01/21/98	JMI	No longer plays movie regardless of OS or INI setting.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define MAIN_CPP
 
 #ifdef WIN32
     #include <direct.h>

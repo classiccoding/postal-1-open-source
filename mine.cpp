@@ -124,7 +124,6 @@
 //		08/28/97 BRH	Added preload function to cache the sounds and images.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define MINE_CPP
 
 #include "RSPiX.h"
 #include <math.h>
