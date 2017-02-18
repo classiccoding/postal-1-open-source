@@ -25,7 +25,6 @@
 //		01/28/97	MJR	Actually started filling in some usefull code.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define GRIP_CPP
 
 #include "RSPiX.h"
 #include "grip.h"

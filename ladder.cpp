@@ -38,8 +38,6 @@
 #error I AM ARCHAIC - DO NOT USE
 #endif
 
-#define LADDER_CPP
-
 #include "RSPiX.h"
 #include <math.h>
 

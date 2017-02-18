@@ -131,7 +131,6 @@
 //		08/28/97 BRH	Added cache of large fire sound.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define NAPALM_CPP
 
 #include "RSPiX.h"
 #include <math.h>

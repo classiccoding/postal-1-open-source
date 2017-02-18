@@ -52,7 +52,6 @@
 // that fly off a recently damaged, complex organism or something.
 //
 //////////////////////////////////////////////////////////////////////////////
-#define CHUNK_CPP
 
 #include "RSPiX.h"
 #include "chunk.h"

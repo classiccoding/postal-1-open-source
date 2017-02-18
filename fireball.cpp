@@ -118,7 +118,6 @@
 //		08/08/97	JMI	Changed m_pFireball1, 2, & 3 to m_idFireball1, 2, & 3.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define FIREBALL_CPP
 
 #include "RSPiX.h"
 #include <math.h>

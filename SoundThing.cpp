@@ -99,7 +99,6 @@
 // This CThing-derived class will play sounds with various options.
 //
 //////////////////////////////////////////////////////////////////////////////
-#define SOUNDTHING_CPP
 
 #include "RSPiX.h"
 #include "SoundThing.h"
