@@ -250,7 +250,7 @@ int16_t RResMgr::Get(									// Returns 0 on success.
 		int16_t nowheretogo = 0;
 	#endif // DEBUG
 	// Map iterator (one of the best things about STL is how readable it is)
-	std::pair<resclassMap::iterator, bool> p(m_map.begin(), false);
+  std::pair<resclassMap::iterator, bool> p(m_map.begin(), false);
 	#ifdef DEBUG
 	if (strcmp((char *) strFilename, "menu/menu_md.bmp") == 0)
 	{
@@ -612,7 +612,7 @@ int16_t RResMgr::Statistics(RString strStatFile)
     return FAILURE;
 #else
 	int16_t sReturn = SUCCESS;
-	std::ofstream txtout;
+  std::ofstream txtout;
 	resclassMap::iterator i;
 
 	m_duplicateSet.erase(m_duplicateSet.begin(), m_duplicateSet.end());
@@ -621,30 +621,30 @@ int16_t RResMgr::Statistics(RString strStatFile)
 	if (txtout.is_open())
 	{
 		txtout << ";\n";
-		txtout << "; Resource manager statistics file" << std::endl;
-		txtout << ";" << std::endl;
+    txtout << "; Resource manager statistics file" << std::endl;
+    txtout << ";" << std::endl;
 		txtout << "; List of files in access order\n";
 		txtout << ";------------------------------------------------------------------\n";
 
 		accessVector::iterator j;
-		std::pair <dupSet::iterator, bool> p(m_duplicateSet.begin(), false);
+    std::pair<dupSet::iterator, bool> p(m_duplicateSet.begin(), false);
 		for (j = m_accessList.begin(); j != m_accessList.end(); j++)
 		{
 			p = m_duplicateSet.insert((*j));
 			// If its not in the set, then its ok to print it out 
 			if (p.second)
-				txtout << *j << std::endl;
+        txtout << *j << std::endl;
 		}
 
 
 		txtout << "\n\n; Statistics on each file\n;\n";
 		txtout << ";Access\n";
-		txtout << ";Count	Filename" << std::endl;
+    txtout << ";Count	Filename" << std::endl;
 		txtout << ";------------------------------------------------------------------\n";
 
 		for (i = m_map.begin(); i != m_map.end(); i++)
 		{
-			txtout << "; " << (*i).second.m_sAccessCount << "\t" << (*i).first << std::endl;
+      txtout << "; " << (*i).second.m_sAccessCount << "\t" << (*i).first << std::endl;
 		}		
 		txtout.close();
 	}
@@ -688,7 +688,7 @@ int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
     return FAILURE;
 #else
 	int16_t sReturn = SUCCESS;
-	std::ifstream script;
+  std::ifstream script;
 	RString line;
 	RString resname;
 //	uint16_t usType;
@@ -738,7 +738,7 @@ int16_t RResMgr::CreateSak(RString strScriptFile, RString strSakFile)
 		RFile	fileRes;
 		uint8_t	au8Transfer[TRANSFER_BUF_SIZE];
 		int32_t	lNumBytes;
-		std::pair <dupSet::iterator, bool> p(m_duplicateSet.begin(), false);
+    std::pair<dupSet::iterator, bool> p(m_duplicateSet.begin(), false);
 		m_duplicateSet.erase(m_duplicateSet.begin(), m_duplicateSet.end());
 
 		for (iFilename = m_LoadList.begin(); iFilename != m_LoadList.end() && sReturn == SUCCESS; iFilename++) //, iType++)
@@ -1012,7 +1012,7 @@ int16_t RResMgr::OpenSakAlt(RString strSakFile, RString strScriptFile)
 	char char_buffer[256];
 	int32_t lOffset;
 	RString strFilename;
-	std::ifstream script;
+  std::ifstream script;
 	dirMap altNames;
 	struct {
 		int cnt;

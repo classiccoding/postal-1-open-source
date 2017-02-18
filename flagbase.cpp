@@ -52,7 +52,6 @@
 //							the code for capturing the flagbase.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define FLAGBASE_CPP
 
 #include "RSPiX.h"
 #include "flagbase.h"

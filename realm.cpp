@@ -334,7 +334,6 @@
 //							or deathmatch mode when in multiplayer.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define REALM_CPP
 
 #include "RSPiX.h"
 #include "realm.h"

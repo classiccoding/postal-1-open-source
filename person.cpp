@@ -262,7 +262,6 @@
 //							Now passes the hood lights to the texture editor.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define PERSON_CPP
 
 #include "RSPiX.h"				 
 #include <math.h>

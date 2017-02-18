@@ -551,8 +551,13 @@
 
 #include "RSPiX.h"
 
-#include <time.h>
-#ifdef WIN32
+#include <ctime>
+
+#if defined(NEED_SNPRINTF)
+# include <supplemental/snprintf.h>
+#endif
+
+#if defined(WIN32)
 	#include <direct.h>
 #else
 	#include <unistd.h>
@@ -629,7 +634,7 @@
 extern bool EnableSteamCloud;
 #define SAVEGAME_DIR						(EnableSteamCloud ? "steamcloud" : "savegame")
 #else
-#define SAVEGAME_DIR						("savegame")
+#define SAVEGAME_DIR						"savegame"
 #endif
 
 #define CHECK_FOR_ASSETS_FILENAME	"res/res.sak"
@@ -1923,7 +1928,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 							// If there are default demos . . .
 							if(g_GameSettings.m_sNumAvailableDemos > 0)
 								{
-								sprintf(m_szDemoFile, "%s%d%s", FullPathHD(DEFAULT_DEMO_PREFIX), usDemoCount % MAX((int16_t) 1, (int16_t) g_GameSettings.m_sNumAvailableDemos), DEFAULT_DEMO_SUFFIX);
+                        sprintf(m_szDemoFile, "%s%d%s", FullPathHD(DEFAULT_DEMO_PREFIX), usDemoCount % MAX<uint16_t>(1, g_GameSettings.m_sNumAvailableDemos), DEFAULT_DEMO_SUFFIX);
 								}
 							}
 					

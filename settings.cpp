@@ -41,7 +41,6 @@
 //		07/10/97 MJR	Removed use of non-ANSI "t" in mode string for file open.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define SETTINGS_CPP
 
 #include "RSPiX.h"
 #ifdef PATHS_IN_INCLUDES

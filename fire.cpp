@@ -193,7 +193,6 @@
 //							it is to the creator of the fire's credit that he dies).
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define FIRE_CPP
 
 #include "RSPiX.h"
 #include <math.h>

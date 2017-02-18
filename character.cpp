@@ -306,7 +306,6 @@
 //		08/28/97 BRH	Added a virtual put me down message handler.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define CHARACTER_CPP
 
 #include "RSPiX.h"
 #include <math.h>

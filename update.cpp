@@ -31,7 +31,6 @@
 //		08/31/97	JMI	Removed RTask::Do() call and commented out RHot::Do() call.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define UPDATE_CPP
 
 #include "RSPiX.h"
 #include "update.h"
