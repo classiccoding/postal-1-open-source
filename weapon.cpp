@@ -46,7 +46,6 @@
 //		07/30/97	JMI	Now hides shadow if mainsprite is hidden.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define WEAPON_CPP
 
 #include "RSPiX.h"
 #include "weapon.h"

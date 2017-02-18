@@ -128,7 +128,6 @@
 //		09/03/97	JMI	Now marks Civilian as a dont care bit.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define EXPLODE_CPP
 
 #include "RSPiX.h"
 #include <math.h>

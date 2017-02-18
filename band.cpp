@@ -165,7 +165,6 @@
 //							satisfying the CompilerOptions macro VIOLENT_LOCALE.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define BAND_CPP
 
 #include "RSPiX.h"
 #include <math.h>

@@ -92,7 +92,6 @@
 //		09/03/97	JMI	Sentries now exclude CSmash::Bads and CSmash::Civilians.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define SENTRY_CPP
 
 #include "RSPiX.h"
 #include "sentry.h"

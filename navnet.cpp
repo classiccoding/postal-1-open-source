@@ -137,7 +137,6 @@
 //							are now correctly displayed.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define NAVIGATIONNET_CPP
 
 #include "RSPiX.h"
 #include <math.h>

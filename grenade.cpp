@@ -155,7 +155,6 @@
 //		08/17/97	JMI	Changed m_pthingParent to m_idParent.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#define GRENADE_CPP
 
 #include "RSPiX.h"
 #include <math.h>

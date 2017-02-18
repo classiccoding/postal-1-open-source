@@ -551,8 +551,11 @@
 
 #include "RSPiX.h"
 
-#include <time.h>
-#ifdef WIN32
+#include <ctime>
+
+#include <supplemental/snprintf.h>
+
+#if defined(WIN32)
 	#include <direct.h>
 #else
 	#include <unistd.h>
@@ -625,11 +628,11 @@
 
 #define LEVEL_DIR							"res/levels/."
 
-#if WITH_STEAMWORKS
+#if defined(WITH_STEAMWORKS)
 extern bool EnableSteamCloud;
 #define SAVEGAME_DIR						(EnableSteamCloud ? "steamcloud" : "savegame")
 #else
-#define SAVEGAME_DIR						("savegame")
+#define SAVEGAME_DIR						"savegame"
 #endif
 
 #define CHECK_FOR_ASSETS_FILENAME	"res/res.sak"
