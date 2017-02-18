@@ -257,12 +257,7 @@ int16_t		CThing3d::ms_sBurntBrightness		= -40;	// Brightness level after being b
 //      typedef Point2D AttributeTest2D[8];
 //#else
 
-
-const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckSmall =
-{
-  //	+	+	+
-  //	+	x	+
-  //	+	+	+
+/*
   CThing3d::Point2D( -2, -2 ),
   CThing3d::Point2D(  0, -2 ),
   CThing3d::Point2D(  2, -2 ),
@@ -271,11 +266,25 @@ const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckSmall =
   CThing3d::Point2D( -2,  2 ),
   CThing3d::Point2D(  0,  2 ),
   CThing3d::Point2D(  2,  2 ),
+*/
+
+const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckSmall =
+{
+  //	+	+	+
+  //	+	x	+
+  //	+	+	+
+  { -2, -2 },
+  {  0, -2 },
+  {  2, -2 },
+  { -2,  0 },
+  {  2,  0 },
+  { -2,  2 },
+  {  0,  2 },
+  {  2,  2 },
 };
 
 const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckMedium =
 {
-  (CThing3d::Point2D)
   //	+	+	+
   //	+	x	+
   //	+	+	+
@@ -291,7 +300,6 @@ const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckMedium =
 
 const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckLarge =
 {
-  (CThing3d::Point2D)
   //	+	+	+
   //	+	x	+
   //	+	+	+
@@ -307,7 +315,6 @@ const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckLarge =
 
 const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckHuge =
 {
-  (CThing3d::Point2D)
   //	+	+	+
   //	+	x	+
   //	+	+	+
