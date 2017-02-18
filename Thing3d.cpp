@@ -260,18 +260,20 @@ int16_t		CThing3d::ms_sBurntBrightness		= -40;	// Brightness level after being b
 
 const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckSmall =
 {
-  //(CThing3d::Point2D)
+#if !defined(WIN32)
+  (CThing3d::Point2D)
+#endif
   //	+	+	+
   //	+	x	+
   //	+	+	+
-  { int16_t(-2), int16_t(-2) },
-  { int16_t( 0), int16_t(-2) },
-  { int16_t( 2), int16_t(-2) },
-  { int16_t(-2), int16_t( 0) },
-  { int16_t( 2), int16_t( 0) },
-  { int16_t(-2), int16_t( 2) },
-  { int16_t( 0), int16_t( 2) },
-  { int16_t( 2), int16_t( 2) },
+  CThing3d::Point2D( -2, -2 ),
+  CThing3d::Point2D(  0, -2 ),
+  CThing3d::Point2D(  2, -2 ),
+  CThing3d::Point2D( -2,  0 ),
+  CThing3d::Point2D(  2,  0 ),
+  CThing3d::Point2D( -2,  2 ),
+  CThing3d::Point2D(  0,  2 ),
+  CThing3d::Point2D(  2,  2 ),
 };
 
 const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckMedium =
