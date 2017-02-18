@@ -77,15 +77,8 @@ typedef int CNetServer;
 #define SEQ_LTE(a, b)		SEQ_GTE(b, a)
 
 
-
-#ifdef WIN32
 namespace Net
-	{
-#else
-class Net
-	{
-	public:
-#endif
+   {
 
 	//------------------------------------------------------------------------------
 	// These set some overall limits on various network stuff.
@@ -113,7 +106,7 @@ class Net
 		// Maximum length of host text
 		MaxHostNameSize	= 32,
 
-		#if NET_PING
+      #if defined(NET_PING)
 			// These values relate the a ping message that is periodically sent by the client
 			// to the server.  The server echos these pings back as it receives them.  This
 			// serves two purposes: (1) it let's us measure the actual ping times, which may
@@ -281,7 +274,8 @@ class Net
 		NumBandwidths
 		} Bandwidth;
 
-	// In a namespace this data is extern, but in a class it's static
+#ifdef UNUSED_VARIABLES
+   // In a namespace this data is extern, but in a class it's static
 	#ifdef WIN32
 		#define NETCRAPTHING extern
 	#else
@@ -291,7 +285,21 @@ class Net
 	// Lookup tables associated with the NetBandwidth enums.
 	NETCRAPTHING int32_t	lBandwidthValues[Net::NumBandwidths];
    NETCRAPTHING const char* BandwidthText[Net::NumBandwidths];
-	};
+#endif
+#if !defined(MULTIPLAYER_REMOVED)
+     static const char* BandwidthText[Net::NumBandwidths] =
+     {
+     "14.4 Modem",						// Analog14_4
+     "28.8 Modem",						// Analog28_8
+     "33.6 Modem",						// Analog33_6
+     "57.6 Modem",						// Analog57_6
+     "ISDN, 1 Channel",				// ISDN1Channel
+     "ISDN, 2 Channels",				// ISDN2Channel
+     "10Mb LAN (or T1)",				// LAN10Mb
+     "100Mb LAN (or T3)"				// LAN100Mb
+     };
+#endif
+   }
 
 
 #endif //NET_H
