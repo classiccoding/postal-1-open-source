@@ -84,7 +84,7 @@ enum errcode : int
 };
 
 constexpr errcode operator * (errcode c, int mult)
-  { return errcode(reintepret_cast<int>(c) * mult); }
+  { return errcode(reinterpret_cast<int>(c) * mult); }
 
 struct errcode_t
 {
