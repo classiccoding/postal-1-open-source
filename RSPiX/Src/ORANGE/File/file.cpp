@@ -384,7 +384,7 @@ extern const char *FindCorrectFile(const char *_pszName, const char *pszMode)
                 }
                 FreeLibrary(lib);
             }
-            #elif defined(PLATFORM_MACOSX)
+            #elif defined(__APPLE__)
             const char *homedir = getenv("HOME");
             if ( (!homedir) || ((strlen(homedir) + 32) >= sizeof (prefpath)) )
                 homedir = "./";  // oh well.

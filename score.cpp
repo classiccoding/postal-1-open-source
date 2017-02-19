@@ -217,7 +217,7 @@
 #define HIGHSCORE_DIALOG_FILE			"menu/hiscore.gui"
 #define HIGHSCORE_ITEM_FILE			"menu/HiScoreItem.gui"
 
-#if WITH_STEAMWORKS
+#if defined(STEAM_CONNECTED)
 extern bool EnableSteamCloud;
 #define HIGHSCORE_SCORES_FILE						(EnableSteamCloud ? "steamcloud/high.ini" : "savegame/high.ini")
 #else
