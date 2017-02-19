@@ -630,7 +630,7 @@
 
 #define LEVEL_DIR							"res/levels/."
 
-#if WITH_STEAMWORKS
+#if defined(STEAM_CONNECTED)
 extern bool EnableSteamCloud;
 #define SAVEGAME_DIR						(EnableSteamCloud ? "steamcloud" : "savegame")
 #else

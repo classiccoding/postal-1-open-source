@@ -292,7 +292,7 @@ else
 endif
 
 ifeq ($(strip $(steamworks)),true)
-  CFLAGS += -DWITH_STEAMWORKS=1 -Isteamworks/sdk/public
+  CFLAGS += -DSTEAM_CONNECTED -Isteamworks/sdk/public
   LDFLAGS += $(STEAMLDFLAGS)
 endif
 

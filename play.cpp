@@ -370,7 +370,7 @@
 	#include <sys/stat.h>
 #endif
 
-#if WITH_STEAMWORKS
+#if defined(STEAM_CONNECTED)
 #include "steam/steam_api.h"
 #endif
 
@@ -448,7 +448,7 @@
 // Default value for "final frame" in network mode (6.8 years at 10fps)
 #define DEFAULT_FINAL_FRAME				INT32_MAX
 
-#if WITH_STEAMWORKS
+#if defined(STEAM_CONNECTED)
 extern bool EnableSteamCloud;
 #define SAVEGAME_DIR						(EnableSteamCloud ? "steamcloud" : "savegame")
 #else
@@ -3568,7 +3568,7 @@ class CPlayInput : public CPlay
 						// way to choose the appropriate original action).
 						if (Game_SavePlayersGame(szFile, pinfo->Realm()->m_flags.sDifficulty) == SUCCESS)
 						{
-							#if WITH_STEAMWORKS
+							#if defined(STEAM_CONNECTED)
 							if ((EnableSteamCloud) && (strncmp(szFile, "steamcloud/", 11) == 0))
 							{
 								char fname[64];
@@ -3591,7 +3591,7 @@ class CPlayInput : public CPlay
 						}
 					}
 					#else
-						#if WITH_STEAMWORKS
+						#if defined(STEAM_CONNECTED)
 						#error You need to switch over from this code to the in-game file UI first.
 						#endif
                int16_t sResult = rspSaveBox(g_pszSaveGameTitle, szFile, szFile, sizeof(szFile), SAVEGAME_EXT);
@@ -5310,7 +5310,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 							}
 						StatsAreAllowed = false;
 
-						#if WITH_STEAMWORKS
+						#if defined(STEAM_CONNECTED)
 						RequestSteamStatsStore();  // this is a good time to push any updated stats from the level.
 						#endif
 

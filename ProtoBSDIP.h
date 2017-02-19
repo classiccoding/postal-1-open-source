@@ -51,7 +51,7 @@
 #include <fcntl.h>
 
 // WinSock will define these, but BSD sockets don't...
-#if 0 //PLATFORM_MACOSX
+#if 0 //__APPLE__
 typedef int socklen_t;
 #endif
 

@@ -922,7 +922,7 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,const 
 					// Below loop is 15% of our CPU time on OSX,
 					//  but MacOSX ships with a _very_ optimized memcpy()...
 					//  (actually, I bet that's true everywhere vs this shitty loop.  --ryan.)
-					#if 1  //PLATFORM_MACOSX
+					#if 1  //__APPLE__
 					memcpy(pDst, pSrc, ucCode);
 					pDst += ucCode;
 					pSrc += ucCode;
