@@ -239,6 +239,14 @@ OBJS4 := $(OBJS3:.s=.o)
 OBJS := $(foreach f,$(OBJS4),$(BINDIR)/$(f))
 SRCS := $(foreach f,$(SRCS),$(SRCDIR)/$(f))
 
+EBINDIR := ./extra
+ESRCS := \
+	saktool.c
+
+EOBJS := $(ESRCS:.c=.o)
+EOBJS := $(foreach f,$(EOBJS),$(EBINDIR)/$(f))
+ESRCS := $(foreach f,$(ESRCS),$(SRCDIR)/$(f))
+
 CFLAGS += -w
 
 ifeq ($(strip $(macosx)),true)
@@ -298,7 +306,7 @@ endif
 
 CXXFLAGS = $(CFLAGS) -std=c++11
 
-.PHONY: all bindir
+.PHONY: all bindir ebindir
 
 
 all: debugoff $(CLIENTEXE)
@@ -369,6 +377,18 @@ bindir :
 	mkdir -p $(BINDIR)/WishPiX/Spry
 	mkdir -p $(BINDIR)/libs
 
+$(EBINDIR)/%.o: $(SRCDIR)/%.c
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+saktool: $(EBINDIR) $(EOBJS) $(ELIBS)
+	$(LINKER) -o saktool $(EOBJS) $(ELDFLAGS) $(ELIBS)
+
+$(EBINDIR) :
+	$(MAKE) ebindir
+
+ebindir :
+	mkdir -p $(EBINDIR)
+
 distclean: clean
 
 clean:
@@ -376,5 +396,7 @@ clean:
 	rm -rf $(BINDIR)
 	#rm -f $(SRCDIR)/parser/y.tab.c
 	#rm -f $(SRCDIR)/parser/lex.yy.c
+	rm -rf $(EBINDIR)
+	rm -f saktool
 
 # end of Makefile ...
