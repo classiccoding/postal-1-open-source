@@ -304,6 +304,8 @@ int main(int argc, char** argv)
             sak_file* sak = read_sak(sakfile);
 
             list_sak_content(sak, mask);
+            for (int j=4; j<argc; j++)
+                list_sak_content(sak, argv[j]);
 
             free_sak(sak);
             free(sak);
@@ -316,6 +318,8 @@ int main(int argc, char** argv)
             sak_file* sak = read_sak(sakfile);
             if(create_folder(folder)) {
                 extract_sak(sakfile, sak, mask, folder);
+                for (int j=5; j<argc; j++)
+                    extract_sak(sakfile, sak, argv[j], folder);
             } else {
                 printf("Error creating folder \"%s\"\n", folder);
             }
