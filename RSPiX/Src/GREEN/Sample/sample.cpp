@@ -1,0 +1,925 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+// Copyright 2016 RWS Inc, All Rights Reserved
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of version 2 of the GNU General Public License as published by
+// the Free Software Foundation
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along
+// with this program; if not, write to the Free Software Foundation, Inc.,
+// 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+//
+///////////////////////////////////////////////////////////////////////////////
+//
+//	sample.cpp
+// 
+// History:
+//		06/23/95 JMI	Started.
+//
+//		09/13/95	JMI	Added Convert8to16 to convert 8 bit sample to 16 bit 
+//							sample size.
+//
+//		08/04/96 MJR	Minor fix of typo in ASSERT().
+//							Revised some IFF stuff to work on Mac.  Will be
+//							further revised when Jon finishes new IFF stuff.
+//
+//		10/30/96	JMI	Changed:
+//							Old label:		New label:
+//							=========		=========
+//							CSample			RSample
+//							CIff				RIff
+//		10/31/96	JMI	CNFile			RFile
+//							ENDIAN_BIG		BigEndian
+//							ENDIAN_LITTLE	LittleEndian
+//
+//		01/28/97	JMI	Added Load(RFile*), Save(char*), and Save(RFile*).
+//
+//		02/04/97	JMI	Load(RFile*) forgot to make sure the ref count was 0
+//							before loading and also forgot to Lock() the sample
+//							before loading.
+//
+//		02/05/97	JMI	Had to cast Reads and Writes that used void* overload
+//							in RFile to use uint8_t* since void* is now protected
+//							(see file.h for more details).
+//
+//		03/25/97	JMI	Changed a Seek(0, SEEK_SET) to a relative seek.
+//
+//		07/05/97 MJR	Changed so Read() now reads 16-bit values as words so
+//							they will be properly byte-swapped as necessary.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+// This is a generic wrapper for an audio sample.  Currently only WAV files 
+// are supported as far as loading goes, but I tried to make it easy for it 
+// to be modified to autodetect and load other file formats.  No warranteis
+// express or implied.
+//
+//////////////////////////////////////////////////////////////////////////////
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+#include "System.h"
+
+#ifdef PATHS_IN_INCLUDES
+	#include "BLUE/Blue.h"
+	#include "GREEN/Sample/sample.h"
+#else
+	#include "Blue.h"
+	#include "sample.h"
+#endif // PATHS_IN_INCLUDES
+
+//////////////////////////////////////////////////////////////////////////////
+// Initialize static member variables.
+//////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////
+// Macros.
+//////////////////////////////////////////////////////////////////////////////
+#define SAMPLE_TYPE_UNKNOWN  0x0000
+#define SAMPLE_TYPE_WAVE     0x0001
+
+#if !defined(WAVE_FORMAT_PCM)
+# define WAVE_FORMAT_PCM     0x0001
+#endif // WAVE_FORMAT_PCM
+
+#if !defined(WAVE_FORMAT_ADPCM)
+# define WAVE_FORMAT_ADPCM   0x0002
+#endif // WAVE_FORMAT_ADPCM
+
+#define DEFAULT_READBUFSIZE  16384
+
+//////////////////////////////////////////////////////////////////////////////
+// Functions.
+//////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Default Constructor.
+// Returns nothing.
+// (public)
+//
+//////////////////////////////////////////////////////////////////////////////
+RSample::RSample(void)
+	{
+	// Intialize instantiables.
+	Init();
+	}
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Constructor Especial.
+// Returns no nutin' under no circumstance no how.
+// (public)
+//
+//////////////////////////////////////////////////////////////////////////////
+RSample::RSample(	void *pData, int32_t lBufSize, int32_t lSamplesPerSec, 
+						int16_t sBitsPerSample, int16_t sNumChannels)
+	{
+	// Intialize instantiables.
+	Init();
+	// Fill in supplied members.
+	m_pData				= pData;
+	m_lBufSize			= lBufSize;
+	m_lSamplesPerSec	= lSamplesPerSec;
+	m_sBitsPerSample	= sBitsPerSample;
+	m_sNumChannels		= sNumChannels;
+	}
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Destructor.
+// Returns nothing.
+// (public)
+//
+//////////////////////////////////////////////////////////////////////////////
+RSample::~RSample(void)
+	{
+	// Make sure memory is freed and we're unlocked.
+	Reset();
+	}
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Initialize instantiable members.
+// Returns nothing.
+// (public)
+//
+//////////////////////////////////////////////////////////////////////////////
+void RSample::Init(void)
+	{
+	// Initialize members.
+	m_pData				= nullptr;
+	m_sOwnBuf			= FALSE;
+	m_lBufSize			= 0L;
+	m_lSamplesPerSec	= 0L;
+	m_sBitsPerSample	= 0;
+	m_sNumChannels		= 0;
+	m_sRefCnt			= 0;
+	}
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Reset object.  Release play data and reset variables.
+// Returns nothing.
+// (public)
+//
+///////////////////////////////////////////////////////////////////////////////
+void RSample::Reset(void)
+	{
+	ASSERT(IsLocked() == FALSE);
+
+	if (IsLocked() == FALSE)
+		{
+		if (m_sOwnBuf == TRUE)
+			{
+			if (m_pData != nullptr)
+				{
+				// Free data.
+				free(m_pData);
+				m_pData = nullptr;
+				}
+			}
+		
+		Init();
+		}
+	else
+		{
+		TRACE("Reset():  Attempt to Reset a locked RSample!\n");
+		}
+	}
+#ifdef UNUSED_FUNCTIONS
+///////////////////////////////////////////////////////////////////////////////
+//
+// Read from file until we hit pcForm chunk, and then read size of chunk.
+// Returns size of chunk on success.
+//
+///////////////////////////////////////////////////////////////////////////////
+static int32_t IffReadUntil(char* pcForm, FILE* fsIn)
+	{
+	int32_t lRes = 0;
+
+	// Search for pcForm.
+	int16_t sMatch = 0;
+	int	c;
+	
+	while (lRes == 0)
+		{
+		c = fgetc(fsIn);
+		if (c == EOF)
+			{
+			lRes = -1;
+			}
+		else
+			{
+			if (pcForm[sMatch] == c)
+				{
+				if (++sMatch == 4)
+					{
+					// Attempt to read size of chunk.
+					if (fread(&lRes, 4, 1, fsIn) != 1)
+						{
+						TRACE("IffReadUntil(): Error reading size of chunk.\n");
+						lRes = -2;
+						}
+					else
+						{
+						break;
+						}
+					}
+				}
+			else
+				{
+				sMatch = 0;
+				}
+			}
+		}
+
+	return lRes;
+	}
+#endif
+///////////////////////////////////////////////////////////////////////////////
+//
+// Read WAVE info from fsIn.
+// Returns size of data chunk on success, negative on error. (protected)
+//
+///////////////////////////////////////////////////////////////////////////////
+int32_t RSample::ReadWaveHeader(void)
+	{
+	int32_t	lRes = 0L; // Assume success.
+
+	// Skip RIFF garbage
+   if (m_iff.Find(".WAVE.fmt ") == SUCCESS)
+		{
+		uint16_t usFormatTag;
+		// Read PCMWAVEFORMAT header.
+		if (m_iff.Read(&usFormatTag) == 1L)
+			{
+			ASSERT(usFormatTag == WAVE_FORMAT_PCM);
+
+			if (m_iff.Read(&m_sNumChannels) == 1L)
+				{
+				if (m_iff.Read(&m_lSamplesPerSec) == 1L)
+					{
+					int32_t lAvgBytesPerSec;
+					if (m_iff.Read(&lAvgBytesPerSec) == 1L)
+						{
+						int16_t sBlockAlign;
+						if (m_iff.Read(&sBlockAlign) == 1L)
+							{
+							if (m_iff.Read(&m_sBitsPerSample) == 1L)
+								{
+								ASSERT(m_sBitsPerSample * m_sNumChannels / 8 == sBlockAlign);
+
+								// If ADPCM . . .
+								if (usFormatTag == WAVE_FORMAT_ADPCM)
+									{
+									// Read rest of 'fmt ' chunk.
+									uint16_t usExtendedSize;
+									if (m_iff.Read(&usExtendedSize) == 1L)
+										{
+										// Read number of samples per block.
+										uint16_t usSamplesPerBlock;
+										if (m_iff.Read(&usSamplesPerBlock) == 1L)
+											{
+											// Read number of coefficients.
+											uint16_t usNumCoefs;
+											if (m_iff.Read(&usNumCoefs) == 1L)
+												{
+												// Read coefficients.
+												for (uint16_t usIndex = 0; usIndex < usNumCoefs; usIndex++)
+													{
+
+													}
+												}
+											else
+												{
+												TRACE("ReadWaveHeader(): Unable to read number of coefficients.\n");
+												lRes = -11L;
+												}
+											}
+										else
+											{
+											TRACE("ReadWaveHeader(): Unable to read number of samples per block.\n");
+											lRes = -10L;
+											}
+										}
+									else
+										{
+										TRACE("ReadWaveHeader(): Unable to read cbSize field of extended 'fmt '.\n");
+										lRes = -9L;
+										}
+									}
+
+								// If successful so far . . .
+								if (lRes == 0L)
+									{
+									// Skip to "data" chunk.
+                           if (m_iff.Find("data") == SUCCESS)
+										{
+										// Success.
+										lRes	= m_iff.GetSize();
+										}
+									else
+										{
+										TRACE("ReadWaveHeader(): Unable to skip to \"data\" chunk.\n");
+										lRes = -8L;
+										}
+									}
+								}
+							else
+								{
+								TRACE("ReadWaveHeader(): Unable to read number of bits per second.\n");
+								lRes = -7L;
+								}
+							}
+						else
+							{
+							TRACE("ReadWaveHeader(): Unable to read block size of data.\n");
+							lRes = -6L;
+							}
+						}
+					else
+						{
+						TRACE("ReadWaveHeader(): Unable to read average bytes per second.\n");
+						lRes = -5L;
+						}
+					}
+				else
+					{
+					TRACE("ReadWaveHeader(): Unable to read sample rate.\n");
+					lRes = -4L;
+					}
+				}
+			else
+				{
+				TRACE("ReadWaveHeader(): Unable to read number of channels (i.e. mono, stereo, etc.).\n");
+				lRes = -3L;
+				}
+			}
+		else
+			{
+			TRACE("ReadWaveHeader(): Unable to read format type.\n");
+			lRes = -2L;
+			}
+		}
+	else
+		{
+		TRACE("ReadWaveHeader(): Unable to skip to identifier \"fmt \".\n");
+		lRes = -1L;
+		}
+
+	return lRes;
+	}
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//	Determines the file type of the supplied file stream, if possible, and 
+// returns a short value indicating that file type.
+//
+///////////////////////////////////////////////////////////////////////////////
+static int16_t GetFileType(RIff* piff)
+	{
+   int16_t sResult = SAMPLE_TYPE_UNKNOWN; // Assume unknown.
+
+	// Read some info to determine file type.
+	static char acHeader[128];
+	int32_t	lBeginPos	= piff->Tell();
+	int32_t	lNumRead		= piff->Read(acHeader, sizeof(acHeader));
+	// Seek back to beginning.
+   if (piff->Seek(lBeginPos, SEEK_SET) == SUCCESS)
+		{
+		if (lNumRead > 0L)
+			{
+			// Check for WAV type.
+			if (strncmp(acHeader, "RIFF", 4) == 0)
+				{
+				if (strncmp(acHeader + 8, "WAVE", 4) == 0)
+					{
+               sResult = SAMPLE_TYPE_WAVE;
+					}
+				}
+
+         if (sResult == SAMPLE_TYPE_UNKNOWN)
+				{
+				// Check for another type.
+				}
+			}
+		else
+			{
+			TRACE("GetFileType(): Unable to read header info.\n");
+         sResult = FAILURE * 2;
+			}
+		}
+	else
+		{
+		TRACE("GetFileType(): Unable to seek back to beginning.\n");
+      sResult = FAILURE;
+		}
+	
+   return sResult;
+	}
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Open a file and read the header.  Locks the RSample automatically.
+// Returns the size of the file's data on success, negative otherwise.
+// (public)
+//
+///////////////////////////////////////////////////////////////////////////////
+int32_t RSample::Open(char* pszSampleName, int32_t lReadBufSize)
+	{
+	int32_t	lRes = 0L;
+
+	// Reset variables and free data if any.
+	Reset();
+	
+	// Make sure no other locks . . . 
+	if (m_sRefCnt == 0)
+		{
+		// Lock.
+		Lock();
+
+		// Attempt to open file.
+      if (m_iff.Open(pszSampleName, "rb", RFile::LittleEndian) == SUCCESS)
+			{
+			// Ask stdio to allocate a buffer of the size we are reading to optimize 
+			// read performance . . .
+         if (m_iff.SetBufferSize(lReadBufSize) == SUCCESS)
+				{
+				// Success.
+				}
+			else
+				{
+				TRACE("Open(\"%s\"): Unable setup read buffer.\n", pszSampleName);
+				lRes = -5L;
+				}
+
+			switch (GetFileType(&m_iff))
+				{
+				case SAMPLE_TYPE_WAVE:
+					lRes = ReadWaveHeader();
+					break;
+				case SAMPLE_TYPE_UNKNOWN:
+					TRACE("Open(\"%s\"): Unknown sound file type.\n", pszSampleName);
+					lRes = -1L;
+					break;
+				default:
+					TRACE("Open(\"%s\"): Error reading header.\n", pszSampleName);
+					lRes = -2L;
+					break;
+				}
+
+			// If any errors occurred . . .
+			if (lRes < 0L)
+				{
+				m_iff.Close();
+				}
+			}
+		else
+			{
+			TRACE("Open(\"%s\"): Unable to open file.\n", pszSampleName);
+			lRes = -3;
+			}
+
+		// If any errors occurred . . .
+		if (lRes < 0L)
+			{
+			// Unlock and reset . . .
+         if (Unlock() == SUCCESS)
+				{
+				Reset();
+				}
+			}
+		}
+	else
+		{
+		TRACE("Open(\"%s\"): Unable to lock RSample.\n", pszSampleName);
+		lRes = -4;
+		}
+		
+	return lRes;
+	}
+	
+///////////////////////////////////////////////////////////////////////////////
+//
+// Read the specified amount of data from the open file.
+// Returns amount read on success, negative on failure.
+//
+///////////////////////////////////////////////////////////////////////////////
+int32_t RSample::Read(int32_t lAmount)
+	{
+	int32_t	lRes	= 0L;
+
+	ASSERT(m_iff.IsOpen() != FALSE);
+
+	// If current data size is different than desired or is not allocated . . .
+	if (m_pData == nullptr || m_lBufSize != lAmount)
+		{
+		// Allocate desired amount.
+		m_pData = (void*)malloc(lAmount);
+		// If successful . . .
+		if (m_pData != nullptr)
+			{
+			// Remember we own this buffer (i.e., we allocated it and should
+			// be responsible for freeing it).
+			m_sOwnBuf	= TRUE;
+			// Set data buffer size.
+			m_lBufSize	= lAmount;
+			}
+		else
+			{
+			TRACE("Read(%u): Unable to allocate data chunk.\n", lAmount);
+			lRes = -1L;
+			}
+		}
+
+	// If successful so far . . .
+	if (lRes == 0L)
+		{
+		// Attempt to read amount requested.  For 8-bit data, or if the data
+		// size hasn't been set yet, we read the data as a block of bytes.
+		// Otherwise, we read the data as words so the system's endian nature
+		// wil be taken into account.
+		if (m_sBitsPerSample < 16)
+			lRes = m_iff.Read((uint8_t*)m_pData, lAmount);
+		else
+			lRes = m_iff.Read((uint16_t*)m_pData, lAmount / 2) * 2;
+		// If data read . . .
+		if (lRes > 0L)
+			{
+			// Success.
+			}
+		else
+			{
+			// Check for error.
+			if (m_iff.Error() == FALSE)
+				{
+				// EOF.
+				}
+			else
+				{
+				TRACE("Read(%u): Error reading stream.\n");
+				lRes = -2L;
+				}
+			}
+		}
+
+	return lRes;
+	}
+		
+///////////////////////////////////////////////////////////////////////////////
+//
+// Close the file opened with Open.  Unlocks the RSample automatically.
+// Returns 0 on success.
+// (public)
+//
+///////////////////////////////////////////////////////////////////////////////
+int16_t RSample::Close(void)
+	{
+   int16_t sResult = SUCCESS;
+
+	ASSERT(m_iff.IsOpen() != FALSE);
+
+   if (m_iff.Close() == SUCCESS)
+		{
+		// If unlocking leaves this RSample totally unlocked . . .
+      if (Unlock() == SUCCESS)
+			{
+			// Success.
+			}
+		}
+	else
+		{
+		TRACE("Close(): Unable to close file.\n");
+      sResult = FAILURE;
+		}
+
+   return sResult;
+	}
+	
+///////////////////////////////////////////////////////////////////////////////
+//
+// Load an entire sound file.
+// Returns 0 on success.
+// (public)
+//
+///////////////////////////////////////////////////////////////////////////////
+int16_t RSample::Load(char* pszSampleName)
+	{
+   int16_t sResult = SUCCESS;
+	
+	// Attempt to open sample file.
+	m_lBufSize = Open(pszSampleName, DEFAULT_READBUFSIZE);
+	// If successful . . .
+	if (m_lBufSize >= 0L)
+		{
+		// Attempt to read entire sample.
+		// If we get all the data . . .
+		if (Read(m_lBufSize) == m_lBufSize)
+			{
+			// Success.
+			}
+		else
+			{
+			TRACE("Load(\"%s\"): Unable to read entire file.\n", pszSampleName);
+         sResult = FAILURE * 2;
+			}
+
+		// Close file and clean up.
+		Close();
+		}
+	else
+		{
+      sResult = FAILURE;
+		}
+		
+   return sResult;
+	}
+	
+///////////////////////////////////////////////////////////////////////////////
+//
+// Same as above, but accepts an open RFile* and uses existing read buffer
+// size.
+//
+///////////////////////////////////////////////////////////////////////////////
+int16_t RSample::Load(	// Returns 0 on success.
+	RFile*	pfile)	// Open RFile.
+	{
+   int16_t sResult = SUCCESS;	// Assume success.
+
+	// Reset variables and free data if any.
+	Reset();
+	
+	// Make sure no other locks . . . 
+	if (m_sRefCnt == 0)
+		{
+		// Lock.
+		Lock();
+
+		// Attempt to synch with supplied RFile* . . .
+      if (m_iff.Open(pfile) == SUCCESS)
+			{
+			// Get input file type.
+			switch (GetFileType(&m_iff))
+				{
+				case SAMPLE_TYPE_WAVE:
+					m_lBufSize = ReadWaveHeader();
+					break;
+				case SAMPLE_TYPE_UNKNOWN:
+					TRACE("Load(): Unknown sound file type.\n");
+               sResult = FAILURE * 6;
+					break;
+				default:
+					TRACE("Load(): Error reading header.\n");
+               sResult = FAILURE * 5;
+					break;
+				}
+
+			// If successful so far . . .
+         if (m_lBufSize >= 0L && sResult == SUCCESS)
+				{
+				// Attempt to read entire sample.
+				// If we get all the data . . .
+				if (Read(m_lBufSize) == m_lBufSize)
+					{
+					// Success.
+					}
+				else
+					{
+					TRACE("Load(): Unable to read entire file.\n");
+               sResult = FAILURE * 4;
+					}
+				}
+			else
+				{
+				TRACE("Load(): ReadWaveHeader() failed.\n");
+            sResult = FAILURE * 3;
+				}
+
+			// Close and clean up.  Will 'unsynch' with pfile via m_iff.Close() call.
+			Close();
+			}
+		else
+			{
+			TRACE("Load(): m_iff.Open(pfile) failed.\n");
+         sResult = FAILURE * 2;
+			}
+		}
+	else
+		{
+		TRACE("Load(): Unable to lock RSample.\n");
+      sResult = FAILURE;
+		}
+
+   return sResult;
+	}
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Saves entire sample to file specified in RIFF WAVE format.
+//
+///////////////////////////////////////////////////////////////////////////////
+int16_t RSample::Save(		// Returns 0 on success.
+	char* pszFileName)	// Filename for sample file.
+	{
+   int16_t sResult = SUCCESS;	// Assume success.
+
+	// Open file for write . . .
+	RFile file;
+   if (file.Open(pszFileName, "wb", RFile::LittleEndian) == SUCCESS)
+		{
+		// Do it.
+      sResult	= Save(&file);
+		}
+	else
+		{
+		TRACE("Save(\"%s\"): file.Open() failed.\n", pszFileName);
+      sResult = FAILURE;
+		}
+
+   return sResult;
+	}
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Saves entire sample to file specified in RIFF WAVE format.
+//
+///////////////////////////////////////////////////////////////////////////////
+int16_t RSample::Save(		// Returns 0 on success.
+	RFile* pfile)			// Open RFile for sample.
+	{
+   int16_t sResult = SUCCESS;	// Assume success.
+
+	// Attempt to synchronize . . .
+	RIff	iff;
+   if (iff.Open(pfile) == SUCCESS)
+		{
+		// Create 'RIFF' 'WAVE' form . . .
+      if (iff.CreateChunk(RIff::RiffStr2FCC("RIFF"), RIff::RiffStr2FCC("WAVE")) == SUCCESS)
+			{
+			// Create 'fmt ' chunk . . .
+         if (iff.CreateChunk(RIff::RiffStr2FCC("fmt ") ) == SUCCESS)
+				{
+				// Fill in the chunk.
+				// Write PCMWAVEFORMAT header.
+				iff.Write((uint16_t)WAVE_FORMAT_PCM);
+				iff.Write(m_sNumChannels);
+				iff.Write(m_lSamplesPerSec);
+				// Average bytes per second.
+				iff.Write((m_lSamplesPerSec * (int32_t)m_sBitsPerSample * (int32_t)m_sNumChannels) / (int32_t)8);
+				// Block align.
+				iff.Write((int16_t)(m_sBitsPerSample * m_sNumChannels / 8) );
+				iff.Write(m_sBitsPerSample);
+
+				// End 'fmt ' chunk.
+				iff.EndChunk(RIff::RiffStr2FCC("fmt ") );
+
+				// Create 'data' chunk . . .
+            if (iff.CreateChunk(RIff::RiffStr2FCC("data") ) == SUCCESS)
+					{
+					// Write data da whole thing ... kerbang!
+					if (iff.Write((uint8_t*)m_pData, m_lBufSize) == m_lBufSize)
+						{
+						// Success.
+						}
+					else
+						{
+						TRACE("Save(): Failed to write entire data buffer to 'data' chunk.\n");
+                  sResult = FAILURE * 5;
+						}
+
+					// End 'data' chunk.
+					iff.EndChunk(RIff::RiffStr2FCC("data") );
+					}
+				else
+					{
+					TRACE("Save(): Failed to create 'data' chunk.\n");
+               sResult = FAILURE * 4;
+					}
+				}
+			else
+				{
+				TRACE("Save(): Failed to create 'fmt ' chunk.\n");
+            sResult = FAILURE * 3;
+				}
+
+			// End 'RIFF' 'WAVE' form.
+			iff.EndChunk(RIff::RiffStr2FCC("RIFF"), RIff::RiffStr2FCC("WAVE") );
+			}
+		else
+			{
+			TRACE("Save(): Failed to create RIFF WAVE form.\n");
+         sResult = FAILURE * 2;
+			}
+		}
+	else
+		{
+		TRACE("Save(): iff.Open(pfile) failed.\n");
+      sResult = FAILURE;
+		}
+
+   return sResult;
+	}
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Lock this sample for use.
+// Returns 0 on success.
+// (public)
+//
+///////////////////////////////////////////////////////////////////////////////
+int16_t RSample::Lock(void)
+	{
+   int16_t sResult = SUCCESS; // Assume success.
+
+	// If not being read . . .
+	if (m_iff.IsOpen() == FALSE || m_sRefCnt == 0)
+		{
+		// Increase reference count.
+		m_sRefCnt++;
+		}
+	else
+		{
+		TRACE("Lock(): Attempt to lock a RSample being read/streamed.\n");
+      sResult = FAILURE;
+		}
+	
+   return sResult;
+	}
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Unlock this sample from use.
+// Returns new reference count.
+// (public)
+//
+///////////////////////////////////////////////////////////////////////////////
+int16_t RSample::Unlock(void)
+	{
+	ASSERT(m_sRefCnt > 0);
+
+	// Deduct one from the reference count and return the new value.
+	return --m_sRefCnt;
+	}
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Convert current sample data from 8 bit unsigned to 16 bit signed.
+// Returns 0 on success.
+//
+//////////////////////////////////////////////////////////////////////////////
+int16_t RSample::Convert8to16(void)
+	{
+   int16_t sResult = SUCCESS;	// Assume success.
+
+	ASSERT(m_sBitsPerSample	== 8);
+	ASSERT(m_sRefCnt			== 0);
+	ASSERT(m_pData				!= nullptr);
+
+	// Allocate space for new data.
+	int16_t*	ps16Dst	= (int16_t*)malloc(m_lBufSize);
+
+	// If successful . . .
+	if (ps16Dst != nullptr)
+		{
+		uint8_t* pu8Src	= (uint8_t*)m_pData;
+
+		for (int32_t l = 0L; l < m_lBufSize; l++)
+			{
+			ps16Dst[l]	= (int16_t)((pu8Src[l] << 8) ^ 0x8000);
+			}
+
+		// Discard old data.
+		// If we own it . . .
+		if (m_sOwnBuf == TRUE)
+			{
+			free(m_pData);
+			}
+
+		// Set new data.
+		m_pData				= (void*)ps16Dst;
+		// Set new size.
+		m_lBufSize			*= 2L;
+		// Set new sample size.
+		m_sBitsPerSample	= 16;
+		}
+	else
+		{
+      sResult = FAILURE;
+		TRACE("Convert8to16(): Unable to allocate space for new data.\n");
+		}
+
+   return sResult;
+	}
+
+//////////////////////////////////////////////////////////////////////////////
+// EOF
+//////////////////////////////////////////////////////////////////////////////
