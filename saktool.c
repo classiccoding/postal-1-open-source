@@ -3,6 +3,9 @@
 #include <stdint.h>
 #include <string.h>
 
+// linux only for now
+#include <sys/stat.h>
+
 #define VER_MAJ     0
 #define VER_MIN     1
 
@@ -60,6 +63,45 @@ int match(const char* name, const char* mask)
         }
     } while (c);
 
+    return 1;
+}
+
+// very rudimentary folder check
+int check_folder(const char* folder)
+{
+    if(!folder) 
+        return 0;
+    if(!folder[0])
+        return 0;
+    if(strchr(folder,'*')!=NULL)
+        return 0;
+    if(strchr(folder,'?')!=NULL)
+        return 0;
+    
+    return 1;
+}
+
+int create_folder(const char* folder)
+{
+    // recursively create folders
+    struct stat st = {0};
+    char* buff = strdup(folder);
+    char* name = strrchr(buff, '/');
+    if(name) {
+        *name='\0';
+        name++;
+        create_folder(buff);
+    } else 
+        name = buff;
+
+    if(stat(folder, &st) == -1) {
+        mkdir(folder, 0777);    //TODO, put some better permissions
+        if(stat(folder, &st) == -1) {
+            free(buff);
+            return 0;
+        }
+    } 
+    free(buff);
     return 1;
 }
 
@@ -160,6 +202,52 @@ void list_sak_content(sak_file *sak, const char* mask)
     }
 }
 
+void extract_sak(const char* sakfile, sak_file *sak, const char* mask, const char* folder)
+{
+    if(!sak) return;
+    char* name[4096];
+    void* buff = NULL;
+    uint32_t size = 0;
+    FILE *f = fopen(sakfile, "rb");
+    for (int i=0; i<sak->size; i++) {
+        if(match(sak->records[i].name, mask)) {
+            strcpy((char*)name, folder);
+            strcat((char*)name, "/");
+            strcat((char*)name, sak->records[i].name);
+            printf("Extracting %s...", name);
+            // read data
+            if(sak->records[i].size > size) {
+                free(buff);
+                size = sak->records[i].size;
+                buff = malloc(size);
+            }
+            fseek(f, sak->records[i].offset, SEEK_SET);
+            fread(buff, sak->records[i].size, 1, f);
+            // try to create file
+            FILE *o = fopen((char*)name, "wb");
+            if (o==NULL) {
+                // faillure, try to locate any folder and create them
+                char* tmp = strdup((char*)name);
+                char* sep = strrchr(tmp, '/');
+                if(sep) {
+                    *sep='\0';
+                    create_folder(tmp);
+                    o = fopen((char*)name, "wb");
+                }
+            }
+            if (o==NULL) {
+                printf("\tFailled\n");
+            } else {
+                fwrite(buff, sak->records[i].size, 1, o);
+                fclose(o);
+                printf("\tok\n");
+            }
+        }
+    }
+    fclose(f);
+    free(buff);
+}
+
 void free_sak(sak_file *sak)
 {
     if(!sak) return;
@@ -182,13 +270,20 @@ int main(int argc, char** argv)
     printf("saktools v%d.%d\n", VER_MAJ, VER_MIN);
 
     if (argc<3 || (argc>1 && argv[1][0]=='h'))  {
-        printf("\n\nUsage:\n\nsaktools CMD sakfile [folder] [mask]\n");
+        printf("\n\nUsage:\n\nsaktools CMD sakfile (folder) [mask]\n");
         printf("\twhere CMD is\n");
-        printf("\t l : list content\n");
+        printf("\t l : list content (no folder argument)\n");
+        printf("\t e : extract content (folder argument mandatory)\n");
         return -1;
     }
     if(strcmp(argv[1],"l")==0) {
         cmd = 0; 
+    }
+    if(strcmp(argv[1],"e")==0) {
+        cmd = 1; 
+    }
+    if(strcmp(argv[1],"x")==0) {
+        cmd = 1; 
     }
     if(cmd<0) {
         printf("Unknown command '%s'\n", argv[1]);
@@ -209,6 +304,21 @@ int main(int argc, char** argv)
             sak_file* sak = read_sak(sakfile);
 
             list_sak_content(sak, mask);
+
+            free_sak(sak);
+            free(sak);
+        }
+        case 1 : {
+            if(!check_folder(folder)) {
+                printf("ERROR: Bad folder name\n");
+                return -5;
+            }
+            sak_file* sak = read_sak(sakfile);
+            if(create_folder(folder)) {
+                extract_sak(sakfile, sak, mask, folder);
+            } else {
+                printf("Error creating folder \"%s\"\n", folder);
+            }
 
             free_sak(sak);
             free(sak);
