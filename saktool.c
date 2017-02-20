@@ -5,6 +5,7 @@
 
 // linux only for now
 #include <sys/stat.h>
+#include <dirent.h>
 
 #define VER_MAJ     0
 #define VER_MIN     1
@@ -17,6 +18,7 @@ typedef struct  {
     char*       name;
     uint32_t     offset;
     uint32_t     size;
+    int32_t      from_sak;
 } sak_record;
 
 typedef struct {
@@ -173,6 +175,7 @@ sak_file* read_sak(const char* sakname)
         sak->records[n].name = strdup(buff);
         fread(&ul, sizeof(ul), 1, sakfile);
         sak->records[n].offset = ul;
+        sak->records[n].from_sak = 1;
         n++;
     }
     fseek(sakfile, 0, SEEK_END);
@@ -205,15 +208,15 @@ void list_sak_content(sak_file *sak, const char* mask)
 void extract_sak(const char* sakfile, sak_file *sak, const char* mask, const char* folder)
 {
     if(!sak) return;
-    char* name[4096];
+    char name[4096];
     void* buff = NULL;
     uint32_t size = 0;
     FILE *f = fopen(sakfile, "rb");
     for (int i=0; i<sak->size; i++) {
         if(match(sak->records[i].name, mask)) {
-            strcpy((char*)name, folder);
-            strcat((char*)name, "/");
-            strcat((char*)name, sak->records[i].name);
+            strcpy(name, folder);
+            strcat(name, "/");
+            strcat(name, sak->records[i].name);
             printf("Extracting %s...", name);
             // read data
             if(sak->records[i].size > size) {
@@ -224,19 +227,19 @@ void extract_sak(const char* sakfile, sak_file *sak, const char* mask, const cha
             fseek(f, sak->records[i].offset, SEEK_SET);
             fread(buff, sak->records[i].size, 1, f);
             // try to create file
-            FILE *o = fopen((char*)name, "wb");
+            FILE *o = fopen(name, "wb");
             if (o==NULL) {
                 // faillure, try to locate any folder and create them
-                char* tmp = strdup((char*)name);
+                char* tmp = strdup(name);
                 char* sep = strrchr(tmp, '/');
                 if(sep) {
                     *sep='\0';
                     create_folder(tmp);
-                    o = fopen((char*)name, "wb");
+                    o = fopen(name, "wb");
                 }
             }
             if (o==NULL) {
-                printf("\tFailled\n");
+                printf("\tFailed\n");
             } else {
                 fwrite(buff, sak->records[i].size, 1, o);
                 fclose(o);
@@ -260,6 +263,143 @@ void free_sak(sak_file *sak)
     sak->records = NULL;
 }
 
+sak_file *copy_sak(sak_file *sak)
+{
+    if(!sak) return NULL;
+    sak_file *cp = (sak_file*)malloc(sizeof(sak_file));
+    memset(cp, 0, sizeof(sak_file));
+    cp->sig = sak->sig;
+    cp->ver = sak->ver;
+    cp->cap = sak->cap*2;   // because we will probably add files...
+    cp->records = (sak_record*)malloc(cp->cap*sizeof(sak_record));
+    for (int i=0; i<sak->size; i++) {
+        cp->records[i].name = strdup(sak->records[i].name);
+        cp->records[i].size = sak->records[i].size;
+        cp->records[i].offset = 0;  // to be calculated later
+        cp->records[i].from_sak = sak->records[i].from_sak;
+    }
+    cp->size = sak->size;
+
+    return cp;
+}
+
+/// Gives the size of the header once save on disk, include signature and version
+int sak_header_size(sak_file* sak)
+{
+    if(!sak) return 0;
+    int size = sizeof(uint32_t)*2+sizeof(uint16_t);
+    for (int i=0; i<sak->size; i++) {
+        size += strlen(sak->records[i].name) + 1 + sizeof(uint32_t);
+    }
+    return size;
+}
+
+void sak_reoffset(sak_file* sak)
+{
+    if(!sak) return;
+    int off = sak_header_size(sak);
+    for (int i=0; i<sak->size; i++) {
+        sak->records[i].offset = off;
+        off += sak->records[i].size;
+    }
+}
+
+/// return -1 if not found, or index value if found
+int is_insak(sak_file *sak, const char* name)
+{
+    if(!sak) return -1;
+    for (int i=0; i<sak->size; i++)
+        if(strcmp(sak->records[i].name, name)==0)
+            return i;
+    return -1;
+}
+
+void sak_addfile(sak_file* sak, const char* name, uint32_t size)
+{
+    if(!sak) return;
+    int i = is_insak(sak, name);
+    if(i==-1) i = sak->size++;  // append record, and increment size
+    if(i == sak->cap) {
+        sak->cap += 16;
+        sak->records = (sak_record*)realloc(sak->records, sak->cap*sizeof(sak_record)); // bad, should test realloc worked
+    }
+    sak->records[i].name = strdup(name);
+    sak->records[i].size = size;
+    sak->records[i].offset = 0;
+    sak->records[i].from_sak = 0;
+}
+
+void add_sak(const char* sakfile, sak_file *sak, const char* mask, const char* folder, const char* current)
+{
+    if(!sak) return;
+    char name[4096];
+    char next[4096];
+    uint32_t size = 0;
+
+    strcpy(name, folder);
+    if(current) {
+        strcat(name, "/");
+        strcat(name, current);
+    }
+    DIR *d;
+    struct dirent *dir;
+    d = opendir(name);
+    if (d)
+    {
+        while((dir = readdir(d)) != NULL)
+        {
+            if(dir->d_type==DT_DIR) {
+                if((strcmp(dir->d_name,".")!=0 && strcmp(dir->d_name, "..")!=0)) {
+                    strcpy(next, current);
+                    strcat(next, "/");
+                    strcat(next, dir->d_name);
+                    add_sak(sakfile, sak, mask, folder, next);
+                }
+            } else {
+                // match with mask and add it if ok
+                if(current) {
+                    strcpy(next, current);
+                    strcat(next, "/");
+                    strcat(next, dir->d_name);
+                } else {
+                    strcpy(next, dir->d_name);
+                }
+                if(match(next, mask)) {
+                    // ok try to add it
+                    char myfile[4096];
+                    strcpy(myfile, folder);
+                    strcat(myfile, "/");
+                    strcat(myfile, next);
+                    FILE *f = fopen(myfile, "rb");
+                    if (f) {
+                        fseek(f, 0, SEEK_END);
+                        uint32_t size = ftell(f);
+                        fclose(f);
+                        sak_addfile(sak, (char*)next, size);
+                        printf("Adding \"%s\" as \"%s\" (size=%d)\n", myfile, next, size);
+                    } else {
+                        printf("Error openning \"%s\"\n", myfile);
+                    }
+                }
+            }
+        }
+        closedir(d);
+    }
+}
+
+void sak_writeheader(sak_file *sak, FILE *f)
+{
+    if(!sak) return;
+    fwrite(&sak->sig, sizeof(sak->sig), 1, f);
+    fwrite(&sak->ver, sizeof(sak->ver), 1, f);
+    uint16_t us = sak->size;
+    fwrite(&us, sizeof(us), 1, f);
+    for (int i=0; i<us; i++) {
+        fwrite(sak->records[i].name, strlen(sak->records[i].name)+1, 1, f);
+        fwrite(&sak->records[i].offset, sizeof(uint32_t), 1, f);
+    }
+}
+
 int main(int argc, char** argv)
 {
     int cmd = -1;
@@ -273,7 +413,8 @@ int main(int argc, char** argv)
         printf("\n\nUsage:\n\nsaktools CMD sakfile (folder) [mask]\n");
         printf("\twhere CMD is\n");
         printf("\t l : list content (no folder argument)\n");
-        printf("\t e : extract content (folder argument mandatory)\n");
+        printf("\t e : extract file(s) (folder argument mandatory)\n");
+        printf("\t a : add file(s) (folder argument mandatory)\n");
         return -1;
     }
     if(strcmp(argv[1],"l")==0) {
@@ -284,6 +425,9 @@ int main(int argc, char** argv)
     }
     if(strcmp(argv[1],"x")==0) {
         cmd = 1; 
+    }
+    if(strcmp(argv[1],"a")==0) {
+        cmd = 2; 
     }
     if(cmd<0) {
         printf("Unknown command '%s'\n", argv[1]);
@@ -310,6 +454,7 @@ int main(int argc, char** argv)
             free_sak(sak);
             free(sak);
         }
+        break;
         case 1 : {
             if(!check_folder(folder)) {
                 printf("ERROR: Bad folder name\n");
@@ -326,6 +471,66 @@ int main(int argc, char** argv)
 
             free_sak(sak);
             free(sak);
+        }
+        break;
+        case 2 : {
+            if(!check_folder(folder)) {
+                printf("ERROR: Bad folder name\n");
+                return -5;
+            }
+            char newname[4096];
+            strcpy((char*)newname, sakfile);
+            strcat((char*)newname, ".XXXXXX");
+            mkstemp(newname);
+            sak_file* sak = read_sak(sakfile);
+            sak_file* newsak = copy_sak(sak);
+            add_sak(sakfile, newsak, mask, folder, NULL);
+            for (int j=5; j<argc; j++)
+                add_sak(sakfile, newsak, argv[j], folder, NULL);
+            // ok, reoffset now
+            sak_reoffset(newsak);
+            FILE* f = fopen(newname, "wb");
+            if (f) {
+                sak_writeheader(newsak, f);
+                void* buff = NULL;
+                uint32_t size = 0;
+                for(int i=0; i<newsak->size; i++) {
+                    if(size<newsak->records[i].size) {
+                        free(buff);
+                        size = newsak->records[i].size;
+                        buff = malloc(size);
+                    }
+                    if(newsak->records[i].from_sak) {
+                        int j = is_insak(sak, newsak->records[i].name);
+                        FILE *f2 = fopen(sakfile, "rb");
+                        if(f2) {
+                            fseek(f2, sak->records[j].offset, SEEK_SET);
+                            fread(buff, newsak->records[i].size, 1, f2);
+                            fclose(f2);
+                        } else printf("WARNING, error while reading %s\n", newsak->records[i].name);
+                    } else {
+                        char name[4096];
+                        strcpy(name, folder);
+                        strcat(name, "/");
+                        strcat(name, newsak->records[i].name);
+                        FILE *f2 = fopen(name, "rb");
+                        if(f2) {
+                            fread(buff, newsak->records[i].size, 1, f2);
+                            fclose(f2);
+                        } else printf("WARNING, error while reading %s\n", newsak->records[i].name);
+                    }
+                    fwrite(buff, newsak->records[i].size, 1, f);
+                }
+            }
+            fclose(f);
+            // finish, remove old sak and replace with new one
+            remove(sakfile);
+            rename(newname, sakfile);
+            // clean up memory
+            free_sak(sak);
+            free(sak);
+            free_sak(newsak);
+            free(newsak);
         }
         break;
     }
