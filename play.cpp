@@ -358,20 +358,20 @@
 #include "toolbar.h"
 #include "title.h"
 #include "credits.h"
-#ifdef WIN32
-	#include "log.h"
-#endif
+
+#include <list>
 
 #if defined(WIN32)
-	// For file timestamp.
-	#include <windows.h>
-	#include <time.h>
-	#include <sys/types.h>
-	#include <sys/stat.h>
+# include "log.h"
+// For file timestamp.
+# include <windows.h>
+# include <time.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 #endif
 
 #if defined(STEAM_CONNECTED)
-#include "steam/steam_api.h"
+# include "steam/steam_api.h"
 #endif
 
 //#define RSP_PROFILE_ON
@@ -546,6 +546,14 @@ typedef enum
 	MenuActionSaveGame,	// Save user's game.
 	MenuActionEndMenu		// End the menu
 	} MenuAction;
+
+
+static std::list<std::string> safe_strings;
+const char* safe_string(const char* src)
+{
+  safe_strings.emplace_back(src);
+  return safe_strings.back().c_str();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Variables/data
@@ -2677,10 +2685,10 @@ static void EnumSaveGamesSlots(Menu *menu)
 
 #if defined(__ANDROID__)
         snprintf(gamename, sizeof (gamename), "%d - [%s]", i, str);
-        menu->ami[i].pszText = strdup(gamename);
+        menu->ami[i].pszText = safe_string(gamename);
 #else
         snprintf(gamename, sizeof (gamename), "%s/%d.gme [%s]", SAVEGAME_DIR, i, str);
-        menu->ami[i].pszText = strdup(gamename);
+        menu->ami[i].pszText = safe_string(gamename);
 #endif
 
         menu->ami[i].sEnabled = (menu->ami[i].pszText != nullptr);
