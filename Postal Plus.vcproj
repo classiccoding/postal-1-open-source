@@ -52,7 +52,7 @@
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="RSPiX.H"
-				PrecompiledHeaderFile=".\Build\Postal Plus\Debug/Postal Plus.pch"
+				
 				AssemblerListingLocation=".\Build\Postal Plus\Debug/"
 				ObjectFile=".\Build\Postal Plus\Debug/"
 				ProgramDataBaseFileName=".\Build\Postal Plus\Debug/"
@@ -151,7 +151,7 @@
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\Build\Postal Plus\Release/Postal Plus.pch"
+				
 				AssemblerListingLocation=".\Build\Postal Plus\Release/"
 				ObjectFile=".\Build\Postal Plus\Release/"
 				ProgramDataBaseFileName=".\Build\Postal Plus\Release/"
@@ -248,7 +248,7 @@
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="RSPiX.H"
-				PrecompiledHeaderFile=".\Build\Postal Plus\Optimized Debug/Postal Plus.pch"
+				
 				AssemblerListingLocation=".\Build\Postal Plus\Optimized Debug/"
 				ObjectFile=".\Build\Postal Plus\Optimized Debug/"
 				ProgramDataBaseFileName=".\Build\Postal Plus\Optimized Debug/"
@@ -451,7 +451,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="2"
+					UsePrecompiledHeader="0"
 					PrecompiledHeaderThrough="RSPiX.H"
 				/>
 			</FileConfiguration>
@@ -561,7 +561,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="2"
+					UsePrecompiledHeader="0"
 					PrecompiledHeaderThrough="RSPiX.H"
 				/>
 			</FileConfiguration>
@@ -598,7 +598,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="2"
+					UsePrecompiledHeader="0"
 					PrecompiledHeaderThrough="RSPiX.H"
 				/>
 			</FileConfiguration>
@@ -673,7 +673,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="2"
+					UsePrecompiledHeader="0"
 					PrecompiledHeaderThrough="RSPiX.H"
 				/>
 			</FileConfiguration>
@@ -710,7 +710,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="2"
+					UsePrecompiledHeader="0"
 					PrecompiledHeaderThrough="RSPiX.H"
 				/>
 			</FileConfiguration>
@@ -786,7 +786,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="2"
+					UsePrecompiledHeader="0"
 					PrecompiledHeaderThrough="RSPiX.H"
 				/>
 			</FileConfiguration>
@@ -823,7 +823,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="2"
+					UsePrecompiledHeader="0"
 					PrecompiledHeaderThrough="RSPiX.H"
 				/>
 			</FileConfiguration>

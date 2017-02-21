@@ -27,8 +27,8 @@
 				StringPooling="TRUE"
 				RuntimeLibrary="4"
 				EnableFunctionLevelLinking="TRUE"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\Build\Super Postal\Release/Super Postal.pch"
+				UsePrecompiledHeader="0"
+				
 				AssemblerListingLocation=".\Build\Super Postal\Release/"
 				ObjectFile=".\Build\Super Postal\Release/"
 				ProgramDataBaseFileName=".\Build\Super Postal\Release/"
@@ -91,7 +91,7 @@
 				RuntimeLibrary="5"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="RSPiX.H"
-				PrecompiledHeaderFile=".\Build\Super Postal\Debug/Super Postal.pch"
+				
 				AssemblerListingLocation=".\Build\Super Postal\Debug/"
 				ObjectFile=".\Build\Super Postal\Debug/"
 				ProgramDataBaseFileName=".\Build\Super Postal\Debug/"
@@ -160,7 +160,7 @@
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="RSPiX.H"
-				PrecompiledHeaderFile=".\Build\Super Postal\Optimized Debug/Super Postal.pch"
+				
 				AssemblerListingLocation=".\Build\Super Postal\Optimized Debug/"
 				ObjectFile=".\Build\Super Postal\Optimized Debug/"
 				ProgramDataBaseFileName=".\Build\Super Postal\Optimized Debug/"

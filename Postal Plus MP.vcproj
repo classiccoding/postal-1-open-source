@@ -26,7 +26,7 @@
 				RuntimeLibrary="5"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="RSPiX.H"
-				PrecompiledHeaderFile=".\Build\Postal Plus MP\Debug/Postal Plus MP.pch"
+				
 				AssemblerListingLocation=".\Build\Postal Plus MP\Debug/"
 				ObjectFile=".\Build\Postal Plus MP\Debug/"
 				ProgramDataBaseFileName=".\Build\Postal Plus MP\Debug/"
@@ -93,8 +93,8 @@
 				StringPooling="TRUE"
 				RuntimeLibrary="4"
 				EnableFunctionLevelLinking="TRUE"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\Build\Postal Plus MP\Optimized Debug/Postal Plus MP.pch"
+				UsePrecompiledHeader="0"
+				
 				AssemblerListingLocation=".\Build\Postal Plus MP\Optimized Debug/"
 				ObjectFile=".\Build\Postal Plus MP\Optimized Debug/"
 				ProgramDataBaseFileName=".\Build\Postal Plus MP\Optimized Debug/"
@@ -160,8 +160,8 @@
 				StringPooling="TRUE"
 				RuntimeLibrary="4"
 				EnableFunctionLevelLinking="TRUE"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\Build\Postal Plus MP\Release/Postal Plus MP.pch"
+				UsePrecompiledHeader="0"
+				
 				AssemblerListingLocation=".\Build\Postal Plus MP\Release/"
 				ObjectFile=".\Build\Postal Plus MP\Release/"
 				ProgramDataBaseFileName=".\Build\Postal Plus MP\Release/"
