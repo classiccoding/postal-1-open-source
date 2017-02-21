@@ -1119,7 +1119,7 @@
 #include "score.h"
 #include "play.h"
 
-//#ifdef MOBILE
+//#if defined(__ANDROID__)
 bool demoCompat = false; //Set in Play.cpp
 //#endif
 
@@ -2684,7 +2684,7 @@ void CDude::ProcessInput(		// Returns nothing.
 		case INPUT_WEAPON_3:
 		case INPUT_WEAPON_4:
 		case INPUT_WEAPON_5:
-//#ifdef MOBILE //We want weapon 5 to toggle weapon
+//#if defined(__ANDROID__) //We want weapon 5 to toggle weapon
 if (!demoCompat)
 {
 			if (((input & INPUT_WEAPONS_MASK) == INPUT_WEAPON_5)
@@ -3131,10 +3131,10 @@ if (!demoCompat)
 	//TRACE("TSD Acc %f MA %f AA %f Fire %i\n", m_dAcc, m_dRotTS, m_dRot, m_bJoyFire);
 	//TRACE("JoyVel %f JoyAngle %f Fire %i FireAngle %f\n", m_dJoyMoveVel, m_dJoyMoveAngle, m_bJoyFire, m_dJoyFireAngle);
 
-//#ifdef MOBILE
+//#if defined(__ANDROID__)
 if (!demoCompat)
 {
-//#endif // MOBILE
+//#endif // __ANDROID__
 	if (input & INPUT_WEAPON_NEXT)
 	{
 		input &= ~(INPUT_FIRE);
@@ -3146,9 +3146,9 @@ if (!demoCompat)
 		input &= ~(INPUT_FIRE);
 		PrevWeapon();
 	}
-//#ifdef MOBILE
+//#if defined(__ANDROID__)
 }
-//#endif // MOBILE
+//#endif // __ANDROID__
 
 	// If a weapon key was pressed . . .
 	if (input & INPUT_WEAPONS_MASK)
@@ -3194,7 +3194,7 @@ if (!demoCompat)
          UNHANDLED_SWITCH;
 			}
 		}
-#ifdef MOBILE
+#if defined(__ANDROID__)
 if (!demoCompat)
 {
 	if (input & INPUT_STRAFE)
@@ -3269,7 +3269,7 @@ else
 			SetState(State_Stand);
 			}
 		}
-#ifdef MOBILE
+#if defined(__ANDROID__)
 }
 #endif
 	// Set acceleration based on user input (forward has precedance over reverse)
@@ -3397,7 +3397,7 @@ void CDude::ProcessForces(	// Returns nothing.
 	// Calculate elapsed time in seconds.
 	double dSeconds = (double)(lCurTime - m_lPrevTime) / 1000.0;
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 if (!demoCompat)
 {
 	TwinStickInfo analogInfo = AndroidGetMovment();
@@ -3443,7 +3443,7 @@ else
 		GetNewPositionAngle(&dNewX, &dNewY, &dNewZ, dSeconds, m_dRotTS);
 	else
 		GetNewPosition(&dNewX, &dNewY, &dNewZ, dSeconds);
-#endif // MOBILE
+#endif // __ANDROID__
 
 
 

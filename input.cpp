@@ -189,7 +189,7 @@
 #include "RSPiX.h"
 #include "input.h"
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 #include "android/android.h"
 #endif
 
@@ -1115,7 +1115,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 		// to & with the rotation mask.
 		input		|=	(uint32_t)sDeltaX;
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 		input = AndroidGetInput();
 #endif
 

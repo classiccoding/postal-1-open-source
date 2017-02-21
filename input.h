@@ -203,7 +203,7 @@
 #define INPUT_WEAPONS_MASK	0x01F00000	// Includes cheats!
 #define INPUT_WEAPONS_BIT	20	// thru 24.
 
-//#ifdef MOBILE
+//#if defined(__ANDROID__)
 #define INPUT_WEAPON_NEXT		0x02000000
 #define INPUT_WEAPON_PREV		0x04000000
 #define INPUT_ROT_IS_ABS		0x08000000

@@ -87,7 +87,7 @@
 #define	TB_AMMOW_LOW	3			// ammo changes color as warning
 #define	TB_MILLI_TO_LITE	3000	// after you get a powerup.
 
-//#ifdef MOBILE
+//#if defined(__ANDROID__)
 #if 1
 #define TB_MILLI_INTERVAL_TIME	100 //500ms lag is pretty annoying!
 #else

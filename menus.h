@@ -128,7 +128,7 @@ extern Menu menuEditor;
 // Verify Quit Game.
 extern Menu	g_menuVerifyQuitGame;
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 #define MAX_SAVE_SLOTS 5
 #else
 #define MAX_SAVE_SLOTS 9

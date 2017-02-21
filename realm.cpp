@@ -1675,7 +1675,7 @@ void CRealm::EditModify(void)
 }
 #endif // !defined(EDITOR_REMOVED)
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 extern "C"
 {
 #include "android/android.h"
@@ -1687,7 +1687,7 @@ extern "C"
 ////////////////////////////////////////////////////////////////////////////////
 bool CRealm::IsEndOfLevelGoalMet(bool bEndLevelKey)
 {
-#ifdef MOBILE
+#if defined(__ANDROID__)
 	bool showAndroidKey = true;
 	switch (m_ScoringMode)
 	{
