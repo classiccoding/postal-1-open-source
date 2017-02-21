@@ -22,7 +22,7 @@
 // Created on	03/23/97 JRD
 // Implemented	03/23/97 JRD
 //
-//		05/08/97	JMI	Added #include <cstring> for strcmp*().  I guess
+//		05/08/97	JMI	Added #include <string.h> for strcmp*().  I guess
 //							that, in VC <= 4.1, the strcmp*() protos are not
 //							in stdlib.h.
 //

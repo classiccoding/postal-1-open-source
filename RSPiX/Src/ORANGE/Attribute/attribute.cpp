@@ -30,25 +30,25 @@
 //						changed the Load to read in the scale from
 //						the new version of the attribute map file, and
 //						changed GetAttribute functions to scale the
-//						real world coordinates to the scaled map size.  
+//						real world coordinates to the scaled map size.
 //						This allows maps to be smaller and take less
 //						less memory.
 //
 //	10/15/96 BRH	Expanded the attribute map to 16 bits.  The
 //						High 8 bits are for height rather than the
 //						simple walk/no walk attribute.  The lower 8
-//						bits are for flags.  Whenever an attribute 
-//						for a region is returned, it is the ORed 
+//						bits are for flags.  Whenever an attribute
+//						for a region is returned, it is the ORed
 //						combination of the low 8 bits, and the max
 //						height in the high 8 bits.
 //
-//	10/22/96	JMI	Moved #include <cstdlib> to before
-//						#include <BLUE/System.h>.
+//	10/22/96	JMI	Moved #include <stdlib.h> to before
+//						#include "System.h".
 //
 //	10/28/96 MJR	Switched from __min and __max to MIN and MAX for
 //						compatibility with CodeWarrior.
 //
-// 10/31/96 BRH	Changed CAttributeMap to RAttributeMap which is 
+// 10/31/96 BRH	Changed CAttributeMap to RAttributeMap which is
 //						the new RSPiX naming convention.
 //
 //	11/01/96	JMI	Changed:
@@ -58,12 +58,12 @@
 //
 //	11/20/96 BRH	Changed the load function to load the new attribute
 //						format which includes block maps and detail maps.
-//						Also changed the GetAttriubte functions to 
-//						interpret the new format.  
+//						Also changed the GetAttriubte functions to
+//						interpret the new format.
 //
 //	11/21/96 BRH	Changed the GetAttribute rectangle version for the
 //						new attribute format.  It now loops through the
-//						rectangle but skips to the next block if the 
+//						rectangle but skips to the next block if the
 //						attribute from the block it just read contains
 //						all of the same attributes.  	The height is now
 //						height and depth in the low 8 bits.  It can be
@@ -73,7 +73,7 @@
 //						flag to mark the map entry as a lookup or complete
 //						block with a single attribute.
 //
-// 11/22/96 BRH	Fixed problem with casting the result of the 
+// 11/22/96 BRH	Fixed problem with casting the result of the
 //						attribute height/depth for the GetAttribute
 //						function.
 //
@@ -81,7 +81,7 @@
 //						right or bottom edge of the world.  If you called
 //						GetAttribute with a point one pixel past the edge
 //						of the world it would crash, if it were inside or
-//						further outside it was fine.  
+//						further outside it was fine.
 //
 //	02/03/97 BRH	Added a Load that takes an RFile* in addition to
 //						the one that takes the filename as char*.

@@ -42,7 +42,7 @@
 //							POINT				Point
 //							EDITNOTIFY		EditNotify
 //
-//							Moved #include <cstring> to the beginning.
+//							Moved #include <string.h> to the beginning.
 //
 //		10/30/96	JMI	Changed:
 //							Old label:		New label:
@@ -57,13 +57,13 @@
 //		11/27/96	JMI	Added initialization of m_type to identify this type
 //							of GUI item.
 //
-//		12/04/96	JMI	Do() can no longer optionally poll for input, does not 
+//		12/04/96	JMI	Do() can no longer optionally poll for input, does not
 //							call rspGetKey(), and does not return that key.  Instead,
-//							you pass the a pointer to the rspGetKeys() formatted key 
+//							you pass the a pointer to the rspGetKeys() formatted key
 //							you want Do() to process.  The key will be zeroed if it
 //							is "absorbed" by the edit box.
 //
-//		12/19/96	JMI	Uses new m_justification (as m_sJustification) and 
+//		12/19/96	JMI	Uses new m_justification (as m_sJustification) and
 //							upgraded to new RFont/RPrint.
 //
 //		12/31/96	JMI	Do() now calls base implementation in RGuiItem.
@@ -94,10 +94,10 @@
 //		01/08/97	JMI	There were some typos in Draw() involving clipping.
 //							Fixed.
 //
-//		01/18/97	JMI	Converted Do() to take an RInputEvent* instead of a 
+//		01/18/97	JMI	Converted Do() to take an RInputEvent* instead of a
 //							long*.
 //
-//		01/20/97	JMI	Made very few changes for overriding Read/WriteMembers.  
+//		01/20/97	JMI	Made very few changes for overriding Read/WriteMembers.
 //							Should not change functionality.  Checked in to use at
 //							home.
 //
@@ -129,7 +129,7 @@
 //
 //		04/24/97	JMI	Added m_u32TextShadowColor.
 //
-//		07/07/97	JMI	Now calls SetTextEffects() before drawing text in 
+//		07/07/97	JMI	Now calls SetTextEffects() before drawing text in
 //							DrawText() and Draw().
 //
 //		08/25/97	JMI	Added m_sFirstVisibleCharIndex which is the first visible
@@ -147,7 +147,7 @@
 //							Also, effects, justification, size, and word-wrappage
 //							were not being set before drawing the caret in Draw().
 //
-//		08/25/97	JMI	Now scrolls half the field to the left if the caret 
+//		08/25/97	JMI	Now scrolls half the field to the left if the caret
 //							passes the left edge (used to only scroll one character).
 //
 //		08/30/97	JMI	Now repaginates if the caret position is less than the
@@ -159,7 +159,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 //
-// This a GUI item that is based on the CTxt item. 
+// This a GUI item that is based on the CTxt item.
 // This overrides CursorEvent() to get information about where a click it
 // occurred.
 // This overrides DrawText() to store the postion of each character.
