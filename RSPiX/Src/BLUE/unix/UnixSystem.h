@@ -45,10 +45,6 @@
 # include <supplemental/snprintf.h>
 #endif
 
-#if defined(SUPPLEMENTAL_STRDUP)
-# include <supplemental/strdup.h>
-#endif
-
 #if defined(SUPPLEMENTAL_STRCASECMP)
 # include <supplemental/strcasecmp.h>
 #endif
