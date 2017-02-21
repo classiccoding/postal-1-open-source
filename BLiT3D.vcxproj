@@ -86,13 +86,11 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>.\RSPiX\c\Win32\SmartHeap\Include;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\RSPiX\Src;.\RSPiX\Inc;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS;TRACENASSERT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeader />
-      <PrecompiledHeaderOutputFile>.\Build\BLiT3D\Optimized Debug/BLiT3D.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Build\BLiT3D\Optimized Debug/</AssemblerListingLocation>
       <ObjectFileName>.\Build\BLiT3D\Optimized Debug/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\BLiT3D\Optimized Debug/</ProgramDataBaseFileName>
@@ -113,13 +111,11 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>.\SDL2;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\SDL2;.\RSPiX\Src;.\RSPiX\Inc;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeader />
-      <PrecompiledHeaderOutputFile>.\Build\BLiT3D\Release/BLiT3D.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Build\BLiT3D\Release/</AssemblerListingLocation>
       <ObjectFileName>.\Build\BLiT3D\Release/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\BLiT3D\Release/</ProgramDataBaseFileName>
@@ -139,14 +135,11 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>.\SDL2;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\SDL2;.\RSPiX\Src;.\RSPiX\Inc;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS;TRACENASSERT;RSP_DEBUG_OUT_FILE;RSP_TRACE_LOG_NAME="Postal Plus.log";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <PrecompiledHeaderOutputFile>.\Build\BLiT3D\Release/BLiT3D.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Build\BLiT3D\Release/</AssemblerListingLocation>
       <ObjectFileName>.\Build\BLiT3D\Release/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\BLiT3D\Release/</ProgramDataBaseFileName>
@@ -165,11 +158,9 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.\SDL2;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;WIN32;_WINDOWS;NOSHMALLOC;RSP_DEBUG_OUT_FILE;RSP_TRACE_LOG_NAME="Postal Plus.log";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\SDL2;.\RSPiX\Src;.\RSPiX\Inc;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;WIN32;_WINDOWS;RSP_DEBUG_OUT_FILE;RSP_TRACE_LOG_NAME="Postal Plus.log";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <PrecompiledHeader />
-      <PrecompiledHeaderOutputFile>.\Build\BLiT3D\Debug/BLiT3D.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Build\BLiT3D\Debug/</AssemblerListingLocation>
       <ObjectFileName>.\Build\BLiT3D\Debug/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\BLiT3D\Debug/</ProgramDataBaseFileName>
