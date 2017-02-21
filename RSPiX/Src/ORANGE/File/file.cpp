@@ -337,11 +337,11 @@ static void locateCorrectCase(char *buf)
 }
 
 
-extern const char *FindCorrectFile(const char *_pszName, const char *pszMode)
+extern const char *FindCorrectFile(const char *pszName, const char *pszMode)
 {
-    char *pszName = (char *) alloca(strlen(_pszName) + 1);
-    strcpy(pszName, _pszName);
-
+#if defined(__DREAMCAST__)
+#elif defined(__SATURN__)
+#else
     static bool initialized = false;
     static bool nohomedir = false;
     static char prefpath[PATH_MAX];
@@ -355,7 +355,7 @@ extern const char *FindCorrectFile(const char *_pszName, const char *pszMode)
         }
         else
         {
-            #ifdef WIN32
+#ifdef WIN32
             /*
              * Vista and later has a new API for this, but SHGetFolderPath works there,
              *  and apparently just wraps the new API. This is the new way to do it:
@@ -384,7 +384,7 @@ extern const char *FindCorrectFile(const char *_pszName, const char *pszMode)
                 }
                 FreeLibrary(lib);
             }
-            #elif defined(__APPLE__)
+#elif defined(__APPLE__) && !defined(__arm__) // Mac OSX
             const char *homedir = getenv("HOME");
             if ( (!homedir) || ((strlen(homedir) + 32) >= sizeof (prefpath)) )
                 homedir = "./";  // oh well.
@@ -393,7 +393,7 @@ extern const char *FindCorrectFile(const char *_pszName, const char *pszMode)
             if (prefpath[strlen(prefpath)-1] != '/') strcat(prefpath, "/");
 
             strcat(prefpath, "Library/Application Support/Postal Plus/");
-            #else
+#else
             const char *homedir = getenv("HOME");
             const char *xdghomedir = getenv("XDG_DATA_HOME");
             const char *append = "";
@@ -514,6 +514,7 @@ extern const char *FindCorrectFile(const char *_pszName, const char *pszMode)
     }
 
     return finalname;
+#endif
 }
 
 
