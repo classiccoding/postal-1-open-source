@@ -31,14 +31,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "ORANGE/MultiGrid/MultiGridIndirect.h"
-#else
-	#include "multigridindirect.h"
-#endif
 #include "TriggerRegions.h"
-#include "TriggerRgn.h"
+
 #include "realm.h"
 #include "thing.h"
 

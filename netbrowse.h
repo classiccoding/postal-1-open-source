@@ -25,7 +25,7 @@
 #ifndef NETBROWSE_H
 #define NETBROWSE_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 
 #if !defined(MULTIPLAYER_REMOVED)
 

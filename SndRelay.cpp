@@ -35,7 +35,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "SndRelay.h"
 #include "SoundThing.h"
 #include "game.h"

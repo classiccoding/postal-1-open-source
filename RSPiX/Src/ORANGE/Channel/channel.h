@@ -111,8 +111,9 @@
 #define CHANNEL_H
 
 
-#include "Blue.h"
-#include "ORANGE/RString/rstring.h"
+#include <BLUE/Blue.h>
+#include <ORANGE/File/file.h>
+#include <ORANGE/RString/rstring.h>
 
 
 // This patch allows us to compile with MIPS version of VC++ 4.0

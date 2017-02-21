@@ -123,8 +123,8 @@
     #include <sys/time.h>
 #endif
 
-#include "RSPiX.h"
-#include "WishPiX/Prefs/prefs.h"
+#include <RSPiX.h>
+#include <WishPiX/Prefs/prefs.h>
 
 #include "localize.h"
 #include "game.h"

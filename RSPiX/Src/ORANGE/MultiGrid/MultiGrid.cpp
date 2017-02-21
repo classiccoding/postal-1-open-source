@@ -22,7 +22,7 @@
 // Created on	03/23/97 JRD
 // Implemented	03/23/97 JRD
 //
-//		05/08/97	JMI	Added #include <string.h> for strcmp*().  I guess
+//		05/08/97	JMI	Added #include <cstring> for strcmp*().  I guess
 //							that, in VC <= 4.1, the strcmp*() protos are not
 //							in stdlib.h.
 //
@@ -32,17 +32,13 @@
 //						on mac).
 //
 //////////////////////////////////////////////////////////////////////
-#include <stdlib.h>
-#include <string.h>
-#include "System.h"	
+#include "MultiGrid.h"
 
-#ifdef PATHS_IN_INCLUDES
-	#include "ORANGE/MultiGrid/MultiGrid.h"
-	#include "ORANGE/str/str.h"
-#else
-	#include "MULTIGRID.H"
-	#include "str.h"
-#endif	//PATHS_IN_INCLUDES
+#include <ORANGE/str/str.h>
+
+#include <cstdlib>
+#include <cstring>
+
 
 //////////////////////////////////////////////////////////////////////
 //

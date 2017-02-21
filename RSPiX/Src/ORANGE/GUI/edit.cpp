@@ -42,7 +42,7 @@
 //							POINT				Point
 //							EDITNOTIFY		EditNotify
 //
-//							Moved #include <string.h> to the beginning.
+//							Moved #include <cstring> to the beginning.
 //
 //		10/30/96	JMI	Changed:
 //							Old label:		New label:
@@ -173,19 +173,12 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-//////////////////////////////////////////////////////////////////////////////
-// Headers.
-//////////////////////////////////////////////////////////////////////////////
+#include "edit.h"
 
-#include <string.h>
+#include <ORANGE/File/file.h>
 
-#include "Blue.h"
+#include <cstring>
 
-#ifdef PATHS_IN_INCLUDES
-	#include "ORANGE/GUI/edit.h"
-#else
-	#include "edit.h"
-#endif // PATHS_IN_INCLUDES
 
 //////////////////////////////////////////////////////////////////////////////
 // Module specific macros.

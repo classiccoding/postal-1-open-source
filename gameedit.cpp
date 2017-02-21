@@ -705,9 +705,9 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 
-#include <ctype.h>
+#include <cctype>
 #include <set>
 
 // This is used to get rid of all trace of the editor code when it's disabled

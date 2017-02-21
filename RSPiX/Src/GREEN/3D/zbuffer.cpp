@@ -15,15 +15,12 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-#include <stdlib.h>
-#include "System.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/3D/zbuffer.h"
-	#include "ORANGE/QuickMath/FixedPoint.h"
-#else
-	#include "zbuffer.h"
-	#include "fixedpoint.h"
-#endif
+#include <BLUE/System.h>
+#include <ORANGE/QuickMath/FixedPoint.h>
+#include "zbuffer.h"
+
+#include <cstdlib>
+
 
 // ************************ RZBuffer
 void	RZBuffer::Init()

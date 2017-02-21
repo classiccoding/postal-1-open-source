@@ -48,7 +48,7 @@
 #ifndef ITEM3D_H
 #define ITEM3D_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 
 #include "character.h"
 

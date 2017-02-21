@@ -82,8 +82,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
-#include <string.h>
+#include <RSPiX.h>
+#include <cstring>
 
 #include "ball.h"
 #include "hood.h"

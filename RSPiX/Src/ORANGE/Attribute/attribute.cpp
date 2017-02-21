@@ -42,8 +42,8 @@
 //						combination of the low 8 bits, and the max
 //						height in the high 8 bits.
 //
-//	10/22/96	JMI	Moved #include <stdlib.h> to before
-//						#include "System.h".
+//	10/22/96	JMI	Moved #include <cstdlib> to before
+//						#include <BLUE/System.h>.
 //
 //	10/28/96 MJR	Switched from __min and __max to MIN and MAX for
 //						compatibility with CodeWarrior.
@@ -88,18 +88,11 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include <stdlib.h>
-#include "System.h"	
+#include <BLUE/System.h>	
+#include <ORANGE/File/file.h>
+#include "attribute.h"
 
- #ifdef PATHS_IN_INCLUDES
-	#include "ORANGE/Attribute/attribute.h"
-	#include "ORANGE/File/file.h"
-
-#else
-	#include "ATTRIBUTE.H"
-	#include "FILE.H"
-
-#endif	//PATHS_IN_INCLUDES
+#include <cstdlib>
 
 //////////////////////////////////////////////////////////////////////
 //

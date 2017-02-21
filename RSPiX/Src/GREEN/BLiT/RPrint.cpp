@@ -22,21 +22,15 @@
 // contain a text buffer.  The entire reason for the buffer was to 
 // enable multi-column printing, but now I have an easier way.
 
-#include <stdio.h>
-#include <stdarg.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdarg>
+#include <cstring>
 
-#include "System.h"
+#include <BLUE/System.h>
 
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/BLiT/BLIT.H"
-	#include "GREEN/BLiT/Cfnt.h"
-	#include "RPrint.h"
-#else
-	#include "BLIT.H"
-	#include "Cfnt.h"
-	#include "RPrint.h"
-#endif
+#include "BLIT.H"
+#include "Cfnt.h"
+#include "RPrint.h"
 
 //========================================================
 // Instantiate the static members:

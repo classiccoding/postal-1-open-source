@@ -183,7 +183,7 @@
 // C Headers
 //////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "score.h"
 #include "dude.h"
 #include "toolbar.h"

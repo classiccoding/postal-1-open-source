@@ -192,7 +192,7 @@
 #ifndef DOOFUS_H
 #define DOOFUS_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "realm.h"
 #include "navnet.h"
 #include "bouy.h"

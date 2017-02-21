@@ -176,7 +176,7 @@
 	#include <multiset.h>
 #endif
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "hood.h"
 #include "sprites.h"
 

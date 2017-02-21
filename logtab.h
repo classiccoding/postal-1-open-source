@@ -39,9 +39,9 @@
 #ifndef LOGTAB_H
 #define LOGTAB_H
 
-#include <stdio.h>
-#include <ctype.h>
-#include "RSPiX.h"
+#include <cstdio>
+#include <cctype>
+#include <RSPiX.h>
 
 class RFile;
 

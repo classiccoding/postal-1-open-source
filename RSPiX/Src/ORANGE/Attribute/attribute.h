@@ -45,13 +45,9 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-#ifdef PATHS_IN_INCLUDES
-	#include "BLUE/Blue.h"
-	#include "ORANGE/File/file.h"
-#else
-	#include "Blue.h"
-	#include "file.h"
-#endif // PATHS_IN_INCLUDES
+#include <BLUE/Blue.h>
+
+class RFile;
 
  #define ATTRIBUTE_MAP_COOKIE 0x4d525441 //Looks like "ATRM" in the file
  #define ATTRIBUTE_CURRENT_VERSION 5

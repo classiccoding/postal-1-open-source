@@ -144,7 +144,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "cutscene.h"
 #include "game.h"
 #include "update.h"

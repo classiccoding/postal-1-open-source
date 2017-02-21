@@ -27,7 +27,7 @@
 //
 //		05/08/97	JMI	Added conditions for compiler versions' STL
 //							differences (namely "list" vs. "list.h").
-//							Also, changed #include <rspix.h> to #include "RSPiX.h".
+//							Also, changed #include <rspix.h> to #include <RSPiX.h>.
 //
 //		06/29/97 MJR	Replaced STL vector with an RSP list.  STL is an evil
 //							entity that should be banished from the face of the earth.
@@ -43,12 +43,12 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <stdio.h>
-#include <string.h>
-#include <assert.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cstring>
+#include <cassert>
+#include <cctype>
 
-#include "Blue.h"
+#include <BLUE/Blue.h>
 #include "prefline.h"
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -26,7 +26,7 @@
 #ifndef OSTRICH_H
 #define OSTRICH_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "doofus.h"
 
 // COstrich is the object for the ostriches wandering about in the game.

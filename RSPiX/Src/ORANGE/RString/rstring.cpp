@@ -187,9 +187,11 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <ctype.h>
 #include "rstring.h"
 
+#include <ORANGE/File/file.h>
+
+#include <cctype>
 
 // Static pointer that is initialized to point at an empty string.  Used
 // in cases where string is being cast as char* but doesn't have a buffer

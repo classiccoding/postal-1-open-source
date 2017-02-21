@@ -18,21 +18,13 @@
 // ********************************************
 // Here is the basic FSPR8 IO, Convert, & BLiT
 // ********************************************
-#include "System.h"
+#include <BLUE/System.h>
+#include <ORANGE/QuickMath/Fractions.h>
+#include <ORANGE/File/file.h>
 
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/BLiT/BLIT.H"
-	#include "GREEN/BLiT/_BlitInt.H"
-	#include "ORANGE/QuickMath/Fractions.h"
-	#include "GREEN/Image/SpecialTyp.h"
-#else
-	#include "BLIT.H"
-	#include "_BlitInt.H" 
-	#include "Fractions.h" 
-	#include "specialtyp.h"
-#endif
+#include "BLIT.H"
 
-#include <string.h>
+#include <cstring>
 
 // ***************************************************************************
 // NOTES:  The FSPR8 compression format is NOT based around the idea of

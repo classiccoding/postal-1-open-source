@@ -143,7 +143,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "GameSettings.h"
 #include "game.h"
 #include "net.h"

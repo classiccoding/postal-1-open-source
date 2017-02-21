@@ -44,7 +44,7 @@
 #ifndef WARP_H
 #define WARP_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "realm.h"
 #include "StockPile.h"
 #include "dude.h"

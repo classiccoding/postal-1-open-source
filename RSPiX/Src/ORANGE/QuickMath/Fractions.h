@@ -18,7 +18,10 @@
 #ifndef FRACTIONS_H
 #define FRACTIONS_H
 //=======================
-#include "System.h"
+#include <BLUE/System.h>
+
+#include <cmath>
+
 //====================
 /*****************************************************************
 This header depends on the rest QuickMath, but is not necessary

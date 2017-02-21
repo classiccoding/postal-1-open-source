@@ -51,8 +51,8 @@
 //						large Photoshop images which expanded to fill all
 //						available RAM.  
 //
-//	10/22/96	JMI	Moved #include <stdlib.h> and #include <string.h> to
-//						before #include "System.h".               
+//	10/22/96	JMI	Moved #include <cstdlib> and #include <cstring> to
+//						before #include <BLUE/System.h>.               
 //
 //	10/28/96 MJR	Minor tweaks to make it compile correctly and with
 //						warnings under CodeWarrior.  No functional changes.
@@ -89,21 +89,10 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include <stdlib.h>
-#include <string.h>
-#include "System.h"
+#include "laymage.h"
 
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/Image/Image.h"
-	#include "ORANGE/File/file.h"
-	#include "ORANGE/Laymage/laymage.h"
-	#include "BLUE/Blue.h"
-#else
-	#include "Image.h"
-	#include "FILE.H"
-	#include "LAYMAGE.H"
-	#include "Blue.h"
-#endif // PATHS_IN_INCLUDES
+#include <cstdlib>
+#include <cstring>
 
 //////////////////////////////////////////////////////////////////////
 //

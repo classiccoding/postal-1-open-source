@@ -317,7 +317,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "scene.h"
 #include "game.h"
 #include "alphablitforpostal.h"

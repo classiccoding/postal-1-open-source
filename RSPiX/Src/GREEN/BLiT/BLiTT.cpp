@@ -16,17 +16,8 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
 // Do uncompressed transparent copying!
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/BLiT/BLIT.H"
-#else
-	#include "BLIT.H"
-#endif
 
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/BLiT/_BlitInt.H"
-#else
-	#include "_BlitInt.H" 
-#endif
+#include "BLIT.H"
 
 //========================================================================================
 //========================================================================================

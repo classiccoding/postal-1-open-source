@@ -68,7 +68,7 @@
 #ifndef PLAY_H
 #define PLAY_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "menus.h"
 #include "input.h"
 #include "camera.h"

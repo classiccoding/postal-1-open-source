@@ -35,16 +35,11 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "ORANGE/color/colormatch.h"
-	#include "GREEN/BLiT/alphablit.h"
-	#include "WishPiX/ResourceManager/resmgr.h"
-#else
-	#include "colormatch.h"
-	#include "alphablit.h"
-	#include "resmgr.h"
-#endif
+#include <RSPiX.h>
+#include <ORANGE/color/colormatch.h>
+#include <GREEN/BLiT/alphablit.h>
+#include <WishPiX/ResourceManager/resmgr.h>
+
 #include "alphablitforpostal.h"
 #include "game.h"
 #include "update.h"

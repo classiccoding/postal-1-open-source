@@ -22,9 +22,9 @@
 #ifndef GRIP_H
 #define GRIP_H
 
-#include <math.h>
+#include <cmath>
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "camera.h"
 
 

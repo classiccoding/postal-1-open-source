@@ -66,8 +66,8 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
-#include <math.h>
+#include <RSPiX.h>
+#include <cmath>
 
 #include "AnimThing.h"
 #include "dude.h"

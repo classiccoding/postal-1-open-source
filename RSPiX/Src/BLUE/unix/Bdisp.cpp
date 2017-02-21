@@ -28,10 +28,10 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <SDL2/SDL.h>
-#include "Blue.h"
-#include "ORANGE/CDT/slist.h"
+//#include <BLUE/Blue.h>
+#include <ORANGE/CDT/slist.h>
 
-#include <ctype.h>
+#include <cctype>
 
 extern SDL_Window *sdlWindow;
 static const char *sdlAppName;
