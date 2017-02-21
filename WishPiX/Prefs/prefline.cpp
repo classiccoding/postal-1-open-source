@@ -21,13 +21,13 @@
 // History:
 //		12/11/96	JPW	RPrefsLine created to contain ini file lines, information
 //							on the type of lines, and to help in processing of lines.
-//		12/16/96	JPW	Fixed so it will work with the STL stuff that comes with 
-//							MSVC 4.1 or newer.  Also fixed a few psz parameters that 
+//		12/16/96	JPW	Fixed so it will work with the STL stuff that comes with
+//							MSVC 4.1 or newer.  Also fixed a few psz parameters that
 //							should have been const's.
 //
 //		05/08/97	JMI	Added conditions for compiler versions' STL
 //							differences (namely "list" vs. "list.h").
-//							Also, changed #include <rspix.h> to #include <RSPiX.h>.
+//							Also, changed #include <rspix.h> to #include "RSPiX.h".
 //
 //		06/29/97 MJR	Replaced STL vector with an RSP list.  STL is an evil
 //							entity that should be banished from the face of the earth.

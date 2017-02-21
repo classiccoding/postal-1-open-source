@@ -25,12 +25,12 @@
 //		12/11/96	JPW	Implemented reading and writing of ini files,
 //							functionallity to get/set variables, and delete/create
 //							sections and variables.
-//		12/16/96	JPW	Fixed so it will work with the STL stuff that comes with 
-//							MSVC 4.1 or newer.  Also fixed a few psz parameters that 
+//		12/16/96	JPW	Fixed so it will work with the STL stuff that comes with
+//							MSVC 4.1 or newer.  Also fixed a few psz parameters that
 //							should have been const's.
 //		01/03/97 JPW	Added Read() to functions that access ini file in memory
 //							to insure the file is always read once before getting
-//							and setting of ini file vars/sections 
+//							and setting of ini file vars/sections
 //
 //		03/28/97	JMI	Fixed so this'll work with MSVC 4.2.
 //
@@ -43,7 +43,7 @@
 //
 //		05/08/97	JMI	Added conditions for compiler versions' STL
 //							differences (namely "list" vs. "list.h").
-//							Also, changed #include <rspix.h> to #include <RSPiX.h>.
+//							Also, changed #include <rspix.h> to #include "RSPiX.h".
 //
 //		06/11/97	JMI	Commented TRACE in GetIteratorToVariable() when variable
 //							cannot be found and in GetIteratorToSection() when section
