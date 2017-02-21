@@ -21,7 +21,7 @@
 #include <BLUE/Blue.h>
 #include "../cyan.h"
 
-#if 0
+#if 1
 #include <SDL2/SDL.h>
 
 extern SDL_Window *sdlWindow;
@@ -140,7 +140,7 @@ extern int16_t rspMsgBox(	// Returns RSP_MB_RET_*.  See switch statement below.
 }
 #else
 
-#include <SDL/SDL.h>
+//#include <SDL/SDL.h>
 
 extern int16_t rspMsgBox(	// Returns RSP_MB_RET_*.  See switch statement below.
    uint16_t usFlags,		// MB_BUT/ICO_* flags specifying buttons and icons.
