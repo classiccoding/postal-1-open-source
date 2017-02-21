@@ -789,6 +789,8 @@ static int16_t	ms_sLoadedDifficulty	= INVALID_DIFFICULTY;
 
 static SampleMaster::SoundInstance	ms_siMusak	= 0;
 
+extern const char* safe_string(const char* src);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function prototypes
 ////////////////////////////////////////////////////////////////////////////////
@@ -901,7 +903,7 @@ static void EnumExistingSaveGames(Menu *menu)
     }
 
 	snprintf(gamename, sizeof (gamename), "Auto - [%s]", str);
-    menu->ami[0].pszText = strdup(gamename);
+    menu->ami[0].pszText = safe_string(gamename);
 
     for (i = 0; i < Max; i++)
     {
@@ -927,7 +929,7 @@ static void EnumExistingSaveGames(Menu *menu)
         }
 
         snprintf(gamename, sizeof (gamename), "%d - [%s]", i, str);
-        menu->ami[i+1].pszText = strdup(gamename);
+        menu->ami[i+1].pszText = safe_string(gamename);
 
     }
 #else
@@ -953,7 +955,7 @@ static void EnumExistingSaveGames(Menu *menu)
 		}
 		snprintf(gamename, sizeof (gamename), "%s/%d.gme [%s]", SAVEGAME_DIR, i, str);
 
-		menu->ami[i].pszText = strdup(gamename);
+      menu->ami[i].pszText = safe_string(gamename);
 	}
 
 #endif
