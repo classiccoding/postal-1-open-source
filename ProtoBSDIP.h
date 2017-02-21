@@ -51,9 +51,6 @@
 #include <fcntl.h>
 
 // WinSock will define these, but BSD sockets don't...
-#if 0 //__APPLE__
-typedef int socklen_t;
-#endif
 
 typedef struct sockaddr_in SOCKADDR_IN;
 typedef SOCKADDR_IN *PSOCKADDR_IN;
