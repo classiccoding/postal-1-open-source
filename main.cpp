@@ -137,7 +137,7 @@
 //#define RSP_PROFILE_ON
 #include "ORANGE/Debug/profile.h"
 
-#if defined(__APPLE__)
+#if defined(__APPLE__) && !defined(__arm__) // Mac OSX
 // This redefines main() to something else, since libSDLmain-osx.a will have
 //  the actual application entry point...that will setup some Cocoa stuff and
 //  then call the redefined main() in this file...
@@ -181,7 +181,7 @@ static int16_t SetupVideo(					// Returns 0 on success.
 	{
 	int16_t sResult = SUCCESS;
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 	wideScreenWidth = 850;
 #elif defined(PANDORA)
 	wideScreenWidth = 800;

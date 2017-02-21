@@ -237,7 +237,7 @@ static int16_t		ms_sNextMenuItem	= INVALID_MENU_ITEM;	// Item to select on next
 static int16_t		ms_asMenuItemPosX[MAX_MENU_ITEMS];	// Array of item X positions.
 static int16_t		ms_asMenuItemPosY[MAX_MENU_ITEMS];	// Array of item Y positions.
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 static int16_t		ms_asMenuItemMouseHeight[MAX_MENU_ITEMS];	// Array of item heights which can be used for mouse
 #endif
 
@@ -505,7 +505,7 @@ inline bool NextItem(	// Returns true, if new item selected.
 	return bNewSelection;
 	}
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 bool MouseChooseItem(int x, int y)
 {
 	for (int i=0;i < ms_sNumMenuItems; i++)
@@ -1030,7 +1030,7 @@ extern int16_t StartMenu(				// Returns 0 on success.
 						ms_asMenuItemPosY[sIndex]	= sPosY + ptxt->m_im.m_sHeight / 2;
 						// Remember x position of this item.
 						ms_asMenuItemPosX[sIndex]	= sPosX;
-#ifdef MOBILE
+#if defined(__ANDROID__)
 						// Remember height of this item. Height of item + spacing between them
 						ms_asMenuItemMouseHeight[sIndex]	= ptxt->m_im.m_sHeight + ms_pmenu->menupos.sItemSpacingY;
 #endif
@@ -1408,7 +1408,7 @@ extern void DoMenuInput(		// Returns nothing.
 				sChooseCurrent = TRUE;
 		}
 #endif // defined(ALLOW_JOYSTICK)
-#ifdef MOBILE
+#if defined(__ANDROID__)
 		if (pie->sUsed == FALSE && pie->type == RInputEvent::Mouse)
 		{
 			//TRACE("Mouse menu %d  %d  %d", pie->sPosX , pie->sPosY, pie->sButtons);
