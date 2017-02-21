@@ -64,9 +64,7 @@
 
 #include "meter.h"
 
-#include <BLUE/Blue.h>
-
-#include <cstdlib>
+//#include <cstdlib>
 
 //////////////////////////////////////////////////////////////////////////////
 // Module specific macros.

@@ -18,7 +18,8 @@
 // ********************************************
 // Here is the basic FSPR8 IO, Convert, & BLiT
 // ********************************************
-#include <BLUE/System.h>
+
+#include <BLUE/Blue.h>
 #include <ORANGE/QuickMath/Fractions.h>
 #include <ORANGE/File/file.h>
 

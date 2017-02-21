@@ -48,7 +48,7 @@
 #include <cassert>
 #include <cctype>
 
-#include <BLUE/Blue.h>
+#include <BLUE/System.h>
 #include "prefline.h"
 
 ////////////////////////////////////////////////////////////////////////////////

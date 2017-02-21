@@ -83,7 +83,7 @@
 //////////////////////////////////////////////////////////////////////////////
 #include <cstdio>
 
-#include <BLUE/Blue.h>
+#include <BLUE/System.h>
 
 #ifdef ALLOW_RFILE_REOPEN
 # include <ORANGE/CDT/List.h>

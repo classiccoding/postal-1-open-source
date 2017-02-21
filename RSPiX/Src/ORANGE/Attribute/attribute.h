@@ -45,7 +45,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-#include <BLUE/Blue.h>
+#include <BLUE/System.h>
 
 class RFile;
 

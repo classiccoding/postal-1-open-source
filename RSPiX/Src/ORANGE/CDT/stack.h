@@ -51,7 +51,8 @@
 #ifndef H_STACK
 #define H_STACK
 
-#include <BLUE/Blue.h>
+#include <BLUE/System.h>
+
 #include "listbase.h"
 
 //////////////////////////////////////////////////////////////////////////////

@@ -20,6 +20,7 @@
 // calls the appropriate functions...
 
 #include "BLIT.H"
+#include <BLUE/Blue.h>
 
 	template <class PIXSIZE>
 	void	rspClipPlot(PIXSIZE color, RImage* pimDst,int16_t sX,int16_t sY,const RRect* prClip)

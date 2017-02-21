@@ -361,27 +361,41 @@ inline bool rspObjCmp(const T* p1, const T* p2, size_t count)
 	return true;
 	}
 
-/* DEPRECATED!
-inline char *ltoa(int32_t l, char *buf, int bufsize)
-{
-    snprintf(buf, bufsize, "%i", l);
-    return(buf);
-}
+////////////////////////////////////////////////////////////////////////////////
+// Debug API
+//
+// Define the TRACE, STRACE, and ASSERT macros.  If _DEBUG or TRACENASSERT are
+// defined, then these macros are usefull debugging aids.  Otherwise, it is
+// assumed that the program is being compiled in "release" mode, and all three
+// of the macros are changed such that no code nor data results from their
+// use, thereby eliminating all traces of them from the program.
+//
+// TRACE is like printf, but sends the output to the debug window.  Note that
+// it slips in the file and line number information before printing whatever
+// the user requested.
+//
+// STRACE is like TRACE, except that it doesn't display the file and line
+// number information.
+//
+// ASSERT is used to assert that an expression is true.  If it is, in fact,
+// true, then ASSERT does nothing.  If not, then it emits a signal and halts
+// execution.
+//
+////////////////////////////////////////////////////////////////////////////////
 
-inline char *ltoa(uint32_t l, char *buf, int bufsize)
-{
-    snprintf(buf, bufsize, "%u", l);
-    return(buf);
-}
+#if defined(_DEBUG) || defined(TRACENASSERT)
+extern void rspTrace(const char* szFrmt, ...);
 
-inline char *itoa(int l, char *buf, int bufsize)
-{
-    snprintf(buf, bufsize, "%i", l);
-    return(buf);
-}
-
-#define _ltoa(x, y, z) ltoa(x, y, z)
-*/
+// TRACE macro, the preferred method of sending output to debug window
+# define STRACE  rspTrace
+# define TRACE   STRACE("%s(%d):", __FILE__, __LINE__),STRACE
+# include <cassert>
+# define ASSERT assert
+#else
+# define STRACE      1 ? (void)0 : rspTrace
+# define TRACE       STRACE
+# define ASSERT(a)
+#endif
 
 #endif // UNIXSYSTEM_H
 //////////////////////////////////////////////////////////////////////////////

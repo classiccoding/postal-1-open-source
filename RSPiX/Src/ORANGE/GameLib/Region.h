@@ -59,7 +59,7 @@
 #ifndef REGION_H
 #define REGION_H
 
-#include <BLUE/Blue.h>
+#include <BLUE/System.h>
 #include "Shapes.h"
 
 

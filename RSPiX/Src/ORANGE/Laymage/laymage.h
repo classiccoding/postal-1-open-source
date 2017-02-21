@@ -43,7 +43,6 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include <BLUE/Blue.h>
 #include <BLUE/System.h>
 
 #include <GREEN/Image/Image.h>

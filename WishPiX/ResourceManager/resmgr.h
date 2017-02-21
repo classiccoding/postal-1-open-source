@@ -200,7 +200,7 @@
 
 #include <cctype>
 
-#include <BLUE/Blue.h>
+#include <BLUE/System.h>
 
 #include <CYAN/cyan.h>
 #include <ORANGE/File/file.h>

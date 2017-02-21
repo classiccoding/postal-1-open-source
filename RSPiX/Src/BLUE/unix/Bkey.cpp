@@ -31,7 +31,8 @@
 #include <map>
 
 #include <SDL2/SDL.h>
-#include <BLUE/Blue.h>
+#include <BLUE/unix/UnixSystem.h>
+#include <BLUE/unix/UnixBlueKeys.h>
 #include <ORANGE/CDT/QUEUE.H>
 
 

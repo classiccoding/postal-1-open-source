@@ -28,7 +28,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <SDL2/SDL.h>
-//#include <BLUE/Blue.h>
+
+#include <BLUE/Blue.h>
 #include <ORANGE/CDT/slist.h>
 
 #include <cctype>

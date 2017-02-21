@@ -106,7 +106,7 @@ pntBuf.Clear(); // Clear the print buffer early
 #ifndef BLIT_H
 #define BLIT_H
 
-#include <BLUE/Blue.h>
+#include <BLUE/System.h>
 #include <GREEN/Image/Image.h>
 #include <GREEN/Image/SpecialTyp.h>
 #include "_BlitInt.H"

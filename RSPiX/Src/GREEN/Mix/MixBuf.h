@@ -20,7 +20,7 @@
 #ifndef MIXBUF_H
 #define MIXBUF_H
 
-#include <BLUE/Blue.h>
+#include <BLUE/System.h>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Macros.

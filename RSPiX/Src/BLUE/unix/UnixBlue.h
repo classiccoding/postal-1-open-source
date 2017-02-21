@@ -63,7 +63,6 @@ extern int16_t macGuessTotalHeapBlocks;
 // NOTE: Currently used only with SmartHeap -- see mmain.cpp for details.
 extern int32_t macReserveMemBytes;
 
-
 ////////////////////////////////////////////////////////////////////////////////
 // Debug API
 //
@@ -85,31 +84,6 @@ extern int32_t macReserveMemBytes;
 // that function decleration for more details.
 //
 ////////////////////////////////////////////////////////////////////////////////
-
-#if defined(_DEBUG) || defined(TRACENASSERT)
-	// TRACE macro, the preferred method of sending output to debug window
-	#define STRACE			rspTrace
-	#define TRACE			STRACE("%s(%d):", __FILE__, __LINE__),STRACE
-
-#if 0
-    ASSERT macro, the preferred method of asserting that expressions are true.
-   #define ASSERT(a)		while (!(a))  \
-                           if (rspAssert(__FILE__, __LINE__, #a) == SUCCESS)  \
-                              break
-#else
-# include <cassert>
-# define ASSERT assert
-#endif
-#else
-	// This causes the compiler to "optimize" out the data and the function call.
-	// We can't simply define TRACE as nothing (like ASSERT) because it takes
-	// a variable number of arguments.  So, this is the next best thing.
-	#define STRACE			1 ? (void)0 : rspTrace
-	#define TRACE			STRACE
-
-	// Simply remove the function and it's paramters.
-	#define ASSERT(a)
-#endif
 
 // Trace works like printf, but sends output to debug window.  This is rarely
 // called directly.  Instead, use the TRACE() macro so that the TRACE is

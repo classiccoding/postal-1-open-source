@@ -355,7 +355,6 @@
 //////////////////////////////////////////////////////////////////////
 #include "Image.h"
 
-#include <BLUE/Blue.h>
 #include <ORANGE/File/file.h>
 #include "ImageFile.h"
 

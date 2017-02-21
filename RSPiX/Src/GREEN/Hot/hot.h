@@ -53,6 +53,8 @@
 #ifndef HOT_H
 #define HOT_H
 
+#include <BLUE/System.h>
+
 #include <GREEN/InputEvent/InputEvent.h>
 #include <ORANGE/CDT/slist.h>
 #include <ORANGE/CDT/List.h>

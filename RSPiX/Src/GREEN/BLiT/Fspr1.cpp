@@ -15,7 +15,6 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-#include <BLUE/System.h>
 // ********************************************
 //*** This file should be called "ToBMP1"
 //*** Currently, You can BLiT FSPR1 scaled and
@@ -25,6 +24,7 @@
 
 #include "BLIT.H"
 
+#include <BLUE/Blue.h>
 #include <ORANGE/QuickMath/Fractions.h>
 #include <ORANGE/File/file.h>
 

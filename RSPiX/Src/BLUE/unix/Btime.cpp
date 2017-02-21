@@ -28,8 +28,8 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include <BLUE/Blue.h>
 #include <SDL2/SDL.h>
+#include <BLUE/unix/UnixBlue.h>
 
 static microseconds_t MicrosecondsBase = 0;
 
