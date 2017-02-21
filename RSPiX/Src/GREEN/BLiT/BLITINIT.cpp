@@ -62,9 +62,8 @@
 //=========  Current plan:  Wrap the screen buffer in an special image format that
 //=========  I define and the user should never touch.
 
-//#include <BLUE/System.h>
-
 #include "BLIT.H"
+#include <BLUE/Blue.h>
 
 class RInitBLiT
 	{

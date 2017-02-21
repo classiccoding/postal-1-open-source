@@ -27,7 +27,7 @@
 #ifndef TYPES3D_H
 #define TYPES3D_H
 
-#include <BLUE/Blue.h>
+#include <BLUE/System.h>
 #include <ORANGE/File/file.h>
 #include <ORANGE/color/colormatch.h>
 #include <ORANGE/QuickMath/VectorMath.h>

@@ -110,8 +110,7 @@
 #ifndef CHANNEL_H
 #define CHANNEL_H
 
-
-#include <BLUE/Blue.h>
+#include <BLUE/System.h>
 #include <ORANGE/File/file.h>
 #include <ORANGE/RString/rstring.h>
 

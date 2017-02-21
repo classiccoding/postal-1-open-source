@@ -19,7 +19,7 @@
 #ifndef ZBUFFER_H
 #define ZBUFFER_H
 //================================================== 
-#include <BLUE/Blue.h>
+#include <BLUE/System.h>
 #include <ORANGE/QuickMath/FixedPoint.h> // for RFixedS32
 #include <ORANGE/color/colormatch.h> // for RFixedS32
 

@@ -48,7 +48,7 @@
 #ifndef H_LISTBASE
 #define H_LISTBASE
 
-#include <BLUE/Blue.h>
+#include <BLUE/System.h>
 
 template <class T> class RBList
 	{

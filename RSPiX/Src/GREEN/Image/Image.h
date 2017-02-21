@@ -180,7 +180,7 @@
 
 
 // Blue include files
-#include <BLUE/Blue.h>
+#include <BLUE/System.h>
 #include "pal.h"
 
 class RFile;

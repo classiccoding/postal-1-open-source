@@ -53,6 +53,7 @@
 
 #include "MultiBtn.h"
 
+#include <BLUE/Blue.h>
 #include <GREEN/Image/Image.h>
 #include <ORANGE/File/file.h>
 

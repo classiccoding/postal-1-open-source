@@ -73,11 +73,8 @@
 
 #include "prefs.h"
 
-#include <BLUE/Blue.h>
 #include <CYAN/cyan.h>
 #include <ORANGE/str/str.h>
-
-#include "prefline.h"
 
 #include <cstdio>
 #include <cstdlib>

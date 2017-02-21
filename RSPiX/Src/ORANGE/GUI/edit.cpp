@@ -175,6 +175,7 @@
 
 #include "edit.h"
 
+#include <BLUE/Blue.h>
 #include <ORANGE/File/file.h>
 
 #include <cstring>

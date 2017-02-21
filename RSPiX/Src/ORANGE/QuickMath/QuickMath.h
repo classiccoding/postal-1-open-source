@@ -19,8 +19,9 @@
 // It is currently set to use only integer degrees as input.
 #ifndef QUICK_MATH_H
 #define QUICK_MATH_H
+
+#include <BLUE/System.h>
 #include <cmath>
-#include <BLUE/Blue.h>
 
 #define rspPI  3.14159265359
 #define rspRadToDeg  57.29577951308

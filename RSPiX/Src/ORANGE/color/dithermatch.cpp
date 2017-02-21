@@ -15,7 +15,10 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-#include "ORANGE/color/dithermatch.h"
+#include "dithermatch.h"
+
+#include <BLUE/Blue.h>
+
 //==============================================
 // This module is designed to take a 24-bit color
 // bmp file and create an 8-bit BMP image by 
