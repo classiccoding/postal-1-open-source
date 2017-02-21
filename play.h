@@ -81,7 +81,7 @@
 #include "netserver.h"
 #endif // defined(MULTIPLAYER_REMOVED)
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 #include "android/android.h"
 #endif
 ////////////////////////////////////////////////////////////////////////////////
