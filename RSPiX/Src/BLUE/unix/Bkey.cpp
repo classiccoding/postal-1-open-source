@@ -31,8 +31,8 @@
 #include <map>
 
 #include <SDL2/SDL.h>
-#include "BLUE/Blue.h"
-#include "ORANGE/CDT/QUEUE.H"
+#include <BLUE/Blue.h>
+#include <ORANGE/CDT/QUEUE.H>
 
 
 #define MAX_EVENTS	256

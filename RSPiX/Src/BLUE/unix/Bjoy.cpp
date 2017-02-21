@@ -29,10 +29,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <SDL2/SDL.h>
-#include "Blue.h"
-#include <math.h>
-
-#include "CompileOptions.h"
+#include <BLUE/unix/UnixBlue.h>
+#include <cmath>
 
 #if defined(ALLOW_JOYSTICK)
 

@@ -42,9 +42,9 @@
 // It currently uses Microseconds....
 //////////////////////////////////////////////////////////////////////////////
 
-#include <stdio.h>
+#include <cstdio>
 #include "profile.h"
-#include "ORANGE/str/str.h"
+#include <ORANGE/str/str.h>
 
 #if defined(WIN32)
    microseconds_t i64GetTimeSpeed=7;	// how long does the time command take?

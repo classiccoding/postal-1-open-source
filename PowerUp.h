@@ -79,7 +79,7 @@
 #ifndef POWERUP_H
 #define POWERUP_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "realm.h"
 #include "item3d.h"
 #include "StockPile.h"

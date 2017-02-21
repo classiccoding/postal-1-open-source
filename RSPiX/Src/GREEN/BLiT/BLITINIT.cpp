@@ -62,19 +62,9 @@
 //=========  Current plan:  Wrap the screen buffer in an special image format that
 //=========  I define and the user should never touch.
 
-//#include "System.h"
+//#include <BLUE/System.h>
 
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/BLiT/BLIT.H"
-#else
-	#include "BLIT.H"
-#endif
-
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/BLiT/_BlitInt.H"
-#else
-	#include "_BlitInt.H" 
-#endif
+#include "BLIT.H"
 
 class RInitBLiT
 	{

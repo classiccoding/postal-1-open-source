@@ -22,24 +22,21 @@
 // Created on	05/01/97 JRD
 // Implemented	05/01/97 JRD
 //
-//		05/08/97	JMI	Added #include <string.h> for strcmp*().  I guess
+//		05/08/97	JMI	Added #include <cstring> for strcmp*().  I guess
 //							that, in VC <= 4.1, the strcmp*() protos are not
 //							in stdlib.h.
 //
 //		06/28/97 MJR	Minor changes to get it working on the mac.
 //
 //////////////////////////////////////////////////////////////////////
-#include <stdlib.h>
-#include <string.h>
-#include "System.h"	
+#include "MultiGridIndirect.h"
+#include "MultiGrid.h"
 
-#ifdef PATHS_IN_INCLUDES
-	#include "ORANGE/MultiGrid/MultiGrid.h"
-	#include "ORANGE/MultiGrid/MultiGridIndirect.h"
-#else
-	#include "MULTIGRID.H"
-	#include "MULTIGRIDINDIRECT.H"
-#endif	//PATHS_IN_INCLUDES
+#include <GREEN/Image/Image.h> // For Debugging only
+#include <ORANGE/File/file.h>
+
+#include <cstdlib>
+#include <cstring>
 
 //////////////////////////////////////////////////////////////////////
 //

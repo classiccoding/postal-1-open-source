@@ -92,13 +92,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 // SCROLL PAGE HACK:  CURRENTLY USES COLOR 244 = {128,0,0}, 245 = {255,0,0} 
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "credits.h"
 #include "game.h"
 #include "update.h"
 #include "SampleMaster.h"
 #include "ORANGE/Parse/SimpleBatch.h"
-#include "GREEN/Mix/MixBuf.h"
+#include <GREEN/Mix/MixBuf.h>
 
 // try to hook the sound scaling tables for the palette
 

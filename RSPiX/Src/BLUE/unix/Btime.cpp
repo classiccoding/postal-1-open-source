@@ -28,7 +28,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Blue.h"
+#include <BLUE/Blue.h>
 #include <SDL2/SDL.h>
 
 static microseconds_t MicrosecondsBase = 0;

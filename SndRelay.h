@@ -32,7 +32,7 @@
 #ifndef SNDRELAY_H
 #define SNDRELAY_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "realm.h"
 #include "SampleMaster.h"
 

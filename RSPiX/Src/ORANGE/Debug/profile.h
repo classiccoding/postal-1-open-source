@@ -233,10 +233,10 @@ rspProfileOff();
 #ifndef _PROFILE_H
 #define _PROFILE_H
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
-#include "Blue.h"
+#include <BLUE/Blue.h>
 //------------------------------------
 // If you use global tags to do an
 // profile_end, you will reduce overhead!

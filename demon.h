@@ -65,7 +65,7 @@
 #ifndef DEMON_H
 #define DEMON_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "realm.h"
 #include "SampleMaster.h"
 

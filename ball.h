@@ -46,7 +46,7 @@
 #ifndef BALL_H
 #define BALL_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "realm.h"
 
 

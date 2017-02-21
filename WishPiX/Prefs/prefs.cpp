@@ -43,7 +43,7 @@
 //
 //		05/08/97	JMI	Added conditions for compiler versions' STL
 //							differences (namely "list" vs. "list.h").
-//							Also, changed #include <rspix.h> to #include "RSPiX.h".
+//							Also, changed #include <rspix.h> to #include <RSPiX.h>.
 //
 //		06/11/97	JMI	Commented TRACE in GetIteratorToVariable() when variable
 //							cannot be found and in GetIteratorToSection() when section
@@ -71,24 +71,23 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <float.h>
-#include <assert.h>
-#include <errno.h>
+#include "prefs.h"
 
-#include "Blue.h"
-#include "CYAN/cyan.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "ORANGE/str/str.h"
-#else
-	#include "str.h"
-#endif
+#include <BLUE/Blue.h>
+#include <CYAN/cyan.h>
+#include <ORANGE/str/str.h>
 
 #include "prefline.h"
-#include "prefs.h"
+
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cctype>
+#include <cfloat>
+#include <cassert>
+#include <cerrno>
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////////

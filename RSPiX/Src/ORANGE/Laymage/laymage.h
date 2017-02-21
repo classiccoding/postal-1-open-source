@@ -43,16 +43,11 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "Blue.h"
-#include "System.h"
+#include <BLUE/Blue.h>
+#include <BLUE/System.h>
 
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/Image/Image.h"
-	#include "ORANGE/File/file.h"
-#else
-	#include "Image.h"
-	#include "file.h"
-#endif // PATHS_IN_INCLUDES
+#include <GREEN/Image/Image.h>
+#include <ORANGE/File/file.h>
 
 //////////////////////////////////////////////////////////////////////
 // Constants

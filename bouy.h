@@ -60,7 +60,7 @@
 #ifndef BOUY_H
 #define BOUY_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "realm.h"
 
 // Template node class for linked lists

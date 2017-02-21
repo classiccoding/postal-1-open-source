@@ -95,16 +95,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include "System.h"
-
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/Snd/snd.h"
-	#include "BLUE/Blue.h"
-#else
-	#include "snd.h"
-	#include "Blue.h"
-#endif // PATHS_IN_INCLUDES
-
+#include <BLUE/System.h>
+#include <BLUE/Blue.h>
+#include "snd.h"
 
 //////////////////////////////////////////////////////////////////////////////
 // Initialize static member variables.

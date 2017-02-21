@@ -15,22 +15,9 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/BLiT/BLIT.H"
-#else
-	#include "BLIT.H"
-#endif
 
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/BLiT/_BlitInt.H"
-#else
-	#include "_BlitInt.H" 
-#endif
-#ifdef PATHS_IN_INCLUDES
-	#include "ORANGE/QuickMath/Fractions.h"
-#else
-	#include "Fractions.h" 
-#endif
+#include "BLIT.H"
+#include <ORANGE/QuickMath/Fractions.h>
 
 // Now, 1 bit scaled BLiTting into an BMP1 from an FSPR1
 // NO CLIPPING, no colro info!

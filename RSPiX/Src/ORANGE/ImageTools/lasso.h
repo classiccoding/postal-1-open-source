@@ -21,21 +21,9 @@
 //////////////////////////////////////////////////////////////////////////////
 // Includes.
 //////////////////////////////////////////////////////////////////////////////
-#include "System.h"
+#include <BLUE/System.h>
 
-// Green /////////////////////////////////////////////////////////////////////
-// If PATHS_IN_INCLUDES macro is defined, we can utilized relative
-// paths to a header file.  In this case we generally go off of our
-// RSPiX root directory.  System.h MUST be included before this macro
-// is evaluated.  System.h is the header that, based on the current
-// platform (or more so in this case on the compiler), defines 
-// PATHS_IN_INCLUDES.  Blue.h includes system.h so you can include that
-// instead.
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/Image/Image.h"
-#else
-	#include "Image.h"
-#endif // PATHS_IN_INCLUDES
+class RImage;
 
 //////////////////////////////////////////////////////////////////////////////
 // Typedefs.

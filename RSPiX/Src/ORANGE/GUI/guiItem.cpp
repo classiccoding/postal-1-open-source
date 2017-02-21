@@ -367,45 +367,29 @@
 //////////////////////////////////////////////////////////////////////////////
 // C Headers.
 //////////////////////////////////////////////////////////////////////////////
-#include <stdarg.h>
-#include <string.h>
-#include <stdlib.h>
-#include <limits.h>
+#include <cstdarg>
+#include <cstring>
+#include <cstdlib>
+#include <climits>
 
 //////////////////////////////////////////////////////////////////////////////
 // RSPiX Headers.
 //////////////////////////////////////////////////////////////////////////////
-#include "Blue.h"
+#include <BLUE/Blue.h>
 
-#ifdef PATHS_IN_INCLUDES
-	#include "ORANGE/GUI/guiItem.h"
-	#include "GREEN/BLiT/BLIT.H"
-	#include "ORANGE/IFF/iff.h"
+#include "guiItem.h"
+#include <ORANGE/IFF/iff.h>
+#include <ORANGE/File/file.h>
 
-	// Headers for CreateGuiItem.
-	#include "ORANGE/GUI/txt.h"
-	#include "ORANGE/GUI/btn.h"
-	#include "ORANGE/GUI/edit.h"
-	#include "ORANGE/GUI/scrollbar.h"
-	#include "ORANGE/GUI/dlg.h"
-	#include "ORANGE/GUI/ListBox.h"
-	#include "ORANGE/GUI/PushBtn.h"
-	#include "ORANGE/GUI/MultiBtn.h"
-#else
-	#include "BLIT.H"
-	#include "GuiItem.h"
-
-	// Headers for CreateGuiItem.
-	#include "Txt.h"
-	#include "Btn.h"
-	#include "Edit.h"
-	#include "ScrollBar.h"
-	#include "Dlg.h"
-	#include "ListBox.h"
-	#include "iff.h"
-	#include "PushBtn.h"
-	#include "MultiBtn.h"
-#endif // PATHS_IN_INCLUDES
+// Headers for CreateGuiItem.
+#include "txt.h"
+#include "btn.h"
+#include "edit.h"
+#include "scrollbar.h"
+#include "dlg.h"
+#include "ListBox.h"
+#include "PushBtn.h"
+#include "MultiBtn.h"
 
 //////////////////////////////////////////////////////////////////////////////
 // Module specific macros.

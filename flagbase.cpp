@@ -53,7 +53,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "flagbase.h"
 #include "flag.h"
 #include "SampleMaster.h"

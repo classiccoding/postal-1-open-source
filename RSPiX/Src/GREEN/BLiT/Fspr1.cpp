@@ -15,7 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-#include "System.h"
+#include <BLUE/System.h>
 // ********************************************
 //*** This file should be called "ToBMP1"
 //*** Currently, You can BLiT FSPR1 scaled and
@@ -23,19 +23,12 @@
 //       ( support for FSRP8 NYI )
 // ********************************************
 
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/BLiT/BLIT.H"
-	#include "GREEN/BLiT/_BlitInt.H"
-	#include "ORANGE/QuickMath/Fractions.h"
-	#include "GREEN/Image/SpecialTyp.h"
-#else
-	#include "BLIT.H"
-	#include "_BlitInt.H" 
-	#include "Fractions.h" 
-	#include "specialtyp.h"
-#endif
+#include "BLIT.H"
 
-#include <string.h>
+#include <ORANGE/QuickMath/Fractions.h>
+#include <ORANGE/File/file.h>
+
+#include <cstring>
 
 // ***************************************************************************
 // Mimicking the success of FSPR8, the newest FSPR1 is GREATLY simplified.  

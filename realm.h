@@ -320,7 +320,11 @@
 #ifndef REALM_H
 #define REALM_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
+#include <WishPiX/ResourceManager/resmgr.h>
+#include <ORANGE/MultiGrid/MultiGrid.h>
+#include <ORANGE/MultiGrid/MultiGridIndirect.h>
+
 #include "scene.h"
 #include "thing.h"
 #include "hood.h"
@@ -329,24 +333,6 @@
 #include "smash.h"
 #include "trigger.h"
 
-///////////////////////////////////////////////////////////////////////////////
-// If PATHS_IN_INCLUDES macro is defined, we can utilize relative
-// paths to a header file.  In this case we generally go off of our
-// RSPiX root directory.  System.h MUST be included before this macro
-// is evaluated.  System.h is the header that, based on the current
-// platform (or more so in this case on the compiler), defines 
-// PATHS_IN_INCLUDES.  Blue.h includes system.h so you can include that
-// instead.
-///////////////////////////////////////////////////////////////////////////////
-#ifdef PATHS_IN_INCLUDES
-	#include "WishPiX/ResourceManager/resmgr.h"
-	#include "ORANGE/MultiGrid/MultiGrid.h"
-	#include "ORANGE/MultiGrid/MultiGridIndirect.h"
-#else
-	#include "resmgr.h"
-	#include "multigrid.h"
-	#include "multigridindirect.h"
-#endif
 
 // The overall "universe" in which a game takes place is represented by one or
 // more CRealm's.  A realm is basically a collection of objects plus a handfull

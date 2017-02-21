@@ -27,7 +27,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "trigger.h"
 #include "game.h"
 #include "realm.h" 

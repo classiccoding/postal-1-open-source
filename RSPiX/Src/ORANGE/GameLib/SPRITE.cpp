@@ -66,11 +66,10 @@
 //
 // *****************************************************************************
 
-#ifdef PATHS_IN_INCLUDES
-	#include "ORANGE/GameLib/SPRITE.H"
-#else
-	#include "SPRITE.H"
-#endif // PATHS_IN_INCLUDES
+#include "SPRITE.H"
+
+#include <ORANGE/File/file.h>
+#include <GREEN/Image/Image.h>
 
 ////////////////// Instantiate Static members ////////////////////////////////
 

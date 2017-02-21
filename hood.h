@@ -98,14 +98,10 @@
 #ifndef HOOD_H
 #define HOOD_H
 
-#include "RSPiX.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "WishPiX/Spry/spry.h"
-	#include "ORANGE/MultiGrid/MultiGrid.h"
-#else
-	#include "spry.h"
-	#include "multigrid.h"
-#endif
+#include <RSPiX.h>
+#include <WishPiX/Spry/spry.h>
+#include <ORANGE/MultiGrid/MultiGrid.h>
+
 #include "thing.h"
 
 

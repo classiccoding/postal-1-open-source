@@ -85,7 +85,7 @@
 #ifndef NETMSGR_H
 #define NETMSGR_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "net.h"
 #include "socket.h"
 #include "BufQ.h"

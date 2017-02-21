@@ -15,13 +15,13 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-#include <stdio.h>
-#include <stdarg.h>
+#include <cstdio>
+#include <cstdarg>
 
-#include "Blue.h"
+#include <BLUE/Blue.h>
 #include "../cyan.h"
 
-#if 1
+#if 0
 #include <SDL2/SDL.h>
 
 extern SDL_Window *sdlWindow;
@@ -158,7 +158,7 @@ extern int16_t rspMsgBox(	// Returns RSP_MB_RET_*.  See switch statement below.
   // Get pointer to the arguments.
   va_start(varp, pszFrmt);
   // Compose string.
-  SDL_vsnprintf(szOutput, sizeof(szOutput), pszFrmt, varp);
+  vsnprintf(szOutput, sizeof(szOutput), pszFrmt, varp);
   // Done with var arguments.
   va_end(varp);
 

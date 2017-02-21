@@ -43,7 +43,7 @@
 #ifndef CHUNK_H
 #define CHUNK_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "realm.h"
 
 class CChunk : public CThing

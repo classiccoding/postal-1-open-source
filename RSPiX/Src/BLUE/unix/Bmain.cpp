@@ -31,9 +31,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 
 #ifndef WIN32
@@ -41,13 +41,11 @@
 #include <sys/param.h>
 #endif
 
-#include <time.h>
+#include <ctime>
 
 // Blue //////////////////////////////////////////////////////////////////////
 #include <SDL2/SDL.h>
-#include "BLUE/Blue.h"
-
-#include "CompileOptions.h"
+#include <BLUE/unix/UnixBlue.h>
 
 SDL_Window *sdlWindow = nullptr;
 SDL_Surface *sdlShadowSurface = nullptr;

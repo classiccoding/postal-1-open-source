@@ -116,14 +116,10 @@
 #ifndef GAMESETTINGS_H
 #define GAMESETTINGS_H
 
-#include <time.h>
+#include <ctime>
 
-#include "RSPiX.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "WishPiX/Prefs/prefs.h"
-#else
-	#include "prefs.h"
-#endif
+#include <RSPiX.h>
+#include <WishPiX/Prefs/prefs.h>
 
 #include "settings.h"
 #include "localize.h"

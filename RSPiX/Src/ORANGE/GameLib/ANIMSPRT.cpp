@@ -45,6 +45,9 @@
 
 #include "ANIMSPRT.H"
 
+#include <ORANGE/File/file.h>
+#include <GREEN/Image/Image.h>
+
 ///////////////////////////////////////////////////////////////////////////////
 // 
 // Default Constructor

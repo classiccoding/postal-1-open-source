@@ -29,7 +29,7 @@
 #ifndef INPUTSETTINGSDLG_H
 #define INPUTSETTINGSDLG_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 
 
 //////////////////////////////////////////////////////////////////////////////

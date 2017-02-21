@@ -5,7 +5,7 @@
 #ifndef _MSC_STDINT_H_ // [
 #define _MSC_STDINT_H_
 
-#include <limits.h>
+#include <climits>
 #include <stdint.h>
 #include <BaseTsd.h>
 
@@ -82,7 +82,7 @@ typedef SSIZE_T ssize_t;
 #pragma once
 #endif
 
-#include <limits.h>
+#include <climits>
 
 // For Visual Studio 6 in C++ mode and for many Visual Studio versions when
 // compiling for ARM we should wrap <wchar.h> include with 'extern "C++" {}'

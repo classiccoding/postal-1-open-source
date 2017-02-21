@@ -62,19 +62,13 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include "sample.h"
 
-#include "System.h"
+#include <BLUE/Blue.h>
 
-#ifdef PATHS_IN_INCLUDES
-	#include "BLUE/Blue.h"
-	#include "GREEN/Sample/sample.h"
-#else
-	#include "Blue.h"
-	#include "sample.h"
-#endif // PATHS_IN_INCLUDES
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
 
 //////////////////////////////////////////////////////////////////////////////
 // Initialize static member variables.

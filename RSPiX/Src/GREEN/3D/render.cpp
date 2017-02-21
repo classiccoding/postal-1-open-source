@@ -15,12 +15,8 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-#include "System.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/3D/render.h"
-#else
-	#include "render.h"
-#endif
+#include <BLUE/System.h>
+#include "render.h"
 
 typedef struct 
 	{ RFixedS32 x; RFixedS32 y; RFixedS32 z;} RRenderPt32; // For internal use

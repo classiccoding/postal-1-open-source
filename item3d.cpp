@@ -100,8 +100,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
-#include <math.h>
+#include <RSPiX.h>
+#include <cmath>
 
 #include "item3d.h"
 #include "reality.h"

@@ -332,7 +332,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "main.h"
 #include "input.h"
 #include "game.h"

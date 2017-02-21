@@ -50,7 +50,7 @@
 #ifndef ANIMTHING_H
 #define ANIMTHING_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "realm.h"
 
 #include "AlphaAnimType.h"

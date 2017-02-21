@@ -52,23 +52,10 @@
 
 #ifndef HOT_H
 #define HOT_H
-// Orange /////////////////////////////////////////////////////////////////////
-// If PATHS_IN_INCLUDES macro is defined, we can utilize relative
-// paths to a header file.  In this case we generally go off of our
-// RSPiX root directory.  System.h MUST be included before this macro
-// is evaluated.  System.h is the header that, based on the current
-// platform (or more so in this case on the compiler), defines 
-// PATHS_IN_INCLUDES.  Blue.h includes system.h so you can include that
-// instead.
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/InputEvent/InputEvent.h"
-	#include "ORANGE/CDT/slist.h"
-	#include "ORANGE/CDT/List.h"
-#else
-	#include "slist.h"
-	#include "List.h"
-   #include "InputEvent.h"
-#endif // PATHS_IN_INCLUDES
+
+#include <GREEN/InputEvent/InputEvent.h>
+#include <ORANGE/CDT/slist.h>
+#include <ORANGE/CDT/List.h>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Macros.

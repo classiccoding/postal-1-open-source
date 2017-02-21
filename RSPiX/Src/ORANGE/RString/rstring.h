@@ -31,17 +31,14 @@
 #ifndef RSTRING_H
 #define RSTRING_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdarg.h>
+#include <BLUE/Blue.h>
 
-#include "System.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "ORANGE/File/file.h"
-#else
-	#include "file.h"
-#endif
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cstdarg>
+
+class RFile;
 
 class RString
 	{
