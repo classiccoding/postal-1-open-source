@@ -102,9 +102,9 @@
       <AdditionalIncludeDirectories>.\SDL2;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;.\steamworks\sdk\public;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;NOSHMALLOC;TRACENASSERT;WIN32;_WINDOWS;LOCALE=US;TARGET=POSTAL_2015;ALLOW_TWINSTICK;DEBUG_LEVEL_CHEAT;RSP_DEBUG_OUT_FILE;RSP_TRACE_LOG_NAME="Postal.log";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <PrecompiledHeader />
-      <PrecompiledHeaderFile>RSPiX.H</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>.\Build\Postal Plus\Debug/Postal Plus.pch</PrecompiledHeaderOutputFile>
+      
+      
+      
       <AssemblerListingLocation>.\Build\Postal Plus\Debug/</AssemblerListingLocation>
       <ObjectFileName>.\Build\Postal Plus\Debug/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\Postal Plus\Debug/</ProgramDataBaseFileName>
@@ -147,8 +147,8 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeader />
-      <PrecompiledHeaderOutputFile>.\Build\Postal Plus\Release/Postal Plus.pch</PrecompiledHeaderOutputFile>
+      
+      
       <AssemblerListingLocation>.\Build\Postal Plus\Release/</AssemblerListingLocation>
       <ObjectFileName>.\Build\Postal Plus\Release/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\Postal Plus\Release/</ProgramDataBaseFileName>
@@ -189,9 +189,9 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <PrecompiledHeaderOutputFile>.\Build\Postal Plus\Release/Postal Plus.pch</PrecompiledHeaderOutputFile>
+      
+      
+      
       <AssemblerListingLocation>.\Build\Postal Plus\Release/</AssemblerListingLocation>
       <ObjectFileName>.\Build\Postal Plus\Release/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\Postal Plus\Release/</ProgramDataBaseFileName>
@@ -231,9 +231,9 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeader />
-      <PrecompiledHeaderFile>RSPiX.H</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>.\Build\Postal Plus\Optimized Debug/Postal Plus.pch</PrecompiledHeaderOutputFile>
+      
+      
+      
       <AssemblerListingLocation>.\Build\Postal Plus\Optimized Debug/</AssemblerListingLocation>
       <ObjectFileName>.\Build\Postal Plus\Optimized Debug/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\Postal Plus\Optimized Debug/</ProgramDataBaseFileName>
@@ -286,16 +286,16 @@
   <ItemGroup>
     <ClCompile Include="aivars.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      
       <BrowseInformation Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</BrowseInformation>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Optimized Debug|Win32'">MaxSpeed</Optimization>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Optimized Debug|Win32'">Create</PrecompiledHeader>
+      
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">MaxSpeed</Optimization>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">RSPiX.H</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">RSPiX.H</PrecompiledHeaderFile>
+      
+      
+      
+      
     </ClCompile>
     <ClCompile Include="band.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
@@ -303,10 +303,10 @@
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Optimized Debug|Win32'">MaxSpeed</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">MaxSpeed</Optimization>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">RSPiX.H</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">RSPiX.H</PrecompiledHeaderFile>
+      
+      
+      
+      
     </ClCompile>
     <ClCompile Include="credits.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
@@ -317,18 +317,18 @@
     </ClCompile>
     <ClCompile Include="game.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </PrecompiledHeader>
+      
+      
       <BrowseInformation Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</BrowseInformation>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Optimized Debug|Win32'">MaxSpeed</Optimization>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Optimized Debug|Win32'">
-      </PrecompiledHeader>
+      
+      
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">MaxSpeed</Optimization>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">
-      </PrecompiledHeader>
+      
+      
+      
+      
     </ClCompile>
     <ClCompile Include="input.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
@@ -336,10 +336,10 @@
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Optimized Debug|Win32'">MaxSpeed</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">MaxSpeed</Optimization>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">RSPiX.H</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">RSPiX.H</PrecompiledHeaderFile>
+      
+      
+      
+      
     </ClCompile>
     <ClCompile Include="localize.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
@@ -347,25 +347,25 @@
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Optimized Debug|Win32'">MaxSpeed</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">MaxSpeed</Optimization>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">RSPiX.H</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">RSPiX.H</PrecompiledHeaderFile>
+      
+      
+      
+      
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </PrecompiledHeader>
+      
+      
       <BrowseInformation Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</BrowseInformation>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Optimized Debug|Win32'">MaxSpeed</Optimization>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Optimized Debug|Win32'">
-      </PrecompiledHeader>
+      
+      
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">MaxSpeed</Optimization>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">
-      </PrecompiledHeader>
+      
+      
+      
+      
     </ClCompile>
     <ClCompile Include="menus.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
@@ -373,10 +373,10 @@
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Optimized Debug|Win32'">MaxSpeed</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">MaxSpeed</Optimization>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">RSPiX.H</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">RSPiX.H</PrecompiledHeaderFile>
+      
+      
+      
+      
     </ClCompile>
     <ClCompile Include="play.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
@@ -384,10 +384,10 @@
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Optimized Debug|Win32'">MaxSpeed</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">MaxSpeed</Optimization>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">RSPiX.H</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">RSPiX.H</PrecompiledHeaderFile>
+      
+      
+      
+      
     </ClCompile>
     <ClCompile Include="SampleMaster.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
@@ -395,10 +395,10 @@
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Optimized Debug|Win32'">MaxSpeed</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">MaxSpeed</Optimization>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">RSPiX.H</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">RSPiX.H</PrecompiledHeaderFile>
+      
+      
+      
+      
     </ClCompile>
     <ClCompile Include="title.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
@@ -406,10 +406,10 @@
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Optimized Debug|Win32'">MaxSpeed</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">MaxSpeed</Optimization>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">RSPiX.H</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release(DebugLog)|Win32'">RSPiX.H</PrecompiledHeaderFile>
+      
+      
+      
+      
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

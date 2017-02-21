@@ -29,7 +29,7 @@
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="RSPiX.H"
-				PrecompiledHeaderFile=".\Build\Japan Add On\Optimized Debug/Japan Add On.pch"
+				
 				AssemblerListingLocation=".\Build\Japan Add On\Optimized Debug/"
 				ObjectFile=".\Build\Japan Add On\Optimized Debug/"
 				ProgramDataBaseFileName=".\Build\Japan Add On\Optimized Debug/"
@@ -94,7 +94,7 @@
 				RuntimeLibrary="5"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="RSPiX.H"
-				PrecompiledHeaderFile=".\Build\Japan Add On\Debug/Japan Add On.pch"
+				
 				AssemblerListingLocation=".\Build\Japan Add On\Debug/"
 				ObjectFile=".\Build\Japan Add On\Debug/"
 				ProgramDataBaseFileName=".\Build\Japan Add On\Debug/"
@@ -161,8 +161,8 @@
 				StringPooling="TRUE"
 				RuntimeLibrary="4"
 				EnableFunctionLevelLinking="TRUE"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\Build\Japan Add On\Release/Japan Add On.pch"
+				UsePrecompiledHeader="0"
+				
 				AssemblerListingLocation=".\Build\Japan Add On\Release/"
 				ObjectFile=".\Build\Japan Add On\Release/"
 				ProgramDataBaseFileName=".\Build\Japan Add On\Release/"

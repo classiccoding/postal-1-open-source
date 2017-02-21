@@ -48,7 +48,7 @@
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\Build\Postal Common\Release/Postal Common.pch"
+				
 				AssemblerListingLocation=".\Build\Postal Common\Release/"
 				ObjectFile=".\Build\Postal Common\Release/"
 				ProgramDataBaseFileName=".\Build\Postal Common\Release/"
@@ -121,7 +121,7 @@
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\Build\Postal Common\Optimized Debug/Postal Common.pch"
+				
 				AssemblerListingLocation=".\Build\Postal Common\Optimized Debug/"
 				ObjectFile=".\Build\Postal Common\Optimized Debug/"
 				ProgramDataBaseFileName=".\Build\Postal Common\Optimized Debug/"
@@ -192,7 +192,7 @@
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;NOSHMALLOC;_WINDOWS;TRACENASSERT;ALLOW_TWINSTICK"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\Build\Postal Common\Debug/Postal Common.pch"
+				
 				AssemblerListingLocation=".\Build\Postal Common\Debug/"
 				ObjectFile=".\Build\Postal Common\Debug/"
 				ProgramDataBaseFileName=".\Build\Postal Common\Debug/"
@@ -251,7 +251,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -263,7 +263,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -275,7 +275,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -292,7 +292,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -304,7 +304,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -316,7 +316,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -333,7 +333,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -345,7 +345,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -357,7 +357,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -374,7 +374,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -386,7 +386,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -398,7 +398,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -415,7 +415,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -427,7 +427,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -439,7 +439,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -456,7 +456,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -468,7 +468,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -480,7 +480,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -497,7 +497,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -509,7 +509,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -521,7 +521,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -538,7 +538,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -550,7 +550,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -562,7 +562,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -579,7 +579,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -591,7 +591,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -603,7 +603,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -620,7 +620,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -632,7 +632,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -644,7 +644,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -661,7 +661,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -673,7 +673,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -685,7 +685,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -702,7 +702,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -714,7 +714,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -726,7 +726,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -743,7 +743,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -755,7 +755,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -767,7 +767,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -784,7 +784,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -796,7 +796,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -808,7 +808,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -825,7 +825,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -837,7 +837,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -849,7 +849,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -866,7 +866,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -878,7 +878,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -890,7 +890,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -907,7 +907,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -919,7 +919,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -931,7 +931,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -948,7 +948,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -960,7 +960,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -972,7 +972,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -989,7 +989,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1001,7 +1001,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1013,7 +1013,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1030,7 +1030,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1042,7 +1042,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1054,7 +1054,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1071,7 +1071,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1083,7 +1083,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1095,7 +1095,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1112,7 +1112,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1124,7 +1124,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1136,7 +1136,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1153,7 +1153,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1165,7 +1165,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1177,7 +1177,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1194,7 +1194,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1206,7 +1206,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1218,7 +1218,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1235,7 +1235,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1247,7 +1247,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1259,7 +1259,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1276,7 +1276,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1288,7 +1288,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1300,7 +1300,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1317,7 +1317,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1329,7 +1329,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1341,7 +1341,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1358,7 +1358,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1370,7 +1370,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1382,7 +1382,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1399,7 +1399,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1411,7 +1411,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1423,7 +1423,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1440,7 +1440,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1452,7 +1452,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1464,7 +1464,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1481,7 +1481,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1493,7 +1493,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1505,7 +1505,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1522,7 +1522,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1534,7 +1534,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1546,7 +1546,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1563,7 +1563,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1575,7 +1575,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1587,7 +1587,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1604,7 +1604,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1616,7 +1616,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1628,7 +1628,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1645,7 +1645,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1657,7 +1657,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1669,7 +1669,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1686,7 +1686,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1698,7 +1698,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1710,7 +1710,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1727,7 +1727,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1739,7 +1739,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1751,7 +1751,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1813,7 +1813,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1825,7 +1825,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1837,7 +1837,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1854,7 +1854,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1866,7 +1866,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1878,7 +1878,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1895,7 +1895,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1907,7 +1907,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1919,7 +1919,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1936,7 +1936,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1948,7 +1948,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1960,7 +1960,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -1977,7 +1977,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1989,7 +1989,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2001,7 +2001,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2018,7 +2018,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2030,7 +2030,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2042,7 +2042,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2059,7 +2059,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2071,7 +2071,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2083,7 +2083,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2136,7 +2136,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2148,7 +2148,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2160,7 +2160,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2177,7 +2177,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2189,7 +2189,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2201,7 +2201,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2218,7 +2218,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2230,7 +2230,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2242,7 +2242,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2259,7 +2259,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2271,7 +2271,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2283,7 +2283,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2300,7 +2300,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2312,7 +2312,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2324,7 +2324,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2341,7 +2341,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2353,7 +2353,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2365,7 +2365,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2382,7 +2382,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2394,7 +2394,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2406,7 +2406,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2423,7 +2423,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2435,7 +2435,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2447,7 +2447,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2464,7 +2464,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2476,7 +2476,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2488,7 +2488,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2505,7 +2505,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2517,7 +2517,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2529,7 +2529,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2582,7 +2582,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2594,7 +2594,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2606,7 +2606,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2623,7 +2623,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2635,7 +2635,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2647,7 +2647,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2664,7 +2664,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2676,7 +2676,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2688,7 +2688,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2705,7 +2705,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2717,7 +2717,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2729,7 +2729,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2746,7 +2746,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2758,7 +2758,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2770,7 +2770,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2787,7 +2787,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2799,7 +2799,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2811,7 +2811,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2828,7 +2828,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2840,7 +2840,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2852,7 +2852,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2869,7 +2869,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2881,7 +2881,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2893,7 +2893,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2910,7 +2910,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2922,7 +2922,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2934,7 +2934,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2951,7 +2951,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2963,7 +2963,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -2975,7 +2975,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -2992,7 +2992,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -3004,7 +3004,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -3016,7 +3016,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -3033,7 +3033,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -3045,7 +3045,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -3057,7 +3057,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -3110,7 +3110,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -3122,7 +3122,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -3134,7 +3134,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -3151,7 +3151,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -3163,7 +3163,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -3175,7 +3175,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -3192,7 +3192,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -3204,7 +3204,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -3216,7 +3216,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -3253,7 +3253,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -3270,7 +3270,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -3282,7 +3282,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -3294,7 +3294,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -3311,7 +3311,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -3323,7 +3323,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -3335,7 +3335,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
@@ -3352,7 +3352,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -3364,7 +3364,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -3376,7 +3376,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="2"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>

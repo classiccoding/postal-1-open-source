@@ -24,8 +24,8 @@
 				AdditionalIncludeDirectories=".\RSPiX\c\Win32\WinG\Inc,.\RSPiX\c\Win32\SmartHeap\Include,.\RSPiX\c\Win32\DirectX\Inc,.\RSPiX\Src,.\RSPiX\Src\Blue,.\RSPiX\Inc,.\RSPiX\c\Win32\HeapAgent\Include,."
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;_DEBUG;WIN32;_WINDOWS;NOSHMALLOC"
 				RuntimeLibrary="5"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\Build\Blue Video\Debug/Blue Video.pch"
+				UsePrecompiledHeader="0"
+				
 				AssemblerListingLocation=".\Build\Blue Video\Debug/"
 				ObjectFile=".\Build\Blue Video\Debug/"
 				ProgramDataBaseFileName=".\Build\Blue Video\Debug/"
@@ -76,8 +76,8 @@
 				StringPooling="TRUE"
 				RuntimeLibrary="4"
 				EnableFunctionLevelLinking="TRUE"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\Build\Blue Video\Release/Blue Video.pch"
+				UsePrecompiledHeader="0"
+				
 				AssemblerListingLocation=".\Build\Blue Video\Release/"
 				ObjectFile=".\Build\Blue Video\Release/"
 				ProgramDataBaseFileName=".\Build\Blue Video\Release/"
@@ -127,8 +127,8 @@
 				StringPooling="TRUE"
 				RuntimeLibrary="4"
 				EnableFunctionLevelLinking="TRUE"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\Build\Blue Video\Optimized Debug/Blue Video.pch"
+				UsePrecompiledHeader="0"
+				
 				AssemblerListingLocation=".\Build\Blue Video\Optimized Debug/"
 				ObjectFile=".\Build\Blue Video\Optimized Debug/"
 				ProgramDataBaseFileName=".\Build\Blue Video\Optimized Debug/"
