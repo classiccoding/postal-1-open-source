@@ -267,8 +267,7 @@ extern void Disp_Init(void)	// Returns nothing.
 extern void rspSetApplicationName(
    const char* pszName)								// In: Application name
 {
-    SDL_free(sdlAppName);
-    sdlAppName = SDL_strdup(pszName);
+    sdlAppName = pszName;
     if (sdlWindow)
         SDL_SetWindowTitle(sdlWindow, sdlAppName);
 }
