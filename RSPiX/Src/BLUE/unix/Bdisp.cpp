@@ -34,7 +34,7 @@
 #include <ctype.h>
 
 extern SDL_Window *sdlWindow;
-static char *sdlAppName;
+static const char *sdlAppName;
 static SDL_Renderer *sdlRenderer;
 static SDL_Texture *sdlTexture;
 static int RequestedWidth = 0;
