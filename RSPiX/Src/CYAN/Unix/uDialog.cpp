@@ -40,12 +40,12 @@ extern int16_t rspMsgBox(	// Returns RSP_MB_RET_*.  See switch statement below.
 	// Get pointer to the arguments.
 	va_start(varp, pszFrmt);    
 	// Compose string.
-	SDL_vsnprintf(szOutput, sizeof (szOutput), pszFrmt, varp);
+   vsnprintf(szOutput, sizeof (szOutput), pszFrmt, varp);
 	// Done with var arguments.
 	va_end(varp);
 
     SDL_MessageBoxData data;
-    SDL_zero(data);
+    memset(&data, 0, sizeof(data));
 
     switch (usFlags & RSP_MB_ICN_MASK)
     {
@@ -61,7 +61,8 @@ extern int16_t rspMsgBox(	// Returns RSP_MB_RET_*.  See switch statement below.
     data.message = szOutput;
 
     SDL_MessageBoxButtonData buttons[3];
-    SDL_zero(buttons);
+    memset(buttons, 0, sizeof(buttons));
+
     switch (usFlags & RSP_MB_BUT_MASK)
     {
         case RSP_MB_BUT_OK:

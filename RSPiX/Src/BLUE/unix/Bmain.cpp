@@ -129,7 +129,7 @@ extern void rspDoSystem(void)										// Returns nothing.
 	{
         rspPresentFrame();
 
-        #if WITH_STEAMWORKS
+        #if defined(STEAM_CONNECTED)
         extern void RunSteamworksUpkeep();
         RunSteamworksUpkeep();
         #endif
@@ -221,7 +221,7 @@ extern int rspCommandLine(const char *cmd)
 
 extern void rspPlatformInit(void)
 {
-#if PLATFORM_MACOSX
+#if defined(__APPLE__)
     // MacOS X has this concept of "Application Bundles" which makes the whole
     //  install tree look like a single icon in the Finder, which, when
     //  launched, loads the game binary. They, however, totally fuck up your

@@ -358,20 +358,20 @@
 #include "toolbar.h"
 #include "title.h"
 #include "credits.h"
-#ifdef WIN32
-	#include "log.h"
-#endif
+
+#include <list>
 
 #if defined(WIN32)
-	// For file timestamp.
-	#include <windows.h>
-	#include <time.h>
-	#include <sys/types.h>
-	#include <sys/stat.h>
+# include "log.h"
+// For file timestamp.
+# include <windows.h>
+# include <time.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 #endif
 
-#if WITH_STEAMWORKS
-#include "steam/steam_api.h"
+#if defined(STEAM_CONNECTED)
+# include "steam/steam_api.h"
 #endif
 
 //#define RSP_PROFILE_ON
@@ -448,7 +448,7 @@
 // Default value for "final frame" in network mode (6.8 years at 10fps)
 #define DEFAULT_FINAL_FRAME				INT32_MAX
 
-#if WITH_STEAMWORKS
+#if defined(STEAM_CONNECTED)
 extern bool EnableSteamCloud;
 #define SAVEGAME_DIR						(EnableSteamCloud ? "steamcloud" : "savegame")
 #else
@@ -547,6 +547,14 @@ typedef enum
 	MenuActionEndMenu		// End the menu
 	} MenuAction;
 
+
+static std::list<std::string> safe_strings;
+const char* safe_string(const char* src)
+{
+  safe_strings.emplace_back(src);
+  return safe_strings.back().c_str();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Variables/data
 ////////////////////////////////////////////////////////////////////////////////
@@ -567,7 +575,7 @@ extern SampleMaster::SoundInstance g_siFinalSceneCredits; // should be in game
 SampleMaster::SoundInstance g_siFinalScene; // should be in game
 SampleMaster::SoundInstance g_siFinalSceneCredits; // should be in game
 
-//#ifdef MOBILE
+//#if defined(__ANDROID__)
 extern bool demoCompat; //Try to make demos not go out of sync
 //#endif
 ////////////////////////////////////////////////////////////////////////////////
@@ -2675,12 +2683,12 @@ static void EnumSaveGamesSlots(Menu *menu)
             }
         }
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
         snprintf(gamename, sizeof (gamename), "%d - [%s]", i, str);
-        menu->ami[i].pszText = strdup(gamename);
+        menu->ami[i].pszText = safe_string(gamename);
 #else
         snprintf(gamename, sizeof (gamename), "%s/%d.gme [%s]", SAVEGAME_DIR, i, str);
-        menu->ami[i].pszText = strdup(gamename);
+        menu->ami[i].pszText = safe_string(gamename);
 #endif
 
         menu->ami[i].sEnabled = (menu->ami[i].pszText != nullptr);
@@ -2690,7 +2698,7 @@ static void EnumSaveGamesSlots(Menu *menu)
 }
 #endif
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 static	bool continueIsRestart; //This is to make the continue button actually restart the level
 #endif
 ////////////////////////////////////////////////////////////////////////////////
@@ -2746,7 +2754,7 @@ class CPlayInput : public CPlay
 					m_peditChatIn	= nullptr;
 					}
 				}
-#ifdef MOBILE
+#if defined(__ANDROID__)
 			continueIsRestart = false;
 #endif
 			}
@@ -3111,13 +3119,13 @@ class CPlayInput : public CPlay
 							if ((GetInputMode() == INPUT_MODE_LIVE) && !pinfo->IsMP())
 								{
 								// If revive key pressed . . .
-#ifdef MOBILE
+#if defined(__ANDROID__)
 								if (continueIsRestart)
 #else
 								if (GetInput(0) & INPUT_REVIVE)
 #endif
 									{
-#ifdef MOBILE
+#if defined(__ANDROID__)
 									continueIsRestart = false; //Reset this flag for next time
 #endif
 
@@ -3470,7 +3478,7 @@ class CPlayInput : public CPlay
 			// Clear input events.
 			rspClearAllInputEvents();
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 			if (pinfo->LocalDudePointer()->IsDead()) //Only enable RETRY if player is dead
 				menuClientGame.ami[0].sEnabled = TRUE;
 			else
@@ -3496,7 +3504,7 @@ class CPlayInput : public CPlay
 
 				// Set flag to indicate we're in the menu
 				pinfo->m_bInMenu = true;
-#ifdef MOBILE
+#if defined(__ANDROID__)
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
 #endif
 				}
@@ -3552,7 +3560,7 @@ class CPlayInput : public CPlay
                #if 1 //__unix__
                if (PickFile("Choose Game Slot", EnumSaveGamesSlots, szFile, sizeof(szFile)) == SUCCESS)
                     {
-#ifdef MOBILE
+#if defined(__ANDROID__)
 						//Android we have the format "1 - date"
 						//Need to create the filename
 						char number = szFile[0];
@@ -3568,7 +3576,7 @@ class CPlayInput : public CPlay
 						// way to choose the appropriate original action).
 						if (Game_SavePlayersGame(szFile, pinfo->Realm()->m_flags.sDifficulty) == SUCCESS)
 						{
-							#if WITH_STEAMWORKS
+							#if defined(STEAM_CONNECTED)
 							if ((EnableSteamCloud) && (strncmp(szFile, "steamcloud/", 11) == 0))
 							{
 								char fname[64];
@@ -3591,7 +3599,7 @@ class CPlayInput : public CPlay
 						}
 					}
 					#else
-						#if WITH_STEAMWORKS
+						#if defined(STEAM_CONNECTED)
 						#error You need to switch over from this code to the in-game file UI first.
 						#endif
                int16_t sResult = rspSaveBox(g_pszSaveGameTitle, szFile, szFile, sizeof(szFile), SAVEGAME_EXT);
@@ -3695,7 +3703,7 @@ class CPlayInput : public CPlay
 
 			// Clear flag
 			pinfo->m_bInMenu = false;
-#ifdef MOBILE
+#if defined(__ANDROID__)
 	AndroidSetScreenMode(TOUCH_SCREEN_GAME);
 #endif
 			}
@@ -4913,7 +4921,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 	{
 	int16_t sResult = SUCCESS;
 
-//#ifdef MOBILE
+//#if defined(__ANDROID__)
 	if (inputMode == INPUT_MODE_PLAYBACK)
 		demoCompat = true; //DEMO playback
 	else
@@ -5057,7 +5065,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 						OpenLogFile();
 	#endif
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 					bool doAutoSaveGame = false; //This is set to true when you complete a level, so it's auto saved when the next realm starts
 #endif
 					/*** 12/5/97 AJC ***/
@@ -5092,12 +5100,12 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 								{
 								if ((!info.IsMP()) && (info.m_sRealmNum == 1))
 									UnlockAchievement(ACHIEVEMENT_START_SECOND_LEVEL);
-#ifdef MOBILE//Tap screen to get past
+#if defined(__ANDROID__)//Tap screen to get past
 								AndroidSetScreenMode(TOUCH_SCREEN_BLANK_TAP);
 #endif
 								// do the cutscene
 								playgroup.DoCutscene(&info);
-#ifdef MOBILE
+#if defined(__ANDROID__)
 								if (inputMode == INPUT_MODE_PLAYBACK)
 									AndroidSetScreenMode(TOUCH_SCREEN_BLANK_TAP); //DEMO playback
 								else
@@ -5177,7 +5185,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 									StatsAreAllowed = !info.IsMP();  // !!! FIXME: we currently only track for single-player (because we don't check that kills belong to the local player, etc).
 									startRealmMS = rspGetMilliseconds();
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 									if (doAutoSaveGame)
 									{
 										TRACE("Doing autosave");
@@ -5208,7 +5216,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 										rspGetNextInputEvent(&ie);
 										playgroup.CoreLoopUserInput(&info, &ie);
 
-#ifdef MOBILE //Tap screen to show menu
+#if defined(__ANDROID__) //Tap screen to show menu
 										if (info.LocalDudePointer()->IsDead())
 										{
 											if (!info.m_bInMenu)
@@ -5310,7 +5318,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 							}
 						StatsAreAllowed = false;
 
-						#if WITH_STEAMWORKS
+						#if defined(STEAM_CONNECTED)
 						RequestSteamStatsStore();  // this is a good time to push any updated stats from the level.
 						#endif
 
@@ -5339,7 +5347,7 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 								switch (Play_GetRealmInfo(info.IsMP(), info.CoopLevels(), info.Gauntlet(), info.AddOn(), info.m_sRealmNum, info.Realm()->m_flags.sDifficulty, info.m_szRealm, sizeof(info.m_szRealm)))
 									{
 									case 0:	// Got info
-#ifdef MOBILE
+#if defined(__ANDROID__)
 										if (!bGauntlet) //Dont autosave if playing a challenge!
 											doAutoSaveGame = true;
 #endif
@@ -5508,7 +5516,7 @@ extern bool Play_VerifyQuitMenuChoice(				// Returns true to accept, false to de
 	switch (sMenuItem)
 		{
 		case 0:	// Continue.
-#ifdef MOBILE
+#if defined(__ANDROID__)
 			continueIsRestart = true; //Now the continue button will restart the realm
 #endif
 			ms_menuaction	= MenuActionEndMenu;
@@ -5521,7 +5529,7 @@ extern bool Play_VerifyQuitMenuChoice(				// Returns true to accept, false to de
 		case 3:	// Quit.
 			ms_menuaction	= MenuActionQuit;
 			break;
-#ifdef MOBILE
+#if defined(__ANDROID__)
 		case 10:// Menu cancelled, set in menus_android.cpp
 			ms_menuaction	= MenuActionEndMenu;
 			break;

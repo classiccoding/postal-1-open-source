@@ -630,7 +630,7 @@
 
 #define LEVEL_DIR							"res/levels/."
 
-#if WITH_STEAMWORKS
+#if defined(STEAM_CONNECTED)
 extern bool EnableSteamCloud;
 #define SAVEGAME_DIR						(EnableSteamCloud ? "steamcloud" : "savegame")
 #else
@@ -653,7 +653,7 @@ extern bool EnableSteamCloud;
 #define FLAG_CHALLENGE_LEVEL_DIR			"res/levels/gauntlet/capflag/."
 
 // The titles for the open dialog for each type of challenge levels.
-#ifdef MOBILE
+#if defined(__ANDROID__)
 #define TIMED_CHALLENGE_OPEN_TITLE			"Timed Challenge"
 #define CHECKPOINT_CHALLENGE_OPEN_TITLE	    "Checkpoint Challenge"
 #define GOAL_CHALLENGE_OPEN_TITLE			"Goal Challenge"
@@ -701,7 +701,7 @@ typedef enum
 	ACTION_PLAY_ADDON,
 	ACTION_PLAY_ADDON2,
 	ACTION_PLAY_ALL
-#ifdef MOBILE
+#if defined(__ANDROID__)
 	,ACTION_CONTINUE_GAME
 #endif
 	} ACTION;
@@ -788,6 +788,8 @@ static bool		m_bWriteLogs	= false;
 static int16_t	ms_sLoadedDifficulty	= INVALID_DIFFICULTY;
 
 static SampleMaster::SoundInstance	ms_siMusak	= 0;
+
+extern const char* safe_string(const char* src);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function prototypes
@@ -879,7 +881,7 @@ static void EnumExistingSaveGames(Menu *menu)
     if (Max > MAX_SAVE_SLOTS)
         Max = MAX_SAVE_SLOTS;
 
-#if MOBILE
+#if defined(__ANDROID__)
     snprintf(gamename, sizeof (gamename), "%s/auto.gme", SAVEGAME_DIR);
 
     const char *fname = FindCorrectFile(gamename, "w");
@@ -901,7 +903,7 @@ static void EnumExistingSaveGames(Menu *menu)
     }
 
 	snprintf(gamename, sizeof (gamename), "Auto - [%s]", str);
-    menu->ami[0].pszText = strdup(gamename);
+    menu->ami[0].pszText = safe_string(gamename);
 
     for (i = 0; i < Max; i++)
     {
@@ -927,7 +929,7 @@ static void EnumExistingSaveGames(Menu *menu)
         }
 
         snprintf(gamename, sizeof (gamename), "%d - [%s]", i, str);
-        menu->ami[i+1].pszText = strdup(gamename);
+        menu->ami[i+1].pszText = safe_string(gamename);
 
     }
 #else
@@ -953,7 +955,7 @@ static void EnumExistingSaveGames(Menu *menu)
 		}
 		snprintf(gamename, sizeof (gamename), "%s/%d.gme [%s]", SAVEGAME_DIR, i, str);
 
-		menu->ami[i].pszText = strdup(gamename);
+      menu->ami[i].pszText = safe_string(gamename);
 	}
 
 #endif
@@ -1541,7 +1543,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						0,										// Frame time (MP only)
                   nullptr);								// Demo mode file
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
 #endif
 
@@ -1619,7 +1621,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 									msg.msg.startGame.sFrameTime,		// Frame time (MP only)
                            nullptr);									// Demo mode file
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
 #endif
 
@@ -1701,7 +1703,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 									msg.msg.startGame.sFrameTime,		// Frame time (MP only)
                            nullptr);									// Demo mode file
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
 #endif
 								// Close synchronization logs, if opened.
@@ -1759,7 +1761,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						0,										// Frame time (MP only)
                   nullptr);								// Demo mode file
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
 #endif
 					break;
@@ -1801,7 +1803,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						0,										// Use cooperative mode (MP only)
 						0,										// Frame time (MP only)
                   nullptr);								// Demo mode file
-#ifdef MOBILE
+#if defined(__ANDROID__)
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
 #endif
 #endif // SPAWN
@@ -1841,7 +1843,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						0,										// Use cooperative mode (MP only)
 						0,										// Frame time (MP only)
                   nullptr);								// Demo mode file
-#ifdef MOBILE
+#if defined(__ANDROID__)
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
 #endif
 					break;
@@ -1878,7 +1880,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 						0,										// Use cooperative mode (MP only)
 						0,										// Frame time (MP only)
                   nullptr);								// Demo mode file
-#ifdef MOBILE
+#if defined(__ANDROID__)
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
 #endif
 						// If the player won the game, show them the last level demo
@@ -2016,7 +2018,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 					CloseSynchLogs();
 #endif
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
 #endif
 					// Restore settings to what they were before demo mode
@@ -2103,7 +2105,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 										0,										// Use cooperative mode (MP only)
 										0,										// Frame time (MP only)
 										pfileDemoDebugMovie);			// Demo mode file
-#ifdef MOBILE
+#if defined(__ANDROID__)
 	AndroidSetScreenMode(TOUCH_SCREEN_MENU);
 #endif
 									// Save input data to file
@@ -2191,7 +2193,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
                #if 1 //__unix__
 					if (PickFile("Choose Game Slot", EnumExistingSaveGames, szFileSaved, sizeof(szFileSaved)) == 0)
                     {
-#ifdef MOBILE
+#if defined(__ANDROID__)
 						//Android we have the format "1 - date"
 						//Auot save is "Auto - date"
 						//Need to create the filename
@@ -2225,7 +2227,7 @@ static int16_t GameCore(void)		// Returns 0 on success.
 					#endif
 					break;
 					}
-#ifdef MOBILE
+#if defined(__ANDROID__)
 				case ACTION_CONTINUE_GAME:
 					{
                   static char szFileSaved[PATH_MAX] = "";
@@ -2910,7 +2912,7 @@ extern void Game_StartSinglePlayerGame(
       m_bJustOneRealm = false;
       break;
     case 4:
-#ifdef MOBILE
+#if defined(__ANDROID__)
       m_action	= ACTION_CONTINUE_GAME;
 #endif
       break;

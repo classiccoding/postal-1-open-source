@@ -41,6 +41,14 @@
 
 #include <CompileOptions.h>
 
+#if defined(SUPPLEMENTAL_SNPRINTF)
+# include <supplemental/snprintf.h>
+#endif
+
+#if defined(SUPPLEMENTAL_STRCASECMP)
+# include <supplemental/strcasecmp.h>
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 // For compilers that support partial paths in #include's, define this.  For
 // those that don't, don't define it.
@@ -169,15 +177,6 @@ typedef SSIZE_T ssize_t;
 #  define strcasecmp _stricmp
 # endif
 
-# if !defined(F_OK)
-#  define F_OK 00
-# endif
-
-# if !defined(R_OK)
-#  define R_OK 04
-# endif
-
-
 # define NOTE(x) __pragma(message("NOTE: " x))
 
 # include <BLUE/stdint_msvc.h>
@@ -194,6 +193,13 @@ typedef SSIZE_T ssize_t;
 # define SYSTEM_PATH_SEPARATOR	'/'
 #endif
 
+#if !defined(F_OK)
+# define F_OK 00
+#endif
+
+#if !defined(R_OK)
+# define R_OK 04
+#endif
 
 static_assert(sizeof(uintptr_t) == sizeof(void*), "your compiler is broken!");
 

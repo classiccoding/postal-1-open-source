@@ -133,7 +133,7 @@ static inline void calcButton(SDL_GameController *controller, const SDL_GameCont
     if (SDL_GameControllerGetButton(controller, button) == TRUE)
         *bits |= posbit;
 }
-
+#if defined(ALLOW_TWINSTICK)
 static void GetAxesNew(SDL_GameController* controller, Sint16* out_axis_MoveUpDown, Sint16* out_axis_MoveLeftRight, Sint16* out_axis_FireUpDown, Sint16* out_axis_FireLeftRight)
 {
 	// deadzone shit
@@ -165,6 +165,7 @@ static void GetAxesNew(SDL_GameController* controller, Sint16* out_axis_MoveUpDo
 
 	//TRACE("SDL Axes: %f.5 %f.5 %f.5 %f.5\n", axis_MoveUpDown, axis_MoveLeftRight, axis_FireUpDown, axis_FireLeftRight);
 }
+#endif // ALLOW_TWINSTICK
 
 static inline double GetStickAngle(Sint32 axis_X, Sint32 axis_Y)
 {

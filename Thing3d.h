@@ -645,7 +645,7 @@ class CThing3d : public CThing
 			double*	pdNewY,					// Out: New y position.
 			double*	pdNewZ,					// Out: New z position.
 			double	dSeconds);				// Seconds since last update.
-//#ifdef MOBILE
+//#if defined(__ANDROID__)
 		// Applies velocities to positions, but take in angle of movement
 		void GetNewPositionAngle(				// Returns nothing.
 				double*	pdNewX,					// Out: New x position.

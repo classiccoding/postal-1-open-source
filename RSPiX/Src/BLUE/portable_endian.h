@@ -54,22 +54,22 @@
 # elif !defined(__BSD__) && (defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__bsdi__) || defined(__DragonFly__))
 #  define __BSD__
 # endif
-# if !defined(__unix__) && (defined(__APPLE__) || defined(__linux__) || defined(__CYGWIN__) || defined(__BSD__))
+# if !defined(__unix__) && (defined(__APPLE__) || defined(__linux__) || defined(__CYGWIN__) || defined(__BSD__) || defined(__ANDROID__))
 #  define __unix__
 # endif
 
 // OS includes
-# if defined(WIN32)
+# if defined(WIN32) // Windows variant
 #  include <winsock2.h>
 //#  include <sys/param.h>
-# elif defined(__linux__) || defined(__CYGWIN__)
+# elif defined(__linux__) || defined(__CYGWIN__) // Linux/Cygwin
 #  include <endian.h>
 #  include <byteswap.h>
-# elif defined(__APPLE__)
+# elif defined(__APPLE__) && !defined(__arm__) // Mac OSX
 #  include <libkern/OSByteOrder.h>
 # elif defined(__BSD__)
 #  include <sys/endian.h>
-# elif defined(__DREAMCAST__)
+# elif defined(__DREAMCAST__) // Dreamcast
 #  include <machine/endian.h>
 #  include <arpa/inet.h>
 # else
@@ -138,7 +138,7 @@
 # endif
 
 // OS fixups
-# if defined(__APPLE__)
+# if defined(__APPLE__) && !defined(__arm__) // Mac OSX
 #  define htobe16(x) OSSwapHostToBigInt16(x)
 #  define htole16(x) OSSwapHostToLittleInt16(x)
 #  define be16toh(x) OSSwapBigToHostInt16(x)
@@ -151,14 +151,14 @@
 #  define htole64(x) OSSwapHostToLittleInt64(x)
 #  define be64toh(x) OSSwapBigToHostInt64(x)
 #  define le64toh(x) OSSwapLittleToHostInt64(x)
-# elif defined(__BSD__) && !defined(be16toh)
+# elif defined(__BSD__) && !defined(be16toh) // BSD type
 #  define be16toh(x) betoh16(x)
 #  define le16toh(x) letoh16(x)
 #  define be32toh(x) betoh32(x)
 #  define le32toh(x) letoh32(x)
 #  define be64toh(x) betoh64(x)
 #  define le64toh(x) letoh64(x)
-# elif defined(WIN32)
+# elif defined(WIN32) // Windows variant
 #  if BYTE_ORDER == LITTLE_ENDIAN
 #   define htobe16(x) htons(x)
 #   define htole16(x) (x)
@@ -172,7 +172,7 @@
 #   define htole64(x) (x)
 #   define be64toh(x) ntohll(x)
 #   define le64toh(x) (x)
-#  elif BYTE_ORDER == BIG_ENDIAN
+#  elif BYTE_ORDER == BIG_ENDIAN // XBox 360
 #   define htobe16(x) (x)
 #   define htole16(x) __builtin_bswap16(x)
 #   define be16toh(x) (x)
@@ -186,7 +186,7 @@
 #   define be64toh(x) (x)
 #   define le64toh(x) __builtin_bswap64(x)
 #  endif
-# elif defined(__linux__) && !defined(be16toh)
+# elif defined(__linux__) && !defined(be16toh) // Linux
 #  if __BYTE_ORDER == __LITTLE_ENDIAN
 #   define htobe16(x) __bswap_16 (x)
 #   define htole16(x) (x)
@@ -214,7 +214,7 @@
 #   define be64toh(x) (x)
 #   define le64toh(x) __bswap_64 (x)
 #  endif
-# elif defined(__DREAMCAST__) && !defined(be16toh)
+# elif defined(__DREAMCAST__) && !defined(be16toh) // Dreamcast
 #   define htobe16(x) htons(x)
 #   define htole16(x) (x)
 #   define be16toh(x) ntohs(x)

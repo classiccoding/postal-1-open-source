@@ -137,14 +137,14 @@
 //#define RSP_PROFILE_ON
 #include "ORANGE/Debug/profile.h"
 
-#if PLATFORM_MACOSX
+#if defined(__APPLE__) && !defined(__arm__) // Mac OSX
 // This redefines main() to something else, since libSDLmain-osx.a will have
 //  the actual application entry point...that will setup some Cocoa stuff and
 //  then call the redefined main() in this file...
 #include <SDL2/SDL.h>
 #endif
 
-#if WITH_STEAMWORKS
+#if defined(STEAM_CONNECTED)
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN 1
 #include <windows.h>
@@ -181,7 +181,7 @@ static int16_t SetupVideo(					// Returns 0 on success.
 	{
 	int16_t sResult = SUCCESS;
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 	wideScreenWidth = 850;
 #elif defined(PANDORA)
 	wideScreenWidth = 800;
@@ -418,7 +418,7 @@ char **_argv = nullptr;
 
 milliseconds_t playthroughMS = 0;
 
-#if WITH_STEAMWORKS
+#if defined(STEAM_CONNECTED)
 bool WaitingForInitialSteamStats = true;
 bool EnableSteamAchievements = true;
 bool EnableSteamCloud = true;
@@ -761,7 +761,7 @@ int main(int argc, char **argv)
     assert_types_are_sane();
     rspPlatformInit();
 
-    #if WITH_STEAMWORKS
+    #if defined(STEAM_CONNECTED)
     if (!prepareSteamworks())
         return 1;
     #endif

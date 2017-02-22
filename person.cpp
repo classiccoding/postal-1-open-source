@@ -311,7 +311,7 @@ uint16_t	CPerson::ms_u16IdLogAI	= CIdBank::IdNil;
 
 #define ID_GUI_EDIT_TEXTURES				900
 
-//#ifdef MOBILE
+//#if defined(__ANDROID__)
 extern bool demoCompat; 
 //#endif
 
@@ -1706,7 +1706,7 @@ SampleMaster::SoundInstance CPerson::PlaySoundWrithing(
 	m_siPlaying = 0;
 	SampleMasterID*	psmid	= &g_smidNil;
 
-//#ifdef MOBILE //Reduce annoying comments when dying
+//#if defined(__ANDROID__) //Reduce annoying comments when dying
 	if ((demoCompat) || (++m_usCommentCounter % 5 == 0) )
 	{
 //#endif
@@ -1737,7 +1737,7 @@ SampleMaster::SoundInstance CPerson::PlaySoundWrithing(
 														// Negative indicates to use the distance to the ear.
 		&m_siPlaying,								// Out: Handle for adjusting sound volume
 		plDuration);								// Out: Sample duration in ms, if not nullptr.
-//#ifdef MOBILE
+//#if defined(__ANDROID__)
 	}
 //#endif
 	return m_siPlaying;
@@ -1963,7 +1963,7 @@ SampleMaster::SoundInstance CPerson::PlaySoundRandom(void)
 	m_siPlaying = 0;
 	SampleMasterID*	psmid	= &g_smidNil;
 
-//#ifdef MOBILE //reduce NPC random comments
+//#if defined(__ANDROID__) //reduce NPC random comments
 	int n;
 	if (demoCompat)
 		n = 10;

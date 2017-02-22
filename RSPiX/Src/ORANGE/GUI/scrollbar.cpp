@@ -693,7 +693,7 @@ void RScrollBar::Do(	// Returns nothing.
 	// Call base.
 	RGuiItem::Do(pie);
 
-#ifdef MOBILE
+#if defined(__ANDROID__)
 	//if (pie->sUsed == FALSE && pie->type == RInputEvent::Mouse)
 	if ( pie->type == RInputEvent::Mouse)
 	{
