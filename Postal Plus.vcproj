@@ -47,7 +47,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\SDL2;.\RSPiX\Src;.\RSPiX\Inc;.\steamworks\sdk\public;."
+				AdditionalIncludeDirectories=".\SDL2\include;.\RSPiX\Src;.\RSPiX\Inc;.\steamworks\sdk\public;."
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;_DEBUG;NOSHMALLOC;TRACENASSERT;WIN32;_WINDOWS;LOCALE=US;TARGET=POSTAL_PLUS;ALLOW_TWINSTICK"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
@@ -145,7 +145,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\SDL2;.\RSPiX\Src;.\RSPiX\Inc;.\steamworks\sdk\public;."
+				AdditionalIncludeDirectories=".\SDL2\include;.\RSPiX\Src;.\RSPiX\Inc;.\steamworks\sdk\public;."
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS;LOCALE=US;TARGET=POSTAL_PLUS;ALLOW_TWINSTICK"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -401,7 +401,7 @@
 					Optimization="0"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"
+					UsePrecompiledHeader="1"
 					BrowseInformation="1"
 				/>
 			</FileConfiguration>
@@ -413,7 +413,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"
+					UsePrecompiledHeader="1"
 					PrecompiledHeaderThrough="RSPiX.H"
 				/>
 			</FileConfiguration>
@@ -425,7 +425,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"
+					UsePrecompiledHeader="1"
 				/>
 			</FileConfiguration>
 		</File>
@@ -451,7 +451,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"
+					UsePrecompiledHeader="2"
 					PrecompiledHeaderThrough="RSPiX.H"
 				/>
 			</FileConfiguration>
@@ -561,7 +561,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"
+					UsePrecompiledHeader="2"
 					PrecompiledHeaderThrough="RSPiX.H"
 				/>
 			</FileConfiguration>
@@ -598,7 +598,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"
+					UsePrecompiledHeader="2"
 					PrecompiledHeaderThrough="RSPiX.H"
 				/>
 			</FileConfiguration>
@@ -673,7 +673,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"
+					UsePrecompiledHeader="2"
 					PrecompiledHeaderThrough="RSPiX.H"
 				/>
 			</FileConfiguration>
@@ -710,7 +710,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"
+					UsePrecompiledHeader="2"
 					PrecompiledHeaderThrough="RSPiX.H"
 				/>
 			</FileConfiguration>
@@ -786,7 +786,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"
+					UsePrecompiledHeader="2"
 					PrecompiledHeaderThrough="RSPiX.H"
 				/>
 			</FileConfiguration>
@@ -823,7 +823,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"
+					UsePrecompiledHeader="2"
 					PrecompiledHeaderThrough="RSPiX.H"
 				/>
 			</FileConfiguration>
