@@ -42,13 +42,13 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\SDL2\include;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;.\RSPiX\c\Win32\SmartHeap\Include;."
+				AdditionalIncludeDirectories=".\SDL2;.\RSPiX\Src;.\RSPiX\Inc;."
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS;ALLOW_TWINSTICK"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
-				
+				PrecompiledHeaderFile=".\Build\Postal Common\Release/Postal Common.pch"
 				AssemblerListingLocation=".\Build\Postal Common\Release/"
 				ObjectFile=".\Build\Postal Common\Release/"
 				ProgramDataBaseFileName=".\Build\Postal Common\Release/"
@@ -115,13 +115,13 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-				AdditionalIncludeDirectories=".\RSPiX\Src,.\RSPiX\Src\Blue,.\RSPiX\Inc,.\RSPiX\c\Win32\SmartHeap\Include,."
+				AdditionalIncludeDirectories=".\RSPiX\Src,.\RSPiX\Inc,."
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS;TRACENASSERT;ALLOW_TWINSTICK"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
-				
+				PrecompiledHeaderFile=".\Build\Postal Common\Optimized Debug/Postal Common.pch"
 				AssemblerListingLocation=".\Build\Postal Common\Optimized Debug/"
 				ObjectFile=".\Build\Postal Common\Optimized Debug/"
 				ProgramDataBaseFileName=".\Build\Postal Common\Optimized Debug/"
@@ -188,11 +188,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\SDL2\include;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;."
+				AdditionalIncludeDirectories=".\SDL2;.\RSPiX\Src;.\RSPiX\Inc;."
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;NOSHMALLOC;_WINDOWS;TRACENASSERT;ALLOW_TWINSTICK"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
-				
+				PrecompiledHeaderFile=".\Build\Postal Common\Debug/Postal Common.pch"
 				AssemblerListingLocation=".\Build\Postal Common\Debug/"
 				ObjectFile=".\Build\Postal Common\Debug/"
 				ProgramDataBaseFileName=".\Build\Postal Common\Debug/"
@@ -1772,7 +1772,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="1"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1784,7 +1784,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="1"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1796,7 +1796,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="1"
+						UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>

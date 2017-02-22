@@ -91,6 +91,8 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <PrecompiledHeaderOutputFile>.\Build\Orange\Optimized Debug/Orange.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Build\Orange\Optimized Debug/</AssemblerListingLocation>
       <ObjectFileName>.\Build\Orange\Optimized Debug/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\Orange\Optimized Debug/</ProgramDataBaseFileName>
@@ -111,8 +113,10 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>.\SDL2;.\RSPiX\Src;.\RSPiX\Inc;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;WIN32;_WINDOWS;RSP_DEBUG_OUT_FILE;RSP_TRACE_LOG_NAME="Postal Plus.log";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;WIN32;_WINDOWS;NOSHMALLOC;RSP_DEBUG_OUT_FILE;RSP_TRACE_LOG_NAME="Postal Plus.log";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader />
+      <PrecompiledHeaderOutputFile>.\Build\Orange\Debug/Orange.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Build\Orange\Debug/</AssemblerListingLocation>
       <ObjectFileName>.\Build\Orange\Debug/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\Orange\Debug/</ProgramDataBaseFileName>
@@ -138,6 +142,8 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <PrecompiledHeaderOutputFile>.\Build\Orange\Release/Orange.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Build\Orange\Release/</AssemblerListingLocation>
       <ObjectFileName>.\Build\Orange\Release/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\Orange\Release/</ProgramDataBaseFileName>
@@ -162,6 +168,9 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\Build\Orange\Release/Orange.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Build\Orange\Release/</AssemblerListingLocation>
       <ObjectFileName>.\Build\Orange\Release/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\Orange\Release/</ProgramDataBaseFileName>

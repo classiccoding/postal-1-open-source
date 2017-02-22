@@ -91,6 +91,8 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <PrecompiledHeaderOutputFile>.\Build\BLiT\Release/BLiT.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Build\BLiT\Release/</AssemblerListingLocation>
       <ObjectFileName>.\Build\BLiT\Release/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\BLiT\Release/</ProgramDataBaseFileName>
@@ -115,6 +117,9 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\Build\BLiT\Release/BLiT.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Build\BLiT\Release/</AssemblerListingLocation>
       <ObjectFileName>.\Build\BLiT\Release/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\BLiT\Release/</ProgramDataBaseFileName>
@@ -134,8 +139,10 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>.\SDL2;.\RSPiX\Src;.\RSPiX\Inc;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;WIN32;_WINDOWS;RSP_DEBUG_OUT_FILE;RSP_TRACE_LOG_NAME="Postal Plus.log";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;WIN32;_WINDOWS;NOSHMALLOC;RSP_DEBUG_OUT_FILE;RSP_TRACE_LOG_NAME="Postal Plus.log";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader />
+      <PrecompiledHeaderOutputFile>.\Build\BLiT\Debug/BLiT.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Build\BLiT\Debug/</AssemblerListingLocation>
       <ObjectFileName>.\Build\BLiT\Debug/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\BLiT\Debug/</ProgramDataBaseFileName>
@@ -161,6 +168,8 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <PrecompiledHeaderOutputFile>.\Build\BLiT\Optimized Debug/BLiT.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Build\BLiT\Optimized Debug/</AssemblerListingLocation>
       <ObjectFileName>.\Build\BLiT\Optimized Debug/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\BLiT\Optimized Debug/</ProgramDataBaseFileName>
