@@ -395,18 +395,18 @@ inline bool rspObjCmp(const T* p1, const T* p2, size_t count)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#if defined(_DEBUG) || defined(TRACENASSERT)
 extern void rspTrace(const char* szFrmt, ...);
 
+#if defined(_DEBUG) || defined(TRACENASSERT)
 // TRACE macro, the preferred method of sending output to debug window
-# define STRACE  rspTrace
-# define TRACE   STRACE("%s(%d):", __FILE__, __LINE__),STRACE
+# define STRACE(...)  rspTrace(__VA_ARGS__)
+# define TRACE(...)   STRACE("%s(%d):", __FILE__, __LINE__),STRACE(__VA_ARGS__)
 # include <cassert>
-# define ASSERT assert
+# define ASSERT(...)  assert(__VA_ARGS__)
 #else
-# define STRACE      1 ? (void)0 : rspTrace
-# define TRACE       STRACE
-# define ASSERT(a)
+# define STRACE(...)  rspTrace(__VA_ARGS__)
+# define TRACE(...)   STRACE(__VA_ARGS__)
+# define ASSERT(...)
 #endif
 
 #endif // UNIXSYSTEM_H
