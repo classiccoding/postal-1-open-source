@@ -150,7 +150,6 @@ struct c_string
 # pragma message("I find your lack of POSIX disturbing. ;)")
 # include <BaseTsd.h>
 typedef SSIZE_T ssize_t;
-
 # if !defined(_MSC_VER) || _MSC_VER < 1900
 #  define constexpr inline
 #  if !defined(snprintf)
@@ -166,32 +165,25 @@ typedef SSIZE_T ssize_t;
 #   define PATH_MAX _MAX_PATH
 #  endif
 # endif
-
 # if !defined(strcasecmp)
 #  define strcasecmp _stricmp
 # endif
-
 # define NOTE(x) __pragma(message("NOTE: " x))
-
 # include <BLUE/stdint_msvc.h>
-
 # define SYSTEM_PATH_SEPARATOR	'\\'
 #else
 # include <sys/types.h>
-
 # if defined __GNUC__ && defined __GNUC_MINOR__
 #  define __GNUC_PREREQ(maj, min) ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min))
 # else
 #  define __GNUC_PREREQ(maj, min) 0
 # endif
-
 # define DO_PRAGMA(x) _Pragma (#x)
 # if !defined(__GNUC__) || __GNUC_PREREQ(4,4)
 #  define NOTE(x) DO_PRAGMA(message("NOTE: " x))
 # else
 #  define NOTE(x) DO_PRAGMA(warning("NOTE: " x)
 # endif
-
 # if defined(__DOS__)
 #  if defined(__STRICT_ANSI__) && defined(__DJGPP__)
 #   error You need to disable C++ standards complaince for DJGPP
@@ -200,6 +192,7 @@ typedef SSIZE_T ssize_t;
 #  if !defined(PATH_MAX)
 #   define PATH_MAX _PC_PATH_MAX
 #  endif
+#  pragma message("I find your lack of POSIX disturbing. >:(")
 #  define SYSTEM_PATH_SEPARATOR	'\\'
 # else
 #  define SYSTEM_PATH_SEPARATOR	'/'
