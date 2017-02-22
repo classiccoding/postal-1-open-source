@@ -91,6 +91,8 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <PrecompiledHeaderOutputFile>.\Build\Blue\Release/Blue.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Build\Blue\Release/</AssemblerListingLocation>
       <ObjectFileName>.\Build\Blue\Release/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\Blue\Release/</ProgramDataBaseFileName>
@@ -115,6 +117,9 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\Build\Blue\Release/Blue.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Build\Blue\Release/</AssemblerListingLocation>
       <ObjectFileName>.\Build\Blue\Release/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\Blue\Release/</ProgramDataBaseFileName>
@@ -139,6 +144,8 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <PrecompiledHeaderOutputFile>.\Build\Blue\Optimized Debug/Blue.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Build\Blue\Optimized Debug/</AssemblerListingLocation>
       <ObjectFileName>.\Build\Blue\Optimized Debug/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\Blue\Optimized Debug/</ProgramDataBaseFileName>
@@ -159,8 +166,10 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>.\SDL2;.\RSPiX\Src;.\RSPiX\Inc;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;WIN32;_WINDOWS;ALLOW_TWINSTICK;RSP_DEBUG_OUT_FILE;RSP_TRACE_LOG_NAME="Postal Plus.log";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;WIN32;_WINDOWS;NOSHMALLOC;ALLOW_TWINSTICK;RSP_DEBUG_OUT_FILE;RSP_TRACE_LOG_NAME="Postal Plus.log";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader />
+      <PrecompiledHeaderOutputFile>.\Build\Blue\Debug/Blue.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Build\Blue\Debug/</AssemblerListingLocation>
       <ObjectFileName>.\Build\Blue\Debug/</ObjectFileName>
       <ProgramDataBaseFileName>.\Build\Blue\Debug/</ProgramDataBaseFileName>

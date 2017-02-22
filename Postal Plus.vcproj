@@ -47,12 +47,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\SDL2\include;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;.\steamworks\sdk\public;."
+				AdditionalIncludeDirectories=".\SDL2;.\RSPiX\Src;.\RSPiX\Inc;.\steamworks\sdk\public;."
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;_DEBUG;NOSHMALLOC;TRACENASSERT;WIN32;_WINDOWS;LOCALE=US;TARGET=POSTAL_PLUS;ALLOW_TWINSTICK"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="RSPiX.H"
-				
+				PrecompiledHeaderFile=".\Build\Postal Plus\Debug/Postal Plus.pch"
 				AssemblerListingLocation=".\Build\Postal Plus\Debug/"
 				ObjectFile=".\Build\Postal Plus\Debug/"
 				ProgramDataBaseFileName=".\Build\Postal Plus\Debug/"
@@ -145,13 +145,13 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\SDL2\include;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;.\steamworks\sdk\public;."
+				AdditionalIncludeDirectories=".\SDL2;.\RSPiX\Src;.\RSPiX\Inc;.\steamworks\sdk\public;."
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS;LOCALE=US;TARGET=POSTAL_PLUS;ALLOW_TWINSTICK"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
-				
+				PrecompiledHeaderFile=".\Build\Postal Plus\Release/Postal Plus.pch"
 				AssemblerListingLocation=".\Build\Postal Plus\Release/"
 				ObjectFile=".\Build\Postal Plus\Release/"
 				ProgramDataBaseFileName=".\Build\Postal Plus\Release/"
@@ -241,14 +241,14 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-				AdditionalIncludeDirectories=".\RSPiX\c\Win32\SmartHeap\Include,.\RSPiX\Src,.\RSPiX\Src\Blue,.\RSPiX\Inc,.\RSPiX\c\Win32\HeapAgent\Include,.\steamworks\sdk\public,."
+				AdditionalIncludeDirectories=".\RSPiX\Src,.\RSPiX\Inc,.\steamworks\sdk\public,."
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;TRACENASSERT;WIN32;_WINDOWS;LOCALE=US;TARGET=POSTAL_PLUS;ALLOW_TWINSTICK"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="RSPiX.H"
-				
+				PrecompiledHeaderFile=".\Build\Postal Plus\Optimized Debug/Postal Plus.pch"
 				AssemblerListingLocation=".\Build\Postal Plus\Optimized Debug/"
 				ObjectFile=".\Build\Postal Plus\Optimized Debug/"
 				ProgramDataBaseFileName=".\Build\Postal Plus\Optimized Debug/"
@@ -401,7 +401,7 @@
 					Optimization="0"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="1"
+					UsePrecompiledHeader="0"
 					BrowseInformation="1"
 				/>
 			</FileConfiguration>
@@ -413,7 +413,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="1"
+					UsePrecompiledHeader="0"
 					PrecompiledHeaderThrough="RSPiX.H"
 				/>
 			</FileConfiguration>
@@ -425,7 +425,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="1"
+					UsePrecompiledHeader="0"
 				/>
 			</FileConfiguration>
 		</File>
