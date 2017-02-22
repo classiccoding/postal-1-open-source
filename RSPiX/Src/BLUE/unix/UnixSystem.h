@@ -178,13 +178,32 @@ typedef SSIZE_T ssize_t;
 # define SYSTEM_PATH_SEPARATOR	'\\'
 #else
 # include <sys/types.h>
+
+# if defined __GNUC__ && defined __GNUC_MINOR__
+#  define __GNUC_PREREQ(maj, min) ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min))
+# else
+#  define __GNUC_PREREQ(maj, min) 0
+# endif
+
 # define DO_PRAGMA(x) _Pragma (#x)
 # if !defined(__GNUC__) || __GNUC_PREREQ(4,4)
 #  define NOTE(x) DO_PRAGMA(message("NOTE: " x))
 # else
 #  define NOTE(x) DO_PRAGMA(warning("NOTE: " x)
 # endif
-# define SYSTEM_PATH_SEPARATOR	'/'
+
+# if defined(__DOS__)
+#  if defined(__STRICT_ANSI__) && defined(__DJGPP__)
+#   error You need to disable C++ standards complaince for DJGPP
+#  endif
+#  include <unistd.h>
+#  if !defined(PATH_MAX)
+#   define PATH_MAX _PC_PATH_MAX
+#  endif
+#  define SYSTEM_PATH_SEPARATOR	'\\'
+# else
+#  define SYSTEM_PATH_SEPARATOR	'/'
+# endif
 #endif
 
 #if !defined(F_OK)

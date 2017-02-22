@@ -51,6 +51,8 @@
 // OS identifiers
 # if !defined(WIN32) && (defined(_WIN16) || defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__WINDOWS__) || defined(_WIN32_WCE))
 #  define WIN32
+# elif !defined(__DOS__) && (defined(MSDOS) || defined(_MSDOS) || defined(__MSDOS__))
+#  define __DOS__
 # elif !defined(__BSD__) && (defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__bsdi__) || defined(__DragonFly__))
 #  define __BSD__
 # endif
@@ -72,6 +74,8 @@
 # elif defined(__DREAMCAST__) // Dreamcast
 #  include <machine/endian.h>
 #  include <arpa/inet.h>
+# elif defined(__DOS__)
+#  include <machine/endian.h>
 # else
 #  error Unknown platform.  Please add support in "portable_endian.h"
 # endif
@@ -227,5 +231,18 @@
 #   define htole64(x) (x)
 #   define be64toh(x) ntohll(x)
 #   define le64toh(x) (x)
+# elif defined(__DOS__) && !defined(be16toh) // DOS
+#   define htobe16(x) htons(x)
+#   define htole16(x) (x)
+#   define be16toh(x) ntohs(x)
+#   define le16toh(x) (x)
+#   define htobe32(x) htonl(x)
+#   define htole32(x) (x)
+#   define be32toh(x) ntohl(x)
+#   define le32toh(x) (x)
+#   define htobe64(x) ASSERT(0)
+#   define htole64(x) ASSERT(0)
+#   define be64toh(x) ASSERT(0)
+#   define le64toh(x) ASSERT(0)
 # endif
 #endif
