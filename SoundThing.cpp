@@ -113,7 +113,7 @@
 	#undef GetRand
 #endif
 
-#ifdef MOBILE //Arm RAND_MAX is a full int, code expecting a short!!
+#if defined(__ANDROID__) //Arm RAND_MAX is a full int, code expecting a short!!
 #define RAND_MAX 0x7fff
 #endif
 
