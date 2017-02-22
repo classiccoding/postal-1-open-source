@@ -24,8 +24,6 @@
 #include <GREEN/BLiT/Cfnt.h>
 #include <ORANGE/QuickMath/Fractions.h>
 
-#define _ROT64 // 64-bit math
-
 // This function will be made modular assuming the RSPiX inliner
 // will become a reality...
 //
@@ -38,8 +36,8 @@
 // This is POST CLIPPING, POST MIRRORING, POST PARAMETER VALIDATION!
 //
 inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
-				  uint8_t* pSrcData,int32_t lSrcXP,int32_t lSrcP,
-				  uint8_t* pDstData,int32_t lDstXP,int32_t lDstP,
+              uint8_t* pSrcData,intmax_t lSrcXP,intmax_t lSrcP,
+              uint8_t* pDstData,intmax_t lDstXP,intmax_t lDstP,
 				  int16_t sDstW,int16_t sDstH, // Target this for inlining!
 				  int16_t sClipL,int16_t sClipR,int16_t sClipT,int16_t sClipB)
 	{
@@ -60,45 +58,26 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 	// all things start at this source location:
 	uint8_t* pP;
 
-	int32_t	lDen = int32_t(sDstW) * sDstH; // compound fraction
-
-	// Calculate the sub pixel offset:
-	int32_t lLadNumX,lLadNumY,lRungNumX,lRungNumY;
+   intmax_t	lDen = intmax_t(sDstW) * sDstH; // compound fraction
 
 	// **********************************************
 	// ******  OVERFLOW AREA - NEEDS 64bit math!
 	// **********************************************
 	// OVERFLOW LIMIT: lDstW * lDstH * sSrcW * sSrcH;
-	// MUST CUSTOMIZE FOR THE MAC:
 
-#ifdef _ROT64
+   // Calculate the sub pixel offset:
+   intmax_t lLadNumX,lLadNumY,lRungNumX,lRungNumY;
 
-	// 64-bit version:
-	int64_t l64PX = int64_t(lDen) * sR,l64PY = int64_t(lDen) * sR; // go into Denominator space
+   intmax_t lPX = lDen * sR;
+   intmax_t lPY = lDen * sR; // go into Denominator space
 	// Stay in denominator space!
-	l64PX += int64_t(COSQ[sDegP] * sR * lDen + 0.5 * lDen); // offset to pixel center
-	l64PY += int64_t(SINQ[sDegP] * sR * lDen  + 0.5 * lDen); // offset to pixel center
+   lPX += intmax_t(COSQ[sDegP] * sR * lDen + 0.5 * lDen); // offset to pixel center
+   lPY += intmax_t(SINQ[sDegP] * sR * lDen  + 0.5 * lDen); // offset to pixel center
 	// Now MUST convert to an asymettrical signed proper fraction:
-	int32_t lPX,lPY;
-	rspDivModA64(l64PX,lDen,lPX,lLadNumX);
-	rspDivModA64(l64PY,lDen,lPY,lLadNumY);
+   rspDivModA<int64_t, intmax_t>(lPX,lDen,lPX,lLadNumX);
+   rspDivModA<int64_t, intmax_t>(lPY,lDen,lPY,lLadNumY);
 
 	pP = pSrcData + lSrcXP * lPX + lSrcP * lPY;
-
-#else
-
-	// 32-bit version
-	int32_t lPX = lDen * sR,lPY = lDen * sR; // go into Denominator space
-	// Stay in denominator space!
-	lPX += int32_t(COSQ[sDegP] * sR * lDen + 0.5 * lDen); // offset to pixel center
-	lPY += int32_t(SINQ[sDegP] * sR * lDen  + 0.5 * lDen); // offset to pixel center
-	// Now MUST convert to an asymettrical signed proper fraction:
-	rspDivModA64(lPX,lDen,lPX,lLadNumX);
-	rspDivModA64(lPY,lDen,lPY,lLadNumY);
-
-	pP = pSrcData + lSrcXP * lPX + lSrcP * lPY;
-
-#endif
 
 	// **********************************************
 
@@ -110,10 +89,10 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 	// Find the signed vector length of the rungs, in compound
 	// fraction form...
 
-	int32_t lRungW = int32_t(COSQ[sDegR] * sEdge * sDstH); // horizontal
-	int32_t lRungH = int32_t(SINQ[sDegR] * sEdge * sDstH);
-	int32_t lLadW = int32_t(COSQ[sDegL] * sEdge * sDstW);  // vertical
-	int32_t lLadH = int32_t(SINQ[sDegL] * sEdge * sDstW);
+   intmax_t lRungW = intmax_t(COSQ[sDegR] * sEdge * sDstH); // horizontal
+   intmax_t lRungH = intmax_t(SINQ[sDegR] * sEdge * sDstH);
+   intmax_t lLadW = intmax_t(COSQ[sDegL] * sEdge * sDstW);  // vertical
+   intmax_t lLadH = intmax_t(SINQ[sDegL] * sEdge * sDstW);
 	// Convert from a point offset to true width and height:
 
 	lRungW += SGN3(lRungW); // 3 phase sign
@@ -124,12 +103,12 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 	//
 	// 2) Normalize the ratios if needed...
 	//
-	int32_t lRungIncX = lRungW;
-	int32_t lRungIncY = lRungH;
-	int32_t lLadIncX = lLadW;
-	int32_t lLadIncY = lLadH;
+   intmax_t lRungIncX = lRungW;
+   intmax_t lRungIncY = lRungH;
+   intmax_t lLadIncX = lLadW;
+   intmax_t lLadIncY = lLadH;
 	// General parameters:
-	int32_t lRungDelX=0,lRungDelY=0,lLadDelX=0,lLadDelY=0;
+   intmax_t lRungDelX=0,lRungDelY=0,lLadDelX=0,lLadDelY=0;
 	// For now, only distinguish Rung IC, keep Ladder general:
 	int16_t sCondition = 0; // CONDITION FLAG
 
@@ -208,7 +187,7 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 
 	//==================================================================
 	// relative to pP:
-	int32_t lLadX = 0,lLadY = 0,lRungX,lRungY;
+   intmax_t lLadX = 0,lLadY = 0,lRungX,lRungY;
 
 	// test template, condition 0, no clip:
 	uint8_t *pDst,*pDstLine = pDstData; // offset included for us...
@@ -225,8 +204,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 			{
 			//-------------------- Advance the Ladder...
 			// Use most general (slow) IC case...
-			rspfrAdd32(lLadX,lLadNumX,lLadDelX,lLadIncX,lDen,lSrcXP);
-			rspfrAdd32(lLadY,lLadNumY,lLadDelY,lLadIncY,lDen,lSrcP);
+         rspfrAddMax(lLadX,lLadNumX,lLadDelX,lLadIncX,lDen,lSrcXP);
+         rspfrAddMax(lLadY,lLadNumY,lLadDelY,lLadIncY,lDen,lSrcP);
 
 			pDstLine += lDstP;
 			}
@@ -241,8 +220,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 			{
 			// Advance the Ladder in the rung direction...
 			// Use general case for testing, then specific case later
-			rspfrAdd32(lLadX,lLadNumX,lRungDelX,lRungIncX,lDen,lSrcXP);
-			rspfrAdd32(lLadY,lLadNumY,lRungDelY,lRungIncY,lDen,lSrcP);
+         rspfrAddMax(lLadX,lLadNumX,lRungDelX,lRungIncX,lDen,lSrcXP);
+         rspfrAddMax(lLadY,lLadNumY,lRungDelY,lRungIncY,lDen,lSrcP);
 
 			pDstLine += lDstXP;
 			}
@@ -276,8 +255,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 				for (i = sDstW; i != 0; i--)
 					{
 					ucPix = *(pP + lRungX + lRungY);if (ucPix) *pDst = ucPix;
-					rspfrAdd32(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, proper, positive);
-					rspfrAdd32(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, proper, positive);
+               rspfrAddMax(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, proper, positive);
+               rspfrAddMax(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, proper, positive);
 					pDst += lDstXP;
 					}
 			break;
@@ -285,8 +264,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 				for (i = sDstW; i != 0; i--)
 					{
 					ucPix = *(pP + lRungX + lRungY);if (ucPix) *pDst = ucPix;
-					rspfrAdd32(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, proper, positive);
-					rspfrAdd32(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, proper, negative);
+               rspfrAddMax(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, proper, positive);
+               rspfrAddMax(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, proper, negative);
 					pDst += lDstXP;
 					}
 			break;
@@ -294,8 +273,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 				for (i = sDstW; i != 0; i--)
 					{
 					ucPix = *(pP + lRungX + lRungY);if (ucPix) *pDst = ucPix;
-					rspfrAdd32(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, proper, positive);
-					rspfrAdd32(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, improper, positive);
+               rspfrAddMax(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, proper, positive);
+               rspfrAddMax(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, improper, positive);
 					pDst += lDstXP;
 					}
 			break;
@@ -303,8 +282,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 				for (i = sDstW; i != 0; i--)
 					{
 					ucPix = *(pP + lRungX + lRungY);if (ucPix) *pDst = ucPix;
-					rspfrAdd32(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, proper, positive);
-					rspfrAdd32(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, improper, negative);
+               rspfrAddMax(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, proper, positive);
+               rspfrAddMax(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, improper, negative);
 					pDst += lDstXP;
 					}
 			break;
@@ -312,8 +291,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 				for (i = sDstW; i != 0; i--)
 					{
 					ucPix = *(pP + lRungX + lRungY);if (ucPix) *pDst = ucPix;
-					rspfrAdd32(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, proper, negative);
-					rspfrAdd32(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, proper, positive);
+               rspfrAddMax(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, proper, negative);
+               rspfrAddMax(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, proper, positive);
 					pDst += lDstXP;
 					}
 			break;
@@ -321,8 +300,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 				for (i = sDstW; i != 0; i--)
 					{
 					ucPix = *(pP + lRungX + lRungY);if (ucPix) *pDst = ucPix;
-					rspfrAdd32(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, proper, negative);
-					rspfrAdd32(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, proper, negative);
+               rspfrAddMax(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, proper, negative);
+               rspfrAddMax(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, proper, negative);
 					pDst += lDstXP;
 					}
 			break;
@@ -330,8 +309,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 				for (i = sDstW; i != 0; i--)
 					{
 					ucPix = *(pP + lRungX + lRungY);if (ucPix) *pDst = ucPix;
-					rspfrAdd32(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, proper, negative);
-					rspfrAdd32(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, improper, positive);
+               rspfrAddMax(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, proper, negative);
+               rspfrAddMax(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, improper, positive);
 					pDst += lDstXP;
 					}
 			break;
@@ -339,8 +318,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 				for (i = sDstW; i != 0; i--)
 					{
 					ucPix = *(pP + lRungX + lRungY);if (ucPix) *pDst = ucPix;
-					rspfrAdd32(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, proper, negative);
-					rspfrAdd32(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, improper, negative);
+               rspfrAddMax(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, proper, negative);
+               rspfrAddMax(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, improper, negative);
 					pDst += lDstXP;
 					}
 			break;
@@ -348,8 +327,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 				for (i = sDstW; i != 0; i--)
 					{
 					ucPix = *(pP + lRungX + lRungY);if (ucPix) *pDst = ucPix;
-					rspfrAdd32(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, improper, positive);
-					rspfrAdd32(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, proper, positive);
+               rspfrAddMax(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, improper, positive);
+               rspfrAddMax(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, proper, positive);
 					pDst += lDstXP;
 					}
 			break;
@@ -357,8 +336,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 				for (i = sDstW; i != 0; i--)
 					{
 					ucPix = *(pP + lRungX + lRungY);if (ucPix) *pDst = ucPix;
-					rspfrAdd32(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, improper, positive);
-					rspfrAdd32(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, proper, negative);
+               rspfrAddMax(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, improper, positive);
+               rspfrAddMax(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, proper, negative);
 					pDst += lDstXP;
 					}
 			break;
@@ -366,8 +345,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 				for (i = sDstW; i != 0; i--)
 					{
 					ucPix = *(pP + lRungX + lRungY);if (ucPix) *pDst = ucPix;
-					rspfrAdd32(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, improper, positive);
-					rspfrAdd32(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, improper, positive);
+               rspfrAddMax(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, improper, positive);
+               rspfrAddMax(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, improper, positive);
 					pDst += lDstXP;
 					}
 			break;
@@ -375,8 +354,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 				for (i = sDstW; i != 0; i--)
 					{
 					ucPix = *(pP + lRungX + lRungY);if (ucPix) *pDst = ucPix;
-					rspfrAdd32(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, improper, positive);
-					rspfrAdd32(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, improper, negative);
+               rspfrAddMax(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, improper, positive);
+               rspfrAddMax(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, improper, negative);
 					pDst += lDstXP;
 					}
 			break;
@@ -384,8 +363,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 				for (i = sDstW; i != 0; i--)
 					{
 					ucPix = *(pP + lRungX + lRungY);if (ucPix) *pDst = ucPix;
-					rspfrAdd32(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, improper, negative);
-					rspfrAdd32(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, proper, positive);
+               rspfrAddMax(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, improper, negative);
+               rspfrAddMax(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, proper, positive);
 					pDst += lDstXP;
 					}
 			break;
@@ -393,8 +372,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 				for (i = sDstW; i != 0; i--)
 					{
 					ucPix = *(pP + lRungX + lRungY);if (ucPix) *pDst = ucPix;
-					rspfrAdd32(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, improper, negative);
-					rspfrAdd32(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, proper, negative);
+               rspfrAddMax(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, improper, negative);
+               rspfrAddMax(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, proper, negative);
 					pDst += lDstXP;
 					}
 			break;
@@ -402,8 +381,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 				for (i = sDstW; i != 0; i--)
 					{
 					ucPix = *(pP + lRungX + lRungY);if (ucPix) *pDst = ucPix;
-					rspfrAdd32(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, improper, negative);
-					rspfrAdd32(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, improper, positive);
+               rspfrAddMax(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, improper, negative);
+               rspfrAddMax(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, improper, positive);
 					pDst += lDstXP;
 					}
 			break;
@@ -411,8 +390,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 				for (i = sDstW; i != 0; i--)
 					{
 					ucPix = *(pP + lRungX + lRungY);if (ucPix) *pDst = ucPix;
-					rspfrAdd32(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, improper, negative);
-					rspfrAdd32(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, improper, negative);
+               rspfrAddMax(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP, improper, negative);
+               rspfrAddMax(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP, improper, negative);
 					pDst += lDstXP;
 					}
 			break;
@@ -429,8 +408,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 
 			//------------------ Advance the rung...
 			// Use general case for testing, then specific case later
-			rspfrAdd32(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP);
-			rspfrAdd32(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP);
+         rspfrAddMax(lRungX,lRungNumX,lRungDelX,lRungIncX,lDen,lSrcXP);
+         rspfrAddMax(lRungY,lRungNumY,lRungDelY,lRungIncY,lDen,lSrcP);
 
 			pDst += lDstXP;
 			}
@@ -439,8 +418,8 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 		//---------------------------------------------------------
 		//-------------------- Advance the Ladder...
 		// Use most general (slow) IC case...
-		rspfrAdd32(lLadX,lLadNumX,lLadDelX,lLadIncX,lDen,lSrcXP);
-		rspfrAdd32(lLadY,lLadNumY,lLadDelY,lLadIncY,lDen,lSrcP);
+      rspfrAddMax(lLadX,lLadNumX,lLadDelX,lLadIncX,lDen,lSrcXP);
+      rspfrAddMax(lLadY,lLadNumY,lLadDelY,lLadIncY,lDen,lSrcP);
 
 		pDstLine += lDstP;
 		}
