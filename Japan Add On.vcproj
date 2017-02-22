@@ -90,7 +90,7 @@
 				Optimization="0"
 				OptimizeForProcessor="1"
 				AdditionalIncludeDirectories=".\RSPiX\Src,.\RSPiX\Inc,."
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;_DEBUG;NOSHMALLOC;TRACENASSERT;WIN32;_WINDOWS;LOCALE=JAPAN;TARGET=JAPAN_ADD_ON"
+        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;_DEBUG;TRACENASSERT;WIN32;_WINDOWS;LOCALE=JAPAN;TARGET=JAPAN_ADD_ON"
 				RuntimeLibrary="5"
 				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="RSPiX.H"

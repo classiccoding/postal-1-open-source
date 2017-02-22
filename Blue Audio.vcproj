@@ -22,7 +22,7 @@
 				Optimization="0"
 				OptimizeForProcessor="1"
 				AdditionalIncludeDirectories=".\RSPiX\Src,.\RSPiX\Inc,."
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;_DEBUG;WIN32;_WINDOWS;NOSHMALLOC"
+        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;_DEBUG;WIN32;_WINDOWS"
 				RuntimeLibrary="5"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\Build\Blue Audio\Debug/Blue Audio.pch"
