@@ -27,7 +27,7 @@
 				StringPooling="TRUE"
 				RuntimeLibrary="4"
 				EnableFunctionLevelLinking="TRUE"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="RSPiX.H"
 				PrecompiledHeaderFile=".\Build\Japan Add On\Optimized Debug/Japan Add On.pch"
 				AssemblerListingLocation=".\Build\Japan Add On\Optimized Debug/"
@@ -92,7 +92,7 @@
 				AdditionalIncludeDirectories=".\RSPiX\Src,.\RSPiX\Inc,."
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;_DEBUG;NOSHMALLOC;TRACENASSERT;WIN32;_WINDOWS;LOCALE=JAPAN;TARGET=JAPAN_ADD_ON"
 				RuntimeLibrary="5"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="3"
 				PrecompiledHeaderThrough="RSPiX.H"
 				PrecompiledHeaderFile=".\Build\Japan Add On\Debug/Japan Add On.pch"
 				AssemblerListingLocation=".\Build\Japan Add On\Debug/"
@@ -161,7 +161,7 @@
 				StringPooling="TRUE"
 				RuntimeLibrary="4"
 				EnableFunctionLevelLinking="TRUE"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\Build\Japan Add On\Release/Japan Add On.pch"
 				AssemblerListingLocation=".\Build\Japan Add On\Release/"
 				ObjectFile=".\Build\Japan Add On\Release/"
@@ -284,7 +284,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"/>
+					UsePrecompiledHeader="1"/>
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Win32">
@@ -293,7 +293,7 @@
 					Optimization="0"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"
+					UsePrecompiledHeader="1"
 					BrowseInformation="1"/>
 			</FileConfiguration>
 			<FileConfiguration
@@ -303,7 +303,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"
+					UsePrecompiledHeader="1"
 					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 		</File>
@@ -333,7 +333,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"
+					UsePrecompiledHeader="3"
 					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 		</File>
@@ -422,7 +422,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"
+					UsePrecompiledHeader="3"
 					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 		</File>
@@ -461,7 +461,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"
+					UsePrecompiledHeader="3"
 					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 		</File>
@@ -522,7 +522,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"
+					UsePrecompiledHeader="3"
 					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 		</File>
@@ -552,7 +552,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"
+					UsePrecompiledHeader="3"
 					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 		</File>
@@ -606,7 +606,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"
+					UsePrecompiledHeader="3"
 					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 		</File>
@@ -639,7 +639,7 @@
 					Optimization="2"
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
-					UsePrecompiledHeader="0"
+					UsePrecompiledHeader="3"
 					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 		</File>
