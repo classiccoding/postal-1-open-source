@@ -65,7 +65,7 @@
 
 // This, when used in place of a priority, indicates that the item has no
 // priority (i.e., it is to be considered non-prioritized).
-#define RHOT_NO_PRIORITY	( (short)0x8000)
+#define RHOT_NO_PRIORITY	INT16_MIN
 
 ///////////////////////////////////////////////////////////////////////////////
 // Types.
