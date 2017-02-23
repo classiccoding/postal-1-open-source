@@ -23,13 +23,13 @@
 #include <BLUE/System.h>
 #include <cmath>
 
-#define rspPI  3.14159265359
-#define rspRadToDeg  57.29577951308
-#define rspDegToRad  0.01745329251994
-#define rspSQRT2  1.414213562373
-#define rspSQRT3	1.732050807569
+#define rspPI         3.14159265359
+#define rspRadToDeg   57.29577951308
+#define rspDegToRad   0.01745329251994
+#define rspSQRT2      1.414213562373
+//#define rspSQRT3      1.732050807569
 
-#define	MAX_FAST_SQRT 131072	// Will take a LOT of memory
+#define MAX_FAST_SQRT 0x20000 // Will take a 256KB of memory
 /*****************************************************************
 Quickmath contains several extansions, but FixedPoint.cpp is
 required because it is called to initialize from the normal
@@ -37,11 +37,11 @@ quickmath initialization.  QuickMath is based upon the concept
 of integer degrees, from 0-359 inclusive.  
 
   Hungarian notation: 
-				& = implicit pass by reference, do NOT use a pointer
-				& is used in almost all cases to prevent VC from creating
-				a local stack frame which would slow things down by 20 times.
-				T = a single templated type
-				-64 = enhanced 64-bit math mode...
+    & = implicit pass by reference, do NOT use a pointer
+        & is used in almost all cases to prevent VC from creating
+        a local stack frame which would slow things down by 20 times.
+    T = a single templated type
+    -64 = enhanced 64-bit math mode...
 
 *****************************************************************
 inline void rspMod360(&sDeg) // USE BEFORE ALL CALLS IF IN QUESTION!
@@ -69,9 +69,10 @@ extern float fSINQ[csNumRotSteps],fCOSQ[csNumRotSteps];
 extern int16_t ATANQ[60];
 extern int16_t SQRTQ[MAX_FAST_SQRT];
 /****************************************************************/
-inline int16_t	rspSqrt(int32_t lVal)
+inline int16_t rspSqrt(int32_t lVal)
 {
-  if (lVal < MAX_FAST_SQRT) return SQRTQ[lVal];
+  if (lVal < MAX_FAST_SQRT)
+    return SQRTQ[lVal];
   return int16_t(sqrt(double(lVal)));
 }
 
@@ -103,20 +104,20 @@ inline float rspfCos(int16_t sDeg)
   return fCOSQ[sDeg];
 }
 
-extern	int16_t rspATan(int16_t sDeltaY,int16_t sDeltaX);
-extern	int16_t rspATan(double dVal);
-inline	int16_t rspDegDelta(int16_t sDegSrc,int16_t sDegDst)
-{
-  int16_t sDel = sDegDst - sDegSrc;
+extern int16_t rspATan(int16_t sDeltaY, int16_t sDeltaX);
+extern int16_t rspATan(double dVal);
 
-  if (sDel >= 0) // positive turn
+inline double rspDegDelta(double sDegSrc, double sDegDst)
+{
+  double sDel = sDegDst - sDegSrc;
+
+  if (sDel >= 0.0) // positive turn
   {
-    if (sDel > 180) sDel -= 360; // neg turn
+    if (sDel > 180.0)
+      sDel -= 360.0; // neg turn
   }
-  else
-  {// negative turn
-    if (sDel < -180) sDel += 360; // pos turn
-  }
+  else if (sDel < -180.0) // negative turn
+    sDel += 360.0; // pos turn
 
   return sDel;
 }
@@ -124,29 +125,33 @@ inline	int16_t rspDegDelta(int16_t sDegSrc,int16_t sDegDst)
 // Use individual whiles if you know what to expect
 inline int16_t rspMod360(int16_t sDeg)
 {
-  while (sDeg < 0) sDeg += 360;
-  while (sDeg > 359) sDeg -= 360;
+  while (sDeg < 0)
+    sDeg += 360;
+  while (sDeg > 359)
+    sDeg -= 360;
   return sDeg;
 }
 
-inline int16_t rspMod(int16_t sVal,int16_t &sRange)
+inline int16_t rspMod(int16_t sVal, const int16_t sRange)
 {
-  while (sVal < 0) sVal += sRange;
-  while (sVal >= sRange) sVal -= sRange;
+  while (sVal < 0)
+    sVal += sRange;
+  while (sVal >= sRange)
+    sVal -= sRange;
   return sVal;
 }
 
-inline void rspMod360(int16_t *sDeg)
+inline void rspMod360(int16_t* sDeg)
 {
   *sDeg = rspMod360(*sDeg);
 }
 
-inline void rspMod(int16_t *sVal,int16_t &sRange)
+inline void rspMod(int16_t* sVal, const int16_t sRange)
 {
   *sVal = rspMod(*sVal,sRange);
 }
 
-extern	void InitTrig();
+extern void InitTrig();
 
 // Auto Initialize hook!
 class RQuickTrig
@@ -157,23 +162,41 @@ public:
 };
 
 template <typename T> // aymmetric mod wrt sign, good for deltas
-inline void rspDivMod(T num,T den,T &div, T &mod) // does NOT check if (den == 0)
-{	// Algorithm not verified for neqative denominator!!!!
+inline void rspDivMod(T num, T den, T& div, T& mod) // does NOT check if (den == 0)
+{  // Algorithm not verified for negative denominator!!!!
   div = num / den;
   mod = num - div * den;
 }
 
 template <typename N, typename T> // asymmetric mod wrt sign, good for POSITION
-inline void rspDivModA(N num,T den,T &div, T &mod) // does NOT check if (den == 0)
-{	// Algorithm not verified for neqative denominator!!!!
+inline void rspDivModA(N num, T den, T& div, T& mod) // does NOT check if (den == 0)
+{  // Algorithm not verified for negative denominator!!!!
   div = num / den;
   mod = num - div * den;
+#if 1
+  if (mod && div < 0)
+  {
+    --div;
+    mod += den;
+  }
+#else
   if (mod)
   {
-    if (div < 0)  { div--; mod += den;}
+    if (div < 0)
+    {
+      --div;
+      mod += den;
+    }
   }
   else if (!div)
-    if (mod < 0) { div--; mod += den;}
+  {
+    if (mod < 0) // _always_ false
+    {
+      --div; // unreachable!
+      mod += den;
+    }
+  }
+#endif
 }
 
 //-------------------------------
