@@ -164,8 +164,8 @@ void CChunk::Update(void)
 			case BulletCasing:
 			case Shell:
 #if 0	// Looks bad.
-				rspPlot(
-					(uint8_t)251,
+            rspPlot<uint8_t>(
+               251,
 					m_pRealm->m_phood->m_pimBackground,
 					sX2d, 
 					sY2d);

@@ -395,7 +395,7 @@ void RAlpha::Dump(RImage* pimDst,int16_t sX,int16_t sY)
 
 	for (j=0;j<m_sAlphaDepth;j++)
 		for (i=0;i<255;i++)
-			rspPlot((m_pAlphas[i][j]),pimDst,int16_t(sX+i),int16_t(sY+j));
+         rspPlot<uint8_t>(m_pAlphas[i][j], pimDst, sX+i, sY+j);
 	}
 
 // ************ COMMENT THIS OUT TO REMOVE DEPENDENCY ON BLIT!
