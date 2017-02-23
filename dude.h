@@ -692,20 +692,16 @@ class CDude : public CCharacter
 	//---------------------------------------------------------------------------
 	public:
 		// Return the X position
-		double GetX()
-			{return m_dX;};
+      double GetX(void) const { return m_dX; }
 
 		// Return the Y position
-		double GetY()
-			{return m_dY;};
+      double GetY(void) const { return m_dY; }
 
 		// Return the Z position
-		double GetZ()
-			{return m_dZ;};
+      double GetZ(void) const { return m_dZ; }
 
 		// Return the dude's hit points
-		int16_t GetHealth()
-			{return m_stockpile.m_sHitPoints;};
+      int16_t GetHealth(void) const { return m_stockpile.m_sHitPoints; }
 
 		// Sets a new state based on supplied state enum.  Will set animation ptr
 		// to proper animation for state and reset animation timer.
@@ -742,10 +738,8 @@ class CDude : public CCharacter
 		CWeapon* ShootWeapon(void);		// Returns the weapoin ptr or nullptr.
 
 		// Determine if the dude is dead.
-		bool IsDead(void)	// Returns true, if dead; false otherwise.
-			{
-			return m_bDead;
-			}
+      bool IsDead(void)	const // Returns true, if dead; false otherwise.
+         { return m_bDead; }
 
 		// Message handling functions ////////////////////////////////////////////
 

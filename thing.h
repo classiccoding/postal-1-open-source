@@ -758,18 +758,18 @@ class CThing
 		// class type.  Override these functions for your class type to 
 		// enable this feature.
 		virtual					// Override to implement this functionality.
-		double GetX(void)	{ return InvalidPosition; }
+      double GetX(void)	const { return InvalidPosition; }
 
 		virtual					// Override to implement this functionality.
-		double GetY(void)	{ return InvalidPosition; }
+      double GetY(void)	const { return InvalidPosition; }
 
 		virtual					// Override to implement this functionality.
-		double GetZ(void)	{ return InvalidPosition; }
+      double GetZ(void) const { return InvalidPosition; }
 
 		// Get the smash - for normal CThings that don't have a smash, it
 		// will return nullptr, CThing3d's though always have a smash.
 		virtual 
-		CSmash* GetSmash(void) {return nullptr;}
+      CSmash* GetSmash(void) { return nullptr; }
 
 		//////////////////////////////////////////////////////////////////////////
 		// These are defined merely to discourage their use within CThings.

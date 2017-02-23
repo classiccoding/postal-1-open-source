@@ -215,13 +215,13 @@ class CNavigationNet : public CThing
 
 		// Get the coordinates of this thing.
 		virtual					// Overriden here.
-		double GetX(void)	{ return m_dX; }
+      double GetX(void)	const { return m_dX; }
 
 		virtual					// Overriden here.
-		double GetY(void)	{ return m_dY; }
+      double GetY(void)	const { return m_dY; }
 
 		virtual					// Overriden here.
-		double GetZ(void)	{ return m_dZ; }
+      double GetZ(void)	const { return m_dZ; }
 
 		// Add a bouy to this network and assign it an ID
 		uint8_t AddBouy(CBouy* pBouy);
