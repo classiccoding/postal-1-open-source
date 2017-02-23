@@ -558,9 +558,9 @@
 #endif
 
 #if defined(WIN32)
-	#include <direct.h>
+   #include <direct.h>
 #else
-	#include <unistd.h>
+   #include <unistd.h>
 #endif
 
 #include "WishPiX/Menu/menu.h"
