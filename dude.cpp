@@ -5858,24 +5858,20 @@ bool CDude::TrackExecutee(		// Returns true to persist, false, if we lost the ta
 			dVictimZ	= pthing->GetZ();
 			}
 
-		int16_t	sDistX			= dVictimX - m_dX;
-		int16_t	sDistZ			= m_dZ - dVictimZ;
-		double	dSqrDistanceXZ	= ABS2(sDistX, sDistZ);
+      double sDistX         = dVictimX - m_dX;
+      double sDistZ         = m_dZ - dVictimZ;
+      double dSqrDistanceXZ = ABS2(sDistX, sDistZ);
 
 		// Determine angle to target.
-		double	dRot		= rspATan(sDistZ, sDistX);
+      double dRot	  = rspATan(sDistZ, sDistX);
 		// Determine which rotation direction to target is smaller.
-		double	dDelta	= rspDegDelta(m_dRot, dRot);
+      double dDelta = rspDegDelta(m_dRot, dRot);
 
 		// If turning counter clockwise . . .
-		if (dDelta > 0.0)
-			{
-			m_dRot	+= MIN(dDelta, g_InputSettings.m_dStillFastDegreesPerSec * dSeconds);
-			}
-		else
-			{
-			m_dRot	+= MAX(dDelta, -g_InputSettings.m_dStillFastDegreesPerSec * dSeconds);
-			}
+      if (dDelta > 0.0)
+         m_dRot += MIN(dDelta, g_InputSettings.m_dStillFastDegreesPerSec * dSeconds);
+      else
+        m_dRot	+= MAX(dDelta, -g_InputSettings.m_dStillFastDegreesPerSec * dSeconds);
 
 #if 1
 		// If too close . . .

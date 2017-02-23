@@ -263,13 +263,13 @@ class CDispenser : public CThing
 
 		// Get the coordinates of this thing.
 		virtual					// Overriden here.
-		double GetX(void)	{ return (double)m_sX; }
+      double GetX(void)	const { return (double)m_sX; }
 
 		virtual					// Overriden here.
-		double GetY(void)	{ return (double)m_sY; }
+      double GetY(void)	const { return (double)m_sY; }
 
 		virtual					// Overriden here.
-		double GetZ(void)	{ return (double)m_sZ; }
+      double GetZ(void)	const { return (double)m_sZ; }
 
 	//---------------------------------------------------------------------------
 	// Other functions
