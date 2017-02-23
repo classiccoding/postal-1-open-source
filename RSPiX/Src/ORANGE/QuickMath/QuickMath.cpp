@@ -27,8 +27,8 @@ int16_t	SQRTQ[MAX_FAST_SQRT];
 int16_t rspATan(int16_t sDeltaY,int16_t sDeltaX)
 {
   // absolute versions
-  int16_t sDelX = sDeltaX < 0 ? -sDeltaX : sDeltaX;
-  int16_t sDelY = sDeltaY < 0 ? -sDeltaY : sDeltaY;
+  int16_t sDelX = ABS(sDeltaX);
+  int16_t sDelY = ABS(sDeltaY);
   int16_t sDeg;
 
   if (sDelY <= sDelX)
@@ -60,7 +60,7 @@ int16_t rspATan(int16_t sDeltaY,int16_t sDeltaX)
 int16_t rspATan(double dVal)
 {
   // absolute versions
-  double dAbsVal = dVal < 0 ? -dVal : dVal;
+  double dAbsVal = ABS(dVal);
   int16_t sDeg;
 
   if (dAbsVal <= 1.0)

@@ -101,13 +101,13 @@ class RTexture
 			if (rhs.m_pIndices != nullptr)
 				{
 				AllocIndices();
-				rspObjCpy(m_pIndices, rhs.m_pIndices, (size_t)m_sNum);
+            memcpy(m_pIndices, rhs.m_pIndices, m_sNum);
 				}
 
 			if (rhs.m_pColors != nullptr)
 				{
 				AllocColors();
-				rspObjCpy(m_pColors, rhs.m_pColors, (size_t)m_sNum);
+            memcpy(m_pColors, rhs.m_pColors, m_sNum);
 				}
 			
 			return *this;
@@ -123,7 +123,7 @@ class RTexture
 					{
 					// If both pointers are non-zero then we compare their data
 					if (m_pIndices && rhs.m_pIndices)
-						result = rspObjCmp(m_pIndices, rhs.m_pIndices, (size_t)m_sNum);
+                  result = memcmp(m_pIndices, rhs.m_pIndices, m_sNum) == SUCCESS;
 					else
 						{
 						// If both pointers are not nullptr then they obviously don't match
@@ -135,7 +135,7 @@ class RTexture
 						{
 						// If both pointers are non-zero then we compare their data
 						if (m_pColors && rhs.m_pColors)
-							result = rspObjCmp(m_pColors, rhs.m_pColors, (size_t)m_sNum);
+                     result = memcmp(m_pColors, rhs.m_pColors, m_sNum) == SUCCESS;
 						else
 							{
 							// If both pointers are not nullptr then they obviously don't match
@@ -268,7 +268,7 @@ class RMesh
 			if (rhs.m_pArray != nullptr)
 				{
 				Alloc(rhs.m_sNum);
-				rspObjCpy(m_pArray, rhs.m_pArray, (size_t)(m_sNum * 3));
+            memcpy(m_pArray, rhs.m_pArray, m_sNum * 3);
 				}
 
 			return *this;
@@ -284,7 +284,7 @@ class RMesh
 					{
 					// If both pointers are non-zero then we compare their data
 					if (m_pArray && rhs.m_pArray)
-						result = rspObjCmp(m_pArray, rhs.m_pArray,  (size_t)(m_sNum * 3));
+                  result = memcmp(m_pArray, rhs.m_pArray, m_sNum * 3) == SUCCESS;
 					else
 						{
 						// If both pointers are not nullptr then they obviously don't match
@@ -372,7 +372,7 @@ class RSop
 			if (rhs.m_pArray != nullptr)
 				{
 				Alloc(rhs.m_lNum);
-				rspObjCpy(m_pArray, rhs.m_pArray, (size_t)m_lNum);
+            memcpy(m_pArray, rhs.m_pArray, m_lNum);
 				}
 
 			return *this;
@@ -388,7 +388,7 @@ class RSop
 					{
 					// If both pointers are non-zero then we compare their data
 					if (m_pArray && rhs.m_pArray)
-						result = rspObjCmp(m_pArray, rhs.m_pArray, (size_t)m_lNum);
+                  result = memcmp(m_pArray, rhs.m_pArray, m_lNum) == SUCCESS;
 					else
 						{
 						// If both pointers are not nullptr then they obviously don't match

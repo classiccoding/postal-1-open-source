@@ -131,13 +131,13 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 	//=========================== USE GENERAL IC for any case....
 	if (ABS(lLadIncX) >= lDen)
 		{
-		DIV_MOD(lLadIncX,lDen,lLadDelX,lLadIncX);
+      rspDivMod(lLadIncX,lDen,lLadDelX,lLadIncX);
 		lLadDelX *= lSrcXP; // make the delta variables into screen space
 		}
 
 	if (ABS(lLadIncY) >= lDen)
 		{
-		DIV_MOD(lLadIncY,lDen,lLadDelY,lLadIncY);
+      rspDivMod(lLadIncY,lDen,lLadDelY,lLadIncY);
 		lLadDelY *= lSrcP; // make the delta variables into screen space
 		}
 
@@ -150,7 +150,7 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 		if (-lRungIncX >= lDen)
 			{
 			sCondition |= sImproperRungX; // for IC function overload
-			DIV_MOD(lRungIncX,lDen,lRungDelX,lRungIncX);
+         rspDivMod(lRungIncX,lDen,lRungDelX,lRungIncX);
 			lRungDelX *= lSrcXP; // make the delta variables into screen space
 			}
 		}
@@ -159,7 +159,7 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 		if (lRungIncX >= lDen)
 			{
 			sCondition |= sImproperRungX; // for IC function overload
-			DIV_MOD(lRungIncX,lDen,lRungDelX,lRungIncX);
+         rspDivMod(lRungIncX,lDen,lRungDelX,lRungIncX);
 			lRungDelX *= lSrcXP; // make the delta variables into screen space
 			}
 		}
@@ -171,7 +171,7 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 		if (-lRungIncY >= lDen)
 			{
 			sCondition |= sImproperRungY; // for IC function overload
-			DIV_MOD(lRungIncY,lDen,lRungDelY,lRungIncY);
+         rspDivMod(lRungIncY,lDen,lRungDelY,lRungIncY);
 			lRungDelY *= lSrcP; // make the delta variables into screen space
 			}
 		}
@@ -180,7 +180,7 @@ inline void _BlitRot(int16_t sDeg,int16_t sHeight, // = 2R + 1?
 		if (lRungIncY >= lDen)
 			{
 			sCondition |= sImproperRungY; // for IC function overload
-			DIV_MOD(lRungIncY,lDen,lRungDelY,lRungIncY);
+         rspDivMod(lRungIncY,lDen,lRungDelY,lRungIncY);
 			lRungDelY *= lSrcP; // make the delta variables into screen space
 			}
 		}
