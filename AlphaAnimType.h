@@ -23,6 +23,8 @@
 #ifndef ALPHAANIMTYPE_H
 #define ALPHAANIMTYPE_H
 
+#include <BLUE/System.h>
+
 // Simple wrapper class for each frame of alpha animation
 class CAlphaAnim
 	{
@@ -53,7 +55,7 @@ class CAlphaAnim
 			m_sY = rhs.m_sY;
 			m_imColor = rhs.m_imColor;
 			Alloc(m_sNumAlphas);
-			rspObjCpy(m_pimAlphaArray, rhs.m_pimAlphaArray, m_sNumAlphas);
+         memcpy(m_pimAlphaArray, rhs.m_pimAlphaArray, m_sNumAlphas);
 			return *this;
 			}
 

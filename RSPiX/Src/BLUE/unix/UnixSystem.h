@@ -41,14 +41,6 @@
 
 #include <CompileOptions.h>
 
-#if defined(SUPPLEMENTAL_SNPRINTF)
-# include <supplemental/snprintf.h>
-#endif
-
-#if defined(SUPPLEMENTAL_STRCASECMP)
-# include <supplemental/strcasecmp.h>
-#endif
-
 ////////////////////////////////////////////////////////////////////////////////
 // Handy defines.
 ////////////////////////////////////////////////////////////////////////////////
@@ -188,17 +180,14 @@ typedef SSIZE_T ssize_t;
 #  if defined(__STRICT_ANSI__) && defined(__DJGPP__)
 #   error You need to disable C++ standards complaince for DJGPP
 #  endif
-#  include <unistd.h>
-#  if !defined(PATH_MAX)
-#   define PATH_MAX _PC_PATH_MAX
-#  endif
-#  pragma message("I find your lack of POSIX disturbing. >:(")
+#  include <limits.h> // somehow not referenced by climits
 #  define SYSTEM_PATH_SEPARATOR	'\\'
 # else
 #  define SYSTEM_PATH_SEPARATOR	'/'
 # endif
 #endif
 
+// non standard defines
 #if !defined(F_OK)
 # define F_OK 00
 #endif
@@ -331,47 +320,6 @@ constexpr T SGN(T x) { return (x < 0) ? (T)-1 : (T)1; }
 template <class T>
 constexpr T SGN3(T x) { return (x == 0) ? (T)0 : ((x < 0) ? (T)-1 : (T)1); }
 
-template <class T> // attaches a sign to a value
-constexpr T ADD_SGN(T sign,T val) { return (sign < 0) ? -val : val; }
-
-template <class T> // symmetric mod wrt sign, good for DELTAS
-// (This is the mathematically standard mod)
-inline void DIV_MOD(T num,T den,T &div, T &mod) // does NOT check if (den == 0)
-	{
-	div = num / den;
-	mod = num - div * den; 
-	}
-
-// Copy an array of objects (just like strcpy() but it works for any type).
-// Object must have a default or overloaded operator= for assignment.
-template<class T>
-inline void rspObjCpy(T* pDst, const T* pSrc, size_t count)
-	{
-	if (count > 0)
-		{
-		while (count--)
-			*pDst++ = *pSrc++;
-		}
-	}
-
-// Compare an array of objects (just like strcmp() but it works for any type).
-// Object must have a default or overloaded operator== to test for equality.
-template<class T>
-inline bool rspObjCmp(const T* p1, const T* p2, size_t count)
-	{
-	if (count > 0)
-		{
-		// Need to use '==' because that's what we're asking objects to overload!
-		// (Hence the odd-looking notation of negating the result of the '=='.)
-		while (count--)
-			{
-			if (!(*p1++ == *p2++))
-				return false;
-			}
-		return true;
-		}
-	return true;
-	}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Debug API
