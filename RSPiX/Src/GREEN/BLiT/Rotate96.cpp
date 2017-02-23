@@ -20,8 +20,9 @@
 #include <BLUE/System.h>
 
 #include "BLIT.H"
+#include "Cfnt.h"
 
-#include <GREEN/BLiT/Cfnt.h>
+#include <ORANGE/QuickMath/QuickMath.h>
 #include <ORANGE/QuickMath/Fractions.h>
 
 // This function will be made modular assuming the RSPiX inliner

@@ -3528,7 +3528,7 @@ static void DrawCursor(
 		short sMin = MIN(sCursorZ, (short)(sCursorZ - sCursorY));
 		short sMax = MAX(sCursorZ, (short)(sCursorZ - sCursorY));
 		for (short y = sMin; y <= sMax; y++)
-			rspPlot((uint8_t)255, pimDst, sCursorX, y);
+         rspPlot<uint8_t>(255, pimDst, sCursorX, y);
 #else
 		rspLine(
 			(uint8_t)255,

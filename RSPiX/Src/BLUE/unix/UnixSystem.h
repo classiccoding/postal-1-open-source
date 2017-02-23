@@ -307,7 +307,7 @@ template <class T>
 constexpr T ABS(T x) { return (x < 0) ? -x : x; }
 
 template <class T> // returns the square of the absolute value
-constexpr T ABS2(T x,T y) { return SQR(x)+SQR(y); }
+constexpr T ABS2(T x,T y) { return SQR(x) + SQR(y); }
 
 template <class T> // returns the square of the absolute value
 constexpr T ABS2(T x,T y,T z) { return SQR(x) + SQR(y) + SQR(z); }

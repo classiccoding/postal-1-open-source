@@ -114,25 +114,22 @@ pntBuf.Clear(); // Clear the print buffer early
 // This is the user header for all 2D sprite operations.
 
 // If you already have a short version, then you can use it, too!
-class	RRect
-	{
-public:
-	int16_t sX;
-	int16_t sY;
-	int16_t sW;
-	int16_t sH;
-	// Returns -1 if clipped completely out,
-	// It clips your rect to the input rect
-	// If clipped completely, sets rect to 0
-	// & sets this rect to {0,0,0,0}
-	//
-	int16_t ClipTo(RRect *prClipTo);
-	RRect(){};
-	RRect(int16_t sXi,int16_t sYi,int16_t sWi=0,int16_t sHi=0)
-		{ sX = sXi,sY = sYi,sW = sWi,sH = sHi; }
-	~RRect(){};
-
-	}; // used for clipping!
+struct RRect
+{
+  int16_t sX;
+  int16_t sY;
+  int16_t sW;
+  int16_t sH;
+  // Returns -1 if clipped completely out,
+  // It clips your rect to the input rect
+  // If clipped completely, sets rect to 0
+  // & sets this rect to {0,0,0,0}
+  //
+  int16_t ClipTo(RRect *prClipTo);
+  RRect(void) { }
+  RRect(int16_t sXi, int16_t sYi, int16_t sWi = 0, int16_t sHi = 0)
+    : sX(sXi), sY(sYi), sW(sWi), sH(sHi) { }
+}; // used for clipping!
 
 // templated forms of common functions:
 // Name your screen references...
@@ -191,7 +188,14 @@ extern	int16_t	rspBlitA(RImage* pimSrc,RImage* pimDst,int16_t sX,int16_t sY,
 	void rspPlot(PIXSIZE color, RImage* pimDst,short sX,short sY);
 #endif
 */
-#define rspPlot(color,pimDst,sX,sY) do { const RRect rspPlotTempRect(0,0,pimDst->m_sWidth,pimDst->m_sHeight); rspClipPlot(color,pimDst,sX,sY,&rspPlotTempRect); } while (0)
+//#define rspPlot(color,pimDst,sX,sY) do { const RRect rspPlotTempRect(0,0,pimDst->m_sWidth,pimDst->m_sHeight); rspClipPlot(color,pimDst,sX,sY,&rspPlotTempRect); } while (0)
+
+template <class PIXSIZE>
+constexpr void rspPlot(PIXSIZE color, RImage* pimDst, int16_t sX, int16_t sY)
+{
+  const RRect rspPlotTempRect(0,0,pimDst->m_sWidth,pimDst->m_sHeight);
+  rspClipPlot(color,pimDst,sX,sY,&rspPlotTempRect);
+}
 
 // no restrictions
 #ifdef WIN32
@@ -448,30 +452,32 @@ public: // for development ONLY
 	};
 */
 
-typedef class CStrafe
-	{
-public:
+struct CStrafe
+{
+  CStrafe(void)
+  {
+    sHotX = sHotY = 0;
+    psLinkX = psLinkY = nullptr;
+    pImage = nullptr;
+  }
 
-	CStrafe()
-		{
-      sHotX = sHotY = 0;
-      psLinkX = psLinkY = nullptr;
-      pImage = nullptr;
-		}
+  ~CStrafe(void)
+  {
+    if (pImage)
+      delete pImage;
+    if (psLinkX)
+      free(psLinkX);
+    if (psLinkY)
+      free(psLinkY);
+  }
 
-	~CStrafe()
-		{
-		if (pImage) delete pImage;
-		if (psLinkX) free(psLinkX);
-		if (psLinkY) free(psLinkY);
-		}
-	
-	RImage* pImage;
-	int16_t	sHotX; // subtract from coord
-	int16_t sHotY;
-	int16_t *psLinkX; // a var length array
-	int16_t *psLinkY; // a var length array
-	} *PStrafe;
+  RImage* pImage;
+  int16_t	sHotX; // subtract from coord
+  int16_t sHotY;
+  int16_t *psLinkX; // a var length array
+  int16_t *psLinkY; // a var length array
+};
+/*
 // ARCHAIC Backwards support for BLT_STRAFE:
 
 // User will use a Strafe to hold the data!
@@ -495,12 +501,12 @@ typedef struct
 
 	} Strafe; // archaic!
 
-/*
+
 extern	Strafe*	BLT_RotStrafe(RImage* pimSrc,short sHotX,short sHotY,short sNumInc,
 						  short sDstH,short sNumLinks,short *psX, short* psY);
-*/
 
-//extern	void	BLT_FreeStrafe(Strafe* pKill);
+extern	void	BLT_FreeStrafe(Strafe* pKill);
+*/
 
 extern	void	rspSetConvertToROTBUF(int16_t sCenterX,int16_t sCenterY);
 
@@ -586,11 +592,6 @@ static const int16_t gsBitsToShift[] =
 //BIT: 0 1 2 3 4 5 6 7 8 9 a b c d e f 0 1 2 3 4 5 6 7 8 9 a b c d e f *
 
 // ***********************************************************************************
-
-//====================================
-#include <ORANGE/QuickMath/QuickMath.h>
-#include "Cfnt.h"
-#include "RPrint.h"
 
 //====================================
 #endif
