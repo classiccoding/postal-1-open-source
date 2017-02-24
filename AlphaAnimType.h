@@ -24,6 +24,7 @@
 #define ALPHAANIMTYPE_H
 
 #include <BLUE/System.h>
+#include <GREEN/Image/Image.h>
 
 // Simple wrapper class for each frame of alpha animation
 class CAlphaAnim
@@ -46,7 +47,7 @@ class CAlphaAnim
 			{
 			Reset();
          }
-
+#ifdef UNUSED_FUNCTIONS
 		CAlphaAnim& operator=(const CAlphaAnim& rhs)
 			{
 			Reset();
@@ -55,10 +56,10 @@ class CAlphaAnim
 			m_sY = rhs.m_sY;
 			m_imColor = rhs.m_imColor;
 			Alloc(m_sNumAlphas);
-         memcpy(m_pimAlphaArray, rhs.m_pimAlphaArray, m_sNumAlphas);
+         memcpy(m_pimAlphaArray, rhs.m_pimAlphaArray, sizeof(RImage) * m_sNumAlphas); // improper copying
 			return *this;
 			}
-
+#endif
 		bool operator==(const CAlphaAnim& rhs) const
 			{
         UNUSED(rhs);
