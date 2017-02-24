@@ -458,13 +458,13 @@ extern void rspUpdateDisplay(
 	int16_t sHeight);							// In:  Height of area to update
 
 extern void rspSetPaletteEntry(
-	int16_t sEntry,								// In:  Palette entry (0 to 255)
-	uint8_t ucRed,						// In:  Red value (0 to 255)
-	uint8_t ucGreen,					// In:  Green value (0 to 255)
-	uint8_t ucBlue);					// In:  Blue value (0 to 255)
+   int16_t sEntry,								// In:  Palette entry (0x00 to 0xFF)
+   uint8_t ucRed,						// In:  Red value (0x00 to 0xFF)
+   uint8_t ucGreen,					// In:  Green value (0x00 to 0xFF)
+   uint8_t ucBlue);					// In:  Blue value (0x00 to 0xFF)
 
 extern void rspSetPaletteEntries(
-	int16_t sStartEntry,						// In:  Starting destination entry (0 to 255)
+   int16_t sStartEntry,						// In:  Starting destination entry (0x00 to 0xFF)
 	int16_t sCount,								// In:  Number of entries to do (1 to 256)
 	uint8_t* pucRed,					// In:  Pointer to starting source red value
 	uint8_t* pucGreen,				// In:  Pointer to starting source green value
@@ -472,7 +472,7 @@ extern void rspSetPaletteEntries(
 	int32_t lIncBytes);							// In:  What to add to pointers to move to next value
 
 extern void rspGetPaletteEntries(
-	int16_t sStartEntry,						// In:  Starting source entry (0 to 255)
+   int16_t sStartEntry,						// In:  Starting source entry (0x00 to 0xFF)
 	int16_t sCount,								// In:  Number of entries to do (1 to 256)
 	uint8_t* pucRed,					// Out: Pointer to starting destination red value
 	uint8_t* pucGreen,				// Out: Pointer to starting destination green value
@@ -480,7 +480,7 @@ extern void rspGetPaletteEntries(
 	int32_t lIncBytes);							// In:  What to add to pointers to move to next value
 
 inline void rspGetPaletteEntry(
-	int16_t sEntry,								// In:  Palette entry (0 to 255)
+   int16_t sEntry,								// In:  Palette entry (0x00 to 0xFF)
 	uint8_t* pucRed,					// Out: Pointer to red value
 	uint8_t* pucGreen,				// Out: Pointer to green value
 	uint8_t* pucBlue)					// Out: Pointer to blue value
@@ -493,7 +493,7 @@ inline void rspGetPaletteEntry(
 // When an entry is locked, it prevents the entry from being changed by
 // rspSetPaletteEntry() and rspSetPaletteEntries().
 extern void rspLockPaletteEntries(
-	int16_t sStartEntry,						// In:  Starting entry (0 to 255)
+   int16_t sStartEntry,						// In:  Starting entry (0x00 to 0xFF)
 	int16_t sCount);								// In:  Number of entries to do (1 to 256)
 
 // Unlock one or more palette entries.
@@ -501,7 +501,7 @@ extern void rspLockPaletteEntries(
 // When an entry is unlocked, the entry can be changed by rspSetPaletteEntry()
 // and rspSetPaletteEntries().
 extern void rspUnlockPaletteEntries(
-	int16_t sStartEntry,						// In:  Starting entry (0 to 255)
+   int16_t sStartEntry,						// In:  Starting entry (0x00 to 0xFF)
 	int16_t sCount);								// In:  Number of entries to do (1 to 256)
 
 // Set palette mapping tables.
@@ -513,7 +513,7 @@ extern void rspUnlockPaletteEntries(
 // Note that this ONLY affects the hardware palette!  The colors that are set
 // via rspSetPaletteEntries() are returned "intact" by rspGetPaletteEntires()!
 extern void rspSetPaletteMaps(
-	int16_t sStartEntry,						// In:  Starting destination entry (0 to 255)
+   int16_t sStartEntry,						// In:  Starting destination entry (0x00 to 0xFF)
 	int16_t sCount,								// In:  Number of entries to do (1 to 256)
 	uint8_t* pucRed,					// In:  Pointer to starting source red value
 	uint8_t* pucGreen,				// In:  Pointer to starting source green value
@@ -522,7 +522,7 @@ extern void rspSetPaletteMaps(
 
 // Set palette mapping tables (see rspSetPaletteMaps() for details.)
 extern void rspGetPaletteMaps(
-	int16_t sStartEntry,						// In:  Starting source entry (0 to 255)
+   int16_t sStartEntry,						// In:  Starting source entry (0x00 to 0xFF)
 	int16_t sCount,								// In:  Number of entries to do (1 to 256)
 	uint8_t* pucRed,					// Out: Pointer to starting destination red value
 	uint8_t* pucGreen,				// Out: Pointer to starting destination green value
@@ -535,8 +535,8 @@ extern void rspShieldMouseCursor(void);
 
 extern void rspUnshieldMouseCursor(void);
 
-#define RSP_WHITE_INDEX		0
-#define RSP_BLACK_INDEX		255
+#define RSP_WHITE_INDEX		0x00
+#define RSP_BLACK_INDEX		0xFF
 
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -38,12 +38,12 @@
 // Data, variables, etc.
 ////////////////////////////////////////////////////////////////////////////////
 
-static uint8_t m_aucWin32R1[10] = {   0, 128,   0, 128,   0, 128,   0, 128, 192, 166 };
-static uint8_t m_aucWin32G1[10] = {   0,   0, 128, 128,   0,   0, 128, 128, 220, 202 };
-static uint8_t m_aucWin32B1[10] = {   0,   0,   0,   0, 128, 128, 128, 128, 192, 240 };
-static uint8_t m_aucWin32R2[10] = { 255, 160, 128, 255,   0, 255,   0, 255,   0, 255 };
-static uint8_t m_aucWin32G2[10] = { 251, 160, 128,   0, 255, 255,   0,   0, 255, 255 };
-static uint8_t m_aucWin32B2[10] = { 240, 164, 128,   0,   0,   0, 255, 255, 255, 255 };
+static uint8_t m_aucWin32R1[10] = { 0x00, 0x80, 0x00, 0x80, 0x00, 0x80, 0x00, 0x80, 0xC0, 0xA6 };
+static uint8_t m_aucWin32G1[10] = { 0x00, 0x00, 0x80, 0x80, 0x00, 0x00, 0x80, 0x80, 0xDC, 0xCA };
+static uint8_t m_aucWin32B1[10] = { 0x00, 0x00, 0x00, 0x00, 0x80, 0x80, 0x80, 0x80, 0xC0, 0xF0 };
+static uint8_t m_aucWin32R2[10] = { 0xFF, 0xA0, 0x80, 0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF };
+static uint8_t m_aucWin32G2[10] = { 0xFB, 0xA0, 0x80, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0xFF, 0xFF };
+static uint8_t m_aucWin32B2[10] = { 0xF0, 0xA4, 0x80, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF };
 
 
 ////////////////////////////////////////////////////////////////////////////////

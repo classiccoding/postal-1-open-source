@@ -101,18 +101,18 @@ extern RFont g_fontBig;	// I hope this one is OK....
 
 typedef	struct { uint8_t r; uint8_t g; uint8_t b; } MatchColor;
 
-MatchColor	gmcSmallFont = { 255,255,0 };	// yellow
-MatchColor	gmcLargeFont = { 255,255,0 };	// yellow
-MatchColor	gmcWarningFont = { 255,0,0 };	// red
-MatchColor	gmcAmmoGoneFont = { 96,0,0 };	// dark red
-MatchColor	gmcAttentionFont = { 255,255,128 };	// saturated yellow
+MatchColor gmcSmallFont     = { 0xFF, 0xFF, 0x00 }; // yellow
+MatchColor gmcLargeFont     = { 0xFF, 0xFF, 0x00 }; // yellow
+MatchColor gmcWarningFont   = { 0xFF, 0x00, 0x00 }; // red
+MatchColor gmcAmmoGoneFont  = { 0x60, 0x00, 0x00 }; // dark red
+MatchColor gmcAttentionFont = { 0xFF, 0xFF, 0x80 }; // saturated yellow
 
 //------------------ Top Bar:
-MatchColor	gmcSolidScore = { 40,34,13 };	// saturated yellow
-MatchColor	gmcShadowScore = { 138,123,65 };	// saturated yellow
-//MatchColor	gmcShadowScore = { 119,102,60 };	// saturated yellow
-//MatchColor	gmcSolidScore = { 0,0,255 };	// saturated yellow
-//MatchColor	gmcShadowScore = { 255,0,0 };	// saturated yellow
+MatchColor gmcSolidScore    = { 0x28, 0x22, 0x0D }; // saturated yellow
+MatchColor gmcShadowScore   = { 0x8A, 0x7B, 0x41 }; // saturated yellow
+//MatchColor gmcShadowScore = { 0x77, 0x66, 0x3C }; // saturated yellow
+//MatchColor gmcSolidScore  = { 0x00, 0x00, 0xFF }; // saturated yellow
+//MatchColor gmcShadowScore = { 0xFF, 0x00, 0x00 }; // saturated yellow
 
 //------------------ So Score can access these:
 int16_t gsStatusFontForeIndex	=	251;

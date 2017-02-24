@@ -303,7 +303,7 @@ if (sEdit && (paa->m_sNumAlphas > 2))
 			if (dVal < 256.0)
 				*pDst = (uint8_t)dVal;
 			else
-				*pDst = (uint8_t)255;
+            *pDst = 0xFF;
 			pSrc++;
 			pDst++;
 			}

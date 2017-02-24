@@ -267,7 +267,7 @@ void RAlpha::FinishEffect(int16_t sPalStart, int16_t sPalLen)
 	// Interpolate each channel freely
 	int16_t sChannel = 1;
 	// ( THE TWO ENDS of the channels ARE ASSUMED MARKED!!!)
-	ms_f[0] = ms_f[m_sAlphaDepth-1] = 255;
+   ms_f[0] = ms_f[m_sAlphaDepth-1] = 0xFF;
 
 	while (sChannel < csLAST_EFFECT)
 		{
@@ -393,31 +393,31 @@ void RAlpha::Dump(RImage* pimDst,int16_t sX,int16_t sY)
 		}
 #endif
 
-	for (j=0;j<m_sAlphaDepth;j++)
-		for (i=0;i<255;i++)
-         rspPlot<uint8_t>(m_pAlphas[i][j], pimDst, sX+i, sY+j);
+   for (j = 0; j < m_sAlphaDepth; ++j)
+      for (i = 0 ;i < 256; ++i)
+         rspPlot<uint8_t>(m_pAlphas[i][j], pimDst, sX + i, sY + j);
 	}
 
 // ************ COMMENT THIS OUT TO REMOVE DEPENDENCY ON BLIT!
 // For debugging an alpha, you should set the current palette to the
 // default one...
-void RAlpha::DumpPalette(RImage* pimDst,int16_t sX,int16_t sY) 
-	{
-	int16_t i;
+void RAlpha::DumpPalette(RImage* pimDst, int16_t sX, int16_t sY)
+{
+  int16_t i;
 
 #ifdef _DEBUG
-	if (!pimDst)
-		{
-		TRACE("RAlpha::DumpPalette: null image passed!\n");
-		return;
-		}
+  if (!pimDst)
+  {
+    TRACE("RAlpha::DumpPalette: null image passed!\n");
+    return;
+  }
 #endif
 
-	for (i=0;i<255;i++)
-		{
-		rspLine(uint8_t(i),pimDst,int16_t(sX+i),int16_t(sY),int16_t(sX+i),int16_t(sY+255));
-		}
-	}
+  for (i = 0; i < 0x00FF; ++i)
+  {
+    rspLine(uint8_t(i), pimDst, sX + i, sY, sX + i, sY + 0x00FF);
+  }
+}
 
 // dOpacity for now is between 0.0 (background) and 1.0 (foreground)
 int16_t RAlpha::CreateAlphaRGB(double dOpacity,int16_t sPalStart, int16_t sPalLen)
@@ -803,7 +803,7 @@ int16_t RMultiAlpha::Finish(int16_t sGeneral)
 			m_pSaveLevels[i] = m_sNumLevels + 1;
 			}
 		}
-	else // spread out the values from 0 to 255:
+   else // spread out the values from 0x00 to 0xFF:
 		{
 		m_sGeneral = TRUE;
 

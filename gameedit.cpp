@@ -1013,8 +1013,8 @@
 // Amount paste buffer grows as it gets larger.
 #define PASTE_BUFFER_GROW_SIZE		1024
 
-#define MAX_ALPHA_LEVEL					255
-#define MIN_ALPHA_LEVEL					15
+#define MAX_ALPHA_LEVEL					0xFF
+#define MIN_ALPHA_LEVEL					0x0F
 
 #define INCDEC_ALPHA_LEVEL				10
 

@@ -30,6 +30,12 @@
 // Types.
 ///////////////////////////////////////////////////////////////////////////////
 
+enum : uint8_t
+{
+  MinVolume = UINT8_MIN,
+  MaxVolume = UINT8_MAX
+};
+
 // Forward declare class for handy-dandy typedef.
 class RMixBuf;
 
@@ -70,8 +76,8 @@ class RMixBuf
 						int32_t		lSampleRate,
 						int32_t		lBitsPerSample,
 						int32_t		lNumChannels,
-						uint8_t		ucVolume = uint8_t(255),
-						uint8_t		ucVol2 = uint8_t(255) );
+                  uint8_t		ucVolume = MaxVolume,
+                  uint8_t		ucVol2 = MaxVolume);
 
 		// Prepare for destination.  If necessary, converts to destination format.
 		void PrepareForDest(void);
@@ -167,7 +173,7 @@ class	CDVA	// a complete dummy
 public:
 	//////////////////////////////////////////////////////////////////////////////
 	//  Allow use of mixing volume for other applications:
-	//  A level of 255 is identity.
+   //  A level of MaxVolume is identity.
 	//////////////////////////////////////////////////////////////////////////////
 	inline	uint8_t	ScaleByte(uint8_t ucByte,uint8_t	ucLevel)
 		{

@@ -327,7 +327,7 @@ void CHeatseeker::Update(void)
 					nullptr,							// Out: Sample duration
 					2841,							// In:  Where to loop back to in ms
 					3090,							// In:  Where to loop fro in ms
-					false );	// In:  Initial Sound Volume (0 - 255)
+               SampleMaster::MinVolume );	// In:  Initial Sound Volume (0 - 255)
 				m_lTimer = lThisTime + ms_lArmingTime;
 				m_eState = State_Chase;
 				break;

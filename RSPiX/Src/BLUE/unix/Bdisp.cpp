@@ -251,7 +251,7 @@ extern void Disp_Init(void)	// Returns nothing.
 
 	// Initialize maps to indentities.
 	int16_t i;
-	for (i = 0; i < 256; i++)
+   for (i = 0; i < 256; i++)
 		{
 		au8MapRed[i]	= i;
 		au8MapGreen[i]	= i;
@@ -260,7 +260,7 @@ extern void Disp_Init(void)	// Returns nothing.
 
 	// Never ever ever unlock these.
 	asPalEntryLocks[0]	= TRUE;
-	asPalEntryLocks[255]	= TRUE;
+   asPalEntryLocks[0xFF]	= TRUE;
 
 	slvmModes.SetCompareFunc(CompareModes);
 }
@@ -735,7 +735,7 @@ extern int16_t rspSetVideoMode(	// Returns 0 if successfull, non-zero otherwise
             exit(1);
         }
 
-        SDL_SetRenderDrawColor(sdlRenderer, 0, 0, 0, 255);
+        SDL_SetRenderDrawColor(sdlRenderer, 0, 0, 0, 0xFF);
         SDL_RenderClear(sdlRenderer);
         SDL_RenderPresent(sdlRenderer);
         SDL_RenderClear(sdlRenderer);
@@ -1038,10 +1038,10 @@ extern void rspSetPaletteEntries(
 //
 ///////////////////////////////////////////////////////////////////////////////
 void rspSetPaletteEntry(
-	int16_t sEntry,				// Palette entry (0 to 255)
-	uint8_t ucRed,				// Red component (0 to 255)
-	uint8_t ucGreen,				// Green component (0 to 255)
-	uint8_t ucBlue)				// Blue component (0 to 255)
+   int16_t sEntry,				// Palette entry (0x00 to 0xFF)
+   uint8_t ucRed,				   // Red component (0x00 to 0xFF)
+   uint8_t ucGreen,				// Green component (0x00 to 0xFF)
+   uint8_t ucBlue)				// Blue component (0x00 to 0xFF)
 	{
 	ASSERT(sEntry >= 0 && sEntry < 256);
 
@@ -1060,10 +1060,10 @@ void rspSetPaletteEntry(
 //
 ///////////////////////////////////////////////////////////////////////////////
 void rspGetPaletteEntry(
-	int16_t sEntry,				// Palette entry (0 to 255)
-	int16_t* psRed,				// Red component (0 to 255) returned if not nullptr.
-	int16_t* psGreen,			// Green component (0 to 255) returned if not nullptr.
-	int16_t* psBlue)				// Blue component (0 to 255) returned if not nullptr.
+   int16_t sEntry,				// Palette entry (0x00 to 0xFF)
+   int16_t* psRed,				// Red component (0x00 to 0xFF) returned if not nullptr.
+   int16_t* psGreen,			// Green component (0x00 to 0xFF) returned if not nullptr.
+   int16_t* psBlue)				// Blue component (0x00 to 0xFF) returned if not nullptr.
 	{
 	ASSERT(sEntry >= 0 && sEntry < 256);
 
@@ -1226,7 +1226,7 @@ extern void rspUnlockPaletteEntries(
 
 	// Never ever ever unlock these.
 	asPalEntryLocks[0]	= TRUE;
-	asPalEntryLocks[255]	= TRUE;
+   asPalEntryLocks[0xFF]	= TRUE;
 	}
 
 ///////////////////////////////////////////////////////////////////////////////

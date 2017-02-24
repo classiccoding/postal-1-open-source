@@ -252,7 +252,8 @@ int16_t   ConvertFromFSPR8(RImage* pImage)
 		//==============================================================	
 		// 1) Do the clear run:
 		ucCode = *(pCB)++;	// Get Skip Length
-		if (ucCode == 255) continue;// End of line code
+      if (ucCode == 0xFF)
+        continue;// End of line code
 		pDst += ucCode;		// Skip
 		
 		//==============================================================	
@@ -315,17 +316,17 @@ int16_t   ConvertToFSPR8(RImage*  pImage)
 	// ************ RUN LENGTH COMPRESSION -> 8-bit Aligned **********
 
 	//====== CONTROL BLOCK CODES (8-bit) ====== (Only one run type)
-	// if first clear run byte = 255, done the line
+   // if first clear run byte = 0xFF, done the line
 	// This is initial offset,
 	//
 	// Next byte = # of bytes to run with (opaque run)   If the run is
-	// >255 pixels, then you get a 0 for next clear run, then another 
-	// amt of run... This keeps max run to 255.
+   // >0xFF pixels, then you get a 0 for next clear run, then another
+   // amt of run... This keeps max run to 0xFF.
 	//
-	// if the clear run byte = 255, done line, else...repeat the concept...
+   // if the clear run byte = 0xFF, done line, else...repeat the concept...
 
 	//===== Justification for continual ADDING... that so RARELY will a
-	// space ever be more than 254 pixels wide
+   // space ever be more than 0xFE pixels wide
 
 	//===== The compressed buffer:
 	// This is an 8-aligned pixel buffer containing only opaque pixels
@@ -434,16 +435,16 @@ int16_t   ConvertToFSPR8(RImage*  pImage)
 		while ((x<sW) && (*pucBPos == 0)) {x++;sCount++;pucBPos++;}
 		if (x == sW)	// you are at the end of the line!
 			{
-			*(pucConBlk++)=255; // end of line code
+         *(pucConBlk++) = 0xFF; // end of line code
 			continue;					// goto next y-line
 			}	
 
-		// 2) If count >254, back it up!
-		if (sCount > 254)
+      // 2) If count >0xFE, back it up!
+      if (sCount > 0xFE)
 			{
-			pucBPos -= (sCount - 254);
-			x -= (sCount - 254);
-			sCount = 254;
+         pucBPos -= (sCount - 0xFE);
+         x -= (sCount - 0xFE);
+         sCount = 0xFE;
 			}	
 
 		// 3) place count into control block:
@@ -455,12 +456,12 @@ int16_t   ConvertToFSPR8(RImage*  pImage)
 		sCount = 0;
 		while ((x<sW) && (*pucBPos != 0)) {x++;sCount++;pucBPos++;}
 
-		// 2) If count >255, back it up!
-		if (sCount > 255)
+      // 2) If count >0xFF, back it up!
+      if (sCount > 0xFF)
 			{
-			pucBPos -= (sCount - 255);
-			x -= (sCount - 255);
-			sCount = 255;
+         pucBPos -= (sCount - 0xFF);
+         x -= (sCount - 0xFF);
+         sCount = 0xFF;
 			}	
 
 		// 3) place opaque count into control block:
@@ -468,7 +469,7 @@ int16_t   ConvertToFSPR8(RImage*  pImage)
 
 		if (x == sW)	// you are at the end of the line!
 			{
-			*(pucConBlk++)=255; // end of line code
+         *(pucConBlk++) = 0xFF; // end of line code
 			continue;					// goto next y-line
 			}	
 			
@@ -699,7 +700,8 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,const 
 				//==============================================================	
 				// 1) Skip a clear run?
 				ucCode = *(pCB++); // Get skip length
-				if (ucCode == 255) continue; // End of line code
+            if (ucCode == 0xFF)
+              continue; // End of line code
 
 				// Don't update pDst until you are done skipping!
 				if ((sLeftClip -= ucCode) < 0) 
@@ -712,7 +714,7 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,const 
 						do	{
 							ucCode = *(pCB++); // opaque run
 							ucCode = *(pCB++); // clear run
-							} while (ucCode != 255);
+                     } while (ucCode != 0xFF);
 
 						continue; // start next line!
 						}
@@ -759,7 +761,8 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,const 
 				//==============================================================	
 				// 1) Do a clear run?
 				ucCode = *(pCB++); // Get skip length
-				if (ucCode == 255) continue; // End of line code
+            if (ucCode == 0xFF)
+              continue; // End of line code
 
 				if ( (sClipWidth -= ucCode) <= 0) continue; // Initial skip is clipped out!
 				
@@ -799,7 +802,8 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,const 
 				//==============================================================	
 				// 1) Skip a clear run?
 				ucCode = *(pCB++); // Get skip length
-				if (ucCode == 255) continue; // End of line code
+            if (ucCode == 0xFF)
+              continue; // End of line code
 
 				// Don't update pDst until you are done skipping!
 				// pDst += ucCode;
@@ -837,7 +841,8 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,const 
 				//==============================================================	
 				// 1) Do a clear run?
 				ucCode = *(pCB++); // Get skip length
-				if (ucCode == 255) continue; // End of line code
+            if (ucCode == 0xFF)
+              continue; // End of line code
 
 				pDst += ucCode;
 				//==============================================================	
@@ -868,9 +873,11 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,const 
 				//==============================================================	
 				// 1) Do the clear run:
 				ucCode = *(pCB++);	// Get Initial Skip Length
-				if (ucCode == 255) continue; // End of line code
+            if (ucCode == 0xFF)
+              continue; // End of line code
 				
-				if ( (sClipWidth -= ucCode) <= 0) continue; // Initial skip is clipped out!
+            if ( (sClipWidth -= ucCode) <= 0)
+              continue; // Initial skip is clipped out!
 				
 				pDst += ucCode; // Advace destination
 				//==============================================================	
@@ -904,7 +911,7 @@ int16_t	rspBlit(RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,const 
 					//==============================================================	
 					// 1) Do the clear run:
 					ucCode = *(pCB)++;	// Get Skip Length
-					if (ucCode == 255) continue;// End of line code
+               if (ucCode == 0xFF) continue;// End of line code
 					pDst += ucCode;		// Skip
 					
 					//==============================================================	

@@ -1615,7 +1615,7 @@ int16_t ConvertToBMP8RLE(RImage* pImage)
 						{
 						// Look for verbatim runs first since they are limited
 						// to 3 or more.
-						for (lRun	= 1; lRun < lRowRemain && lRun < 255; lRun++)
+                  for (lRun	= 1; lRun < lRowRemain && lRun < 0xFF; lRun++)
 							{
 							if (pu8Uncomp[lRun] == pu8Uncomp[lRun - 1])
 								{
@@ -1627,7 +1627,7 @@ int16_t ConvertToBMP8RLE(RImage* pImage)
 						if (lRun < 3)
 							{
 							// Look for length of run with one color index.
-							for (lRun	= 1; lRun < lRowRemain && lRun < 255; lRun++)
+                     for (lRun	= 1; lRun < lRowRemain && lRun < 0xFF; lRun++)
 								{
 								if (pu8Uncomp[lRun] != *pu8Uncomp)
 									{

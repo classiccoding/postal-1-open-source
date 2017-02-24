@@ -25,7 +25,11 @@
 
 
 template <class PIXSIZE>
-void	rspClipPlot(PIXSIZE color, RImage* pimDst,int16_t sX,int16_t sY,const RRect* prClip)
+void	rspClipPlot(PIXSIZE color,
+                  RImage* pimDst,
+                  int16_t sX,
+                  int16_t sY,
+                  const RRect* prClip)
 {
 
 #ifdef _DEBUG
@@ -44,11 +48,15 @@ void	rspClipPlot(PIXSIZE color, RImage* pimDst,int16_t sX,int16_t sY,const RRect
 
 #endif
 
-  RRect rClip(0,0,pimDst->m_sWidth,pimDst->m_sHeight);
-  if (prClip) rClip = *prClip;
+  RRect rClip(0, 0, pimDst->m_sWidth, pimDst->m_sHeight);
 
-  if ( (sX < rClip.sX) || (sY < rClip.sY) || (sX >= (rClip.sX + rClip.sW)) ||
-       (sY >= (rClip.sY + rClip.sH) ) )
+  if (prClip)
+    rClip = *prClip;
+
+  if (sX < rClip.sX ||
+      sY < rClip.sY ||
+      sX >= rClip.sX + rClip.sW ||
+      sY >= rClip.sY + rClip.sH)
   {
     // Live clipping.
     return;
@@ -94,8 +102,7 @@ void	rspClipPlot(PIXSIZE color, RImage* pimDst,int16_t sX,int16_t sY,const RRect
 
     case BUF_VRAM2: // draw a rectangle to the hidden VRAM plane
       // need to lock / unlock this one:
-      if (rspLockVideoFlipPage((void**)&(pimDst->m_pData),&(pimDst->m_lPitch))
-          !=0)
+      if (rspLockVideoFlipPage((void**)&(pimDst->m_pData), &(pimDst->m_lPitch)) != SUCCESS)
       {
         TRACE("rspPlot: Unable to lock the OffScreen buffer, failed!\n");
       }
@@ -663,7 +670,7 @@ int16_t rspBlit(RImage* pimSrc,
     sClip = sSrcY + sH - prSrc->sY - prSrc->sH; // positive = clipped
     if (sClip > 0) { sH -= sClip; }
 
-    if ( (sW <= 0) || (sH <= 0) )
+    if (sW <= 0 || sH <= 0)
       return FAILURE; // clipped out!
   }
 
@@ -673,8 +680,10 @@ int16_t rspBlit(RImage* pimSrc,
 
   else // no source clipping:
   {
-    if ( (sSrcX < 0) || (sSrcY < 0) ||
-         ((sSrcX + sW) > pimSrc->m_sWidth) || ((sSrcY + sH) > pimSrc->m_sHeight) )
+    if (sSrcX < 0 ||
+        sSrcY < 0 ||
+        sSrcX + sW > pimSrc->m_sWidth ||
+        sSrcY + sH > pimSrc->m_sHeight)
     {
       TRACE("BLiT:  Gone outside source buffer.  Must source clip.\n");
       return FAILURE;
@@ -697,7 +706,7 @@ int16_t rspBlit(RImage* pimSrc,
     sClip = sDstY + sH - prDst->sY - prDst->sH; // positive = clipped
     if (sClip > 0) { sH -= sClip; }
 
-    if ( (sW <= 0) || (sH <= 0) )
+    if (sW <= 0 || sH <= 0)
       return FAILURE; // clipped out!
   }
   else
@@ -710,7 +719,7 @@ int16_t rspBlit(RImage* pimSrc,
     sClip = sDstY + sH - pimDst->m_sHeight; // positive = clipped
     if (sClip > 0) sH -= sClip; // positive = clipped
 
-    if ((sW <= 0) || (sH <= 0))
+    if (sW <= 0 || sH <= 0)
       return FAILURE; // fully clipped
   }
 
@@ -732,9 +741,9 @@ int16_t rspBlit(RImage* pimSrc,
   if (pimDst->m_type == RImage::IMAGE_STUB)
     sBlitTypeDst = reinterpret_cast<intptr_t>(pimDst->m_pSpecial);
 
-  switch ( (sBlitTypeSrc<<3) + sBlitTypeDst) // 0 = normal image
+  switch ((sBlitTypeSrc << 3) + sBlitTypeDst) // 0 = normal image
   {
-    case (BUF_MEMORY<<3) + 0: // system buffer to an image
+    case (BUF_MEMORY << 3) + 0: // system buffer to an image
       // need to lock / unlock this one:
       /*
          if (rspLockBuffer()
@@ -748,7 +757,7 @@ int16_t rspBlit(RImage* pimSrc,
 */
       break;
 
-    case (0<<3) + BUF_MEMORY: // image to system buffer
+    case (0 << 3) + BUF_MEMORY: // image to system buffer
       /*
          // need to lock / unlock this one:
          if (rspLockBuffer()
@@ -762,7 +771,7 @@ int16_t rspBlit(RImage* pimSrc,
 */
       break;
 
-    case (BUF_VRAM<<3) + 0: // front screen to image
+    case (BUF_VRAM << 3) + 0: // front screen to image
       /*
          // need to lock / unlock this one:
          if (rspLockScreen()
@@ -776,7 +785,7 @@ int16_t rspBlit(RImage* pimSrc,
 */
       break;
 
-    case (0<<3) + BUF_VRAM: // image to front screen
+    case (0 << 3) + BUF_VRAM: // image to front screen
       /*
          // need to lock / unlock this one:
          if (rspLockScreen()
@@ -791,13 +800,13 @@ int16_t rspBlit(RImage* pimSrc,
       break;
 
       // HOOK the special case of sytem buffer to front VRAM
-    case (BUF_MEMORY<<3) + BUF_VRAM: // system buffer to front screen
+    case (BUF_MEMORY << 3) + BUF_VRAM: // system buffer to front screen
 
       rspUpdateDisplay(sDstX,sDstY,sW,sH);
       return SUCCESS; // DONE!!!!!
       break;
 
-    case (BUF_VRAM<<3) + BUF_MEMORY: // front screen to system buffer
+    case (BUF_VRAM << 3) + BUF_MEMORY: // front screen to system buffer
       /*
          sNeedToUnlock = (BUF_VRAM<<3) + BUF_MEMORY;
 */
@@ -836,9 +845,9 @@ int16_t rspBlit(RImage* pimSrc,
       sW <<= 2;
       break;
     case 24:
-      sDstX += (sDstX << 1);
-      sSrcX += (sSrcX << 1);
-      sW += (sW << 1);
+      sDstX += sDstX << 1;
+      sSrcX += sSrcX << 1;
+      sW += sW << 1;
       break;
       // 8-bit needs nothing...
   }
@@ -905,20 +914,20 @@ int16_t rspBlit(RImage* pimSrc,
       break;
 
     case BUF_MEMORY:
-      //			rspUnlockBuffer();
+//      rspUnlockBuffer();
       break;
 
     case BUF_VRAM:
-      //			rspUnlockScreen();
+//      rspUnlockScreen();
       break;
 
     case BUF_VRAM2:
-      //			rspUnlockVideoFlipPage();
+//      rspUnlockVideoFlipPage();
       break;
 
     case (BUF_VRAM<<3) + BUF_MEMORY:
-      //			rspUnlockBuffer();
-      //			rspUnlockScreen();
+//      rspUnlockBuffer();
+//      rspUnlockScreen();
       break;
 
     default:
@@ -998,13 +1007,11 @@ inline void _ClearRect(WORDSIZE color,WORDSIZE* pDst,int32_t lDstPitch,
 
 // Must make TC possible!  
 //
-int16_t rspRect(uint32_t color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,int16_t sH,RRect* prClip)
+int16_t rspRect(uint32_t color, RImage* pimDst, int16_t sX, int16_t sY, int16_t sW, int16_t sH, RRect* prClip)
 {
   // A cheap hook for mono:
   if (pimDst->m_type == RImage::BMP1) // monochrome hook
-  {
-    return rspRectToMono(color,pimDst,sX,sY,sW,sH);
-  }
+    return rspRectToMono(color, pimDst, sX, sY, sW, sH);
 
   // 1) preliminary parameter validation:
 #ifdef _DEBUG
@@ -1082,9 +1089,15 @@ int16_t rspRect(uint32_t color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,i
   {
     // clip against full destination buffer
     if (sX < 0)
-    { sW += sX; sX = 0; }
+    {
+      sW += sX;
+      sX = 0;
+    }
     if (sY < 0)
-    { sH += sY; sY = 0; }
+    {
+      sH += sY;
+      sY = 0;
+    }
 
     sClip = sX + sW - pimDst->m_sWidth; // positive = clipped
     if (sClip > 0)
@@ -1094,7 +1107,7 @@ int16_t rspRect(uint32_t color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,i
     if (sClip > 0)
       sH -= sClip; // positive = clipped
 
-    if ((sW <= 0) || (sH <= 0))
+    if (sW <= 0 || sH <= 0)
       return FAILURE; // fully clipped
   }
 
@@ -1116,7 +1129,8 @@ int16_t rspRect(uint32_t color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,i
   // must record which UNLOCK (if any) needs to be done AFTER the BLiT
   // has completed. (Lord help me if a blit gets interrupted)
 
-  if (pimDst->m_type == RImage::IMAGE_STUB) sBlitTypeDst = (int16_t)((int64_t)pimDst->m_pSpecial);
+  if (pimDst->m_type == RImage::IMAGE_STUB)
+    sBlitTypeDst = reinterpret_cast<intptr_t>(pimDst->m_pSpecial);
 
   switch (sBlitTypeDst) // 0 = normal image
   {
@@ -1153,8 +1167,7 @@ int16_t rspRect(uint32_t color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,i
 
     case BUF_VRAM2: // draw a rectangle to the hidden VRAM plane
       // need to lock / unlock this one:
-      if (rspLockVideoFlipPage((void**)&(pimDst->m_pData),&(pimDst->m_lPitch))
-          !=0)
+      if (rspLockVideoFlipPage((void**)&(pimDst->m_pData), &(pimDst->m_lPitch)) != SUCCESS)
       {
         TRACE("rspDrawRect: Unable to lock the OffScreen buffer, failed!\n");
         return FAILURE;
@@ -1175,7 +1188,7 @@ int16_t rspRect(uint32_t color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,i
   // Currently based on source, assumes source = destination depth:
   // Multiply color word based on 8-bit concepts:
   //
-  color &= 255;
+  color &= 0xFF;
   int16_t sByteW = sW;
 
   switch (pimDst->m_sDepth)
@@ -1189,8 +1202,8 @@ int16_t rspRect(uint32_t color,RImage* pimDst,int16_t sX,int16_t sY,int16_t sW,i
       sByteW <<= 2;
       break;
     case 24:
-      sX += (sX << 1);
-      sByteW += (sByteW << 1);
+      sX += sX << 1;
+      sByteW += sByteW << 1;
       break;
       // 8-bit needs nothing...
   }
@@ -1299,20 +1312,28 @@ int16_t rspRect(int16_t sThickness,uint32_t color,RImage* pimDst,int16_t sX,int1
 
 
   // UNMIRROR THE RECTANGLE:
-  if (!sW && !sH) return SUCCESS; // nothing to draw
+  if (!sW && !sH)
+    return SUCCESS; // nothing to draw
 
   if (sW < 0)
-  { sX += (sW+1); sW = -sW; }
+  {
+    sX += sW + 1;
+    sW = -sW;
+  }
+
   if (sH < 0)
-  { sY += (sH+1); sH = -sH; }
+  {
+    sY += sH + 1;
+    sH = -sH;
+  }
 
   // make up 4 rectangles:  (Horizontal Major)
   // order of blit is for maxim VSYNC ability
   //
-  rspRect(color,pimDst,sX,sY,sW,sThickness,prClip);	// top
-  rspRect(color,pimDst,sX,sY+sThickness,sThickness,sH - (sThickness<<1) ,prClip); // left
-  rspRect(color,pimDst,sX + sW - sThickness,sY+sThickness,sThickness,sH - (sThickness<<1) ,prClip); // left
-  rspRect(color,pimDst,sX,sY + sH - sThickness,sW,sThickness,prClip);	// bottom
+  rspRect(color,pimDst, sX, sY, sW, sThickness, prClip);	// top
+  rspRect(color,pimDst, sX, sY+sThickness,sThickness, sH - (sThickness << 1), prClip); // left
+  rspRect(color,pimDst, sX + sW - sThickness,sY+sThickness, sThickness, sH - (sThickness << 1), prClip); // left
+  rspRect(color,pimDst, sX, sY + sH - sThickness,sW,sThickness,prClip);	// bottom
 
   return SUCCESS;
 }
@@ -1379,13 +1400,13 @@ int16_t rspCrop(RImage* pimSrc,
                     lNewPitch,pimSrc->m_sDepth);
 
   // 3) Copy the new one in...
-  rspBlit(pimSrc,&imDst,sX,sY,0,0,sW,sH);
+  rspBlit(pimSrc, &imDst, sX, sY, 0, 0, sW, sH);
 
   // tricky part: Swap buffers...
-  uint8_t	*pSrcMem,*pSrcBuf;
-  pimSrc->DetachData((void**)&pSrcMem,(void**)&pSrcBuf);
+  uint8_t *pSrcMem,*pSrcBuf;
+  pimSrc->DetachData((void**)&pSrcMem, (void**)&pSrcBuf);
   // Move the new buffer back to the original
-  imDst.DetachData((void**)&(pimSrc->m_pMem),(void**)&(pimSrc->m_pData));
+  imDst.DetachData((void**)&(pimSrc->m_pMem), (void**)&(pimSrc->m_pData));
 
   // *******  IMPORTANT! COPY ALL NEW INFO OVER!
   pimSrc->m_ulSize = imDst.m_ulSize;
@@ -1492,7 +1513,7 @@ int16_t rspPad(RImage* pimSrc,
   }
 
   // tricky part: Swap buffers...
-  uint8_t	*pSrcMem,*pSrcBuf;
+  uint8_t *pSrcMem, *pSrcBuf;
   pimSrc->DetachData((void**)&pSrcMem,(void**)&pSrcBuf);
   // Move the new buffer back to the original
   imDst.DetachData((void**)&(pimSrc->m_pMem),(void**)&(pimSrc->m_pData));

@@ -541,7 +541,7 @@ extern int16_t StartTitle(							// Returns 0 if successfull, non-zero otherwise
 																	// Does not fail.
 					g_smidTitleMusak,							// In:  Identifier of sample you want played.
 					SampleMaster::BackgroundMusic,		// In:  Sound Volume Category for user adjustment
-					255,											// In:  Initial Sound Volume (0 - 255)
+               SampleMaster::MaxVolume,				// In:  Initial Sound Volume (0 - 255)
 					&ms_siMusak,								// Out: Handle for adjusting sound volume
 					nullptr,											// Out: Sample duration in ms, if not nullptr.
 					MUSAK_START_TIME,							// In:  Where to loop back to in milliseconds.
@@ -709,7 +709,7 @@ void Title_GameEndSequence(void)
 														// Does not fail.
 		g_smidEndingAudio,						// In:  Identifier of sample you want played.
 		SampleMaster::Unspecified,				// In:  Sound Volume Category for user adjustment
-		255,											// In:  Initial Sound Volume (0 - 255)
+      SampleMaster::MaxVolume,				// In:  Initial Sound Volume (0 - 255)
 		&ms_siEndingAudio,						// Out: Handle for adjusting sound volume
 		&lTotalTime,								// Out: Sample duration in ms, if not nullptr.
 		-1,											// In:  Where to loop back to in milliseconds.

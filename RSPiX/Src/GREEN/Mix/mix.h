@@ -124,7 +124,7 @@ class RMix
 		// Set the initial mix volumes
 		// Returns 0 on success.
       int16_t Start(RMixCall mcUser, uintptr_t ulUser,
-					uint8_t	ucVolume = 255, uint8_t ucVol2 = 255 );
+               uint8_t	ucVolume = MaxVolume, uint8_t ucVol2 = MaxVolume );
 
 		// Stop receiving callbacks to fill channel data.
 		int16_t Suspend(void);	// Returns 0 on success.

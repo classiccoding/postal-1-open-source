@@ -74,7 +74,7 @@ int16_t rspBlitToMono(
 	pDstLine = pimDst->m_pData + lDstP * sDstY + (sDstX>>3);
 	RSpecialFSPR1*	pHead = (RSpecialFSPR1*)(pimSrc->m_pSpecial);
 	pCode = pHead->m_pCode;
-	const uint8_t FF = (uint8_t)255;
+   const uint8_t FF = 0xFF;
 
 	// Let's scale it, baby! (pre-clipping)
 	int16_t sDenX = pimSrc->m_sWidth; 
@@ -203,9 +203,9 @@ int16_t rspRectToMono(uint32_t ulColor,RImage* pimDst,int16_t sX,int16_t sY,
 	uint8_t *pDst,*pDstLine;
 	int16_t sMidCount,sStart,sEnd,i,j;
 
-	uint8_t ucBits[] = { 128,64,32,16,8,4,2,1 };
-	uint8_t ucStartBits[] = { 255,127,63,31,15,7,3,1 };
-	uint8_t ucEndBits[] = { 128,192,224,240,248,252,254,255 };
+   uint8_t ucBits[]      = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
+   uint8_t ucStartBits[] = { 0xFF, 0x7F, 0x3F, 0x1F, 0x0F, 0x07, 0x03, 0x01 };
+   uint8_t ucEndBits[]   = { 0x80, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC, 0xFE, 0xFF };
 
 	sStart = (sX >> 3);
 	sEnd = (sX + sW - 1);
@@ -229,7 +229,8 @@ int16_t rspRectToMono(uint32_t ulColor,RImage* pimDst,int16_t sX,int16_t sY,
 			{
 			pDst = pDstLine;
 			(*pDst++) |= ucStart;
-			for (i=sMidCount;i!=0;i--) *(pDst++) = 255;
+         for (i=sMidCount;i!=0;i--)
+           *(pDst++) = 0xFF;
 			(*pDst++) |= ucEnd;
 			pDstLine += lP;
 			}

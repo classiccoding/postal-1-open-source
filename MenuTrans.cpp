@@ -218,7 +218,7 @@ extern bool DoPreMenuTrans(void)
 		// Calculate goal for each color's red component.  We use the otherwise
 		// unused member of the struct to store the goal.
 		for (int16_t i = EFFECT_BEG; i <= EFFECT_END; i++)
-//			m_pOrig[i].x = (unsigned char)((double)(255 - m_pOrig[i].r) * m_dReduce) & SHADE_MASK;
+//			m_pOrig[i].x = (unsigned char)((double)(0xFF - m_pOrig[i].r) * m_dReduce) & SHADE_MASK;
 			m_pOrig[i].x = (uint8_t)((double)(m_pOrig[i].r) * m_dReduce) & SHADE_MASK;
 
 		// Get base time for next step

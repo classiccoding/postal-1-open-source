@@ -49,7 +49,7 @@ typedef short (*CONVFUNC)(CImage* pImage);
 
 // These are "convert to..." functions which should first check the current image type
 // to see if it can convert from the current type to the specified type
-CONVFUNC afpConvert[255] = 
+CONVFUNC afpConvert[0xFF] =
 {
 	ConvertNoSupport,
 	ConvertToBMP8,

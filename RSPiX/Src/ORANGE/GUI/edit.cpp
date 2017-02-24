@@ -217,7 +217,7 @@ REdit::REdit()
 	///////////////////////////////////////////////////////////////////////////
 	
 	m_cCaretChar		= '_';	// Character to use as caret.
-	m_u32CaretColor	= 255;	// Color to use for caret.
+   m_u32CaretColor	= UINT8_MAX;	// Color to use for caret.
 	m_sCaretPos			= 0;		// Text position of caret.
 	m_lCaretBlinkRate	= 500;	// Rate at which character blinks in ms.  Can be
 										// 0 indicating no blinkage.

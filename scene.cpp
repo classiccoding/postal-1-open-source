@@ -1302,13 +1302,13 @@ void CScene::Render2D(		// Returns nothing.
 	// Make sure the stuff we need is there.
 	ASSERT(ps2Cur->m_pImage != nullptr);
 
-	ASSERT(ps2Cur->m_sAlphaLevel >= 0);
-	ASSERT(ps2Cur->m_sAlphaLevel <= 255);
+   ASSERT(ps2Cur->m_sAlphaLevel >= 0x0000);
+   ASSERT(ps2Cur->m_sAlphaLevel <= 0x00FF);
 
 	if (ps2Cur->m_pimAlpha != nullptr && g_GameSettings.m_sAlphaBlend != FALSE)
 		{
 		// If the alpha level is not opaque . . .
-		if (ps2Cur->m_sAlphaLevel < 255)
+      if (ps2Cur->m_sAlphaLevel < 0x00FF)
 			{
 			// Do the Alpha Mask with adaptable alpha level blit.
 			rspGeneralAlphaBlit(
@@ -1337,7 +1337,7 @@ void CScene::Render2D(		// Returns nothing.
 	else
 		{
 		// If the alpha level is not opaque . . .
-		if (ps2Cur->m_sAlphaLevel < 255 && g_GameSettings.m_sAlphaBlend != FALSE)
+      if (ps2Cur->m_sAlphaLevel < 0x00FF && g_GameSettings.m_sAlphaBlend != FALSE)
 			{
 			// Do Homogeneous Alpha blit.
 			rspAlphaBlitT(

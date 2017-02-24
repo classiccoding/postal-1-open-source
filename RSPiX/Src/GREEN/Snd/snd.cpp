@@ -152,8 +152,8 @@ void RSnd::Init(void)
    m_dcUser				= nullptr;
 	m_lLoopStartPos	= 0;	
 	m_lLoopEndPos		= 0;
-	m_sTypeVolume		= 255;	// should be overwritten by Play
-	m_sChannelVolume	= 255;	// should be overwritten by Play
+   m_sTypeVolume		= MaxVolume;	// should be overwritten by Play
+   m_sChannelVolume	= MaxVolume;	// should be overwritten by Play
 	}
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -203,7 +203,7 @@ void RSnd::Reset(void)
 //
 ///////////////////////////////////////////////////////////////////////////////
 int16_t RSnd::Stream(	char* pszSampleName, int32_t lPlayBufSize, int32_t lReadBufSize,
-						 uint8_t	ucMainVolume /* = 255 */, uint8_t ucVolume2 /* = 255 */)
+                   uint8_t	ucMainVolume, uint8_t ucVolume2)
 	{
   UNUSED(ucMainVolume, ucVolume2);
    int16_t sResult = SUCCESS;
@@ -301,12 +301,12 @@ int16_t RSnd::Stream(	char* pszSampleName, int32_t lPlayBufSize, int32_t lReadBu
 int16_t RSnd::Play(						// Returns 0 on success.
 	RSample* psample,					// In:  Sample to play.
 	int32_t lPlayBufSize,				// In:  Size of play buffer in bytes.
-	uint8_t	ucMainVolume/* = 255 */,// In:  Primary Volume (0 - 255)
-	uint8_t ucVolume2 /* = 255 */,	// In:  Secondary Volume (0 - 255)
-	int32_t lLoopStartTime/* = -1*/,	// In:  Where to loop back to in milliseconds.
+   uint8_t	ucMainVolume,         // In:  Primary Volume (0 - 255)
+   uint8_t ucVolume2,           // In:  Secondary Volume (0 - 255)
+   int32_t lLoopStartTime,      // In:  Where to loop back to in milliseconds.
 											//	-1 indicates no looping (unless m_sLoop is
 											// explicitly set).
-	int32_t lLoopEndTime/* = 0*/)		// In:  Where to loop back from in milliseconds.
+   int32_t lLoopEndTime)          // In:  Where to loop back from in milliseconds.
 											// In:  If less than 1, the end + lLoopEndTime is used.
 	{
    int16_t sResult = SUCCESS; // Assume success.
