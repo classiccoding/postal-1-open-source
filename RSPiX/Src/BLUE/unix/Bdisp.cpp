@@ -67,17 +67,11 @@ static ArgbColor	apeApp[256];				// App's palette.  The palette
 														// updating to the hardware on
 														// rspUpdatePalette().
 
-static uint8_t					au8MapRed[256];			// Map of red intensities to hardware
-														// values.  Initially an identity
-														// mapping.
-static uint8_t					au8MapGreen[256];			// Map of green intensities to
-														// hardware values.  Initially an 
-														// identity mapping.
-static uint8_t					au8MapBlue[256];			// Map of blue intensities to hardware
-														// values.  Initially an identity
-														// mapping.
+static uint8_t au8MapRed  [256] = { 0 }; // Map of red   intensities to hardware values.  Initially an identity mapping.
+static uint8_t au8MapGreen[256] = { 0 }; // Map of green intensities to hardware values.  Initially an identity mapping.
+static uint8_t au8MapBlue [256] = { 0 }; // Map of blue  intensities to hardware values.  Initially an identity mapping.
 
-static int16_t				asPalEntryLocks[256];	// TRUE, if an indexed entry is locked.
+static int16_t asPalEntryLocks[256];	// TRUE, if an indexed entry is locked.
 														// FALSE, if not.  Implemented as 
 														// shorts in case we ever do levels of
 														// locking.
@@ -250,17 +244,16 @@ extern void Disp_Init(void)	// Returns nothing.
     }
 
 	// Initialize maps to indentities.
-	int16_t i;
-   for (i = 0; i < 256; i++)
-		{
-		au8MapRed[i]	= i;
-		au8MapGreen[i]	= i;
-		au8MapBlue[i]	= i;
-		}
+    for (uint8_t i = 1; i; ++i)
+    {
+      au8MapRed  [i] = i;
+      au8MapGreen[i] = i;
+      au8MapBlue [i] = i;
+    }
 
 	// Never ever ever unlock these.
-	asPalEntryLocks[0]	= TRUE;
-   asPalEntryLocks[0xFF]	= TRUE;
+   asPalEntryLocks[0x00] = TRUE;
+   asPalEntryLocks[0xFF] = TRUE;
 
 	slvmModes.SetCompareFunc(CompareModes);
 }
