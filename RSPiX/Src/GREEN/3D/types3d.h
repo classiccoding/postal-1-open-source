@@ -90,8 +90,8 @@ class RTexture
 			{
 			Free();
 			}
-
-		// Assignment operator
+#ifdef UNUSED_OPERATORS
+      // Assignment operator
 		RTexture& operator=(const RTexture& rhs)
 			{
 			Free();
@@ -107,12 +107,12 @@ class RTexture
 			if (rhs.m_pColors != nullptr)
 				{
 				AllocColors();
-            memcpy(m_pColors, rhs.m_pColors, m_sNum);
+            memcpy(m_pColors, rhs.m_pColors, sizeof(RPixel32) * m_sNum);
 				}
 			
 			return *this;
 			}
-
+#endif
 		// Overloaded == (equality) operator
 		bool operator==(const RTexture& rhs) const
 			{
@@ -135,7 +135,7 @@ class RTexture
 						{
 						// If both pointers are non-zero then we compare their data
 						if (m_pColors && rhs.m_pColors)
-                     result = memcmp(m_pColors, rhs.m_pColors, m_sNum) == SUCCESS;
+                     result = memcmp(m_pColors, rhs.m_pColors, sizeof(RPixel32) * m_sNum) == SUCCESS;
 						else
 							{
 							// If both pointers are not nullptr then they obviously don't match
@@ -257,7 +257,7 @@ class RMesh
 			{
 			Free();
 			}
-
+#ifdef UNUSED_OPERATORS
 		// Assignment operator
 		RMesh& operator=(const RMesh& rhs)
 			{
@@ -268,12 +268,12 @@ class RMesh
 			if (rhs.m_pArray != nullptr)
 				{
 				Alloc(rhs.m_sNum);
-            memcpy(m_pArray, rhs.m_pArray, m_sNum * 3);
+            memcpy(m_pArray, rhs.m_pArray, sizeof(uint16_t) * m_sNum * 3);
 				}
 
 			return *this;
 			}
-
+#endif
 		// Overloaded == (equality) operator
 		bool operator==(const RMesh& rhs) const
 			{
@@ -284,7 +284,7 @@ class RMesh
 					{
 					// If both pointers are non-zero then we compare their data
 					if (m_pArray && rhs.m_pArray)
-                  result = memcmp(m_pArray, rhs.m_pArray, m_sNum * 3) == SUCCESS;
+                  result = memcmp(m_pArray, rhs.m_pArray, sizeof(uint16_t) * m_sNum * 3) == SUCCESS;
 					else
 						{
 						// If both pointers are not nullptr then they obviously don't match
@@ -296,7 +296,7 @@ class RMesh
 			else
 				result = false;
 			return result;
-			}
+         }
 
 		// Allocate specified number of triangles
 		void Alloc(int16_t sNum);
@@ -361,7 +361,7 @@ class RSop
 			{
 			Free();
 			}
-
+#ifdef UNUSED_OPERATORS
 		// Assignment operator
 		RSop& operator=(const RSop& rhs)
 			{
@@ -372,12 +372,12 @@ class RSop
 			if (rhs.m_pArray != nullptr)
 				{
 				Alloc(rhs.m_lNum);
-            memcpy(m_pArray, rhs.m_pArray, m_lNum);
+            memcpy(m_pArray, rhs.m_pArray, sizeof(RP3d) * m_lNum);
 				}
 
 			return *this;
 			}
-
+#endif
 		// Overloaded == (equality) operator
 		bool operator==(const RSop& rhs) const
 			{
@@ -388,7 +388,7 @@ class RSop
 					{
 					// If both pointers are non-zero then we compare their data
 					if (m_pArray && rhs.m_pArray)
-                  result = memcmp(m_pArray, rhs.m_pArray, m_lNum) == SUCCESS;
+                  result = memcmp(m_pArray, rhs.m_pArray, sizeof(RP3d) * m_lNum) == SUCCESS;
 					else
 						{
 						// If both pointers are not nullptr then they obviously don't match
@@ -400,7 +400,7 @@ class RSop
 			else
 				result = false;
 			return result;
-			}
+         }
 
 		// Allocate specified number of points
 		void Alloc(int32_t lNum);
