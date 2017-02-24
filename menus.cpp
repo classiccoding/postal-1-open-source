@@ -4473,7 +4473,7 @@ static bool VolumesChoice(		// Returns true to accept, false to deny choice.
                                              // Does not fail.
                                              *(ms_apsmidVolumeTesters[i]),		// In:  Identifier of sample you want played.
                                              (SampleMaster::SoundCategory)i,	// In:  Sound Volume Category for user adjustment
-                                             255,										// In:  Initial Sound Instance Volume (0 - 255)
+                                             SampleMaster::MaxVolume,			// In:  Initial Sound Instance Volume (0 - 255)
                                              &ms_siLastSamplePlayed);			// Out: Handle for adjusting sound volume
 
         ms_siLastSamplePlayed	= 0;
@@ -5425,7 +5425,7 @@ static void VolumesScrollUpdate(	// Returns nothing.
                                     // Does not fail.
       *psmid,								// In:  Identifier of sample you want played.
       sc,									// In:  Sound Volume Category for user adjustment
-      255,									// In:  Initial Sound Instance Volume (0 - 255)
+      SampleMaster::MaxVolume,		// In:  Initial Sound Instance Volume (0 - 255)
       &ms_siLastSamplePlayed);		// Out: Handle for adjusting sound volume
 
   // Get val indicator.

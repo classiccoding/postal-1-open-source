@@ -133,7 +133,7 @@ int32_t	RMixBuf::ms_lDstBitsPerSample;	// Sample size in bits for Blue data.
 int32_t	RMixBuf::ms_lNumChannels;			// Number of channels (mono
 													//  or stereo).
 int16_t	RMixBuf::ms_sNumBufs	= 0;			// Number of RMixBufs allocated.
-uint8_t	RMixBuf::ms_ucGlobalVolume = uint8_t(255);	// Full volume is standard
+uint8_t	RMixBuf::ms_ucGlobalVolume = MaxVolume;	// Full volume is standard
 
 int16_t	RMixBuf::ms_sCutOffVolume = 1;	// Volume to not bother mixing.
 
@@ -781,7 +781,7 @@ CDVA::CDVA()	// Create the tables!
 		// The 8-bit codes are found by looking at the lower byte of the 
 		// table, as in ms_asLowByte.u8[i*2 + DVA_LOW_BYTE]
 
-		// Note that volume scaling goes from 0 to 255 in steps of DVA_RESOLUTION
+      // Note that volume scaling goes from 0x00 to 0xFF in steps of DVA_RESOLUTION
 		// (this is to save memory)
 
 		//================================================================
@@ -811,20 +811,20 @@ CDVA::CDVA()	// Create the tables!
 		// The low byte array should simply follow the high byte array,
 		// so I don't need to reset psCur.
 
-		for (lDimVal = 0; lDimVal < 256; lDimVal += DVA_RESOLUTION)
+      for (lDimVal = 0; lDimVal <= MaxVolume; lDimVal += DVA_RESOLUTION)
 			{
-			lNumerator = 127;	// for rounding
+         lNumerator = 0x7F;	// for rounding
 			lCurValue = 0;
 
 			*psCur++ = 0;	// initial value
 
-			for (lSrcVal = 1; lSrcVal < 256; lSrcVal++,psCur++)
+         for (lSrcVal = 1; lSrcVal <= MaxVolume; lSrcVal++,psCur++)
 				{
 				lNumerator += lDimVal;
 
-				if (lNumerator >= 255) 
+            if (lNumerator >= MaxVolume)
 					{
-					lNumerator -= 255; 
+               lNumerator -= MaxVolume;
 					lCurValue++;
 					}
 
@@ -897,7 +897,7 @@ int16_t RMixBuf::Mix(	uint32_t		ulStartPos,
 
 		if (ulNum > 0)
 			{
-			if (sCurVolume > (255 - DVA_RESOLUTION))	// full volume, no scaling
+         if (sCurVolume > (MaxVolume - DVA_RESOLUTION))	// full volume, no scaling
 				{
 				switch (lBitsPerSample)
 					{

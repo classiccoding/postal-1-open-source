@@ -294,7 +294,7 @@ class CSprite2 : public CSprite
 		{
 		m_pImage			= nullptr;
 		m_pimAlpha		= nullptr;
-		m_sAlphaLevel	= 255;
+      m_sAlphaLevel	= 0x00FF;
 		m_type			= Standard2d;
 		}
 																	

@@ -60,7 +60,7 @@
 // be found in the source and destination.  Once you KNOW your
 // assets, this can be a useful memory saver.
 //
-// An "alpha channel value" ranges from 255 = opaque source, 
+// An "alpha channel value" ranges from 0xFF = opaque source,
 //	to 0 = invisible source
 //
 // Homogeneous alpha blits let you specify one alpha level for an 
@@ -133,7 +133,7 @@ extern	void rspAlphaBlitT(
 //
 //====================================================================
 extern	void rspAlphaBlitT(
-						int16_t sAlphaLevel,		// 255 = opaque
+                  int16_t sAlphaLevel,		// 0xFF = opaque
 						RMultiAlpha* pMultiX,	// For current palette
 						RImage* pimSrc,			// BMP8 source image
 						RImage* pimDst,			// BMP8 destination
@@ -162,12 +162,12 @@ extern	void rspGeneralAlphaBlit(
 //									by it's COLOR - sheet of glass effect.
 //
 //	This variation allows real time "dimming" of the curent mask.
-// If sLevel = 255, the mask will BLiT normally, but less than 255
+// If sLevel = 0xFF, the mask will BLiT normally, but less than 0xFF
 // and the image will fade away.
 //
 //====================================================================
 extern	void rspGeneralAlphaBlit(
-							int16_t sLevel,		// 0-255, 255 = unchanged
+                     int16_t sLevel,		// 0-0xFF, 0xFF = unchanged
 							RMultiAlpha* pX,	// for current palette
 							RImage* pimMask,	// BMP8 alpha channel mask
 							RImage* pimSrc,	// BMP8 source
@@ -184,7 +184,7 @@ extern	void rspGeneralAlphaBlit(
 //									the alpha mask (which could be useful)
 //
 //	This variation allows real time "dimming" of the curent mask.
-// If sLevel = 255, the mask will BLiT normally, but less than 255
+// If sLevel = 0xFF, the mask will BLiT normally, but less than 0xFF
 // and the image will fade away.
 //
 // NOTE: It is better to use rspGeneralAlphaBlit and put the transparency 
@@ -192,7 +192,7 @@ extern	void rspGeneralAlphaBlit(
 //
 //====================================================================
 extern	void rspGeneralAlphaBlitT(
-							int16_t sLevel,		// 0-255, 255 = unchanged
+                     int16_t sLevel,		// 0-0xFF, 0xFF = unchanged
 							RMultiAlpha* pX,	// for current palette
 							RImage* pimMask,	// BMP8 alpha channel mask
 							RImage* pimSrc,	// BMP8 source
@@ -225,7 +225,7 @@ extern	void rspGeneralAlphaBlitT(
 //
 //====================================================================
 extern	void rspFastAlphaBlitT(			
-						int16_t sAlphaLevel,	// 0-255, 255 = unchanged
+                  int16_t sAlphaLevel,	// 0-0xFF, 0xFF = unchanged
 						uint8_t*** pMultiX,		// A fast multialpha table
 						RImage* pimSrc,		// BMP8 source	
 						RImage* pimDst,		// BMP8 destination
@@ -301,7 +301,7 @@ inline int16_t rspSimpleClip(int16_t &sSrcX,int16_t &sSrcY,int16_t &sDstX,int16_
 //--------------------------------------------------------------------
 //		if dScale < 1.0, you will make the mask more transparent
 //		if dScale > 1.0, the maskwill be more opaque and will  saturate
-//				at 255.
+//				at 0xFF.
 //
 // NOTE: This process is lossy, and if done repeatedly should use the
 //			original source mask each time.
@@ -322,7 +322,7 @@ extern	void rspScaleAlphaMask(RImage* pimSrcMask, // BMP8 alpha mask
 //
 // RETURN the new color index based on a source and destination index:
 // WARNING:  will not bounds check so be careful:
-// sLeve will range from 255 (solid) to 0 (transparent)
+// sLeve will range from 0xFF (solid) to 0 (transparent)
 //===========================================================================
 inline uint8_t	rspBlendColor(int16_t sLevel,RMultiAlpha* pX,uint8_t ucSrc,uint8_t ucDst)
 	{
@@ -341,7 +341,7 @@ inline uint8_t	rspBlendColor(int16_t sLevel,RMultiAlpha* pX,uint8_t ucSrc,uint8_
 //
 //	rspBlendColor
 //
-//	UINPUT:	sLevel -> the alpha level (0-255) you wish to work with
+//	UINPUT:	sLevel -> the alpha level (0-0xFF) you wish to work with
 //	OUTPUT:	psOpaque -> a special case flag, is TRUE if FULLY opaque (normal BLiT)
 // RETURN:	ppuc, a short cut to the fast blend function, or nullptr if you hit the
 //				extreme cases of fully opaque of fully transparent.

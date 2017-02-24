@@ -32,8 +32,8 @@
 
 // ***************************************************************************
 // Mimicking the success of FSPR8, the newest FSPR1 is GREATLY simplified.  
-// The result is that large images with runs above 254 will have worse
-// compression, and decode slower, but images with runs less than 255
+// The result is that large images with runs above 0xFE will have worse
+// compression, and decode slower, but images with runs less than 0xFF
 // will decode faster.  Also, simplified encoding/decoding will enhance
 // portability.  To monitor this inefficiency, it will return the number
 // of overruns.
@@ -237,7 +237,7 @@ int16_t ConvertToFSPR1(RImage* pImage)
 				if (sBlank == TRUE)	// nothing on this line, write nothing!
 					sBlankLineCount++;// until we count them all!
 				else
-					*pCode++ = 255; // Cancel the skip, insert EOL!  
+               *pCode++ = 0xFF; // Cancel the skip, insert EOL!
 				goto NEXT_Y;		// begin the next line!
 				}
 
@@ -246,24 +246,24 @@ int16_t ConvertToFSPR1(RImage* pImage)
 			// ************ FILL IN POSSIBLE SKIPPED BLANK LINES
 			if (sBlankLineCount > 0) // Now add in the blank line skip code:
 				{
-				while (sBlankLineCount > 254)
+            while (sBlankLineCount > 0xFE)
 					{
-					*pCode++ = 255;
-					*pCode++ = 254;
-					sBlankLineCount -= 254;
+               *pCode++ = 0xFF;
+               *pCode++ = 0xFE;
+               sBlankLineCount -= 0xFE;
 					}
-				*pCode++ = 255;
+            *pCode++ = 0xFF;
 				*pCode++ = (uint8_t)sBlankLineCount;
 				sBlankLineCount = 0;
 				}
 
 			//=========== Insert the skip run...
-			while (sCount > 254) // overflow
+         while (sCount > 0xFE) // overflow
 				{
 				sOverRun++; // for diagnostics!
-				*pCode++ = 254; // Cycle through runs...
+            *pCode++ = 0xFE; // Cycle through runs...
 				*pCode++ = 0;  // No skip
-				sCount -= 254;
+            sCount -= 0xFE;
 				}
 			*pCode++ = (uint8_t)sCount; // Enter skip run..
 
@@ -275,12 +275,12 @@ int16_t ConvertToFSPR1(RImage* pImage)
 				}
 
 			//================= Insert the opaque run:
-			while (sCount > 255) // overflow
+         while (sCount > 0xFF) // overflow
 				{
 				sOverRun++; // for diagnostics!
-				*pCode++ = 255; // Cycle through runs...
+            *pCode++ = 0xFF; // Cycle through runs...
 				*pCode++ = 0;   // Next clear run
-				sCount -= 255;
+            sCount -= 0xFF;
 				}
 			*pCode++ = (uint8_t)sCount; // Enter opaque run..
 			}
@@ -291,19 +291,19 @@ int16_t ConvertToFSPR1(RImage* pImage)
 	// ADD in final trailing line skipping:
 	if (sBlankLineCount > 0) // Now add in the blank line skip code:
 		{
-		while (sBlankLineCount > 254)
+      while (sBlankLineCount > 0xFE)
 			{
-			*pCode++ = 255;
-			*pCode++ = 254;
-			sBlankLineCount -= 254;
+         *pCode++ = 0xFF;
+         *pCode++ = 0xFE;
+         sBlankLineCount -= 0xFE;
 			}
-		*pCode++ = 255;
+      *pCode++ = 0xFF;
 		*pCode++ = (uint8_t)sBlankLineCount;
 		}
 
 	// Final Code:  (Safety cap)
-	*pCode++ = 255;
-	*pCode++ = 255;
+   *pCode++ = 0xFF;
+   *pCode++ = 0xFF;
 
 	// ****************** SHRINK THE BUFFER!
 	int32_t lCompressedSize = pCode - pCodeBuf + 1;
@@ -405,9 +405,9 @@ void _rspBLiT(uint8_t ucColor,RImage* pimSrc,RImage* pimDst,
 		{
 		// new line!
 		pDst = pDstLine;
-		if ((ucCode = *pCode++) == 255) // multiline skip:
+      if ((ucCode = *pCode++) == 0xFF) // multiline skip:
 			{
-			if ((ucCount = *pCode++) == 255) break;	// DONE DRAWING!!!!!!
+         if ((ucCount = *pCode++) == 0xFF) break;	// DONE DRAWING!!!!!!
 			pDstLine += lP * ucCount; // Advance n lines
 			continue; /// ********** Start next scanline!
 			}
@@ -416,7 +416,7 @@ void _rspBLiT(uint8_t ucColor,RImage* pimSrc,RImage* pimDst,
 			pDst += ucCode;//HSKIP
 			ucCount = *pCode++;
 			while (ucCount--) *pDst++ = ucColor;//HRUN
-			} while ((ucCode = *pCode++) != 255);
+         } while ((ucCode = *pCode++) != 0xFF);
 
 		pDstLine += lP;
 		}
@@ -748,7 +748,7 @@ int16_t rspBlit(
 	pDstLine = pimDst->m_pData + lDstP * sDstY + sDstX;
 	RSpecialFSPR1*	pHead = (RSpecialFSPR1*)(pimSrc->m_pSpecialMem);
 	pCode = pHead->m_pCode;
-	const uint8_t FF = (uint8_t)255;
+   const uint8_t FF = (uint8_t)0xFF;
 
 
 	// ***********************************************************
@@ -1046,7 +1046,7 @@ int16_t rspBlit(
 	pDstLine = pimDst->m_pData + lDstP * sDstY + sDstX;
 	RSpecialFSPR1*	pHead = (RSpecialFSPR1*)(pimSrc->m_pSpecial);
 	pCode = pHead->m_pCode;
-	const uint8_t FF = (uint8_t)255;
+   const uint8_t FF = (uint8_t)0xFF;
 
 	// Let's scale it, baby! (pre-clipping)
 	int16_t sDenX = pimSrc->m_sWidth; 
@@ -1068,7 +1068,7 @@ int16_t rspBlit(
 	// *****************  AT LAST!   CODE!  **********************
 	// ***********************************************************
 	// 
-	int16_t sCount; // to allow horizontal magnification > 255...
+   int16_t sCount; // to allow horizontal magnification > 0xFF...
 
 	// ***********************************************************
 	// *********  No clip case!
@@ -1113,7 +1113,7 @@ int16_t rspBlit(
 					ucCount = *(pCode++);
 					frOldX = frX;
 					rspfrAdd(frX,afrSkipX[ucCount],sDenX);
-					// To allow magnification beyond 255:
+               // To allow magnification beyond 0xFF:
 					sCount = frX.mod - frOldX.mod;
 					// Modify this to a rect for solid VMagnification.
 					while (sCount--) *(pDst++) = ucForeColor;
@@ -1298,7 +1298,7 @@ int16_t rspBlit(
 	pDstLine = pimDst->m_pData + lDstP * sDstY + sDstX;
 	RSpecialFSPR1*	pHead = (RSpecialFSPR1*)(pimSrc->m_pSpecialMem);
 	pCode = pHead->m_pCode;
-	const uint8_t FF = (uint8_t)255;
+   const uint8_t FF = (uint8_t)0xFF;
 
 
 	// ***********************************************************
@@ -1518,7 +1518,7 @@ int16_t rspBlit(
 	pDstLine = pimDst->m_pData + lDstP * sDstY + sDstX;
 	RSpecialFSPR1*	pHead = (RSpecialFSPR1*)(pimSrc->m_pSpecial);
 	pCode = pHead->m_pCode;
-	const uint8_t FF = (uint8_t)255;
+   const uint8_t FF = (uint8_t)0xFF;
 
 	// Let's scale it, baby! (pre-clipping)
 	int16_t sDenX = pimSrc->m_sWidth; 
@@ -1547,7 +1547,7 @@ int16_t rspBlit(
 
 	// Add Italics ability:
 	int16_t* psOffX = psLineOffset;
-	int16_t sCount; // Allows magnified runs > 255...
+   int16_t sCount; // Allows magnified runs > 0xFF...
 
 	while (TRUE)
 		{
@@ -1583,7 +1583,7 @@ int16_t rspBlit(
 				ucCount = *(pCode++);
 				frOldX = frX;
 				rspfrAdd(frX,afrSkipX[ucCount],sDenX);
-				// This is to allow magnified runs > 255:
+            // This is to allow magnified runs > 0xFF:
 				sCount = frX.mod - frOldX.mod; 
 				// Modify this to a rect for solid VMagnification.
 				while (sCount--) *(pDst++) = ucForeColor;

@@ -322,7 +322,7 @@ extern int16_t rspPrintToPage(					// Returns 0 if successfull, non-zero otherwi
 	int32_t lWidth,									// In:  Source width
 	int32_t lHeight,									// In:  Source height
 	int16_t sDepth,									// In:  Source depth (1 or 8 - if 8, palette info must be valid!)
-	int16_t sSrcPalStartIndex,					// In:  Starting palette index (0 to 255)
+   int16_t sSrcPalStartIndex,					// In:  Starting palette index (0x00 to 0xFF)
 	int16_t sSrcPalEntries,						// In:  Number of palette entries (1 to 256)
 	uint8_t* pu8SrcPalRed,								// In:  Pointer to starting source red value
 	uint8_t* pu8SrcPalGreen,							// In:  Pointer to starting source green value

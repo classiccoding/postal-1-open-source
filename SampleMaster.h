@@ -370,8 +370,9 @@ class SampleMaster
 			UserDefaultVolume	= 8,		// Default user volume for all categories/qualities.
 			UserMaxVolume		= 10,		// User volume ranges from 0 to 10.
 			UserVolumeRange	= UserMaxVolume + 1,	// Ranges from 0 to 10.
-			MaxVolume			= 255,	// SampleMaster volume ranges from 0 to 255.
-			VolumeRange			= MaxVolume + 1	// Ranges from 0 to 255.
+         MinVolume         = 0x00,
+         MaxVolume			= 0xFF,	// SampleMaster volume ranges from 0x00 to 0xFF.
+         VolumeRange			= MaxVolume + 1	// Ranges from 0x00 to 0xFF.
 
 			} Macros;
 
@@ -1465,7 +1466,7 @@ int16_t	GetCategoryVolume(
 //////////////////////////////////////////////////////////////////////////////
 int16_t	SetInstanceVolume(
 	SampleMaster::SoundInstance si,			// make sure it is YOUR sound
-	int16_t sVolume = 255);						// 0 - 255
+   int16_t sVolume = SampleMaster::MaxVolume);						// 0 - 255
 
 //////////////////////////////////////////////////////////////////////////////
 //	

@@ -271,8 +271,8 @@ void RMix::Init(void)
 		ms_ulBufSize = 0;//rspGetSoundOutPaneSize();
 		}
 
-	m_ucVolume = 255;				
-	m_ucSecondaryVolume = 255;	
+   m_ucVolume = MaxVolume;
+   m_ucSecondaryVolume = MaxVolume;
 
 	m_sPauseLevel = 0;
 	}
@@ -791,7 +791,7 @@ int16_t RMix::CloseChannel(void)
 //
 //////////////////////////////////////////////////////////////////////////////
 int16_t RMix::Start(RMixCall mcUser, uintptr_t ulUser,
-					uint8_t	ucVolume /* = 255 */, uint8_t ucVol2 /* = 255 */)
+               uint8_t	ucVolume, uint8_t ucVol2)
 	{						 
 	int16_t sResult = SUCCESS;	// Assume success.
 

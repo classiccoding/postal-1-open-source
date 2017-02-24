@@ -154,14 +154,14 @@ namespace Net
 		// One might be tempted to conclude separately that 3 * MaxAheadSeq could also be used to
 		// determine the minimum number of bits required to store a sequence value.  In other words,
 		// if 3 * MaxAheadSeq came to, say, 180, you might be tempted to say you could use an 8-bit
-		// value to store the sequence numbers, and simply have them go from 0 to 255 and then wrap
+      // value to store the sequence numbers, and simply have them go from 0x00 to 0xFF and then wrap
 		// around to 0 again -- or even have them go to 180 and then wrap-around to 0.  However,
 		// one would be wrong to do this.
 		//
 		// The problem is that we are using datagram messages to transmit inputs between players,
 		// and datagrams are unreliable.  They may not get through at all, or they may get through
 		// but in a different order from the order they were sent in.  The problem as it applies to
-		// the sequence numbers is that if we used a range of 0 to 180, or even 0 to 255, it is
+      // the sequence numbers is that if we used a range of 0 to 180, or even 0x00 to 0xFF, it is
 		// quite possible that long after we went past a particular frame, we might get a very old
 		// packet that contained very old data.  If we can't recognize this packet as being obsolete,
 		// we would mistakingly use it's data, which would most likely throw the entire game permanently

@@ -35,7 +35,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 //  Allows "Ad Hoc" alpha adjustment with accumulative error.
 //  (CAUTION, not reversable, UNLESS a DIFFERENT destination
-//  mask is used from the source.  Will saturate at 255.
+//  mask is used from the source.  Will saturate at 0xFF.
 /////////////////////////////////////////////////////////////////////////////////////
 //  UINPUT: 1.0 = no change in alpha effect, pimDst may equal pimMask
 /////////////////////////////////////////////////////////////////////////////////////
@@ -57,10 +57,10 @@ void rspScaleAlphaMask(RImage* pimSrc, double dScale, RImage* pimDst)
 			{
 			double dVal = double(*pSrc);
 			dVal *= dScale;
-			if (dVal < 256.0)
+         if (dVal <= 255.0)
 				*pDst = uint8_t(dVal);
 			else
-				*pDst = uint8_t(255);
+            *pDst = 0xFF;
 			}
 		}
 	}
@@ -121,13 +121,13 @@ void rspGeneralAlphaBlit(RMultiAlpha* pX,RImage* pimMask,
 
 // The mask must be as big as the source
 // Should work on both main types.
-// This does a pre-dimming of the mask based on sLevel -> 255 = as is!
+// This does a pre-dimming of the mask based on sLevel -> 0xFF = as is!
 //
 void rspGeneralAlphaBlit(int16_t sLevel,RMultiAlpha* pX,RImage* pimMask,
 									RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,
 									RRect &rDstClip)
 	{
-	ASSERT( (sLevel >= 0 ) && (sLevel < 256) );
+   ASSERT(sLevel >= 0 && sLevel < 256);
 
 	int16_t sSrcX = 0,sSrcY = 0,sDstW = pimSrc->m_sWidth,sDstH = pimSrc->m_sHeight;
 
@@ -179,13 +179,13 @@ void rspGeneralAlphaBlit(int16_t sLevel,RMultiAlpha* pX,RImage* pimMask,
 
 // The mask must be as big as the source
 // Should work on both main types.
-// This does a pre-dimming of the mask based on sLevel -> 255 = as is!
+// This does a pre-dimming of the mask based on sLevel -> 0xFF = as is!
 //
 extern void rspGeneralAlphaBlitT(int16_t sLevel,RMultiAlpha* pX,RImage* pimMask,
 									RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,
 									RRect &rDstClip)
 	{
-	ASSERT( (sLevel >= 0 ) && (sLevel < 256) );
+  ASSERT(sLevel >= 0 && sLevel < 256);
 
 	int16_t sSrcX = 0,sSrcY = 0,sDstW = pimSrc->m_sWidth,sDstH = pimSrc->m_sHeight;
 
@@ -355,7 +355,7 @@ void rspFastMaskAlphaBlitT(uint8_t*** pfaX,RImage* pimMask,
 
 
 // The mask must be as big as the source
-// ARCHAIC - this was back when instead of a mask specifying 0-255, it specified
+// ARCHAIC - this was back when instead of a mask specifying 0x00-0xFF, it specified
 // the layer number
 //
 /*
@@ -405,7 +405,7 @@ extern void rspAlphaMaskBlit(RMultiAlpha* pX,RImage* pimMask,
 */
 
 // Here is a wrapper so that the homogenous alpha blit can use a multialpha:
-// sAlphaLevel goes from 0 (you see background) to 255 (you see the sprite)
+// sAlphaLevel goes from 0 (you see background) to 0xFF (you see the sprite)
 // As the name implies, this does not consider source colors of index zero.
 //
 void rspAlphaBlitT(int16_t sAlphaLevel,RMultiAlpha* pMultiX,RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,
@@ -459,7 +459,7 @@ void rspAlphaBlitT(int16_t sAlphaLevel,RMultiAlpha* pMultiX,RImage* pimSrc,RImag
 
 
 // Here is a wrapper so that the homogenous alpha blit can use a multialpha:
-// sAlphaLevel goes from 0 (you see background) to 255 (you see the sprite)
+// sAlphaLevel goes from 0 (you see background) to 0xFF (you see the sprite)
 // As the name implies, this does not consider source colors of index zero.
 //
 void rspFastAlphaBlitT(int16_t sAlphaLevel,uint8_t*** pMultiX,RImage* pimSrc,RImage* pimDst,int16_t sDstX,int16_t sDstY,

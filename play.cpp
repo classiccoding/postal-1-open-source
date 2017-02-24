@@ -3321,31 +3321,31 @@ class CPlayInput : public CPlay
 
 			// 'PAUSED' fore color.
 			rspSetPaletteEntry(
-				PAUSED_BASE_PAL_INDEX + 0,			// Palette entry (0 to 255)
-				PAUSED_FONT_COLOR_R,					// Red component (0 to 255)
-				PAUSED_FONT_COLOR_G,					// Green component (0 to 255)
-				PAUSED_FONT_COLOR_B);				// Blue component (0 to 255)
+            PAUSED_BASE_PAL_INDEX + 0,			// Palette entry (0x00 to 0xFF)
+            PAUSED_FONT_COLOR_R,					// Red component (0x00 to 0xFF)
+            PAUSED_FONT_COLOR_G,					// Green component (0x00 to 0xFF)
+            PAUSED_FONT_COLOR_B);				// Blue component (0x00 to 0xFF)
 															
 			// 'PAUSED' shadow color.				
 			rspSetPaletteEntry(						
-				PAUSED_BASE_PAL_INDEX + 1,			// Palette entry (0 to 255)
-				PAUSED_FONT_SHADOW_COLOR_R,		// Red component (0 to 255)
-				PAUSED_FONT_SHADOW_COLOR_G,		// Green component (0 to 255)
-				PAUSED_FONT_SHADOW_COLOR_B);		// Blue component (0 to 255)
+            PAUSED_BASE_PAL_INDEX + 1,			// Palette entry (0x00 to 0xFF)
+            PAUSED_FONT_SHADOW_COLOR_R,		// Red component (0x00 to 0xFF)
+            PAUSED_FONT_SHADOW_COLOR_G,		// Green component (0x00 to 0xFF)
+            PAUSED_FONT_SHADOW_COLOR_B);		// Blue component (0x00 to 0xFF)
 															
 			// Message fore color.					
 			rspSetPaletteEntry(						
-				PAUSED_BASE_PAL_INDEX + 2,			// Palette entry (0 to 255)
-				PAUSED_MSG_FONT_COLOR_R,			// Red component (0 to 255)
-				PAUSED_MSG_FONT_COLOR_G,			// Green component (0 to 255)
-				PAUSED_MSG_FONT_COLOR_B);			// Blue component (0 to 255)
+            PAUSED_BASE_PAL_INDEX + 2,			// Palette entry (0x00 to 0xFF)
+            PAUSED_MSG_FONT_COLOR_R,			// Red component (0x00 to 0xFF)
+            PAUSED_MSG_FONT_COLOR_G,			// Green component (0x00 to 0xFF)
+            PAUSED_MSG_FONT_COLOR_B);			// Blue component (0x00 to 0xFF)
 
 			// Message shadow color.
 			rspSetPaletteEntry(
-				PAUSED_BASE_PAL_INDEX + 3,			// Palette entry (0 to 255)
-				PAUSED_MSG_FONT_SHADOW_COLOR_R,	// Red component (0 to 255)
-				PAUSED_MSG_FONT_SHADOW_COLOR_G,	// Green component (0 to 255)
-				PAUSED_MSG_FONT_SHADOW_COLOR_B);	// Blue component (0 to 255)
+            PAUSED_BASE_PAL_INDEX + 3,			// Palette entry (0x00 to 0xFF)
+            PAUSED_MSG_FONT_SHADOW_COLOR_R,	// Red component (0x00 to 0xFF)
+            PAUSED_MSG_FONT_SHADOW_COLOR_G,	// Green component (0x00 to 0xFF)
+            PAUSED_MSG_FONT_SHADOW_COLOR_B);	// Blue component (0x00 to 0xFF)
 
 			// Update hardware palette.
 			rspUpdatePalette();

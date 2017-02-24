@@ -117,8 +117,8 @@ class RSnd
 			char* pszSampleName,			// In:  Name of sample file.
 			int32_t lPlayBufSize,			// In:  Size of play buffer in bytes.
 			int32_t lReadBufSize,			// In:  Size of file read buffer in bytes.
-			uint8_t	ucMainVolume = 255,	// In:  Primary Volume (0 - 255)
-			uint8_t ucVolume2 = 255);		// In:  Secondary Volume (0 - 255)
+         uint8_t	ucMainVolume = MaxVolume,	// In:  Primary Volume (0 - 255)
+         uint8_t ucVolume2 = MaxVolume);		// In:  Secondary Volume (0 - 255)
 
 			// Plays RSample supplied via ptr with buffer size of lPlayBufSize
 		// (this is the size of the chunks sent to RMix).
@@ -134,8 +134,8 @@ class RSnd
 		int16_t Play(							// Returns 0 on success.
 			RSample* psample,				// In:  Sample to play.
 			int32_t lPlayBufSize,			// In:  Size of play buffer in bytes.
-			uint8_t	ucMainVolume = 255,	// In:  Primary Volume (0 - 255)
-			uint8_t ucVolume2 = 255,		// In:  Secondary Volume (0 - 255)
+         uint8_t	ucMainVolume = MaxVolume,	// In:  Primary Volume (0 - 255)
+         uint8_t ucVolume2 = MaxVolume,		// In:  Secondary Volume (0 - 255)
 			int32_t lLoopStartTime = -1,	// In:  Where to loop back to in milliseconds.
 												//	-1 indicates no looping (unless m_sLoop is
 												// explicitly set).

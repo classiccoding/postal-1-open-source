@@ -93,7 +93,7 @@ void	PlayWithMyOrgan()
 					PlaySample(
 						*CSoundCatalogue::ms_ppsmNameList[sCurSample],
 						SampleMaster::Unspecified,
-						255);	// initial volume
+                  SampleMaster::MaxVolume);	// initial volume
 					}
 
 				// Clear key.
