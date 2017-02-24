@@ -398,15 +398,15 @@
 
 // Masks and bits for m_pTerrainMap:
 // The height map contains the height, the 'no walk', and the light attributes.
-#define REALM_ATTR_HEIGHT_MASK	0x00ff
-#define REALM_ATTR_FLOOR_MASK		0xff00
-#define REALM_ATTR_EFFECT_MASK	0xff00
+#define REALM_ATTR_HEIGHT_MASK	0x00FF
+#define REALM_ATTR_FLOOR_MASK		0xFF00
+#define REALM_ATTR_EFFECT_MASK	0xFF00
 #define REALM_ATTR_LIGHT_BIT		0x0200
 #define REALM_ATTR_NOT_WALKABLE	0x0100
 
 // Masks and bits for m_pLayerMap:
 // The attribute map contains only the layer bits.
-#define REALM_ATTR_LAYER_MASK		0x7fff
+#define REALM_ATTR_LAYER_MASK		0x7FFF
 
 #define REALM_NONSTL 1
 
@@ -915,7 +915,7 @@ class CRealm
 
 		int16_t GetFloorAttribute(int16_t sX, int16_t sZ);
 
-		int16_t GetFloorMapValue(int16_t sX, int16_t sZ, int16_t sMask = 0x007f);
+      int16_t GetFloorMapValue(int16_t sX, int16_t sZ, int16_t sMask = 0x007F);
 
 		int16_t GetLayer(int16_t sX, int16_t sZ);
 

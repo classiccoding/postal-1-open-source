@@ -142,7 +142,7 @@ class CNetInput
 			Mask				= Size - 1,
 
 			// Invalid input value
-			Invalid = 0xffffffff
+         Invalid = UINT32_MAX
 			};
 
 	//------------------------------------------------------------------------------

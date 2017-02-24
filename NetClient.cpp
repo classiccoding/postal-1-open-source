@@ -1040,7 +1040,7 @@ void CNetClient::SendChat(
 		// the future, we could allow the user to specify who will/won't get it.
 		NetMsg msg;
 		msg.msg.chatReq.ucType = NetMsg::CHAT_REQ;
-		msg.msg.chatReq.u16Mask = 0xffff;
+      msg.msg.chatReq.u16Mask = UINT16_MAX;
 
 		// We're assuming the chat field is longer than the maximum name
 		ASSERT(sizeof(msg.msg.chatReq.acText) > sizeof(m_aPeers[m_id].m_acName));
@@ -1073,7 +1073,7 @@ void CNetClient::SendText(
 		// the future, we could allow the user to specify who will/won't get it.
 		NetMsg msg;
 		msg.msg.chatReq.ucType = NetMsg::CHAT_REQ;
-		msg.msg.chatReq.u16Mask = 0xffff;
+      msg.msg.chatReq.u16Mask = UINT16_MAX;
 
 		// Copy text, truncating in case the specified text is too long
 		strncpy(msg.msg.chatReq.acText, pszText, sizeof(msg.msg.chatReq.acText));
@@ -1275,7 +1275,7 @@ void CNetClient::ReceiveFromPeers(void)
 
 						// Calculate the time our ping took to get back (it won't be valid until
 						// he starts getting my ping times -- before that, he'll set it to 0xffff)
-						if (u16ReceiverPing != 0xffff)
+                  if (u16ReceiverPing != UINT16_MAX)
 							{
 							}
 #endif
@@ -1569,7 +1569,7 @@ bool CNetClient::CanDoFrame(							// Returns true if frame can be done, false o
 				frameTime = g_GameSettings.m_sNetTimePerFrame;
 				}
 			// Put this time into the next frame that we know has not been sent to anybody *SPA
-			m_netinput.PutFrameTime(m_seqInputNotYetSent, (uint8_t)(frameTime & 0x00ff));
+         m_netinput.PutFrameTime(m_seqInputNotYetSent, (uint8_t)(frameTime & 0x00FF));
 
 			// This is the only place where we increment the frame seq, so it's the
 			// right place to check if we've reached the halt frame (if there is one).

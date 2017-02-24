@@ -366,7 +366,7 @@ extern const char *FindCorrectFile(const char *pszName, const char *pszMode)
                 if (pSHGetFolderPathW != nullptr)
                 {
         			WCHAR path[MAX_PATH];
-                    if (SUCCEEDED(pSHGetFolderPathW(nullptr, 0x001a/*CSIDL_APPDATA*/ | 0x8000/*CSIDL_FLAG_CREATE*/, nullptr, 0, path)))
+                    if (SUCCEEDED(pSHGetFolderPathW(nullptr, 0x001A/*CSIDL_APPDATA*/ | 0x8000/*CSIDL_FLAG_CREATE*/, nullptr, 0, path)))
                     {
                         // !!! FIXME: screwed if there's a unicode path for now.
                         snprintf(prefpath, sizeof (prefpath), "%S\\RunningWithScissors", (const wchar_t *) path);

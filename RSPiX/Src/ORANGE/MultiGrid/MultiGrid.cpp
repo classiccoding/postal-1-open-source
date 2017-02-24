@@ -106,7 +106,7 @@ void	RMultiGrid::Dump(RImage* pimDst,int16_t sSrcX,int16_t sSrcY,int16_t sDstX,i
 			{
 			int16_t sValue = m_psGrid[i + sSrcX + (j + sSrcY)*int32_t(m_sWidth)];
 			*(pimDst->m_pData + 2*(i + sDstX) + (j + sDstY)*pimDst->m_lPitch) = uint16_t(sValue)>>8;
-			*(pimDst->m_pData + 2*(i + sDstX) + (j + sDstY)*pimDst->m_lPitch+1) = sValue&0xff;
+         *(pimDst->m_pData + 2*(i + sDstX) + (j + sDstY)*pimDst->m_lPitch+1) = sValue & 0xFF;
 			}
 	}
 
@@ -130,7 +130,7 @@ void	RMultiGrid::DumpGrid(RImage* pimDst)
 			int16_t sValue = *(m_ppsGridLines[j * (m_sMaskY + 1)] + i);
 
 			*(pimDst->m_pData + 2*(i) + (j)*pimDst->m_lPitch) = uint16_t(sValue)>>8;
-			*(pimDst->m_pData + 2*(i) + (j)*pimDst->m_lPitch+1) = sValue&0xff;
+         *(pimDst->m_pData + 2*(i) + (j)*pimDst->m_lPitch+1) = sValue & 0xFF;
 			}
 	}
 
@@ -149,7 +149,7 @@ void	RMultiGrid::DumpData(RImage* pimDst)
 			int16_t sValue = GetVal(i,j);
 
 			*(pimDst->m_pData + 2*(i) + (j)*pimDst->m_lPitch) = uint16_t(sValue)>>8;
-			*(pimDst->m_pData + 2*(i) + (j)*pimDst->m_lPitch+1) = sValue&0xff;
+         *(pimDst->m_pData + 2*(i) + (j)*pimDst->m_lPitch+1) = sValue & 0xFF;
 			}
 	}
 

@@ -457,11 +457,11 @@ class CCrawler
 
 				if (CanWalk(sx, sBaseY, sz, &sTerrainH) == true)
 					{
-//					Plot((uint8_t)0xfa, sx, sBaseY, sz);
+//					Plot((uint8_t)0xFA, sx, sBaseY, sz);
 					}
 				else
 					{
-//					Plot((uint8_t)0xf9, sx, sBaseY, sz);
+//					Plot((uint8_t)0xF9, sx, sBaseY, sz);
 					if (m_pnub[s].sHard)
 						bResult = false;
 					m_dPushX += m_pnub[s].dPushX;

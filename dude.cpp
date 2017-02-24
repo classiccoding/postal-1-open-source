@@ -1276,7 +1276,7 @@ extern bool GetDudeFireAngle(double* d_Angle);
 
 // This value indicates no strafe motion and must be a totally invalid
 // strafe angle value.
-#define INVALID_STRAFE_ANGLE			0x7fff
+#define INVALID_STRAFE_ANGLE			INT16_MAX
 
 #define VEST_HIT_SWAY					10
 

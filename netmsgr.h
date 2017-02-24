@@ -1271,7 +1271,7 @@ class CNetMsgr
 		// Miscellaneous values
       enum
 			{
-			MagicNum				= 0x5655595a,					// Magic number
+         MagicNum				= 0x5655595A,					// Magic number
 			MacVersionBit		= 0x1000,						// Bit that indicates a Mac platform.
 			MinVersionNum		= 0x0003,						// Minimum version number we can support
 			CurVersionNum		= 0x0003							// Current version number

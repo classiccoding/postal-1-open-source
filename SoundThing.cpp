@@ -114,7 +114,7 @@
 #endif
 
 #if defined(__ANDROID__) //Arm RAND_MAX is a full int, code expecting a short!!
-#define RAND_MAX 0x7fff
+#define RAND_MAX INT16_MAX
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -125,7 +125,7 @@
 
 #define GUI_FILE_NAME		"res/editor/Sound.gui"
 
-#define END_OF_TIME			0x7fffffff	// Unfortunately, we won't be dead (or,
+#define END_OF_TIME			INT32_MAX	// Unfortunately, we won't be dead (or,
 													// considering it's always just 24 days 
 													// off, fortunately).  The program, will
 													// break, however.
@@ -982,7 +982,7 @@ void CSoundThing::ProcessMessages(void)
 ////////////////////////////////////////////////////////////////////////////////
 int32_t CSoundThing::GetRandom(void)
 	{
-	return (((ms_lGetRandomSeed = ms_lGetRandomSeed * 214013L + 2531011L) >> 16) & 0x7fff);
+   return (((ms_lGetRandomSeed = ms_lGetRandomSeed * 214013L + 2531011L) >> 16) & 0x7FFF);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////

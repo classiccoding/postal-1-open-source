@@ -26,7 +26,7 @@
 #include <cstdlib>
 
 #if defined(__ANDROID__) //Arm RAND_MAX is a full int, code expecting a short!!
-#define RAND_MAX 0x7fff
+#define RAND_MAX INT16_MAX
 #endif
 
 // Here's a very quick rip off!

@@ -1234,7 +1234,7 @@ int16_t CDoofus::SelectDude(void)
 
 	m_idDude = CIdBank::IdNil;
 	uint32_t	ulSqrDistance;
-	uint32_t	ulCurSqrDistance	= 0xFFFFFFFF;
+   uint32_t	ulCurSqrDistance	= UINT32_MAX;
 	uint32_t	ulDistX;
 	uint32_t	ulDistZ;
 //	pDudes = m_pRealm->m_apthings[CThing::CDudeID];

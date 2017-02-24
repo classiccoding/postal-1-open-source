@@ -291,9 +291,9 @@ int16_t	ConvertToBMP8(RImage* pImage)
 			//         viewed as 4 BYTES  B|G|R|Reserved
 
 			for (i = p555Pal->m_sStartIndex; i < p555Pal->m_sStartIndex + p555Pal->m_sNumEntries; i++)
-				ulpDib[i] = (uint32_t) (((usp555[i] & 0x7c00) << 9) + // Red
-				                     ((usp555[i] & 0x03e0) << 6) + // Green
-											((usp555[i] & 0x001f) << 3)); // Blue
+            ulpDib[i] = (uint32_t) (((usp555[i] & 0x7C00) << 9) + // Red
+                                 ((usp555[i] & 0x03E0) << 6) + // Green
+                                 ((usp555[i] & 0x001F) << 3)); // Blue
 
 			delete p555Pal;
 
@@ -327,9 +327,9 @@ int16_t	ConvertToBMP8(RImage* pImage)
 			//              viewed as 4 BYTES B|G|R|Reserved
 
 			for (i = p565Pal->m_sStartIndex; i < p565Pal->m_sStartIndex + p565Pal->m_sNumEntries; i++)
-				ulpDib[i] = (uint32_t) (((usp565[i] & 0xf800) << 8) + // Red
-				                     ((usp565[i] & 0x07e0) << 5) + // Green
-											((usp565[i] & 0x001f) << 3)); // Blue
+            ulpDib[i] = (uint32_t) (((usp565[i] & 0xF800) << 8) + // Red
+                                 ((usp565[i] & 0x07E0) << 5) + // Green
+                                 ((usp565[i] & 0x001F) << 3)); // Blue
 
 			delete p565Pal;
 
@@ -466,9 +466,9 @@ int16_t	ConvertToBMP24(RImage* pImage)
 					for (c = 0; c < width; c++)
 					{
 						uint32_t ulPixel = ulp32[r*sPitchWidth + c];
-						ucp24[r*pImage->m_lPitch + 3*c+0]	= (uint8_t)  (ulPixel & 0x000000ff);       // Red
-						ucp24[r*pImage->m_lPitch + 3*c+1]	= (uint8_t) ((ulPixel & 0x0000ff00) >> 8); // Green
-				 		ucp24[r*pImage->m_lPitch + 3*c+2]	= (uint8_t) ((ulPixel & 0x00ff0000) >> 16);// Blue
+                  ucp24[r*pImage->m_lPitch + 3*c+0]	= (uint8_t)  (ulPixel & 0x000000FF);       // Red
+                  ucp24[r*pImage->m_lPitch + 3*c+1]	= (uint8_t) ((ulPixel & 0x0000FF00) >> 8); // Green
+                  ucp24[r*pImage->m_lPitch + 3*c+2]	= (uint8_t) ((ulPixel & 0x00FF0000) >> 16);// Blue
 					}
   		
 				RImage::DestroyDetachedData(&pDetachedMem);
@@ -515,9 +515,9 @@ int16_t	ConvertToBMP24(RImage* pImage)
 				for (c = 0; c < width; c++)
 				{
 				 	uint16_t usPixel = usp16[r*sPitchWidth + c];
-					ucp24[r*pImage->m_lPitch + 3*c+2] = (uint8_t) ((usPixel & 0x7c00) >> 7); // Red
-					ucp24[r*pImage->m_lPitch + 3*c+1] = (uint8_t) ((usPixel & 0x03e0) >> 2); // Green
-					ucp24[r*pImage->m_lPitch + 3*c+0] = (uint8_t) ((usPixel & 0x001f) << 3); // Blue
+               ucp24[r*pImage->m_lPitch + 3*c+2] = (uint8_t) ((usPixel & 0x7C00) >> 7); // Red
+               ucp24[r*pImage->m_lPitch + 3*c+1] = (uint8_t) ((usPixel & 0x03E0) >> 2); // Green
+               ucp24[r*pImage->m_lPitch + 3*c+0] = (uint8_t) ((usPixel & 0x001F) << 3); // Blue
 				}
 			 	
 			RImage::DestroyDetachedData(&pDetachedMem);
@@ -554,9 +554,9 @@ int16_t	ConvertToBMP24(RImage* pImage)
 				for (c = 0; c < width; c++)
 				{
 				 	uint16_t usPixel = usp16[r*sPitchWidth + c];
-					ucp24[r*pImage->m_lPitch + 3*c+2] = (uint8_t) ((usPixel & 0xf800) >> 8); // Red
-					ucp24[r*pImage->m_lPitch + 3*c+1] = (uint8_t) ((usPixel & 0x07e0) >> 3); // Green
-					ucp24[r*pImage->m_lPitch + 3*c+0] = (uint8_t) ((usPixel & 0x001f) << 3); // Blue
+               ucp24[r*pImage->m_lPitch + 3*c+2] = (uint8_t) ((usPixel & 0xF800) >> 8); // Red
+               ucp24[r*pImage->m_lPitch + 3*c+1] = (uint8_t) ((usPixel & 0x07E0) >> 3); // Green
+               ucp24[r*pImage->m_lPitch + 3*c+0] = (uint8_t) ((usPixel & 0x001F) << 3); // Blue
 				}
 
 			RImage::DestroyDetachedData(&pDetachedMem);
@@ -682,9 +682,9 @@ int16_t	ConvertToSCREEN8_555(RImage* pImage)
 			//                   viewed as 2 BYTES   G3|B5|x|R5|G2
 
 			for (i = pDibPal->m_sStartIndex; i < pDibPal->m_sStartIndex + pDibPal->m_sNumEntries; i++)
-				usp555[i] = (uint16_t) (((ulpDib[i] & 0x00f80000) >> 9) +	// Red
-							   			 ((ulpDib[i] & 0x0000f800) >> 6) +	// Green
-											 ((ulpDib[i] & 0x000000f8) >> 3));	// Blue
+            usp555[i] = (uint16_t) (((ulpDib[i] & 0x00F80000) >> 9) +	// Red
+                                  ((ulpDib[i] & 0x0000F800) >> 6) +	// Green
+                                  ((ulpDib[i] & 0x000000F8) >> 3));	// Blue
 
 			delete pDibPal;
 
@@ -762,9 +762,9 @@ int16_t ConvertToSCREEN8_565(RImage* pImage)
 			//                   viewed as 2 BYTES   G3|B5|R5|G3
 
 			for (i = pDibPal->m_sStartIndex; i < pDibPal->m_sStartIndex + pDibPal->m_sNumEntries; i++)
-				usp565[i] = (uint16_t) (((ulpDib[i] & 0x00f80000) >> 8) +	// Red
-							   			 ((ulpDib[i] & 0x0000fc00) >> 5) +	// Green
-											 ((ulpDib[i] & 0x000000f8) >> 3));	// Blue
+            usp565[i] = (uint16_t) (((ulpDib[i] & 0x00F80000) >> 8) +	// Red
+                                  ((ulpDib[i] & 0x0000FC00) >> 5) +	// Green
+                                  ((ulpDib[i] & 0x000000F8) >> 3));	// Blue
 
 			delete pDibPal;
 
@@ -934,9 +934,9 @@ int16_t ConvertToSCREEN16_555(RImage* pImage)
 				for (c = 0; c < width; c++)
 				{
 					ucIndex = ucp8[r*pitch + c];
-					usp16[r*dPitch + c] = (uint16_t) (((ulpPal[ucIndex] & 0x00f80000) >> 9) + // Red
-					                                ((ulpPal[ucIndex] & 0x0000f800) >> 6) + // Green
-															  ((ulpPal[ucIndex] & 0x000000f8) >> 3)); // Blue
+               usp16[r*dPitch + c] = (uint16_t) (((ulpPal[ucIndex] & 0x00F80000) >> 9) + // Red
+                                               ((ulpPal[ucIndex] & 0x0000F800) >> 6) + // Green
+                                               ((ulpPal[ucIndex] & 0x000000F8) >> 3)); // Blue
 				}
 
 			RImage::DestroyDetachedData(&pDetachedMemory);
@@ -973,9 +973,9 @@ int16_t ConvertToSCREEN16_555(RImage* pImage)
 			for (r = 0 ; r < height; r++)
 				for (c = 0; c < width; c++)
 				 	usp16[r*dPitch + c] = (uint16_t) (
-				 								 ((((uint16_t) ucp24[r*sPitch + 3*c+2]) & 0x00f8) << 7) + // Red
-												 ((((uint16_t) ucp24[r*sPitch + 3*c+1]) & 0x00f8) << 2) + // Green
-												 ((((uint16_t) ucp24[r*sPitch + 3*c+0]) & 0x00f8) >> 3)); // Blue
+                                     ((((uint16_t) ucp24[r*sPitch + 3*c+2]) & 0x00F8) << 7) + // Red
+                                     ((((uint16_t) ucp24[r*sPitch + 3*c+1]) & 0x00F8) << 2) + // Green
+                                     ((((uint16_t) ucp24[r*sPitch + 3*c+0]) & 0x00F8) >> 3)); // Blue
 			 	
 			RImage::DestroyDetachedData(&pDetachedMem);
 
@@ -1075,9 +1075,9 @@ int16_t ConvertToSCREEN16_565(RImage* pImage)
 				for (c = 0; c < width; c++)
 				{
 					ucIndex = ucp8[r*pitch + c];
-					usp16[r*dPitch + c] = (uint16_t) (((ulpPal[ucIndex] & 0x00f80000) >> 8) + // Red
-					                                ((ulpPal[ucIndex] & 0x0000fc00) >> 5) + // Green
-											   			  ((ulpPal[ucIndex] & 0x000000f8) >> 3)); // Blue
+               usp16[r*dPitch + c] = (uint16_t) (((ulpPal[ucIndex] & 0x00F80000) >> 8) + // Red
+                                               ((ulpPal[ucIndex] & 0x0000FC00) >> 5) + // Green
+                                               ((ulpPal[ucIndex] & 0x000000F8) >> 3)); // Blue
 				}
 
 			RImage::DestroyDetachedData(&pDetachedMem);
@@ -1114,9 +1114,9 @@ int16_t ConvertToSCREEN16_565(RImage* pImage)
 			for (r = 0 ; r < height; r++)
 				for (c = 0; c < width; c++)  
 					usp16[r*dPitch + c] = (uint16_t) (
-													((((uint16_t) ucp24[r*sPitch + 3*c+2]) & 0x00f8) << 8) + // Red
-													((((uint16_t) ucp24[r*sPitch + 3*c+1]) & 0x00fc) << 3) + // Green
-													((((uint16_t) ucp24[r*sPitch + 3*c+0]) & 0x00f8) >> 3)); // Blue
+                                       ((((uint16_t) ucp24[r*sPitch + 3*c+2]) & 0x00F8) << 8) + // Red
+                                       ((((uint16_t) ucp24[r*sPitch + 3*c+1]) & 0x00FC) << 3) + // Green
+                                       ((((uint16_t) ucp24[r*sPitch + 3*c+0]) & 0x00F8) >> 3)); // Blue
   	
 			RImage::DestroyDetachedData(&pDetachedMem);
 
@@ -1217,9 +1217,9 @@ int16_t ConvertToSCREEN24_RGB(RImage* pImage)
 				for (c = 0; c < width; c++)
 				{
 					ulColor = ulPal[ucp8[r*sPitch + c]];
-					ucp24[r*dPitch + 3*c+0] = (uint8_t) (ulColor & 0x000000ff);
-					ucp24[r*dPitch + 3*c+1] = (uint8_t) ((ulColor & 0x0000ff00) / 0x100);
-					ucp24[r*dPitch + 3*c+2] = (uint8_t) ((ulColor & 0x00ff0000) / 0x10000);
+               ucp24[r*dPitch + 3*c+0] = (uint8_t) (ulColor & 0x000000FF);
+               ucp24[r*dPitch + 3*c+1] = (uint8_t) ((ulColor & 0x0000FF00) / 0x100);
+               ucp24[r*dPitch + 3*c+2] = (uint8_t) ((ulColor & 0x00FF0000) / 0x10000);
 				}
 		
 			RImage::DestroyDetachedData(&pDetachedMem);

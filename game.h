@@ -527,7 +527,7 @@ extern uint32_t Flag_Achievements;
 #define FLAG_USED_HEATSEEKER      (1<<12)
 #define FLAG_USED_SPRAY_CANNON    (1<<13)
 #define FLAG_USED_DEATHWAD        (1<<14)
-#define FLAG_MASK_WEAPONS         0x3bfb // everything but dbl_shotgun, remote_mine and deathwad //((1<<15)-1)
+#define FLAG_MASK_WEAPONS         0x3BFB // everything but dbl_shotgun, remote_mine and deathwad //((1<<15)-1)
 
 #define FLAG_USED_CHEATS          (1<<15)
 #define FLAG_KILLED_EVERYTHING    (1<<16)

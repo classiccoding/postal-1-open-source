@@ -735,10 +735,10 @@ int16_t RPal::GetEntries(
 			// To avoid endian issues this was done by bytes instead of words!
 			while (sCount--)
 				{
-				*pDstRed = (*pucSrc << 1) & 0xf8;
-				green = (*pucSrc++ << 6) & 0xc0;
+            *pDstRed = (*pucSrc << 1) & 0xF8;
+            green = (*pucSrc++ << 6) & 0xC0;
 				*pDstGreen = green | ((*pucSrc >> 2) & 0x38);
-				*pDstBlue = (*pucSrc++ << 3) & 0xf8;
+            *pDstBlue = (*pucSrc++ << 3) & 0xF8;
 				pDstRed   += lAddToPointers;
 				pDstGreen += lAddToPointers;
 				pDstBlue  += lAddToPointers;
@@ -750,10 +750,10 @@ int16_t RPal::GetEntries(
 			// To avoid endian issues this was done by bytes instead of words!
 			while (sCount--)
 				{
-				*pDstRed = *pucSrc & 0xf8;
-				green = (*pucSrc++ << 5) & 0xe0;
-				*pDstGreen = green | ((*pucSrc >> 3) & 0x1c);
-				*pDstBlue = (*pucSrc++ << 3) & 0xf8;
+            *pDstRed = *pucSrc & 0xF8;
+            green = (*pucSrc++ << 5) & 0xE0;
+            *pDstGreen = green | ((*pucSrc >> 3) & 0x1C);
+            *pDstBlue = (*pucSrc++ << 3) & 0xF8;
 				pDstRed   += lAddToPointers;
 				pDstGreen += lAddToPointers;
 				pDstBlue  += lAddToPointers;
@@ -889,8 +889,8 @@ int16_t RPal::SetEntries(
 			// To avoid endian issues this was done by bytes instead of words!
 			while (sCount--)
 				{
-				*pucDst++ = ((*pSrcRed >> 1) & 0x7c) | ((*pSrcGreen >> 6) & 0x03);
-				*pucDst++ = ((*pSrcGreen << 2) & 0xe0) | ((*pSrcBlue >> 3) & 0x1f);
+            *pucDst++ = ((*pSrcRed >> 1) & 0x7C) | ((*pSrcGreen >> 6) & 0x03);
+            *pucDst++ = ((*pSrcGreen << 2) & 0xE0) | ((*pSrcBlue >> 3) & 0x1F);
 				pSrcRed   += lAddToPointers;
 				pSrcGreen += lAddToPointers;
 				pSrcBlue  += lAddToPointers;
@@ -902,8 +902,8 @@ int16_t RPal::SetEntries(
 			// To avoid endian issues this was done by bytes instead of words!
 			while (sCount--)
 				{
-				*pucDst++ = (*pSrcRed & 0xf8) | ((*pSrcGreen >> 5) & 0x07);
-				*pucDst++ = ((*pSrcGreen << 3) & 0xe0) | ((*pSrcBlue >> 3) & 0x1f);
+            *pucDst++ = (*pSrcRed & 0xF8) | ((*pSrcGreen >> 5) & 0x07);
+            *pucDst++ = ((*pSrcGreen << 3) & 0xE0) | ((*pSrcBlue >> 3) & 0x1F);
 				pSrcRed   += lAddToPointers;
 				pSrcGreen += lAddToPointers;
 				pSrcBlue  += lAddToPointers;
