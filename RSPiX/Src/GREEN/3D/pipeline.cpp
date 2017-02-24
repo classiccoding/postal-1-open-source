@@ -104,9 +104,9 @@ int16_t RPipeLine::CreateShadow(int16_t sAngleY,
 	// Create the shadow transform:
 	m_tShadow.Make1();
 	m_dShadowScale = dTanDeclension;
-	m_tShadow.T[1 + ROW0] = m_dShadowScale * rspCos(sAngleY);
+   m_tShadow.T[1 + ROW0] = float(m_dShadowScale * rspCos(sAngleY));
 	m_tShadow.T[1 + ROW1] = 0.0;
-	m_tShadow.T[1 + ROW2] = m_dShadowScale * rspSin(sAngleY);
+   m_tShadow.T[1 + ROW2] = float(m_dShadowScale * rspSin(sAngleY));
 
 	// Allocate the buffer, if applicable:
 	if (sBufSize <= 0)	// default case:
@@ -426,8 +426,8 @@ void RPipeLine::BoundingSphereToScreen(RP3d& ptCenter, RP3d& ptRadius,
 	m_sY = m_sCenY - sScreenRadius;
 	m_sZ = m_sCenZ - sScreenRadius;
 
-	m_sW = m_sH = (sScreenRadius * 2.);
-	m_sD = (sScreenRadius * 2.);
+   m_sW = m_sH = (sScreenRadius * 2);
+   m_sD = (sScreenRadius * 2);
 
 	m_sUseBoundingRect = TRUE;
 	}
