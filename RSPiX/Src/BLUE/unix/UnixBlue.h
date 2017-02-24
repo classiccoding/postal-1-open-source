@@ -443,7 +443,7 @@ extern void rspCacheDirtyRect(
 	int16_t sWidth,				// Width of area to update
 	int16_t sHeight);				// Height of area to update
 
-extern void rspKeyRepeat(int bEnable);
+extern void rspKeyRepeat(bool bEnable);
 
 extern void rspPresentFrame(void);
 

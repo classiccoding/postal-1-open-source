@@ -469,7 +469,7 @@ extern int32_t rspGetToggleKeyStates(void)	// Returns toggle key state flags.
 	}
 
 
-extern void rspKeyRepeat(int bEnable)
+extern void rspKeyRepeat(bool bEnable)
 {
     sdlKeyRepeat = bEnable;
 }
