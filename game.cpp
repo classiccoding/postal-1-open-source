@@ -639,9 +639,9 @@ extern bool EnableSteamCloud;
 
 #define CHECK_FOR_ASSETS_FILENAME	"res/res.sak"
 #define CHECK_FOR_POSTALSD_FILENAME "res/hoods/ezmart.sak"
-#define COOKIE_VALUE						0x9504cc39 //0xb5cf76dd
+#define COOKIE_VALUE						0x9504CC39 //0xB5CF76DD
 #define COOKIE_FILE_POSITION			289546856 //323290320  
-#define COOKIE_XOR_MASK					0x6afb39e5 //0x66666666
+#define COOKIE_XOR_MASK					0x6AFB39E5 //0x66666666
 
 // Exponent used to define gamma curve.
 #define GAMMA_EXPONENT					1.50
@@ -3842,40 +3842,40 @@ static void GameGetRegistry(void)
 	// This is the encoded path name of the registry key where the value is stored
 	szKey[0] = 0x07;
 	szKey[1] = 0x29;
-	szKey[2] = 0xbd;
-	szKey[3] = 0x3a;
-	szKey[4] = 0xba;
+   szKey[2] = 0xBD;
+   szKey[3] = 0x3A;
+   szKey[4] = 0xBA;
 	szKey[5] = 0x22;
-	szKey[6] = 0xbe;
+   szKey[6] = 0xBE;
 	szKey[7] = 0x36;
-	szKey[8] = 0xf5;
+   szKey[8] = 0xF5;
 	szKey[9] = 0x22;
-	szKey[10] = 0xfb;
+   szKey[10] = 0xFB;
 	szKey[11] = 0x24;
-	szKey[12] = 0xd0;
-	szKey[13] = 0x3a;
-	szKey[14] = 0xd4;
+   szKey[12] = 0xD0;
+   szKey[13] = 0x3A;
+   szKey[14] = 0xD4;
 	szKey[15] = 0x71;
-	szKey[16] = 0xcb;
-	szKey[17] = 0x3e;
-	szKey[18] = 0xd5;
-	szKey[19] = 0x2a;
-	szKey[20] = 0xec;
+   szKey[16] = 0xCB;
+   szKey[17] = 0x3E;
+   szKey[18] = 0xD5;
+   szKey[19] = 0x2A;
+   szKey[20] = 0xEC;
 	szKey[21] = 0x29;
 	szKey[22] = 0x89;
 	szKey[23] = 0x30;
-	szKey[24] = 0x8f;
+   szKey[24] = 0x8F;
 	szKey[25] = 0x78;
 	szKey[26] = 0x83;
 	szKey[27] = 0x66;
-	szKey[28] = 0xb4;
+   szKey[28] = 0xB4;
 	szKey[29] = 0x40;
 	szKey[30] = 0x86;
 	szKey[31] = 0x66;
-	szKey[32] = 0x8f;
+   szKey[32] = 0x8F;
 	szKey[33] = 0x71;
 	szKey[34] = 0x9b;
-	szKey[35] = 0xfe;
+   szKey[35] = 0xFE;
 	szKey[36] = 0x00;
 
 #ifdef WIN32
@@ -3893,13 +3893,13 @@ static void GameGetRegistry(void)
 	// This is the encoded name of the registry value itendifier
 	szIn[0] = 0x07;
 	szIn[1] = 0x29;
-	szIn[2] = 0xa8;
-	szIn[3] = 0x0f;
-	szIn[4] = 0xa7;
-	szIn[5] = 0x0c;
-	szIn[6] = 0xa8;
-	szIn[7] = 0x0e;
-	szIn[8] = 0xfd;
+   szIn[2] = 0xA8;
+   szIn[3] = 0x0F;
+   szIn[4] = 0xA7;
+   szIn[5] = 0x0C;
+   szIn[6] = 0xA8;
+   szIn[7] = 0x0E;
+   szIn[8] = 0xFD;
 	szIn[9] = 0x00;
 
 
@@ -3914,7 +3914,7 @@ static void GameGetRegistry(void)
                   "", 	REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr,
 						&hkResult, &dwDisposition);
 	// Destroy the source and result.
-	memset(szName, 0xeb, sEncryptedKeyLength);
+   memset(szName, 0xEB, sEncryptedKeyLength);
 
 	if (lError == ERROR_SUCCESS && lTime > g_lReleaseTime)
 	{
@@ -3926,7 +3926,7 @@ static void GameGetRegistry(void)
 			Decrypt((char*) szIn, szName, sEncryptedValueLength);
 			szName[sEncryptedValueLength-2] = 0;
 			RegSetValueEx(hkResult, szName, 0, REG_BINARY, (uint8_t *) szTimeEncrypt, dwTimeLength); 
-			memset(szName, 0xeb, sEncryptedValueLength);
+         memset(szName, 0xEB, sEncryptedValueLength);
 			g_lRegTime = lTime;
 		}
 		else
@@ -4055,41 +4055,41 @@ static void GameSetRegistry(void)
 	uint8_t szKey[40];
 
 	szKey[0] = 0x00;
-	szKey[1] = 0x3e;
-	szKey[2] = 0xde;
+   szKey[1] = 0x3E;
+   szKey[2] = 0xDE;
 	szKey[3] = 0x28;
-	szKey[4] = 0xda;
+   szKey[4] = 0xDA;
 	szKey[5] = 0x46;
-	szKey[6] = 0xdd;
+   szKey[6] = 0xDD;
 	szKey[7] = 0x57;
-	szKey[8] = 0xc2;
+   szKey[8] = 0xC2;
 	szKey[9] = 0x34;
-	szKey[10] = 0xc4;
+   szKey[10] = 0xC4;
 	szKey[11] = 0x32;
-	szKey[12] = 0xe8;
-	szKey[13] = 0x3f;
-	szKey[14] = 0xf8;
-	szKey[15] = 0x2c;
-	szKey[16] = 0xe8;
-	szKey[17] = 0x3e;
-	szKey[18] = 0xe8;
-	szKey[19] = 0x2a;
-	szKey[20] = 0xdc;
+   szKey[12] = 0xE8;
+   szKey[13] = 0x3F;
+   szKey[14] = 0xF8;
+   szKey[15] = 0x2C;
+   szKey[16] = 0xE8;
+   szKey[17] = 0x3E;
+   szKey[18] = 0xE8;
+   szKey[19] = 0x2A;
+   szKey[20] = 0xDC;
 	szKey[21] = 0x03;
-	szKey[22] = 0xff;
+   szKey[22] = 0xFF;
 	szKey[23] = 0x14;
-	szKey[24] = 0xfb;
+   szKey[24] = 0xFB;
 	szKey[25] = 0x18;
-	szKey[26] = 0xfe;
-	szKey[27] = 0x1f;
-	szKey[28] = 0xc9;
+   szKey[26] = 0xFE;
+   szKey[27] = 0x1F;
+   szKey[28] = 0xC9;
 	szKey[29] = 0x35;
-	szKey[30] = 0xe0;
+   szKey[30] = 0xE0;
 	szKey[31] = 0x02;
-	szKey[32] = 0xea;
+   szKey[32] = 0xEA;
 	szKey[33] = 0x09;
-	szKey[34] = 0xf1;
-	szKey[35] = 0xf5;
+   szKey[34] = 0xF1;
+   szKey[35] = 0xF5;
 	szKey[36] = 0x00;
 
 #ifdef WIN32
@@ -4106,13 +4106,13 @@ static void GameSetRegistry(void)
 
 	szIn[0] = 0x07;
 	szIn[1] = 0x29;
-	szIn[2] = 0xa8;
-	szIn[3] = 0x0f;
-	szIn[4] = 0xa7;
-	szIn[5] = 0x0c;
-	szIn[6] = 0xa8;
-	szIn[7] = 0x0e;
-	szIn[8] = 0xfd;
+   szIn[2] = 0xA8;
+   szIn[3] = 0x0F;
+   szIn[4] = 0xA7;
+   szIn[5] = 0x0C;
+   szIn[6] = 0xA8;
+   szIn[7] = 0x0E;
+   szIn[8] = 0xFD;
 	szIn[9] = 0x00;
 
 
@@ -4125,7 +4125,7 @@ static void GameSetRegistry(void)
 	lError = RegCreateKeyEx(HKEY_LOCAL_MACHINE, szName, 0,
                   "", 	REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr,
 						&hkResult, &dwDisposition);
-	memset(szName, 0xea, sEncryptedKeyLength);
+   memset(szName, 0xEA, sEncryptedKeyLength);
 
 	if (lError == ERROR_SUCCESS)
 	{
@@ -4134,7 +4134,7 @@ static void GameSetRegistry(void)
 		Decrypt((char*) szIn, szName, sEncryptedValueLength);
 		szName[sEncryptedValueLength-2] = 0;
 		RegSetValueEx(hkResult, szName, 0, REG_BINARY, (uint8_t *) szTimeEncrypt, dwTimeLength); 
-		memset(szIn, 0xee, sEncryptedValueLength);
+      memset(szIn, 0xEE, sEncryptedValueLength);
 		RegCloseKey(hkResult);
 	}
 	else
@@ -4208,7 +4208,7 @@ extern void SeedRand(
    extern int32_t GetRandomDebug(const char* FILE_MACRO, size_t LINE_MACRO)
 		{
 		// Get next random number
-      int32_t lNewVal = (((m_lRandom = m_lRandom * 214013L + 2531011L) >> 16) & 0x7fff);
+      int32_t lNewVal = (((m_lRandom = m_lRandom * 214013L + 2531011L) >> 16) & 0x7FFF);
 
 		if (m_pfileRandom)
 			{
@@ -4265,7 +4265,7 @@ extern void SeedRand(
 	extern int32_t GetRandom(void)
 		{
 		// Get next random number
-		return (((m_lRandom = m_lRandom * 214013L + 2531011L) >> 16) & 0x7fff);
+      return (((m_lRandom = m_lRandom * 214013L + 2531011L) >> 16) & 0x7FFF);
 		}
 #endif	// defined(_DEBUG) || defined(TRACENASSERT).
 

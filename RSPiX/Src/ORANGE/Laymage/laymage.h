@@ -53,7 +53,7 @@
 //////////////////////////////////////////////////////////////////////
 
 
-#define LAYMAGE_COOKIE	0x204c4d49	// Looks like "IML " in the file
+#define LAYMAGE_COOKIE	0x204C4d49	// Looks like "IML " in the file
 #define LAYMAGE_CURRENT_VERSION 1	// Current file version.  Change
 												// This number and die!  No, not
 												// really, change this number if

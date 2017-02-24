@@ -199,7 +199,7 @@ class CChunk : public CThing
 		// GetRand().
 		static int32_t GetChunkRand(void)
 			{
-			return (((ms_lGetRandomSeed = ms_lGetRandomSeed * 214013L + 2531011L) >> 16) & 0x7fff);
+         return (((ms_lGetRandomSeed = ms_lGetRandomSeed * 214013L + 2531011L) >> 16) & 0x7FFF);
 			}
 
 	//---------------------------------------------------------------------------

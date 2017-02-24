@@ -1524,7 +1524,7 @@ int16_t CDispenser::GetClosestDudeDistance(	// Returns 0 on success.  Fails, if 
 	int16_t sResult = FAILURE;	// Assume no dude found.
 
 	uint32_t	ulSqrDistance;
-	uint32_t	ulCurSqrDistance	= 0xFFFFFFFF;
+   uint32_t	ulCurSqrDistance	= UINT32_MAX;
 	uint32_t	ulDistX;
 	uint32_t	ulDistZ;
 	CDude*	pdude;

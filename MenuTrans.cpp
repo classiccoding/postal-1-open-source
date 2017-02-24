@@ -84,9 +84,9 @@
 
 // Define number of shades along with mask that will create that many shades
 //#define NUM_SHADES				32
-//#define SHADE_MASK				0xf8
+//#define SHADE_MASK				0xF8
 #define NUM_SHADES				16
-#define SHADE_MASK				0xf0
+#define SHADE_MASK				0xF0
 
 // Define range of palette indices to be affected (inclusive).
 // THIS RANGE MUST BE AT LEAST TWICE AS LARGE AS NUM_SHADES!!!

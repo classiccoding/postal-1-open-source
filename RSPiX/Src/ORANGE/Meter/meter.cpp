@@ -79,7 +79,7 @@
 #define BORDER_THICKNESS	1
 
 #define INIT_MAX	0
-#define INIT_MIN	0x7FFFFFFF
+#define INIT_MIN	INT32_MAX
 
 //////////////////////////////////////////////////////////////////////////////
 // Module specific typedefs.

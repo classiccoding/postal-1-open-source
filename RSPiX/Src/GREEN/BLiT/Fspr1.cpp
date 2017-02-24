@@ -83,7 +83,7 @@ ConversionInfoFSPR1 gFSPR1 =
    (int16_t) -1,
    (int16_t) -1,
    (RImage**) nullptr,
-   (uint32_t) 0xffffff01,	// And the color to the correct depth
+   (uint32_t) 0xFFFFFF01,	// And the color to the correct depth
    (uint32_t) 0,
    (int16_t)  0,
    (int16_t)  TRUE
@@ -206,7 +206,7 @@ int16_t ConvertToFSPR1(RImage* pImage)
 	uint8_t*	pCode = pCodeBuf;
 	int32_t	lP =  pImage->m_lPitch;
 	uint8_t	*pBuf,*pBufLine = pImage->m_pData + sX + lP*sY; // 8-bit for now!
-	uint8_t	ucTranCol = (uint8_t) (gFSPR1.u32TransparentColor & 0xff); // 8-bit for now!
+   uint8_t	ucTranCol = (uint8_t) (gFSPR1.u32TransparentColor & 0xFF); // 8-bit for now!
 	int16_t sLineLen,sLineW = sW;
 	int16_t y;
 

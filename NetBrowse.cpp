@@ -192,10 +192,10 @@ void CNetBrowse::Update(
 			// is the same, that entity will get the same value that it sent.  All
 			// other entities will see this as a meaningless value, which is fine.
 			host.m_lMagic =
-				((int32_t)buf[4] & 0x000000ff) +
-				(((int32_t)buf[5] <<  8) & 0x0000ff00) +
-				(((int32_t)buf[6] << 16) & 0x00ff0000) +
-				(((int32_t)buf[7] << 24) & 0xff000000);
+            ((int32_t)buf[4] & 0x000000FF) +
+            (((int32_t)buf[5] <<  8) & 0x0000FF00) +
+            (((int32_t)buf[6] << 16) & 0x00FF0000) +
+            (((int32_t)buf[7] << 24) & 0xFF000000);
 
 			// Copy the name
 			strncpy(host.m_acName, (char*)&buf[8], sizeof(host.m_acName));

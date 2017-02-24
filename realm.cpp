@@ -2250,7 +2250,7 @@ int16_t CRealm::GetFloorAttribute(int16_t sX, int16_t sZ)
 
 // Get the floor value at an x/z position.
 // sMask, if off map.
-int16_t CRealm::GetFloorMapValue(int16_t sX, int16_t sZ, int16_t sMask/* = 0x007f*/)
+int16_t CRealm::GetFloorMapValue(int16_t sX, int16_t sZ, int16_t sMask/* = 0x007F*/)
 	{
 	// Scale the Z based on the view angle.
 	::MapZ3DtoY2D(sZ, &sZ, m_phood->GetRealmRotX() );

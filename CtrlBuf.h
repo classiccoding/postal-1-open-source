@@ -55,7 +55,7 @@ class CCtrlBuf
 		enum
 			{
 			MaxBufEntries = 256,
-			InvalidEntry = 0xffffffff
+         InvalidEntry = UINT32_MAX
 			};
 
 	//------------------------------------------------------------------------------

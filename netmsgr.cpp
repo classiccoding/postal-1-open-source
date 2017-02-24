@@ -217,7 +217,7 @@ bool CNetMsgr::GetMsg(									// True if message was available, false otherwise
 						else
 							{
 							// Set fake message size so we'll realize message is not available
-							lMsgSize = 0x7fffffff;
+                     lMsgSize = 0x7FFFFFFF;
 							}
                   }
 

@@ -261,8 +261,8 @@ uint16_t RAttributeMap::GetAttribute(long lX, long lY)
 		return ATTRIBUTE_NOT_WALKABLE;
 
 	m_usLastAttribute = m_pusMap[(lY/m_sScaleY)*m_lWidth + (lX/m_sScaleX)];
-	m_ucFlags = (uint8_t) (m_usLastAttribute & 0x00ff);
-	m_ucMinHeight = m_ucMaxHeight = (uint8_t) ((m_usLastAttribute & 0xff00) >> 8);
+   m_ucFlags = (uint8_t) (m_usLastAttribute & 0x00FF);
+   m_ucMinHeight = m_ucMaxHeight = (uint8_t) ((m_usLastAttribute & 0xFF00) >> 8);
 
 	return m_usLastAttribute;
 }
@@ -281,15 +281,15 @@ uint16_t RAttributeMap::GetAttribute(int32_t lX, int32_t lY)
 	if (usBlockData & 0x8000)
 	// Lookup the value for this pixel
 	{
-		m_usLastAttribute = m_pusDetailMap[((usBlockData & 0x7fff) * m_sBlockDataSize) + (((lY % m_sScaleY)*m_sScaleY) + (lX % m_sScaleX))];
-		m_ucFlags = (uint8_t) ((m_usLastAttribute & 0xff00) >> 8);
-		m_ucMinHeight = m_ucMaxHeight = (uint8_t) (m_usLastAttribute & 0x00ff); 
+      m_usLastAttribute = m_pusDetailMap[((usBlockData & 0x7FFF) * m_sBlockDataSize) + (((lY % m_sScaleY)*m_sScaleY) + (lX % m_sScaleX))];
+      m_ucFlags = (uint8_t) ((m_usLastAttribute & 0xFF00) >> 8);
+      m_ucMinHeight = m_ucMaxHeight = (uint8_t) (m_usLastAttribute & 0x00FF);
 	}
 	else
 	{
 		m_usLastAttribute = usBlockData;
-		m_ucFlags = (uint8_t) ((usBlockData & 0xff00) >> 8);
-		m_ucMinHeight = m_ucMaxHeight = (uint8_t) (usBlockData & 0x00ff);
+      m_ucFlags = (uint8_t) ((usBlockData & 0xFF00) >> 8);
+      m_ucMinHeight = m_ucMaxHeight = (uint8_t) (usBlockData & 0x00FF);
 	}
 	return m_usLastAttribute;		
 }	
@@ -372,11 +372,11 @@ uint16_t RAttributeMap::GetAttribute(long lTopCoord, long lBottomCoord,
 			usMax = MAX(usMax, usAttrib);
 		}
 
-	m_ucFlags = (uint8_t) (usFlags & 0x00ff);
+   m_ucFlags = (uint8_t) (usFlags & 0x00FF);
 	m_ucMinHeight = (uint8_t) (usMin >> 8);
 	m_ucMaxHeight = (uint8_t) (usMax >> 8);
 
-	usResult = (usMax & 0xff00) | (usFlags & 0x00ff);
+   usResult = (usMax & 0xFF00) | (usFlags & 0x00FF);
 
 	return usResult;
 }
@@ -422,24 +422,24 @@ uint16_t RAttributeMap::GetAttribute(int32_t lTopCoord, int32_t lBottomCoord,
 			if (usAttrib & 0x8000)
 			// Lookup the value in the detail map
 			{
-				usAttrib = m_pusDetailMap[((usAttrib & 0x7fff) * m_sBlockDataSize) +
+            usAttrib = m_pusDetailMap[((usAttrib & 0x7FFF) * m_sBlockDataSize) +
 				                          (((lRow % m_sScaleY) * m_sScaleX) +
 												  (lCol % m_sScaleX))];
 				usFlags |= usAttrib;
-				cMax = MAX(cMax, (char) (usAttrib & 0x00ff));
+            cMax = MAX(cMax, (char) (usAttrib & 0x00FF));
 			}
 			else
 			// Get the attribute for this whole block
 			{
-				usAttrib &= 0x7fff;
+            usAttrib &= 0x7FFF;
 				usFlags |= usAttrib;
-				cMax = MAX(cMax, (char) (usAttrib & 0x00ff));
+            cMax = MAX(cMax, (char) (usAttrib & 0x00FF));
 				// Skip to next block since these are all the same
 				lCol += m_sScaleX - (lCol % m_sScaleX);
 			}
 		}
 
-	usResult = (usFlags & 0xff00) | (uint8_t) cMax;
+   usResult = (usFlags & 0xFF00) | (uint8_t) cMax;
 
 	return usResult;
 }

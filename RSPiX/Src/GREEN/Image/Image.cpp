@@ -508,7 +508,7 @@ int16_t RImage::sCreateAlignedMem(void **hMem, void **hData, size_t ulSize)
 			else
 			{
             // Set Data buffer to 128-bit alignment (now with platform independence!)
-            *hData = reinterpret_cast<void*>((uintptr_t(*hMem) + 0x0f) & ~uintptr_t(0xf));
+            *hData = reinterpret_cast<void*>((uintptr_t(*hMem) + 0x0F) & ~uintptr_t(0xF));
 				// success		 	
 				return SUCCESS;
 			}

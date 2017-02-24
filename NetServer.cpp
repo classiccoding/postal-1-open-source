@@ -216,10 +216,10 @@ void CNetServer::Update(void)
 				buf2[1] = Net::BroadcastMagic1;
 				buf2[2] = Net::BroadcastMagic2;
 				buf2[3] = Net::BroadcastMagic3;
-				buf2[4] = (uint8_t)(m_lHostMagic & 0xff);
-				buf2[5] = (uint8_t)((m_lHostMagic >>  8) & 0xff);
-				buf2[6] = (uint8_t)((m_lHostMagic >> 16) & 0xff);
-				buf2[7] = (uint8_t)((m_lHostMagic >> 24) & 0xff);
+            buf2[4] = (uint8_t)(m_lHostMagic & 0xFF);
+            buf2[5] = (uint8_t)((m_lHostMagic >>  8) & 0xFF);
+            buf2[6] = (uint8_t)((m_lHostMagic >> 16) & 0xFF);
+            buf2[7] = (uint8_t)((m_lHostMagic >> 24) & 0xFF);
 				strncpy((char*)&buf2[8], m_acHostName, sizeof(m_acHostName));
 
 				// Send the message directly to the sender of the previous message
@@ -644,14 +644,14 @@ void CNetServer::GetMsg(
 						uint16_t mask = 0;
 						for (id2 = 0; id2 < Net::MaxNumIDs; id2++)
 							{
-							mask = (mask >> 1) & 0x7fff;
+                     mask = (mask >> 1) & INT16_MAX;
 							if (m_aClients[id2].m_state == CClient::Joined)
 								{
 								sNumExpected++;
 								if (m_aClients[id2].m_bSentReadyRealm)
 									{
 									sNumReady++;
-									mask |= 0x8000;
+                           mask |= INT16_MIN;
 									}
 								}
 							}

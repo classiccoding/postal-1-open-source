@@ -1117,7 +1117,7 @@ int16_t RLaymage::ConvertToImage(int16_t sLayerNum, uint32_t ulTop, uint32_t ulB
 		// the outer regions will match.
 		uint32_t* pu32 = (uint32_t*) pImage->m_pData;
 		for (i = 0; i < pImage->m_ulSize / 4; i++)
-			pu32[i] = 0x00ffffff;
+         pu32[i] = 0x00FFFFFF;
 		pImage->m_type = pImage->m_typeDestination = RImage::SCREEN32_ARGB;
 		pImage->m_sWidth = (int16_t)m_lWidth;
 		pImage->m_sHeight = (int16_t)m_lHeight;	
