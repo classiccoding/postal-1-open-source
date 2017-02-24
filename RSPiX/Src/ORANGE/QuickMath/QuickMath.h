@@ -104,8 +104,60 @@ inline float rspfCos(int16_t sDeg)
   return fCOSQ[sDeg];
 }
 
-extern int16_t rspATan(int16_t sDeltaY, int16_t sDeltaX);
-extern int16_t rspATan(double dVal);
+template<typename T>
+int16_t rspATan(T sDeltaY,T sDeltaX)
+{
+  // absolute versions
+  T sDelX = ABS(sDeltaX);
+  T sDelY = ABS(sDeltaY);
+  int16_t sDeg;
+
+  if (sDelY <= sDelX)
+  {
+    if (sDelX)
+      sDeg = ATANQ[int32_t(0.5 + (rspRadToDeg * sDelY) / sDelX)];
+    else
+      sDeg = 90;
+  }
+  else
+  {
+    if (sDelY)
+      sDeg = 90 - ATANQ[int32_t(0.5 + (rspRadToDeg * sDelX) / sDelY)];
+    else
+      sDeg = 90;
+  }
+
+  // Keep in bounds
+  if (sDeltaX < 0)
+    sDeg = 180 - sDeg;
+  if (sDeltaY < 0)
+    sDeg = 360 - sDeg;
+  if (sDeg == 360)
+    sDeg = 0;
+
+  return sDeg;
+}
+
+template<typename T>
+int16_t rspATan(T dVal)
+{
+  // absolute versions
+  T dAbsVal = ABS(dVal);
+  int16_t sDeg;
+
+  if (dAbsVal <= 1.0)
+    sDeg = ATANQ[int32_t(0.5 + rspRadToDeg * dAbsVal)];
+  else
+    sDeg = 90 - ATANQ[int32_t(0.5 + rspRadToDeg  / dAbsVal)];
+
+  // Keep in bounds
+  if (dVal < 0.0)
+    sDeg = 360 - sDeg;
+  if (sDeg == 360)
+    sDeg = 0;
+
+  return sDeg;
+}
 
 inline double rspDegDelta(double sDegSrc, double sDegDst)
 {
