@@ -301,9 +301,9 @@ void instantiateLasso()
 {
   RImage* pim = nullptr;
   int16_t i = 0;
-  rspLasso<uint8_t >( i, pim, i,i,i,i, 1,1,1,1);
-  rspLasso<uint16_t>( i, pim, i,i,i,i, 1,1,1,1);
-  rspLasso<uint32_t>( i, pim, i,i,i,i, 1,1,1,1);
+  rspLasso<uint8_t >( 0, pim, i,i,i,i, 1,1,1,1);
+  rspLasso<uint16_t>( 0, pim, i,i,i,i, 1,1,1,1);
+  rspLasso<uint32_t>( 0, pim, i,i,i,i, 1,1,1,1);
 }
 
 
