@@ -233,20 +233,20 @@ RTexture::Adjust(
 	ASSERT(m_pColors);
 	ASSERT(fAdjustment >= 0.0f);
 
-#define CLAMP8BIT(u8Color, fColor)	( (u8Color) = ( (fColor) < 0xFF) ? (fColor) + 0.5f : 0xFF)
+#define CLAMP8BIT(u8Color, fColor)	u8Color = fColor < 0xFF ? uint8_t(fColor + 0.5f) : 0xFF
 
 	RPixel32*	ppix	= m_pColors;
 	int16_t	sCount		= m_sNum / lInc;
 	float	fColor;
 	while (sCount--)
 		{
-		fColor	= ppix->u8Red		* fAdjustment;
+      fColor = ppix->u8Red * fAdjustment;
       CLAMP8BIT(ppix->u8Red, fColor);
 
-		fColor	= ppix->u8Green	* fAdjustment;
+      fColor = ppix->u8Green * fAdjustment;
       CLAMP8BIT(ppix->u8Green, fColor);
 
-		fColor	= ppix->u8Blue		* fAdjustment;
+      fColor = ppix->u8Blue * fAdjustment;
       CLAMP8BIT(ppix->u8Blue, fColor);
 
 		ppix += lInc;
