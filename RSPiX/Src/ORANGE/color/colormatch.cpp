@@ -950,8 +950,8 @@ uint8_t*** RMultiAlpha::pppucCreateFastMultiAlpha(
 	// Set the minimum cut off at one half the minimum alpha level. (MUST ROUND UP!)
 	pInfo[0] = uint8_t((*m_pLevelOpacity + 1)>>1); // The minimum non-fully-transparent alpha value
 	pInfo[1] = uint8_t(sNumSrc);  // from this you can calculate remaining values
-   pInfo[2] = uint8_t(lMemOffset & 0xFF); // low order byte of mem offset
-   pInfo[3] = uint8_t((lMemOffset & 0xFF00) >> 8); // high order byte of mem offset
+   pInfo[2] = uint8_t(lMemOffset & UINT8_MAX); // low order byte of mem offset
+   pInfo[3] = uint8_t((lMemOffset >> 8) & UINT8_MAX); // high order byte of mem offset
 	
 	if (plAlignedSize) *plAlignedSize = lTotSize;
 	return pppucFastAligned;
@@ -1331,8 +1331,8 @@ int16_t RFastMultiAlphaWrapper::Load(RFile* pf)
 	// Create the minimum possible data header in BYTES:
 	pInfo[0] = ucHeader; // The minimum non-fully-transparent alpha value
 	pInfo[1] = uint8_t(m_sNumSrc);  // from this you can calculate remaining values
-   pInfo[2] = uint8_t(lMemOffset & 0xFF); // low order byte of mem offset
-	pInfo[3] = uint8_t(lMemOffset / 256); // high order byte of mem offset
+   pInfo[2] = uint8_t(lMemOffset & UINT8_MAX); // low order byte of mem offset
+   pInfo[3] = uint8_t((lMemOffset >> 8) & UINT8_MAX); // high order byte of mem offset
 
 	m_pppucFastMultiAlpha = pppucFastAligned;  // INSTALL!
 	m_sAccess = TRUE;
