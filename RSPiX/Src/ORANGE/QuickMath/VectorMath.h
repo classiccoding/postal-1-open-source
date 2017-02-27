@@ -33,14 +33,10 @@
 #ifndef VECTOR_MATH_H
 #define VECTOR_MATH_H
 
-#include "System.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "ORANGE/File/file.h"
-	#include "ORANGE/QuickMath/QuickMath.h"
-#else
-	#include "file.h"
-	#include "quickmath.h"
-#endif
+#include <BLUE/System.h>
+#include <ORANGE/File/file.h>
+#include "QuickMath.h"
+
 //===================================
 // This file contains data and operations
 // for high speed manipulations of standard

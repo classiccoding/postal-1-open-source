@@ -65,14 +65,10 @@
 #ifndef TRIGGER_H
 #define TRIGGER_H
 
-#include "RSPiX.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "WishPiX/Spry/spry.h"
-	#include "ORANGE/MultiGrid/MultiGridIndirect.h"
-#else
-	#include "spry.h"
-	#include "multigridindirect.h"
-#endif
+#include <RSPiX.h>
+#include <WishPiX/Spry/spry.h>
+#include <ORANGE/MultiGrid/MultiGridIndirect.h>
+
 #include "thing.h"
 
 // A fake declaration for CRealm pointers...

@@ -18,7 +18,7 @@
 #ifndef FIXED_POINT_H
 #define FIXED_POINT_H
 //====================
-#include "System.h" // for environment variables...
+#include <BLUE/System.h> // for environment variables...
 #include "QuickMath.h"
 //====================
 /*****************************************************************

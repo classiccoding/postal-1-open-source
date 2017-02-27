@@ -61,12 +61,12 @@
 //		09/27/99	JMI	Eliminated boolean performance warnings.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "dude.h"
 #include "StockPile.h"
 #include "hood.h"
 #include "toolbar.h"
-#include "ORANGE/color/colormatch.h"
+#include <ORANGE/color/colormatch.h>
 #include "ORANGE/color/dithermatch.h"
 ////////////////////////////////////////////////////////////////////////////////
 // TOOLBAR Graphic parameters:

@@ -15,19 +15,17 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-#include <string.h>
-#include "Blue.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/Image/Image.h"
-	#include "ORANGE/color/colormatch.h"
-	#include "GREEN/BLiT/BLIT.H" // ONLY for the debug command... can be disabled if nec
-	#include "ORANGE/QuickMath/FixedPoint.h"
-#else
-	#include "Image.h"
-	#include "colormatch.h"
-	#include "BLIT.H" // ONLY for the debug command... can be disabled if nec
-	#include "fixedpoint.h"
-#endif
+
+#include "colormatch.h"
+
+#include <BLUE/Blue.h>
+#include <GREEN/BLiT/BLIT.H> // ONLY for the debug command... can be disabled if nec
+#include <GREEN/Image/Image.h>
+#include <ORANGE/File/file.h>
+#include <ORANGE/QuickMath/FixedPoint.h>
+
+#include <cstring>
+
 
 //short RAlpha::ms_SetPalette(RImage* pimImage);
 int16_t RAlpha::ms_IsPaletteSet = FALSE;

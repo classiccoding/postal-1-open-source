@@ -17,10 +17,11 @@
 //
 #ifndef SIMPLE_BATCH_H
 #define SIMPLE_BATCH_H
-//=====================
-#include <stdio.h>
-#include <string.h>
-#include "Blue.h"
+
+#include <BLUE/System.h>
+
+#include <cstdio>
+#include <cstring>
 
 // TO DO!
 // REPLACE THIS WITH LINKED LISTS or some dynamic format!

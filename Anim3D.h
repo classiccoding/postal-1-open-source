@@ -40,7 +40,7 @@
 #ifndef ANIM3D_H
 #define ANIM3D_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 
 // These are the basic components of any 3D animation.
 typedef RChannel<RSop> ChanForm;				// Channel of SOPs.

@@ -131,14 +131,17 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
+#include "file.h"
+
 //////////////////////////////////////////////////////////////////////////////
 // Headers.
 //////////////////////////////////////////////////////////////////////////////
-#include <stdlib.h>
-//#include <memory.h>
-#include <string.h>
-#include <limits.h>
-#include <float.h>	// For float and double limits.
+#include <BLUE/Blue.h>
+
+#include <cstdlib>
+#include <cstring>
+#include <climits>
+#include <cfloat>
 
 #if defined(__unix__)
 #include <unistd.h>
@@ -146,7 +149,7 @@
 #include <sys/param.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <ctype.h>
+#include <cctype>
 #endif
 
 #ifdef WIN32
@@ -157,15 +160,6 @@
 #include <malloc.h>
 typedef HRESULT (WINAPI *fnSHGetFolderPathW)(HWND hwnd, int nFolder, HANDLE hToken, DWORD dwFlags, LPWSTR pszPath);
 #endif
-
-#include "Blue.h"
-
-#ifdef PATHS_IN_INCLUDES
-	#include "ORANGE/File/file.h"
-#else
-	#include "file.h"
-#endif	// PATHS_IN_INCLUDES
-
 
 //////////////////////////////////////////////////////////////////////////////
 // Module specific macros.

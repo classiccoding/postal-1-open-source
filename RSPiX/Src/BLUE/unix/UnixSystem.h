@@ -50,12 +50,6 @@
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
-// For compilers that support partial paths in #include's, define this.  For
-// those that don't, don't define it.
-////////////////////////////////////////////////////////////////////////////////
-#define PATHS_IN_INCLUDES
-
-////////////////////////////////////////////////////////////////////////////////
 // Handy defines.
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef TRUE
@@ -156,7 +150,6 @@ struct c_string
 # pragma message("I find your lack of POSIX disturbing. ;)")
 # include <BaseTsd.h>
 typedef SSIZE_T ssize_t;
-
 # if !defined(_MSC_VER) || _MSC_VER < 1900
 #  define constexpr inline
 #  if !defined(snprintf)
@@ -172,25 +165,38 @@ typedef SSIZE_T ssize_t;
 #   define PATH_MAX _MAX_PATH
 #  endif
 # endif
-
 # if !defined(strcasecmp)
 #  define strcasecmp _stricmp
 # endif
-
 # define NOTE(x) __pragma(message("NOTE: " x))
-
 # include <BLUE/stdint_msvc.h>
-
 # define SYSTEM_PATH_SEPARATOR	'\\'
 #else
 # include <sys/types.h>
+# if defined __GNUC__ && defined __GNUC_MINOR__
+#  define __GNUC_PREREQ(maj, min) ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min))
+# else
+#  define __GNUC_PREREQ(maj, min) 0
+# endif
 # define DO_PRAGMA(x) _Pragma (#x)
 # if !defined(__GNUC__) || __GNUC_PREREQ(4,4)
 #  define NOTE(x) DO_PRAGMA(message("NOTE: " x))
 # else
 #  define NOTE(x) DO_PRAGMA(warning("NOTE: " x)
 # endif
-# define SYSTEM_PATH_SEPARATOR	'/'
+# if defined(__DOS__)
+#  if defined(__STRICT_ANSI__) && defined(__DJGPP__)
+#   error You need to disable C++ standards complaince for DJGPP
+#  endif
+#  include <unistd.h>
+#  if !defined(PATH_MAX)
+#   define PATH_MAX _PC_PATH_MAX
+#  endif
+#  pragma message("I find your lack of POSIX disturbing. >:(")
+#  define SYSTEM_PATH_SEPARATOR	'\\'
+# else
+#  define SYSTEM_PATH_SEPARATOR	'/'
+# endif
 #endif
 
 #if !defined(F_OK)
@@ -367,27 +373,41 @@ inline bool rspObjCmp(const T* p1, const T* p2, size_t count)
 	return true;
 	}
 
-/* DEPRECATED!
-inline char *ltoa(int32_t l, char *buf, int bufsize)
-{
-    snprintf(buf, bufsize, "%i", l);
-    return(buf);
-}
+////////////////////////////////////////////////////////////////////////////////
+// Debug API
+//
+// Define the TRACE, STRACE, and ASSERT macros.  If _DEBUG or TRACENASSERT are
+// defined, then these macros are usefull debugging aids.  Otherwise, it is
+// assumed that the program is being compiled in "release" mode, and all three
+// of the macros are changed such that no code nor data results from their
+// use, thereby eliminating all traces of them from the program.
+//
+// TRACE is like printf, but sends the output to the debug window.  Note that
+// it slips in the file and line number information before printing whatever
+// the user requested.
+//
+// STRACE is like TRACE, except that it doesn't display the file and line
+// number information.
+//
+// ASSERT is used to assert that an expression is true.  If it is, in fact,
+// true, then ASSERT does nothing.  If not, then it emits a signal and halts
+// execution.
+//
+////////////////////////////////////////////////////////////////////////////////
 
-inline char *ltoa(uint32_t l, char *buf, int bufsize)
-{
-    snprintf(buf, bufsize, "%u", l);
-    return(buf);
-}
+extern void rspTrace(const char* szFrmt, ...);
 
-inline char *itoa(int l, char *buf, int bufsize)
-{
-    snprintf(buf, bufsize, "%i", l);
-    return(buf);
-}
-
-#define _ltoa(x, y, z) ltoa(x, y, z)
-*/
+#if defined(_DEBUG) || defined(TRACENASSERT)
+// TRACE macro, the preferred method of sending output to debug window
+# define STRACE(...)  rspTrace(__VA_ARGS__)
+# define TRACE(...)   STRACE("%s(%d):", __FILE__, __LINE__),STRACE(__VA_ARGS__)
+# include <cassert>
+# define ASSERT(...)  assert(__VA_ARGS__)
+#else
+# define STRACE(...)  rspTrace(__VA_ARGS__)
+# define TRACE(...)   STRACE(__VA_ARGS__)
+# define ASSERT(...)
+#endif
 
 #endif // UNIXSYSTEM_H
 //////////////////////////////////////////////////////////////////////////////

@@ -145,8 +145,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
-#include <math.h>
+#include <RSPiX.h>
+#include <cmath>
 
 #include "heatseeker.h"
 #include "dude.h"

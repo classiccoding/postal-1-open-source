@@ -31,31 +31,14 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
-#include "System.h"
+#include "Region.h"
 
-// If PATHS_IN_INCLUDES macro is defined, we can utilized relative
-// paths to a header file.  In this case we generally go off of our
-// RSPiX root directory.  System.h MUST be included before this macro
-// is evaluated.  System.h is the header that, based on the current
-// platform (or more so in this case on the compiler), defines 
-// PATHS_IN_INCLUDES.  Blue.h includes system.h so you can include that
-// instead.
-#ifdef PATHS_IN_INCLUDES
-	// Green include files
-	#include "GREEN/Image/Image.h"
-	// Orange include files
-	#include "ORANGE/GameLib/Region.h"
-	#include "ORANGE/CDT/List.h"
-	#include "ORANGE/CDT/slist.h"
-#else
-	// Green include files
-	#include "Image.h"
-	// Orange include files
-	#include "region.h"
-	#include "list.h"
-	#include "slist.h"
-#endif // PATHS_IN_INCLUDES
+#include <BLUE/System.h>
+#include <ORANGE/CDT/List.h>
+#include <ORANGE/CDT/slist.h>
 
+class RImage;
+class RFile;
 
 // These values are used to identify the sprite file
 #define SPRITE_COOKIE				0x54525053	// Looks like "SPRT" in file
@@ -173,7 +156,7 @@ class RSprite
 		virtual ~RSprite();
 
 		// Mark sprite as modified
-		virtual void Modified() {m_ulFlags |= SPRITE_FLAG_MODIFIED;};
+      virtual void Modified() {m_ulFlags |= SPRITE_FLAG_MODIFIED;}
 
 		// Check for zone collisions
  		virtual int16_t DoRegionsCollide(// Returns 1 if collision, 0 otherwise
@@ -183,7 +166,7 @@ class RSprite
 
 		// Get details about collision.  Use the predefined COLLIDE_??? masks
 		// with the return value to determine details about the collision.
-		virtual uint32_t GetCxFlags() {return m_ulFlags;};	// Returns detailed collision flags
+      virtual uint32_t GetCxFlags() {return m_ulFlags;}	// Returns detailed collision flags
 
 		// Add a region to this sprite's region list
 		virtual int16_t AddRegion(RRegion*);
@@ -193,31 +176,31 @@ class RSprite
 
 		// Set the X, Y, Z position of this sprite
 		void SetPosition(int16_t sX, int16_t sY, int16_t sZ)
-			{m_sX = sX; m_sY = sY; m_sZ = sZ;};
+         {m_sX = sX; m_sY = sY; m_sZ = sZ;}
 
 		// Set the angle of rotation for this sprite
 		void SetAngle(int16_t sAngle)
-			{m_sAngle = sAngle;};
+         {m_sAngle = sAngle;}
 
 		// Set the desired size of the sprite
 		void SetSize(int32_t lWidth, int32_t lHeight)
-			{m_lWidth = lWidth; m_lHeight = lHeight;};
+         {m_lWidth = lWidth; m_lHeight = lHeight;}
 
 		// Set acceleration for 3D movement
 		void SetAcceleration(double dX, double dY, double dZ)
-			{m_dXacc = dX; m_dYacc = dY; m_dZacc = dZ;};
+         {m_dXacc = dX; m_dYacc = dY; m_dZacc = dZ;}
 
 		// Set acceleration for 2D movement
 		void SetAcceleration(double dX, double dY)
-			{m_dXacc = dX; m_dYacc = dY;};
+         {m_dXacc = dX; m_dYacc = dY;}
 
 		// Set velocity for 3D movement
 		void SetVelocity(double dX, double dY, double dZ)
-			{m_dXvel = dX; m_dYvel = dY; m_dZvel = dZ;};
+         {m_dXvel = dX; m_dYvel = dY; m_dZvel = dZ;}
 
 		// Set velocity for 2D movement
 		void SetVelocity(double dX, double dY)
-			{m_dXvel = dX; m_dYvel = dY;};
+         {m_dXvel = dX; m_dYvel = dY;}
 
 		// Update this sprite and/or descendent.  This is purely a hook.
 		// No default processing is provided by this level.  When descending

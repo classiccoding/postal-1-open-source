@@ -198,30 +198,25 @@
 #ifndef RESMGR_H
 #define RESMGR_H
 
-#include <ctype.h>
+#include <cctype>
 
-#include "Blue.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "CYAN/cyan.h"
-	#include "ORANGE/File/file.h"
-	#include "ORANGE/RString/rstring.h"
-#else
-	#include "cyan.h"
-	#include "file.h"
-	#include "rstring.h"
-#endif
+#include <BLUE/System.h>
+
+#include <CYAN/cyan.h>
+#include <ORANGE/File/file.h>
+#include <ORANGE/RString/rstring.h>
 
 #if _MSC_VER >= 1020 || __MWERKS__ >= 0x1100 || __GNUC__
-	#include <map>
-	#include <vector>
-	#include <set>
-	#include <functional>
-  #include <algorithm>
-  #include <memory>
+# include <map>
+# include <vector>
+# include <set>
+# include <functional>
+# include <algorithm>
+# include <memory>
 #else
-	#include <map.h>
-	#include <vector.h>
-	#include <set.h>
+# include <map.h>
+# include <vector.h>
+# include <set.h>
 #endif
 
 #define SAK_COOKIE 0x204b4153		// Looks like "SAK " in the file

@@ -36,17 +36,9 @@
 #ifndef MULTIGRID_H
 #define MULTIGRID_H
 
-#include "System.h"
-
-#ifdef PATHS_IN_INCLUDES
-	#include "BLUE/Blue.h"
-	#include "ORANGE/File/file.h"
-	#include "GREEN/Image/Image.h" // For Debugging only
-#else
-	#include "Blue.h"
-	#include "file.h"
-	#include "Image.h"
-#endif // PATHS_IN_INCLUDES
+#include <BLUE/System.h>
+#include <ORANGE/File/file.h>
+#include <GREEN/Image/Image.h> // For Debugging only
  
  #define MULTIGRID_COOKIE "_MultiGrid_"
  #define MULTIGRID_CURRENT_VERSION 1

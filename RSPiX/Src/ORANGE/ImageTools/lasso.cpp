@@ -56,27 +56,14 @@
 // Includes.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <string.h>
 
-#include "System.h"
+#include "lasso.h"
 
-// Green /////////////////////////////////////////////////////////////////////
-// If PATHS_IN_INCLUDES macro is defined, we can utilized relative
-// paths to a header file.  In this case we generally go off of our
-// RSPiX root directory.  System.h MUST be included before this macro
-// is evaluated.  System.h is the header that, based on the current
-// platform (or more so in this case on the compiler), defines 
-// PATHS_IN_INCLUDES.  Blue.h includes system.h so you can include that
-// instead.
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/BLiT/BLIT.H"
-	#include "ORANGE/ImageTools/lasso.h"
-	#include "ORANGE/CDT/slist.h"
-#else
-	#include "BLIT.H"
-	#include "lasso.h"
-	#include "slist.h"
-#endif // PATHS_IN_INCLUDES
+#include <GREEN/Image/Image.h>
+#include <GREEN/BLiT/BLIT.H>
+#include <ORANGE/CDT/slist.h>
+
+#include <cstring>
 
 //////////////////////////////////////////////////////////////////////////////
 // Typedefs.
@@ -138,7 +125,7 @@ typedef struct
 #define PIX1111	0xF	// 1111
 #define PIXMASK	0xF	// Mask of PIX*.
 
-#define ERROR		PIX1111
+#define PIXERR		PIX1111
 
 //////////////////////////////////////////////////////////////////////////////
 // Globals.
@@ -148,285 +135,285 @@ typedef struct
 // the last direction moved (macroed as DIR*), and the last pixel values 
 // (macroed as PIX????), produces the new direction to move and the new 
 // pixel values.
-// ERROR is the result, if a bad situation is fed as an index.
-// There are several impossiblities that are also flagged by ERROR.
+// PIXERR is the result, if a bad situation is fed as an index.
+// There are several impossiblities that are also flagged by PIXERR.
 
 static uint16_t	ms_au16EdgeInfo[256]	=
 	{
-	ERROR,								// Index:  NEW00 | DIRRIGHT	| PIX0000 is an error b/c we lost the shape.
+   PIXERR,								// Index:  NEW00 | DIRRIGHT	| PIX0000 is an error b/c we lost the shape.
 	DIRDOWN	| PIX0010,				// Index:  NEW00 | DIRRIGHT	| PIX0001
-	ERROR,								// Index:  NEW00 | DIRRIGHT	| PIX0010
+   PIXERR,								// Index:  NEW00 | DIRRIGHT	| PIX0010
 	DIRDOWN	| PIX0010,				// Index:  NEW00 | DIRRIGHT	| PIX0011
-	ERROR,								// Index:  NEW00 | DIRRIGHT	| PIX0100
-	ERROR,								// Index:  NEW00 | DIRRIGHT	| PIX0101
-	ERROR,								// Index:  NEW00 | DIRRIGHT	| PIX0110
-	ERROR,								// Index:  NEW00 | DIRRIGHT	| PIX0111
-	ERROR,								// Index:  NEW00 | DIRRIGHT	| PIX1000
+   PIXERR,								// Index:  NEW00 | DIRRIGHT	| PIX0100
+   PIXERR,								// Index:  NEW00 | DIRRIGHT	| PIX0101
+   PIXERR,								// Index:  NEW00 | DIRRIGHT	| PIX0110
+   PIXERR,								// Index:  NEW00 | DIRRIGHT	| PIX0111
+   PIXERR,								// Index:  NEW00 | DIRRIGHT	| PIX1000
 	DIRDOWN	| PIX0010,				// Index:  NEW00 | DIRRIGHT	| PIX1001
-	ERROR,								// Index:  NEW00 | DIRRIGHT	| PIX1010
+   PIXERR,								// Index:  NEW00 | DIRRIGHT	| PIX1010
 	DIRDOWN	| PIX0010,				// Index:  NEW00 | DIRRIGHT	| PIX1011
-	ERROR,								// Index:  NEW00 | DIRRIGHT	| PIX1100
-	ERROR,								// Index:  NEW00 | DIRRIGHT	| PIX1101
-	ERROR,								// Index:  NEW00 | DIRRIGHT	| PIX1110
-	ERROR,								// Index:  NEW00 | DIRRIGHT	| PIX1111 is an error, b/c we are inside the shape.
+   PIXERR,								// Index:  NEW00 | DIRRIGHT	| PIX1100
+   PIXERR,								// Index:  NEW00 | DIRRIGHT	| PIX1101
+   PIXERR,								// Index:  NEW00 | DIRRIGHT	| PIX1110
+   PIXERR,								// Index:  NEW00 | DIRRIGHT	| PIX1111 is an error, b/c we are inside the shape.
 
-	ERROR,								// Index:  NEW00 | DIRDOWN		| PIX0000 is an error b/c we lost the shape.
-	ERROR,								// Index:  NEW00 | DIRDOWN		| PIX0001
+   PIXERR,								// Index:  NEW00 | DIRDOWN		| PIX0000 is an error b/c we lost the shape.
+   PIXERR,								// Index:  NEW00 | DIRDOWN		| PIX0001
 	DIRLEFT	| PIX1000,				// Index:  NEW00 | DIRDOWN		| PIX0010
-	ERROR,								// Index:  NEW00 | DIRDOWN		| PIX0011
-	ERROR,								// Index:  NEW00 | DIRDOWN		| PIX0100
-	ERROR,								// Index:  NEW00 | DIRDOWN		| PIX0101
+   PIXERR,								// Index:  NEW00 | DIRDOWN		| PIX0011
+   PIXERR,								// Index:  NEW00 | DIRDOWN		| PIX0100
+   PIXERR,								// Index:  NEW00 | DIRDOWN		| PIX0101
 	DIRLEFT	| PIX1000,				// Index:  NEW00 | DIRDOWN		| PIX0110
-	ERROR,								// Index:  NEW00 | DIRDOWN		| PIX0111
-	ERROR,								// Index:  NEW00 | DIRDOWN		| PIX1000
-	ERROR,								// Index:  NEW00 | DIRDOWN		| PIX1001
+   PIXERR,								// Index:  NEW00 | DIRDOWN		| PIX0111
+   PIXERR,								// Index:  NEW00 | DIRDOWN		| PIX1000
+   PIXERR,								// Index:  NEW00 | DIRDOWN		| PIX1001
 	DIRLEFT	| PIX1000,				// Index:  NEW00 | DIRDOWN		| PIX1010
-	ERROR,								// Index:  NEW00 | DIRDOWN		| PIX1011
-	ERROR,								// Index:  NEW00 | DIRDOWN		| PIX1100
-	ERROR,								// Index:  NEW00 | DIRDOWN		| PIX1101
+   PIXERR,								// Index:  NEW00 | DIRDOWN		| PIX1011
+   PIXERR,								// Index:  NEW00 | DIRDOWN		| PIX1100
+   PIXERR,								// Index:  NEW00 | DIRDOWN		| PIX1101
 	DIRLEFT	| PIX1000,				// Index:  NEW00 | DIRDOWN		| PIX1110
-	ERROR,								// Index:  NEW00 | DIRDOWN		| PIX1111 is an error, b/c we are inside the shape.
+   PIXERR,								// Index:  NEW00 | DIRDOWN		| PIX1111 is an error, b/c we are inside the shape.
 
-	ERROR,								// Index:  NEW00 | DIRLEFT		| PIX0000 is an error b/c we lost the shape.
-	ERROR,								// Index:  NEW00 | DIRLEFT		| PIX0001
-	ERROR,								// Index:  NEW00 | DIRLEFT		| PIX0010
-	ERROR,								// Index:  NEW00 | DIRLEFT		| PIX0011
-	ERROR,								// Index:  NEW00 | DIRLEFT		| PIX0100
-	ERROR,								// Index:  NEW00 | DIRLEFT		| PIX0101
-	ERROR,								// Index:  NEW00 | DIRLEFT		| PIX0110
-	ERROR,								// Index:  NEW00 | DIRLEFT		| PIX0111
+   PIXERR,								// Index:  NEW00 | DIRLEFT		| PIX0000 is an error b/c we lost the shape.
+   PIXERR,								// Index:  NEW00 | DIRLEFT		| PIX0001
+   PIXERR,								// Index:  NEW00 | DIRLEFT		| PIX0010
+   PIXERR,								// Index:  NEW00 | DIRLEFT		| PIX0011
+   PIXERR,								// Index:  NEW00 | DIRLEFT		| PIX0100
+   PIXERR,								// Index:  NEW00 | DIRLEFT		| PIX0101
+   PIXERR,								// Index:  NEW00 | DIRLEFT		| PIX0110
+   PIXERR,								// Index:  NEW00 | DIRLEFT		| PIX0111
 	DIRUP		| PIX0100,				// Index:  NEW00 | DIRLEFT		| PIX1000
 	DIRUP		| PIX0100,				// Index:  NEW00 | DIRLEFT		| PIX1001
-	ERROR,								// Index:  NEW00 | DIRLEFT		| PIX1010
-	ERROR,								// Index:  NEW00 | DIRLEFT		| PIX1011
+   PIXERR,								// Index:  NEW00 | DIRLEFT		| PIX1010
+   PIXERR,								// Index:  NEW00 | DIRLEFT		| PIX1011
 	DIRUP		| PIX0100,				// Index:  NEW00 | DIRLEFT		| PIX1100
 	DIRUP		| PIX0100,				// Index:  NEW00 | DIRLEFT		| PIX1101
-	ERROR,								// Index:  NEW00 | DIRLEFT		| PIX1110
-	ERROR,								// Index:  NEW00 | DIRLEFT		| PIX1111 is an error, b/c we are inside the shape.
+   PIXERR,								// Index:  NEW00 | DIRLEFT		| PIX1110
+   PIXERR,								// Index:  NEW00 | DIRLEFT		| PIX1111 is an error, b/c we are inside the shape.
 
-	ERROR,								// Index:  NEW00 | DIRUP		| PIX0000 is an error b/c we lost the shape.
-	ERROR,								// Index:  NEW00 | DIRUP		| PIX0001
-	ERROR,								// Index:  NEW00 | DIRUP		| PIX0010
-	ERROR,								// Index:  NEW00 | DIRUP		| PIX0011
+   PIXERR,								// Index:  NEW00 | DIRUP		| PIX0000 is an error b/c we lost the shape.
+   PIXERR,								// Index:  NEW00 | DIRUP		| PIX0001
+   PIXERR,								// Index:  NEW00 | DIRUP		| PIX0010
+   PIXERR,								// Index:  NEW00 | DIRUP		| PIX0011
 	DIRRIGHT	| PIX0001,				// Index:  NEW00 | DIRUP		| PIX0100
 	DIRRIGHT	| PIX0001,				// Index:  NEW00 | DIRUP		| PIX0101
 	DIRRIGHT	| PIX0001,				// Index:  NEW00 | DIRUP		| PIX0110
 	DIRRIGHT	| PIX0001,				// Index:  NEW00 | DIRUP		| PIX0111
-	ERROR,								// Index:  NEW00 | DIRUP		| PIX1000
-	ERROR,								// Index:  NEW00 | DIRUP		| PIX1001
-	ERROR,								// Index:  NEW00 | DIRUP		| PIX1010
-	ERROR,								// Index:  NEW00 | DIRUP		| PIX1011
-	ERROR,								// Index:  NEW00 | DIRUP		| PIX1100
-	ERROR,								// Index:  NEW00 | DIRUP		| PIX1101
-	ERROR,								// Index:  NEW00 | DIRUP		| PIX1110
-	ERROR,								// Index:  NEW00 | DIRUP		| PIX1111 is an error, b/c we are inside the shape.
+   PIXERR,								// Index:  NEW00 | DIRUP		| PIX1000
+   PIXERR,								// Index:  NEW00 | DIRUP		| PIX1001
+   PIXERR,								// Index:  NEW00 | DIRUP		| PIX1010
+   PIXERR,								// Index:  NEW00 | DIRUP		| PIX1011
+   PIXERR,								// Index:  NEW00 | DIRUP		| PIX1100
+   PIXERR,								// Index:  NEW00 | DIRUP		| PIX1101
+   PIXERR,								// Index:  NEW00 | DIRUP		| PIX1110
+   PIXERR,								// Index:  NEW00 | DIRUP		| PIX1111 is an error, b/c we are inside the shape.
 
 	
-	ERROR,								// Index:  NEW01 | DIRRIGHT	| PIX0000 is an error b/c we lost the shape.
+   PIXERR,								// Index:  NEW01 | DIRRIGHT	| PIX0000 is an error b/c we lost the shape.
 	DIRRIGHT	| PIX0011,				// Index:  NEW01 | DIRRIGHT	| PIX0001
-	ERROR,								// Index:  NEW01 | DIRRIGHT	| PIX0010
+   PIXERR,								// Index:  NEW01 | DIRRIGHT	| PIX0010
 	DIRRIGHT	| PIX0011,				// Index:  NEW01 | DIRRIGHT	| PIX0011
-	ERROR,								// Index:  NEW01 | DIRRIGHT	| PIX0100
-	ERROR,								// Index:  NEW01 | DIRRIGHT	| PIX0101
-	ERROR,								// Index:  NEW01 | DIRRIGHT	| PIX0110
-	ERROR,								// Index:  NEW01 | DIRRIGHT	| PIX0111
-	ERROR,								// Index:  NEW01 | DIRRIGHT	| PIX1000
+   PIXERR,								// Index:  NEW01 | DIRRIGHT	| PIX0100
+   PIXERR,								// Index:  NEW01 | DIRRIGHT	| PIX0101
+   PIXERR,								// Index:  NEW01 | DIRRIGHT	| PIX0110
+   PIXERR,								// Index:  NEW01 | DIRRIGHT	| PIX0111
+   PIXERR,								// Index:  NEW01 | DIRRIGHT	| PIX1000
 	DIRRIGHT	| PIX0011,				// Index:  NEW01 | DIRRIGHT	| PIX1001
-	ERROR,								// Index:  NEW01 | DIRRIGHT	| PIX1010
+   PIXERR,								// Index:  NEW01 | DIRRIGHT	| PIX1010
 	DIRRIGHT	| PIX0011,				// Index:  NEW01 | DIRRIGHT	| PIX1011
-	ERROR,								// Index:  NEW01 | DIRRIGHT	| PIX1100
-	ERROR,								// Index:  NEW01 | DIRRIGHT	| PIX1101
-	ERROR,								// Index:  NEW01 | DIRRIGHT	| PIX1110
-	ERROR,								// Index:  NEW01 | DIRRIGHT	| PIX1111 is an error, b/c we are inside the shape.
+   PIXERR,								// Index:  NEW01 | DIRRIGHT	| PIX1100
+   PIXERR,								// Index:  NEW01 | DIRRIGHT	| PIX1101
+   PIXERR,								// Index:  NEW01 | DIRRIGHT	| PIX1110
+   PIXERR,								// Index:  NEW01 | DIRRIGHT	| PIX1111 is an error, b/c we are inside the shape.
 														       
-	ERROR,								// Index:  NEW01 | DIRDOWN		| PIX0000 is an error b/c we lost the shape.
-	ERROR,								// Index:  NEW01 | DIRDOWN		| PIX0001
+   PIXERR,								// Index:  NEW01 | DIRDOWN		| PIX0000 is an error b/c we lost the shape.
+   PIXERR,								// Index:  NEW01 | DIRDOWN		| PIX0001
 	DIRRIGHT	| PIX1001,				// Index:  NEW01 | DIRDOWN		| PIX0010
-	ERROR,								// Index:  NEW01 | DIRDOWN		| PIX0011
-	ERROR,								// Index:  NEW01 | DIRDOWN		| PIX0100
-	ERROR,								// Index:  NEW01 | DIRDOWN		| PIX0101
+   PIXERR,								// Index:  NEW01 | DIRDOWN		| PIX0011
+   PIXERR,								// Index:  NEW01 | DIRDOWN		| PIX0100
+   PIXERR,								// Index:  NEW01 | DIRDOWN		| PIX0101
 	DIRRIGHT	| PIX1001,				// Index:  NEW01 | DIRDOWN		| PIX0110
-	ERROR,								// Index:  NEW01 | DIRDOWN		| PIX0111
-	ERROR,								// Index:  NEW01 | DIRDOWN		| PIX1000
-	ERROR,								// Index:  NEW01 | DIRDOWN		| PIX1001
+   PIXERR,								// Index:  NEW01 | DIRDOWN		| PIX0111
+   PIXERR,								// Index:  NEW01 | DIRDOWN		| PIX1000
+   PIXERR,								// Index:  NEW01 | DIRDOWN		| PIX1001
 	DIRRIGHT	| PIX1001,				// Index:  NEW01 | DIRDOWN		| PIX1010
-	ERROR,								// Index:  NEW01 | DIRDOWN		| PIX1011
-	ERROR,								// Index:  NEW01 | DIRDOWN		| PIX1100
-	ERROR,								// Index:  NEW01 | DIRDOWN		| PIX1101
+   PIXERR,								// Index:  NEW01 | DIRDOWN		| PIX1011
+   PIXERR,								// Index:  NEW01 | DIRDOWN		| PIX1100
+   PIXERR,								// Index:  NEW01 | DIRDOWN		| PIX1101
 	DIRRIGHT	| PIX1001,				// Index:  NEW01 | DIRDOWN		| PIX1110
-	ERROR,								// Index:  NEW01 | DIRDOWN		| PIX1111 is an error, b/c we are inside the shape.
+   PIXERR,								// Index:  NEW01 | DIRDOWN		| PIX1111 is an error, b/c we are inside the shape.
 														       
-	ERROR,								// Index:  NEW01 | DIRLEFT		| PIX0000 is an error b/c we lost the shape.
-	ERROR,								// Index:  NEW01 | DIRLEFT		| PIX0001
-	ERROR,								// Index:  NEW01 | DIRLEFT		| PIX0010
-	ERROR,								// Index:  NEW01 | DIRLEFT		| PIX0011
-	ERROR,								// Index:  NEW01 | DIRLEFT		| PIX0100
-	ERROR,								// Index:  NEW01 | DIRLEFT		| PIX0101
-	ERROR,								// Index:  NEW01 | DIRLEFT		| PIX0110
-	ERROR,								// Index:  NEW01 | DIRLEFT		| PIX0111
+   PIXERR,								// Index:  NEW01 | DIRLEFT		| PIX0000 is an error b/c we lost the shape.
+   PIXERR,								// Index:  NEW01 | DIRLEFT		| PIX0001
+   PIXERR,								// Index:  NEW01 | DIRLEFT		| PIX0010
+   PIXERR,								// Index:  NEW01 | DIRLEFT		| PIX0011
+   PIXERR,								// Index:  NEW01 | DIRLEFT		| PIX0100
+   PIXERR,								// Index:  NEW01 | DIRLEFT		| PIX0101
+   PIXERR,								// Index:  NEW01 | DIRLEFT		| PIX0110
+   PIXERR,								// Index:  NEW01 | DIRLEFT		| PIX0111
 	DIRDOWN	| PIX0110,				// Index:  NEW01 | DIRLEFT		| PIX1000
 	DIRDOWN	| PIX0110,				// Index:  NEW01 | DIRLEFT		| PIX1001
-	ERROR,								// Index:  NEW01 | DIRLEFT		| PIX1010
-	ERROR,								// Index:  NEW01 | DIRLEFT		| PIX1011
+   PIXERR,								// Index:  NEW01 | DIRLEFT		| PIX1010
+   PIXERR,								// Index:  NEW01 | DIRLEFT		| PIX1011
 	DIRDOWN	| PIX0110,				// Index:  NEW01 | DIRLEFT		| PIX1100
 	DIRDOWN	| PIX0110,				// Index:  NEW01 | DIRLEFT		| PIX1101
-	ERROR,								// Index:  NEW01 | DIRLEFT		| PIX1110
-	ERROR,								// Index:  NEW01 | DIRLEFT		| PIX1111 is an error, b/c we are inside the shape.
+   PIXERR,								// Index:  NEW01 | DIRLEFT		| PIX1110
+   PIXERR,								// Index:  NEW01 | DIRLEFT		| PIX1111 is an error, b/c we are inside the shape.
 														       
-	ERROR,								// Index:  NEW01 | DIRUP		| PIX0000 is an error b/c we lost the shape.
-	ERROR,								// Index:  NEW01 | DIRUP		| PIX0001
-	ERROR,								// Index:  NEW01 | DIRUP		| PIX0010
-	ERROR,								// Index:  NEW01 | DIRUP		| PIX0011
+   PIXERR,								// Index:  NEW01 | DIRUP		| PIX0000 is an error b/c we lost the shape.
+   PIXERR,								// Index:  NEW01 | DIRUP		| PIX0001
+   PIXERR,								// Index:  NEW01 | DIRUP		| PIX0010
+   PIXERR,								// Index:  NEW01 | DIRUP		| PIX0011
 	DIRUP		| PIX0101,				// Index:  NEW01 | DIRUP		| PIX0100
 	DIRUP		| PIX0101,				// Index:  NEW01 | DIRUP		| PIX0101
 	DIRUP		| PIX0101,				// Index:  NEW01 | DIRUP		| PIX0110
 	DIRUP		| PIX0101,				// Index:  NEW01 | DIRUP		| PIX0111
-	ERROR,								// Index:  NEW01 | DIRUP		| PIX1000
-	ERROR,								// Index:  NEW01 | DIRUP		| PIX1001
-	ERROR,								// Index:  NEW01 | DIRUP		| PIX1010
-	ERROR,								// Index:  NEW01 | DIRUP		| PIX1011
-	ERROR,								// Index:  NEW01 | DIRUP		| PIX1100
-	ERROR,								// Index:  NEW01 | DIRUP		| PIX1101
-	ERROR,								// Index:  NEW01 | DIRUP		| PIX1110
-	ERROR,								// Index:  NEW01 | DIRUP		| PIX1111 is an error, b/c we are inside the shape.
+   PIXERR,								// Index:  NEW01 | DIRUP		| PIX1000
+   PIXERR,								// Index:  NEW01 | DIRUP		| PIX1001
+   PIXERR,								// Index:  NEW01 | DIRUP		| PIX1010
+   PIXERR,								// Index:  NEW01 | DIRUP		| PIX1011
+   PIXERR,								// Index:  NEW01 | DIRUP		| PIX1100
+   PIXERR,								// Index:  NEW01 | DIRUP		| PIX1101
+   PIXERR,								// Index:  NEW01 | DIRUP		| PIX1110
+   PIXERR,								// Index:  NEW01 | DIRUP		| PIX1111 is an error, b/c we are inside the shape.
 														       
 														       
-	ERROR,								// Index:  NEW10 | DIRRIGHT	| PIX0000 is an error b/c we lost the shape.
+   PIXERR,								// Index:  NEW10 | DIRRIGHT	| PIX0000 is an error b/c we lost the shape.
 	DIRUP		| PIX0110,				// Index:  NEW10 | DIRRIGHT	| PIX0001
-	ERROR,								// Index:  NEW10 | DIRRIGHT	| PIX0010
+   PIXERR,								// Index:  NEW10 | DIRRIGHT	| PIX0010
 	DIRUP		| PIX0110,				// Index:  NEW10 | DIRRIGHT	| PIX0011
-	ERROR,								// Index:  NEW10 | DIRRIGHT	| PIX0100
-	ERROR,								// Index:  NEW10 | DIRRIGHT	| PIX0101
-	ERROR,								// Index:  NEW10 | DIRRIGHT	| PIX0110
-	ERROR,								// Index:  NEW10 | DIRRIGHT	| PIX0111
-	ERROR,								// Index:  NEW10 | DIRRIGHT	| PIX1000
+   PIXERR,								// Index:  NEW10 | DIRRIGHT	| PIX0100
+   PIXERR,								// Index:  NEW10 | DIRRIGHT	| PIX0101
+   PIXERR,								// Index:  NEW10 | DIRRIGHT	| PIX0110
+   PIXERR,								// Index:  NEW10 | DIRRIGHT	| PIX0111
+   PIXERR,								// Index:  NEW10 | DIRRIGHT	| PIX1000
 	DIRUP		| PIX0110,				// Index:  NEW10 | DIRRIGHT	| PIX1001
-	ERROR,								// Index:  NEW10 | DIRRIGHT	| PIX1010
+   PIXERR,								// Index:  NEW10 | DIRRIGHT	| PIX1010
 	DIRUP		| PIX0110,				// Index:  NEW10 | DIRRIGHT	| PIX1011
-	ERROR,								// Index:  NEW10 | DIRRIGHT	| PIX1100
-	ERROR,								// Index:  NEW10 | DIRRIGHT	| PIX1101
-	ERROR,								// Index:  NEW10 | DIRRIGHT	| PIX1110
-	ERROR,								// Index:  NEW10 | DIRRIGHT	| PIX1111 is an error, b/c we are inside the shape.
+   PIXERR,								// Index:  NEW10 | DIRRIGHT	| PIX1100
+   PIXERR,								// Index:  NEW10 | DIRRIGHT	| PIX1101
+   PIXERR,								// Index:  NEW10 | DIRRIGHT	| PIX1110
+   PIXERR,								// Index:  NEW10 | DIRRIGHT	| PIX1111 is an error, b/c we are inside the shape.
 														       
-	ERROR,								// Index:  NEW10 | DIRDOWN		| PIX0000 is an error b/c we lost the shape.
-	ERROR,								// Index:  NEW10 | DIRDOWN		| PIX0001
+   PIXERR,								// Index:  NEW10 | DIRDOWN		| PIX0000 is an error b/c we lost the shape.
+   PIXERR,								// Index:  NEW10 | DIRDOWN		| PIX0001
 	DIRDOWN	| PIX1010,				// Index:  NEW10 | DIRDOWN		| PIX0010
-	ERROR,								// Index:  NEW10 | DIRDOWN		| PIX0011
-	ERROR,								// Index:  NEW10 | DIRDOWN		| PIX0100
-	ERROR,								// Index:  NEW10 | DIRDOWN		| PIX0101
+   PIXERR,								// Index:  NEW10 | DIRDOWN		| PIX0011
+   PIXERR,								// Index:  NEW10 | DIRDOWN		| PIX0100
+   PIXERR,								// Index:  NEW10 | DIRDOWN		| PIX0101
 	DIRDOWN	| PIX1010,				// Index:  NEW10 | DIRDOWN		| PIX0110
-	ERROR,								// Index:  NEW10 | DIRDOWN		| PIX0111
-	ERROR,								// Index:  NEW10 | DIRDOWN		| PIX1000
-	ERROR,								// Index:  NEW10 | DIRDOWN		| PIX1001
+   PIXERR,								// Index:  NEW10 | DIRDOWN		| PIX0111
+   PIXERR,								// Index:  NEW10 | DIRDOWN		| PIX1000
+   PIXERR,								// Index:  NEW10 | DIRDOWN		| PIX1001
 	DIRDOWN	| PIX1010,				// Index:  NEW10 | DIRDOWN		| PIX1010
-	ERROR,								// Index:  NEW10 | DIRDOWN		| PIX1011
-	ERROR,								// Index:  NEW10 | DIRDOWN		| PIX1100
-	ERROR,								// Index:  NEW10 | DIRDOWN		| PIX1101
+   PIXERR,								// Index:  NEW10 | DIRDOWN		| PIX1011
+   PIXERR,								// Index:  NEW10 | DIRDOWN		| PIX1100
+   PIXERR,								// Index:  NEW10 | DIRDOWN		| PIX1101
 	DIRDOWN	| PIX1010,				// Index:  NEW10 | DIRDOWN		| PIX1110
-	ERROR,								// Index:  NEW10 | DIRDOWN		| PIX1111 is an error, b/c we are inside the shape.
+   PIXERR,								// Index:  NEW10 | DIRDOWN		| PIX1111 is an error, b/c we are inside the shape.
 														       
-	ERROR,								// Index:  NEW10 | DIRLEFT		| PIX0000 is an error b/c we lost the shape.
-	ERROR,								// Index:  NEW10 | DIRLEFT		| PIX0001
-	ERROR,								// Index:  NEW10 | DIRLEFT		| PIX0010
-	ERROR,								// Index:  NEW10 | DIRLEFT		| PIX0011
-	ERROR,								// Index:  NEW10 | DIRLEFT		| PIX0100
-	ERROR,								// Index:  NEW10 | DIRLEFT		| PIX0101
-	ERROR,								// Index:  NEW10 | DIRLEFT		| PIX0110
-	ERROR,								// Index:  NEW10 | DIRLEFT		| PIX0111
+   PIXERR,								// Index:  NEW10 | DIRLEFT		| PIX0000 is an error b/c we lost the shape.
+   PIXERR,								// Index:  NEW10 | DIRLEFT		| PIX0001
+   PIXERR,								// Index:  NEW10 | DIRLEFT		| PIX0010
+   PIXERR,								// Index:  NEW10 | DIRLEFT		| PIX0011
+   PIXERR,								// Index:  NEW10 | DIRLEFT		| PIX0100
+   PIXERR,								// Index:  NEW10 | DIRLEFT		| PIX0101
+   PIXERR,								// Index:  NEW10 | DIRLEFT		| PIX0110
+   PIXERR,								// Index:  NEW10 | DIRLEFT		| PIX0111
 	DIRLEFT	| PIX1100,				// Index:  NEW10 | DIRLEFT		| PIX1000
 	DIRLEFT	| PIX1100,				// Index:  NEW10 | DIRLEFT		| PIX1001
-	ERROR,								// Index:  NEW10 | DIRLEFT		| PIX1010
-	ERROR,								// Index:  NEW10 | DIRLEFT		| PIX1011
+   PIXERR,								// Index:  NEW10 | DIRLEFT		| PIX1010
+   PIXERR,								// Index:  NEW10 | DIRLEFT		| PIX1011
 	DIRLEFT	| PIX1100,				// Index:  NEW10 | DIRLEFT		| PIX1100
 	DIRLEFT	| PIX1100,				// Index:  NEW10 | DIRLEFT		| PIX1101
-	ERROR,								// Index:  NEW10 | DIRLEFT		| PIX1110
-	ERROR,								// Index:  NEW10 | DIRLEFT		| PIX1111 is an error, b/c we are inside the shape.
+   PIXERR,								// Index:  NEW10 | DIRLEFT		| PIX1110
+   PIXERR,								// Index:  NEW10 | DIRLEFT		| PIX1111 is an error, b/c we are inside the shape.
 														       
-	ERROR,								// Index:  NEW10 | DIRUP		| PIX0000 is an error b/c we lost the shape.
-	ERROR,								// Index:  NEW10 | DIRUP		| PIX0001
-	ERROR,								// Index:  NEW10 | DIRUP		| PIX0010
-	ERROR,								// Index:  NEW10 | DIRUP		| PIX0011
+   PIXERR,								// Index:  NEW10 | DIRUP		| PIX0000 is an error b/c we lost the shape.
+   PIXERR,								// Index:  NEW10 | DIRUP		| PIX0001
+   PIXERR,								// Index:  NEW10 | DIRUP		| PIX0010
+   PIXERR,								// Index:  NEW10 | DIRUP		| PIX0011
 	DIRLEFT	| PIX1001,				// Index:  NEW10 | DIRUP		| PIX0100
 	DIRLEFT	| PIX1001,				// Index:  NEW10 | DIRUP		| PIX0101
 	DIRLEFT	| PIX1001,				// Index:  NEW10 | DIRUP		| PIX0110
 	DIRLEFT	| PIX1001,				// Index:  NEW10 | DIRUP		| PIX0111
-	ERROR,								// Index:  NEW10 | DIRUP		| PIX1000
-	ERROR,								// Index:  NEW10 | DIRUP		| PIX1001
-	ERROR,								// Index:  NEW10 | DIRUP		| PIX1010
-	ERROR,								// Index:  NEW10 | DIRUP		| PIX1011
-	ERROR,								// Index:  NEW10 | DIRUP		| PIX1100
-	ERROR,								// Index:  NEW10 | DIRUP		| PIX1101
-	ERROR,								// Index:  NEW10 | DIRUP		| PIX1110
-	ERROR,								// Index:  NEW10 | DIRUP		| PIX1111 is an error, b/c we are inside the shape.
+   PIXERR,								// Index:  NEW10 | DIRUP		| PIX1000
+   PIXERR,								// Index:  NEW10 | DIRUP		| PIX1001
+   PIXERR,								// Index:  NEW10 | DIRUP		| PIX1010
+   PIXERR,								// Index:  NEW10 | DIRUP		| PIX1011
+   PIXERR,								// Index:  NEW10 | DIRUP		| PIX1100
+   PIXERR,								// Index:  NEW10 | DIRUP		| PIX1101
+   PIXERR,								// Index:  NEW10 | DIRUP		| PIX1110
+   PIXERR,								// Index:  NEW10 | DIRUP		| PIX1111 is an error, b/c we are inside the shape.
 														       
 														       
-	ERROR,								// Index:  NEW11 | DIRRIGHT	| PIX0000 is an error b/c we lost the shape.
+   PIXERR,								// Index:  NEW11 | DIRRIGHT	| PIX0000 is an error b/c we lost the shape.
 	DIRUP		| PIX0111,				// Index:  NEW11 | DIRRIGHT	| PIX0001
-	ERROR,								// Index:  NEW11 | DIRRIGHT	| PIX0010
+   PIXERR,								// Index:  NEW11 | DIRRIGHT	| PIX0010
 	DIRUP		| PIX0111,				// Index:  NEW11 | DIRRIGHT	| PIX0011
-	ERROR,								// Index:  NEW11 | DIRRIGHT	| PIX0100
-	ERROR,								// Index:  NEW11 | DIRRIGHT	| PIX0101
-	ERROR,								// Index:  NEW11 | DIRRIGHT	| PIX0110
-	ERROR,								// Index:  NEW11 | DIRRIGHT	| PIX0111
-	ERROR,								// Index:  NEW11 | DIRRIGHT	| PIX1000
+   PIXERR,								// Index:  NEW11 | DIRRIGHT	| PIX0100
+   PIXERR,								// Index:  NEW11 | DIRRIGHT	| PIX0101
+   PIXERR,								// Index:  NEW11 | DIRRIGHT	| PIX0110
+   PIXERR,								// Index:  NEW11 | DIRRIGHT	| PIX0111
+   PIXERR,								// Index:  NEW11 | DIRRIGHT	| PIX1000
 	DIRUP		| PIX0111,				// Index:  NEW11 | DIRRIGHT	| PIX1001
-	ERROR,								// Index:  NEW11 | DIRRIGHT	| PIX1010
+   PIXERR,								// Index:  NEW11 | DIRRIGHT	| PIX1010
 	DIRUP		| PIX0111,				// Index:  NEW11 | DIRRIGHT	| PIX1011
-	ERROR,								// Index:  NEW11 | DIRRIGHT	| PIX1100
-	ERROR,								// Index:  NEW11 | DIRRIGHT	| PIX1101
-	ERROR,								// Index:  NEW11 | DIRRIGHT	| PIX1110
-	ERROR,								// Index:  NEW11 | DIRRIGHT	| PIX1111 is an error, b/c we are inside the shape.
+   PIXERR,								// Index:  NEW11 | DIRRIGHT	| PIX1100
+   PIXERR,								// Index:  NEW11 | DIRRIGHT	| PIX1101
+   PIXERR,								// Index:  NEW11 | DIRRIGHT	| PIX1110
+   PIXERR,								// Index:  NEW11 | DIRRIGHT	| PIX1111 is an error, b/c we are inside the shape.
 														       
-	ERROR,								// Index:  NEW11 | DIRDOWN		| PIX0000 is an error b/c we lost the shape.
-	ERROR,								// Index:  NEW11 | DIRDOWN		| PIX0001
+   PIXERR,								// Index:  NEW11 | DIRDOWN		| PIX0000 is an error b/c we lost the shape.
+   PIXERR,								// Index:  NEW11 | DIRDOWN		| PIX0001
 	DIRRIGHT	| PIX1011,				// Index:  NEW11 | DIRDOWN		| PIX0010
-	ERROR,								// Index:  NEW11 | DIRDOWN		| PIX0011
-	ERROR,								// Index:  NEW11 | DIRDOWN		| PIX0100
-	ERROR,								// Index:  NEW11 | DIRDOWN		| PIX0101
+   PIXERR,								// Index:  NEW11 | DIRDOWN		| PIX0011
+   PIXERR,								// Index:  NEW11 | DIRDOWN		| PIX0100
+   PIXERR,								// Index:  NEW11 | DIRDOWN		| PIX0101
 	DIRRIGHT	| PIX1011,				// Index:  NEW11 | DIRDOWN		| PIX0110
-	ERROR,								// Index:  NEW11 | DIRDOWN		| PIX0111
-	ERROR,								// Index:  NEW11 | DIRDOWN		| PIX1000
-	ERROR,								// Index:  NEW11 | DIRDOWN		| PIX1001
+   PIXERR,								// Index:  NEW11 | DIRDOWN		| PIX0111
+   PIXERR,								// Index:  NEW11 | DIRDOWN		| PIX1000
+   PIXERR,								// Index:  NEW11 | DIRDOWN		| PIX1001
 	DIRRIGHT	| PIX1011,				// Index:  NEW11 | DIRDOWN		| PIX1010
-	ERROR,								// Index:  NEW11 | DIRDOWN		| PIX1011
-	ERROR,								// Index:  NEW11 | DIRDOWN		| PIX1100
-	ERROR,								// Index:  NEW11 | DIRDOWN		| PIX1101
+   PIXERR,								// Index:  NEW11 | DIRDOWN		| PIX1011
+   PIXERR,								// Index:  NEW11 | DIRDOWN		| PIX1100
+   PIXERR,								// Index:  NEW11 | DIRDOWN		| PIX1101
 	DIRRIGHT	| PIX1011,				// Index:  NEW11 | DIRDOWN		| PIX1110
-	ERROR,								// Index:  NEW11 | DIRDOWN		| PIX1111 is an error, b/c we are inside the shape.
+   PIXERR,								// Index:  NEW11 | DIRDOWN		| PIX1111 is an error, b/c we are inside the shape.
 														       
-	ERROR,								// Index:  NEW11 | DIRLEFT		| PIX0000 is an error b/c we lost the shape.
-	ERROR,								// Index:  NEW11 | DIRLEFT		| PIX0001
-	ERROR,								// Index:  NEW11 | DIRLEFT		| PIX0010
-	ERROR,								// Index:  NEW11 | DIRLEFT		| PIX0011
-	ERROR,								// Index:  NEW11 | DIRLEFT		| PIX0100
-	ERROR,								// Index:  NEW11 | DIRLEFT		| PIX0101
-	ERROR,								// Index:  NEW11 | DIRLEFT		| PIX0110
-	ERROR,								// Index:  NEW11 | DIRLEFT		| PIX0111
+   PIXERR,								// Index:  NEW11 | DIRLEFT		| PIX0000 is an error b/c we lost the shape.
+   PIXERR,								// Index:  NEW11 | DIRLEFT		| PIX0001
+   PIXERR,								// Index:  NEW11 | DIRLEFT		| PIX0010
+   PIXERR,								// Index:  NEW11 | DIRLEFT		| PIX0011
+   PIXERR,								// Index:  NEW11 | DIRLEFT		| PIX0100
+   PIXERR,								// Index:  NEW11 | DIRLEFT		| PIX0101
+   PIXERR,								// Index:  NEW11 | DIRLEFT		| PIX0110
+   PIXERR,								// Index:  NEW11 | DIRLEFT		| PIX0111
 	DIRDOWN	| PIX1110,				// Index:  NEW11 | DIRLEFT		| PIX1000
 	DIRDOWN	| PIX1110,				// Index:  NEW11 | DIRLEFT		| PIX1001
-	ERROR,								// Index:  NEW11 | DIRLEFT		| PIX1010
-	ERROR,								// Index:  NEW11 | DIRLEFT		| PIX1011
+   PIXERR,								// Index:  NEW11 | DIRLEFT		| PIX1010
+   PIXERR,								// Index:  NEW11 | DIRLEFT		| PIX1011
 	DIRDOWN	| PIX1110,				// Index:  NEW11 | DIRLEFT		| PIX1100
 	DIRDOWN	| PIX1110,				// Index:  NEW11 | DIRLEFT		| PIX1101
-	ERROR,								// Index:  NEW11 | DIRLEFT		| PIX1110
-	ERROR,								// Index:  NEW11 | DIRLEFT		| PIX1111 is an error, b/c we are inside the shape.
+   PIXERR,								// Index:  NEW11 | DIRLEFT		| PIX1110
+   PIXERR,								// Index:  NEW11 | DIRLEFT		| PIX1111 is an error, b/c we are inside the shape.
 														       
-	ERROR,								// Index:  NEW11 | DIRUP		| PIX0000 is an error b/c we lost the shape.
-	ERROR,								// Index:  NEW11 | DIRUP		| PIX0001
-	ERROR,								// Index:  NEW11 | DIRUP		| PIX0010
-	ERROR,								// Index:  NEW11 | DIRUP		| PIX0011
+   PIXERR,								// Index:  NEW11 | DIRUP		| PIX0000 is an error b/c we lost the shape.
+   PIXERR,								// Index:  NEW11 | DIRUP		| PIX0001
+   PIXERR,								// Index:  NEW11 | DIRUP		| PIX0010
+   PIXERR,								// Index:  NEW11 | DIRUP		| PIX0011
 	DIRLEFT	| PIX1101,				// Index:  NEW11 | DIRUP		| PIX0100
 	DIRLEFT	| PIX1101,				// Index:  NEW11 | DIRUP		| PIX0101
 	DIRLEFT	| PIX1101,				// Index:  NEW11 | DIRUP		| PIX0110
 	DIRLEFT	| PIX1101,				// Index:  NEW11 | DIRUP		| PIX0111
-	ERROR,								// Index:  NEW11 | DIRUP		| PIX1000
-	ERROR,								// Index:  NEW11 | DIRUP		| PIX1001
-	ERROR,								// Index:  NEW11 | DIRUP		| PIX1010
-	ERROR,								// Index:  NEW11 | DIRUP		| PIX1011
-	ERROR,								// Index:  NEW11 | DIRUP		| PIX1100
-	ERROR,								// Index:  NEW11 | DIRUP		| PIX1101
-	ERROR,								// Index:  NEW11 | DIRUP		| PIX1110
-	ERROR,								// Index:  NEW11 | DIRUP		| PIX1111 is an error, b/c we are inside the shape.
+   PIXERR,								// Index:  NEW11 | DIRUP		| PIX1000
+   PIXERR,								// Index:  NEW11 | DIRUP		| PIX1001
+   PIXERR,								// Index:  NEW11 | DIRUP		| PIX1010
+   PIXERR,								// Index:  NEW11 | DIRUP		| PIX1011
+   PIXERR,								// Index:  NEW11 | DIRUP		| PIX1100
+   PIXERR,								// Index:  NEW11 | DIRUP		| PIX1101
+   PIXERR,								// Index:  NEW11 | DIRUP		| PIX1110
+   PIXERR,								// Index:  NEW11 | DIRUP		| PIX1111 is an error, b/c we are inside the shape.
 	};
 
 ///////////////////////////////////////////////////////////////////////////
@@ -841,7 +828,7 @@ int16_t rspLassoNext(	// Returns 0 if a polygon found,
 						// unknown factor.
 						u16Last = ms_au16EdgeInfo[u16Last];
 
-						ASSERT((u16Last & ERROR) != ERROR);
+                  ASSERT((u16Last & PIXERR) != PIXERR);
 
 						// Continue until we are back at start.
 						} while ((sX != sStartX || sY != sStartY) && sResult == SUCCESS);

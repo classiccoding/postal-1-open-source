@@ -32,17 +32,13 @@
 //						on mac).
 //
 //////////////////////////////////////////////////////////////////////
-#include <stdlib.h>
-#include <string.h>
-#include "System.h"	
+#include "MultiGrid.h"
 
-#ifdef PATHS_IN_INCLUDES
-	#include "ORANGE/MultiGrid/MultiGrid.h"
-	#include "ORANGE/str/str.h"
-#else
-	#include "MULTIGRID.H"
-	#include "str.h"
-#endif	//PATHS_IN_INCLUDES
+#include <ORANGE/str/str.h>
+
+#include <cstdlib>
+#include <cstring>
+
 
 //////////////////////////////////////////////////////////////////////
 //

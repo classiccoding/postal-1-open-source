@@ -16,27 +16,14 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
 // This function should draw 2d and 3d lines, and just keep getting better.
-#include <stdlib.h>
-#include "System.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/BLiT/BLIT.H"
-	//#include <math.h>
-	//#include "numbers.h" // allow
-	//#include "_QuickTrig.h"  
-	//#include "_line.h"
-	#include "ORANGE/QuickMath/QuickMath.h"
-	#include "ORANGE/QuickMath/FixedPoint.h"
-	#include "ORANGE/QuickMath/Fractions.h"
-#else
-	#include "BLIT.H"
-	//#include <math.h>
-	//#include "numbers.h" // allow
-	//#include "_QuickTrig.h"  
-	//#include "_line.h"
-	#include "QuickMath.h"
-	#include "FixedPoint.h"
-	#include "Fractions.h"
-#endif
+
+#include <BLUE/System.h>
+#include <ORANGE/QuickMath/QuickMath.h>
+#include <ORANGE/QuickMath/FixedPoint.h>
+#include <ORANGE/QuickMath/Fractions.h>
+#include "BLIT.H"
+
+#include <cstdlib>
 
 #if defined(__ANDROID__) //Arm RAND_MAX is a full int, code expecting a short!!
 #define RAND_MAX 0x7fff

@@ -156,8 +156,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
-#include <math.h>
+#include <RSPiX.h>
+#include <cmath>
 
 #include "grenade.h"
 #include "dude.h"

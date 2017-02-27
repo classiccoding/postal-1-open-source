@@ -549,7 +549,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 
 #include <ctime>
 
@@ -564,8 +564,8 @@
 #endif
 
 #include "WishPiX/Menu/menu.h"
-#include "WishPiX/Prefs/prefs.h"
-#include "WishPiX/ResourceManager/resmgr.h"
+#include <WishPiX/Prefs/prefs.h>
+#include <WishPiX/ResourceManager/resmgr.h>
 
 #include "main.h"
 #include "menus.h"

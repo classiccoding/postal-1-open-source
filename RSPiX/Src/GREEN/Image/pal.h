@@ -50,23 +50,9 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-// Blue include files
-#include "Blue.h"
+#include <BLUE/System.h>
 
-// If PATHS_IN_INCLUDES macro is defined, we can utilize relative
-// paths to a header file.  In this case we generally go off of our
-// RSPiX root directory.  System.h MUST be included before this macro
-// is evaluated.  System.h is the header that, based on the current
-// platform (or more so in this case on the compiler), defines 
-// PATHS_IN_INCLUDES.  Blue.h includes system.h so you can include that
-// instead.
-#ifdef PATHS_IN_INCLUDES
-	// Orange include files
-	#include "ORANGE/File/file.h"
-#else
-	// Orange include files
-	#include "file.h"
-#endif // PATHS_IN_INCLUDES
+class RFile;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Macros.
@@ -169,7 +155,7 @@ class RPal
 
 		// Will tell you the number of bytes per palette entry for the
 		// this instance of the palette
-		int16_t GetPalEntrySize()	{return m_sPalEntrySize;};
+      int16_t GetPalEntrySize()	{return m_sPalEntrySize;}
 
 		// Create PAL's data using the specified values.
 		int16_t CreateData(	// Returns 0 if successful

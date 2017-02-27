@@ -30,22 +30,13 @@
 #ifndef MULTIGRIDINDIRECT_H
 #define MULTIGRIDINDIRECT_H
 
-#include "System.h"
-
-#ifdef PATHS_IN_INCLUDES
-	#include "BLUE/Blue.h"
-	#include "ORANGE/File/file.h"
-	#include "GREEN/Image/Image.h" // For Debugging only
-	#include "GREEN/BLiT/BLIT.H"
-	#include "ORANGE/MultiGrid/MultiGrid.h"
-#else
-	#include "Blue.h"
-	#include "file.h"
-	#include "Image.h"
-	#include "multigrid.h"
-	#include "BLIT.H"
-#endif // PATHS_IN_INCLUDES
+#include <BLUE/System.h>
+#include <GREEN/BLiT/BLIT.H>
+#include "MultiGrid.h"
  
+class RImage;
+class RFile;
+
  #define MGI_COOKIE "_MultiGridIndirect_"
  #define MGI_CURRENT_VERSION 1
  #define	MGI_MAX_PLANES	15 // to work wwith multigrid 15-bit

@@ -353,21 +353,15 @@
 // code to imagecon.cpp.
 //
 //////////////////////////////////////////////////////////////////////
-#include <stdio.h>
-#include <stdlib.h> // For malloc, etc.
-#include <string.h> // For memcpy...
+#include "Image.h"
 
-#include "Blue.h"
+#include <ORANGE/File/file.h>
+#include "ImageFile.h"
 
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/Image/Image.h"
-	#include "GREEN/Image/ImageFile.h"
-	#include "ORANGE/File/file.h"
-#else
-	#include "Image.h"
-	#include "ImageFile.h"
-	#include "FILE.H"
-#endif // PATHS_IN_INCLUDES
+#include <cstdio>
+#include <cstdlib> // For malloc, etc.
+#include <cstring> // For memcpy...
+
 
 //////////////////////////////////////////////////////////////////////
 // Instantiate class statics.

@@ -360,12 +360,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "WishPiX/Menu/menu.h"
-#else
-	#include "menu.h"
-#endif
+#include <RSPiX.h>
+
 #include "menus.h"
 #include "game.h"
 #include "play.h"

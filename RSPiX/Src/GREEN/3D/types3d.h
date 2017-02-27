@@ -27,17 +27,10 @@
 #ifndef TYPES3D_H
 #define TYPES3D_H
 
-#include "Blue.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "ORANGE/File/file.h"
-	#include "ORANGE/color/colormatch.h"
-	#include "ORANGE/QuickMath/VectorMath.h"
-#else
-	#include "file.h"
-	#include "colormatch.h"
-	#include "vectormath.h"
-#endif
-
+#include <BLUE/System.h>
+#include <ORANGE/File/file.h>
+#include <ORANGE/color/colormatch.h>
+#include <ORANGE/QuickMath/VectorMath.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // This is currently a flat texture used with small 

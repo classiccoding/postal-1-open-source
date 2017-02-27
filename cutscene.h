@@ -52,8 +52,8 @@
 #ifndef CUTSCENE_H
 #define CUTSCENE_H
 
-#include "RSPiX.h"
-#include "WishPiX/Prefs/prefs.h"
+#include <RSPiX.h>
+#include <WishPiX/Prefs/prefs.h>
 #include "SampleMaster.h"
 ////////////////////////////////////////////////////////////////////////////////
 

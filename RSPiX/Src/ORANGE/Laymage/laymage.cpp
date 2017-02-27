@@ -25,13 +25,13 @@
 //	10/04/96 BRH	Started this class for use in several utilities
 //						dealing with multiple layer Photoshop images.
 //						This class loads a Photoshop file and creates
-//						a CImage for each layer and provides way of 
+//						a CImage for each layer and provides way of
 //						accessing specific layers.
 //
 // 10/10/96 BRH	Put in basic support which includes loading a
 //						layered Photoshop file and converting it to
 //						a CLaymage in memory.  GetLayer functions provide
-//						access to the layers either by name or number, 
+//						access to the layers either by name or number,
 //						and GetLayerName will give the names of a
 //						specific layer number.
 //
@@ -40,19 +40,19 @@
 //						the layer names, and saves file positions for
 //						the layers header section and layers channel
 //						data section.  Then GetLayer is called, if the
-//						layers are all in memory because of LoadPSD, 
+//						layers are all in memory because of LoadPSD,
 //						then it will return the pointer to that CImage
 //						layer.  If SetPSD was called, then it will read
 //						from the Photoshop, the requested layer and
 //						create the CImage.  Once the user is done with
 //						a layer, they can call FreeLayer() with the layer
-//						name or number and it will free that CImage.  
+//						name or number and it will free that CImage.
 //						These features were added to avoid problems with
 //						large Photoshop images which expanded to fill all
-//						available RAM.  
+//						available RAM.
 //
 //	10/22/96	JMI	Moved #include <stdlib.h> and #include <string.h> to
-//						before #include "System.h".               
+//						before #include "System.h".
 //
 //	10/28/96 MJR	Minor tweaks to make it compile correctly and with
 //						warnings under CodeWarrior.  No functional changes.
@@ -89,21 +89,10 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include <stdlib.h>
-#include <string.h>
-#include "System.h"
+#include "laymage.h"
 
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/Image/Image.h"
-	#include "ORANGE/File/file.h"
-	#include "ORANGE/Laymage/laymage.h"
-	#include "BLUE/Blue.h"
-#else
-	#include "Image.h"
-	#include "FILE.H"
-	#include "LAYMAGE.H"
-	#include "Blue.h"
-#endif // PATHS_IN_INCLUDES
+#include <cstdlib>
+#include <cstring>
 
 //////////////////////////////////////////////////////////////////////
 //

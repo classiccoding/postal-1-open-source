@@ -93,7 +93,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "sentry.h"
 #include "game.h"
 #include "SampleMaster.h"

@@ -30,7 +30,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "scene.h"
 #include "hood.h"
 

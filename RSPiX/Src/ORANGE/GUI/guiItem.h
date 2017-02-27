@@ -119,31 +119,16 @@
 // Headers.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "System.h"
-// If PATHS_IN_INCLUDES macro is defined, we can utilized relative
-// paths to a header file.  In this case we generally go off of our
-// RSPiX root directory.  System.h MUST be included before this macro
-// is evaluated.  System.h is the header that, based on the current
-// platform (or more so in this case on the compiler), defines 
-// PATHS_IN_INCLUDES.  Blue.h includes system.h so you can include that
-// instead.
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/Image/Image.h"
-	#include "ORANGE/CDT/List.h"
-	#include "GREEN/BLiT/BLIT.H"
-	#include "GREEN/Hot/hot.h"
-	#include "ORANGE/Props/Props.h"
-	#include "ORANGE/File/file.h"
-	#include "CYAN/cyan.h"
-#else
-	#include "list.h"
-	#include "Image.h"
-	#include "BLIT.H"
-	#include "hot.h"
-	#include "props.h"
-	#include "file.h"
-	#include "cyan.h"
-#endif // PATHS_IN_INCLUDES
+#include <BLUE/System.h>
+
+#include <GREEN/Image/Image.h>
+#include <ORANGE/CDT/List.h>
+#include <GREEN/BLiT/BLIT.H>
+#include <GREEN/Hot/hot.h>
+#include <ORANGE/Props/Props.h>
+#include <CYAN/cyan.h>
+
+class RFile;
 
 //////////////////////////////////////////////////////////////////////////////
 // Macros.

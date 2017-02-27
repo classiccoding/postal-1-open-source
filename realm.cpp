@@ -335,12 +335,12 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "realm.h"
 #include "game.h"
 #include "reality.h"
 #include "score.h"
-#include <time.h>
+#include <ctime>
 #include "MemFileFest.h"
 
 //#define RSP_PROFILE_ON

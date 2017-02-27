@@ -59,7 +59,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "logtab.h"
 #include "person.h"
 #include "Thing3d.h"

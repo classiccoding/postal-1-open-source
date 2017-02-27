@@ -33,20 +33,13 @@
 #ifndef PIPELINE_H
 #define PIPELINE_H
 //================================================== 
-#include "System.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "ORANGE/QuickMath/VectorMath.h"
-	#include "GREEN/3D/types3d.h"
-	#include "GREEN/3D/zbuffer.h"
-	#include "GREEN/3D/render.h"
-	#include "ORANGE/color/colormatch.h" 
-#else
-	#include "vectormath.h"
-	#include "types3d.h"
-	#include "zbuffer.h"
-	#include "render.h"
-	#include "ColorMatch.h" 
-#endif
+#include <BLUE/System.h>
+#include <ORANGE/QuickMath/VectorMath.h>
+#include <ORANGE/color/colormatch.h>
+#include "types3d.h"
+#include "zbuffer.h"
+#include "render.h"
+
 //================================================== 
 
 // The point of this class is to hold configurable

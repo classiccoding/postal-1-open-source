@@ -32,7 +32,7 @@
 #ifndef FLAGBASE_H
 #define FLAGBASE_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "realm.h"
 #include "Thing3d.h"
 

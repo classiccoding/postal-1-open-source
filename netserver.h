@@ -31,7 +31,7 @@
 #ifndef NETSERVER_H
 #define NETSERVER_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 
 #if !defined(MULTIPLAYER_REMOVED)
 

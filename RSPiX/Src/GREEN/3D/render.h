@@ -24,20 +24,14 @@
 #ifndef RENDER_H
 #define RENDER_H
 //================================================== 
-#include "Blue.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/BLiT/BLIT.H" // for rspLine
-	#include "GREEN/3D/zbuffer.h" // for rspLine
-	#include "ORANGE/color/colormatch.h"
-	#include "ORANGE/QuickMath/VectorMath.h"
-	#include "ORANGE/QuickMath/FixedPoint.h"
-#else
-	#include "BLIT.H" // for rspLine
-	#include "zbuffer.h" // for rspLine
-	#include "colormatch.h"
-	#include "vectormath.h"
-	#include "fixedpoint.h"
-#endif
+#include <BLUE/System.h>
+#include <GREEN/BLiT/BLIT.H> // for rspLine
+#include <ORANGE/color/colormatch.h>
+#include <ORANGE/QuickMath/VectorMath.h>
+#include <ORANGE/QuickMath/FixedPoint.h>
+
+#include "zbuffer.h" // for rspLine
+
 //================================================== 
 
 // all render effects on!

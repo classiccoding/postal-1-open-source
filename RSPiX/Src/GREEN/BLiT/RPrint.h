@@ -41,7 +41,10 @@
 	short SetColumn(short sX,short sY,short sW,short sH);
 // ****************************************************** QUICK CHECK */
 
-#include "BLIT.H"
+#include "BLIT.H" // RRect
+#include "Cfnt.h" // RFont
+#include <GREEN/Image/Image.h> // RImage
+
 //====================
 class RPrint
 	{

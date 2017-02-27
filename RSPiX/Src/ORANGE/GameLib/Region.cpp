@@ -54,7 +54,7 @@
 //		06/28/97 MJR	Changed __int64 to S64 for mac compatability.
 //
 //////////////////////////////////////////////////////////////////////////////
-#include <math.h>
+#include <cmath>
 
 
 #include "Region.h"

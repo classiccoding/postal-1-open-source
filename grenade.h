@@ -68,7 +68,7 @@
 #ifndef GRENADE_H
 #define GRENADE_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "realm.h"
 #include "weapon.h"
 
