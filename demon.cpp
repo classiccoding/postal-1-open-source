@@ -94,7 +94,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "demon.h"
 #include "game.h"
 #include "dude.h"

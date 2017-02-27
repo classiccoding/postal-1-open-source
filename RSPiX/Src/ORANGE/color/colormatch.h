@@ -18,14 +18,10 @@
 #ifndef COLOR_MATCH_H
 #define COLOR_MATCH_H
 //==================================
-#include "System.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/Image/Image.h"
-	#include "ORANGE/File/file.h"
-#else
-	#include "Image.h"
-	#include "file.h"
-#endif
+#include <BLUE/System.h>
+
+class RFile;
+class RImage;
 //==================================
 
 extern	uint8_t rspMatchColorRGB(int32_t r,int32_t g,int32_t b,int16_t sStart,int16_t sNum,

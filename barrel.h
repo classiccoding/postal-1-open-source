@@ -47,7 +47,7 @@
 #ifndef BARREL_H
 #define BARREL_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "Thing3d.h"
 #include "realm.h"
 #include "grenade.h"

@@ -19,8 +19,8 @@
 #ifndef ALPHA_BLIT_H
 #define ALPHA_BLIT_H
 //===========================================================================
-#include "GREEN/BLiT/BLIT.H"
-#include "ORANGE/color/colormatch.h"
+#include <GREEN/BLiT/BLIT.H>
+#include <ORANGE/color/colormatch.h>
 //===========================================================================
 //////////////////////////////////////////////////////////////////////
 //

@@ -45,7 +45,7 @@
 #ifndef NETDLG_H
 #define NETDLG_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 
 #if !defined(MULTIPLAYER_REMOVED)
 

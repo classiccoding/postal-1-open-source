@@ -37,28 +37,15 @@
 #ifndef animsprt_h
 #define animsprt_h
 
-#include "System.h"
+#include "SPRITE.H"
+#include <BLUE/System.h>
 
-// If PATHS_IN_INCLUDES macro is defined, we can utilized relative
-// paths to a header file.  In this case we generally go off of our
-// RSPiX root directory.  System.h MUST be included before this macro
-// is evaluated.  System.h is the header that, based on the current
-// platform (or more so in this case on the compiler), defines 
-// PATHS_IN_INCLUDES.  Blue.h includes system.h so you can include that
-// instead.
-#ifdef PATHS_IN_INCLUDES
-	// Orange includes
-	#include "ORANGE/GameLib/SPRITE.H"
-	#include "ORANGE/File/file.h"
-#else
-	// Orange includes
-	#include "sprite.h"
-	#include "file.h"
-#endif // PATHS_IN_INCLUDES
+class RImage;
+class RFile;
 
-#ifdef _MSC_VER
-	#pragma warning (disable:4200) // disable warning about zero-length arrays
-#endif
+//#ifdef _MSC_VER
+//	#pragma warning (disable:4200) // disable warning about zero-length arrays
+//#endif
 
 // These masks are used with the animation flags
 #define ANIMSPRITE_FLAG_LOOP		0x0001	// 1=loop anim, 0=stop at end

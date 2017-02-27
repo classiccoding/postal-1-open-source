@@ -29,7 +29,7 @@
 #include <sys/param.h>
 #endif
 
-#include "System.h"
+#include <BLUE/System.h>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Special Color API

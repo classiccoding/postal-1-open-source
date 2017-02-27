@@ -37,7 +37,8 @@
 #ifndef PREFS_H
 #define PREFS_H
 
-#include "Blue.h"
+#include <BLUE/System.h>
+
 #include "prefline.h"
 
 

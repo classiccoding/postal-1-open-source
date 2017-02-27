@@ -48,16 +48,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include <stdlib.h>
-
-#include "Blue.h"
-
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/SndFx/SndFx.h"
-#else
-	#include "SndFx.h"
-#endif // PATHS_IN_INCLUDES
-
+#include "SndFx.h"
 
 //////////////////////////////////////////////////////////////////////////////
 // Initialize static member variables.

@@ -78,7 +78,7 @@
 #ifndef PERSON_H
 #define PERSON_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "realm.h"
 #include "doofus.h"
 #include "personatorium.h"

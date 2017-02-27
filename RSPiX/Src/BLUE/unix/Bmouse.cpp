@@ -28,11 +28,10 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
+#include <BLUE/unix/UnixBlue.h>
+
+#include <ORANGE/CDT/QUEUE.H>
 #include <SDL2/SDL.h>
-
-#include "BLUE/Blue.h"
-
-#include "ORANGE/CDT/QUEUE.H"
 
 extern SDL_Window *sdlWindow;
 extern SDL_Surface *sdlShadowSurface;

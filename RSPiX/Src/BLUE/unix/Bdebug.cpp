@@ -62,14 +62,17 @@
 //////////////////////////////////////////////////////////////////////////////
 // Includes.
 //////////////////////////////////////////////////////////////////////////////
-#include <stdio.h>
-#include <stdarg.h>
-#include <signal.h>
-#include <time.h>
 
-#include "BLUE/Blue.h"
+#include <BLUE/unix/UnixBlue.h>
 
-#include "CYAN/cyan.h"	// For rspMsgBox() used by rspTrace().
+#include <cstdio>
+#include <cstdarg>
+#include <csignal>
+#include <ctime>
+
+#ifdef RSP_DEBUG_OUT_MESSAGEBOX
+#include <CYAN/cyan.h> // For rspMsgBox() used by rspTrace().
+#endif
 
 //////////////////////////////////////////////////////////////////////////////
 // Macros.

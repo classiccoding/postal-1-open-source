@@ -19,13 +19,8 @@
 // It hooks references to special areas (screens & their buffers), and
 // calls the appropriate functions...
 
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/BLiT/BLIT.H"
-	#include "GREEN/BLiT/_BlitInt.H"
-#else
-	#include "BLIT.H"
-	#include "_BlitInt.H" 
-#endif
+#include "BLIT.H"
+#include <BLUE/Blue.h>
 
 	template <class PIXSIZE>
 	void	rspClipPlot(PIXSIZE color, RImage* pimDst,int16_t sX,int16_t sY,const RRect* prClip)

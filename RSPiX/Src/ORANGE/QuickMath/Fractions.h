@@ -18,7 +18,10 @@
 #ifndef FRACTIONS_H
 #define FRACTIONS_H
 //=======================
-#include "System.h"
+#include <BLUE/System.h>
+
+#include <cmath>
+
 //====================
 /*****************************************************************
 This header depends on the rest QuickMath, but is not necessary
@@ -60,12 +63,12 @@ inline void rspMakeProper(&frU16Dst,usNum,usDen)
 inline RFracU16* rspfrU16Strafe256(usNum,usDen) // gives 0..255 * fraction!
 
 // *********************** HIGH INTENSITY SPEED! ***********************
-inline void rspfrAdd32(&lVal,&lNum,&lDel,&lInc,&lDen,&lAdd,PROPER,POSITIVE)
-inline void rspfrAdd32(&lVal,&lNum,&lDel,&lInc,&lDen,&lAdd,IMPROPER,POSITIVE)
-inline void rspfrAdd32(&lVal,&lNum,&lDel,&lInc,&lDen,&lAdd,IMPROPER,POSITIVE)
-inline void rspfrAdd32(&lVal,&lNum,&lDel,&lInc,&lDen,&lAdd,PROPER,NEGATIVE)
-inline void rspfrAdd32(&lVal,&lNum,&lDel,&lInc,&lDen,&lAdd,IMPROPER,NEGATIVE)
-inline void rspfrAdd32(&lVal,&lNum,&lDel,&lInc,&lDen,&lPixSize)
+inline void rspfrAddMax(&lVal,&lNum,&lDel,&lInc,&lDen,&lAdd,PROPER,POSITIVE)
+inline void rspfrAddMax(&lVal,&lNum,&lDel,&lInc,&lDen,&lAdd,IMPROPER,POSITIVE)
+inline void rspfrAddMax(&lVal,&lNum,&lDel,&lInc,&lDen,&lAdd,IMPROPER,POSITIVE)
+inline void rspfrAddMax(&lVal,&lNum,&lDel,&lInc,&lDen,&lAdd,PROPER,NEGATIVE)
+inline void rspfrAddMax(&lVal,&lNum,&lDel,&lInc,&lDen,&lAdd,IMPROPER,NEGATIVE)
+inline void rspfrAddMax(&lVal,&lNum,&lDel,&lInc,&lDen,&lPixSize)
  ****************************************************************/
 
 typedef union
@@ -206,8 +209,8 @@ typedef int32_t IMPROPER;
 // lDel is unused here...
 // all values are signed, including lInc & lDel ...
 //
-inline void rspfrAdd32(int32_t &lVal,int32_t &lNum,int32_t &lDel,int32_t &lInc,
-                       int32_t &lDen,int32_t &lAdd,PROPER,POSITIVE)
+inline void rspfrAddMax(intmax_t& lVal,intmax_t& lNum,intmax_t& lDel,intmax_t& lInc,
+                        intmax_t& lDen,intmax_t& lAdd,PROPER,POSITIVE)
 {
   UNUSED(lDel);
   lNum += lInc;
@@ -216,8 +219,8 @@ inline void rspfrAdd32(int32_t &lVal,int32_t &lNum,int32_t &lDel,int32_t &lInc,
 
 // all values are signed, including lInc & lDel ...
 //
-inline void rspfrAdd32(int32_t &lVal,int32_t &lNum,int32_t &lDel,int32_t &lInc,
-                       int32_t &lDen,int32_t &lAdd,IMPROPER,POSITIVE)
+inline void rspfrAddMax(intmax_t& lVal,intmax_t& lNum,intmax_t& lDel,intmax_t& lInc,
+                        intmax_t& lDen,intmax_t& lAdd,IMPROPER,POSITIVE)
 {
   lVal += lDel;
   lNum += lInc;
@@ -227,8 +230,8 @@ inline void rspfrAdd32(int32_t &lVal,int32_t &lNum,int32_t &lDel,int32_t &lInc,
 // lDel is unused here...
 // all values are signed, including lInc & lDel & lAdd ...
 //
-inline void rspfrAdd32(int32_t &lVal,int32_t &lNum,int32_t &lDel,int32_t &lInc,
-                       int32_t &lDen,int32_t &lAdd,PROPER,NEGATIVE)
+inline void rspfrAddMax(intmax_t& lVal,intmax_t& lNum,intmax_t& lDel,intmax_t& lInc,
+                        intmax_t& lDen,intmax_t& lAdd,PROPER,NEGATIVE)
 {
   UNUSED(lDel);
   lNum += lInc;
@@ -237,8 +240,8 @@ inline void rspfrAdd32(int32_t &lVal,int32_t &lNum,int32_t &lDel,int32_t &lInc,
 
 // all values are signed, including lInc & lDel & lAdd ...
 //
-inline void rspfrAdd32(int32_t &lVal,int32_t &lNum,int32_t &lDel,int32_t &lInc,
-                       int32_t &lDen,int32_t &lAdd,IMPROPER,NEGATIVE)
+inline void rspfrAddMax(intmax_t& lVal,intmax_t& lNum,intmax_t& lDel,intmax_t& lInc,
+                        intmax_t& lDen,intmax_t& lAdd,IMPROPER,NEGATIVE)
 {
   lVal += lDel;
   lNum += lInc;
@@ -248,8 +251,8 @@ inline void rspfrAdd32(int32_t &lVal,int32_t &lNum,int32_t &lDel,int32_t &lInc,
 // all values are signed, including lInc & lDel & lAdd ...
 // General (slowest) form... Improper and UNKNOWN SIGN
 //
-inline void rspfrAdd32(int32_t &lVal,int32_t &lNum,int32_t &lDel,int32_t &lInc,
-                       int32_t &lDen,int32_t &lPixSize)
+inline void rspfrAddMax(intmax_t& lVal,intmax_t& lNum,intmax_t& lDel,intmax_t& lInc,
+                        intmax_t& lDen,intmax_t& lPixSize)
 {
   lVal += lDel;
   lNum += lInc;

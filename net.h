@@ -29,7 +29,7 @@
 #ifndef NET_H
 #define NET_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 
 #if defined(MULTIPLAYER_REMOVED)
 typedef int CNetClient;

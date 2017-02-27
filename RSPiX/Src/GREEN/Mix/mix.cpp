@@ -160,15 +160,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifdef PATHS_IN_INCLUDES
-	#include "BLUE/system.h"
-	#include "BLUE/Blue.h"
-	#include "GREEN/Mix/mix.h"
-#else
-	#include "System.h"
-	#include "Blue.h"
-	#include "mix.h"
-#endif // PATHS_IN_INCLUDES
+#include "mix.h"
+
+#include <BLUE/System.h>
 
 
 //////////////////////////////////////////////////////////////////////////////

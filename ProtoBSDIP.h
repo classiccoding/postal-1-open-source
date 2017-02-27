@@ -36,7 +36,7 @@
 #include <winsock.h>
 #else
 // (that should just about cover it... --ryan.)
-#include <stdio.h>
+#include <cstdio>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -46,7 +46,7 @@
 #include <sys/uio.h>
 #include <sys/ioctl.h>
 #include <sys/time.h>
-#include <errno.h>
+#include <cerrno>
 #include <pthread.h>
 #include <fcntl.h>
 

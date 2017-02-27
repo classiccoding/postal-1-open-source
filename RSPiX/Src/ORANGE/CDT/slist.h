@@ -43,8 +43,8 @@
 #ifndef H_SLIST
 #define H_SLIST
 
-#include <string.h>
-#include "Blue.h"
+#include <BLUE/System.h>
+//#include <cstring>
 
 template <class T, class K> class RSList
 	{

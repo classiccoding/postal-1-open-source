@@ -21,8 +21,8 @@
 // History:
 //		12/11/96	JPW	RPrefsLine created to contain ini file lines, information
 //							on the type of lines, and to help in processing of lines.
-//		12/16/96	JPW	Fixed so it will work with the STL stuff that comes with 
-//							MSVC 4.1 or newer.  Also fixed a few psz parameters that 
+//		12/16/96	JPW	Fixed so it will work with the STL stuff that comes with
+//							MSVC 4.1 or newer.  Also fixed a few psz parameters that
 //							should have been const's.
 //
 //		05/08/97	JMI	Added conditions for compiler versions' STL
@@ -43,12 +43,12 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <stdio.h>
-#include <string.h>
-#include <assert.h>
-#include <ctype.h>
+#include <cstdio>
+#include <cstring>
+#include <cassert>
+#include <cctype>
 
-#include "Blue.h"
+#include <BLUE/System.h>
 #include "prefline.h"
 
 ////////////////////////////////////////////////////////////////////////////////

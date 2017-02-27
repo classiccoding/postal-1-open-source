@@ -48,7 +48,7 @@
 #ifndef YATIME_H
 #define YATIME_H
 
-#include "Blue.h"
+#include <BLUE/Blue.h>
 
 
 class CTime

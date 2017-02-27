@@ -62,7 +62,7 @@
 #ifndef MINE_H
 #define MINE_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "realm.h"
 #include "weapon.h"
 #include "bulletFest.h"

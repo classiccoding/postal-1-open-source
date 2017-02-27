@@ -21,15 +21,7 @@
 // Anticipating this, it will do ROW blitting as separate inline
 // functions.  Whatcha gonna do, man?
 //
-#ifdef PATHS_IN_INCLUDES
-	#include "GREEN/BLiT/BLIT.H"
-	#include "GREEN/BLiT/_BlitInt.H"
-//	#include "GREEN/BLiT/_ic.h"
-#else
-	#include "BLIT.H"
-	#include "_BlitInt.H" 
-//	#include "_ic.h" 
-#endif
+#include "BLIT.H"
 
 // For now, do the shrink case only...
 // This algorithm is based entirely on 15-bit unsigned fractions, allowing

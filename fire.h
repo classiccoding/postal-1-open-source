@@ -71,7 +71,7 @@
 #ifndef FIRE_H
 #define FIRE_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "realm.h"
 #include "AlphaAnimType.h"
 #include "smash.h"

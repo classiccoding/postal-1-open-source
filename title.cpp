@@ -167,7 +167,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "title.h"
 #include "game.h"
 #include "update.h"

@@ -354,7 +354,7 @@
 #ifndef DUDE_H
 #define DUDE_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 
 #include "realm.h"
 #include "game.h"

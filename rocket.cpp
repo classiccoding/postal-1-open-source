@@ -176,8 +176,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
-#include <math.h>
+#include <RSPiX.h>
+#include <cmath>
 
 #include "rocket.h"
 #include "dude.h"

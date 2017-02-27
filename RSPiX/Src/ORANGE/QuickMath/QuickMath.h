@@ -19,8 +19,9 @@
 // It is currently set to use only integer degrees as input.
 #ifndef QUICK_MATH_H
 #define QUICK_MATH_H
-#include <math.h>
-#include "Blue.h"
+
+#include <BLUE/System.h>
+#include <cmath>
 
 #define rspPI  3.14159265359
 #define rspRadToDeg  57.29577951308
@@ -48,7 +49,6 @@ inline void rspMod(&sValue,&sRange)
 
 inline void rspDivMod(T num,T den,T &div, T &mod) // symmetric (methematical)
 inline void rspDivModA(T num,T den,T &div, T &mod) // asymmetric
-inline void rspDivModA64(int64_t num,int32_t den,int32_t &div,int32_t &mod) // asymmetric
 
 short rspATan(sDeltaY,sDeltaX);
 inline short rspDegDelta(sDegSrc,sDegDst)
@@ -70,128 +70,111 @@ extern int16_t ATANQ[60];
 extern int16_t SQRTQ[MAX_FAST_SQRT];
 /****************************************************************/
 inline int16_t	rspSqrt(int32_t lVal)
-	{
-	if (lVal < MAX_FAST_SQRT) return SQRTQ[lVal];
-	return int16_t(sqrt(double(lVal)));
-	}
+{
+  if (lVal < MAX_FAST_SQRT) return SQRTQ[lVal];
+  return int16_t(sqrt(double(lVal)));
+}
 
 inline double rspSin(int16_t sDeg) 
-   {
-   ASSERT((sDeg >= 0) || (sDeg < 360));
+{
+  ASSERT((sDeg >= 0) || (sDeg < 360));
 
-	return SINQ[sDeg]; 
-	}
+  return SINQ[sDeg];
+}
 
 inline double rspCos(int16_t sDeg) 
-   {
-   ASSERT((sDeg >= 0) || (sDeg < 360));
+{
+  ASSERT((sDeg >= 0) || (sDeg < 360));
 
-	return COSQ[sDeg]; 
-	}
+  return COSQ[sDeg];
+}
 
 inline float rspfSin(int16_t sDeg) 
-   {
-   ASSERT((sDeg >= 0) || (sDeg < 360));
+{
+  ASSERT((sDeg >= 0) || (sDeg < 360));
 
-	return fSINQ[sDeg];
-	}
+  return fSINQ[sDeg];
+}
 
 inline float rspfCos(int16_t sDeg) 
-   {
-   ASSERT((sDeg >= 0) || (sDeg < 360));
+{
+  ASSERT((sDeg >= 0) || (sDeg < 360));
 
-	return fCOSQ[sDeg]; 
-	}
+  return fCOSQ[sDeg];
+}
 
 extern	int16_t rspATan(int16_t sDeltaY,int16_t sDeltaX);
 extern	int16_t rspATan(double dVal);
 inline	int16_t rspDegDelta(int16_t sDegSrc,int16_t sDegDst)
-	{
-	int16_t sDel = sDegDst - sDegSrc;
+{
+  int16_t sDel = sDegDst - sDegSrc;
 
-	if (sDel >= 0) // positive turn
-		{
-		if (sDel > 180) sDel -= 360; // neg turn
-		}
-	else
-		{// negative turn
-		if (sDel < -180) sDel += 360; // pos turn
-		}
+  if (sDel >= 0) // positive turn
+  {
+    if (sDel > 180) sDel -= 360; // neg turn
+  }
+  else
+  {// negative turn
+    if (sDel < -180) sDel += 360; // pos turn
+  }
 
-	return sDel;
-	}
+  return sDel;
+}
 
-// Use individual whiles if you know what 
-// to expect
-//
+// Use individual whiles if you know what to expect
 inline int16_t rspMod360(int16_t sDeg)
-	{
-	while (sDeg < 0) sDeg += 360;
-	while (sDeg > 359) sDeg -= 360;
-	return sDeg;
-	}
+{
+  while (sDeg < 0) sDeg += 360;
+  while (sDeg > 359) sDeg -= 360;
+  return sDeg;
+}
 
 inline int16_t rspMod(int16_t sVal,int16_t &sRange)
-	{
-	while (sVal < 0) sVal += sRange;
-	while (sVal >= sRange) sVal -= sRange;
-	return sVal;
-	}
+{
+  while (sVal < 0) sVal += sRange;
+  while (sVal >= sRange) sVal -= sRange;
+  return sVal;
+}
 
 inline void rspMod360(int16_t *sDeg)
-	{
-	*sDeg = rspMod360(*sDeg);
-	}
+{
+  *sDeg = rspMod360(*sDeg);
+}
 
 inline void rspMod(int16_t *sVal,int16_t &sRange)
-	{
-	*sVal = rspMod(*sVal,sRange);
-	}
+{
+  *sVal = rspMod(*sVal,sRange);
+}
 
 extern	void InitTrig();
 
 // Auto Initialize hook!
 class RQuickTrig
-	{
+{
 public:
-	RQuickTrig() { InitTrig(); }
-	~RQuickTrig() {  }
-	};
+  RQuickTrig() { InitTrig(); }
+  ~RQuickTrig() {  }
+};
 
-template <class T> // aymmetric mod wrt sign, good for deltas
+template <typename T> // aymmetric mod wrt sign, good for deltas
 inline void rspDivMod(T num,T den,T &div, T &mod) // does NOT check if (den == 0)
-	{	// Algorithm not verified for neqative denominator!!!!
-	div = num / den;
-	mod = num - div * den;
-	}
+{	// Algorithm not verified for neqative denominator!!!!
+  div = num / den;
+  mod = num - div * den;
+}
 
-template <class T> // asymmetric mod wrt sign, good for POSITION
-inline void rspDivModA(T num,T den,T &div, T &mod) // does NOT check if (den == 0)
-	{	// Algorithm not verified for neqative denominator!!!!
-	div = num / den;
-	mod = num - div * den;
-	if (mod)
-   {
-		if (div < 0)  { div--; mod += den;}
-   }
-	else if (!div)
-		if (mod < 0) { div--; mod += den;}
-	}
-
-// This is MACHINE specific and handles temporary overflows:
-inline void rspDivModA64(int64_t num,int32_t den,int32_t &div,int32_t &mod) // does NOT check if (den == 0)
-	{	// Algorithm not verified for neqative denominator!!!!
-	div = num / den;
-	mod = num - div * den;
-	if (mod)
-   {
-		if (div < 0)  { div--; mod += den;}
-   }
-	else if (!div)
-		if (mod < 0) { div--; mod += den;}
-	}
-
-
+template <typename N, typename T> // asymmetric mod wrt sign, good for POSITION
+inline void rspDivModA(N num,T den,T &div, T &mod) // does NOT check if (den == 0)
+{	// Algorithm not verified for neqative denominator!!!!
+  div = num / den;
+  mod = num - div * den;
+  if (mod)
+  {
+    if (div < 0)  { div--; mod += den;}
+  }
+  else if (!div)
+    if (mod < 0) { div--; mod += den;}
+}
 
 //-------------------------------
 #endif

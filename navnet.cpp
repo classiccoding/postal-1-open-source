@@ -138,8 +138,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
-#include <math.h>
+#include <RSPiX.h>
+#include <cmath>
 
 #include "navnet.h"
 #include "bouy.h"

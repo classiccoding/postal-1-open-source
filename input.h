@@ -117,7 +117,7 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "realm.h"
 #include "InputSettings.h"
 

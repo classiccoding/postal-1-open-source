@@ -35,7 +35,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <SDL2/SDL.h>
-#include "Blue.h"
+#include <BLUE/Blue.h>
 
 // Only set value if not nullptr.
 #define SET(ptr, val)		( ((ptr) != nullptr) ? *(ptr) = (val) : 0)

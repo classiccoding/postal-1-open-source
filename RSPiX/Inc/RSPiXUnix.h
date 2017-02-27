@@ -45,62 +45,62 @@
 //////////////////////////////////////////////////////////////////////////////
 // Blue headers.
 //////////////////////////////////////////////////////////////////////////////
-#include "BLUE/unix/UnixBlue.h"
+#include <BLUE/unix/UnixBlue.h>
 
 //////////////////////////////////////////////////////////////////////////////
 // Cyan headers.
 //////////////////////////////////////////////////////////////////////////////
-#include "CYAN/Unix/UnixCyan.h"
+#include <CYAN/Unix/UnixCyan.h>
 
 //////////////////////////////////////////////////////////////////////////////
 // Green headers.
 //////////////////////////////////////////////////////////////////////////////
-#include "GREEN/BLiT/BLIT.H"
-#include "GREEN/Hot/hot.h"
-#include "GREEN/Image/Image.h"
-#include "GREEN/Mix/mix.h"
-#include "GREEN/Sample/sample.h"
-#include "GREEN/Snd/snd.h"
-#include "GREEN/SndFx/SndFx.h"
-#include "GREEN/3D/user3d.h"
-#include "GREEN/BLiT/alphablit.h"
+#include <GREEN/BLiT/BLIT.H>
+#include <GREEN/Hot/hot.h>
+#include <GREEN/Image/Image.h>
+#include <GREEN/Mix/mix.h>
+#include <GREEN/Sample/sample.h>
+#include <GREEN/Snd/snd.h>
+#include <GREEN/SndFx/SndFx.h>
+#include <GREEN/3D/user3d.h>
+#include <GREEN/BLiT/alphablit.h>
 
 //////////////////////////////////////////////////////////////////////////////
 // Orange headers.
 //////////////////////////////////////////////////////////////////////////////
-#include "ORANGE/CDT/listbase.h"
-#include "ORANGE/CDT/List.h"
-#include "ORANGE/CDT/slist.h"
-#include "ORANGE/CDT/QUEUE.H"
-#include "ORANGE/CDT/fqueue.h"
-#include "ORANGE/CDT/stack.h"
-#include "ORANGE/CDT/flist.h"
-#include "ORANGE/DirtRect/DirtRect.h"
-#include "ORANGE/GameLib/ANIMSPRT.H"
-#include "ORANGE/GameLib/Region.h"
-#include "ORANGE/GameLib/Shapes.h"
-#include "ORANGE/GameLib/SPRITE.H"
-#include "ORANGE/File/file.h"
-#include "ORANGE/IFF/iff.h"
-#include "ORANGE/GUI/dlg.h"
-#include "ORANGE/GUI/btn.h"
-#include "ORANGE/GUI/txt.h"
-#include "ORANGE/GUI/edit.h"
-#include "ORANGE/GUI/scrollbar.h"
-#include "ORANGE/GUI/ListBox.h"
-#include "ORANGE/GUI/PushBtn.h"
-#include "ORANGE/GUI/MultiBtn.h"
-#include "ORANGE/Meter/meter.h"
-#include "ORANGE/MsgBox/MsgBox.h"
-#include "ORANGE/Attribute/attribute.h"
-#include "ORANGE/ImageTools/lasso.h"
-#include "ORANGE/Laymage/laymage.h"
-#include "ORANGE/RString/rstring.h"
-#include "ORANGE/Channel/channel.h"
-#include "ORANGE/color/colormatch.h"
-#include "ORANGE/color/dithermatch.h"
-#include "ORANGE/str/str.h"
-#include "ORANGE/GUI/ProcessGui.h"
+#include <ORANGE/CDT/listbase.h>
+#include <ORANGE/CDT/List.h>
+#include <ORANGE/CDT/slist.h>
+#include <ORANGE/CDT/QUEUE.H>
+#include <ORANGE/CDT/fqueue.h>
+#include <ORANGE/CDT/stack.h>
+#include <ORANGE/CDT/flist.h>
+#include <ORANGE/DirtRect/DirtRect.h>
+#include <ORANGE/GameLib/ANIMSPRT.H>
+#include <ORANGE/GameLib/Region.h>
+#include <ORANGE/GameLib/Shapes.h>
+#include <ORANGE/GameLib/SPRITE.H>
+#include <ORANGE/File/file.h>
+#include <ORANGE/IFF/iff.h>
+#include <ORANGE/GUI/dlg.h>
+#include <ORANGE/GUI/btn.h>
+#include <ORANGE/GUI/txt.h>
+#include <ORANGE/GUI/edit.h>
+#include <ORANGE/GUI/scrollbar.h>
+#include <ORANGE/GUI/ListBox.h>
+#include <ORANGE/GUI/PushBtn.h>
+#include <ORANGE/GUI/MultiBtn.h>
+#include <ORANGE/Meter/meter.h>
+#include <ORANGE/MsgBox/MsgBox.h>
+#include <ORANGE/Attribute/attribute.h>
+#include <ORANGE/ImageTools/lasso.h>
+#include <ORANGE/Laymage/laymage.h>
+#include <ORANGE/RString/rstring.h>
+#include <ORANGE/Channel/channel.h>
+#include <ORANGE/color/colormatch.h>
+#include <ORANGE/color/dithermatch.h>
+#include <ORANGE/str/str.h>
+#include <ORANGE/GUI/ProcessGui.h>
 
 //////////////////////////////////////////////////////////////////////////////
 // EOF

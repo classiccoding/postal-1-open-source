@@ -42,12 +42,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RSPiX.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "WishPiX/Prefs/prefs.h"
-#else
-	#include "prefs.h"
-#endif
+#include <RSPiX.h>
+#include <WishPiX/Prefs/prefs.h>
 
 #include "main.h"
 #include "settings.h"

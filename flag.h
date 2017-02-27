@@ -31,7 +31,7 @@
 #ifndef FLAG_H
 #define FLAG_H
 
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "realm.h"
 #include "Thing3d.h"
 

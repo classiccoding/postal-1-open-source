@@ -25,7 +25,7 @@
 //
 //		12/23/97 SPA	Moved from Play.cpp to seperate file
 ////////////////////////////////////////////////////////////////////////////////
-#include "RSPiX.h"
+#include <RSPiX.h>
 #include "game.h"
 #include "net.h"
 #include "Log.h"

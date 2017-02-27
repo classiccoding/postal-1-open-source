@@ -19,17 +19,9 @@
 // headers he needs to work with 3d stuff:
 
 // 3d stuff:
-#include "System.h"
-#ifdef PATHS_IN_INCLUDES
-	#include "ORANGE/QuickMath/VectorMath.h"
-	#include "GREEN/3D/types3d.h"
-	#include "GREEN/3D/zbuffer.h"
-	#include "GREEN/3D/render.h"
-	#include "GREEN/3D/pipeline.h"
-#else
-	#include "vectormath.h"
-	#include "types3d.h"
-	#include "zbuffer.h"
-	#include "render.h"
-	#include "pipeline.h"
-#endif
+#include <BLUE/System.h>
+#include <ORANGE/QuickMath/VectorMath.h>
+#include "types3d.h"
+#include "zbuffer.h"
+#include "render.h"
+#include "pipeline.h"
