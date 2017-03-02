@@ -295,7 +295,7 @@ void test(RImage* pimF,RImage* pimB)
 	rspSetBMPColors(pimF,10,118);
 	rspSetBMPColors(pimB,128,118);
 
-	int16_t sHot = (int16_t) ((pimF->m_sHeight)/rspSQRT2/2.0);
+   int16_t sHot = int16_t(pimF->m_sHeight/rspSQRT2/2.0);
 //---------------------------------------------------------------
 #define sNumStates 3
 	int16_t x[sNumStates],y[sNumStates];
