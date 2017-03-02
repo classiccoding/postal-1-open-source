@@ -38,7 +38,7 @@
 #include "alphablitforpostal.h"
 
 #include <ORANGE/color/colormatch.h>
-#include <GREEN/BLiT/alphablit.h>
+#include <GREEN/Blit/AlphaBlit.h>
 #include <ResourceManager/resmgr.h>
 
 #include "game.h"

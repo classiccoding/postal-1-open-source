@@ -123,12 +123,12 @@
 
 #include <GREEN/Image/Image.h>
 #include <ORANGE/CDT/List.h>
-#include <GREEN/BLiT/BLIT.H>
-#include <GREEN/BLiT/Cfnt.h>
-#include <GREEN/BLiT/RPrint.h>
+#include <GREEN/Blit/Blit.h>
+#include <GREEN/Blit/Cfnt.h>
+#include <GREEN/Blit/RPrint.h>
 #include <GREEN/Hot/hot.h>
 #include <ORANGE/Props/Props.h>
-#include <CYAN/cyan.h>
+#include <CYAN/Cyan.h>
 
 class RFile;
 

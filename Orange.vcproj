@@ -241,7 +241,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;hpj;bat;for;f90"
 			>
 			<File
-        RelativePath="RSPiX\ORANGE\GameLib\ANIMSPRT.CPP"
+        RelativePath="RSPiX\ORANGE\GameLib\AnimSprite.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -1404,7 +1404,7 @@
 			Filter="h;hpp;hxx;hm;inl;fi;fd"
 			>
 			<File
-        RelativePath="RSPiX\orange\gamelib\animsprt.h"
+        RelativePath="RSPiX\orange\gamelib\AnimSprite.h"
 				>
 			</File>
 			<File

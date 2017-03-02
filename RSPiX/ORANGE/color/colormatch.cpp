@@ -19,7 +19,7 @@
 #include "colormatch.h"
 
 #include <BLUE/Blue.h>
-#include <GREEN/BLiT/BLIT.H> // ONLY for the debug command... can be disabled if nec
+#include <GREEN/Blit/Blit.h> // ONLY for the debug command... can be disabled if nec
 #include <GREEN/Image/Image.h>
 #include <ORANGE/File/file.h>
 #include <ORANGE/QuickMath/FixedPoint.h>

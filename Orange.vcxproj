@@ -187,7 +187,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="RSPiX\ORANGE\GameLib\ANIMSPRT.CPP">
+    <ClCompile Include="RSPiX\ORANGE\GameLib\AnimSprite.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Optimized Debug|Win32'">MaxSpeed</Optimization>
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
@@ -396,7 +396,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="RSPiX\orange\gamelib\animsprt.h" />
+    <ClInclude Include="RSPiX\orange\gamelib\AnimSprite.h" />
     <ClInclude Include="RSPiX\orange\Attribute\Attribute.h" />
     <ClInclude Include="RSPiX\orange\gui\Btn.h" />
     <ClInclude Include="RSPiX\orange\channel\channel.h" />

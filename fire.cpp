@@ -628,7 +628,7 @@ int16_t CFire::Init(void)
 {
 	int16_t sResult = SUCCESS;
 #ifdef _DEBUG
-	CAlphaAnim* pAnim = nullptr;
+   CAlphaAnim* pAnim = nullptr;
 #endif
 
 	if (m_pAnimChannel != nullptr)

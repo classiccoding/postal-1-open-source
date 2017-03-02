@@ -15,7 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-// ATTRIBUTE.H
+// Attribute.h
 //
 // Created on 10/03/96 JMI
 // Implemented	03/14/97 JRD

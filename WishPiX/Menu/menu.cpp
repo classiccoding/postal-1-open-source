@@ -129,7 +129,7 @@
 
 #include <ORANGE/color/colormatch.h>
 #include <ORANGE/MsgBox/MsgBox.h>
-#include <CYAN/cyan.h>
+#include <CYAN/Cyan.h>
 
 #include "../../input.h" // FIXME
 

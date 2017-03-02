@@ -773,8 +773,10 @@ static int16_t ms_sForegroundCursorShowLevel	= INVALID_CURSOR_SHOW_LEVEL;
 static int32_t m_lRandom = 1;
 static RFile* m_pfileRandom = 0;
 
+#if defined(_DEBUG) || defined(TRACENASSERT)
 // Used by if-logging schtuff.
 static milliseconds_t	ms_lSynchLogSeq	= 0;
+#endif
 
 static RFile	ms_fileSynchLog;
 
@@ -3632,6 +3634,7 @@ void GameEndingSequence(void)
 // Returns a ptr to just the portion of the file path that specifies the file
 // name (excluding the path).
 ////////////////////////////////////////////////////////////////////////////////
+#if defined(_DEBUG) || defined(TRACENASSERT)
 static const char* GetFileNameFromPath(	// Returns file name.
    const char*	pszFullPath)					// In:  File's full path.
 	{
@@ -3645,7 +3648,7 @@ static const char* GetFileNameFromPath(	// Returns file name.
 
 	return (pszIndex + 1);
 	}
-
+#endif
 ////////////////////////////////////////////////////////////////////////////////
 // Opens the synchronization log with the specified access flags if in a 
 // TRACENASSERT mode and synchronization logging is enabled.
@@ -3807,6 +3810,7 @@ extern int SynchLog(	// Result of expr.
 				}
 			}
 #else
+      UNUSED(pszFile, lLine, pszExpr, u32User);
 		rspMsgBox(
 			RSP_MB_ICN_STOP | RSP_MB_BUT_OK,
 			"Postal",

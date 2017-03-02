@@ -187,14 +187,14 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="RSPiX\Blue\unix\Bdebug.cpp" />
-    <ClCompile Include="RSPiX\Blue\unix\Bdisp.cpp" />
-    <ClCompile Include="RSPiX\Blue\unix\Bjoy.cpp" />
-    <ClCompile Include="RSPiX\Blue\unix\Bkey.cpp" />
-    <ClCompile Include="RSPiX\Blue\unix\Bmain.cpp" />
-    <ClCompile Include="RSPiX\Blue\unix\Bmouse.cpp" />
-    <ClCompile Include="RSPiX\Blue\unix\Bsound.cpp" />
-    <ClCompile Include="RSPiX\Blue\unix\Btime.cpp" />
+    <ClCompile Include="RSPiX\Blue\sdl2\Bdebug.cpp" />
+    <ClCompile Include="RSPiX\Blue\sdl2\Bdisp.cpp" />
+    <ClCompile Include="RSPiX\Blue\sdl2\Bjoy.cpp" />
+    <ClCompile Include="RSPiX\Blue\sdl2\Bkey.cpp" />
+    <ClCompile Include="RSPiX\Blue\sdl2\Bmain.cpp" />
+    <ClCompile Include="RSPiX\Blue\sdl2\Bmouse.cpp" />
+    <ClCompile Include="RSPiX\Blue\sdl2\Bsound.cpp" />
+    <ClCompile Include="RSPiX\Blue\sdl2\Btime.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Cyan.vcxproj">
