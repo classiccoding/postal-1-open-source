@@ -252,7 +252,11 @@ typedef struct {	uint64_t	hi;
 #define UNUSED_IMPL(nargs) UNUSED_IMPL_(nargs)
 #define UNUSED(...) UNUSED_IMPL( VA_NUM_ARGS(__VA_ARGS__))(__VA_ARGS__ )
 
+#if defined(RELEASE) || defined(NDEBUG) || defined(_NDEBUG)
+#define UNHANDLED_SWITCH    default: break;
+#else
 #define UNHANDLED_SWITCH    default: {{ static bool displayed = false; if(!displayed) { displayed = true; TRACE("Unhandled switch\n"); } }} break
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // Pixel types
@@ -345,16 +349,20 @@ constexpr T SGN3(T x) { return (x == 0) ? (T)0 : ((x < 0) ? (T)-1 : (T)1); }
 
 extern void rspTrace(const char* szFrmt, ...);
 
-#if defined(_DEBUG) || defined(TRACENASSERT)
-// TRACE macro, the preferred method of sending output to debug window
+#if defined(RELEASE) || defined(NDEBUG) || defined(_NDEBUG)
+#define STRACE 1 ? (void)0 : rspTrace
+#define TRACE STRACE
+#define ASSERT(...)
+#elif defined(_DEBUG) || defined(TRACENASSERT)
+# include <cassert>
 # define STRACE(...)  rspTrace(__VA_ARGS__)
 # define TRACE(...)   STRACE("%s(%d):", __FILE__, __LINE__),STRACE(__VA_ARGS__)
-# include <cassert>
 # define ASSERT(...)  assert(__VA_ARGS__)
 #else
+# include <cassert>
 # define STRACE(...)  rspTrace(__VA_ARGS__)
 # define TRACE(...)   STRACE(__VA_ARGS__)
-# define ASSERT(...)
+# define ASSERT(...)  assert(__VA_ARGS__)
 #endif
 
 #endif // UNIXSYSTEM_H
