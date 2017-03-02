@@ -576,47 +576,47 @@ RMultiAlpha::RMultiAlpha()
 	Erase();
 	}
 
-RMultiAlpha::~RMultiAlpha()
-	{
-	for (int16_t i=0;i < m_sNumLevels;i++)
-		{
-		if (m_pAlphaList[i] != nullptr) delete m_pAlphaList[i];
-		}
+RMultiAlpha::~RMultiAlpha(void)
+{
+  for (uint8_t i=0;i < m_sNumLevels; ++i)
+    if (m_pAlphaList[i] != nullptr)
+      delete m_pAlphaList[i];
 
-	free (m_pAlphaList);
-	free (m_pLevelOpacity);
+  free (m_pAlphaList);
+  free (m_pLevelOpacity);
 
-	Erase();
-	}
+  Erase();
+}
 
-int16_t RMultiAlpha::Alloc(int16_t sDepth)
-	{
-	// a nullptr pointer will be left in the zero position.
-	if (m_pAlphaList)
-		{
-		TRACE("RMultiAlpha::alloc: error, already created!\n");
-      return FAILURE;
-		}
+int16_t RMultiAlpha::Alloc(uint8_t sDepth)
+{
+  // a nullptr pointer will be left in the zero position.
+  if (m_pAlphaList)
+  {
+    TRACE("RMultiAlpha::alloc: error, already created!\n");
+    return FAILURE;
+  }
 
-	m_sNumLevels = sDepth;
-	m_pAlphaList = (RAlpha**)calloc(m_sNumLevels,sizeof(RAlpha*));
-	m_pLevelOpacity = (uint8_t*)calloc(m_sNumLevels,1);
+  m_sNumLevels = sDepth;
+  m_pAlphaList = (RAlpha**)calloc(m_sNumLevels,sizeof(RAlpha*));
+  m_pLevelOpacity = (uint8_t*)calloc(m_sNumLevels,1);
 
-	return 0;
-	}
+  return SUCCESS;
+}
 
-void RMultiAlpha::Erase()
-	{
-	m_sNumLevels = 0;
-	m_pAlphaList = nullptr;
-	for (int16_t i=0;i < 256;i++) 
-		{
-		m_pGeneralAlpha[i] = nullptr;
-		m_pSaveLevels[i] = uint8_t(0);
-		}
-	m_sGeneral = TRUE;
-	m_pLevelOpacity = nullptr;
-	}
+void RMultiAlpha::Erase(void)
+{
+  m_sNumLevels = 0;
+  m_pAlphaList = nullptr;
+
+  for(uint8_t**& ptr : m_pGeneralAlpha)
+    ptr = nullptr;
+  for(uint8_t& val : m_pSaveLevels)
+    val = 0;
+
+  m_sGeneral = TRUE;
+  m_pLevelOpacity = nullptr;
+}
 
 // Note: this type can be supported with one alphablit
 // by just pointing the first n levels to teh shade

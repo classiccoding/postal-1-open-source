@@ -290,10 +290,10 @@ typedef struct
 UINPUT m_aInputs[INPUT_MAX_DUDES];
 
 // Last input for the local dude.
-UINPUT	ms_inputLastLocal	= 0;
+UINPUT ms_inputLastLocal	= 0;
 
 // Global input settings
-CInputSettings	g_InputSettings;
+CInputSettings g_InputSettings;
 
 // Current mode
 INPUT_MODE m_mode;
@@ -307,7 +307,7 @@ int32_t m_lBufEntries;				// Total entries in buffer
 // Add one plus the index of each string item so it's not recognizable when 
 // searching/viewing the exe.  The chars will be untweaked when the cheat is 
 // evaluated at runtime.
-static Cheat	ms_acheats[]	=
+static Cheat ms_acheats[] =
 	{
 #if defined(USE_LA_PALOMA_CHEATS)
 						 

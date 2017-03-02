@@ -99,12 +99,12 @@ public:
 class RMultiAlpha
 	{
 public:
-	RMultiAlpha();
-	~RMultiAlpha();
-	int16_t Alloc(int16_t sDepth);
-	void Erase();
+   RMultiAlpha(void);
+   ~RMultiAlpha(void);
+   int16_t Alloc(uint8_t sDepth);
+   void Erase(void);
 	//==========================================================
-	int16_t m_sNumLevels; // 0 = 1st non transparent level
+   uint8_t m_sNumLevels; // 0 = 1st non transparent level
 	RAlpha** m_pAlphaList; // store ACTUAL alpha tables...
 	uint8_t* m_pLevelOpacity; // for each layer
 	// This goes from a 0-255 Alpha channel DIRECTLY to an alpha matrix
