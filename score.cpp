@@ -436,10 +436,10 @@ void ScoreRegisterKill(CRealm* pRealm, uint16_t u16DeadGuy, uint16_t u16Killer)
 bool ScoreUpdateDisplay(RImage* pim, RRect* prc, CRealm* pRealm, CNetClient* pclient,
 								int16_t sDstX,int16_t sDstY,CHood* pHood)
 {
-#if defined(MULTIPLAYER_REMOVED)
-  UNUSED(pim, prc, pRealm, pclient, sDstX, sDstY, pHood);
-  return false;
-#else
+//#if defined(MULTIPLAYER_REMOVED)
+//  UNUSED(pim, prc, pRealm, pclient, sDstX, sDstY, pHood);
+//  return false;
+//#else
 
    RRect rcBox;
 	RRect	rcDst;
@@ -471,6 +471,7 @@ bool ScoreUpdateDisplay(RImage* pim, RRect* prc, CRealm* pRealm, CNetClient* pcl
 
 		switch (pRealm->m_ScoringMode)
 		{
+#if !defined(MULTIPLAYER_REMOVED)
 			case CRealm::MPFrag:
 				ms_print.SetFont(MP_FONT_SIZE, &g_fontBig);
 				rcBox.sY = prc->sY + MP_PRINT_Y1;
@@ -599,7 +600,7 @@ bool ScoreUpdateDisplay(RImage* pim, RRect* prc, CRealm* pRealm, CNetClient* pcl
 
 			case CRealm::MPLastManTimedFrag:
 				break;
-
+#endif
 			case CRealm::Standard:
 				ms_print.SetDestination(pim, &rcDst);
 				ms_print.print(
@@ -711,7 +712,8 @@ bool ScoreUpdateDisplay(RImage* pim, RRect* prc, CRealm* pRealm, CNetClient* pcl
 		if (lCurTime < g_scoreboard.m_lLastStatusDrawTime + STATUS_DISPLAY_TIMEOUT)
 		{
 			switch (pRealm->m_ScoringMode)
-			{
+         {
+#if !defined(MULTIPLAYER_REMOVED)
 				case CRealm::MPFrag:
 					rcDst.sY = prc->sY + MP_PRINT_Y3;
 					if (pRealm->m_sKillsGoal < 1)
@@ -766,7 +768,7 @@ bool ScoreUpdateDisplay(RImage* pim, RRect* prc, CRealm* pRealm, CNetClient* pcl
 						pRealm->m_sKillsGoal
 						);
 					break;
-
+#endif
 				case CRealm::Standard:
 					rcDst.sY = prc->sY + STATUS_PRINT_Y2;
 
