@@ -436,12 +436,12 @@ void ScoreRegisterKill(CRealm* pRealm, uint16_t u16DeadGuy, uint16_t u16Killer)
 bool ScoreUpdateDisplay(RImage* pim, RRect* prc, CRealm* pRealm, CNetClient* pclient,
 								int16_t sDstX,int16_t sDstY,CHood* pHood)
 {
-//#if defined(MULTIPLAYER_REMOVED)
-//  UNUSED(pim, prc, pRealm, pclient, sDstX, sDstY, pHood);
-//  return false;
-//#else
+#if defined(MULTIPLAYER_REMOVED)
+  UNUSED(pclient);
+#else
+  RRect rcBox;
+#endif
 
-   RRect rcBox;
 	RRect	rcDst;
 	rcDst.sX	= prc->sX + STATUS_PRINT_X;
 	rcDst.sY = prc->sY + STATUS_PRINT_Y;
@@ -465,9 +465,10 @@ bool ScoreUpdateDisplay(RImage* pim, RRect* prc, CRealm* pRealm, CNetClient* pcl
 
 		if (pHood) rspBlit(pHood->m_pimTopBar,pim,0,0,sDstX,sDstY,
 			pHood->m_pimTopBar->m_sWidth,pHood->m_pimTopBar->m_sHeight);
-		
-		int16_t sNumDudes = pRealm->m_asClassNumThings[CThing::CDudeID];	
-		int16_t i;
+
+#if !defined(MULTIPLAYER_REMOVED)
+      int16_t sNumDudes = pRealm->m_asClassNumThings[CThing::CDudeID];
+#endif
 
 		switch (pRealm->m_ScoringMode)
 		{
@@ -480,7 +481,7 @@ bool ScoreUpdateDisplay(RImage* pim, RRect* prc, CRealm* pRealm, CNetClient* pcl
 
 				ms_print.SetJustifyLeft();
 				ms_print.SetWordWrap(FALSE);
-				for (i = 0; i < sNumDudes; i++)
+            for (int16_t i = 0; i < sNumDudes; i++)
 				{
 					rcBox.sX = rcDst.sX + (i * rcBox.sW);
 					rcBox.sY = prc->sY + STATUS_PRINT_Y;
@@ -513,7 +514,7 @@ bool ScoreUpdateDisplay(RImage* pim, RRect* prc, CRealm* pRealm, CNetClient* pcl
 
 				ms_print.SetJustifyLeft();
 				ms_print.SetWordWrap(FALSE);
-				for (i = 0; i < sNumDudes; i++)
+            for (int16_t i = 0; i < sNumDudes; i++)
 				{
 					rcBox.sX = rcDst.sX + (i * rcBox.sW);
 					rcBox.sY = prc->sY + MP_PRINT_Y1;
@@ -554,7 +555,7 @@ bool ScoreUpdateDisplay(RImage* pim, RRect* prc, CRealm* pRealm, CNetClient* pcl
 
 				ms_print.SetJustifyLeft();
 				ms_print.SetWordWrap(FALSE);
-				for (i = 0; i < sNumDudes; i++)
+            for (int16_t i = 0; i < sNumDudes; i++)
 				{
 					// If this player is dead, set the color to dead color
 					/*
@@ -892,10 +893,11 @@ void ScoreDisplayHighScores(	// Returns nothing.
    milliseconds_t lMaxTimeOut)				// In:  Max time on score screen (quits after this
 										// duration, if not -1).
 {
-#if defined(MULTIPLAYER_REMOVED)
-  UNUSED(pRealm, pclient, lMaxTimeOut);
-#else
   UNUSED(lMaxTimeOut);
+#if defined(MULTIPLAYER_REMOVED)
+  UNUSED(pclient);
+#endif
+
 #ifdef HIGH_SCORE_DLG
    RGuiItem* pguiRoot;
    RProcessGui guiDialog;
@@ -1104,6 +1106,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 
 			scores.Close();
 			}
+#if !defined(MULTIPLAYER_REMOVED)
 		else
 			{
 			ASSERT(pclient);
@@ -1184,9 +1187,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 
 			// Note that Player's score position stays -1 since there's no name to enter.
 			}
-
-
-		int16_t i;
+#endif
 
 		#ifdef HIGH_SCORE_DLG
 		if (rspGetResource(&g_resmgrShell, HIGHSCORE_DIALOG_FILE, (RDlg**)&pguiRoot) == 0)
@@ -1425,7 +1426,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 						sResult = prefsScores.Open(HIGHSCORE_SCORES_FILE, "w+");
 					if (sResult == SUCCESS)
 						{
-						for (i = 0; i < MAX_HIGH_SCORES; i++)
+                  for (int16_t i = 0; i < MAX_HIGH_SCORES; i++)
 							{
 							sprintf(szKeyName, "Player%d", i);
 							prefsScores.SetVal((char*) pRealm->m_rsRealmString, szKeyName, astrNames[i]);
@@ -1468,7 +1469,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 		}
 #endif
 	}
-#endif
+//#endif
 }
 //////////////////////////////////////////////////////////////////////////////
 // ScoreHighestKills
