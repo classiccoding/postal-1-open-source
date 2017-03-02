@@ -175,15 +175,16 @@ inline double rspDegDelta(double sDegSrc, double sDegDst)
 }
 
 // Use individual whiles if you know what to expect
-inline int16_t rspMod360(int16_t sDeg)
+template<typename T>
+inline T rspMod360(T sDeg)
 {
   while (sDeg < 0)
-    sDeg += 360;
+    sDeg += T(360);
   while (sDeg > 359)
-    sDeg -= 360;
+    sDeg -= T(360);
   return sDeg;
 }
-
+#ifdef UNUSED_FUNCTIONS
 inline int16_t rspMod(int16_t sVal, const int16_t sRange)
 {
   while (sVal < 0)
@@ -202,6 +203,7 @@ inline void rspMod(int16_t* sVal, const int16_t sRange)
 {
   *sVal = rspMod(*sVal,sRange);
 }
+#endif
 
 extern void InitTrig();
 
