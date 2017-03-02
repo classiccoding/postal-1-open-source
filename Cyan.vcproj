@@ -237,15 +237,15 @@
 	</References>
 	<Files>
 		<File
-      RelativePath=".\RSPiX\Cyan\Unix\uColors.cpp"
+      RelativePath=".\RSPiX\Cyan\sdl2\uColors.cpp"
 			>
 		</File>
 		<File
-      RelativePath=".\RSPiX\Cyan\Unix\uDialog.cpp"
+      RelativePath=".\RSPiX\Cyan\sdl2\uDialog.cpp"
 			>
 		</File>
 		<File
-      RelativePath=".\RSPiX\Cyan\Unix\uPath.cpp"
+      RelativePath=".\RSPiX\Cyan\sdl2\uPath.cpp"
 			>
 		</File>
 	</Files>

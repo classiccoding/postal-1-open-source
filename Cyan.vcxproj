@@ -187,9 +187,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="RSPiX\Cyan\Unix\uColors.cpp" />
-    <ClCompile Include="RSPiX\Cyan\Unix\uDialog.cpp" />
-    <ClCompile Include="RSPiX\Cyan\Unix\uPath.cpp" />
+    <ClCompile Include="RSPiX\Cyan\sdl2\uColors.cpp" />
+    <ClCompile Include="RSPiX\Cyan\sdl2\uDialog.cpp" />
+    <ClCompile Include="RSPiX\Cyan\sdl2\uPath.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

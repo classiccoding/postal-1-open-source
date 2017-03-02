@@ -241,35 +241,35 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;hpj;bat;for;f90"
 			>
 			<File
-				RelativePath=".\RSPiX\Blue\unix\Bdebug.cpp"
+				RelativePath=".\RSPiX\Blue\sdl2\Bdebug.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Blue\unix\Bdisp.cpp"
+				RelativePath=".\RSPiX\Blue\sdl2\Bdisp.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Blue\unix\Bjoy.cpp"
+				RelativePath=".\RSPiX\Blue\sdl2\Bjoy.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Blue\unix\Bkey.cpp"
+				RelativePath=".\RSPiX\Blue\sdl2\Bkey.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Blue\unix\Bmain.cpp"
+				RelativePath=".\RSPiX\Blue\sdl2\Bmain.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Blue\unix\Bmouse.cpp"
+				RelativePath=".\RSPiX\Blue\sdl2\Bmouse.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Blue\unix\Bsound.cpp"
+				RelativePath=".\RSPiX\Blue\sdl2\Bsound.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Blue\unix\Btime.cpp"
+				RelativePath=".\RSPiX\Blue\sdl2\Btime.cpp"
 				>
 			</File>
 		</Filter>

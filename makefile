@@ -150,22 +150,22 @@ SRCS := \
 	play.cpp \
 	SampleMaster.cpp \
 	title.cpp \
-	RSPiX/BLUE/unix/Bdebug.cpp \
-	RSPiX/BLUE/unix/Bjoy.cpp \
-	RSPiX/BLUE/unix/Bkey.cpp \
-	RSPiX/BLUE/unix/Bmain.cpp \
-	RSPiX/BLUE/unix/Bmouse.cpp \
-	RSPiX/BLUE/unix/Btime.cpp \
-	RSPiX/BLUE/unix/Bdisp.cpp \
-	RSPiX/BLUE/unix/Bsound.cpp \
+	RSPiX/BLUE/sdl2/Bdebug.cpp \
+	RSPiX/BLUE/sdl2/Bjoy.cpp \
+	RSPiX/BLUE/sdl2/Bkey.cpp \
+	RSPiX/BLUE/sdl2/Bmain.cpp \
+	RSPiX/BLUE/sdl2/Bmouse.cpp \
+	RSPiX/BLUE/sdl2/Btime.cpp \
+	RSPiX/BLUE/sdl2/Bdisp.cpp \
+	RSPiX/BLUE/sdl2/Bsound.cpp \
 	RSPiX/GREEN/Hot/hot.cpp \
 	RSPiX/GREEN/Image/Image.cpp \
-	RSPiX/GREEN/Image/Imagecon.cpp \
+	RSPiX/GREEN/Image/ImageCon.cpp \
 	RSPiX/GREEN/Image/ImageFile.cpp \
 	RSPiX/GREEN/InputEvent/InputEvent.cpp \
 	RSPiX/GREEN/Mix/mix.cpp \
 	RSPiX/GREEN/Mix/MixBuf.cpp \
-	RSPiX/GREEN/Image/pal.cpp \
+	RSPiX/GREEN/Image/Pal.cpp \
 	RSPiX/GREEN/Image/PalFile.cpp \
 	RSPiX/GREEN/Sample/sample.cpp \
 	RSPiX/GREEN/Snd/snd.cpp \
@@ -174,19 +174,19 @@ SRCS := \
 	RSPiX/GREEN/3D/render.cpp \
 	RSPiX/GREEN/3D/types3d.cpp \
 	RSPiX/GREEN/3D/zbuffer.cpp \
-	RSPiX/GREEN/BLiT/alphablit.cpp \
-	RSPiX/GREEN/BLiT/BLIT.cpp \
-	RSPiX/GREEN/BLiT/BLITINIT.cpp \
-	RSPiX/GREEN/BLiT/BLiTT.cpp \
-	RSPiX/GREEN/BLiT/CFNT.cpp \
-	RSPiX/GREEN/BLiT/Fspr1.cpp \
-	RSPiX/GREEN/BLiT/FSPR8.cpp \
-	RSPiX/GREEN/BLiT/line.cpp \
-	RSPiX/GREEN/BLiT/mono.cpp \
-	RSPiX/GREEN/BLiT/Rotate96.cpp \
-	RSPiX/GREEN/BLiT/RPrint.cpp \
-	RSPiX/GREEN/BLiT/ScaleFlat.cpp \
-	RSPiX/ORANGE/GameLib/ANIMSPRT.cpp \
+	RSPiX/GREEN/Blit/AlphaBlit.cpp \
+	RSPiX/GREEN/Blit/Blit.cpp \
+	RSPiX/GREEN/Blit/BlitInit.cpp \
+	RSPiX/GREEN/Blit/BlitT.cpp \
+	RSPiX/GREEN/Blit/Cfnt.cpp \
+	RSPiX/GREEN/Blit/Fspr1.cpp \
+	RSPiX/GREEN/Blit/Fspr8.cpp \
+	RSPiX/GREEN/Blit/line.cpp \
+	RSPiX/GREEN/Blit/mono.cpp \
+	RSPiX/GREEN/Blit/Rotate96.cpp \
+	RSPiX/GREEN/Blit/RPrint.cpp \
+	RSPiX/GREEN/Blit/ScaleFlat.cpp \
+	RSPiX/ORANGE/GameLib/AnimSprite.cpp \
 	RSPiX/ORANGE/Attribute/attribute.cpp \
 	RSPiX/ORANGE/GUI/btn.cpp \
 	RSPiX/ORANGE/Channel/channel.cpp \
@@ -215,14 +215,14 @@ SRCS := \
 	RSPiX/ORANGE/GameLib/Region.cpp \
 	RSPiX/ORANGE/RString/rstring.cpp \
 	RSPiX/ORANGE/GUI/scrollbar.cpp \
-	RSPiX/ORANGE/GameLib/SHAPES.cpp \
+	RSPiX/ORANGE/GameLib/Shapes.cpp \
 	RSPiX/ORANGE/Parse/SimpleBatch.cpp \
-	RSPiX/ORANGE/GameLib/SPRITE.cpp \
+	RSPiX/ORANGE/GameLib/Sprite.cpp \
 	RSPiX/ORANGE/str/str.cpp \
 	RSPiX/ORANGE/GUI/txt.cpp \
-	RSPiX/CYAN/Unix/uDialog.cpp \
-	RSPiX/CYAN/Unix/uColors.cpp \
-	RSPiX/CYAN/Unix/uPath.cpp \
+	RSPiX/CYAN/sdl2/uDialog.cpp \
+	RSPiX/CYAN/sdl2/uColors.cpp \
+	RSPiX/CYAN/sdl2/uPath.cpp \
 	WishPiX/Menu/menu.cpp \
 	WishPiX/Prefs/prefline.cpp \
 	WishPiX/Prefs/prefs.cpp \
@@ -320,7 +320,7 @@ $(BINDIR) :
 
 bindir :
 	mkdir -p $(BINDIR)
-	mkdir -p $(BINDIR)/RSPiX/BLUE/unix
+	mkdir -p $(BINDIR)/RSPiX/BLUE/sdl2
 	mkdir -p $(BINDIR)/RSPiX/GREEN/Hot
 	mkdir -p $(BINDIR)/RSPiX/GREEN/Image
 	mkdir -p $(BINDIR)/RSPiX/GREEN/InputEvent
@@ -329,7 +329,7 @@ bindir :
 	mkdir -p $(BINDIR)/RSPiX/GREEN/Snd
 	mkdir -p $(BINDIR)/RSPiX/GREEN/SndFx
 	mkdir -p $(BINDIR)/RSPiX/GREEN/3D
-	mkdir -p $(BINDIR)/RSPiX/GREEN/BLiT
+	mkdir -p $(BINDIR)/RSPiX/GREEN/Blit
 	mkdir -p $(BINDIR)/RSPiX/ORANGE/GameLib
 	mkdir -p $(BINDIR)/RSPiX/ORANGE/Attribute
 	mkdir -p $(BINDIR)/RSPiX/ORANGE/GUI
@@ -348,7 +348,7 @@ bindir :
 	mkdir -p $(BINDIR)/RSPiX/ORANGE/RString
 	mkdir -p $(BINDIR)/RSPiX/ORANGE/Parse
 	mkdir -p $(BINDIR)/RSPiX/ORANGE/str
-	mkdir -p $(BINDIR)/RSPiX/CYAN/Unix
+	mkdir -p $(BINDIR)/RSPiX/CYAN/sdl2
 	mkdir -p $(BINDIR)/WishPiX/Menu
 	mkdir -p $(BINDIR)/WishPiX/Prefs
 	mkdir -p $(BINDIR)/WishPiX/ResourceManager

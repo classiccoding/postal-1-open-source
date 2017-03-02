@@ -62,12 +62,12 @@
 //////////////////////////////////////////////////////////////////////////////
 // Cyan headers.
 //////////////////////////////////////////////////////////////////////////////
-#include <CYAN/cyan.h>
+#include <CYAN/Cyan.h>
 
 //////////////////////////////////////////////////////////////////////////////
 // Green headers.
 //////////////////////////////////////////////////////////////////////////////
-#include <GREEN/BLiT/BLIT.H>
+#include <GREEN/Blit/Blit.h>
 #include <GREEN/Hot/hot.h>
 #include <GREEN/Image/Image.h>
 #include <GREEN/Mix/mix.h>
@@ -75,7 +75,7 @@
 #include <GREEN/Snd/snd.h>
 #include <GREEN/SndFx/SndFx.h>
 #include <GREEN/3D/user3d.h>
-#include <GREEN/BLiT/alphablit.h>
+#include <GREEN/Blit/AlphaBlit.h>
 
 //////////////////////////////////////////////////////////////////////////////
 // Orange headers.
@@ -83,15 +83,15 @@
 #include <ORANGE/CDT/listbase.h>
 #include <ORANGE/CDT/List.h>
 #include <ORANGE/CDT/slist.h>
-#include <ORANGE/CDT/QUEUE.H>
+#include <ORANGE/CDT/Queue.h>
 #include <ORANGE/CDT/fqueue.h>
 #include <ORANGE/CDT/stack.h>
 #include <ORANGE/CDT/flist.h>
 #include <ORANGE/DirtRect/DirtRect.h>
-#include <ORANGE/GameLib/ANIMSPRT.H>
+#include <ORANGE/GameLib/AnimSprite.h>
 #include <ORANGE/GameLib/Region.h>
 #include <ORANGE/GameLib/Shapes.h>
-#include <ORANGE/GameLib/SPRITE.H>
+#include <ORANGE/GameLib/Sprite.h>
 #include <ORANGE/File/file.h>
 #include <ORANGE/IFF/iff.h>
 #include <ORANGE/GUI/dlg.h>

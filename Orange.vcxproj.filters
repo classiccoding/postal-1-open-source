@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="RSPiX\ORANGE\GameLib\ANIMSPRT.CPP">
+    <ClCompile Include="RSPiX\ORANGE\GameLib\AnimSprite.CPP">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RSPiX\ORANGE\Attribute\attribute.cpp">
@@ -119,7 +119,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="RSPiX\orange\gamelib\animsprt.h">
+    <ClInclude Include="RSPiX\orange\gamelib\AnimSprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RSPiX\orange\Attribute\Attribute.h">

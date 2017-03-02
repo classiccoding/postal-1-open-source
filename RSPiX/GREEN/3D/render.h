@@ -25,7 +25,7 @@
 #define RENDER_H
 //================================================== 
 #include <BLUE/System.h>
-#include <GREEN/BLiT/BLIT.H> // for rspLine
+#include <GREEN/Blit/Blit.h> // for rspLine
 #include <ORANGE/color/colormatch.h>
 #include <ORANGE/QuickMath/VectorMath.h>
 #include <ORANGE/QuickMath/FixedPoint.h>

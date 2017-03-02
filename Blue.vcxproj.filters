@@ -15,28 +15,28 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="RSPiX\Blue\unix\Bdebug.cpp">
+    <ClCompile Include="RSPiX\Blue\sdl2\Bdebug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RSPiX\Blue\unix\Bdisp.cpp">
+    <ClCompile Include="RSPiX\Blue\sdl2\Bdisp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RSPiX\Blue\unix\Bjoy.cpp">
+    <ClCompile Include="RSPiX\Blue\sdl2\Bjoy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RSPiX\Blue\unix\Bkey.cpp">
+    <ClCompile Include="RSPiX\Blue\sdl2\Bkey.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RSPiX\Blue\unix\Bmain.cpp">
+    <ClCompile Include="RSPiX\Blue\sdl2\Bmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RSPiX\Blue\unix\Bmouse.cpp">
+    <ClCompile Include="RSPiX\Blue\sdl2\Bmouse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RSPiX\Blue\unix\Bsound.cpp">
+    <ClCompile Include="RSPiX\Blue\sdl2\Bsound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RSPiX\Blue\unix\Btime.cpp">
+    <ClCompile Include="RSPiX\Blue\sdl2\Btime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

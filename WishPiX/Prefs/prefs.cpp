@@ -73,7 +73,7 @@
 
 #include "prefs.h"
 
-#include <CYAN/cyan.h>
+#include <CYAN/Cyan.h>
 #include <ORANGE/str/str.h>
 
 #include <cstdio>

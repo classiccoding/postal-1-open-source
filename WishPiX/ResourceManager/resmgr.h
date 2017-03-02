@@ -202,7 +202,7 @@
 
 #include <BLUE/System.h>
 
-#include <CYAN/cyan.h>
+#include <CYAN/Cyan.h>
 #include <ORANGE/File/file.h>
 #include <ORANGE/RString/rstring.h>
 

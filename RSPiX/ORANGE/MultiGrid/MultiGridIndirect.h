@@ -31,7 +31,7 @@
 #define MULTIGRIDINDIRECT_H
 
 #include <BLUE/System.h>
-#include <GREEN/BLiT/BLIT.H>
+#include <GREEN/Blit/Blit.h>
 #include "MultiGrid.h"
  
 class RImage;

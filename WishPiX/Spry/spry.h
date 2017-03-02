@@ -23,7 +23,7 @@
 
 #include <BLUE/System.h>
 #include <ORANGE/CDT/flist.h>
-#include <ORANGE/GameLib/SPRITE.H>
+#include <ORANGE/GameLib/Sprite.h>
 
 
 class RSpry
