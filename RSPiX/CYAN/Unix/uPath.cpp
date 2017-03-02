@@ -26,8 +26,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <BLUE/unix/UnixSystem.h>
-#include "UnixCyan.h"
+#include <BLUE/System.h>
+#include <CYAN/cyan.h>
 
 #include <cstdio>
 #include <cstdlib>

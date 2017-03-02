@@ -16,8 +16,8 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
 
-#include <BLUE/unix/UnixSystem.h>
-#include "UnixCyan.h"
+#include <BLUE/System.h>
+#include <CYAN/cyan.h>
 
 #include <cstdio>
 #include <cstdarg>

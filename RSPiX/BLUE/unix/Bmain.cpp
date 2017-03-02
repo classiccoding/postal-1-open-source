@@ -44,8 +44,10 @@
 #include <ctime>
 
 // Blue //////////////////////////////////////////////////////////////////////
+#include <BLUE/Blue.h>
+
+// Platform //////////////////////////////////////////////////////////////////
 #include <SDL2/SDL.h>
-#include <BLUE/unix/UnixBlue.h>
 
 SDL_Window *sdlWindow = nullptr;
 SDL_Surface *sdlShadowSurface = nullptr;
