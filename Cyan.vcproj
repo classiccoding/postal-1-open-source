@@ -186,7 +186,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-        AdditionalIncludeDirectories=".\sys\include;.\RSPiX"
+        AdditionalIncludeDirectories=".\RSPiX"
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS;TRACENASSERT"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -237,15 +237,15 @@
 	</References>
 	<Files>
 		<File
-			RelativePath=".\RSPiX\Cyan\Unix\uColors.cpp"
+      RelativePath=".\RSPiX\Cyan\Unix\uColors.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\RSPiX\Cyan\Unix\uDialog.cpp"
+      RelativePath=".\RSPiX\Cyan\Unix\uDialog.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\RSPiX\Cyan\Unix\uPath.cpp"
+      RelativePath=".\RSPiX\Cyan\Unix\uPath.cpp"
 			>
 		</File>
 	</Files>

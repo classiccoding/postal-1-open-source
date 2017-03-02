@@ -115,7 +115,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-        AdditionalIncludeDirectories=".\sys\include;.\RSPiX;.\WishPiX;"
+        AdditionalIncludeDirectories=".\RSPiX"
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS;TRACENASSERT;ALLOW_TWINSTICK"
 				StringPooling="true"
 				RuntimeLibrary="0"
