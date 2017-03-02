@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-				AdditionalIncludeDirectories=".\SDL2;.\RSPiX\Src;.\RSPiX\Inc;."
+				AdditionalIncludeDirectories=".\sys\include;.\RSPiX"
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -115,7 +115,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-				AdditionalIncludeDirectories=".\SDL2;.\RSPiX\Src;.\RSPiX\Inc;."
+				AdditionalIncludeDirectories=".\sys\include;.\RSPiX"
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS;TRACENASSERT"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -188,7 +188,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\SDL2;.\RSPiX\Src;.\RSPiX\Inc;."
+				AdditionalIncludeDirectories=".\sys\include;.\RSPiX"
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;_DEBUG;WIN32;_WINDOWS;STEAM_CONNECTED"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
@@ -241,35 +241,35 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;hpj;bat;for;f90"
 			>
 			<File
-				RelativePath=".\RSPiX\Src\Blue\unix\Bdebug.cpp"
+				RelativePath=".\RSPiX\Blue\unix\Bdebug.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Src\Blue\unix\Bdisp.cpp"
+				RelativePath=".\RSPiX\Blue\unix\Bdisp.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Src\Blue\unix\Bjoy.cpp"
+				RelativePath=".\RSPiX\Blue\unix\Bjoy.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Src\Blue\unix\Bkey.cpp"
+				RelativePath=".\RSPiX\Blue\unix\Bkey.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Src\Blue\unix\Bmain.cpp"
+				RelativePath=".\RSPiX\Blue\unix\Bmain.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Src\Blue\unix\Bmouse.cpp"
+				RelativePath=".\RSPiX\Blue\unix\Bmouse.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Src\Blue\unix\Bsound.cpp"
+				RelativePath=".\RSPiX\Blue\unix\Bsound.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Src\Blue\unix\Btime.cpp"
+				RelativePath=".\RSPiX\Blue\unix\Btime.cpp"
 				>
 			</File>
 		</Filter>

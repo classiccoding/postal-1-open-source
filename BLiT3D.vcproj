@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-				AdditionalIncludeDirectories=".\RSPiX\Src,.\RSPiX\Inc,."
+				AdditionalIncludeDirectories=".\RSPiX"
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS;TRACENASSERT"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -116,7 +116,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-				AdditionalIncludeDirectories=".\SDL2;.\RSPiX\Src;.\RSPiX\Inc;."
+				AdditionalIncludeDirectories=".\sys\include;.\RSPiX"
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -188,7 +188,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\SDL2;.\RSPiX\Src;.\RSPiX\Inc;."
+				AdditionalIncludeDirectories=".\sys\include;.\RSPiX"
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;_DEBUG;WIN32;_WINDOWS;STEAM_CONNECTED"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
@@ -241,7 +241,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;hpj;bat;for;f90"
 			>
 			<File
-				RelativePath="RSPiX\Src\GREEN\3D\pipeline.cpp"
+				RelativePath="RSPiX\GREEN\3D\pipeline.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -275,7 +275,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="RSPiX\Src\GREEN\3D\render.cpp"
+				RelativePath="RSPiX\GREEN\3D\render.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -309,7 +309,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="RSPiX\Src\GREEN\3D\types3d.cpp"
+				RelativePath="RSPiX\GREEN\3D\types3d.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -343,7 +343,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="RSPiX\Src\GREEN\3D\zbuffer.cpp"
+				RelativePath="RSPiX\GREEN\3D\zbuffer.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -382,19 +382,19 @@
 			Filter="h;hpp;hxx;hm;inl;fi;fd"
 			>
 			<File
-				RelativePath="RSPiX\Src\green\3d\pipeline.h"
+				RelativePath="RSPiX\green\3d\pipeline.h"
 				>
 			</File>
 			<File
-				RelativePath="RSPiX\Src\green\3d\render.h"
+				RelativePath="RSPiX\green\3d\render.h"
 				>
 			</File>
 			<File
-				RelativePath="RSPiX\Src\green\3d\types3d.h"
+				RelativePath="RSPiX\green\3d\types3d.h"
 				>
 			</File>
 			<File
-				RelativePath="RSPiX\Src\green\3d\zbuffer.h"
+				RelativePath="RSPiX\green\3d\zbuffer.h"
 				>
 			</File>
 		</Filter>
