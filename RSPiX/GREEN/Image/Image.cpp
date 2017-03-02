@@ -600,11 +600,13 @@ void RImage::Init()
 
 int16_t RImage::DestroyDetachedData(void** hMem)
 {
-	if (hMem)
+   if (hMem != nullptr)
+   {
 		if (*hMem)
 			return sDestroyMem(hMem);
 		else
          TRACE("Image::DestroyDetachedData - Attempted to free a nullptr pointer.\n");
+   }
 	else
       TRACE("Image::DestroyDetachedData - Attempted to free a nullptr handle.\n");
 
