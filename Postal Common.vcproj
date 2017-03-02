@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\SDL2;.\RSPiX\Src;.\RSPiX\Inc;."
+        AdditionalIncludeDirectories=".\sys\include;.\RSPiX"
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS;ALLOW_TWINSTICK"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -188,7 +188,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\SDL2;.\RSPiX\Src;.\RSPiX\Inc;."
+        AdditionalIncludeDirectories=".\sys\include;.\RSPiX"
         PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;TRACENASSERT;ALLOW_TWINSTICK"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
