@@ -106,10 +106,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "CompileOptions.h"
-
 #ifndef LOCALIZE_H
 #define LOCALIZE_H
+
+#include <CompileOptions.h>
 
 
 // I went with variables instead of macros for one primary reason.  At some
