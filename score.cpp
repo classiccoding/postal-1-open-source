@@ -860,7 +860,6 @@ bool ScoreUpdateDisplay(RImage* pim, RRect* prc, CRealm* pRealm, CNetClient* pcl
 	}
 
    return bDrew;
-#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////
