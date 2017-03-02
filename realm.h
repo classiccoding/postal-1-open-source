@@ -321,7 +321,7 @@
 #define REALM_H
 
 #include <RSPiX.h>
-#include <WishPiX/ResourceManager/resmgr.h>
+#include <ResourceManager/resmgr.h>
 #include <ORANGE/MultiGrid/MultiGrid.h>
 #include <ORANGE/MultiGrid/MultiGridIndirect.h>
 

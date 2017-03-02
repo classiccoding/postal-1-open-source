@@ -66,7 +66,7 @@
 #define TRIGGER_H
 
 #include <RSPiX.h>
-#include <WishPiX/Spry/spry.h>
+#include <Spry/spry.h>
 #include <ORANGE/MultiGrid/MultiGridIndirect.h>
 
 #include "thing.h"

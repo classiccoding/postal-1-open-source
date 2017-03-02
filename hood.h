@@ -99,7 +99,7 @@
 #define HOOD_H
 
 #include <RSPiX.h>
-#include <WishPiX/Spry/spry.h>
+#include <Spry/spry.h>
 #include <ORANGE/MultiGrid/MultiGrid.h>
 
 #include "thing.h"

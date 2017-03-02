@@ -563,9 +563,9 @@
    #include <unistd.h>
 #endif
 
-#include "WishPiX/Menu/menu.h"
-#include <WishPiX/Prefs/prefs.h>
-#include <WishPiX/ResourceManager/resmgr.h>
+#include "Menu/menu.h"
+#include <Prefs/prefs.h>
+#include <ResourceManager/resmgr.h>
 
 #include "main.h"
 #include "menus.h"

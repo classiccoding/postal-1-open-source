@@ -89,7 +89,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include <BLUE/System.h>
 #include <ORANGE/GUI/guiItem.h>
-#include <WishPiX/ResourceManager/resmgr.h>
+#include <ResourceManager/resmgr.h>
 
 // If under Microsoft compiler . . .
 #ifdef _MSC_VER
