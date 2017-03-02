@@ -328,7 +328,7 @@ class CDoofus : public CCharacter
 		CSmash			m_smashAvoid;		// Smash used to avoid fire
 		CPylon*			m_pPylonStart;		// Starting pylon for popout or run/shoot
 		CPylon*			m_pPylonEnd;		// Ending pylon for popout or run/shoot
-		int16_t				m_sDistRemaining;	// Distance to new position for fighting.
+      double			m_sDistRemaining;	// Distance to new position for fighting.
 		bool				m_bPylonSafeAvailable;
 		bool				m_bPylonPopoutAvailable;
 		bool				m_bPylonRunShootAvailable;

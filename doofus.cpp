@@ -2221,7 +2221,7 @@ void CDoofus::Logic_PositionSet(void)
 				bFoundDirection = true;
 				if (sAttempts < 4)
 				{
-					m_sDistRemaining = 2 * 3.1415 * rspSqrt(dTargetDist) * ((180.0-(2.0*(dAngleTurn)))/360.0);
+               m_sDistRemaining = 2 * rspPI * rspSqrt(dTargetDist) * ((180.0-(2.0*(dAngleTurn)))/360.0);
 					m_lTimer = lThisTime + (1000 * (m_sDistRemaining / ms_dMaxVelFore));		
 				}
 				else
@@ -2284,7 +2284,7 @@ void CDoofus::Logic_DelayShoot(void)
 			if (pweapon != nullptr)
 			{
 				pweapon->GetSprite()->m_sInFlags |= CSprite::InHidden;
-				pweapon->SetRangeToTarget(rspSqrt(SQDistanceToDude()));
+            pweapon->SetRangeToTarget(rspSqrt(int32_t(SQDistanceToDude())));
 			}
 			m_panimCur = &m_animShoot;
 			m_lAnimTime = 0;
