@@ -131,7 +131,7 @@
 #include <ORANGE/MsgBox/MsgBox.h>
 #include <CYAN/cyan.h>
 
-#include "input.h"
+#include "../../input.h" // FIXME
 
 //////////////////////////////////////////////////////////////////////////////
 // Module specific macros.

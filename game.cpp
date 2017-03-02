@@ -553,10 +553,6 @@
 
 #include <ctime>
 
-#if defined(NEED_SNPRINTF)
-# include <supplemental/snprintf.h>
-#endif
-
 #if defined(WIN32)
    #include <direct.h>
 #else
