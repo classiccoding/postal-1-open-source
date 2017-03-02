@@ -750,7 +750,7 @@ CDoofus::CDoofus(CRealm* pRealm, ClassIDType id)
 	m_u16NavNetID = 0;
 	m_idDude = CIdBank::IdNil;
 	m_pNextBouy = nullptr;
-	m_sNextX = m_sNextZ = 0;
+   m_sNextX = m_sNextZ = 0.0;
 	m_ucDestBouyID = m_ucNextBouyID = 0;
 	m_lAlignTimer = 0;
 	m_lEvalTimer = 0;
@@ -2088,8 +2088,8 @@ void CDoofus::Logic_MoveNext(void)
 		}
 
 		// See if we are at the next bouy yet
-		double dX = m_dX - (double) m_sNextX;
-		double dZ = m_dZ - (double) m_sNextZ;
+      double dX = m_dX - m_sNextX;
+      double dZ = m_dZ - m_sNextZ;
 		double dsq = (dX * dX) + (dZ * dZ);
 		if (dsq < 5*5) // Was 10*10 for a long time, trying smaller to see if it keeps guys from getting stuck
 		{
@@ -2518,8 +2518,8 @@ void CDoofus::Logic_HideBegin(void)
 	//	if close to pylon, go to next state
 	// for now just check the square distance, but later, probably use
 	// QuickCheckCloses in smash to see if you are there yet.
-	double dX = m_dX - (double) m_sNextX;
-	double dZ = m_dZ - (double) m_sNextZ;
+   double dX = m_dX - m_sNextX;
+   double dZ = m_dZ - m_sNextZ;
 	double dsq = (dX * dX) + (dZ * dZ);
 	if (dsq < 300)
 	{
@@ -2588,8 +2588,8 @@ void CDoofus::Logic_PopBegin(void)
 	//	if close to pylon, go to next state
 	// for now just check the square distance, but later, probably use
 	// QuickCheckCloses in smash to see if you are there yet.
-	double dX = m_dX - (double) m_sNextX;
-	double dZ = m_dZ - (double) m_sNextZ;
+   double dX = m_dX - m_sNextX;
+   double dZ = m_dZ - m_sNextZ;
 	double dsq = (dX * dX) + (dZ * dZ);
 	if (dsq < 300)
 	{
@@ -2658,8 +2658,8 @@ void CDoofus::Logic_Popout(void)
 	//	if close to pylon, go to next state
 	// for now just check the square distance, but later, probably use
 	// QuickCheckCloses in smash to see if you are there yet.
-	double dX = m_dX - (double) m_sNextX;
-	double dZ = m_dZ - (double) m_sNextZ;
+   double dX = m_dX - m_sNextX;
+   double dZ = m_dZ - m_sNextZ;
 	double dsq;
 	dsq = (dX * dX) + (dZ * dZ);
 	if (dsq < 300)
@@ -2839,8 +2839,8 @@ void CDoofus::Logic_RunShootBegin(void)
 	}
 
 	// If close to pylon, go to nex state
-	double dX = m_dX - (double) m_sNextX;
-	double dZ = m_dZ - (double) m_sNextZ;
+   double dX = m_dX - m_sNextX;
+   double dZ = m_dZ - m_sNextZ;
 	double dsq = (dX * dX) + (dZ * dZ);
 	if (dsq < 300)
 	{
@@ -2976,8 +2976,8 @@ void CDoofus::Logic_RunShoot(void)
 			//	if close to pylon, go to next state
 			// for now just check the square distance, but later, probably use
 			// QuickCheckCloses in smash to see if you are there yet.
-			double dX = m_dX - (double) m_sNextX;
-			double dZ = m_dZ - (double) m_sNextZ;
+         double dX = m_dX - m_sNextX;
+         double dZ = m_dZ - m_sNextZ;
 			double dsq = (dX * dX) + (dZ * dZ);
 			if (dsq < 300)
 			{

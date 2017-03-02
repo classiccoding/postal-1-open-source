@@ -300,8 +300,8 @@ class CDoofus : public CCharacter
 		uint8_t m_ucSpecialBouy0ID;			// Starting bouy for special cases like marching
 		uint8_t m_ucSpecialBouy1ID;			// Ending bouy for special cases like marching
 		CBouy* m_pNextBouy;					// pointer to next bouy to go to.
-		int16_t m_sNextX;						// Position of next Bouy
-		int16_t m_sNextZ;						// Position of next Bouy
+      double m_sNextX;						// Position of next Bouy
+      double m_sNextZ;						// Position of next Bouy
 		int16_t m_sRotateDir;					// Direction to rotate when avoiding obstacles
       milliseconds_t	m_lAlignTimer;					// Recheck position to bouy every so often
       milliseconds_t	m_lEvalTimer;					// Reevaluate state every so often
