@@ -1772,7 +1772,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="1"
+            UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1784,7 +1784,7 @@
 						Optimization="2"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="1"
+            UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 					/>
 				</FileConfiguration>
@@ -1796,7 +1796,7 @@
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						UsePrecompiledHeader="1"
+            UsePrecompiledHeader="0"
 						PrecompiledHeaderThrough="RSPiX.H"
 						BrowseInformation="1"
 					/>
