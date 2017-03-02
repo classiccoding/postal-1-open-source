@@ -487,10 +487,22 @@
 
 // Turn off multiplayer on MacOSX/Linux...not worth it.  --ryan.
 
+// these are to be moved to the project build files
+#ifndef MULTIPLAYER_REMOVED
 #define MULTIPLAYER_REMOVED
+#endif
+
+#ifndef EDITOR_REMOVED
 #define EDITOR_REMOVED
+#endif
+
+#ifndef LOADLEVEL_REMOVED
 #define LOADLEVEL_REMOVED  // bleh, no file dialog thingey.  :/
-#define ALLOW_TWINSTICK // enable extended joystick support
+#endif
+
+#ifndef ALLOW_TWINSTICK
+# define ALLOW_TWINSTICK // enable extended joystick support
+#endif
 
 //#define RESMGR_VERBOSE
 //#define DEBUG_LEVEL_CHEAT
