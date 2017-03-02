@@ -57,7 +57,7 @@
 
 static RInputEvent	ms_ieMouse		=			// Next mouse input event.
 	{
-	RInputEvent::Mouse,
+   RInputEvent::Mouse, 0, 0, 0, 0, 0, 0, 0
 	};
 
 static int16_t			ms_sMouseEvent	= FALSE;	// TRUE, if ms_ieMouse contains
@@ -65,7 +65,7 @@ static int16_t			ms_sMouseEvent	= FALSE;	// TRUE, if ms_ieMouse contains
 
 static RInputEvent	ms_ieKey			=			// Next key input event.
 	{
-	RInputEvent::Key,
+   RInputEvent::Key, 0, 0, 0, 0, 0, 0, 0
 	};
 
 static int16_t			ms_sKeyEvent	= FALSE;	// TRUE, if ms_ieKey contains
