@@ -293,11 +293,11 @@ all: debugoff $(CLIENTEXE)
 debug: debugon $(CLIENTEXE)
 
 debugon:
-	$(eval CFLAGS += -DDEBUG -O0 -g)
+	$(eval CFLAGS += -DDEBUG -D_DEBUG -O0 -g)
 
 debugoff:
 	$(eval OPTFLAG = -O3)
-	$(eval CFLAGS += -DNDEBUG -DRELEASE -O2)
+	$(eval CFLAGS += -DNDEBUG -D_NDEBUG -DRELEASE -O2)
 
 $(BINDIR)/%.o: $(SRCDIR)/%.s
 	$(CC) $(CFLAGS) -DELF -x assembler-with-cpp -o $@ -c $<
