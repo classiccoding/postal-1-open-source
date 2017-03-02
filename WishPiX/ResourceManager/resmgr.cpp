@@ -404,7 +404,7 @@ int16_t RResMgr::GetInstance(						// Returns 0 on success.
 			pfileSrc	= FromSak(strFilename);
 
 		// If SAK file fails try loading from disk.
-		if (!pfileSrc)
+      if (pfileSrc == nullptr)
 			{
 			if (fileNoSak.Open(/*FromSystempath(strFilename)*/strFilename, "rb", endian ) == 0)
 				pfileSrc	= &fileNoSak;
