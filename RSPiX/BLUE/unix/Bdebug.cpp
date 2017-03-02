@@ -63,7 +63,7 @@
 // Includes.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <BLUE/unix/UnixBlue.h>
+#include <BLUE/Blue.h>
 
 #include <cstdio>
 #include <cstdarg>

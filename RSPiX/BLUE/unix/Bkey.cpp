@@ -30,10 +30,13 @@
 
 #include <map>
 
-#include <SDL2/SDL.h>
-#include <BLUE/unix/UnixSystem.h>
-#include <BLUE/unix/UnixBlueKeys.h>
+// Blue //////////////////////////////////////////////////////////////////////
+#include <BLUE/System.h>
+#include <BLUE/Keys.h>
 #include <ORANGE/CDT/QUEUE.H>
+
+// Platform //////////////////////////////////////////////////////////////////
+#include <SDL2/SDL.h>
 
 
 #define MAX_EVENTS	256

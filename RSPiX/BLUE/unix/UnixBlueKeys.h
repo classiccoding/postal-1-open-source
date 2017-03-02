@@ -17,8 +17,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef UNIXBLUEKEYS_H
-#define UNIXBLUEKEYS_H
+#ifndef KEYS_H
+#define KEYS_H
 
 // The SK_ macros are used to index into the array returned by rspScanKeys().
 // Note that only "basic" key values are represented here, where "basic" means
@@ -226,7 +226,7 @@
 #define RSP_GK_SYSTEM				(RSP_SK_SYSTEM				<< 8) // Extended
 
 
-#endif // UNIXBLUEKEYS_H
+#endif // KEYS_H
 
 ///////////////////////////////////////////////////////////////////////////////
 // EOF
