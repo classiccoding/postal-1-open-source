@@ -42,7 +42,7 @@
 #ifndef MENUS_H
 #define MENUS_H
 
-#include <WishPiX/Menu/menu.h>
+#include <Menu/menu.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Macros.

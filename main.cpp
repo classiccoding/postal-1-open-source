@@ -124,7 +124,7 @@
 #endif
 
 #include <RSPiX.h>
-#include <WishPiX/Prefs/prefs.h>
+#include <Prefs/prefs.h>
 
 #include "localize.h"
 #include "game.h"
@@ -150,7 +150,7 @@
 #include <windows.h>
 #endif
 #include "steam/steam_api.h"
-#include "WishPiX/Menu/menu.h"
+#include "Menu/menu.h"
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////

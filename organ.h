@@ -27,7 +27,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 // Relying on paths working on Mac.
-#include "WishPiX/Menu/menu.h"
+#include <Menu/menu.h>
 
 // Choice callback from menu.
 extern bool Organ_MenuChoice(	// Returns true to accept choice, false to deny.

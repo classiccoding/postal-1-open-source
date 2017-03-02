@@ -120,7 +120,7 @@
 #define GAME_H
 
 #include <RSPiX.h>
-#include <WishPiX/ResourceManager/resmgr.h>
+#include <ResourceManager/resmgr.h>
 
 #include "settings.h"
 #include "localize.h"

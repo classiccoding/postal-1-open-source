@@ -43,7 +43,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <RSPiX.h>
-#include <WishPiX/Prefs/prefs.h>
+#include <Prefs/prefs.h>
 
 #include "main.h"
 #include "settings.h"

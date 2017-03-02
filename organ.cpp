@@ -42,7 +42,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <RSPiX.h>
-#include <WishPiX/ResourceManager/resmgr.h>
+#include <ResourceManager/resmgr.h>
 
 #include "SampleMaster.h"
 #include "game.h"
