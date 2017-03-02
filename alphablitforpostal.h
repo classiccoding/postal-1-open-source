@@ -30,6 +30,9 @@
 
 #ifndef ALPHA_BLIT_FOR_POSTAL_H
 #define ALPHA_BLIT_FOR_POSTAL_H
+
+#include <RSPiX.h>
+
 //=================================
 
 // This draws source to destination with clipping only if NEITHER are zero!
