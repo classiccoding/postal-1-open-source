@@ -38,7 +38,7 @@
 #ifndef NAVIGATIONNET_H
 #define NAVIGATIONNET_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 #include "bouy.h"
 #include <map>
@@ -55,9 +55,9 @@ class CNavigationNet : public CThing
 			#if __MWERKS__ >= 0x1100
 				ITERATOR_TRAITS(const CBouy*);
 			#endif
-      typedef std::map<uint8_t, CBouy*, std::less<uint8_t>, std::allocator<CBouy*> > nodeMap;
+			typedef map <uint8_t, CBouy*, less<uint8_t>, allocator<CBouy*> > nodeMap;
 		#else
-      typedef std::map<uint8_t, CBouy*, std::less<uint8_t> > nodeMap;
+			typedef map <uint8_t, CBouy*, less<uint8_t> > nodeMap;
 		#endif
 
 	//---------------------------------------------------------------------------
@@ -101,16 +101,16 @@ class CNavigationNet : public CThing
 			// Set default name as NavNetxx where xx is CThing ID
 			m_rstrNetName = "Untitled NavNet";
 			// Initialize the dummy nodes for the sorted tree/list
-			m_BouyTreeListHead.m_powner = nullptr;
-			m_BouyTreeListHead.m_pnPrev = nullptr;
-			m_BouyTreeListHead.m_pnRight = nullptr;
-			m_BouyTreeListHead.m_pnLeft = nullptr;
+			m_BouyTreeListHead.m_powner = NULL;
+			m_BouyTreeListHead.m_pnPrev = NULL;
+			m_BouyTreeListHead.m_pnRight = NULL;
+			m_BouyTreeListHead.m_pnLeft = NULL;
 			m_BouyTreeListHead.m_pnNext = &m_BouyTreeListTail;
-			m_BouyTreeListTail.m_powner = nullptr;
+			m_BouyTreeListTail.m_powner = NULL;
 			m_BouyTreeListTail.m_pnPrev = &m_BouyTreeListHead;
-			m_BouyTreeListTail.m_pnNext = nullptr;
-			m_BouyTreeListTail.m_pnRight = nullptr;
-			m_BouyTreeListTail.m_pnLeft = nullptr;
+			m_BouyTreeListTail.m_pnNext = NULL;
+			m_BouyTreeListTail.m_pnRight = NULL;
+			m_BouyTreeListTail.m_pnLeft = NULL;
 			}
 
 	public:
@@ -133,11 +133,11 @@ class CNavigationNet : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-         int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CNavigationNet(pRealm);
-         if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CNavigationNet::Construct(): Couldn't construct CNavigationNet (that's a bad thing)\n");
 				}
 			return sResult;
@@ -177,7 +177,6 @@ class CNavigationNet : public CThing
 		// Render object
 		void Render(void);
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -211,17 +210,16 @@ class CNavigationNet : public CThing
 										// EditRect() pos.
 			int16_t*	psY);			// Out: Y coord of 2D hotspot relative to
 										// EditRect() pos.
-#endif // !defined(EDITOR_REMOVED)
 
 		// Get the coordinates of this thing.
 		virtual					// Overriden here.
-      double GetX(void)	const { return m_dX; }
+		double GetX(void)	{ return m_dX; }
 
 		virtual					// Overriden here.
-      double GetY(void)	const { return m_dY; }
+		double GetY(void)	{ return m_dY; }
 
 		virtual					// Overriden here.
-      double GetZ(void)	const { return m_dZ; }
+		double GetZ(void)	{ return m_dZ; }
 
 		// Add a bouy to this network and assign it an ID
 		uint8_t AddBouy(CBouy* pBouy);
@@ -250,14 +248,14 @@ class CNavigationNet : public CThing
 
 		// Set this NavNet as the default one for the Realm.  
 		int16_t SetAsDefault(void)
-         {  int16_t sResult = SUCCESS;
+			{  int16_t sReturn = SUCCESS;
 				if (m_pRealm)
 				{
 					m_pRealm->m_pCurrentNavNet = this;
 				}
 				else
-               sResult = FAILURE;
-            return sResult;
+					sReturn = FAILURE;
+				return sReturn;
 			}
 
 		// Delete all bouys from this network.

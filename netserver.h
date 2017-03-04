@@ -31,10 +31,7 @@
 #ifndef NETSERVER_H
 #define NETSERVER_H
 
-#include <RSPiX.h>
-
-#if !defined(MULTIPLAYER_REMOVED)
-
+#include "RSPiX.h"
 #include "netmsgr.h"
 #include "net.h"
 #include "socket.h"
@@ -271,7 +268,7 @@ class CNetServer
 		// Send message to specified group of clients - only Joined clients are allowed!
 		////////////////////////////////////////////////////////////////////////////////
 		void SendMsg(
-			uint16_t mask,												// In:  Bit-mask indicating who to send to
+			U16 mask,												// In:  Bit-mask indicating who to send to
 			NetMsg* pmsg);											// In:  Message to send
 
 
@@ -318,7 +315,7 @@ class CNetServer
 		void StartGame(
 			Net::ID idServer,										// In:  Server's client's ID
 			int16_t sRealmNum,										// In:  Realm number
-         const char* pszRealmFile,									// In:  Realm file name
+			char* pszRealmFile,									// In:  Realm file name
 			int16_t sDifficulty,									// In:  Difficulty
 			int16_t sRejuvenate,									// In:  Rejuvenate flag
 			int16_t sTimeLimit,										// In:  Time limit in minutes, or negative if none
@@ -437,7 +434,6 @@ class CNetServer
 	};
 
 
-#endif // !defined(MULTIPLAYER_REMOVED)
 #endif //NETSERVER_H
 ////////////////////////////////////////////////////////////////////////////////
 // EOF

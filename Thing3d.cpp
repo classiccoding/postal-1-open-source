@@ -203,9 +203,10 @@
 //							our internal flame.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define THING3D_CPP
 
-#include <RSPiX.h>
-#include <cmath>
+#include "RSPiX.h"
+#include <math.h>
 
 #include "Thing3d.h"
 #include "reality.h"
@@ -232,12 +233,15 @@
 // Light level for burnt thing3d.
 #define BURNT_BRIGHTNESS		-40	// -128 to 127.
 
-// Sets a value pointed to if ptr is not nullptr.
-#define SET(pval, val)					((pval != nullptr) ? *pval = val : val)
+// Sets a value pointed to if ptr is not NULL.
+#define SET(pval, val)					((pval != NULL) ? *pval = val : val)
 
 // Multiply damage by this to get velocity (for absorbing momentum of
 // damage cause (e.g., bullets, etc.) ).
 #define DAMAGE2VEL_RATIO				1.0
+
+// Terminates arrays of attrib check points.
+#define ATTRIB_CHECK_TERMINATOR		-32768
 
 ////////////////////////////////////////////////////////////////////////////////
 // Variables/data
@@ -252,158 +256,165 @@ int16_t		CThing3d::ms_sBurntBrightness		= -40;	// Brightness level after being b
 // These points are relative to the thing's origin.
 // These are arrays of pts to be checked on the attribute map for various
 // size of CThing3d derived things.
+const CThing3d::Point2D		CThing3d::ms_apt2dAttribCheckSmall[]	=
+	{
+	//	+	+	+
+	//	+	x	+
+	//	+	+	+
+		{ -2,	-2,	},
+		{ 0,	-2,	},
+		{ 2,	-2,	},
+		{ -2,	0,		},
+		{	2,	0,		},
+		{ -2,	2,		},
+		{ 0,	2,		},
+		{ 2,	2,		},
+		// Add more points above this one.
+		{ ATTRIB_CHECK_TERMINATOR, }
+	};
 
-const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckSmall =
+const CThing3d::Point2D		CThing3d::ms_apt2dAttribCheckMedium[]	=
+	{
+	//	+	+	+
+	//	+	x	+
+	//	+	+	+
+		{ -6,	-6,	},
+		{ 0,	-6,	},
+		{ 6,	-6,	},
+		{ -6,	0,		},
+		{	6,	0,		},
+		{ -6, 6,		},
+		{ 0,	6,		},
+		{ 6,	6,		},
+		// Add more points above this one.
+		{ ATTRIB_CHECK_TERMINATOR, }
+	};
+
+const CThing3d::Point2D		CThing3d::ms_apt2dAttribCheckLarge[]	=
+	{
+	//	+	+	+
+	//	+	x	+
+	//	+	+	+
+		{ -12,	-12,	},
+		{ 0,		-12,	},
+		{ 12,		-12,	},
+		{ -12,	0,		},
+		{	12,	0,		},
+		{ -12,	12,	},
+		{ 0,		12,	},
+		{ 12,		12,	},
+		// Add more points above this one.
+		{ ATTRIB_CHECK_TERMINATOR, }
+	};
+
+const CThing3d::Point2D		CThing3d::ms_apt2dAttribCheckHuge[]		=
+	{
+	//	+	+	+
+	//	+	x	+
+	//	+	+	+
+		{ -48,	-48,	},
+		{ 0,		-48,	},
+		{ 48,		-48,	},
+		{ -48,	0,		},
+		{	48,	0,		},
+		{ -48,	48,	},
+		{ 0,		48,	},
+		{ 48,		48,	},
+		// Add more points above this one.
+		{ ATTRIB_CHECK_TERMINATOR, }
+	};
+
+
+char* CThing3d::ms_apszStateNames[] = 
 {
-  //	+	+	+
-  //	+	x	+
-  //	+	+	+
-  { -2, -2 },
-  {  0, -2 },
-  {  2, -2 },
-  { -2,  0 },
-  {  2,  0 },
-  { -2,  2 },
-  {  0,  2 },
-  {  2,  2 },
-};
-
-const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckMedium =
-{
-  //	+	+	+
-  //	+	x	+
-  //	+	+	+
-  { -6, -6 },
-  {  0, -6 },
-  {  6, -6 },
-  { -6,  0 },
-  {  6,  0 },
-  { -6,  6 },
-  {  0,  6 },
-  {  6,  6 },
-};
-
-const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckLarge =
-{
-  //	+	+	+
-  //	+	x	+
-  //	+	+	+
-  { -12, -12 },
-  {   0, -12 },
-  {  12, -12 },
-  { -12,   0 },
-  {  12,   0 },
-  { -12,  12 },
-  {   0,  12 },
-  {  12,  12 },
-};
-
-const CThing3d::AttributeTest2D CThing3d::ms_apt2dAttribCheckHuge =
-{
-  //	+	+	+
-  //	+	x	+
-  //	+	+	+
-  { -48, -48 },
-  {   0, -48 },
-  {  48, -48 },
-  { -48,   0 },
-  {  48,   0 },
-  { -48,  48 },
-  {   0,  48 },
-  {  48,  48 },
-};
-
-
-const char* CThing3d::ms_apszStateNames[] =
-{
-  "State_Idle",
-  "State_Shot",
-  "State_Blownup",
-  "State_Burning",
-  "State_Die",
-  "State_Dead",
-  "State_RunOver",
-  "State_Vomit",
-  "State_Suicide",
-  "State_Persistent",
-  "State_Stand",
-  "State_Throw",
-  "State_ThrowRelease",
-  "State_ThrowFinish",
-  "State_ThrowDone",
-  "State_Run",
-  "State_Shooting",
-  "State_RunAndShoot",
-  "State_Strafe",
-  "State_StrafeAndShoot",
-  "State_Launch",
-  "State_LaunchRelease",
-  "State_LaunchFinish",
-  "State_LaunchDone",
-  "State_GetUp",
-  "State_Duck",
-  "State_Rise",
-  "State_Jump",
-  "State_JumpForward",
-  "State_Land",
-  "State_LandForward",
-  "State_Fall",
-  "State_March",
-  "State_Mingle",
-  "State_Panic",
-  "State_Load",
-  "State_Patrol",
-  "State_Shoot",
-  "State_Wait",
-  "State_Stop",
-  "State_Hunt",
-  "State_HuntNext",
-  "State_Engage",
-  "State_Guard",
-  "State_Reposition",
-  "State_Retreat",
-  "State_PopBegin",
-  "State_PopWait",
-  "State_Popout",
-  "State_PopShoot",
-  "State_RunShootBegin",
-  "State_RunShootRun",
-  "State_RunShootWait",
-  "State_RunShoot",
-  "State_Delete",
-  "State_Writhing",
-  "State_Execute",
-  "State_PutDown",
-  "State_PickUp",
-  "State_PutOutFire",
-  "State_Walk",
-  "State_Hide",
-  "State_MoveNext",
-  "State_PositionSet",
-  "State_PositionMove",
-  "State_HideBegin",
-  "State_ShootRun",
-  "State_HuntHold",
-  "State_Climb",
-  "State_ObjectReleased",
-  "PanicBegin",
-  "PanicContinue",
-  "WalkBegin",
-  "WalkContinue",
-  "DelayShoot",
-  "AvoidFire",
-  "Helping",
-  "MarchNext",
-  "WalkNext",
-  "Please Add State Description",
-  "Please Add State Description",
-  "Please Add State Description",
-  "Please Add State Description",
-  "Please Add State Description",
-  "Please Add State Description",
-  "Please Add State Description",
-  "Please Add State Description",
-  "Please Add State Description",
+	"State_Idle",
+	"State_Shot",
+	"State_Blownup",
+	"State_Burning",
+	"State_Die",
+	"State_Dead",
+	"State_RunOver",
+	"State_Vomit",
+	"State_Suicide",
+	"State_Persistent",
+	"State_Stand",
+	"State_Throw",
+	"State_ThrowRelease",
+	"State_ThrowFinish",
+	"State_ThrowDone",
+	"State_Run",
+	"State_Shooting",
+	"State_RunAndShoot",
+	"State_Strafe",
+	"State_StrafeAndShoot",
+	"State_Launch",
+	"State_LaunchRelease",
+	"State_LaunchFinish",
+	"State_LaunchDone",
+	"State_GetUp",
+	"State_Duck",
+	"State_Rise",
+	"State_Jump",
+	"State_JumpForward",
+	"State_Land",
+	"State_LandForward",
+	"State_Fall",
+	"State_March",
+	"State_Mingle",
+	"State_Panic",
+	"State_Load",
+	"State_Patrol",
+	"State_Shoot",
+	"State_Wait",
+	"State_Stop",
+	"State_Hunt",
+	"State_HuntNext",
+	"State_Engage",
+	"State_Guard",
+	"State_Reposition",
+	"State_Retreat",
+	"State_PopBegin",
+	"State_PopWait",
+	"State_Popout",
+	"State_PopShoot",
+	"State_RunShootBegin",
+	"State_RunShootRun",
+	"State_RunShootWait",
+	"State_RunShoot",
+	"State_Delete",
+	"State_Writhing",
+	"State_Execute",
+	"State_PutDown",
+	"State_PickUp",
+	"State_PutOutFire",
+	"State_Walk",
+	"State_Hide",
+	"State_MoveNext",
+	"State_PositionSet",
+	"State_PositionMove",
+	"State_HideBegin",
+	"State_ShootRun",
+	"State_HuntHold",
+	"State_Climb",
+	"State_ObjectReleased",
+	"PanicBegin",
+	"PanicContinue",
+	"WalkBegin",
+	"WalkContinue",
+	"DelayShoot",
+	"AvoidFire",
+	"Helping",
+	"MarchNext",
+	"WalkNext",
+	"Please Add State Description",
+	"Please Add State Description",
+	"Please Add State Description",
+	"Please Add State Description",
+	"Please Add State Description",
+	"Please Add State Description",
+	"Please Add State Description",
+	"Please Add State Description",
+	"Please Add State Description",
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -417,7 +428,7 @@ int16_t CThing3d::Load(									// Returns 0 if successfull, non-zero otherwise
 	{
 	// Call the CThing base class load to get the instance ID
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-   if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// Load object data
 		switch (ulFileVersion)
@@ -478,13 +489,13 @@ int16_t CThing3d::Load(									// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-      if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 			{
 			// Success.
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CThing3d::Load(): Error reading from file!\n");
 			}
 		}
@@ -501,8 +512,8 @@ int16_t CThing3d::Save(									// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
 	// Call the base class save to save the u16InstanceID
-	int16_t sResult	= CThing::Save(pFile, sFileCount);
-   if (sResult == SUCCESS)
+	int16_t	sResult	= CThing::Save(pFile, sFileCount);
+	if (sResult == 0)
 		{
 		// Save object data
 		pFile->Write(&m_dX);
@@ -528,7 +539,7 @@ int16_t CThing3d::Startup(void)						// Returns 0 if successfull, non-zero other
 	// No special flags
 	m_sprite.m_sInFlags = 0;
 
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -537,7 +548,7 @@ int16_t CThing3d::Startup(void)						// Returns 0 if successfull, non-zero other
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CThing3d::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -580,7 +591,7 @@ void CThing3d::Resume(void)
 ////////////////////////////////////////////////////////////////////////////////
 void CThing3d::Render(void)
 	{
-	uint16_t	u16CombinedAttributes;
+	U16	u16CombinedAttributes;
 	int16_t	sLightTally;
 	GetEffectAttributes(m_dX, m_dZ, &u16CombinedAttributes, &sLightTally);
 
@@ -628,7 +639,7 @@ void CThing3d::Render(void)
 			m_spriteShadow.m_sInFlags |= CSprite::InHidden;
 
 		// If the shadow is enabled
-		if (!(m_spriteShadow.m_sInFlags & CSprite::InHidden) && m_spriteShadow.m_pImage != nullptr)
+		if (!(m_spriteShadow.m_sInFlags & CSprite::InHidden) && m_spriteShadow.m_pImage != NULL)
 			{
 			// Get the height of the terrain from the attribute map
 			int16_t sY = m_pRealm->GetHeight((int16_t) m_dX, (int16_t) m_dZ);
@@ -661,7 +672,7 @@ void CThing3d::Render(void)
 			}
 		}
 
-	ASSERT(m_panimCur != nullptr);
+	ASSERT(m_panimCur != NULL);
 
 	m_sprite.m_pmesh = (RMesh*) m_panimCur->m_pmeshes->GetAtTime(m_lAnimTime);
 	m_sprite.m_psop = (RSop*) m_panimCur->m_psops->GetAtTime(m_lAnimTime);
@@ -669,7 +680,6 @@ void CThing3d::Render(void)
 	m_sprite.m_psphere = (RP3d*) m_panimCur->m_pbounds->GetAtTime(m_lAnimTime);
 	}
 
-#if !defined(EDITOR_REMOVED)
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to render object
 ////////////////////////////////////////////////////////////////////////////////
@@ -689,7 +699,7 @@ int16_t CThing3d::EditNew(								// Returns 0 if successfull, non-zero otherwis
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -705,7 +715,7 @@ int16_t CThing3d::EditNew(								// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CThing3d::EditModify(void)
 	{
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -721,7 +731,7 @@ int16_t CThing3d::EditMove(							// Returns 0 if successfull, non-zero otherwis
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-   return SUCCESS;
+	return 0;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -729,7 +739,7 @@ int16_t CThing3d::EditMove(							// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 void CThing3d::EditRect(RRect* pRect)
 	{
-	if (m_panimCur != nullptr)
+	if (m_panimCur != NULL)
 		{
 		if (m_panimCur->m_psops)
 			{
@@ -802,7 +812,6 @@ void CThing3d::EditHotSpot(		// Returns nothiing.
 	*psX	= sX - rc.sX;
 	*psY	= sY - rc.sY;
 	}
-#endif // !defined(EDITOR_REMOVED)
 
 //---------------------------------------------------------------------------
 // Useful generic thing3d state-specific functionality.
@@ -1125,7 +1134,7 @@ void CThing3d::GetNewPosition(	// Returns nothing.
 	*pdNewY	= m_dY + dDistance;
 	}
 
-//#if defined(__ANDROID__)
+//#ifdef MOBILE
 ////////////////////////////////////////////////////////////////////////////////
 // Applies velocities to positions with angle
 ////////////////////////////////////////////////////////////////////////////////
@@ -1398,10 +1407,10 @@ void CThing3d::OnBurnMsg(	// Returns nothing.
 	{
 	CFire*	pfire;
 	// If we don't already have a fire . . .
-	if (m_pRealm->m_idbank.GetThingByID((CThing**)&pfire, m_u16IdFire) != SUCCESS)
+	if (m_pRealm->m_idbank.GetThingByID((CThing**)&pfire, m_u16IdFire) != 0)
 		{
 		// Make a fire and remember its ID.
-      if (CThing::ConstructWithID(CThing::CFireID, m_pRealm, (CThing**) &pfire) == SUCCESS)
+		if (CThing::ConstructWithID(CThing::CFireID, m_pRealm, (CThing**) &pfire) == 0)
 			{
 			// Store its ID.
 			m_u16IdFire	= pfire->GetInstanceID();
@@ -1435,7 +1444,6 @@ void CThing3d::OnBurnMsg(	// Returns nothing.
 void CThing3d::OnDeleteMsg(				// Returns nothing.
 	ObjectDelete_Message* pdeletemsg)	// In:  Message to handle.
 	{
-  UNUSED(pdeletemsg);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1445,7 +1453,6 @@ void CThing3d::OnDeleteMsg(				// Returns nothing.
 void CThing3d::OnHelpMsg(					// Returns nothing
 	Help_Message* phelpmsg)					// In:  Message to handle
 	{
-  UNUSED(phelpmsg);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1455,7 +1462,6 @@ void CThing3d::OnHelpMsg(					// Returns nothing
 void CThing3d::OnPutMeDownMsg(			// Returns nothing
 	PutMeDown_Message* pputmedownmsg)
 	{
-  UNUSED(pputmedownmsg);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1465,7 +1471,7 @@ void CThing3d::UpdateFirePosition(void)
 	{
 	CFire*	pfire;
 	// If there is a fire . . .
-   if (m_pRealm->m_idbank.GetThingByID((CThing**)&pfire, m_u16IdFire) == SUCCESS)
+	if (m_pRealm->m_idbank.GetThingByID((CThing**)&pfire, m_u16IdFire) == 0)
 		{
 		// Update its position.
 		pfire->m_dX	= m_dX;
@@ -1493,19 +1499,20 @@ void CThing3d::UpdateFirePosition(void)
 void CThing3d::GetFloorAttributes(	// Returns nothing.
 	int16_t		sX,						// In:  X coord.
 	int16_t		sZ,						// In:  Z coord.
-	uint16_t*		pu16Attrib,				// Out: Combined attribs, if not nullptr.
-	int16_t*	psHeight)				// Out: Max height, if not nullptr.
+	U16*		pu16Attrib,				// Out: Combined attribs, if not NULL.
+	int16_t*	psHeight)				// Out: Max height, if not NULL.
 	{
-	uint16_t	u16CurAttrib;
-	uint16_t	u16CombinedAttrib	= 0;
-//	int16_t	sLightTally			= 0;
-   int16_t	sMaxHeight			= INT16_MIN;
+	U16	u16CurAttrib;
+	U16	u16CombinedAttrib	= 0;
+	int16_t	sLightTally			= 0;
+	int16_t	sMaxHeight			= -32767;
 	int16_t	sCurHeight;
 
-   for(const Point2D& point : *m_pap2dAttribCheckPoints)
-   {
-      u16CurAttrib = m_pRealm->GetFloorMapValue(sX + point.sX,
-                                                sZ + point.sZ,
+	const Point2D*	p2d;
+	for (p2d = m_pap2dAttribCheckPoints; p2d->sX != ATTRIB_CHECK_TERMINATOR; p2d++)
+		{
+		u16CurAttrib = m_pRealm->GetFloorMapValue((int16_t) sX + p2d->sX,
+		                                          (int16_t) sZ + p2d->sZ,
 																 REALM_ATTR_NOT_WALKABLE | 0x0000);
 
 		// Combine attributes - and the height for now (since it will be masked out at end)
@@ -1538,18 +1545,19 @@ void CThing3d::GetFloorAttributes(	// Returns nothing.
 void CThing3d::GetEffectAttributes(	// Returns nothing.
 	int16_t		sX,							// In:  X coord.
 	int16_t		sZ,							// In:  Z coord.
-	uint16_t*		pu16Attrib,					// Out: Combined attribs, if not nullptr.
-	int16_t*	psLightBits)				// Out: Tally of light bits set, if not nullptr.
+	U16*		pu16Attrib,					// Out: Combined attribs, if not NULL.
+	int16_t*	psLightBits)				// Out: Tally of light bits set, if not NULL.
 	{
-	uint16_t	u16CurAttrib;
-	uint16_t	u16CombinedAttrib	= 0;
+	U16	u16CurAttrib;
+	U16	u16CombinedAttrib	= 0;
 	int16_t	sLightTally			= 0;
 
-   for(const Point2D& point : *m_pap2dAttribCheckPoints)
+	const Point2D*	p2d;
+	for (p2d = m_pap2dAttribCheckPoints; p2d->sX != ATTRIB_CHECK_TERMINATOR; p2d++)
 		{
 		u16CurAttrib = m_pRealm->GetEffectAttribute(
-         sX + point.sX,
-         sZ + point.sZ
+			(int16_t) sX + p2d->sX,
+			(int16_t) sZ + p2d->sZ
 			);
 
 		// Combine attributes other than height.
@@ -1573,13 +1581,14 @@ void CThing3d::GetLayer(	// Returns nothing.
 	int16_t  sZ,					// In:  Z coord.
 	int16_t* psLayer)			// Out: Combined layer.
 	{
-	uint16_t	u16CombinedLayer	= 0;
+	U16	u16CombinedLayer	= 0;
 
-   for(const Point2D& point : *m_pap2dAttribCheckPoints)
+	const Point2D*	p2d;
+	for (p2d = m_pap2dAttribCheckPoints; p2d->sX != ATTRIB_CHECK_TERMINATOR; p2d++)
 		{
 		u16CombinedLayer	|= m_pRealm->GetLayer(
-         sX + point.sX,
-         sZ + point.sZ
+			(int16_t) sX + p2d->sX,
+			(int16_t) sZ + p2d->sZ
 			);
 		}
 
@@ -1615,13 +1624,13 @@ void CThing3d::GetLinkPoint(	// Returns nothing.
 // Detach the specified Thing3d.
 // (virtual).
 ////////////////////////////////////////////////////////////////////////////////
-CThing3d* CThing3d::DetachChild(	// Returns ptr to the child or nullptr, if none.
-	uint16_t*		pu16InstanceId,		// In:  Instance ID of child to detach.
+CThing3d* CThing3d::DetachChild(	// Returns ptr to the child or NULL, if none.
+	U16*		pu16InstanceId,		// In:  Instance ID of child to detach.
 											// Out: CIdBank::IdNil.
 	RTransform*	ptrans)				// In:  Transform for positioning child.
 	{
 	CThing3d*	pthing3d;
-   if (m_pRealm->m_idbank.GetThingByID((CThing**)&pthing3d, *pu16InstanceId) == SUCCESS)
+	if (m_pRealm->m_idbank.GetThingByID((CThing**)&pthing3d, *pu16InstanceId) == 0)
 		{
 		DetachChild(
 			&(pthing3d->m_sprite),		// In:  Child sprite to detach.
@@ -1639,7 +1648,7 @@ CThing3d* CThing3d::DetachChild(	// Returns ptr to the child or nullptr, if none
 		{
 		// No longer exists.
 		*pu16InstanceId	= CIdBank::IdNil;
-		pthing3d				= nullptr;
+		pthing3d				= NULL;
 		}
 
 	return pthing3d;
@@ -1781,7 +1790,7 @@ int16_t CThing3d::PrepareShadow(void)
 	int16_t sResult = SUCCESS;
 
 	// If the shadow doesn't have resource loaded yet, load the default
-	if (m_spriteShadow.m_pImage == nullptr)
+	if (m_spriteShadow.m_pImage == NULL)
 	{
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(SHADOW_FILE), &(m_spriteShadow.m_pImage), RFile::LittleEndian);
 	}
@@ -1806,12 +1815,12 @@ void CThing3d::PlaySample(									// Returns nothing.
 	int16_t	sInitialVolume	/*= -1*/,						// In:  Initial Sound Volume (0 - 255)
 																	// Negative indicates to use the distance to the
 																	// ear to determine the volume.
-	SampleMaster::SoundInstance*	psi /*= nullptr*/,	// Out: Handle for adjusting sound volume
-   milliseconds_t* plSampleDuration /*= nullptr*/,					// Out: Sample duration in ms, if not nullptr.
-   milliseconds_t lLoopStartTime /*= -1*/,							// In:  Where to loop back to in milliseconds.
+	SampleMaster::SoundInstance*	psi /*= NULL*/,	// Out: Handle for adjusting sound volume
+	int32_t* plSampleDuration /*= NULL*/,					// Out: Sample duration in ms, if not NULL.
+	int32_t lLoopStartTime /*= -1*/,							// In:  Where to loop back to in milliseconds.
 																	//	-1 indicates no looping (unless m_sLoop is
 																	// explicitly set).
-   milliseconds_t lLoopEndTime /*= 0*/,								// In:  Where to loop back from in milliseconds.
+	int32_t lLoopEndTime /*= 0*/,								// In:  Where to loop back from in milliseconds.
 																	// In:  If less than 1, the end + lLoopEndTime is used.
 	bool bPurgeSample /*= false*/)						// In:  Call ReleaseAndPurge rather than Release after playing
 	{
@@ -1830,7 +1839,7 @@ void CThing3d::PlaySample(									// Returns nothing.
 									// Negative indicates to use the distance to the
 									// ear to determine the volume.
 		psi,						// Out: Handle for adjusting sound volume
-		plSampleDuration,		// Out: Sample duration in ms, if not nullptr.
+		plSampleDuration,		// Out: Sample duration in ms, if not NULL.
 		lLoopStartTime,		// In:  Where to loop back to in milliseconds.
 									//	-1 indicates no looping (unless m_sLoop is
 									// explicitly set).
@@ -1842,16 +1851,16 @@ void CThing3d::PlaySample(									// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 // Start a CAnimThing.
 ////////////////////////////////////////////////////////////////////////////////
-CAnimThing* CThing3d::StartAnim(		// Returns ptr to CAnimThing on success; nullptr otherwise.
-   const char* pszAnimResName,				// In:  Animation's resource name.
+CAnimThing* CThing3d::StartAnim(		// Returns ptr to CAnimThing on success; NULL otherwise.
+	char* pszAnimResName,				// In:  Animation's resource name.
 	int16_t	sX,								// In:  Position.
 	int16_t	sY,								// In:  Position.
 	int16_t	sZ,								// In:  Position.
 	bool	bLoop)							// In:  true to loop animation.
 	{
 	// Create the animator . . .
-	CAnimThing*	pat	= nullptr;
-   if (ConstructWithID(CAnimThingID, m_pRealm, (CThing**)&pat) == SUCCESS)
+	CAnimThing*	pat	= NULL;
+	if (ConstructWithID(CAnimThingID, m_pRealm, (CThing**)&pat) == 0)
 		{
 		strcpy(pat->m_szResName, pszAnimResName);
 

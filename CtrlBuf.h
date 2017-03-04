@@ -27,7 +27,7 @@
 #ifndef CTRLBUF_H
 #define CTRLBUF_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -55,7 +55,7 @@ class CCtrlBuf
 		enum
 			{
 			MaxBufEntries = 256,
-         InvalidEntry = UINT32_MAX
+			InvalidEntry = 0xffffffff
 			};
 
 	//------------------------------------------------------------------------------
@@ -107,14 +107,14 @@ class CCtrlBuf
 			int32_t* plCtrls,
 			int32_t* plNumAdded)
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 
 			// This can and should be optimized!
 			*plNumAdded = 0;
 			for (int32_t l = 0; l < lNum; l++)
 				{
 				sResult = Add(lSeq++, *plCtrls++);
-				if (sResult == SUCCESS)
+				if (sResult == 0)
 					(*plNumAdded)++;
 				else
 					break;
@@ -127,7 +127,7 @@ class CCtrlBuf
 			int32_t lSeq,
 			int32_t lCtrl)
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 
 			// This needs to deal with the fact that the ctrls don't always come
 			// sequentially, and there will often be gaps between ctrl values that
@@ -169,7 +169,7 @@ class CCtrlBuf
 						}
 					else
 						{
-                  sResult = FAILURE;
+						sResult = -1;
 						TRACE("No room in buf!\n");
 						}
 					}
@@ -196,7 +196,7 @@ class CCtrlBuf
 
 
 		////////////////////////////////////////////////////////////////////////////////
-      // Get pointer to specified entry.  If the returned value is nullptr, then
+		// Get pointer to specified entry.  If the returned value is 0 (NULL), then
 		// that entry was not available.
 		////////////////////////////////////////////////////////////////////////////////
 		int32_t* GetPtrTo(
@@ -208,7 +208,7 @@ class CCtrlBuf
 				if ((lIndex >= 0) && (lIndex < m_lNumCtrls))
 					return &(m_alBuf[lIndex]);
 				}
-         return nullptr;
+			return 0;
 			}
 
 

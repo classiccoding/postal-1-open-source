@@ -172,8 +172,6 @@
 #include "StockPile.h"
 #include "AnimThing.h"
 
-#include <array>
-
 class CThing3d : public CThing
 	{
 	/////////////////////////////////////////////////////////////////////////////
@@ -291,16 +289,11 @@ class CThing3d : public CThing
 			} State;
 
 		// A 2D point.  Used by the attrib check arrays.
-
-      struct Point2D
-      {
-         int16_t	sX;
-         int16_t	sZ;
-         Point2D(int16_t x, int16_t z)
-           : sX(x), sZ(z) { }
-      };
-
-      typedef Point2D AttributeTest2D[8];
+		typedef struct
+			{
+			int16_t	sX;
+			int16_t	sZ;
+			} Point2D;
 
 	//---------------------------------------------------------------------------
 	// Variables
@@ -331,12 +324,12 @@ class CThing3d : public CThing
 													// Y axis.
 		double m_dExtRotVelZ;				// Rate of rotation in degrees per second around
 													// Z axis.
-      milliseconds_t   m_lTimer;						// General purpose timer for states
-      milliseconds_t   m_lPrevTime;					// Previous update time
+		int32_t   m_lTimer;						// General purpose timer for states
+		int32_t   m_lPrevTime;					// Previous update time
 		int16_t  m_sPrevHeight;				// Previous height
 		int16_t  m_sSuspend;					// Suspend flag
 
-		uint16_t	m_u16IdFire;					// ID of fire to carry around when you are burning.
+		U16	m_u16IdFire;					// ID of fire to carry around when you are burning.
 
 		CSprite3 m_sprite;					// 3D Sprite used to render the 3D Thing.
 		CSprite2	m_spriteShadow;			// 2D shadow sprite to be shown on the ground
@@ -345,8 +338,8 @@ class CThing3d : public CThing
 		
 		// Animation specific variables.
 		CAnim3D*	m_panimCur;					// Pointer to current animation.
-      milliseconds_t		m_lAnimTime;				// Time from start of animation.
-      milliseconds_t		m_lAnimPrevUpdateTime;	// Last time m_lAnimTime was updated.
+		int32_t		m_lAnimTime;				// Time from start of animation.
+		int32_t		m_lAnimPrevUpdateTime;	// Last time m_lAnimTime was updated.
 													// Used to determine the delta time to add
 													// to m_lAnimTime.
 		RTransform	m_trans;					// Transform to apply on Render.
@@ -357,14 +350,14 @@ class CThing3d : public CThing
 
 		bool	m_bAboveTerrain;				// true, if in the air, false if on terrain.
 
-		uint16_t	m_u16IdParent;					// Instance ID of parent.
+		U16	m_u16IdParent;					// Instance ID of parent.
 
 		CStockPile	m_stockpile;			// Stockpile of ammo and health.
 
 		int16_t	m_sLayerOverride;				// Layer override.  If > 0, used instead of
 													// layer dictated by attributes.
 
-      const AttributeTest2D*	m_pap2dAttribCheckPoints;	// Points to the ms_apt3dAttribCheck*[]
+		const Point2D*	m_pap2dAttribCheckPoints;	// Points to the ms_apt3dAttribCheck*[]
 																// that best reflects this object.
 
 
@@ -375,15 +368,15 @@ class CThing3d : public CThing
 		static double	ms_dDefaultSurfaceDrag;	// Default drag along surfaces.
 		static double	ms_dDefaultAirDrag;		// Default drag due to air friction.
 		static int16_t	ms_sBurntBrightness;		// Brightness level after being burnt
-      static const char*	ms_apszStateNames[];		// Strings describing states, indexed by
+		static char*	ms_apszStateNames[];		// Strings describing states, indexed by
 															// the state enum.
 
 		// These are arrays of pts to be checked on the attribute map for various
 		// size of CThing3d derived things.
-      static const AttributeTest2D ms_apt2dAttribCheckSmall;
-      static const AttributeTest2D ms_apt2dAttribCheckMedium;
-      static const AttributeTest2D ms_apt2dAttribCheckLarge;
-      static const AttributeTest2D ms_apt2dAttribCheckHuge;
+		static const Point2D		ms_apt2dAttribCheckSmall[];
+		static const Point2D		ms_apt2dAttribCheckMedium[];
+		static const Point2D		ms_apt2dAttribCheckLarge[];
+		static const Point2D		ms_apt2dAttribCheckHuge[];
 
 	//---------------------------------------------------------------------------
 	// Constructor(s) / destructor
@@ -391,14 +384,14 @@ class CThing3d : public CThing
 	protected:
 		// Constructor
 		CThing3d(CRealm* pRealm, CThing::ClassIDType id)
-         : CThing(pRealm, id)
+			: CThing(pRealm, id)
 			{
 			// Must call Zero() to initialize the stockpile since it has
 			// no constructor.
 			m_stockpile.Zero();
 
 			m_state				= State_Idle;
-			m_panimCur			= nullptr;
+			m_panimCur			= NULL;
 			m_dExtHorzVel		= 0.0;
 			m_dExtHorzRot		= 0.0;
 			m_dExtHorzDrag		= 0.0;
@@ -421,14 +414,14 @@ class CThing3d : public CThing
 			m_stockpile.m_sHitPoints	= DefHitPoints;
 			m_u16IdParent		= CIdBank::IdNil;
 			m_spriteShadow.m_sInFlags = CSprite::InHidden;
-			m_spriteShadow.m_pImage = nullptr;
+			m_spriteShadow.m_pImage = NULL;
 			m_spriteShadow.m_pthing = this;
 			m_lAnimTime = 0;
 			m_lTimer = 0;
 			m_sLayerOverride	= -1;
 
-         // Default to the standard.
-         m_pap2dAttribCheckPoints	= &ms_apt2dAttribCheckMedium;
+			// Default to the standard.
+			m_pap2dAttribCheckPoints	= ms_apt2dAttribCheckMedium;
 			}
 
 	public:
@@ -484,7 +477,6 @@ class CThing3d : public CThing
 		// Render object
 		void Render(void);
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -513,12 +505,11 @@ class CThing3d : public CThing
 										// EditRect() pos.
 			int16_t*	psY);			// Out: Y coord of 2D hotspot relative to
 										// EditRect() pos.
-#endif // !defined(EDITOR_REMOVED)
 
 		// Get the sprite for this thing.  If there's more than one, pick one
 		// or none to return.
 		virtual	// If you override this, do NOT call this base class.
-		CSprite* GetSprite(void)	// Returns the sprite for this thing or nullptr.
+		CSprite* GetSprite(void)	// Returns the sprite for this thing or NULL.
 			{ return &m_sprite; }
 
 		// Get the coordinates of this thing.
@@ -645,7 +636,7 @@ class CThing3d : public CThing
 			double*	pdNewY,					// Out: New y position.
 			double*	pdNewZ,					// Out: New z position.
 			double	dSeconds);				// Seconds since last update.
-//#if defined(__ANDROID__)
+//#ifdef MOBILE
 		// Applies velocities to positions, but take in angle of movement
 		void GetNewPositionAngle(				// Returns nothing.
 				double*	pdNewX,					// Out: New x position.
@@ -679,15 +670,15 @@ class CThing3d : public CThing
 		void GetFloorAttributes(	// Returns nothing
 			int16_t  sX,					// In:  X coord.
 			int16_t  sZ,					// In:  Z coord.
-			uint16_t*   pu16Attrib,		// Out: Combined attributes, if not nullptr
-			int16_t* psHeight);			// Out: Max height, if not nullptr
+			U16*   pu16Attrib,		// Out: Combined attributes, if not NULL
+			int16_t* psHeight);			// Out: Max height, if not NULL
 
 		// Get Effect attributes (effects attributes like light, camera, oil, blood)
 		void GetEffectAttributes(	// Returns nothing
 			int16_t  sX,					// In:  X coord.
 			int16_t  sZ,					// In:  Z coord.
-			uint16_t*   pu16Attrib,		// Out: Combined attributes, if not nullptr
-			int16_t* psLightBits);		// Out: Tally of light bits set, if not nullptr.
+			U16*   pu16Attrib,		// Out: Combined attributes, if not NULL
+			int16_t* psLightBits);		// Out: Tally of light bits set, if not NULL.
 
 		// Get the layer based on the attribute points array.
 		void GetLayer(
@@ -698,8 +689,8 @@ class CThing3d : public CThing
 		// Detach the specified Thing3d.
 		virtual			// Override to implement additional functionality.
 							// Call base class to get default functionality.
-		CThing3d* DetachChild(			// Returns ptr to the child or nullptr, if none.
-			uint16_t*		pu16InstanceId,	// In:  Instance ID of child to detach.
+		CThing3d* DetachChild(			// Returns ptr to the child or NULL, if none.
+			U16*		pu16InstanceId,	// In:  Instance ID of child to detach.
 												// Out: CIdBank::IdNil.
 			RTransform*	ptrans);			// In:  Transform for positioning child.
 
@@ -754,19 +745,19 @@ class CThing3d : public CThing
 			int16_t	sInitialVolume	= -1,						// In:  Initial Sound Volume (0 - 255)
 																	// Negative indicates to use the distance to the
 																	// ear to determine the volume.
-			SampleMaster::SoundInstance*	psi = nullptr,	// Out: Handle for adjusting sound volume
-         milliseconds_t* plSampleDuration = nullptr,				// Out: Sample duration in ms, if not nullptr.
-         milliseconds_t lLoopStartTime = UINT32_MAX,						// In:  Where to loop back to in milliseconds.
+			SampleMaster::SoundInstance*	psi = NULL,	// Out: Handle for adjusting sound volume
+			int32_t* plSampleDuration = NULL,				// Out: Sample duration in ms, if not NULL.
+			int32_t lLoopStartTime = -1,						// In:  Where to loop back to in milliseconds.
 																	//	-1 indicates no looping (unless m_sLoop is
 																	// explicitly set).
-         milliseconds_t lLoopEndTime = 0,							// In:  Where to loop back from in milliseconds.
+			int32_t lLoopEndTime = 0,							// In:  Where to loop back from in milliseconds.
 																	// In:  If less than 1, the end + lLoopEndTime is used.
 			bool bPurgeSample = false);					// In:  Call ReleaseAndPurge rather than Release after playing
 
 
 		// Start a CAnimThing.
-		CAnimThing* StartAnim(					// Returns ptr to CAnimThing on success; nullptr otherwise.
-         const char* pszAnimResName,				// In:  Animation's resource name.
+		CAnimThing* StartAnim(					// Returns ptr to CAnimThing on success; NULL otherwise.
+			char* pszAnimResName,				// In:  Animation's resource name.
 			int16_t	sX,								// In:  Position.
 			int16_t	sY,								// In:  Position.
 			int16_t	sZ,								// In:  Position.

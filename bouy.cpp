@@ -156,9 +156,10 @@
 //							sure we are.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define BOUY_CPP
 
-#include <RSPiX.h>
-#include <cmath>
+#include "RSPiX.h"
+#include <math.h>
 
 #include "bouy.h"
 #include "navnet.h"
@@ -195,7 +196,7 @@ int16_t CBouy::Load(										// Returns 0 if successfull, non-zero otherwise
 	GameMessage msg;
 	// Call the base load to get the u16InstanceID
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -216,9 +217,9 @@ int16_t CBouy::Load(										// Returns 0 if successfull, non-zero otherwise
 		pFile->Read(&m_dY);
 		pFile->Read(&m_dZ);
 
-		uint16_t u16Data;
-		uint16_t u16NumLinks;
-		uint16_t i;
+		U16 u16Data;
+		U16 u16NumLinks;
+		U16 i;
 		// Get number of links to be read
 		pFile->Read(&u16NumLinks);
 		for (i = 0; i < u16NumLinks; i++)
@@ -258,7 +259,7 @@ int16_t CBouy::Load(										// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 		{
 #if 0
 		// If you were thinking of doing something like this, stop.
@@ -274,7 +275,7 @@ int16_t CBouy::Load(										// Returns 0 if successfull, non-zero otherwise
 		}
 		else
 		{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CBouy::Load(): Error reading from file!\n");
 		}
 	}
@@ -310,11 +311,11 @@ int16_t CBouy::Save(										// Returns 0 if successfull, non-zero otherwise
 	pFile->Write(&m_dY);
 	pFile->Write(&m_dZ);
 
-	uint16_t u16Data = m_sNumDirectLinks;
+	U16 u16Data = m_sNumDirectLinks;
 	// Save the number of links that will follow in the file
 	pFile->Write(&u16Data);
 	CBouy* pLinkedBouy = m_aplDirectLinks.GetHead();
-	while (pLinkedBouy != nullptr)
+	while (pLinkedBouy != NULL)
 	{
 		u16Data = pLinkedBouy->GetInstanceID();
 		pFile->Write(&u16Data);
@@ -338,7 +339,7 @@ int16_t CBouy::Save(										// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBouy::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 {
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// At this point we can assume the CHood was loaded, so we init our height
 	m_dY = m_pRealm->GetHeight((int16_t) m_dX, (int16_t) m_dZ);
@@ -346,7 +347,7 @@ int16_t CBouy::Startup(void)								// Returns 0 if successfull, non-zero otherw
 	// Init other stuff
 	// Get pointer to Navigation Net
 	// If we don't have a pointer to the nav net yet, get it from the ID
-	if (m_pParentNavNet == nullptr)
+	if (m_pParentNavNet == NULL)
 	{
 		m_pRealm->m_idbank.GetThingByID((CThing**) &m_pParentNavNet, m_u16ParentInstanceID); 
 		// Re-register yourself with the network.
@@ -354,8 +355,8 @@ int16_t CBouy::Startup(void)								// Returns 0 if successfull, non-zero otherw
 	
 
 		linkinstanceid::Pointer i;
-		CBouy* pBouy = nullptr;
-      for (i = m_LinkInstanceID.GetHead(); i != nullptr; i = m_LinkInstanceID.GetNext(i))
+		CBouy* pBouy = NULL;
+		for (i = m_LinkInstanceID.GetHead(); i != 0; i = m_LinkInstanceID.GetNext(i))
 		{
 			m_pRealm->m_idbank.GetThingByID((CThing**) &pBouy, m_LinkInstanceID.GetData(i));		
 			// If its not already linked, then add it.
@@ -382,7 +383,7 @@ int16_t CBouy::Startup(void)								// Returns 0 if successfull, non-zero otherw
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBouy::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 {
-	return SUCCESS;
+	return 0;
 }
 
 
@@ -422,7 +423,7 @@ void CBouy::Update(void)
 
 int16_t CBouy::AddLink(CBouy* pBouy)
 {
-   int16_t sResult = SUCCESS;
+	int16_t sReturn = SUCCESS;
 	
 	if (!m_aplDirectLinks.Find(pBouy))
 	{
@@ -430,7 +431,7 @@ int16_t CBouy::AddLink(CBouy* pBouy)
 		m_sNumDirectLinks++;
 	}
 	
-   return sResult;
+	return sReturn;	
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -440,7 +441,7 @@ void CBouy::Render(void)
 {
 }
 
-#if !defined(EDITOR_REMOVED)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -449,7 +450,7 @@ int16_t CBouy::EditNew(									// Returns 0 if successfull, non-zero otherwise
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -458,7 +459,7 @@ int16_t CBouy::EditNew(									// Returns 0 if successfull, non-zero otherwise
 
 	// Since we were created in the editor, set our Nav Net
 	m_pParentNavNet = m_pRealm->GetCurrentNavNet();
-	if (m_pParentNavNet->AddBouy(this) == SUCCESS)
+	if (m_pParentNavNet->AddBouy(this) == 0)
 		sResult = FAILURE;
 	else
 		// Load resources
@@ -472,7 +473,7 @@ int16_t CBouy::EditNew(									// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBouy::EditModify(void)
 {
-	return SUCCESS;
+	return 0;
 }
 
 
@@ -488,7 +489,7 @@ int16_t CBouy::EditMove(									// Returns 0 if successfull, non-zero otherwise
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-	return SUCCESS;
+	return 0;
 }
 
 
@@ -562,7 +563,7 @@ void CBouy::EditRect(RRect* pRect)
 	pRect->sW	= 10;	// Safety.
 	pRect->sH	= 10;	// Safety.
 
-	if (m_pImage != nullptr)
+	if (m_pImage != NULL)
 		{
 		pRect->sW	= m_pImage->m_sWidth;
 		pRect->sH	= m_pImage->m_sHeight;
@@ -585,30 +586,29 @@ void CBouy::EditHotSpot(	// Returns nothiing.
 	*psX	= (m_pImage->m_sWidth / 2);
 	*psY	= m_pImage->m_sHeight;
 	}
-#endif // !defined(EDITOR_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Get all required resources
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBouy::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	if (m_pImage == 0)
 		{
 		RImage*	pimBouyRes;
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(IMAGE_FILE), &pimBouyRes);
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 			// Allocate image . . .
 			m_pImage	= new RImage;
-			if (m_pImage != nullptr)
+			if (m_pImage != NULL)
 				{
 				// Allocate image data . . .
 				if (m_pImage->CreateImage(
 					pimBouyRes->m_sWidth,
 					pimBouyRes->m_sHeight,
-					RImage::BMP8) == SUCCESS)
+					RImage::BMP8) == 0)
 					{
 					// Blt bouy res.
 					rspBlit(
@@ -616,7 +616,7 @@ int16_t CBouy::GetResources(void)						// Returns 0 if successfull, non-zero oth
 						m_pImage,		// Dst.
 						0,					// Dst.
 						0,					// Dst.
-						nullptr);			// Dst clip.
+						NULL);			// Dst clip.
 
 					// Put in ID.
 					RPrint	print;
@@ -633,26 +633,26 @@ int16_t CBouy::GetResources(void)						// Returns 0 if successfull, non-zero oth
 					// Convert to efficient transparent blit format . . .
 					if (m_pImage->Convert(RImage::FSPR8) != RImage::FSPR8)
 						{
-                  sResult = FAILURE * 3;
+						sResult = -3;
 						TRACE("CBouy::GetResource() - Couldn't convert to FSPR8\n");
 						}
 					}
 				else
 					{
-               sResult = FAILURE * 2;
+					sResult	= -2;
 					TRACE("CBouy::GetResource() - m_pImage->CreateImage() failed.\n");
 					}
 
 				// If an error occurred after allocation . . .
-				if (sResult != SUCCESS)
+				if (sResult != 0)
 					{
 					delete m_pImage;
-					m_pImage	= nullptr;
+					m_pImage	= NULL;
 					}
 				}
 			else
 				{
-				sResult = FAILURE;
+				sResult	= -1;
 				TRACE("CBouy::GetResource(): Failed to allocate RImage.\n");
 				}
 			
@@ -663,18 +663,19 @@ int16_t CBouy::GetResources(void)						// Returns 0 if successfull, non-zero oth
 	return sResult;
 	}
 
+
 ////////////////////////////////////////////////////////////////////////////////
 // Free all resources
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBouy::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	if (m_pImage != nullptr)
+	if (m_pImage != NULL)
 		{
 		delete m_pImage;
-		m_pImage	= nullptr;
+		m_pImage	= NULL;
 		}
 
-	return SUCCESS;
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -711,14 +712,14 @@ void CBouy::Unlink(void)
 int16_t CBouy::BuildRoutingTable(void)
 {
 	int16_t sResult = SUCCESS;
-	uint8_t* aVisited = nullptr;
-	uint8_t* aDistance = nullptr;
-	uint8_t* aParent = nullptr;
-	uint8_t* pucCurrentNode = nullptr;
-	uint8_t* pucAdjNode = nullptr;
-	CBouy* pTraverseBouy = nullptr;
+	uint8_t* aVisited = NULL;
+	uint8_t* aDistance = NULL;
+	uint8_t* aParent = NULL;
+	uint8_t* pucCurrentNode = NULL;
+	uint8_t* pucAdjNode = NULL;
+	CBouy* pTraverseBouy = NULL;
 
-	ASSERT(m_pParentNavNet != nullptr);
+	ASSERT(m_pParentNavNet != NULL);
 	int16_t sCurrentNumNodes = m_pParentNavNet->GetNumNodes();
 	RQueue <uint8_t, 256> bfsQueue;
 
@@ -726,7 +727,7 @@ int16_t CBouy::BuildRoutingTable(void)
 	// reallocate it if there isn't enough.
 	if (m_sRouteTableSize < sCurrentNumNodes)
 	{
-		if (m_paucRouteTable != nullptr)
+		if (m_paucRouteTable != NULL)
 			free(m_paucRouteTable);
 		m_paucRouteTable = (uint8_t*) malloc(sCurrentNumNodes);
 		m_sRouteTableSize = sCurrentNumNodes;
@@ -737,10 +738,10 @@ int16_t CBouy::BuildRoutingTable(void)
 	aDistance = (uint8_t*) malloc(sCurrentNumNodes);
 	aParent = (uint8_t*) malloc(sCurrentNumNodes);
 
-	if (m_paucRouteTable != nullptr &&
-	    aVisited != nullptr &&
-		 aDistance != nullptr &&
-		 aParent != nullptr)
+	if (m_paucRouteTable != NULL &&
+	    aVisited != NULL &&
+		 aDistance != NULL &&
+		 aParent != NULL)
 	{
 		// Initialize the table to unreachable and initialize the
 		// BSF data structures.
@@ -827,7 +828,7 @@ int16_t CBouy::BuildRoutingTable(void)
 	else
 	{
 		TRACE("CBouy::BuildRoutingTable: Error allocating memory for tables for bouy %d\n", m_ucID);
-		sResult = FAILURE;
+		sResult = -1;
 	}
 
 	if (aVisited)

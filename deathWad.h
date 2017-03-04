@@ -64,9 +64,9 @@ class CDeathWad : public CWeapon
 	//---------------------------------------------------------------------------
 	public:
 		// Collision bits
-		uint32_t			m_u32CollideIncludeBits;
-		uint32_t			m_u32CollideDontcareBits;
-		uint32_t			m_u32CollideExcludeBits;
+		U32			m_u32CollideIncludeBits;
+		U32			m_u32CollideDontcareBits;
+		U32			m_u32CollideExcludeBits;
 		CStockPile	m_stockpile;			// Arsenal.
 
 	protected:
@@ -140,11 +140,11 @@ class CDeathWad : public CWeapon
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CDeathWad(pRealm);
-			if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CDeathWad::Construct(): Couldn't construct CDeathWad (that's a bad thing)\n");
 				}
 			return sResult;

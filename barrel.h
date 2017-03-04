@@ -47,7 +47,7 @@
 #ifndef BARREL_H
 #define BARREL_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "Thing3d.h"
 #include "realm.h"
 #include "grenade.h"
@@ -69,7 +69,7 @@ class CBarrel : public CThing3d
 	// Variables
 	//---------------------------------------------------------------------------
 	public:
-		uint16_t		m_u16ShooterID;				// Variable for storing the shooter ID
+		U16		m_u16ShooterID;				// Variable for storing the shooter ID
 														// to pass along in the messages.
 
 	protected:
@@ -108,7 +108,7 @@ class CBarrel : public CThing3d
 			m_dRot = 0;
 			m_dX = m_dY = m_dZ = m_dVel = m_dAcc = 0;
 			m_sScreenRadius = 20;
-			m_panimCur = m_pPreviousAnim = nullptr;
+			m_panimCur = m_pPreviousAnim = NULL;
 			m_sprite.m_pthing	= this;
 			m_bSpecial = false;
 			}
@@ -135,11 +135,11 @@ class CBarrel : public CThing3d
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CBarrel(pRealm);
-			if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CBarrel::Construct(): Couldn't construct CBarrel (that's a bad thing)\n");
 				}
 			return sResult;
@@ -186,7 +186,6 @@ class CBarrel : public CThing3d
 		// functions like FindDirection and SQDistanceToGuy
 		int16_t SelectDude(void);
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -195,7 +194,6 @@ class CBarrel : public CThing3d
 
 		// Called by editor to modify object
 		int16_t EditModify(void);									// Returns 0 if successfull, non-zero otherwise
-#endif // !defined(EDITOR_REMOVED)
 
 	//---------------------------------------------------------------------------
 	// Internal functions

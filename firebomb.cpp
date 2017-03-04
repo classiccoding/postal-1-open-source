@@ -143,9 +143,10 @@
 //		08/28/97 BRH	Added cache of large fire sound.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define FIREBOMB_CPP
 
-#include <RSPiX.h>
-#include <cmath>
+#include "RSPiX.h"
+#include <math.h>
 
 #include "firebomb.h"
 #include "dude.h"
@@ -177,7 +178,7 @@ int16_t CFirebomb::ms_sFileCount;
 
 /// Grenade Animation Files
 // An array of pointers to res names (one for each animatino component)
-static const char* ms_apszResNames[] =
+static char* ms_apszResNames[] =
 {
 	"3d/grenade.sop",
 	"3d/grenade.mesh",
@@ -185,8 +186,8 @@ static const char* ms_apszResNames[] =
 	"3d/grenade.hot",
 	"3d/grenade.bounds",
 	"3d/grenade.floor",
-	nullptr,
-	nullptr
+	NULL,
+	NULL
 };
 
 
@@ -199,7 +200,7 @@ int16_t CFirebomb::Load(				// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,					// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)				// In:  Version of file format to load.
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	sResult = CWeapon::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 	if (sResult == SUCCESS)
@@ -227,14 +228,14 @@ int16_t CFirebomb::Load(				// Returns 0 if successfull, non-zero otherwise
 		}
 		
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 		{
 			// Get resources
 			sResult = GetResources();
 		}
 		else
 		{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CFirebomb::Load(): Error reading from file!\n");
 		}
 	}
@@ -262,7 +263,7 @@ int16_t CFirebomb::Save(										// Returns 0 if successfull, non-zero otherwis
 
 	// Save object data
 
-   return SUCCESS;
+	return 0;
 }
 
 
@@ -272,9 +273,7 @@ int16_t CFirebomb::Save(										// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 void CFirebomb::Update(void)
 {
-#ifdef UNUSED_VARIABLE
 	uint16_t usAttrib;
-#endif
 	int16_t sHeight = m_sPrevHeight;
 	double dNewX;
 	double dNewY;
@@ -306,9 +305,7 @@ void CFirebomb::Update(void)
 			case CFirebomb::State_Fire:
 				// Make sure we start in a valid position.  If we are staring
 				// inside a wall, just delete this object now.
-#ifdef UNUSED_VARIABLE
-          usAttrib = m_pRealm->GetFloorAttribute((int16_t) m_dX, (int16_t) m_dZ);
-#endif
+				usAttrib = m_pRealm->GetFloorAttribute((int16_t) m_dX, (int16_t) m_dZ);
 				sHeight = m_pRealm->GetHeight((int16_t) m_dX, (int16_t) m_dZ);
 				if (m_dY < sHeight)
 				{
@@ -368,7 +365,7 @@ void CFirebomb::Update(void)
 			case CFirebomb::State_Explode:
 
 				CFire* pFire;
-				if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pFire) == SUCCESS)
+				if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pFire) == 0)
 				{
 					pFire->Setup(m_dX, m_dY, m_dZ, PRIMARY_BURN_TIME, true, CFire::LargeFire);
 					pFire->m_u16ShooterID = m_u16ShooterID;
@@ -388,7 +385,7 @@ void CFirebomb::Update(void)
 				CFirefrag* pFrag;
 				for (i = 0; i < 8; i++)
 				{
-					if (CThing::Construct(CThing::CFirefragID, m_pRealm, (CThing**) &pFrag) == SUCCESS)
+					if (CThing::Construct(CThing::CFirefragID, m_pRealm, (CThing**) &pFrag) == 0)
 					{
 						pFrag->m_u16ShooterID = m_u16ShooterID;
 						pFrag->Setup(m_dX, m_dY, m_dZ);
@@ -478,7 +475,7 @@ int16_t CFirebomb::Setup(									// Returns 0 if successfull, non-zero otherwis
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -505,13 +502,13 @@ int16_t CFirebomb::Setup(									// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CFirebomb::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	sResult = m_anim.Get(ms_apszResNames);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 	{
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(SMALL_SHADOW_FILE), &(m_spriteShadow.m_pImage), RFile::LittleEndian);
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 		{
 			// add more gets
 		}
@@ -625,7 +622,7 @@ int16_t CFirefrag::Load(				// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,					// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)				// In:  Version of file format to load.
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	sResult = CWeapon::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 	if (sResult == SUCCESS)
@@ -656,14 +653,14 @@ int16_t CFirefrag::Load(				// Returns 0 if successfull, non-zero otherwise
 		}
 		
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 		{
 			// Get resources
 			sResult = GetResources();
 		}
 		else
 		{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CFirefrag::Load(): Error reading from file!\n");
 		}
 	}
@@ -693,7 +690,7 @@ int16_t CFirefrag::Save(										// Returns 0 if successfull, non-zero otherwis
 
 	// Save object data
 
-   return SUCCESS;
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -779,7 +776,7 @@ void CFirefrag::Update(void)
 			case CWeapon::State_Explode:
 
 				CFire* pFire;
-				if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pFire) == SUCCESS)
+				if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pFire) == 0)
 				{
 					pFire->Setup(m_dX, m_dY, m_dZ, SECONDARY_BURN_TIME, true, CFire::SmallFire);
 					pFire->m_u16ShooterID = m_u16ShooterID;
@@ -851,8 +848,8 @@ void CFirefrag::Render(void)
 
 	// Layer should be based on info we get from attribute map, but is hardwired for now
 //	m_sprite.m_sLayer = 0;
-	ASSERT(m_pRealm					!= nullptr);
-	ASSERT(m_pRealm->m_pAttribMap	!= nullptr);
+	ASSERT(m_pRealm					!= NULL);
+	ASSERT(m_pRealm->m_pAttribMap	!= NULL);
 	// Layer should be based on info we get from attribute map.
 	m_sprite.m_sLayer = CRealm::GetLayerViaAttrib(m_pRealm->GetLayer((short) m_dX, (short) m_dZ));
 
@@ -873,7 +870,7 @@ int16_t CFirefrag::Setup(									// Returns 0 if successfull, non-zero otherwis
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -886,7 +883,7 @@ int16_t CFirefrag::Setup(									// Returns 0 if successfull, non-zero otherwis
 	// Load resources
 //	sResult = GetResources();
 
-	if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &m_pFire) == SUCCESS)
+	if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &m_pFire) == 0)
 	{
 		m_pFire->Setup(m_dX, m_dY, m_dZ, SECONDARY_BURN_TIME, true, CFire::SmallFire);
 		m_pFire->m_u16ShooterID = m_u16ShooterID;
@@ -902,26 +899,26 @@ int16_t CFirefrag::Setup(									// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CFirefrag::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
-   if (m_pImage == nullptr)
+	if (m_pImage == 0)
 	{
 		m_pImage = new RImage;
 		if (m_pImage)
 		{
 			sResult = m_pImage->Load(FRAG_IMAGE_FILE);
-			if (sResult == SUCCESS)
+			if (sResult == 0)
 			{
 				if (m_pImage->Convert(RImage::FSPR8) != RImage::FSPR8)
 				{
-					sResult = FAILURE;
+					sResult = -1;
 					TRACE("CFirefrag::GetResource(): Couldn't convert to FSPR8!\n");
 				}
 			}
 		}
 		else
 		{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CFirefrag::GetResources(): Couldn't allocate RImage!\n");
 		}
 	}
@@ -935,12 +932,12 @@ int16_t CFirefrag::GetResources(void)						// Returns 0 if successfull, non-zero
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CFirefrag::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
-   if (m_pImage != nullptr)
+	if (m_pImage != 0)
 	{
 		delete m_pImage;
-      m_pImage = nullptr;
+		m_pImage = 0;
 	}
 
 	return sResult;

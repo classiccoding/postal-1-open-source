@@ -48,15 +48,11 @@
 #ifndef SCORE_H
 #define SCORE_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "game.h"
 #include "realm.h"
 #include "net.h"
-
-#if !defined(MULTIPLAYER_REMOVED)
-
 #include "netclient.h"
-#endif
 
 
 class CScoreboard
@@ -82,7 +78,7 @@ class CScoreboard
 	public:
 		
 		int16_t	m_asScores[Net::MaxNumIDs+1];			// Score for each player
-//		uint16_t	m_au16PlayerIDs[Net::MaxNumIDs+1];	// ID of each player
+//		U16	m_au16PlayerIDs[Net::MaxNumIDs+1];	// ID of each player
 		int32_t	m_lLastScoreDrawTime;						// Time since last update
 		int32_t	m_lLastStatusDrawTime;						// Time since last update
 
@@ -115,7 +111,7 @@ class CScoreboard
 	public:
 
 		// Return the indes of the player or -1 if not found
-//		short GetPlayerIndex(uint16_t uInstanceID)
+//		short GetPlayerIndex(U16 uInstanceID)
 //		{
 //			short sPlayerIndex = Net::MaxNumIDs;
  //
@@ -160,10 +156,10 @@ class CScoreboard
 		}		
 
 		void SetScoringMode(ScoringMode Mode)
-         {m_ScoringMode = Mode;}
+			{m_ScoringMode = Mode;};
 
 		int16_t GetScoringMode(void)
-         {return m_ScoringMode;}
+			{return m_ScoringMode;};
 	
 };
 
@@ -177,7 +173,7 @@ void ScoreReset(void);
 void ScoreResetDisplay(void);
 
 // Function called by Characters when they die
-void ScoreRegisterKill(CRealm* pRealm, uint16_t u16DeadGuy, uint16_t u16Killer);
+void ScoreRegisterKill(CRealm* pRealm, U16 u16DeadGuy, U16 u16Killer);
 
 // Function called by play to update the score display
 // Returns true, if pImage was updated; false otherwise.
@@ -196,8 +192,8 @@ void ScoreDisplayStatus(CRealm* pRealm);
 //	to enter their name if they beat one of the top scores.
 void ScoreDisplayHighScores(			// Returns nothing.
 	CRealm* pRealm,						// In:  Realm won.
-	CNetClient* pclient	= nullptr,		// In:  Client ptr for MP mode, or nullptr in SP mode.
-   milliseconds_t lMaxTimeOut	= INT32_MAX);			// In:  Max time on score screen (quits after this
+	CNetClient* pclient	= NULL,		// In:  Client ptr for MP mode, or NULL in SP mode.
+	int32_t lMaxTimeOut	= -1);			// In:  Max time on score screen (quits after this
 												// duration, if not -1).
 
 // Get the name for a new high score

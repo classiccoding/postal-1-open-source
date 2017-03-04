@@ -22,9 +22,9 @@
 #ifndef GRIP_H
 #define GRIP_H
 
-#include <cmath>
+#include <math.h>
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "camera.h"
 
 
@@ -116,7 +116,6 @@ class CGrip
 			int16_t sTargetY,								// In:  Target's y coord
 			int16_t sTargetR)								// In:  Target's radius
 			{
-        UNUSED(sTargetR);
 			m_sZoneX = sTargetX;
 			m_sZoneY = sTargetY;
 

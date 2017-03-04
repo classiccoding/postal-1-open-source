@@ -15,7 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-// NetDlg.h
+// NetDlg.H
 // Project: Nostril (aka Postal)
 // 
 // History:
@@ -45,10 +45,7 @@
 #ifndef NETDLG_H
 #define NETDLG_H
 
-#include <RSPiX.h>
-
-#if !defined(MULTIPLAYER_REMOVED)
-
+#include "RSPiX.h"
 #include "netclient.h"
 #include "netserver.h"
 
@@ -62,7 +59,7 @@
 
 // This is a general message for the "NetProb" gui that works for general
 // cases of "network not responding".
-extern const char* g_pszNetProb_General;
+extern char* g_pszNetProb_General;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -73,7 +70,7 @@ extern const char* g_pszNetProb_General;
 extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero otherwise.
 	CNetClient*	pclient,									// I/O: Client interface
 	bool bBrowse,											// In:  Whether to browse (true) or connect (false)
-	CNetServer*	pserver,									// I/O: Server interface or nullptr if not server
+	CNetServer*	pserver,									// I/O: Server interface or NULL if not server
 	NetMsg* pmsgOut);										// Out: NetMsg::NOTHING or NetMsg::START_GAME
 
 
@@ -150,7 +147,6 @@ extern bool IsNetProb(void);	// Returns true, if net problem; false otherwise.
 //////////////////////////////////////////////////////////////////////////////
 extern void ClearNetProb(void);	// Returns nothing.
 
-#endif // !defined(MULTIPLAYER_REMOVED)
 #endif	// NETDLG_H
 ////////////////////////////////////////////////////////////////////////////////
 // EOF

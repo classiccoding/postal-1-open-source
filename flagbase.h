@@ -32,7 +32,7 @@
 #ifndef FLAGBASE_H
 #define FLAGBASE_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 #include "Thing3d.h"
 
@@ -49,11 +49,11 @@ class CFlagbase : public CThing3d
 	//---------------------------------------------------------------------------
 	public:
 		CAnim3D*		m_panimCurBase;					// current animation for the base
-		uint16_t			m_u16FlagID;						// ID to match flag and base
+		U16			m_u16FlagID;						// ID to match flag and base
 
 	protected:
 		CAnim3D		m_animFlagWave;					// animation for the flag waving
-		uint16_t			m_u16Color;							// Color of base
+		U16			m_u16Color;							// Color of base
 
 
 		// Tracks file counter so we know when to load/save "common" data 
@@ -73,7 +73,7 @@ class CFlagbase : public CThing3d
 			m_sSuspend = 0;
 			m_dRot = 0;
 			m_dX = m_dY = m_dZ = m_dVel = m_dAcc = 0;
-			m_panimCur = nullptr;
+			m_panimCur = NULL;
 			m_sprite.m_pthing	= this;
 			m_u16FlagID = 1;
 			m_u16Color = 0;
@@ -100,11 +100,11 @@ class CFlagbase : public CThing3d
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CFlagbase(pRealm);
-         if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CFlagbase::Construct(): Couldn't construct CFlagbase (that's a bad thing)\n");
 				}
 			return sResult;
@@ -135,7 +135,6 @@ class CFlagbase : public CThing3d
 		// Update object
 		void Update(void);
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -161,7 +160,6 @@ class CFlagbase : public CThing3d
 										// EditRect() pos.
 			int16_t*	psY);			// Out: Y coord of 2D hotspot relative to
 										// EditRect() pos.
-#endif // !defined(EDITOR_REMOVED)
 
 	//---------------------------------------------------------------------------
 	// Internal functions

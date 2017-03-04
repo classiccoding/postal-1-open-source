@@ -15,7 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-// PowerUp.h
+// PowerUp.H
 // Project: Nostril (aka Postal)
 // 
 // History:
@@ -79,7 +79,7 @@
 #ifndef POWERUP_H
 #define POWERUP_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 #include "item3d.h"
 #include "StockPile.h"
@@ -103,7 +103,7 @@ class CPowerUp : public CItem3d
 	//---------------------------------------------------------------------------
 	public:
 		// Powerup anim names.
-      static const char*	ms_apszPowerUpResNames[CStockPile::NumStockPileItems + 2];
+		static char*	ms_apszPowerUpResNames[CStockPile::NumStockPileItems + 2];
 
 	//---------------------------------------------------------------------------
 	// Constructor(s) / destructor
@@ -145,11 +145,11 @@ class CPowerUp : public CItem3d
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CPowerUp(pRealm);
-         if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CPowerUp::Construct(): Couldn't construct CPowerUp (that's a bad thing)\n");
 				}
 			return sResult;
@@ -186,7 +186,6 @@ class CPowerUp : public CItem3d
 		// Render object
 		void Render(void);
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -195,7 +194,6 @@ class CPowerUp : public CItem3d
 
 		// Called by editor to modify object
 		int16_t EditModify(void);									// Returns 0 if successfull, non-zero otherwise
-#endif // !defined(EDITOR_REMOVED)
 
 	//---------------------------------------------------------------------------
 	// Handy external functions

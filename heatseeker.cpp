@@ -144,9 +144,10 @@
 //							Render().
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define HEATSEEKER_CPP
 
-#include <RSPiX.h>
-#include <cmath>
+#include "RSPiX.h"
+#include <math.h>
 
 #include "heatseeker.h"
 #include "dude.h"
@@ -178,12 +179,12 @@ int16_t CHeatseeker::ms_sOffScreenDist = 200;				// Go off screen this far befor
 int16_t CHeatseeker::ms_sAngularVelocity = 120;				// Degrees per second
 
 // Set the collision bits
-uint32_t CHeatseeker::ms_u32SeekIncludeBits = CSmash::Character | CSmash::Fire;
-uint32_t CHeatseeker::ms_u32SeekDontcareBits = CSmash::Good | CSmash::Bad;
-uint32_t CHeatseeker::ms_u32SeekExcludeBits = CSmash::Ducking | CSmash::AlmostDead;
-uint32_t CHeatseeker::ms_u32CollideIncludeBits = CSmash::Character | CSmash::Misc | CSmash::Barrel | CSmash::Fire;
-uint32_t CHeatseeker::ms_u32CollideDontcareBits = CSmash::Good | CSmash::Bad;
-uint32_t CHeatseeker::ms_u32CollideExcludeBits = CSmash::Ducking; // Miss if they are ducking
+U32 CHeatseeker::ms_u32SeekIncludeBits = CSmash::Character | CSmash::Fire;
+U32 CHeatseeker::ms_u32SeekDontcareBits = CSmash::Good | CSmash::Bad;
+U32 CHeatseeker::ms_u32SeekExcludeBits = CSmash::Ducking | CSmash::AlmostDead;
+U32 CHeatseeker::ms_u32CollideIncludeBits = CSmash::Character | CSmash::Misc | CSmash::Barrel | CSmash::Fire;
+U32 CHeatseeker::ms_u32CollideDontcareBits = CSmash::Good | CSmash::Bad;
+U32 CHeatseeker::ms_u32CollideExcludeBits = CSmash::Ducking; // Miss if they are ducking
 int32_t CHeatseeker::ms_lSmokeTrailInterval = 10;			// MS between smoke releases
 int32_t CHeatseeker::ms_lSmokeTimeToLive = 1000;			// MS for smoke to stay around.
 
@@ -191,7 +192,7 @@ int32_t CHeatseeker::ms_lSmokeTimeToLive = 1000;			// MS for smoke to stay aroun
 int16_t CHeatseeker::ms_sFileCount;
 
 /// Rocket Animation Files
-static const char* ms_apszResNames[] =
+static char* ms_apszResNames[] = 
 {
 	"3d/Gmissile.sop",
 	"3d/Gmissile.mesh",
@@ -199,8 +200,8 @@ static const char* ms_apszResNames[] =
 	"3d/Gmissile.hot",
 	"3d/Gmissile.bounds",
 	"3d/Gmissile.floor",
-	nullptr,
-	nullptr
+	NULL,
+	NULL
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -250,7 +251,7 @@ int16_t CHeatseeker::Load(										// Returns 0 if successfull, non-zero otherw
 		}
 		else
 		{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CHeatseeker::Load(): Error reading from file!\n");
 		}
 	}
@@ -283,7 +284,7 @@ int16_t CHeatseeker::Save(										// Returns 0 if successfull, non-zero otherw
 
 	// Save object data
 
-   return SUCCESS;
+	return 0;
 }
 
 
@@ -292,10 +293,8 @@ int16_t CHeatseeker::Save(										// Returns 0 if successfull, non-zero otherw
 ////////////////////////////////////////////////////////////////////////////////
 void CHeatseeker::Update(void)
 {
-#ifdef UNUSED_VARIABLES
-   uint16_t usAttrib;
-#endif
-   int16_t sHeight;
+	uint16_t usAttrib;
+	int16_t sHeight;
 	double dNewX;
 	double dNewZ;
 	double dPrevX;
@@ -324,10 +323,10 @@ void CHeatseeker::Update(void)
 					SampleMaster::Weapon,	// In:  User volume adjustment category
 					DistanceToVolume(m_dX, m_dY, m_dZ, LaunchSndHalfLife), // In:  distance to dude
 					&m_siThrust,				// Out: Handle for adjusting sound volume
-					nullptr,							// Out: Sample duration
+					NULL,							// Out: Sample duration
 					2841,							// In:  Where to loop back to in ms
 					3090,							// In:  Where to loop fro in ms
-               SampleMaster::MinVolume );	// In:  Initial Sound Volume (0 - 255)
+					false );	// In:  Initial Sound Volume (0 - 255)
 				m_lTimer = lThisTime + ms_lArmingTime;
 				m_eState = State_Chase;
 				break;
@@ -355,9 +354,8 @@ void CHeatseeker::Update(void)
 
 				// Check for obstacles
 				sHeight = m_pRealm->GetHeight((int16_t) dNewX, (int16_t) dNewZ);
-#ifdef UNUSED_VARIABLES
-            usAttrib = m_pRealm->GetFloorAttribute((int16_t) dNewX, (int16_t) dNewZ);
-#endif
+				usAttrib = m_pRealm->GetFloorAttribute((int16_t) dNewX, (int16_t) dNewZ);
+
 				int16_t	sRealmH	= m_pRealm->GetRealmHeight();
 				int16_t	sRealmW	= m_pRealm->GetRealmWidth();
 
@@ -397,9 +395,9 @@ void CHeatseeker::Update(void)
 						(int16_t) dNewX, 			// In:  Destination X.                                        
 						(int16_t) dNewZ,				// In:  Destination Z.                                        
 						0,								// In:  Max traverser can step up.                      
-						nullptr,							// Out: If not nullptr, last clear point on path.                
-						nullptr,							// Out: If not nullptr, last clear point on path.                
-						nullptr,							// Out: If not nullptr, last clear point on path.                
+						NULL,							// Out: If not NULL, last clear point on path.                
+						NULL,							// Out: If not NULL, last clear point on path.                
+						NULL,							// Out: If not NULL, last clear point on path.                
 						false) )						// In:  If true, will consider the edge of the realm a path
 														// inhibitor.  If false, reaching the edge of the realm    
 														// indicates a clear path.                                 
@@ -425,7 +423,7 @@ void CHeatseeker::Update(void)
 				// the weapon yet.
 				if (m_bArmed)
 				{
-					CSmash* pSmashed = nullptr;
+					CSmash* pSmashed = NULL;
 
 					// Change this to quick check closest
 					if (m_pRealm->m_smashatorium.QuickCheckClosest(&m_smashSeeker,
@@ -499,7 +497,7 @@ void CHeatseeker::Update(void)
 				else
 				{
 					// Check for collision with self and if no collision, then arm
-					CThing* pShooter = nullptr;
+					CThing* pShooter = NULL;
 					m_pRealm->m_idbank.GetThingByID(&pShooter, m_u16ShooterID);
 					// If the shooter is valid, then arm when it clears the shooter
 					if (pShooter)
@@ -529,8 +527,8 @@ void CHeatseeker::Update(void)
 				if (lThisTime > m_lSmokeTimer)
 				{
 					m_lSmokeTimer = lThisTime + ms_lSmokeTrailInterval;
-					CFire* pSmoke = nullptr;
-					if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == SUCCESS)
+					CFire* pSmoke = NULL;
+					if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == 0)
 					{
 						// This needs to be fixed by calculating the position of the back end of
 						// the rocket in 3D based on the rotation.  
@@ -556,7 +554,7 @@ void CHeatseeker::Update(void)
 				// Start an explosion object and then kill rocket
 				// object
 				CExplode* pExplosion;
-				if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == SUCCESS)
+				if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == 0)
 				{
 					pExplosion->Setup(m_dX, MAX(m_dY-30, 0.0), m_dZ, m_u16ShooterID);
 					PlaySample(
@@ -569,7 +567,7 @@ void CHeatseeker::Update(void)
 				CFire* pSmoke;
 				for (a = 0; a < 8; a++)
 				{
-					if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == SUCCESS)
+					if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == 0)
 					{
 						pSmoke->Setup(m_dX - 4 + GetRandom() % 9, m_dY-20, m_dZ - 4 + GetRandom() % 9, 4000, true, CFire::Smoke);
 						pSmoke->m_u16ShooterID = m_u16ShooterID;
@@ -656,7 +654,7 @@ void CHeatseeker::Render(void)
 		// FEEDBACK.
 		// Create a line sprite.
 		CSpriteLine2d*	psl2d	= new CSpriteLine2d;
-		if (psl2d != nullptr)
+		if (psl2d != NULL)
 			{
 			Map3Dto2D(
 				m_dX, 
@@ -697,7 +695,7 @@ int16_t CHeatseeker::Setup(									// Returns 0 if successfull, non-zero otherw
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -743,13 +741,13 @@ int16_t CHeatseeker::Setup(									// Returns 0 if successfull, non-zero otherw
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CHeatseeker::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	sResult = m_anim.Get(ms_apszResNames);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 	{
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(SMALL_SHADOW_FILE), &(m_spriteShadow.m_pImage), RFile::LittleEndian);
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 		{
 			// add more gets
 		}
@@ -774,7 +772,7 @@ int16_t CHeatseeker::FreeResources(void)						// Returns 0 if successfull, non-z
 {
 	m_anim.Release();
 
-   return SUCCESS;
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

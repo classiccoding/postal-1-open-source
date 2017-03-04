@@ -48,7 +48,7 @@
 #ifndef ITEM3D_H
 #define ITEM3D_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 
 #include "character.h"
 
@@ -77,12 +77,12 @@ class CItem3d : public CThing3d
 	public:
 
 		CAnim3D		m_anim;									// One animation.
-		char			m_szAnimBaseName[PATH_MAX];	// Name of animation.
+		char			m_szAnimBaseName[RSP_MAX_PATH];	// Name of animation.
 		ItemType		m_type;									// Item type if known.
 
-		char			m_szAnimRigidName[PATH_MAX];	// Rigid body transform anim name.
+		char			m_szAnimRigidName[RSP_MAX_PATH];	// Rigid body transform anim name.
 		CAnim3D		m_animChild;									// Optional child anim.
-		char			m_szChildAnimBaseName[PATH_MAX];	// Name of child anim.
+		char			m_szChildAnimBaseName[RSP_MAX_PATH];	// Name of child anim.
 
 		CSprite3		m_spriteChild;							// Child sprite.  Never 
 																	// explicitly added to scene
@@ -99,8 +99,8 @@ class CItem3d : public CThing3d
 		// "Constant" values that we want to be able to tune using the editor
 
 		// Array of known animation base names.
-      static const char*	ms_apszKnownAnimBaseNames[NumTypes];
-      static const char*	ms_apszKnownAnimDescriptions[NumTypes];
+		static char*	ms_apszKnownAnimBaseNames[NumTypes];
+		static char*	ms_apszKnownAnimDescriptions[NumTypes];
 
 	//---------------------------------------------------------------------------
 	// Constructor(s) / destructor
@@ -149,11 +149,11 @@ class CItem3d : public CThing3d
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CItem3d(pRealm);
-			if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CItem3d::Construct(): Couldn't construct CItem3d!\n");
 				}
 
@@ -182,7 +182,6 @@ class CItem3d : public CThing3d
 		// Render object
 		void Render(void);										// Returns nothing.
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -191,7 +190,6 @@ class CItem3d : public CThing3d
 
 		// Called by editor to modify object.
 		int16_t EditModify(void);									// Returns 0 if successfull, non-zero otherwise
-#endif // !defined(EDITOR_REMOVED)
 
 	//---------------------------------------------------------------------------
 	// Other functions
@@ -205,9 +203,9 @@ class CItem3d : public CThing3d
 			int16_t sY,						// In:  Starting Y position
 			int16_t sZ,						// In:  Starting Z position
 			ItemType type,					// In:  Known item type or Custom.
-         const char*	pszCustomBaseName = nullptr,	// In:  Required if type == Custom.
+			char*	pszCustomBaseName = NULL,	// In:  Required if type == Custom.
 														// Base name for custom type resources.
-			uint16_t	u16IdParentInstance = CIdBank::IdNil);	// In:  Parent instance ID.
+			U16	u16IdParentInstance = CIdBank::IdNil);	// In:  Parent instance ID.
 
 		// Message handling functions ////////////////////////////////////////////
 

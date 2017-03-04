@@ -68,7 +68,7 @@
 #ifndef GRENADE_H
 #define GRENADE_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 #include "weapon.h"
 
@@ -134,7 +134,7 @@ class CGrenade : public CWeapon
 		static double ms_adGroundDimisher[NumStyles];	// Dimishes velocities once it hits the ground.
 		static double ms_adBounceDimisher[NumStyles];	// Dimishes velocities when bouncing.
 
-      static const char*	ms_apszResNames[NumStyles];		// Res names indexed Style.
+		static char*	ms_apszResNames[NumStyles];		// Res names indexed Style.
 
 	//---------------------------------------------------------------------------
 	// Constructor(s) / destructor
@@ -173,11 +173,11 @@ class CGrenade : public CWeapon
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CGrenade(pRealm);
-         if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CGrenade::Construct(): Couldn't construct CGrenade (that's a bad thing)\n");
 				}
 			return sResult;
@@ -188,13 +188,13 @@ class CGrenade : public CWeapon
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult	= Construct(pRealm, ppNew);
-			if (sResult == SUCCESS)
+			int16_t	sRes	= Construct(pRealm, ppNew);
+			if (sRes == 0)
 				{
 				( (CGrenade*)(*ppNew) )->m_style	= Dynamite;
 				}
 
-			return sResult;
+			return sRes;
 			}
 
 	//---------------------------------------------------------------------------

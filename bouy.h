@@ -60,7 +60,7 @@
 #ifndef BOUY_H
 #define BOUY_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 
 // Template node class for linked lists
@@ -74,14 +74,14 @@ class CTreeListNode
 	public:
 		CTreeListNode()	
 			{
-				m_pnNext = m_pnPrev = m_pnRight = m_pnLeft = nullptr;
-				m_powner = nullptr;
+				m_pnNext = m_pnPrev = m_pnRight = m_pnLeft = NULL;
+				m_powner = NULL;
 			}	// Do not use.
 
 	public:
 		CTreeListNode(Owner* powner)
 		{ m_powner	= powner;
-		  m_pnNext = m_pnPrev = m_pnRight = m_pnLeft = nullptr; }
+		  m_pnNext = m_pnPrev = m_pnRight = m_pnLeft = NULL; }
 
 		// Note:  This function can only be used with a list that has
 		// dummy nodes for head and tail.
@@ -97,7 +97,7 @@ class CTreeListNode
 		void InsertBefore(
 			Node* pn)	// In:  Node to insert before.
 		{
-			ASSERT(m_pnNext == nullptr && m_pnPrev == nullptr);
+			ASSERT(m_pnNext == NULL && m_pnPrev == NULL);
 			m_pnNext					= pn;
 			m_pnPrev					= pn->m_pnPrev;
 			m_pnPrev->m_pnNext	= this;
@@ -109,7 +109,7 @@ class CTreeListNode
 		void AddAfter(
 			Node* pn)	// In:  Node to add after.
 		{
-			ASSERT(m_pnNext == nullptr && m_pnPrev == nullptr);
+			ASSERT(m_pnNext == NULL && m_pnPrev == NULL);
 			m_pnNext					= pn->m_pnNext;
 			m_pnPrev					= pn;
 			m_pnNext->m_pnPrev	= this;
@@ -123,8 +123,8 @@ class CTreeListNode
 		{
 			m_pnNext->m_pnPrev		= m_pnPrev;
 			m_pnPrev->m_pnNext		= m_pnNext;
-			m_pnNext						= nullptr;
-			m_pnPrev						= nullptr;
+			m_pnNext						= NULL;
+			m_pnPrev						= NULL;
 		}
 
 		// Note:  This function adds the item into the tree in its
@@ -137,7 +137,7 @@ class CTreeListNode
 			// go right
 			{
 				// If this is the end of the line, add it here
-				if (m_pnRight == nullptr)	
+				if (m_pnRight == NULL)	
 				{
 					m_pnRight = pn;
 					//AddAfter(pn);
@@ -152,7 +152,7 @@ class CTreeListNode
 			// go left
 			{
 				// If this is the end of the line, add it here
-				if (m_pnLeft == nullptr)
+				if (m_pnLeft == NULL)
 				{
 					m_pnLeft = pn;
 					//InsertBefore(pn);
@@ -175,14 +175,14 @@ class CTreeListNode
 			if (m_pnLeft)
 			{
 				m_pnLeft->DeleteTree();
-				m_pnLeft = nullptr;			
+				m_pnLeft = NULL;			
 			}	
 
 			// Delete right branches
 			if (m_pnRight)
 			{
 				m_pnRight->DeleteTree();
-				m_pnRight = nullptr;
+				m_pnRight = NULL;
 			}
 
 			// Remove yourself from the list
@@ -214,7 +214,7 @@ class CBouy : public CThing
 	// Types, enums, etc.
 	//---------------------------------------------------------------------------
 	public:
-		typedef RFList<uint16_t> linkinstanceid;
+		typedef RFList<U16> linkinstanceid;
 		typedef RList<CBouy> linklist;
 
 	//---------------------------------------------------------------------------
@@ -242,7 +242,7 @@ class CBouy : public CThing
 
 		linkinstanceid m_LinkInstanceID;		// Used to relink the network after a load
 
-		uint16_t	m_u16ParentInstanceID;			// InstanceID used to relink to correct
+		U16	m_u16ParentInstanceID;			// InstanceID used to relink to correct
 														// Network after a load			
 																		
 
@@ -263,8 +263,8 @@ class CBouy : public CThing
 			{
 			m_pImage = 0;
 			m_sSuspend = 0;
-			m_pParentNavNet = nullptr;
-			m_paucRouteTable = nullptr;
+			m_pParentNavNet = NULL;
+			m_paucRouteTable = NULL;
 			m_sRouteTableSize = 0;
 			m_sNumDirectLinks = 0;
 			}
@@ -276,7 +276,7 @@ class CBouy : public CThing
 			// Remove sprite from scene (this is safe even if it was already removed!)
 			m_pRealm->m_scene.RemoveSprite(&m_sprite);
 
-			if (m_paucRouteTable != nullptr)
+			if (m_paucRouteTable != NULL)
 				free(m_paucRouteTable);
 
 			// Free resources
@@ -292,11 +292,11 @@ class CBouy : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CBouy(pRealm);
-			if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CBouy::Construct(): Couldn't construct CBouy (that's a bad thing)\n");
 				}
 			return sResult;
@@ -336,7 +336,6 @@ class CBouy : public CThing
 		// Render object
 		void Render(void);
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -367,17 +366,16 @@ class CBouy : public CThing
 										// EditRect() pos.
 			int16_t*	psY);			// Out: Y coord of 2D hotspot relative to
 										// EditRect() pos.
-#endif // !defined(EDITOR_REMOVED)
 
 		// Get the coordinates of this thing.
 		virtual					// Overriden here.
-      double GetX(void)	const { return m_dX; }
+		double GetX(void)	{ return m_dX; }
 
 		virtual					// Overriden here.
-      double GetY(void)	const { return m_dY; }
+		double GetY(void)	{ return m_dY; }
 
 		virtual					// Overriden here.
-      double GetZ(void)	const { return m_dZ; }
+		double GetZ(void)	{ return m_dZ; }
 
 		// Add a link to this bouy - it is directly connected, ie, 1 hop away
 		int16_t AddLink(CBouy* pBouy);

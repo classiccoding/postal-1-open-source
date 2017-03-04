@@ -1100,9 +1100,10 @@
 //							a warp (the warp gives you additional stuff).
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define DUDE_CPP
 
-#include <RSPiX.h>
-#include <cmath>
+#include "RSPiX.h"
+#include <math.h>
 
 #include "dude.h"
 #include "grenade.h"
@@ -1117,9 +1118,10 @@
 #include "chunk.h"
 #include "warp.h"
 #include "score.h"
+#include "CompileOptions.h"	// For sales cheat.
 #include "play.h"
 
-//#if defined(__ANDROID__)
+//#ifdef MOBILE
 bool demoCompat = false; //Set in Play.cpp
 //#endif
 
@@ -1233,7 +1235,7 @@ extern bool GetDudeFireAngle(double* d_Angle);
 
 // Handy macro to define char* array with one 'base' name.
 #define CREATERESNAMES(var, base, rigid)		\
-   static const char* var[]	=							\
+	static char* var[]	=							\
 		{													\
 		"3d/main_" #base ".sop",					\
 		"3d/main_" #base ".mesh",					\
@@ -1242,7 +1244,7 @@ extern bool GetDudeFireAngle(double* d_Angle);
 		"3d/main_" #base ".bounds",				\
 		"3d/main_" #base ".floor",					\
 		"3d/main_" #base "_" #rigid ".trans",	\
-		nullptr,	/* Safety */							\
+		NULL,	/* Safety */							\
 		};
 
 #define TARGETING_FILE 	"target.img"
@@ -1276,7 +1278,7 @@ extern bool GetDudeFireAngle(double* d_Angle);
 
 // This value indicates no strafe motion and must be a totally invalid
 // strafe angle value.
-#define INVALID_STRAFE_ANGLE			INT16_MAX
+#define INVALID_STRAFE_ANGLE			0x7fff
 
 #define VEST_HIT_SWAY					10
 
@@ -1316,9 +1318,9 @@ double CDude::ms_dDegPerSec      = 240.0;			// Degrees of rotation per second
 
 double CDude::ms_dVertVelJump		= 100.0;			// Velocity of jump.
 
-uint32_t	CDude::ms_u32CollideBitsInclude = CSmash::Character | CSmash::Barrel | CSmash::SpecialBarrel | CSmash::Sentry;
-uint32_t	CDude::ms_u32CollideBitsDontcare = CSmash::Bad;
-uint32_t	CDude::ms_u32CollideBitsExclude = 0;
+U32	CDude::ms_u32CollideBitsInclude = CSmash::Character | CSmash::Barrel | CSmash::SpecialBarrel | CSmash::Sentry;
+U32	CDude::ms_u32CollideBitsDontcare = CSmash::Bad;
+U32	CDude::ms_u32CollideBitsExclude = 0;
 
 // Let this auto-init to 0
 int16_t CDude::ms_sFileCount;
@@ -1331,7 +1333,7 @@ CDude::WeaponDetails	CDude::ms_awdWeapons[NumWeaponTypes]	=
 		"No Weapon",										// Weapon name.
 		"bare hands",										// Ammo name.
 		"   No Weapon",									// Status format.
-		nullptr,													// Weapon resource name.
+		NULL,													// Weapon resource name.
 		1,														// Min ammo required.
 		},														
 																
@@ -1367,7 +1369,7 @@ CDude::WeaponDetails	CDude::ms_awdWeapons[NumWeaponTypes]	=
 		"Grenades",											// Weapon name.
 		"Grenades",											// Ammo name.
 		"   %d Grenades",									// Status format.
-		nullptr,													// Weapon resource name.
+		NULL,													// Weapon resource name.
 		1,														// Min ammo required.
 		},														
 																
@@ -1394,7 +1396,7 @@ CDude::WeaponDetails	CDude::ms_awdWeapons[NumWeaponTypes]	=
 		"Cocktails",										// Weapon name.
 		"Cocktails",										// Ammo name.
 		"   %d Cocktails",								// Status format.
-		nullptr,													// Weapon resource name.
+		NULL,													// Weapon resource name.
 		1,														// Min ammo required.
 		},
 
@@ -1421,7 +1423,7 @@ CDude::WeaponDetails	CDude::ms_awdWeapons[NumWeaponTypes]	=
 		"Proximity Mines",								// Weapon name.
 		"Proximity Mines",								// Ammo name.
 		"   %d Proximity Mines",						// Status format.
-		nullptr,													// Weapon resource name.
+		NULL,													// Weapon resource name.
 		1,														// Min ammo required.
 		},
 
@@ -1430,7 +1432,7 @@ CDude::WeaponDetails	CDude::ms_awdWeapons[NumWeaponTypes]	=
 		"Timed Mines",										// Weapon name.
 		"Timed Mines",										// Ammo name.
 		"   %d Timed Mines",								// Status format.
-		nullptr,													// Weapon resource name.
+		NULL,													// Weapon resource name.
 		1,														// Min ammo required.
 		},
 
@@ -1439,7 +1441,7 @@ CDude::WeaponDetails	CDude::ms_awdWeapons[NumWeaponTypes]	=
 		"Remote Mines",									// Weapon name.
 		"Remote Mines",									// Ammo name.
 		"   %d Remote Mines",							// Status format.
-		nullptr,													// Weapon resource name.
+		NULL,													// Weapon resource name.
 		1,														// Min ammo required.
 		},
 
@@ -1448,7 +1450,7 @@ CDude::WeaponDetails	CDude::ms_awdWeapons[NumWeaponTypes]	=
 		"Bouncing Bettys",								// Weapon name.
 		"Bouncing Bettys",								// Ammo name.
 		"   %d Bouncing Bettys",						// Status format.
-		nullptr,													// Weapon resource name.
+		NULL,													// Weapon resource name.
 		1,														// Min ammo required.
 		},
 
@@ -1506,23 +1508,23 @@ CStockPile	CDude::ms_stockpileDefault	=
 static CCrawler::Nub ms_anubs[] =
 	{
 		// Hard nubs
-      {	  8,   0, 1, 180, 1.0, 0.0, 0.0, 0 },
-      {	  6,  -6, 1, 225, 1.0, 0.0, 0.0, 0 },
-      {	  0,  -8, 1, 270, 1.0, 0.0, 0.0, 0 },
-      {	 -6,  -6, 1, 315, 1.0, 0.0, 0.0, 0 },
-      {	 -8,   0, 1,   0, 1.0, 0.0, 0.0, 0 },
-      {	 -6,   6, 1,  45, 1.0, 0.0, 0.0, 0 },
-      {	  0,   8, 1,  90, 1.0, 0.0, 0.0, 0 },
-      {	  6,   6, 1, 135, 1.0, 0.0, 0.0, 0 },
+		{	  8,   0, 1, 180, 1.0 },
+		{	  6,  -6, 1, 225, 1.0 },
+		{	  0,  -8, 1, 270, 1.0 },
+		{	 -6,  -6, 1, 315, 1.0 },
+		{	 -8,   0, 1,   0, 1.0 },
+		{	 -6,   6, 1,  45, 1.0 },
+		{	  0,   8, 1,  90, 1.0 },
+		{	  6,   6, 1, 135, 1.0 },
 		// Soft nubs
-      {	 12,   0, 0, 180, 1.0, 0.0, 0.0, 0 },
-      {	  9,  -9, 0, 225, 1.0, 0.0, 0.0, 0 },
-      {	  0, -12, 0, 270, 1.0, 0.0, 0.0, 0 },
-      {	 -9,  -9, 0, 315, 1.0, 0.0, 0.0, 0 },
-      {	-12,   0, 0,   0, 1.0, 0.0, 0.0, 0 },
-      {	 -9,   9, 0,  45, 1.0, 0.0, 0.0, 0 },
-      {	  0,  12, 0,  90, 1.0, 0.0, 0.0, 0 },
-      {	  9,   9, 0, 135, 1.0, 0.0, 0.0, 0 }
+		{	 12,   0, 0, 180, 1.0 },
+		{	  9,  -9, 0, 225, 1.0 },
+		{	  0, -12, 0, 270, 1.0 },
+		{	 -9,  -9, 0, 315, 1.0 },
+		{	-12,   0, 0,   0, 1.0 },
+		{	 -9,   9, 0,  45, 1.0 },
+		{	  0,  12, 0,  90, 1.0 },
+		{	  9,   9, 0, 135, 1.0 }
 	};
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1531,51 +1533,51 @@ static CCrawler::Nub ms_anubs[] =
 ////////////////////////////////////////////////////////////////////////////////
 // virtual								// Overridden here.
 int16_t CDude::CDudeAnim3D::Get(	// Returns 0 on success.
-   const char*		pszBaseFileName,		// In:  Base string for resource filenames.
-   const char*		pszRigidName,			// In:  String to add for rigid transform channel
-											// or nullptr for none.
-   const char*		pszEventName,			// In:  String to add for event states channel
-											// or nullptr for none.
+	char*		pszBaseFileName,		// In:  Base string for resource filenames.
+	char*		pszRigidName,			// In:  String to add for rigid transform channel
+											// or NULL for none.
+	char*		pszEventName,			// In:  String to add for event states channel
+											// or NULL for none.
 	int16_t		sLoopFlags)				// In:  Looping flags to apply to all channels
 											// in this anim.
 	{
-   int16_t sResult;
-	char	szResName[PATH_MAX];
+	int16_t	sRes;
+	char	szResName[RSP_MAX_PATH];
 	sprintf(szResName, "%s.sop", pszBaseFileName);
-   sResult	=  rspGetResource(&g_resmgrGame, szResName, &m_psops);
+	sRes	=  rspGetResource(&g_resmgrGame, szResName, &m_psops);
 	sprintf(szResName, "%s.mesh", pszBaseFileName);
-   sResult	|= rspGetResource(&g_resmgrGame, szResName, &m_pmeshes);
+	sRes	|= rspGetResource(&g_resmgrGame, szResName, &m_pmeshes);
 	sprintf(szResName, "%s.bounds", pszBaseFileName);
-   sResult	|= rspGetResource(&g_resmgrGame, szResName, &m_pbounds);
-	if (pszRigidName != nullptr)
+	sRes	|= rspGetResource(&g_resmgrGame, szResName, &m_pbounds);
+	if (pszRigidName != NULL)
 		{
 		sprintf(szResName, "%s_%s.trans", pszBaseFileName, pszRigidName);
-      sResult	|= rspGetResource(&g_resmgrGame, szResName, &m_ptransRigid);
+		sRes	|= rspGetResource(&g_resmgrGame, szResName, &m_ptransRigid);
 		}
 
-	if (pszEventName != nullptr)
+	if (pszEventName != NULL)
 		{
 		sprintf(szResName, "%s_%s.event", pszBaseFileName, pszEventName);
-      sResult	|= rspGetResource(&g_resmgrGame, szResName, &m_pevent);
+		sRes	|= rspGetResource(&g_resmgrGame, szResName, &m_pevent);
 		}
 
 	// We always load these transforms.
 	sprintf(szResName, "%s_" LEFT_HAND_RIGID_ANIM_NAME ".trans", pszBaseFileName);
-   sResult	|= rspGetResource(&g_resmgrGame, szResName, &m_ptransLeft);
+	sRes	|= rspGetResource(&g_resmgrGame, szResName, &m_ptransLeft);
 	sprintf(szResName, "%s_" RIGHT_HAND_RIGID_ANIM_NAME ".trans", pszBaseFileName);
-   sResult	|= rspGetResource(&g_resmgrGame, szResName, &m_ptransRight);
+	sRes	|= rspGetResource(&g_resmgrGame, szResName, &m_ptransRight);
 	sprintf(szResName, "%s_" BACK_RIGID_ANIM_NAME ".trans", pszBaseFileName);
-   sResult	|= rspGetResource(&g_resmgrGame, szResName, &m_ptransBack);
+	sRes	|= rspGetResource(&g_resmgrGame, szResName, &m_ptransBack);
 
 	// If successful . . .
-   if (sResult == SUCCESS)
+	if (sRes == 0)
 		{
 		m_psops->SetLooping(sLoopFlags);
 		m_pmeshes->SetLooping(sLoopFlags);
 		m_pbounds->SetLooping(sLoopFlags);
-		if (m_ptransRigid != nullptr)
+		if (m_ptransRigid != NULL)
 			m_ptransRigid->SetLooping(sLoopFlags);
-		if (m_pevent != nullptr)
+		if (m_pevent != NULL)
 			m_pevent->SetLooping(sLoopFlags);
 
 		m_ptransLeft->SetLooping(sLoopFlags);
@@ -1583,7 +1585,7 @@ int16_t CDude::CDudeAnim3D::Get(	// Returns 0 on success.
 		m_ptransBack->SetLooping(sLoopFlags);
 		}
 
-   return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1595,9 +1597,9 @@ void CDude::CDudeAnim3D::Release(void)	// Returns nothing.
 	rspReleaseResource(&g_resmgrGame, &m_psops);
 	rspReleaseResource(&g_resmgrGame, &m_pmeshes);
 	rspReleaseResource(&g_resmgrGame, &m_pbounds);
-	if (m_ptransRigid != nullptr)
+	if (m_ptransRigid != NULL)
 		rspReleaseResource(&g_resmgrGame, &m_ptransRigid);
-	if (m_pevent != nullptr)
+	if (m_pevent != NULL)
 		rspReleaseResource(&g_resmgrGame, &m_pevent);
 
 	rspReleaseResource(&g_resmgrGame, &m_ptransLeft);
@@ -1660,11 +1662,11 @@ int16_t CDude::Load(										// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,										// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)									// In:  File version being loaded.
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// In most cases, the base class Load() should be called.
 	sResult	= CCharacter::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -1719,7 +1721,7 @@ int16_t CDude::Load(										// Returns 0 if successfull, non-zero otherwise
 					{
 					pFile->Read(&m_stockpile.m_sNumGrenades);
 
-					uint32_t	u32Temp;
+					U32	u32Temp;
 					pFile->Read(&u32Temp);
 					m_state	= (CCharacter::State)u32Temp;
 
@@ -1728,14 +1730,14 @@ int16_t CDude::Load(										// Returns 0 if successfull, non-zero otherwise
 				}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 			{
 			// Init dude
 			sResult = Init();
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CDude::Load(): Error reading from file!\n");
 			}
 		}
@@ -1755,11 +1757,11 @@ int16_t CDude::Save(										// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// In most cases, the base class Save() should be called.
 	sResult	= CCharacter::Save(pFile, sFileCount);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// Save common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -1793,7 +1795,7 @@ int16_t CDude::Save(										// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDude::Startup(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult	= CCharacter::Startup();
+	int16_t	sResult	= CCharacter::Startup();
 	
 	// Init other stuff
 	m_lNextBulletTime = m_pRealm->m_time.GetGameTime() + MS_BETWEEN_BULLETS;
@@ -1811,7 +1813,7 @@ int16_t CDude::Startup(void)						// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDude::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult	= CCharacter::Shutdown();
+	int16_t	sResult	= CCharacter::Shutdown();
 	return sResult;
 	}
 
@@ -1853,10 +1855,10 @@ void CDude::Update(void)
 	if (!m_sSuspend)
 		{
 		// Get new time
-      milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
+		int32_t lThisTime = m_pRealm->m_time.GetGameTime();
 
 		// Advance the animation timer.
-      milliseconds_t	lDifTime		= lThisTime - m_lAnimPrevUpdateTime;
+		int32_t	lDifTime		= lThisTime - m_lAnimPrevUpdateTime;
 		m_lAnimTime			+= lDifTime;
 
 		// Update prev time.
@@ -1907,8 +1909,7 @@ void CDude::Update(void)
 					// Move to running.
 					switch (m_state)
 						{
-                 UNHANDLED_SWITCH;
-                  case State_Stand:
+						case State_Stand:
 						case State_Strafe:
 							SetState(State_Run);
 							break;
@@ -1916,7 +1917,7 @@ void CDude::Update(void)
 						case State_Shooting:
 							SetState(State_RunAndShoot);
 							break;
-                  }
+						}
 					}
 				else
 					{
@@ -1925,8 +1926,7 @@ void CDude::Update(void)
 						{
 						switch (m_state)
 							{
-                    UNHANDLED_SWITCH;
-                     case State_Stand:
+							case State_Stand:
 								SetState(State_Strafe);
 								break;
 							case State_Shooting:
@@ -1941,8 +1941,7 @@ void CDude::Update(void)
 						{
 						switch (m_state)
 							{
-                    UNHANDLED_SWITCH;
-                     case State_Stand:
+							case State_Stand:
 							case State_Shooting:
 								break;
 							case State_Strafe:
@@ -1974,8 +1973,7 @@ void CDude::Update(void)
 						// Move to standing.
 						switch (m_state)
 							{
-                    UNHANDLED_SWITCH;
-                     case State_Run:
+							case State_Run:
 								SetState(State_Stand);
 								break;
 							case State_RunAndShoot:
@@ -1990,8 +1988,7 @@ void CDude::Update(void)
 						// Move to standing.
 						switch (m_state)
 							{
-                    UNHANDLED_SWITCH;
-                     case State_Run:
+							case State_Run:
 								SetState(State_Strafe);
 								break;
 							case State_RunAndShoot:
@@ -2036,8 +2033,7 @@ void CDude::Update(void)
 		// Switch on state.
 		switch (m_state)
 			{
-        UNHANDLED_SWITCH;
-         case State_Stand:
+			case State_Stand:
 				{
 #if 1	// No idle anim currently.
 				// If we've been idle for a while . . .
@@ -2069,12 +2065,12 @@ void CDude::Update(void)
 			case State_Throw:
 				{
 #if 1
-				uint8_t	u8Event	= *( (uint8_t*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
+				U8	u8Event	= *( (U8*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
 				// Check for release point in animation . . .
 				if (u8Event > 0)
 					{
 					CWeapon*	pweapon;
-               if (m_pRealm->m_idbank.GetThingByID((CThing**)&pweapon, m_u16IdWeapon) == SUCCESS)
+					if (m_pRealm->m_idbank.GetThingByID((CThing**)&pweapon, m_u16IdWeapon) == 0)
 						{
 						if (pweapon->m_eState == CWeapon::State_Hide)
 							{
@@ -2236,7 +2232,7 @@ void CDude::Update(void)
 				break;
 			case State_Suicide:
 				// Check for moment of firing weapon . . .
-				if (*((uint8_t*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime))) > 0
+				if (*((U8*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime))) > 0
 					&& m_bBrainSplatted == false)		// ***FUDGE***
 					{
 					// Play shot fire.
@@ -2274,11 +2270,11 @@ void CDude::Update(void)
 					// Go to dead.
 					SetState(State_Dead);
 					// If he is carying the flag item, then he should drop it.
-					DropAllFlags(nullptr);
+					DropAllFlags(NULL);
 					}
 				else if (m_bGenericEvent1 == false)
 					{
-					uint8_t	u8Event	= *( (uint8_t*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
+					U8	u8Event	= *( (U8*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
 
 					if (u8Event > 1)	// ***FUDGE***
 						{
@@ -2294,7 +2290,7 @@ void CDude::Update(void)
 
 				CThing*	pthingFire;
 				// If the fire's gone . . .
-            if (m_pRealm->m_idbank.GetThingByID(&pthingFire, m_u16IdFire) == SUCCESS)
+				if (m_pRealm->m_idbank.GetThingByID(&pthingFire, m_u16IdFire) == 0)
 					{
 					if (!((CFire*) (pthingFire))->IsBurning())
 					// Stand.
@@ -2310,12 +2306,12 @@ void CDude::Update(void)
 			case State_Launch:
 #if 0
 				{
-				uint8_t	u8Event	= *( (uint8_t*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
+				U8	u8Event	= *( (U8*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
 				// Check for launch point in animation . . .
 				if (u8Event > 0)
 					{
 					CWeapon*	pweapon;
-               if (m_pRealm->m_idbank.GetThingByID((CThing**)&pweapon, m_u16IdWeapon) == SUCCESS)
+					if (m_pRealm->m_idbank.GetThingByID((CThing**)&pweapon, m_u16IdWeapon) == 0)
 						{
 						if (pweapon->m_eState == CWeapon::State_Hide)
 							{
@@ -2454,7 +2450,7 @@ void CDude::Update(void)
 					}
 				else 
 					{
-					uint8_t	u8Event	= *( (uint8_t*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
+					U8	u8Event	= *( (U8*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
 					// Check for show point in anim . . .
 					if (u8Event > 0)
 						{
@@ -2493,7 +2489,7 @@ void CDude::Update(void)
 				if (m_lAnimTime > m_panimCur->m_psops->TotalTime())
 					{
 					// If we still have the picked up item . . .
-               if (m_pRealm->m_idbank.GetThingByID((CThing**)&ppowerup, m_u16IdChild) == SUCCESS)
+					if (m_pRealm->m_idbank.GetThingByID((CThing**)&ppowerup, m_u16IdChild) == 0)
 						{
 						TakePowerUp(&ppowerup);
 
@@ -2506,7 +2502,7 @@ void CDude::Update(void)
 				else if (m_lAnimTime > 500 && m_bGenericEvent1 == false)
 					{
 					// This should be QuickCheckClosest, when available . . .
-					CSmash*	psmash	= nullptr;	// Safety.
+					CSmash*	psmash	= NULL;	// Safety.
 					if (m_pRealm->m_smashatorium.QuickCheck(	// Returns true if collision detected, false otherwise
 						&m_smash,										// In:  CSmash to check
 						CSmash::PowerUp,								// In:  Bits that must be 1 to collide with a given CSmash
@@ -2514,12 +2510,12 @@ void CDude::Update(void)
 						0,													// In:  Bits that must be 0 to collide with a given CSmash
 						&psmash) == true)								// Out: Thing being smashed into if any (unless 0)
 						{
-						ASSERT(psmash->m_pThing != nullptr);
+						ASSERT(psmash->m_pThing != NULL);
 
 						// Make it blit as a child.
 						ASSERT(psmash->m_pThing->GetClassID() == CPowerUpID);
 						ppowerup	= (CPowerUp*)psmash->m_pThing;
-                  if (ppowerup->Grab(&m_sprite) == SUCCESS)
+						if (ppowerup->Grab(&m_sprite) == 0)
 							{
 							// Store/Identify child.
 							m_u16IdChild	= ppowerup->GetInstanceID();
@@ -2529,7 +2525,7 @@ void CDude::Update(void)
 						m_bGenericEvent1	= true;
 						}
 					}
-            else if (m_pRealm->m_idbank.GetThingByID((CThing**)&ppowerup, m_u16IdChild) == SUCCESS)
+				else if (m_pRealm->m_idbank.GetThingByID((CThing**)&ppowerup, m_u16IdChild) == 0)
 					{
 					// Position powerup.
 					PositionChild(
@@ -2555,7 +2551,7 @@ void CDude::Update(void)
 		m_pRealm->m_smashatorium.Update(&m_smash);
 
 		// Check for powerups.
-		CSmash*	psmash	= nullptr;	// Safety.
+		CSmash*	psmash	= NULL;	// Safety.
 		if (m_pRealm->m_smashatorium.QuickCheck(	// Returns true if collision detected, false otherwise
 			&m_smash,										// In:  CSmash to check
 			CSmash::PowerUp,								// In:  Bits that must be 1 to collide with a given CSmash
@@ -2563,7 +2559,7 @@ void CDude::Update(void)
 			0,													// In:  Bits that must be 0 to collide with a given CSmash
 			&psmash) == true)								// Out: Thing being smashed into if any (unless 0)
 			{
-			ASSERT(psmash->m_pThing != nullptr);
+			ASSERT(psmash->m_pThing != NULL);
 			ASSERT(psmash->m_pThing->GetClassID() == CPowerUpID);
 
 			CPowerUp* ppowerup	= (CPowerUp*)psmash->m_pThing;
@@ -2612,8 +2608,7 @@ void CDude::ProcessInput(		// Returns nothing.
 
 	switch (m_state)
 		{
-     UNHANDLED_SWITCH;
-      case State_Dead:
+		case State_Dead:
 			// Let's take jump as 'revive' . . .
 			if (input & INPUT_REVIVE)
 				{
@@ -2684,7 +2679,7 @@ void CDude::ProcessInput(		// Returns nothing.
 		case INPUT_WEAPON_3:
 		case INPUT_WEAPON_4:
 		case INPUT_WEAPON_5:
-//#if defined(__ANDROID__) //We want weapon 5 to toggle weapon
+//#ifdef MOBILE //We want weapon 5 to toggle weapon
 if (!demoCompat)
 {
 			if (((input & INPUT_WEAPONS_MASK) == INPUT_WEAPON_5)
@@ -2746,7 +2741,7 @@ if (!demoCompat)
 		
 		case INPUT_CHEAT_11:	// Restore health.
 			{
-         CStockPile	stockpile	= { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			CStockPile	stockpile	= { 0, };
 			stockpile.m_sHitPoints	= MAX(0, m_sOrigHitPoints - m_stockpile.m_sHitPoints);
 
 			CreateCheat(&stockpile);
@@ -2754,7 +2749,7 @@ if (!demoCompat)
 			}
 		case INPUT_CHEAT_12:	// Full kevlar.
 			{
-         CStockPile	stockpile		= { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			CStockPile	stockpile		= { 0, };
 			stockpile.m_sKevlarLayers	= CStockPile::ms_stockpileBackPackMax.m_sKevlarLayers;
 
 			CreateCheat(&stockpile);
@@ -2762,7 +2757,7 @@ if (!demoCompat)
 			}
 		case INPUT_CHEAT_13:	// Backpack.
 			{
-         CStockPile	stockpile	= { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			CStockPile	stockpile	= { 0, };
 			stockpile.m_sBackpack	= 1;
 
 			CreateCheat(&stockpile);
@@ -2770,7 +2765,7 @@ if (!demoCompat)
 			}
 		case INPUT_CHEAT_14:	// Full weaponry, full ammo, backpack, and full kevlar.
 			{
-         CStockPile	stockpile	= { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			CStockPile	stockpile	= { 0, };
 			stockpile.m_sHitPoints	= MAX(0, m_sOrigHitPoints - m_stockpile.m_sHitPoints);
 
 			stockpile.m_sNumGrenades		= CStockPile::ms_stockpileBackPackMax.m_sNumGrenades;
@@ -2814,7 +2809,7 @@ if (!demoCompat)
 			}
 		case INPUT_CHEAT_16:	// DeathWadLauncher and ammo.
 			{
-         CStockPile	stockpile			= { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			CStockPile	stockpile			= { 0, };
 			stockpile.m_sNumGrenades		= CStockPile::ms_stockpileBackPackMax.m_sNumGrenades;
 			stockpile.m_sNumMissiles		= CStockPile::ms_stockpileBackPackMax.m_sNumMissiles;
 			stockpile.m_sNumNapalms			= CStockPile::ms_stockpileBackPackMax.m_sNumNapalms;
@@ -2829,7 +2824,7 @@ if (!demoCompat)
 			}
 		case INPUT_CHEAT_17:	// DoubleBarrel and shells.
 			{
-         CStockPile	stockpile			= { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			CStockPile	stockpile			= { 0, };
 			stockpile.m_sNumShells			= CStockPile::ms_stockpileBackPackMax.m_sNumShells;
 			stockpile.m_sDoubleBarrel		= 1;
 
@@ -2854,7 +2849,7 @@ if (!demoCompat)
 			}
 		case INPUT_CHEAT_19:	// Shell weapons and ammo.
 			{
-         CStockPile	stockpile			= { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			CStockPile	stockpile			= { 0, };
 			stockpile.m_sNumShells			= CStockPile::ms_stockpileBackPackMax.m_sNumShells;
 			stockpile.m_sShotGun				= 1;
 			stockpile.m_sSprayCannon		= 1;
@@ -2865,7 +2860,7 @@ if (!demoCompat)
 			}
 		case INPUT_CHEAT_20:	// Explosive weapons and ammo.
 			{
-         CStockPile	stockpile			= { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			CStockPile	stockpile			= { 0, };
 			stockpile.m_sNumGrenades		= CStockPile::ms_stockpileBackPackMax.m_sNumGrenades;
 			stockpile.m_sNumMissiles		= CStockPile::ms_stockpileBackPackMax.m_sNumMissiles;
 			stockpile.m_sNumHeatseekers	= CStockPile::ms_stockpileBackPackMax.m_sNumHeatseekers;
@@ -2877,7 +2872,7 @@ if (!demoCompat)
 			}
 		case INPUT_CHEAT_21:	// Flame weapons and ammo.
 			{
-         CStockPile	stockpile			= { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			CStockPile	stockpile			= { 0, };
 			stockpile.m_sNumFireBombs		= CStockPile::ms_stockpileBackPackMax.m_sNumFireBombs;
 			stockpile.m_sNumNapalms			= CStockPile::ms_stockpileBackPackMax.m_sNumNapalms;
 			stockpile.m_sNumFuel				= CStockPile::ms_stockpileBackPackMax.m_sNumFuel;
@@ -2890,7 +2885,7 @@ if (!demoCompat)
 			}
 		case INPUT_CHEAT_22:	// Shotgun and shells.
 			{
-         CStockPile	stockpile			= { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			CStockPile	stockpile			= { 0, };
 			stockpile.m_sNumShells			= CStockPile::ms_stockpileBackPackMax.m_sNumShells;
 			stockpile.m_sShotGun				= 1;
 			
@@ -2900,7 +2895,7 @@ if (!demoCompat)
 			}
 		case INPUT_CHEAT_23:	// Spray cannon and shells.
 			{
-         CStockPile	stockpile			= { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			CStockPile	stockpile			= { 0, };
 			stockpile.m_sNumShells			= CStockPile::ms_stockpileBackPackMax.m_sNumShells;
 			stockpile.m_sSprayCannon		= 1;
 
@@ -2910,7 +2905,7 @@ if (!demoCompat)
 			}
 		case INPUT_CHEAT_24:	// Grenades and cocktails.
 			{
-         CStockPile	stockpile			= { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			CStockPile	stockpile			= { 0, };
 			stockpile.m_sNumGrenades		= CStockPile::ms_stockpileBackPackMax.m_sNumGrenades;
 			stockpile.m_sNumFireBombs		= CStockPile::ms_stockpileBackPackMax.m_sNumFireBombs;
 
@@ -2920,7 +2915,7 @@ if (!demoCompat)
 			}
 		case INPUT_CHEAT_25:	// Missile launcher and missiles (including heatseekers).
 			{
-         CStockPile	stockpile			= { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			CStockPile	stockpile			= { 0, };
 			stockpile.m_sNumMissiles		= CStockPile::ms_stockpileBackPackMax.m_sNumMissiles;
 			stockpile.m_sNumHeatseekers	= CStockPile::ms_stockpileBackPackMax.m_sNumHeatseekers;
 			stockpile.m_sMissileLauncher	= 1;
@@ -2931,7 +2926,7 @@ if (!demoCompat)
 			}
 		case INPUT_CHEAT_26:	// Napalm launcher and napalm canisters.
 			{
-         CStockPile	stockpile			= { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			CStockPile	stockpile			= { 0, };
 			stockpile.m_sNumNapalms			= CStockPile::ms_stockpileBackPackMax.m_sNumNapalms;
 			stockpile.m_sNapalmLauncher	= 1;
 
@@ -2941,7 +2936,7 @@ if (!demoCompat)
 			}
 		case INPUT_CHEAT_27:	// Flame thrower and fuel canisters.
 			{
-         CStockPile	stockpile			= { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			CStockPile	stockpile			= { 0, };
 			stockpile.m_sNumFuel				= CStockPile::ms_stockpileBackPackMax.m_sNumFuel;
 			stockpile.m_sFlameThrower		= 1;
 
@@ -2951,7 +2946,7 @@ if (!demoCompat)
 			}
 		case INPUT_CHEAT_28:	// Mines.
 			{
-         CStockPile	stockpile			= { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			CStockPile	stockpile			= { 0, };
 			stockpile.m_sNumMines			= CStockPile::ms_stockpileBackPackMax.m_sNumMines;
 
 			CreateCheat(&stockpile);
@@ -2961,7 +2956,7 @@ if (!demoCompat)
 		case INPUT_CHEAT_29:	// Unused except for SALES demo.
 			{
 #ifdef SALES_DEMO
-         CStockPile	stockpile	= { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			CStockPile	stockpile	= { 0, };
 			stockpile.m_sHitPoints	= MAX(0, m_sOrigHitPoints - m_stockpile.m_sHitPoints);
 
 			stockpile.m_sNumGrenades		= CStockPile::ms_stockpileBackPackMax.m_sNumGrenades;
@@ -3073,9 +3068,7 @@ if (!demoCompat)
 	//else
 		//m_bUseRotTS = false;
 }
-
-#if defined(ALLOW_TWINSTICK)
-
+#ifdef ALLOW_TWINSTICK
 if (!demoCompat)
 {
 	GetDudeVelocity(&m_dJoyMoveVel, &m_dJoyMoveAngle);
@@ -3126,15 +3119,14 @@ if (!demoCompat)
 			m_dRot = m_dJoyMoveAngle;
 	}
 }
-#endif // defined(ALLOW_TWINSTICK)
-
+#endif
 	//TRACE("TSD Acc %f MA %f AA %f Fire %i\n", m_dAcc, m_dRotTS, m_dRot, m_bJoyFire);
 	//TRACE("JoyVel %f JoyAngle %f Fire %i FireAngle %f\n", m_dJoyMoveVel, m_dJoyMoveAngle, m_bJoyFire, m_dJoyFireAngle);
 
-//#if defined(__ANDROID__)
+//#ifdef MOBILE
 if (!demoCompat)
 {
-//#endif // __ANDROID__
+//#endif // MOBILE
 	if (input & INPUT_WEAPON_NEXT)
 	{
 		input &= ~(INPUT_FIRE);
@@ -3146,9 +3138,9 @@ if (!demoCompat)
 		input &= ~(INPUT_FIRE);
 		PrevWeapon();
 	}
-//#if defined(__ANDROID__)
+//#ifdef MOBILE
 }
-//#endif // __ANDROID__
+//#endif // MOBILE
 
 	// If a weapon key was pressed . . .
 	if (input & INPUT_WEAPONS_MASK)
@@ -3191,10 +3183,9 @@ if (!demoCompat)
 			case State_StrafeAndShoot:
 				SetState(State_Strafe);
 				break;
-         UNHANDLED_SWITCH;
 			}
 		}
-#if defined(__ANDROID__)
+#ifdef MOBILE
 if (!demoCompat)
 {
 	if (input & INPUT_STRAFE)
@@ -3269,7 +3260,7 @@ else
 			SetState(State_Stand);
 			}
 		}
-#if defined(__ANDROID__)
+#ifdef MOBILE
 }
 #endif
 	// Set acceleration based on user input (forward has precedance over reverse)
@@ -3397,7 +3388,7 @@ void CDude::ProcessForces(	// Returns nothing.
 	// Calculate elapsed time in seconds.
 	double dSeconds = (double)(lCurTime - m_lPrevTime) / 1000.0;
 
-#if defined(__ANDROID__)
+#ifdef MOBILE
 if (!demoCompat)
 {
 	TwinStickInfo analogInfo = AndroidGetMovment();
@@ -3435,7 +3426,7 @@ else
 	if (!demoCompat && m_dJoyMoveVel != 0)
 		UpdateVelocities(dSeconds, dMaxForeVel * m_dJoyMoveVel, dMaxBackVel * m_dJoyMoveVel);
 	else
-#endif // defined(ALLOW_TWINSTICK)
+#endif // ALLOW_TWINSTICK
 	UpdateVelocities(dSeconds, dMaxForeVel, dMaxBackVel);
 	
 	// Get New Position /////////////////////////////////////////////////////////
@@ -3443,7 +3434,7 @@ else
 		GetNewPositionAngle(&dNewX, &dNewY, &dNewZ, dSeconds, m_dRotTS);
 	else
 		GetNewPosition(&dNewX, &dNewY, &dNewZ, dSeconds);
-#endif // __ANDROID__
+#endif // MOBILE
 
 
 
@@ -3501,15 +3492,15 @@ void CDude::Render(void)
 	CCharacter::Render();
 
 	// Update children, if any . . .
-	CFlag*	pflag	= GetNextFlag(nullptr);
+	CFlag*	pflag	= GetNextFlag(NULL);
 	while (pflag)
 		{
 		PositionChild(
 			pflag->GetSprite(),
 			((CDudeAnim3D*) m_panimCur)->m_ptransLeft->GetAtTime(m_lAnimTime),	// In:  Transform specifying position.
-			nullptr,
-			nullptr,
-			nullptr);
+			NULL,
+			NULL,
+			NULL);
 
 		// Update flag's position so it can correctly collision detect.
 		pflag->m_dX	= m_dX;
@@ -3524,7 +3515,7 @@ void CDude::Render(void)
 		}
 
 	// Get anim . . .
-	CAnim3D*	panimWeapon	= nullptr;	// Safety.
+	CAnim3D*	panimWeapon	= NULL;	// Safety.
 	switch (m_state)
 		{
 		case State_Suicide:
@@ -3574,7 +3565,6 @@ void CDude::Render(void)
 		}
 	}
 
-#if !defined(EDITOR_REMOVED)
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -3590,7 +3580,6 @@ int16_t CDude::EditNew(									// Returns 0 if successfull, non-zero otherwise
 
 	return sResult;
 	}
-#endif // !defined(EDITOR_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Helper inline to get a GUI, set its text to the value, and recompose it.
@@ -3602,28 +3591,27 @@ void SetText(					// Returns nothing.
 	int32_t			lVal)			// In:  Value to set text to.
 	{
 	RGuiItem*	pgui	= pguiRoot->GetItemFromId(lId);
-	if (pgui != nullptr)
+	if (pgui != NULL)
 		{
-      pgui->SetText("%i", lVal);
+		pgui->SetText("%ld", lVal);
 		pgui->Compose(); 
 		}
 	}
 
-#if !defined(EDITOR_REMOVED)
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to modify object
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDude::EditModify(void)				// Returns 0 if successfull, non-zero otherwise.
 	{
-	int16_t sResult	= CCharacter::EditModify();
+	int16_t	sResult	= CCharacter::EditModify();
 
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		RGuiItem* pgui = RGuiItem::LoadInstantiate(FullPathVD(MODIFY_GUI_FILE) );
 		if (pgui)
 			{
 			sResult = m_stockpile.UserEdit(pgui);
-			if (sResult == SUCCESS)
+			if (sResult == 0)
 				{
 				// Get values from dialog:
 				
@@ -3641,25 +3629,25 @@ int16_t CDude::EditModify(void)				// Returns 0 if successfull, non-zero otherwi
 		else
 			{
 			TRACE("EditModify(): Failed to open GUI \"%s\".\n", MODIFY_GUI_FILE);
-			sResult = FAILURE * 2;
+			sResult	= -2;
 			}
 		}
 	else
 		{
 		TRACE("EditModify(): Base class EditModify() failed.\n");
-		sResult = FAILURE;
+		sResult	= -1;
 		}
 
 	return sResult;
 	}
-#endif // !defined(EDITOR_REMOVED)
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Init dude
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDude::Init(void)									// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	m_lPrevTime			= m_pRealm->m_time.GetGameTime();
 	m_lNextBulletTime	= m_lPrevTime;
@@ -3751,34 +3739,34 @@ void CDude::Kill(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDude::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	//											Anim base name					Rigid name		Event name		Loop flags
 	//											===================			=============	===========		===========
-	sResult	= m_animRun.Get			("3d/main_runnogun",			nullptr,				"mainevent",	RChannel_LoopAtStart | RChannel_LoopAtEnd);
+	sResult	= m_animRun.Get			("3d/main_runnogun",			NULL,				"mainevent",	RChannel_LoopAtStart | RChannel_LoopAtEnd);
 	sResult	|= m_animThrow.Get		("3d/main_grenade",			"maingrenade",	"mainevent",	0);
-	sResult	|= m_animStand.Get		("3d/main_bobbing",			nullptr,				nullptr,				RChannel_LoopAtStart | RChannel_LoopAtEnd);
-	sResult	|= m_animDie.Get			("3d/main_die",				nullptr,				"mainevent",	0);
-	sResult	|= m_animShoot.Get		("3d/main_shoot",				"guntip",		nullptr,				RChannel_LoopAtStart | RChannel_LoopAtEnd);
+	sResult	|= m_animStand.Get		("3d/main_bobbing",			NULL,				NULL,				RChannel_LoopAtStart | RChannel_LoopAtEnd);
+	sResult	|= m_animDie.Get			("3d/main_die",				NULL,				"mainevent",	0);
+	sResult	|= m_animShoot.Get		("3d/main_shoot",				"guntip",		NULL,				RChannel_LoopAtStart | RChannel_LoopAtEnd);
 	sResult	|= m_animRunShoot.Get	("3d/main_runshoot",			"guntip",		"mainevent",	RChannel_LoopAtStart | RChannel_LoopAtEnd);
-	sResult	|= m_animDamage.Get		("3d/main_multi",				nullptr,				nullptr,				RChannel_LoopAtStart | RChannel_LoopAtEnd);
-	sResult	|= m_animBurning.Get		("3d/main_onfire",			nullptr,				"mainevent",	RChannel_LoopAtStart | RChannel_LoopAtEnd);
-	sResult	|=	m_animStrafe.Get		("3d/main_strafe",			nullptr,				"mainevent",	RChannel_LoopAtStart | RChannel_LoopAtEnd);
+	sResult	|= m_animDamage.Get		("3d/main_multi",				NULL,				NULL,				RChannel_LoopAtStart | RChannel_LoopAtEnd);
+	sResult	|= m_animBurning.Get		("3d/main_onfire",			NULL,				"mainevent",	RChannel_LoopAtStart | RChannel_LoopAtEnd);
+	sResult	|=	m_animStrafe.Get		("3d/main_strafe",			NULL,				"mainevent",	RChannel_LoopAtStart | RChannel_LoopAtEnd);
 	sResult	|= m_animStrafeShoot.Get("3d/main_strafe",			"guntip",		"mainevent",	RChannel_LoopAtStart | RChannel_LoopAtEnd);
 	sResult	|= m_animSuicide.Get		("3d/main_suicide",			"bhead",			"mainevent",	0);
 	sResult	|= m_animLaunch.Get		("3d/main_missile",			"mainmissile",	"mainevent",	0);
-	sResult	|= m_animBlownUp.Get		("3d/main_blownup",			nullptr,				nullptr,				0);
-	sResult	|= m_animGetUp.Get		("3d/main_getup",				nullptr,				nullptr,				0);
-	sResult	|= m_animDuck.Get			("3d/main_duck",				nullptr,				nullptr,				0);
-	sResult	|= m_animRise.Get			("3d/main_rise",				nullptr,				nullptr,				0);
-	sResult	|= m_animExecute.Get		("3d/main_execute",			"guntip",		nullptr,				0);
+	sResult	|= m_animBlownUp.Get		("3d/main_blownup",			NULL,				NULL,				0);
+	sResult	|= m_animGetUp.Get		("3d/main_getup",				NULL,				NULL,				0);
+	sResult	|= m_animDuck.Get			("3d/main_duck",				NULL,				NULL,				0);
+	sResult	|= m_animRise.Get			("3d/main_rise",				NULL,				NULL,				0);
+	sResult	|= m_animExecute.Get		("3d/main_execute",			"guntip",		NULL,				0);
 	sResult	|= m_animPickPut.Get		("3d/main_pickput",			"lfhand",		"mainevent",	0);
-	sResult	|= m_animIdle.Get			("3d/main_idle",				nullptr,				nullptr,				0);
+	sResult	|= m_animIdle.Get			("3d/main_idle",				NULL,				NULL,				0);
 
 	// Get the different textures this dude could have.
 	int16_t i;
-	char	szResName[PATH_MAX];
-	for (i = 0; i < MaxTextures && sResult == SUCCESS; i++)
+	char	szResName[RSP_MAX_PATH];
+	for (i = 0; i < MaxTextures && sResult == 0; i++)
 		{
 		sprintf(szResName, "3d/main_color%d.tex", i);
 		sResult	|= rspGetResource(&g_resmgrGame, szResName, &(m_aptextures[i]) );
@@ -3789,12 +3777,12 @@ int16_t CDude::GetResources(void)						// Returns 0 if successfull, non-zero oth
 		{
 		if (ms_awdWeapons[i].pszWeaponResName)
 			{
-			sResult	|= m_aanimWeapons[i].Get(ms_awdWeapons[i].pszWeaponResName, nullptr, nullptr, nullptr, RChannel_LoopAtStart | RChannel_LoopAtEnd);
+			sResult	|= m_aanimWeapons[i].Get(ms_awdWeapons[i].pszWeaponResName, NULL, NULL, NULL, RChannel_LoopAtStart | RChannel_LoopAtEnd);
 			}
 		}
 
 	// Get the backpack.
-	sResult	|= m_animBackpack.Get(BACKPACK_RES_NAME, nullptr, nullptr, nullptr, RChannel_LoopAtStart | RChannel_LoopAtEnd);
+	sResult	|= m_animBackpack.Get(BACKPACK_RES_NAME, NULL, NULL, NULL, RChannel_LoopAtStart | RChannel_LoopAtEnd);
 
 	// Get the targeting sprite
 	sResult |= rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(TARGETING_FILE), &(m_TargetSprite.m_pImage), RFile::LittleEndian);
@@ -3873,8 +3861,7 @@ bool CDude::SetState(	// Returns true if new state realized, false otherwise.
 	// See if the state can be realized.
 	switch (m_state)
 		{
-     UNHANDLED_SWITCH;
-      case State_Idle:
+		case State_Idle:
 			// Any new state is okay.
 			break;
 		case State_Stand:
@@ -3951,8 +3938,7 @@ bool CDude::SetState(	// Returns true if new state realized, false otherwise.
 		case State_Shooting:
 			switch (state)
 				{
-           UNHANDLED_SWITCH;
-            case State_Duck:
+				case State_Duck:
 					bRealizeNewState	= false;
 					break;
 				}
@@ -4071,8 +4057,7 @@ bool CDude::SetState(	// Returns true if new state realized, false otherwise.
 		// Clean up old state.
 		switch (stateOld)
 			{
-        UNHANDLED_SWITCH;
-         case State_Idle:	// No cleaning necessary.
+			case State_Idle:	// No cleaning necessary.
 			case State_Stand:
 			case State_Die:
 			case State_Run:
@@ -4099,7 +4084,7 @@ bool CDude::SetState(	// Returns true if new state realized, false otherwise.
 						{
 						// If there's a fire burning . . .
 						CThing*	pthingFire;
-                  if (m_pRealm->m_idbank.GetThingByID(&pthingFire, m_u16IdFire) == SUCCESS)
+						if (m_pRealm->m_idbank.GetThingByID(&pthingFire, m_u16IdFire) == 0)
 							{
 							// Send it a delete message.
 							GameMessage	msg;
@@ -4114,7 +4099,7 @@ bool CDude::SetState(	// Returns true if new state realized, false otherwise.
 				{
 				// If there's a powerup that we haven't let go of . . .
 				CPowerUp*	ppowerup;
-            if (m_pRealm->m_idbank.GetThingByID((CThing**)&ppowerup, m_u16IdChild) == SUCCESS)
+				if (m_pRealm->m_idbank.GetThingByID((CThing**)&ppowerup, m_u16IdChild) == 0)
 					{
 					ppowerup->Drop(m_dX, m_dY, m_dZ);
 					}
@@ -4128,7 +4113,7 @@ bool CDude::SetState(	// Returns true if new state realized, false otherwise.
 				{
 				// If there's a weapon that we haven't let go of . . .
 				CWeapon*	pweapon;
-            if (m_pRealm->m_idbank.GetThingByID((CThing**)&pweapon, m_u16IdWeapon) == SUCCESS && state != State_ThrowRelease)
+				if (m_pRealm->m_idbank.GetThingByID((CThing**)&pweapon, m_u16IdWeapon) == 0 && state != State_ThrowRelease)
 					{
 					// It should drop like a rock.
 					pweapon->m_dHorizVel	= (GetRand() % (int16_t)CGrenade::ms_dThrowHorizVel);	// NOTE:   ****USING RAND()****
@@ -4153,7 +4138,7 @@ bool CDude::SetState(	// Returns true if new state realized, false otherwise.
 				// Abort weapon launch.
 				// If there's a weapon that we haven't launched . . .
 				CWeapon*	pweapon;
-            if (m_pRealm->m_idbank.GetThingByID((CThing**)&pweapon, m_u16IdWeapon) == SUCCESS && state != State_LaunchRelease)
+				if (m_pRealm->m_idbank.GetThingByID((CThing**)&pweapon, m_u16IdWeapon) == 0 && state != State_LaunchRelease)
 					{
 					// Done with it.
 					ShootWeapon();
@@ -4183,9 +4168,8 @@ bool CDude::SetState(	// Returns true if new state realized, false otherwise.
 		m_state	= state;
 		switch (state)
 			{
-        UNHANDLED_SWITCH;
-         case State_Idle:
-				m_panimCur	= nullptr;
+			case State_Idle:
+				m_panimCur	= NULL;
 				// Make sure we're not in the render list.
 				m_pRealm->m_scene.RemoveSprite(&m_sprite);
 				break;
@@ -4481,7 +4465,7 @@ void CDude::GetWeaponInfo(		// Returns nothing.
 	int16_t**			ppsNum)		// Out: Ptr to the weapon's counter.
 	{
 	static int16_t sSafetyNum	= 0;
-//	int16_t	*psNumLeft	= &sSafetyNum;
+	int16_t	*psNumLeft	= &sSafetyNum;
 	// Switch on weapon type . . .
 	switch (weapon)
 		{
@@ -4577,7 +4561,6 @@ void CDude::ArmWeapon(							// Returns nothing.
 		uint32_t weaponFlag = 0;
 		switch (weapon)
 			{
-        UNHANDLED_SWITCH;
 			case Grenade: weaponFlag = FLAG_USED_GRENADE; break;
 			case FireBomb: weaponFlag = FLAG_USED_MOLOTOV; break;
 			case Rocket: weaponFlag = FLAG_USED_ROCKET; break;
@@ -4598,8 +4581,7 @@ void CDude::ArmWeapon(							// Returns nothing.
 		State	stateShoot	= State_Throw;
 		switch (weapon)
 			{
-        UNHANDLED_SWITCH;
-         case FlameThrower:
+			case FlameThrower:
 			case SemiAutomatic:
 			case SprayCannon:
 				if ((m_dVel >= MIN_RUN_VEL || m_dVel <= -MIN_RUN_VEL || m_dAcc != 0.0))
@@ -4662,7 +4644,7 @@ void CDude::ArmWeapon(							// Returns nothing.
 				m_weaponShooting	= weapon;
 
 				CWeapon*	pweapon	= PrepareWeapon();
-				if (pweapon != nullptr)
+				if (pweapon != NULL)
 					{
 					GameMessage msg;
 					msg.msg_WeaponFire.eType = typeWeaponFire;
@@ -4694,7 +4676,7 @@ void CDude::ArmWeapon(							// Returns nothing.
 // This should be done when the character releases the weapon it's
 // shooting.
 ////////////////////////////////////////////////////////////////////////////////
-CWeapon* CDude::ShootWeapon(void)		// Returns the weapoin ptr or nullptr.
+CWeapon* CDude::ShootWeapon(void)		// Returns the weapoin ptr or NULL.
 	{
 	return ShootWeapon(
 		COLLISION_BITS_INCLUDE,
@@ -4708,13 +4690,13 @@ CWeapon* CDude::ShootWeapon(void)		// Returns the weapoin ptr or nullptr.
 // shooting.
 // (virtual).
 ////////////////////////////////////////////////////////////////////////////////
-CWeapon* CDude::ShootWeapon(					// Returns the weapon ptr or nullptr.
+CWeapon* CDude::ShootWeapon(					// Returns the weapon ptr or NULL.
 	CSmash::Bits bitsInclude /*= ms_u32CollideBitsInclude*/,
 	CSmash::Bits bitsDontcare /*= ms_u32CollideBitsDontcare*/,
 	CSmash::Bits bitsExclude /*= ms_u32CollideBitsExclude*/)
 	{
 	bool	bShootWeapon	= true;	// Assume we should shoot the weapon.
-	CWeapon*	pweapon		= nullptr;	// Assume nothing.
+	CWeapon*	pweapon		= NULL;	// Assume nothing.
 
 	// If the weapon is in an invalid position . . .
 	if (ValidateWeaponPosition() == false)
@@ -4823,7 +4805,7 @@ CWeapon* CDude::ShootWeapon(					// Returns the weapon ptr or nullptr.
 ////////////////////////////////////////////////////////////////////////////////
 void CDude::Damage(			// Returns nothing.
 	int16_t	sHitPoints,			// Hit points of damage to do.
-	uint16_t	u16ShooterId)		// In:  Thing responsible for damage.
+	U16	u16ShooterId)		// In:  Thing responsible for damage.
 	{
 	// Remember if already dead . . .
 	bool	bDead	= m_bDead;
@@ -4877,9 +4859,9 @@ void CDude::StartBrainSplat(void)	// Returns nothing.
 	for (i = 0; i < BRAIN_SPLAT_NUM_CHUNKS; i++)
 		{
 		// Create blood particles . . .
-		CChunk*	pchunk	= nullptr;	// Initialized for safety.
+		CChunk*	pchunk	= NULL;	// Initialized for safety.
 		// Note that this will fail if particles are disabled.
-      if (CThing::Construct(CChunkID, m_pRealm, (CThing**)&pchunk) == SUCCESS)
+		if (CThing::Construct(CChunkID, m_pRealm, (CThing**)&pchunk) == 0)
 			{
 			pchunk->Setup(
 				dBrainX,				// Source position.
@@ -4910,8 +4892,6 @@ bool CDude::MakeValidPosition(		// Returns true, if new position was valid.
 												// Out: New z position.
 	int16_t	sVertTolerance /*= 0*/)		// Vertical tolerance.
 	{
-  UNUSED(sVertTolerance);
-
 	bool bValidatedPosition	= false;	// Assume failure.
 
 	double	dCrawlerNewX;
@@ -5051,9 +5031,9 @@ void CDude::OnShotMsg(			// Returns nothing.
 		StartAnim(VEST_HIT_RES_NAME, dHitX, dHitY, dHitZ, false);
 
 		// Create a kevlar peice.
-		CChunk*	pchunk	= nullptr;	// Initialized for safety.
+		CChunk*	pchunk	= NULL;	// Initialized for safety.
 		// Note that this will fail if particles are disabled.
-      if (CThing::Construct(CChunkID, m_pRealm, (CThing**)&pchunk) == SUCCESS)
+		if (CThing::Construct(CChunkID, m_pRealm, (CThing**)&pchunk) == 0)
 			{
 			pchunk->Setup(
 				dHitX,						// Source position.
@@ -5417,7 +5397,7 @@ void CDude::Revive(				// Returns nothing.
 			if (CWarp::WarpInAnywhere(
 				m_pRealm,
 				&pdude, 
-            CWarp::CopyStockPile) == SUCCESS)
+				CWarp::CopyStockPile) == 0)
 				{
 				// Force to base weapon
 				SetWeapon(SemiAutomatic, true);
@@ -5452,16 +5432,16 @@ void CDude::ShowTarget()
 		// sAngle must be between 0 and 359.
 		int16_t sRotY = rspMod360((int16_t) m_dRot);
 		int16_t sRangeXZ = 100;
-//		int16_t sRadius = 20;
+		int16_t sRadius = 20;
 
 		float	fRateX = COSQ[sRotY] * sRangeXZ;
 		float	fRateZ = -SINQ[sRotY] * sRangeXZ;
-//		float	fRateY = 0.0;	// If we ever want vertical movement . . .
+		float	fRateY = 0.0;	// If we ever want vertical movement . . .
 
 		// Set initial position to first point to check (NEVER checks original position).
-//		float	fPosX = m_dX + fRateX;
-//		float	fPosY = m_dY + fRateY;
-//		float	fPosZ = m_dZ + fRateZ;
+		float	fPosX = m_dX + fRateX;
+		float	fPosY = m_dY + fRateY;
+		float	fPosZ = m_dZ + fRateZ;
 
 		if (m_TargetSprite.m_psprParent)
 			m_TargetSprite.m_psprParent->RemoveChild(&m_TargetSprite);
@@ -5484,7 +5464,7 @@ void CDude::ShowTarget(void)
 {
 	if (m_bTargetingHelpEnabled && m_bDead == false)
 	{
-		CThing* pTargetThing = nullptr;
+		CThing* pTargetThing = NULL;
 
 		if (IlluminateTarget((short) m_dX,
 									(short) m_dY,
@@ -5726,18 +5706,18 @@ bool CDude::SetWeapon(					// Returns true if weapon could be set as current.
 ////////////////////////////////////////////////////////////////////////////////
 // Drop a powerup with the settings described by the specified stockpile.
 ////////////////////////////////////////////////////////////////////////////////
-CPowerUp* CDude::DropPowerUp(		// Returns new powerup on success; nullptr on failure.
+CPowerUp* CDude::DropPowerUp(		// Returns new powerup on success; NULL on failure.
 	CStockPile*	pstockpile,			// In:  Settings for powerup.
 	bool			bCurWeaponOnly)	// In:  true, if only the current weapon should be
 											// in the powerup; false, if all.
 	{
-	CPowerUp*	ppowerup	= nullptr;
+	CPowerUp*	ppowerup	= NULL;
 
 	// If not empty . . .
 	if (pstockpile->IsEmpty() == false)
 		{
 		// Create powerup . . .
-      if (ConstructWithID(CPowerUpID, m_pRealm, (CThing**)&ppowerup) == SUCCESS)
+		if (ConstructWithID(CPowerUpID, m_pRealm, (CThing**)&ppowerup) == 0)
 			{
 			// Put stockpile into powerup.
 			ppowerup->m_stockpile.Copy(pstockpile);
@@ -5775,10 +5755,10 @@ void CDude::PlayStep(void)				// Returns nothing.
 	{
 #if 1
 	// If there is an event channel . . .
-	if (m_panimCur->m_pevent != nullptr)
+	if (m_panimCur->m_pevent != NULL)
 		{
 		// If the current event is different from the last . . .
-		uint8_t	u8Event	= *((uint8_t*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime)) );
+		U8	u8Event	= *((U8*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime)) );
 		if (u8Event > 0 && u8Event != m_u8LastEvent)
 			{
 			PlaySample(g_smidStep, SampleMaster::Unspecified);
@@ -5797,7 +5777,7 @@ bool CDude::FindExecutee(void)		// Returns true, if we found one; false, otherwi
 	{
 	bool	bFoundOne	= false;	// Assume not found.
 
-	CSmash*	psmashee	= nullptr;	// Safety.
+	CSmash*	psmashee	= NULL;	// Safety.
 
 	// Find the closest person including writhers.
 	if (m_pRealm->m_smashatorium.QuickCheckClosest(
@@ -5839,13 +5819,13 @@ bool CDude::TrackExecutee(		// Returns true to persist, false, if we lost the ta
 	
 	// Get pointer to target.
 	CThing*	pthing;
-   if (m_pRealm->m_idbank.GetThingByID(&pthing, m_idVictim) == SUCCESS)
+	if (m_pRealm->m_idbank.GetThingByID(&pthing, m_idVictim) == 0)
 		{
 		double	dVictimX;
 		double	dVictimZ;		
 		// Try to use smash position first, then resort to thing position.
 		CSmash*	psmash	= pthing->GetSmash();
-		if (psmash != nullptr)
+		if (psmash != NULL)
 			{
 			// This is generally more accurate for an execution point.
 			dVictimX	= psmash->m_sphere.sphere.X;
@@ -5858,20 +5838,24 @@ bool CDude::TrackExecutee(		// Returns true to persist, false, if we lost the ta
 			dVictimZ	= pthing->GetZ();
 			}
 
-      double sDistX         = dVictimX - m_dX;
-      double sDistZ         = m_dZ - dVictimZ;
-      double dSqrDistanceXZ = ABS2(sDistX, sDistZ);
+		int16_t	sDistX			= dVictimX - m_dX;
+		int16_t	sDistZ			= m_dZ - dVictimZ;
+		double	dSqrDistanceXZ	= ABS2(sDistX, sDistZ);
 
 		// Determine angle to target.
-      double dRot	  = rspATan(sDistZ, sDistX);
+		double	dRot		= rspATan(sDistZ, sDistX);
 		// Determine which rotation direction to target is smaller.
-      double dDelta = rspDegDelta(m_dRot, dRot);
+		double	dDelta	= rspDegDelta(m_dRot, dRot);
 
 		// If turning counter clockwise . . .
-      if (dDelta > 0.0)
-         m_dRot += MIN(dDelta, g_InputSettings.m_dStillFastDegreesPerSec * dSeconds);
-      else
-        m_dRot	+= MAX(dDelta, -g_InputSettings.m_dStillFastDegreesPerSec * dSeconds);
+		if (dDelta > 0.0)
+			{
+			m_dRot	+= MIN(dDelta, g_InputSettings.m_dStillFastDegreesPerSec * dSeconds);
+			}
+		else
+			{
+			m_dRot	+= MAX(dDelta, -g_InputSettings.m_dStillFastDegreesPerSec * dSeconds);
+			}
 
 #if 1
 		// If too close . . .
@@ -5902,7 +5886,7 @@ bool CDude::TrackExecutee(		// Returns true to persist, false, if we lost the ta
 ////////////////////////////////////////////////////////////////////////////////
 void CDude::TakePowerUp(		// Returns nothing.
 	CPowerUp**	pppowerup)		// In:  Power up to take from.
-										// Out: Ptr to powerup, if it persisted; nullptr otherwise.
+										// Out: Ptr to powerup, if it persisted; NULL otherwise.
 	{
 	CStockPile*	pspMax;
 	// Note if we do or will have the backpack.
@@ -5938,19 +5922,19 @@ void CDude::TakePowerUp(		// Returns nothing.
 		(*pppowerup)->PickUpFeedback();
 
 		// Store its ID so we can attempt to get it if it does persist.
-		uint16_t	idInstance	= (*pppowerup)->GetInstanceID();
+		U16	idInstance	= (*pppowerup)->GetInstanceID();
 
 		// Let powerup decide if it should persist.
 		(*pppowerup)->RepaginateNow();
 
 		// If it persisted . . .
-      if (m_pRealm->m_idbank.GetThingByID((CThing**)pppowerup, idInstance) == SUCCESS)
+		if (m_pRealm->m_idbank.GetThingByID((CThing**)pppowerup, idInstance) == 0)
 			{
 			ASSERT( (*pppowerup)->GetClassID() == CPowerUpID);
 			}
 		else
 			{
-			*pppowerup	= nullptr;
+			*pppowerup	= NULL;
 			}
 		}
 	else
@@ -5963,7 +5947,7 @@ void CDude::TakePowerUp(		// Returns nothing.
 			{
 			(*pppowerup)->m_stockpile.Zero();
 			(*pppowerup)->RepaginateNow();
-			*pppowerup	= nullptr;
+			*pppowerup	= NULL;
 			}
 		}
 
@@ -5971,19 +5955,19 @@ void CDude::TakePowerUp(		// Returns nothing.
 	if (*pppowerup)
 		{
 		// Store its ID so we can attempt to get it if it does persist.
-		uint16_t	idInstance	= (*pppowerup)->GetInstanceID();
+		U16	idInstance	= (*pppowerup)->GetInstanceID();
 
 		// Toss it.
 		TossPowerUp(*pppowerup, 130);
 
 		// If it persisted . . .
-      if (m_pRealm->m_idbank.GetThingByID((CThing**)pppowerup, idInstance) == SUCCESS)
+		if (m_pRealm->m_idbank.GetThingByID((CThing**)pppowerup, idInstance) == 0)
 			{
 			ASSERT( (*pppowerup)->GetClassID() == CPowerUpID);
 			}
 		else
 			{
-			*pppowerup	= nullptr;
+			*pppowerup	= NULL;
 			}
 		}
 	}
@@ -5992,7 +5976,7 @@ void CDude::TakePowerUp(		// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 // Create a cheat powerup.
 ////////////////////////////////////////////////////////////////////////////////
-CPowerUp* CDude::CreateCheat(	// Returns new powerup on success; nullptr on failure.
+CPowerUp* CDude::CreateCheat(	// Returns new powerup on success; NULL on failure.
 	CStockPile*	pstockpile)		// In:  Settings for powerup.
 	{
 	// First deduct from the cheat powerup what we cannot use.
@@ -6019,7 +6003,7 @@ CPowerUp* CDude::CreateCheat(	// Returns new powerup on success; nullptr on fail
 		}
 	else
 		{
-		ppowerup	= nullptr;
+		ppowerup	= NULL;
 		}
 
 	UnlockAchievement(ACHIEVEMENT_ENABLE_CHEATS);
@@ -6086,12 +6070,12 @@ void CDude::SetPosition(		// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 CFlag* CDude::GetNextFlag(			// Returns the next flag item after pflag.
 	CFlag*	pflag)					// In:  The flag to get the follower of.
-											// nullptr for first child flag.
+											// NULL for first child flag.
 	{
-	CFlag*	pflagNext	= nullptr;
+	CFlag*	pflagNext	= NULL;
 
 	CSprite*	psprite	= pflag ? pflag->m_sprite.m_psprNext : m_sprite.m_psprHeadChild;
-	while (psprite && pflagNext == nullptr)
+	while (psprite && pflagNext == NULL)
 		{
 		// If this sprite names its owner . . .
 		CThing*	pthing	= psprite->m_pthing;
@@ -6120,7 +6104,7 @@ void CDude::DropAllFlags(	// Returns nothing.
 	GameMessage	msg;
 	
 	// If no message specified . . .
-	if (pmsg == nullptr)
+	if (pmsg == NULL)
 		{
 		msg.msg_Explosion.eType = typeExplosion;
 		msg.msg_Explosion.sPriority = 0;
@@ -6144,14 +6128,14 @@ void CDude::DropAllFlags(	// Returns nothing.
 		}
 
 	// Loop through all child flags and send them a message and remove them.
-	CFlag*	pflag	= GetNextFlag(nullptr);
+	CFlag*	pflag	= GetNextFlag(NULL);
 	CFlag*	pflagNext;
 	while (pflag)
 		{
 		// Get the next now b/c this won't be a sibling after we detach it.
 		pflagNext	= GetNextFlag(pflag);
 
-		uint16_t	u16IdFlag	= pflag->GetInstanceID();
+		U16	u16IdFlag	= pflag->GetInstanceID();
 		
 		// Detach the flag.
 		DetachChild(

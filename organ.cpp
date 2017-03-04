@@ -41,9 +41,12 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include <RSPiX.h>
-#include <ResourceManager/resmgr.h>
-
+#include "RSPiX.h"
+#ifdef PATHS_IN_INCLUDES
+	#include "WishPiX/ResourceManager/resmgr.h"
+#else
+	#include "resmgr.h"
+#endif
 #include "SampleMaster.h"
 #include "game.h"
 #include "update.h"
@@ -57,7 +60,7 @@ static int16_t	ms_sContinue;
 void	PlayWithMyOrgan()
 	{
 	// only allow certain keys to be active:
-   const char acValidKeys[] = "1234567890QWERTYUIOPASDFGHJKLZXCVBNM";
+	char	acValidKeys[] = "1234567890QWERTYUIOPASDFGHJKLZXCVBNM";
 	int16_t	sNumValid = strlen(acValidKeys);
 	int16_t sNumSounds = CSoundCatalogue::NumSounds();
 	int16_t sNumBanks = (sNumSounds + sNumValid - 1) / sNumValid;
@@ -65,7 +68,7 @@ void	PlayWithMyOrgan()
 	int16_t sCurBank = 0;
 	ms_sContinue = 1;
 
-	uint8_t*	pau8KeyStatus	= rspGetKeyStatusArray();
+	U8*	pau8KeyStatus	= rspGetKeyStatusArray();
 	RInputEvent	ie;
 
 	// Clear status array.
@@ -80,7 +83,7 @@ void	PlayWithMyOrgan()
 
 		for (i=0;i<sNumValid;i++)
 			{
-         if ( pau8KeyStatus[static_cast<uint8_t>(acValidKeys[i])] )
+			if ( pau8KeyStatus[acValidKeys[i]] )
 				{
 				// he just pressed this key - play the note:
 				// Play sample CSoundCatalogue::ms_ppcNameList[
@@ -93,11 +96,11 @@ void	PlayWithMyOrgan()
 					PlaySample(
 						*CSoundCatalogue::ms_ppsmNameList[sCurSample],
 						SampleMaster::Unspecified,
-                  SampleMaster::MaxVolume);	// initial volume
+						255);	// initial volume
 					}
 
 				// Clear key.
-            pau8KeyStatus[static_cast<uint8_t>(acValidKeys[i])]	= 0;
+				pau8KeyStatus[acValidKeys[i]]	= 0;
 				}
 			}
 

@@ -193,9 +193,10 @@
 //							it is to the creator of the fire's credit that he dies).
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define FIRE_CPP
 
-#include <RSPiX.h>
-#include <cmath>
+#include "RSPiX.h"
+#include <math.h>
 
 #include "fire.h"
 #include "dude.h"
@@ -249,7 +250,7 @@ int16_t CFire::Load(										// Returns 0 if successfull, non-zero otherwise
 	{
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -279,14 +280,14 @@ int16_t CFire::Load(										// Returns 0 if successfull, non-zero otherwise
 		}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 		{
 			// Get resources
 			sResult = GetResources();
 		}
 		else
 		{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CFire::Load(): Error reading from file!\n");
 		}
 	}
@@ -306,8 +307,8 @@ int16_t CFire::Save(										// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 {
-	int16_t sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == SUCCESS)
+	int16_t	sResult	= CThing::Save(pFile, sFileCount);
+	if (sResult == 0)
 	{
 		// Save common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -341,7 +342,7 @@ int16_t CFire::Startup(void)								// Returns 0 if successfull, non-zero otherw
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CFire::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 {
-   return SUCCESS;
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -411,7 +412,7 @@ void CFire::Update(void)
 				// to see which things it should tell to burn.
 				if (m_bSendMessages && m_sCurrentAlphaLevel > SMOLDER_ALPHA && m_eFireAnim != Smoke && m_eFireAnim != SmallSmoke)
 				{
-					CSmash* pSmashed = nullptr;
+					CSmash* pSmashed = NULL;
 					GameMessage msg;
 					msg.msg_Burn.eType = typeBurn;
 					msg.msg_Burn.sPriority = 0;
@@ -591,7 +592,7 @@ int16_t CFire::Setup(									// Returns 0 if successfull, non-zero otherwise
 	bool  bThick,											// In:  Use thick fire (more opaque) default = true
 	FireAnim eAnimType)									// In:  Animation type to use default = LargeFire
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -627,20 +628,16 @@ int16_t CFire::Setup(									// Returns 0 if successfull, non-zero otherwise
 int16_t CFire::Init(void)
 {
 	int16_t sResult = SUCCESS;
-#ifdef _DEBUG
-   CAlphaAnim* pAnim = nullptr;
-#endif
+	CAlphaAnim* pAnim = NULL;
 
-	if (m_pAnimChannel != nullptr)
+	if (m_pAnimChannel != NULL)
 	{
 		m_lTimer = GetRandom() % m_pAnimChannel->TotalTime();
 		m_lStartTime = m_lTimer;
 		m_lBurnUntil = m_lTimer + m_lTimeToLive;
 		m_lAlphaBreakPoint = m_lTimer + (m_lTimeToLive * BRIGHT_PERCENT);
-#ifdef _DEBUG
-      pAnim = (CAlphaAnim*) m_pAnimChannel->GetAtTime(0);
-		ASSERT(pAnim != nullptr);
-#endif
+		pAnim = (CAlphaAnim*) m_pAnimChannel->GetAtTime(0);
+		ASSERT(pAnim != NULL);
 		m_lBrightAlphaInterval = (m_lTimeToLive * BRIGHT_PERCENT) / MAX(1, m_sCurrentAlphaLevel - DIEDOWN_ALPHA);
 		m_lDimAlphaInterval = (m_lTimeToLive * (100.0 - BRIGHT_PERCENT)) / MAX(1, DIEDOWN_ALPHA);
 		m_lCurrentAlphaTimeout = m_lTimer + m_lBrightAlphaInterval;
@@ -674,12 +671,12 @@ int16_t CFire::Init(void)
 			break;
 
 		case Smoke:
-			m_smash.m_pThing = nullptr;			
+			m_smash.m_pThing = NULL;			
 			m_bSendMessages = false;
 			break;
 
 		case SmallSmoke:
-			m_smash.m_pThing = nullptr;			
+			m_smash.m_pThing = NULL;			
 			m_bSendMessages = false;
 			m_lStartTime = m_lTimer = GetRandom() % m_pAnimChannel->TotalTime() / 3;
 			m_lBurnUntil = m_lTimer + m_lTimeToLive;
@@ -720,18 +717,14 @@ int16_t CFire::Smokeout(void)
 	sResult = GetResources();
 
 	// Reset timers
-#ifdef _DEBUG
-	CAlphaAnim* pAnim = nullptr;
-#endif
+	CAlphaAnim* pAnim = NULL;
 
-	if (m_pAnimChannel != nullptr)
+	if (m_pAnimChannel != NULL)
 	{
 		// Reset alpha level
 		m_sCurrentAlphaLevel = THICK_ALPHA;
-#ifdef _DEBUG
 		pAnim = (CAlphaAnim*) m_pAnimChannel->GetAtTime(0);
-		ASSERT(pAnim != nullptr);
-#endif
+		ASSERT(pAnim != NULL);
 //		m_lTimeToLive = m_pAnimChannel->TotalTime();
 		// use same time to live as the original
 		m_lStartTime = m_lTimer = 0;
@@ -746,7 +739,6 @@ int16_t CFire::Smokeout(void)
 	return sResult;
 }
 
-#if !defined(EDITOR_REMOVED)
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -755,7 +747,7 @@ int16_t CFire::EditNew(									// Returns 0 if successfull, non-zero otherwise
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -776,7 +768,7 @@ int16_t CFire::EditNew(									// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CFire::EditModify(void)
 {
-   return SUCCESS;
+	return 0;
 }
 
 
@@ -792,7 +784,7 @@ int16_t CFire::EditMove(									// Returns 0 if successfull, non-zero otherwise
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-   return SUCCESS;
+	return 0;
 }
 
 
@@ -814,7 +806,7 @@ void CFire::EditRender(void)
 	// we can call the normal Render().
 	Render();
 }
-#endif // !defined(EDITOR_REMOVED)
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Get all required resources
@@ -842,7 +834,7 @@ int16_t CFire::GetResources(void)			// Returns 0 if successfull, non-zero otherw
 			break;
 	}
 
-	if (sResult != SUCCESS)
+	if (sResult != 0)
 		TRACE("CFire::GetResources - Error getting fire animation resource\n");
 
 	return sResult;
@@ -854,7 +846,7 @@ int16_t CFire::GetResources(void)			// Returns 0 if successfull, non-zero otherw
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CFire::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	rspReleaseResource(&g_resmgrGame, &m_pAnimChannel);
 

@@ -15,7 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-// bulletFest.h
+// bulletFest.H
 // Project: Nostril (aka Postal)
 // 
 // History:
@@ -53,7 +53,27 @@
 #ifndef BULLETFEST_H
 #define BULLETFEST_H
 
-#include <BLUE/System.h>
+//////////////////////////////////////////////////////////////////////////////
+// C Headers -- Must be included before RSPiX.h b/c RSPiX utilizes SHMalloc.
+//////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+// RSPiX Headers.
+// If PATHS_IN_INCLUDES macro is defined, we can utilize relative
+// paths to a header file.  In this case we generally go off of our
+// RSPiX root directory.  System.h MUST be included before this macro
+// is evaluated.  System.h is the header that, based on the current
+// platform (or more so in this case on the compiler), defines 
+// PATHS_IN_INCLUDES.  Blue.h includes system.h so you can include that
+// instead.
+///////////////////////////////////////////////////////////////////////////////
+#include "System.h"
+
+#ifdef PATHS_IN_INCLUDES
+
+#else
+
+#endif
 
 //////////////////////////////////////////////////////////////////////////////
 // Postal headers.
@@ -149,7 +169,7 @@ class CBulletFest
 			int16_t* psX,						// Out: Hit position.
 			int16_t* psY,						// Out: Hit position.
 			int16_t* psZ,						// Out: Hit position.
-			CThing** ppthing,				// Out: Ptr to thing hit or nullptr.
+			CThing** ppthing,				// Out: Ptr to thing hit or NULL.
 			bool	bTracer = true,		// In:  Draw a tracer at random point along path.
 			SampleMasterID	smid	= g_smidBulletFire);	// In:  Use ammo sample.
 
@@ -169,7 +189,7 @@ class CBulletFest
 			int16_t* psX,						// Out: Hit position.
 			int16_t* psY,						// Out: Hit position.
 			int16_t* psZ,						// Out: Hit position.
-			CThing** ppthing,				// Out: Ptr to thing hit or nullptr.
+			CThing** ppthing,				// Out: Ptr to thing hit or NULL.
 			bool	bTracer = true);		// In:  Draw a tracer at random point along path.
 
 		// Create a muzzle flare effect.
@@ -220,7 +240,7 @@ class CBulletFest
 										// of 'forward' movement.
 
 		// Target info.  ***NYI***
-		uint16_t	m_u16IdTarget;		// Last known target or IdNil.
+		U16	m_u16IdTarget;		// Last known target or IdNil.
 		int16_t	m_sDirChanges;		// Direction changes (relative to source) over 
 										// last targeting duration.
 		int32_t	m_lSqrDistance;	// Squared distance traveled (relative to 
@@ -231,7 +251,7 @@ class CBulletFest
 	///////////////////////////////////////////////////////////////////////////
 	// Static data.
 	///////////////////////////////////////////////////////////////////////////
-		static uint8_t	ms_u8TracerIndex;	// The color index to use for tracers.
+		static U8	ms_u8TracerIndex;	// The color index to use for tracers.
 												// This value is gotten only once per
 												// execution of this program.
 

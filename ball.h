@@ -46,7 +46,7 @@
 #ifndef BALL_H
 #define BALL_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 
 
@@ -120,11 +120,11 @@ class CBall : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CBall(pRealm);
-			if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CBall::Construct(): Couldn't construct CBall!\n");
 				}
 			return sResult;
@@ -164,7 +164,6 @@ class CBall : public CThing
 		// Render object
 		void Render(void);
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -198,17 +197,16 @@ class CBall : public CThing
 										// EditRect() pos.
 			int16_t*	psY);			// Out: Y coord of 2D hotspot relative to
 										// EditRect() pos.
-#endif // !defined(EDITOR_REMOVED)
 
 		// Get the coordinates of this thing.
 		virtual					// Overriden here.
-      double GetX(void)	const { return m_dX; }
+		double GetX(void)	{ return m_dX; }
 
 		virtual					// Overriden here.
-      double GetY(void)	const { return m_dY; }
+		double GetY(void)	{ return m_dY; }
 
 		virtual					// Overriden here.
-      double GetZ(void)	const { return m_dZ; }
+		double GetZ(void)	{ return m_dZ; }
 
 	//---------------------------------------------------------------------------
 	// Internal functions

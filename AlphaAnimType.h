@@ -23,9 +23,6 @@
 #ifndef ALPHAANIMTYPE_H
 #define ALPHAANIMTYPE_H
 
-#include <BLUE/System.h>
-#include <GREEN/Image/Image.h>
-
 // Simple wrapper class for each frame of alpha animation
 class CAlphaAnim
 	{
@@ -39,15 +36,15 @@ class CAlphaAnim
 	public:
 		CAlphaAnim()
 			{
-         m_pimAlphaArray = nullptr;
+			m_pimAlphaArray = 0;
 			Reset();
-         }
+			};
 		
 		~CAlphaAnim()
 			{
 			Reset();
-         }
-#ifdef UNUSED_FUNCTIONS
+			};
+
 		CAlphaAnim& operator=(const CAlphaAnim& rhs)
 			{
 			Reset();
@@ -56,13 +53,12 @@ class CAlphaAnim
 			m_sY = rhs.m_sY;
 			m_imColor = rhs.m_imColor;
 			Alloc(m_sNumAlphas);
-         memcpy(m_pimAlphaArray, rhs.m_pimAlphaArray, sizeof(RImage) * m_sNumAlphas); // improper copying
+			rspObjCpy(m_pimAlphaArray, rhs.m_pimAlphaArray, m_sNumAlphas);
 			return *this;
 			}
-#endif
+
 		bool operator==(const CAlphaAnim& rhs) const
 			{
-        UNUSED(rhs);
 			// Comparing two of these objects is a major undertaking.  Instead,
 			// we'll always say that they are different.  This is not a great
 			// solution.  In fact, it sucks.  But what the hell...
@@ -83,7 +79,7 @@ class CAlphaAnim
 			if (sNumAlphas > 0)
 				{
 				m_pimAlphaArray = new RImage[sNumAlphas];
-            ASSERT(m_pimAlphaArray != nullptr);
+				ASSERT(m_pimAlphaArray != 0);
 				}
 			m_sNumAlphas = sNumAlphas;
 			}
@@ -91,7 +87,7 @@ class CAlphaAnim
 		void Free(void)
 			{
 			delete []m_pimAlphaArray;
-         m_pimAlphaArray = nullptr;
+			m_pimAlphaArray = 0;
 			}
 
 		int16_t Load(RFile* pFile)

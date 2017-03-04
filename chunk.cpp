@@ -52,8 +52,9 @@
 // that fly off a recently damaged, complex organism or something.
 //
 //////////////////////////////////////////////////////////////////////////////
+#define CHUNK_CPP
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "chunk.h"
 #include "reality.h"
 
@@ -139,8 +140,7 @@ void CChunk::Update(void)
 
 		switch (m_type)
 			{
-        UNHANDLED_SWITCH;
-         case Blood:
+			case Blood:
 				{
 				RImage*	pim	= m_pRealm->m_phood->m_pimBackground;
 
@@ -149,7 +149,7 @@ void CChunk::Update(void)
 					&& sY2d < pim->m_sHeight)
 					{
 					// Pixel.  8bpp only!
-					uint8_t*	pu8Dst	= pim->m_pData + sX2d + sY2d * pim->m_lPitch;
+					U8*	pu8Dst	= pim->m_pData + sX2d + sY2d * pim->m_lPitch;
 					
 					*pu8Dst	= rspBlendColor(						// Alpha color/index.
 						ALPHA_LEVEL,									// Alpha level.
@@ -164,8 +164,8 @@ void CChunk::Update(void)
 			case BulletCasing:
 			case Shell:
 #if 0	// Looks bad.
-            rspPlot<uint8_t>(
-               251,
+				rspPlot(
+					(U8)251,
 					m_pRealm->m_phood->m_pimBackground,
 					sX2d, 
 					sY2d);
@@ -177,7 +177,7 @@ void CChunk::Update(void)
 					sY2d,
 					sX2d + RAND_SWAY(BLOOD_SWAY),
 					sY2d + RAND_SWAY(BLOOD_SWAY),
-					nullptr);
+					NULL);
 #endif
 				break;
 			}
@@ -224,7 +224,7 @@ int16_t CChunk::Setup(			// Returns 0 if successfull, non-zero otherwise
 	int16_t	sRandVertVelSway,	// In:  Random sway on velocity or zero.
 	Type	type)					// In:  Type of chunk.
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;

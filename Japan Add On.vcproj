@@ -22,13 +22,13 @@
 				Optimization="2"
 				InlineFunctionExpansion="2"
 				OptimizeForProcessor="1"
-				AdditionalIncludeDirectories=".\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;TRACENASSERT;WIN32;_WINDOWS;LOCALE=JAPAN;TARGET=JAPAN_ADD_ON"
+				AdditionalIncludeDirectories=".\RSPiX\c\Win32\SmartHeap\Include,.\RSPiX\Src,.\RSPiX\Src\Blue,.\RSPiX\Inc,.\RSPiX\c\Win32\HeapAgent\Include,."
+				PreprocessorDefinitions="NDEBUG;TRACENASSERT;WIN32;_WINDOWS;LOCALE=JAPAN;TARGET=JAPAN_ADD_ON"
 				StringPooling="TRUE"
 				RuntimeLibrary="4"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="3"
-				PrecompiledHeaderThrough="RSPiX.h"
+				PrecompiledHeaderThrough="RSPiX.H"
 				PrecompiledHeaderFile=".\Build\Japan Add On\Optimized Debug/Japan Add On.pch"
 				AssemblerListingLocation=".\Build\Japan Add On\Optimized Debug/"
 				ObjectFile=".\Build\Japan Add On\Optimized Debug/"
@@ -89,11 +89,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				OptimizeForProcessor="1"
-				AdditionalIncludeDirectories=".\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;_DEBUG;TRACENASSERT;WIN32;_WINDOWS;LOCALE=JAPAN;TARGET=JAPAN_ADD_ON"
+				AdditionalIncludeDirectories=".\RSPiX\c\Win32\HeapAgent\Include,.\RSPiX\Src,.\RSPiX\Src\Blue,.\RSPiX\Inc,."
+				PreprocessorDefinitions="_DEBUG;NOSHMALLOC;TRACENASSERT;WIN32;_WINDOWS;LOCALE=JAPAN;TARGET=JAPAN_ADD_ON"
 				RuntimeLibrary="5"
 				UsePrecompiledHeader="3"
-				PrecompiledHeaderThrough="RSPiX.h"
+				PrecompiledHeaderThrough="RSPiX.H"
 				PrecompiledHeaderFile=".\Build\Japan Add On\Debug/Japan Add On.pch"
 				AssemblerListingLocation=".\Build\Japan Add On\Debug/"
 				ObjectFile=".\Build\Japan Add On\Debug/"
@@ -156,8 +156,8 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				OptimizeForProcessor="1"
-				AdditionalIncludeDirectories=".\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS;LOCALE=JAPAN;TARGET=JAPAN_ADD_ON"
+				AdditionalIncludeDirectories=".\RSPiX\Src,.\RSPiX\Src\Blue,.\RSPiX\Inc,.\RSPiX\c\Win32\HeapAgent\Include,."
+				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;LOCALE=JAPAN;TARGET=JAPAN_ADD_ON"
 				StringPooling="TRUE"
 				RuntimeLibrary="4"
 				EnableFunctionLevelLinking="TRUE"
@@ -304,7 +304,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 					UsePrecompiledHeader="1"
-					PrecompiledHeaderThrough="RSPiX.h"/>
+					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 		</File>
 		<File
@@ -334,7 +334,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 					UsePrecompiledHeader="3"
-					PrecompiledHeaderThrough="RSPiX.h"/>
+					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 		</File>
 		<File
@@ -423,7 +423,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 					UsePrecompiledHeader="3"
-					PrecompiledHeaderThrough="RSPiX.h"/>
+					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 		</File>
 		<File
@@ -462,7 +462,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 					UsePrecompiledHeader="3"
-					PrecompiledHeaderThrough="RSPiX.h"/>
+					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 		</File>
 		<File
@@ -523,7 +523,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 					UsePrecompiledHeader="3"
-					PrecompiledHeaderThrough="RSPiX.h"/>
+					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 		</File>
 		<File
@@ -553,7 +553,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 					UsePrecompiledHeader="3"
-					PrecompiledHeaderThrough="RSPiX.h"/>
+					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 		</File>
 		<File
@@ -607,7 +607,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 					UsePrecompiledHeader="3"
-					PrecompiledHeaderThrough="RSPiX.h"/>
+					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 		</File>
 		<File
@@ -640,7 +640,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 					UsePrecompiledHeader="3"
-					PrecompiledHeaderThrough="RSPiX.h"/>
+					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 		</File>
 	</Files>

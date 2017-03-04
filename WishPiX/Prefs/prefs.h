@@ -37,21 +37,20 @@
 #ifndef PREFS_H
 #define PREFS_H
 
-#include <BLUE/System.h>
-
+#include "Blue.h"
 #include "prefline.h"
 
 
 class RPrefs
 	{
 	public:
-      enum ePrefs
+		typedef enum ePrefs
 			{
 			MaxStrLen = 512
 			};
 
 	private:
-		FILE*						m_pFile;				// Currently open file, or nullptr if none
+		FILE*						m_pFile;				// Currently open file, or NULL if none
 		int16_t						m_sReadOnly;		// Read-only flag (1 = read-only, 0 = not)
 		int16_t						m_sErrorStatus;	// Error status (non-zero = error, 0 = not)
 		int16_t						m_sModified;		//	Indicates if ini in memory has been modified
@@ -120,7 +119,7 @@ class RPrefs
 
 		// Unset modified status
 		void SetNotModified()
-         { m_sModified = FALSE; }
+			{ m_sModified = 0; }
 
 		// Delete the specified variable in the specified section
 		int16_t DeleteVariable(					// Returns 0 if successfull, non-zero otherwise
@@ -149,32 +148,32 @@ class RPrefs
 		int16_t SetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			int8_t s8Value);						// In:  Value
+			S8 s8Value);						// In:  Value
 
 		int16_t SetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			uint8_t u8Value);						// In:  Value
+			U8 u8Value);						// In:  Value
 
 		int16_t SetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			int16_t s16Value);						// In:  Value
+			S16 s16Value);						// In:  Value
 
 		int16_t SetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			uint16_t u16Value);						// In:  Value
+			U16 u16Value);						// In:  Value
 
 		int16_t SetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			int32_t s32Value);						// In:  Value
+			S32 s32Value);						// In:  Value
 
 		int16_t SetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			uint32_t u32Value);						// In:  Value
+			U32 u32Value);						// In:  Value
 
 		int16_t SetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
@@ -210,38 +209,38 @@ class RPrefs
 		int16_t GetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			int8_t s8Default,						// In:  Default value
-			int8_t* s8Value);						// Out: Value returned here
+			S8 s8Default,						// In:  Default value
+			S8* s8Value);						// Out: Value returned here
 
 		int16_t GetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			uint8_t u8Default,						// In:  Default value
-			uint8_t* u8Value);						// Out: Value returned here
+			U8 u8Default,						// In:  Default value
+			U8* u8Value);						// Out: Value returned here
 
 		int16_t GetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			int16_t s16Default,					// In:  Default value
-			int16_t* s16Value);					// Out: Value returned here
+			S16 s16Default,					// In:  Default value
+			S16* s16Value);					// Out: Value returned here
 
 		int16_t GetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			uint16_t u16Default,					// In:  Default value
-			uint16_t* u16Value);					// Out: Value returned here
+			U16 u16Default,					// In:  Default value
+			U16* u16Value);					// Out: Value returned here
 
 		int16_t GetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			int32_t s32Default,					// In:  Default value
-			int32_t* s32Value);					// Out: Value returned here
+			S32 s32Default,					// In:  Default value
+			S32* s32Value);					// Out: Value returned here
 
 		int16_t GetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)
 			const char* pszVariable,		// In:  Variable name
-			uint32_t u32Default,					// In:  Default value
-			uint32_t* u32Value);					// Out: Value returned here
+			U32 u32Default,					// In:  Default value
+			U32* u32Value);					// Out: Value returned here
 
 		int16_t GetVal(							// Returns 0 if successfull, non-zero otherwise
 			const char* pszSection,			// In:  Section name (without brackets)

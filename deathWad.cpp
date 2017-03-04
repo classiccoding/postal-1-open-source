@@ -53,9 +53,10 @@
 //		distances).
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define DEATHWAD_CPP
 
-#include <RSPiX.h>
-#include <cmath>
+#include "RSPiX.h"
+#include <math.h>
 
 #include "deathWad.h"
 #include "dude.h"
@@ -110,32 +111,31 @@ const int16_t		CDeathWad::ms_sCollisionRadius			= 30;
 const double	CDeathWad::ms_dKickVelocity				= 350.0;
 // Max a WAD can hold.
 const CStockPile CDeathWad::ms_stockpileMax				=
-{
-  0,  // m_sHitPoints
-
-  5,  // m_sNumGrenades
-  0,  // m_sNumFireBombs
-  1,  // m_sNumMissiles
-  1,  // m_sNumNapalms
-  0,  // m_sNumBullets
-  0,  // m_sNumShells
-  50, // m_sNumFuel
-  0,  // m_sNumMines
-  0,  // m_sNumHeatseekers
-
-  0,  // m_sMachineGun
-  0,  // m_sMissileLauncher
-  0,  // m_sShotGun
-  0,  // m_sSprayCannon
-  0,  // m_sFlameThrower
-  0,  // m_sNapalmLauncher
-  0,  // m_sDeathWadLauncher
-  0,  // m_sDoubleBarrel
-
-  0,  // m_sKevlarLayers
-
-  0,  // m_sBackpack
-};
+	{
+	0,				// m_sHitPoints
+					                     
+	5,				// m_sNumGrenades
+	0,				// m_sNumFireBombs
+	1,				// m_sNumMissiles
+	1,				// m_sNumNapalms
+	0,				// m_sNumBullets
+	0,				// m_sNumShells
+	50,			// m_sNumFuel
+	0,				// m_sNumMines
+	0,				// m_sNumHeatseekers
+					                     
+	0,				// m_sMachineGun
+	0,				// m_sMissileLauncher
+	0,				// m_sShotGun
+	0,				// m_sSprayCannon
+	0,				// m_sFlameThrower
+	0,				// m_sNapalmLauncher
+	0,				// m_sDeathWadLauncher
+					                     
+	0,				// m_sKevlarLayers
+					                     
+	0,				// m_sBackpack
+	};
 
 // Let this auto-init to 0
 int16_t CDeathWad::ms_sFileCount;
@@ -183,7 +183,7 @@ int16_t CDeathWad::Load(										// Returns 0 if successfull, non-zero otherwis
 		}
 		else
 		{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CDeathWad::Load(): Error reading from file!\n");
 		}
 	}
@@ -199,7 +199,6 @@ int16_t CDeathWad::Save(										// Returns 0 if successfull, non-zero otherwis
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 {
-  UNUSED(pFile);
 	// In most cases, the base class Save() should be called.  In this case it
 	// isn't because the base class doesn't have a Save()!
 
@@ -213,7 +212,7 @@ int16_t CDeathWad::Save(										// Returns 0 if successfull, non-zero otherwis
 
 	// Save object data
 
-	return SUCCESS;
+	return 0;
 }
 
 
@@ -320,7 +319,7 @@ void CDeathWad::Update(void)
 				if (m_stockpile.m_sNumGrenades)
 					{
 					// If we hit someone . . .
-					CSmash* pSmashed = nullptr;
+					CSmash* pSmashed = NULL;
 					if (m_pRealm->m_smashatorium.QuickCheck(
 						&m_smash, 
 						m_u32CollideIncludeBits, 
@@ -393,8 +392,8 @@ void CDeathWad::Update(void)
 				else
 					{
 					// Otherwise, persist as powerup.
-					CPowerUp*	ppowerup	= nullptr;
-					if (CThing::Construct(CPowerUpID, m_pRealm, (CThing**)&ppowerup) == SUCCESS)
+					CPowerUp*	ppowerup	= NULL;
+					if (CThing::Construct(CPowerUpID, m_pRealm, (CThing**)&ppowerup) == 0)
 						{
 						// Copy whatever's left.
 						ppowerup->m_stockpile.Copy(&m_stockpile);
@@ -512,7 +511,7 @@ int16_t CDeathWad::Setup(									// Returns 0 if successfull, non-zero otherwis
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -542,13 +541,13 @@ int16_t CDeathWad::Setup(									// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDeathWad::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
-	sResult = m_anim.Get(RES_BASE_NAME, nullptr, nullptr, nullptr, 0);
-	if (sResult == SUCCESS)
+	sResult = m_anim.Get(RES_BASE_NAME, NULL, NULL, NULL, 0);
+	if (sResult == 0)
 		{
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(SMALL_SHADOW_FILE), &(m_spriteShadow.m_pImage), RFile::LittleEndian);
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 			// add more gets
 			}
@@ -573,7 +572,7 @@ int16_t CDeathWad::FreeResources(void)						// Returns 0 if successfull, non-zer
 {
 	m_anim.Release();
 
-	return SUCCESS;
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -587,19 +586,19 @@ int16_t CDeathWad::Preload(
 {
 	CAnim3D anim;	
 	RImage* pimage;
-	int16_t sResult = anim.Get(RES_BASE_NAME, nullptr, nullptr, nullptr, 0);
-	if (sResult == SUCCESS)
+	int16_t sResult = anim.Get(RES_BASE_NAME, NULL, NULL, NULL, 0);
+	if (sResult == 0)
 		{
 		anim.Release();
 		}
 	
-	if (rspGetResource(&g_resmgrGame, prealm->Make2dResPath(SMALL_SHADOW_FILE), &pimage, RFile::LittleEndian) == SUCCESS)
+	if (rspGetResource(&g_resmgrGame, prealm->Make2dResPath(SMALL_SHADOW_FILE), &pimage, RFile::LittleEndian) == 0)
 		{
 		rspReleaseResource(&g_resmgrGame, &pimage);
 		}
 	else
 		{
-		sResult = FAILURE;
+		sResult	= -1;
 		}
 
 	CacheSample(g_smidDeathWadLaunch);
@@ -718,7 +717,7 @@ void CDeathWad::Explosion(void)
 	// Start an explosion object and some smoke (doesn't an explosion object
 	// automatically make smoke??).
 	CExplode* pExplosion;
-	if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == SUCCESS)
+	if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == 0)
 		{
 		// Don't blow us up.
 		pExplosion->m_u16ExceptID	= m_u16ShooterID;
@@ -735,7 +734,7 @@ void CDeathWad::Explosion(void)
 	CFire* pSmoke;
 	for (a = 0; a < 8; a++)
 		{
-		if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == SUCCESS)
+		if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == 0)
 			{
 			pSmoke->Setup(m_dX - 4 + GetRandom() % 9, m_dY-20, m_dZ - 4 + GetRandom() % 9, ms_lSmokeTimeToLive, true, CFire::Smoke);
 			pSmoke->m_u16ShooterID = m_u16ShooterID;
@@ -760,8 +759,8 @@ void CDeathWad::Thrust(void)
 
 	if (m_bInsideTerrain == false)
 		{
-		CFire* pSmoke = nullptr;
-		if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == SUCCESS)
+		CFire* pSmoke = NULL;
+		if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == 0)
 			{
 			// This needs to be fixed by calculating the position of the back end of
 			// the deathwad in 3D based on the rotation.  
@@ -770,8 +769,8 @@ void CDeathWad::Thrust(void)
 			}
 
 		// Also, create a fire (moving at the wad's velocity?).
-		CFireball*	pfireball	= nullptr;
-		if (CThing::Construct(CFireballID, m_pRealm, (CThing**) &pfireball) == SUCCESS)
+		CFireball*	pfireball	= NULL;
+		if (CThing::Construct(CFireballID, m_pRealm, (CThing**) &pfireball) == 0)
 			{
 			pfireball->Setup(m_dX, m_dY, m_dZ, m_dRot, ms_lFireBallTimeToLive, m_u16ShooterID);
 			pfireball->m_dHorizVel	= m_dHorizVel / 4.0;
@@ -799,7 +798,7 @@ void CDeathWad::Launch(void)
 		SampleMaster::Weapon,					// In:  Sound Volume Category for user adjustment
 		DistanceToVolume(m_dX, m_dY, m_dZ, LaunchSndHalfLife),	// In:  Initial Sound Volume (0 - 255)
 		&m_siThrust,								// Out: Handle for adjusting sound volume
-		nullptr,											// Out: Sample duration in ms, if not nullptr.
+		NULL,											// Out: Sample duration in ms, if not NULL.
 		100,											// In:  Where to loop back to in milliseconds.
 														//	-1 indicates no looping (unless m_sLoop is
 														// explicitly set).
@@ -809,9 +808,9 @@ void CDeathWad::Launch(void)
 
 	Explosion();
 
-	CThing*	pthing	= nullptr;
+	CThing*	pthing	= NULL;
 	// Get the launcher . . .
-	if (m_pRealm->m_idbank.GetThingByID(&pthing, m_u16ShooterID) == SUCCESS)
+	if (m_pRealm->m_idbank.GetThingByID(&pthing, m_u16ShooterID) == 0)
 		{
 		// If it's a dude . . .
 		if (pthing->GetClassID() == CDudeID)

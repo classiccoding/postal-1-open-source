@@ -57,7 +57,7 @@
 #ifndef FIREBALL_H
 #define FIREBALL_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 #include "AlphaAnimType.h"
 #include "smash.h"
@@ -104,10 +104,10 @@ class CFireball : public CWeapon
 		int32_t m_lTotalFlameTime;				// Total time to show the flame (non adjusted for game time)
 		int16_t m_sCurrentAlphaChannel;		// Use this Alpha channel
 		int16_t m_sTotalAlphaChannels;
-		uint32_t	m_u32CollideIncludeBits;	// bits to use for collision checking
-		uint32_t	m_u32CollideDontcareBits;	// bits to use for collision checking
-		uint32_t	m_u32CollideExcludeBits;	// bits to use for collision checking
-		uint16_t	m_u16ShooterID;				// shooter's ID so you don't hit him.
+		U32	m_u32CollideIncludeBits;	// bits to use for collision checking
+		U32	m_u32CollideDontcareBits;	// bits to use for collision checking
+		U32	m_u32CollideExcludeBits;	// bits to use for collision checking
+		U16	m_u16ShooterID;				// shooter's ID so you don't hit him.
 		bool	m_bSendMessages;				// Whether or not to send messages to other
 													// objects telling them to burn or not.
 		bool	m_bMoving;						// Once it hits a wall it will stop moving
@@ -145,7 +145,7 @@ class CFireball : public CWeapon
 			m_u32CollideDontcareBits = 0;
 			m_u32CollideExcludeBits = 0;
 			m_sTotalAlphaChannels = 0;
-			m_smash.m_pThing = nullptr;
+			m_smash.m_pThing = NULL;
 			m_smash.m_bits = 0;
 			m_bMoving = true;
 			m_lAnimTime = 0;
@@ -161,7 +161,7 @@ class CFireball : public CWeapon
 			m_pRealm->m_scene.RemoveSprite(&m_sprite);
 			// Remove yourself from the collision list if it was in use
 			// (switching to smoke removes it from the smashatorium and sets
-			// the m_pThing field to nullptr)
+			// the m_pThing field to NULL)
 			if (m_smash.m_pThing)
 				m_pRealm->m_smashatorium.Remove(&m_smash);
 
@@ -178,11 +178,11 @@ class CFireball : public CWeapon
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CFireball(pRealm);
-         if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CFireball::Construct(): Couldn't construct CFireball (that's a bad thing)\n");
 				}
 			return sResult;
@@ -237,7 +237,7 @@ class CFireball : public CWeapon
 			int16_t sZ,												// In: New z coord
 			int16_t sDir,												// In: Direction of travel
 			int32_t lTimeToLive,										// In: Milliseconds to burn
-			uint16_t u16ShooterID);									// In: Your ID (the shooter) so it doesn't hit you
+			U16 u16ShooterID);									// In: Your ID (the shooter) so it doesn't hit you
 
 		// Override base class Setup().
 		virtual				// Overridden here.
@@ -255,7 +255,6 @@ class CFireball : public CWeapon
 				);
 			}
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -276,16 +275,15 @@ class CFireball : public CWeapon
 
 		// Called by editor to render object
 		void EditRender(void);
-#endif // !defined(EDITOR_REMOVED)
 
 		// Allows whoever creates the fire to control what gets burned by it
 		// the defaults are set initially to Characters
-		void SetCollideBits(uint32_t u32Include, uint32_t u32Dontcare, uint32_t u32Exclude)
+		void SetCollideBits(U32 u32Include, U32 u32Dontcare, U32 u32Exclude)
 		{
 			m_u32CollideIncludeBits = u32Include;
 			m_u32CollideDontcareBits = u32Dontcare;
 			m_u32CollideExcludeBits = u32Exclude;
-      }
+		};
 
 		// Turns messages on which will send burn messages to things the fire
 		// is touching.
@@ -364,15 +362,15 @@ class CFirestream : public CWeapon
 		int32_t m_lTimeToLive;					// Total time to show this animation
 		int16_t m_sCurrentAlphaChannel;		// Use this Alpha channel
 		int16_t m_sTotalAlphaChannels;
-		uint16_t	m_u16ShooterID;				// shooter's ID so you don't hit him.
+		U16	m_u16ShooterID;				// shooter's ID so you don't hit him.
 		bool	m_bSendMessages;				// Whether or not to send messages to other
 													// objects telling them to burn or not.
 		int32_t m_lPrevTime;						// Previous update time
 
 		CSprite2	m_sprite;					// False sprite for positioning info
-		uint16_t m_idFireball1;
-		uint16_t m_idFireball2;
-		uint16_t m_idFireball3;
+		U16 m_idFireball1;
+		U16 m_idFireball2;
+		U16 m_idFireball3;
 
 												
 		int16_t m_sSuspend;						// Suspend flag
@@ -420,11 +418,11 @@ class CFirestream : public CWeapon
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CFirestream(pRealm);
-         if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CFirestream::Construct(): Couldn't construct CFirestream (that's a bad thing)\n");
 				}
 			return sResult;
@@ -479,7 +477,7 @@ class CFirestream : public CWeapon
 			int16_t sZ,												// In: New z coord
 			int16_t sDir,												// In: Direction of travel
 			int32_t lTimeToLive,										// In: Milliseconds to burn
-			uint16_t u16ShooterID);									// In: Your ID (the shooter) so it doesn't hit you
+			U16 u16ShooterID);									// In: Your ID (the shooter) so it doesn't hit you
 
 		// Override base class Setup().
 		virtual				// Overridden here.

@@ -108,7 +108,7 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 //#include "dude.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -165,7 +165,7 @@ typedef struct tag_MESSAGE_SHOT
 	int16_t			sPriority;
 	int16_t			sDamage;
 	int16_t			sAngle;
-	uint16_t			u16ShooterID; // Instance ID of the shooter (for scoring)
+	U16			u16ShooterID; // Instance ID of the shooter (for scoring)
 } Shot_Message, *pShot_Message;
 
 typedef struct tag_MESSAGE_EXPLOSION
@@ -177,7 +177,7 @@ typedef struct tag_MESSAGE_EXPLOSION
 	int16_t			sY;			// Center of explosion
 	int16_t			sZ;			// Center of explosion
 	int16_t			sVelocity;	// Relative size of explosion 
-	uint16_t			u16ShooterID;// Instance ID of the shooter
+	U16			u16ShooterID;// Instance ID of the shooter
 } Explosion_Message, *pExplosion_Message;
 
 typedef struct tag_MESSAGE_BURN
@@ -185,7 +185,7 @@ typedef struct tag_MESSAGE_BURN
 	MessageType eType; // = typeBurn;
 	int16_t			sPriority;
 	int16_t			sDamage;
-	uint16_t			u16ShooterID;	// Instance ID of the shooter
+	U16			u16ShooterID;	// Instance ID of the shooter
 } Burn_Message, *pBurn_Message;
 
 typedef struct tag_MESSAGE_OBJECTDELETE
@@ -199,8 +199,8 @@ typedef struct tag_MESSAGE_POPOUT
 	MessageType eType; // = typePopout
 	int16_t			sPriority;
 	uint8_t			ucIDNext;			// Next Pylon to run to
-	uint16_t			u16UniqueDudeID;	// Dude to target
-	uint16_t			u16UniquePylonID;	// Easier way to get to pylon data
+	U16			u16UniqueDudeID;	// Dude to target
+	U16			u16UniquePylonID;	// Easier way to get to pylon data
 	int16_t			sNextPylonX;		// Next pylon X position
 	int16_t			sNextPylonZ;		// Next pylon Z position
 } Popout_Message, *pPopout_Message;
@@ -210,8 +210,8 @@ typedef struct tag_MESSAGE_SHOOTCYCLE
 	MessageType eType; // = typeShootCycle
 	int16_t			sPriority;
 	uint8_t			ucIDNext;			// ID of next bouy in cycle
-	uint16_t			u16UniqueDudeID;	// Dude to target
-	uint16_t			u16UniquePylonID;	// Easier way to get to pylon data
+	U16			u16UniqueDudeID;	// Dude to target
+	U16			u16UniquePylonID;	// Easier way to get to pylon data
 	int16_t			sNextPylonX;		// Next pylon X position
 	int16_t			sNextPylonZ;		// Next pylon Z position
 } ShootCycle_Message, *pShootCycle_Message;
@@ -255,7 +255,7 @@ typedef struct tag_MESSAGE_DUDETRIGGER
 {
 	MessageType eType; // = typeDudeTrigger
 	int16_t		   sPriority;
-	uint16_t			u16DudeUniqueID;
+	U16			u16DudeUniqueID;
 	double		dX;
 	double		dZ;
 } DudeTrigger_Message;
@@ -302,7 +302,7 @@ typedef struct tag_MESSAGE_PUTMEDOWN
 {
 	MessageType eType;// = typePutMeDown
 	int16_t			sPriority;
-	uint16_t			u16FlagInstanceID;
+	U16			u16FlagInstanceID;
 } PutMeDown_Message;
 
 typedef struct tag_GameMessage
@@ -335,7 +335,7 @@ union
 	// Function to save whatever type of message this is.
 	int16_t Save(RFile* pFile)
 	{
-		int16_t sResult = SUCCESS;
+		int16_t sResult = 0;
 
 		if (pFile && pFile->IsOpen())
 		{
@@ -407,7 +407,7 @@ union
 		}
 		else
 		{
-			sResult = FAILURE;
+			sResult = -1;
 		}
 
 		return sResult;
@@ -416,7 +416,7 @@ union
 	// Function to load whatever type of message was saved
 	int16_t Load(RFile* pFile)
 	{
-		int16_t sResult = SUCCESS;
+		int16_t sResult = 0;
 
 		if (pFile && pFile->IsOpen())
 		{

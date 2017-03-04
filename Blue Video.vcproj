@@ -21,8 +21,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				OptimizeForProcessor="1"
-				AdditionalIncludeDirectories=".\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;_DEBUG;WIN32;_WINDOWS"
+				AdditionalIncludeDirectories=".\RSPiX\c\Win32\WinG\Inc,.\RSPiX\c\Win32\SmartHeap\Include,.\RSPiX\c\Win32\DirectX\Inc,.\RSPiX\Src,.\RSPiX\Src\Blue,.\RSPiX\Inc,.\RSPiX\c\Win32\HeapAgent\Include,."
+				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;NOSHMALLOC"
 				RuntimeLibrary="5"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\Build\Blue Video\Debug/Blue Video.pch"
@@ -71,8 +71,8 @@
 				Optimization="2"
 				InlineFunctionExpansion="2"
 				OptimizeForProcessor="1"
-				AdditionalIncludeDirectories=".\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS"
+				AdditionalIncludeDirectories=".\RSPiX\c\Win32\DirectX\Inc,.\RSPiX\c\Win32\WinG\Inc,.\RSPiX\c\Win32\SmartHeap\Include,.\RSPiX\Src,.\RSPiX\Src\Blue,.\RSPiX\Inc,."
+				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS"
 				StringPooling="TRUE"
 				RuntimeLibrary="4"
 				EnableFunctionLevelLinking="TRUE"
@@ -122,8 +122,8 @@
 				Optimization="2"
 				InlineFunctionExpansion="2"
 				OptimizeForProcessor="1"
-				AdditionalIncludeDirectories=".\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS;TRACENASSERT"
+				AdditionalIncludeDirectories=".\RSPiX\c\Win32\DirectX\Inc,.\RSPiX\c\Win32\WinG\Inc,.\RSPiX\c\Win32\SmartHeap\Include,.\RSPiX\Src,.\RSPiX\Src\Blue,.\RSPiX\Inc,."
+				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;TRACENASSERT"
 				StringPooling="TRUE"
 				RuntimeLibrary="4"
 				EnableFunctionLevelLinking="TRUE"
@@ -170,7 +170,7 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;hpj;bat;for;f90">
 			<File
-				RelativePath="RSPiX\BLUE\Win32\bdisp.cpp">
+				RelativePath="RSPiX\Src\BLUE\Win32\bdisp.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -197,7 +197,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="RSPiX\BLUE\Win32\BGdiDisp.cpp">
+				RelativePath="RSPiX\Src\BLUE\Win32\BGdiDisp.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -224,7 +224,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="RSPiX\BLUE\Win32\BGdiPal.cpp">
+				RelativePath="RSPiX\Src\BLUE\Win32\BGdiPal.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -251,7 +251,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="RSPiX\BLUE\Win32\BGDisp.cpp">
+				RelativePath="RSPiX\Src\BLUE\Win32\BGDisp.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -278,7 +278,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="RSPiX\BLUE\Win32\BGPal.cpp">
+				RelativePath="RSPiX\Src\BLUE\Win32\BGPal.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -305,7 +305,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="RSPiX\BLUE\Win32\BXDisp.cpp">
+				RelativePath="RSPiX\Src\BLUE\Win32\BXDisp.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool

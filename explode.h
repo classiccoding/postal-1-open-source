@@ -46,7 +46,7 @@
 #ifndef EXPLODE_H
 #define EXPLODE_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 #include "AlphaAnimType.h"
 #include "smash.h"
@@ -78,14 +78,14 @@ class CExplode : public CThing
 		double	m_dX;
 		double	m_dY;
 		double	m_dZ;
-		uint16_t		m_u16ShooterID;
-		uint16_t		m_u16ExceptID;									// ID of object to except from explosion.
+		U16		m_u16ShooterID;
+		U16		m_u16ExceptID;									// ID of object to except from explosion.
 
 
 	protected:
-      milliseconds_t m_lTimer;												// General purpose timer
+		int32_t m_lTimer;												// General purpose timer
 
-      milliseconds_t m_lPrevTime;											// Previous update time
+		int32_t m_lPrevTime;											// Previous update time
 
 		CSprite2		m_sprite;									// Sprite 
 		ChannelAA*	m_pAnimChannel;							// Alpha Explosion animation stored as a channel
@@ -134,11 +134,11 @@ class CExplode : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CExplode(pRealm);
-			if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CExplode::Construct(): Couldn't construct CExplode (that's a bad thing)\n");
 				}
 			return sResult;
@@ -189,10 +189,10 @@ class CExplode : public CThing
 			int16_t sX,												// In: New x coord
 			int16_t sY,												// In: New y coord
 			int16_t sZ,												// In: New z coord
-			uint16_t	u16ShooterID,									// In: Who is responsible for this explosion
-         int16_t sAnim = 0);										// In: Which explosion to use, standard = 0, grenade = 1 etc.
+			U16	u16ShooterID,									// In: Who is responsible for this explosion
+			int16_t sAnim = 0);										// In: Which explosion to use, standard = 0,
+																		//     grenade = 1 etc.
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -213,7 +213,6 @@ class CExplode : public CThing
 
 		// Called by editor to render object
 		void EditRender(void);
-#endif // !defined(EDITOR_REMOVED)
 
 	//---------------------------------------------------------------------------
 	// Internal functions

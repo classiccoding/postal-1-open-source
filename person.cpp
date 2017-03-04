@@ -262,9 +262,10 @@
 //							Now passes the hood lights to the texture editor.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define PERSON_CPP
 
-#include <RSPiX.h>				 
-#include <cmath>
+#include "RSPiX.h"				 
+#include <math.h>
 
 #include "person.h"
 #include "TexEdit.h"
@@ -289,12 +290,12 @@ double CPerson::ms_dInRangeLow = 190*190;		// Squared distance to be in range wi
 double CPerson::ms_dInRangeHigh = 230*230;	// Squared distance to be in range with weapon
 double CPerson::ms_dThrowHorizVel = 200;		// Throw out at this velocity
 double CPerson::ms_dMaxCrawlVel = 2.5;			// Speed at which cop crawls
-milliseconds_t CPerson::ms_lMinCommentTime = 10000;		// Amount of time before making a comment
-milliseconds_t CPerson::ms_lCommentTimeVariance = 35000;// Random amount added on.
-milliseconds_t CPerson::ms_lRandomAvoidTime = 200;		// Time to wander before looking again
-milliseconds_t CPerson::ms_lReseekTime = 1000;			// Do a 'find' again
-milliseconds_t CPerson::ms_lWatchWaitTime = 5000;		// Time to watch shot go
-milliseconds_t CPerson::ms_lReselectDudeTime	= 3000;	// Time to go without finding a dude
+int32_t CPerson::ms_lMinCommentTime = 10000;		// Amount of time before making a comment
+int32_t CPerson::ms_lCommentTimeVariance = 35000;// Random amount added on.
+int32_t CPerson::ms_lRandomAvoidTime = 200;		// Time to wander before looking again
+int32_t CPerson::ms_lReseekTime = 1000;			// Do a 'find' again 
+int32_t CPerson::ms_lWatchWaitTime = 5000;		// Time to watch shot go
+int32_t CPerson::ms_lReselectDudeTime	= 3000;	// Time to go without finding a dude
 															// before calling SelectDude() to find
 															// possibly a closer one.
 int16_t CPerson::ms_sLogTabUserGlobal = 0;		// Logic table variable for group effects
@@ -304,14 +305,14 @@ int16_t CPerson::ms_sFileCount;
 
 // This is the one CPerson that can log its AI table transitions or
 // CIdBank::IdNil.
-uint16_t	CPerson::ms_u16IdLogAI	= CIdBank::IdNil;
+U16	CPerson::ms_u16IdLogAI	= CIdBank::IdNil;
 
 // The max amount a guy and step up while writhing.
 #define WRITHING_VERTICAL_TOLERANCE		(MaxStepUpThreshold / 2)
 
 #define ID_GUI_EDIT_TEXTURES				900
 
-//#if defined(__ANDROID__)
+//#ifdef MOBILE
 extern bool demoCompat; 
 //#endif
 
@@ -324,10 +325,10 @@ int16_t CPerson::Load(				// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,					// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)				// In:  Version of file format to load.
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	sResult = CDoofus::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 	
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -412,14 +413,14 @@ int16_t CPerson::Load(				// Returns 0 if successfull, non-zero otherwise
 		m_bCivilian = (g_apersons[m_ePersonType].eLifestyle == Personatorium::Civilian);
 		
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 		{
 			// Get resources
 			sResult = GetResources();
 		}
 		else
 		{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CPerson::Load(): Error reading from file!\n");
 		}
 	}
@@ -470,7 +471,7 @@ int16_t CPerson::Save(				// Returns 0 if successfull, non-zero otherwise
 	else
 	{
 		TRACE("CPerson::Save() - Error writing to file\n");
-		sResult = FAILURE;
+		sResult = -1;
 	}
 
 	return sResult;
@@ -482,7 +483,7 @@ int16_t CPerson::Save(				// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPerson::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Set the current height, previous time, and Nav Net
 	CDoofus::Startup();
@@ -499,7 +500,7 @@ int16_t CPerson::Startup(void)								// Returns 0 if successfull, non-zero othe
 
 int16_t CPerson::Init(void)
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Prepare shadow (get resources and setup sprite).
 	sResult	= PrepareShadow();
@@ -590,11 +591,11 @@ int16_t CPerson::Init(void)
 ////////////////////////////////////////////////////////////////////////////////
 void CPerson::Update(void)
 {
-	CThing* pDemon = nullptr;
+	CThing* pDemon = NULL;
 
 	if (!m_sSuspend)
 	{
-      milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
+		int32_t lThisTime = m_pRealm->m_time.GetGameTime();
 
 		// See if its time to reevaluate the states
 		if (lThisTime > m_lEvalTimer)
@@ -796,7 +797,7 @@ void CPerson::Update(void)
 					rspMsgBox(
 						RSP_MB_ICN_INFO | RSP_MB_BUT_OK,
 						g_pszAppName,
-                  "The state is \"%s\" (%i).\n"
+						"The state is \"%s\" (%ld).\n"
 						"%s",
 						ms_apszStateNames[m_state],
 						m_state,
@@ -840,12 +841,12 @@ void CPerson::Render(void)
 //		m_sprite.m_pszText = ms_apszStateNames[m_state];
 	}
 	else
-		m_sprite.m_pszText		= nullptr;
+		m_sprite.m_pszText		= NULL;
 
 	CDoofus::Render();
 }
 
-#if !defined(EDITOR_REMOVED)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to render object.
 ////////////////////////////////////////////////////////////////////////////////
@@ -877,11 +878,11 @@ void CPerson::EditRender(void)
 			}
 		else
 			{
-			m_sprite.m_pszText	= nullptr;
+			m_sprite.m_pszText	= NULL;
 			}
 		}
 	}
-#endif // !defined(EDITOR_REMOVED)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Logic_Writhing - special case for the cop since he has to crawl
 ////////////////////////////////////////////////////////////////////////////////
@@ -930,7 +931,7 @@ void CPerson::Logic_Writhing(void)
 		int16_t	sPseudoHeadX	= m_dX + COSQ[sRot] * sRadius;
 		int16_t	sPseudoHeadY	= m_dZ - SINQ[sRot] * sRadius;
 		// Check pseudo-head point.
-		uint16_t	u16Attrib	= 0;	// Safety.
+		U16	u16Attrib	= 0;	// Safety.
 		int16_t	sHeight		= 0;	// Safety.
 		GetFloorAttributes(sPseudoHeadX, sPseudoHeadY, &u16Attrib, &sHeight);
 		if ( (u16Attrib & REALM_ATTR_NOT_WALKABLE) || sHeight > m_dY + WRITHING_VERTICAL_TOLERANCE
@@ -1005,10 +1006,9 @@ void CPerson::Logic_Writhing(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPerson::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 {
-   return SUCCESS;
+	return 0;
 }
 
-#if !defined(EDITOR_REMOVED)
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -1017,7 +1017,7 @@ int16_t CPerson::EditNew(									// Returns 0 if successfull, non-zero otherwis
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	sResult = CDoofus::EditNew(sX, sY, sZ);
 
@@ -1032,7 +1032,7 @@ int16_t CPerson::EditNew(									// Returns 0 if successfull, non-zero otherwis
 	}
 	else
 	{
-		sResult = FAILURE;
+		sResult = -1;
 	}
 
 	return sResult;
@@ -1045,10 +1045,10 @@ static void LogicUserBrowse(	// Returns nothing
 	RGuiItem* pgui)				// In: GUI pressed.
 {
 	RGuiItem* pguiLogicFileName	= (RGuiItem*)pgui->m_ulUserInstance;
-	ASSERT(pguiLogicFileName != nullptr);
+	ASSERT(pguiLogicFileName != NULL);
 
 	// Get the logic file name . . .
-	char	szLogicFile[PATH_MAX];
+	char	szLogicFile[RSP_MAX_PATH];
 	strcpy(szLogicFile, FullPathHD(pguiLogicFileName->m_szText));
 
 	if (rspOpenBox(
@@ -1056,12 +1056,12 @@ static void LogicUserBrowse(	// Returns nothing
 		szLogicFile,
 		szLogicFile,
 		sizeof(szLogicFile),
-      "lgk.") == SUCCESS)
+		"lgk.") == 0)
 	{
-		char	szHDPath[PATH_MAX];
+		char	szHDPath[RSP_MAX_PATH];
 		strcpy(szHDPath, FullPathHD(""));
 		// Attempt to remove HD path . . .
-      if (rspStrnicmp(szLogicFile, szHDPath, strlen(szHDPath) ) == SUCCESS)
+		if (rspStrnicmp(szLogicFile, szHDPath, strlen(szHDPath) ) == 0)
 			{
 			// Determine amount of path to ignore.
 			int32_t	lSubPathBegin	= strlen(szHDPath);
@@ -1078,9 +1078,9 @@ static void LogicUserBrowse(	// Returns nothing
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPerson::EditModify(void)
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	Personatorium::Index eCurrentType = m_ePersonType;
-	RGuiItem* pGuiItem = nullptr;
+	RGuiItem* pGuiItem = NULL;
 	RGuiItem* pGui = RGuiItem::LoadInstantiate(FullPathVD("res/editor/person.gui"));
 	if (pGui)
 	{
@@ -1112,7 +1112,7 @@ int16_t CPerson::EditModify(void)
 			for (i = 0; i < Personatorium::NumPersons; i++)
 			{
 				pGuiItem = pPersonalityList->AddString(g_apersons[i].pszDescription);
-				if (pGuiItem != nullptr)
+				if (pGuiItem != NULL)
 				{
 					pGuiItem->m_lId = PERSONALITY_ITEM_ID_BASE + i;
 					pGuiItem->m_ulUserData = (uint32_t) i;
@@ -1144,7 +1144,7 @@ int16_t CPerson::EditModify(void)
 						(i != BouncingBettyMine) )
 					{
 					pGuiItem	= pWeaponList->AddString(ms_awdWeapons[i].pszName);
-					if (pGuiItem != nullptr)
+					if (pGuiItem != NULL)
 						{
 						// Store class ID so we can determine user selection
 						pGuiItem->m_lId	= ms_awdWeapons[i].id;
@@ -1188,7 +1188,7 @@ int16_t CPerson::EditModify(void)
 			// Set callback for logic browser button.
 			pbtnLogicUserBrowse->m_bcUser	= LogicUserBrowse;
 			// Set instance data to GUI to query/update.
-			pbtnLogicUserBrowse->m_ulUserInstance	= (uint64_t)peditLogicFile;
+			pbtnLogicUserBrowse->m_ulUserInstance	= (U64)peditLogicFile;
 
 			SetGuiToNotify(pGui->GetItemFromId(ID_GUI_EDIT_TEXTURES) );
 
@@ -1264,7 +1264,7 @@ int16_t CPerson::EditModify(void)
 	}
 	delete pGui;
 
-   return SUCCESS;
+	return 0;
 }
 
 
@@ -1274,14 +1274,14 @@ int16_t CPerson::EditModify(void)
 void CPerson::EditUpdate(void)
 {
 }
-#endif // !defined(EDITOR_REMOVED)
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Get all required resources
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPerson::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	int16_t sLoadResult = 0;
 
 	
@@ -1643,10 +1643,10 @@ int16_t CPerson::GetResources(void)						// Returns 0 if successfull, non-zero o
 
 
 	// Get execution target points -- NOT essential.
-	char	szExeTargetResName[PATH_MAX];
+	char	szExeTargetResName[RSP_MAX_PATH];
 	sprintf(szExeTargetResName, "%s_writhing_exe.trans", g_apersons[m_ePersonType].Anim.pszBaseName);
 	sLoadResult	= rspGetResource(&g_resmgrGame, szExeTargetResName, &m_ptransExecutionTarget);
-   if (sLoadResult == SUCCESS)
+	if (sLoadResult == 0)
 		{
 		m_ptransExecutionTarget->SetLooping(RChannel_LoopAtStart | RChannel_LoopAtEnd);
 		}
@@ -1693,7 +1693,7 @@ int16_t CPerson::FreeResources(void)						// Returns 0 if successfull, non-zero 
 	// Release base class resources.
 	CDoofus::ReleaseResources();
 
-   return SUCCESS;
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1701,12 +1701,12 @@ int16_t CPerson::FreeResources(void)						// Returns 0 if successfull, non-zero 
 ////////////////////////////////////////////////////////////////////////////////
 
 SampleMaster::SoundInstance CPerson::PlaySoundWrithing(
-         milliseconds_t* plDuration)					// Out:  Duration of sample, if not nullptr.
+			int32_t* plDuration)					// Out:  Duration of sample, if not NULL.
 {
 	m_siPlaying = 0;
 	SampleMasterID*	psmid	= &g_smidNil;
 
-//#if defined(__ANDROID__) //Reduce annoying comments when dying
+//#ifdef MOBILE //Reduce annoying comments when dying
 	if ((demoCompat) || (++m_usCommentCounter % 5 == 0) )
 	{
 //#endif
@@ -1736,8 +1736,8 @@ SampleMaster::SoundInstance CPerson::PlaySoundWrithing(
 		-1,											// In:  Initial Sound Volume (0 - 255)
 														// Negative indicates to use the distance to the ear.
 		&m_siPlaying,								// Out: Handle for adjusting sound volume
-		plDuration);								// Out: Sample duration in ms, if not nullptr.
-//#if defined(__ANDROID__)
+		plDuration);								// Out: Sample duration in ms, if not NULL.
+//#ifdef MOBILE
 	}
 //#endif
 	return m_siPlaying;
@@ -1751,8 +1751,8 @@ SampleMaster::SoundInstance CPerson::PlaySoundShot(void)
 {
 	m_siPlaying = 0;
 	SampleMasterID*	psmid	= &g_smidNil;
-   milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
-   milliseconds_t	lSampleDuration	= 0;	// Safety.
+	int32_t lThisTime = m_pRealm->m_time.GetGameTime();
+	int32_t	lSampleDuration	= 0;	// Safety.
 
 	if (lThisTime > m_lSampleTimeIsPlaying)
 	{
@@ -1811,7 +1811,7 @@ SampleMaster::SoundInstance CPerson::PlaySoundShot(void)
 		-1,											// In:  Initial Sound Volume (0 - 255)
 														// Negative indicates to use the distance to the ear.
 		&m_siPlaying,								// Out: Handle for adjusting sound volume
-		&lSampleDuration);						// Out: Sample duration in ms, if not nullptr.
+		&lSampleDuration);						// Out: Sample duration in ms, if not NULL.
 
 	return m_siPlaying;
 }
@@ -1963,7 +1963,7 @@ SampleMaster::SoundInstance CPerson::PlaySoundRandom(void)
 	m_siPlaying = 0;
 	SampleMasterID*	psmid	= &g_smidNil;
 
-//#if defined(__ANDROID__) //reduce NPC random comments
+//#ifdef MOBILE //reduce NPC random comments
 	int n;
 	if (demoCompat)
 		n = 10;
@@ -1979,7 +1979,7 @@ SampleMaster::SoundInstance CPerson::PlaySoundRandom(void)
 		if (m_idDude != CIdBank::IdNil)
 		{
 			CDude* pdude;
-         if (m_pRealm->m_idbank.GetThingByID((CThing**) &pdude, m_idDude) == SUCCESS)
+			if (m_pRealm->m_idbank.GetThingByID((CThing**) &pdude, m_idDude) == 0)
 			{
 				if (pdude && pdude->m_state != State_Dead)
 				{

@@ -234,8 +234,13 @@
 // RSPiX Headers.
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <RSPiX.h>
-#include <ResourceManager/resmgr.h>
+#include "RSPiX.h"
+
+#ifdef PATHS_IN_INCLUDES
+	#include "WishPiX/ResourceManager/resmgr.h"
+#else
+	#include "resmgr.h"
+#endif
 
 //////////////////////////////////////////////////////////////////////////////
 // Macros.
@@ -264,7 +269,7 @@
 typedef struct
 	{
 	uint16_t	usDescFlags;	// Use | to combine SMDF_* flags.
-   const char*		pszId;
+	char*		pszId;
 	} SampleMasterID;
 
 // This is a trick so we can force the sounds to catelogue themselves for the organ:
@@ -275,7 +280,7 @@ class	CSoundCatalogue
 public:
 	CSoundCatalogue(SampleMasterID* psmID)
 		{
-		if (ms_ppsmNameList == nullptr)
+		if (ms_ppsmNameList == NULL)
 			{
 			ms_ppsmNameList = (SampleMasterID**) 
 				calloc(sizeof(SampleMasterID*),MAX_SOUNDS);
@@ -297,7 +302,7 @@ public:
 			{
 			ms_sRefCount = 0;
 			free(ms_ppsmNameList);
-			ms_ppsmNameList = nullptr;
+			ms_ppsmNameList = NULL;
 			}
 		}
 
@@ -314,7 +319,7 @@ class SampleMaster
 	{
 	public:
 		// Used as a unique idea for running sound sample manipulation -> includes channel number
-      typedef	uintptr_t	SoundInstance; // 0 indicates error condition.
+		typedef	U64	SoundInstance; // 0 indicates error condition.
 
 		//////////////////////////////////////////////////////////////
 		// Use these tags to specify a sound volume category
@@ -370,16 +375,15 @@ class SampleMaster
 			UserDefaultVolume	= 8,		// Default user volume for all categories/qualities.
 			UserMaxVolume		= 10,		// User volume ranges from 0 to 10.
 			UserVolumeRange	= UserMaxVolume + 1,	// Ranges from 0 to 10.
-         MinVolume         = 0x00,
-         MaxVolume			= 0xFF,	// SampleMaster volume ranges from 0x00 to 0xFF.
-         VolumeRange			= MaxVolume + 1	// Ranges from 0x00 to 0xFF.
+			MaxVolume			= 255,	// SampleMaster volume ranges from 0 to 255.
+			VolumeRange			= MaxVolume + 1	// Ranges from 0 to 255.
 
 			} Macros;
 
 		//////////////////////////////////////////////////////////////
 		// These are the names for the corresponding SoundCategory
 		// used as an index.
-      static const char* ms_apszSoundCategories[MAX_NUM_SOUND_CATEGORIES];
+		static char* ms_apszSoundCategories[MAX_NUM_SOUND_CATEGORIES];
 
 		//////////////////////////////////////////////////////////////
 		// These are the default volumes for each category in each
@@ -436,7 +440,7 @@ DEFINE_SAMPLE_ID(SMDF_NO_DESCRIPT, g_smidShotgun,				"shotgun.wav");
 DEFINE_SAMPLE_ID(SMDF_NO_DESCRIPT, g_smidSprayCannon,			"spraycannon.wav");
 DEFINE_SAMPLE_ID(SMDF_NO_DESCRIPT, g_smidMineBeep,				"minebeep.wav");
 DEFINE_SAMPLE_ID(SMDF_NO_DESCRIPT, g_smidMineSet,				"mineset.wav");
-DEFINE_SAMPLE_ID(SMDF_NO_DESCRIPT, g_smidNil,					nullptr);	// Ignored by SampleMaster functions.
+DEFINE_SAMPLE_ID(SMDF_NO_DESCRIPT, g_smidNil,					NULL);	// Ignored by SampleMaster functions.
 DEFINE_SAMPLE_ID(SMDF_NO_DESCRIPT, g_smidFlameThrower3,		"flamethrower3.wav");
 DEFINE_SAMPLE_ID(SMDF_NO_DESCRIPT, g_smidParadeSong,			"parade 1.wav");
 DEFINE_SAMPLE_ID(SMDF_NO_DESCRIPT, g_smidExecution,			"execution.wav");
@@ -1466,7 +1470,7 @@ int16_t	GetCategoryVolume(
 //////////////////////////////////////////////////////////////////////////////
 int16_t	SetInstanceVolume(
 	SampleMaster::SoundInstance si,			// make sure it is YOUR sound
-   int16_t sVolume = SampleMaster::MaxVolume);						// 0 - 255
+	int16_t sVolume = 255);						// 0 - 255
 
 //////////////////////////////////////////////////////////////////////////////
 //	
@@ -1502,12 +1506,12 @@ void PlaySample(										// Returns nothing.
 	SampleMasterID	id,								// In:  Identifier of sample you want played.
 	SampleMaster::SoundCategory eType,			// In:  Sound Volume Category for user adjustment
 	int16_t	sInitialVolume	= 255,					// In:  Initial Sound Volume (0 - 255)
-	SampleMaster::SoundInstance*	psi = nullptr,	// Out: Handle for adjusting sound volume
-   milliseconds_t* plSampleDuration = nullptr,				// Out: Sample duration in ms, if not nullptr.
-   milliseconds_t lLoopStartTime = -1,						// In:  Where to loop back to in milliseconds.
+	SampleMaster::SoundInstance*	psi = NULL,	// Out: Handle for adjusting sound volume
+	int32_t* plSampleDuration = NULL,				// Out: Sample duration in ms, if not NULL.
+	int32_t lLoopStartTime = -1,						// In:  Where to loop back to in milliseconds.
 															//	-1 indicates no looping (unless m_sLoop is
 															// explicitly set).
-   milliseconds_t lLoopEndTime = 0,							// In:  Where to loop back from in milliseconds.
+	int32_t lLoopEndTime = 0,							// In:  Where to loop back from in milliseconds.
 															// In:  If less than 1, the end + lLoopEndTime is used.
 	bool bPurgeSample = false);					// In:  Call ReleaseAndPurge rather than Release after playing
 
@@ -1518,7 +1522,7 @@ void PlaySample(										// Returns nothing.
 void PlaySample(							// Returns nothing.
 												// Does not fail.
 	SampleMasterID	id,					// In:  Identifier of sample you want played.
-	long* plSampleDuration = nullptr,	// Out: Sample duration in ms, if not nullptr.
+	long* plSampleDuration = NULL,	// Out: Sample duration in ms, if not NULL.
 	long lLoopStartTime = -1,			// In:  Where to loop back to in milliseconds.
 												//	-1 indicates no looping (unless m_sLoop is
 												// explicitly set).
@@ -1532,11 +1536,11 @@ void PlaySampleThenPurge(					// Returns nothing.
 													// Does not fail.
 	SampleMasterID	id,						// In:  Identifier of sample you want played.
 												
-	SampleMaster::SoundInstance*	psi = nullptr,				// Out: Handle for adjusting sound volume
+	SampleMaster::SoundInstance*	psi = NULL,				// Out: Handle for adjusting sound volume
 	SampleMaster::SoundCategory	eType = SampleMaster::Unspecified,	// In:  Sound Volume Category for user adjustment
 	short	sInitialVolume = 255,			// In:  Initial Sound Volume (0 - 255)
 
-	long* plSampleDuration = nullptr,		// Out: Sample duration in ms, if not nullptr.
+	long* plSampleDuration = NULL,		// Out: Sample duration in ms, if not NULL.
 	long lLoopStartTime = -1,				// In:  Where to loop back to in milliseconds.
 													//	-1 indicates no looping (unless m_sLoop is
 													// explicitly set).

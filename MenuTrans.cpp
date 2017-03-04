@@ -71,7 +71,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <RSPiX.h>
+#include "RSPiX.h"
+#ifdef PATHS_IN_INCLUDES
+#else
+#endif
 
 #include "game.h"
 #include "MenuTrans.h"
@@ -84,9 +87,9 @@
 
 // Define number of shades along with mask that will create that many shades
 //#define NUM_SHADES				32
-//#define SHADE_MASK				0xF8
+//#define SHADE_MASK				0xf8
 #define NUM_SHADES				16
-#define SHADE_MASK				0xF0
+#define SHADE_MASK				0xf0
 
 // Define range of palette indices to be affected (inclusive).
 // THIS RANGE MUST BE AT LEAST TWICE AS LARGE AS NUM_SHADES!!!
@@ -125,8 +128,8 @@ static RImage* m_pim;
 
 static int16_t m_sStep;
 static bool m_bFinishASAP;
-static milliseconds_t m_lTotalTime;
-static milliseconds_t m_lBaseTime;
+static int32_t m_lTotalTime;
+static int32_t m_lBaseTime;
 
 static double m_dReduce = 1.0;
 
@@ -151,7 +154,7 @@ extern void StartMenuTrans(
 	// Save total time
 	if (lTotalTime < 0)
 		{
-		TRACE("StartMenuTransIn(): Moronic time specified: %i -- changed to 0!\n", lTotalTime);
+		TRACE("StartMenuTransIn(): Moronic time specified: %ld -- changed to 0!\n", lTotalTime);
 		lTotalTime = 0;
 		}
 	m_lTotalTime = lTotalTime;
@@ -170,7 +173,7 @@ extern void StartMenuTrans(
 		{
 
 		// Setup image to match screen buffer
-      if (m_pim->CreateImage(g_pimScreenBuf->m_sWidth, g_pimScreenBuf->m_sHeight, RImage::BMP8) == SUCCESS)
+		if (m_pim->CreateImage(g_pimScreenBuf->m_sWidth, g_pimScreenBuf->m_sHeight, RImage::BMP8) == 0)
 			{
 
 			// Everything's cool, so set for first step
@@ -218,7 +221,7 @@ extern bool DoPreMenuTrans(void)
 		// Calculate goal for each color's red component.  We use the otherwise
 		// unused member of the struct to store the goal.
 		for (int16_t i = EFFECT_BEG; i <= EFFECT_END; i++)
-//			m_pOrig[i].x = (unsigned char)((double)(0xFF - m_pOrig[i].r) * m_dReduce) & SHADE_MASK;
+//			m_pOrig[i].x = (unsigned char)((double)(255 - m_pOrig[i].r) * m_dReduce) & SHADE_MASK;
 			m_pOrig[i].x = (uint8_t)((double)(m_pOrig[i].r) * m_dReduce) & SHADE_MASK;
 
 		// Get base time for next step
@@ -593,7 +596,7 @@ static void Remap(
 	// here, the end result would be no locking.  This is only a problem in
 	// debug mode.  We'll have to check into a better solution, but for now
 	// I'm just calling the "real" buffer lock.
-	uint8_t* pu8VideoBuf;
+	U8* pu8VideoBuf;
 	int32_t	lPitch;
 // Note that we only need to do this in the case that the buffer is not already
 // locked.  Since we keep it locked while the game is running now, we don't need
@@ -601,10 +604,10 @@ static void Remap(
 // does the lock even in DEBUG mode)
 // IF you comment this back in, remember to comment in the unlock as well!
 #if 0
-   if (rspLockVideoBuffer((void**)&pu8VideoBuf, &lPitch) ) == SUCCESS)
+	if (rspLockVideoBuffer((void**)&pu8VideoBuf, &lPitch) ) == 0)
 		{
 #else
-   if (rspLockBuffer() == SUCCESS)
+	if (rspLockBuffer() == 0)
 		{
 		pu8VideoBuf	= g_pimScreenBuf->m_pData;
 		lPitch		= g_pimScreenBuf->m_lPitch;

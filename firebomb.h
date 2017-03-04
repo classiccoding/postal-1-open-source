@@ -55,7 +55,7 @@
 #ifndef FIREBOMB_H
 #define FIREBOMB_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 #include "fire.h"
 #include "weapon.h"
@@ -121,11 +121,11 @@ class CFirebomb : public CWeapon
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CFirebomb(pRealm);
-         if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CFirebomb::Construct(): Couldn't construct CFirebomb (that's a bad thing)\n");
 				}
 			return sResult;
@@ -216,7 +216,7 @@ class CFirefrag : public CWeapon
 	protected:
 		int16_t m_sPrevHeight;										// Previous height
 		CFire*  m_pFire;											// Pointer to controlled fire object
-		uint16_t	  m_u16FireID;										// ID for fire.
+		U16	  m_u16FireID;										// ID for fire.
 		RImage* m_pImage;											// Pointer to only image (replace with 3d anim, soon)
 		CSprite2 m_sprite;										// 2D sprite to render this object.
 		int16_t		m_sNumExplosions;								// Total Number of explosions.
@@ -244,7 +244,7 @@ class CFirefrag : public CWeapon
 			: CWeapon(pRealm, CFirefragID)
 			{
 			m_pImage = 0;
-			m_pFire = nullptr;
+			m_pFire = NULL;
 			m_u16FireID = CIdBank::IdNil;
 			m_sNumExplosions	= 0;
 			}
@@ -269,11 +269,11 @@ class CFirefrag : public CWeapon
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CFirefrag(pRealm);
-         if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CFirefrag::Construct(): Couldn't construct CFirefrag (that's a bad thing)\n");
 				}
 			return sResult;

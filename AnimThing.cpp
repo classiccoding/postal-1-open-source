@@ -65,9 +65,10 @@
 // destroy itself.  It's a mini Postal movie player.
 //
 //////////////////////////////////////////////////////////////////////////////
+#define ANIMTHING_CPP
 
-#include <RSPiX.h>
-#include <cmath>
+#include "RSPiX.h"
+#include <math.h>
 
 #include "AnimThing.h"
 #include "dude.h"
@@ -98,7 +99,7 @@ int16_t CAnimThing::Load(								// Returns 0 if successfull, non-zero otherwise
 	uint32_t	ulFileVersion)								// In:  Version of file format to load.
 	{
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		switch (ulFileVersion)
 			{
@@ -113,14 +114,14 @@ int16_t CAnimThing::Load(								// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 			{
 			// Get resources
 			sResult = GetResources();
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CAnimThing::Load(): Error reading from file!\n");
 			}
 		}
@@ -136,8 +137,8 @@ int16_t CAnimThing::Save(										// Returns 0 if successfull, non-zero otherwi
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
-   int16_t sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == SUCCESS)
+	int16_t	sResult	= CThing::Save(pFile, sFileCount);
+	if (sResult == 0)
 		{
 		pFile->Write(&m_dX);
 		pFile->Write(&m_dY);
@@ -161,7 +162,7 @@ int16_t CAnimThing::Startup(void)								// Returns 0 if successfull, non-zero o
 	m_lAnimPrevTime	= m_pRealm->m_time.GetGameTime();
 	m_lAnimTime			= 0;
 
-	return SUCCESS;
+	return 0;
 	}
 
 
@@ -170,7 +171,7 @@ int16_t CAnimThing::Startup(void)								// Returns 0 if successfull, non-zero o
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CAnimThing::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	return SUCCESS;
+	return 0;
 	}
 
 
@@ -239,7 +240,7 @@ void CAnimThing::Render(void)
 	m_lAnimPrevTime	= lCurTime;
 
 	CAlphaAnim* paa = (CAlphaAnim*)m_paachannel->GetAtTime(m_lAnimTime);
-	if (paa != nullptr)
+	if (paa != NULL)
 		{
 		// No special flags
 		m_sprite.m_sInFlags = 0;
@@ -293,17 +294,17 @@ if (sEdit && (paa->m_sNumAlphas > 2))
 		}
 	for (int16_t y = 0; y < paa->m_pimAlphaArray[1].m_sHeight; y++)
 		{
-		uint8_t* pSrc = paa->m_pimAlphaArray[1].m_pData + (y * paa->m_pimAlphaArray[1].m_lPitch);
-		uint8_t* pDst = paa->m_pimAlphaArray[0].m_pData + (y * paa->m_pimAlphaArray[0].m_lPitch);
+		U8* pSrc = paa->m_pimAlphaArray[1].m_pData + (y * paa->m_pimAlphaArray[1].m_lPitch);
+		U8* pDst = paa->m_pimAlphaArray[0].m_pData + (y * paa->m_pimAlphaArray[0].m_lPitch);
 
 		for (int16_t x = 0; x < paa->m_pimAlphaArray[1].m_sWidth; x++)
 			{
 			double dVal = (double)(*pSrc);
 			dVal *= dScale;
 			if (dVal < 256.0)
-				*pDst = (uint8_t)dVal;
+				*pDst = (U8)dVal;
 			else
-            *pDst = 0xFF;
+				*pDst = (U8)255;
 			pSrc++;
 			pDst++;
 			}
@@ -322,7 +323,7 @@ int16_t CAnimThing::Setup(									// Returns 0 if successfull, non-zero otherwi
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -337,7 +338,7 @@ int16_t CAnimThing::Setup(									// Returns 0 if successfull, non-zero otherwi
 	return sResult;
 	}
 
-#if !defined(EDITOR_REMOVED)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -346,7 +347,7 @@ int16_t CAnimThing::EditNew(									// Returns 0 if successfull, non-zero other
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -364,20 +365,20 @@ int16_t CAnimThing::EditNew(									// Returns 0 if successfull, non-zero other
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CAnimThing::EditModify(void)
 	{
-   int16_t sResult = SUCCESS;
+	int16_t	sResult	= 0;
 
 	RGuiItem* pgui = RGuiItem::LoadInstantiate(FullPathVD(GUI_FILE_NAME));
-	if (pgui != nullptr)
+	if (pgui != NULL)
 		{
 		RListBox* plb = (RListBox*)pgui->GetItemFromId(GUI_ID_OPTIONS);
-		if (plb != nullptr)
+		if (plb != NULL)
 			{
 			ASSERT(plb->m_type == RGuiItem::ListBox);
 			// Select current setting.
 			plb->SetSel(pgui->GetItemFromId((m_sLoop == FALSE) ? GUI_ID_DONTLOOP : GUI_ID_DOLOOP) );
 
 			REdit* pedit = (REdit*)pgui->GetItemFromId(GUI_ID_RESOURCE);
-			if (pedit != nullptr)
+			if (pedit != NULL)
 				{
 				ASSERT(pedit->m_type == RGuiItem::Edit);
 
@@ -409,22 +410,22 @@ int16_t CAnimThing::EditModify(void)
 					// If no resource name . . .
 					if (m_szResName[0] == '\0')
 						{
-						sResult = FAILURE;
+						sResult	= 1;
 						}
 					}
 				else
 					{
-					sResult = FAILURE;
+					sResult	= 1;
 					}
 				}
 			else
 				{
-            sResult = FAILURE * 3;
+				sResult	= -3;
 				}
 			}
 		else
 			{
-         sResult = FAILURE * 2;
+			sResult	= -2;
 			}
 		
 		// Done with GUI.
@@ -432,11 +433,11 @@ int16_t CAnimThing::EditModify(void)
 		}
 	else
 		{
-      sResult = FAILURE;
+		sResult	= -1;
 		}
 
 	// If successful so far . . .
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// Load resources
 		sResult = GetResources();
@@ -458,7 +459,7 @@ int16_t CAnimThing::EditMove(									// Returns 0 if successfull, non-zero othe
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-	return SUCCESS;
+	return 0;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -478,10 +479,10 @@ void CAnimThing::EditRect(	// Returns nothiing.
 	prc->sW	= 10;	// Safety.
 	prc->sH	= 10;	// Safety.
 
-	if (m_paachannel != nullptr)
+	if (m_paachannel != NULL)
 		{
 		CAlphaAnim* paa = (CAlphaAnim*)m_paachannel->GetAtTime(m_lAnimTime);
-		if (paa != nullptr)
+		if (paa != NULL)
 			{
 			// Offset by hotspot.
 			prc->sX	+= paa->m_sX;
@@ -505,10 +506,10 @@ void CAnimThing::EditHotSpot(	// Returns nothiing.
 	*psX	= 0;	// Safety.
 	*psY	= 0;	// Safety.
 
-	if (m_paachannel != nullptr)
+	if (m_paachannel != NULL)
 		{
 		CAlphaAnim*	paa	= (CAlphaAnim*)m_paachannel->GetAtTime(m_lAnimTime);
-		if (paa != nullptr)
+		if (paa != NULL)
 			{
 			*psX	= -paa->m_sX;
 			*psY	= -paa->m_sY;
@@ -534,14 +535,14 @@ void CAnimThing::EditRender(void)
 	// we can call the normal Render().
 	Render();
 	}
-#endif // !defined(EDITOR_REMOVED)
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Get all required resources
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CAnimThing::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Safe to call even if no resource.
 	FreeResources();
@@ -551,7 +552,7 @@ int16_t CAnimThing::GetResources(void)						// Returns 0 if successfull, non-zer
 		m_pRealm->Make2dResPath(m_szResName), 
 		&m_paachannel);
 
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		m_lAnimTime			= 0;
 		m_lAnimPrevTime	= m_pRealm->m_time.GetGameTime();
@@ -580,9 +581,9 @@ int16_t CAnimThing::GetResources(void)						// Returns 0 if successfull, non-zer
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CAnimThing::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
-	if (m_paachannel != nullptr)
+	if (m_paachannel != NULL)
 		{
 		rspReleaseResource(&g_resmgrGame, &m_paachannel);
 		}

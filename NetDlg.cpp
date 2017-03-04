@@ -280,10 +280,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 
-#if !defined(MULTIPLAYER_REMOVED)
-
+#include "CompileOptions.h"
 #include "GameSettings.h"
 #include "game.h"
 #include "play.h"
@@ -332,7 +331,7 @@
 #define GUI_DIR						"menu/"
 
 // Note that this is evaluated at compile time, so even
-// if the ptr is nullptr, it will work.
+// if the ptr is NULL, it will work.
 #define MAX_STATUS_STR				GUI_MAX_STR
 
 // Maximum number of chat strings in the box.
@@ -374,94 +373,94 @@
 //////////////////////////////////////////////////////////////////////////////
 
 // Client-specific messages displayed in client dialog's status area
-const char* g_pszClientStat_NameTooLongForChat		= "Name too long, can't chat";
-const char* g_pszClientStat_YouWereDropped			= "Connection was lost";
-const char* g_pszClientStat_SomeoneDropped_s			= "\"%s\" is no longer connected";
-const char* g_pszClientStat_ServerAborted				= "Game aborted";
-const char* g_pszClientStat_ServerStarted				= "Starting game";
-const char* g_pszClientStat_Opened						= "Opened connection";
-const char* g_pszClientStat_Connected					= "Connected";
-const char* g_pszClientStat_JoinDenyTooMany			= "Can't join -- too many players";
-const char* g_pszClientStat_JoinDenyLowBandwidth	= "Can't join -- your bandwidth is too low";
-const char* g_pszClientStat_JoinDenyCantDropIn		= "Can't join -- game has already started";
-const char* g_pszClientStat_JoinDenyUnknown			= "Can't join -- don't know why";
-const char* g_pszClientStat_JoinAccepted				= "Joined";
-const char* g_pszClientStat_LoginAccepted_hd			= "Logged in (ID = %hd)";
-const char* g_pszClientStat_Startup						= "Trying to connect...";
-const char* g_pszClientStat_Default						= "Ready";
-const char* g_pszClientStat_Error_s						= "Network error (%s) -- aborting";
-const char* g_pszClientStat_Retrying					= "Retry...";
+char* g_pszClientStat_NameTooLongForChat		= "Name too long, can't chat";
+char* g_pszClientStat_YouWereDropped			= "Connection was lost";
+char* g_pszClientStat_SomeoneDropped_s			= "\"%s\" is no longer connected";
+char* g_pszClientStat_ServerAborted				= "Game aborted";
+char* g_pszClientStat_ServerStarted				= "Starting game";
+char* g_pszClientStat_Opened						= "Opened connection";
+char* g_pszClientStat_Connected					= "Connected";
+char* g_pszClientStat_JoinDenyTooMany			= "Can't join -- too many players";
+char* g_pszClientStat_JoinDenyLowBandwidth	= "Can't join -- your bandwidth is too low";
+char* g_pszClientStat_JoinDenyCantDropIn		= "Can't join -- game has already started";
+char* g_pszClientStat_JoinDenyUnknown			= "Can't join -- don't know why";
+char* g_pszClientStat_JoinAccepted				= "Joined";
+char* g_pszClientStat_LoginAccepted_hd			= "Logged in (ID = %hd)";
+char* g_pszClientStat_Startup						= "Trying to connect...";
+char* g_pszClientStat_Default						= "Ready";
+char* g_pszClientStat_Error_s						= "Network error (%s) -- aborting";
+char* g_pszClientStat_Retrying					= "Retry...";
 
 // Server-specific messages displayed in server dialog's status area
-const char* g_pszServerStat_InvalidDropReq_hd		= "Ignored invalid drop request (ID = %hd)";
-const char* g_pszServerStat_AcceptedClient			= "\"%s\" has joined";
-const char* g_pszServerStat_CantAcceptJoinReq		= "Can't grant join request (too many players)";
-const char* g_pszServerStat_InvalidChangeReq_hd		= "Ignored invalid change request (ID = %hd)";
-const char* g_pszServerStat_LoginAccepted_hd			= "Login accepted (id = %hd)";
-const char* g_pszServerStat_LoginDeniedVersion_ld	= "Login denied (obsolete client version %i)";
-const char* g_pszServerStat_LoginDeniedMagic			= "Login denied (invalid signature)";
-const char* g_pszServerStat_Startup						= "Setting up connection...";
-const char* g_pszServerStat_Default						= "Ready";
-const char* g_pszServerStat_CantDropSelf				= "You can't drop yourself";
-const char* g_pszServerStat_PlayerErr					= "Player was dropped (bad connection)";
+char* g_pszServerStat_InvalidDropReq_hd		= "Ignored invalid drop request (ID = %hd)";
+char* g_pszServerStat_AcceptedClient			= "\"%s\" has joined";
+char* g_pszServerStat_CantAcceptJoinReq		= "Can't grant join request (too many players)";
+char* g_pszServerStat_InvalidChangeReq_hd		= "Ignored invalid change request (ID = %hd)";
+char* g_pszServerStat_LoginAccepted_hd			= "Login accepted (id = %hd)";
+char* g_pszServerStat_LoginDeniedVersion_ld	= "Login denied (obsolete client version %ld)";
+char* g_pszServerStat_LoginDeniedMagic			= "Login denied (invalid signature)";
+char* g_pszServerStat_Startup						= "Setting up connection...";
+char* g_pszServerStat_Default						= "Ready";
+char* g_pszServerStat_CantDropSelf				= "You can't drop yourself";
+char* g_pszServerStat_PlayerErr					= "Player was dropped (bad connection)";
 
 // General messages displayed in client or server dialog's status area
-const char* g_pszNetStat_Aborting						= "Aborting...";
-const char* g_pszNetStat_Starting						= "Starting game...";
-const char* g_pszNetStat_AttemptToDrop_s				= "Attempting to drop \"%s\"";
-const char* g_pszNetStat_UnhandledMsg					= "Ignoring extraneous message";
+char* g_pszNetStat_Aborting						= "Aborting...";
+char* g_pszNetStat_Starting						= "Starting game...";
+char* g_pszNetStat_AttemptToDrop_s				= "Attempting to drop \"%s\"";
+char* g_pszNetStat_UnhandledMsg					= "Ignoring extraneous message";
 
-const char* g_pszNetStat_NoError							= "No errors";
-const char* g_pszNetStat_ReceiveError					= "Network error (can't receive data)";
-const char* g_pszNetStat_InQFullError					= "Network error (input buffer is full)";
-const char* g_pszNetStat_OutQFullError					= "Network error (output buffer is full)";
-const char* g_pszNetStat_SendError						= "Network error (can't send data)";
-const char* g_pszNetStat_InQReadError					= "Network error (can't read data)";
-const char* g_pszNetStat_OutQWriteError				= "Network error (couldn't write data)";
-const char* g_pszNetStat_ConnectionError				= "Network error (bad connection)";
-const char* g_pszNetStat_TimeoutError					= "Network error (time-out)";
-const char* g_pszNetStat_ListenError					= "Network error (can't listen)";
-const char* g_pszNetStat_ConnectError					= "Network error (can't connect)";
-const char* g_pszNetStat_ConnectTimeoutError			= "Network error (connection attempt timed-out)";
-const char* g_pszNetStat_ClientVersionMismatchError_lu_lu	= "Version mismatch--dropping (Host ver is %u -- Our ver is %u)";
-const char* g_pszNetStat_ServerVersionMismatchError_lu_lu	= "Version mismatch--dropping client (Client ver is %u -- Our ver is %u)";
-const char* g_pszNetStat_CantOpenPeerSocketError	= "Network error (couldn't connect to other players)";
-const char* g_pszNetStat_LoginDeniedError				= "Login failed";
-const char* g_pszNetStat_JoinDeniedError				= "Host refused join request";
-const char* g_pszNetStat_UnknownError					= "Network error (general failure)";
-const char* g_pszNetStat_ProgramError					= "Network error (generic failure)";
+char* g_pszNetStat_NoError							= "No errors";
+char* g_pszNetStat_ReceiveError					= "Network error (can't receive data)";
+char* g_pszNetStat_InQFullError					= "Network error (input buffer is full)";
+char* g_pszNetStat_OutQFullError					= "Network error (output buffer is full)";
+char* g_pszNetStat_SendError						= "Network error (can't send data)";
+char* g_pszNetStat_InQReadError					= "Network error (can't read data)";
+char* g_pszNetStat_OutQWriteError				= "Network error (couldn't write data)";
+char* g_pszNetStat_ConnectionError				= "Network error (bad connection)";
+char* g_pszNetStat_TimeoutError					= "Network error (time-out)";
+char* g_pszNetStat_ListenError					= "Network error (can't listen)";
+char* g_pszNetStat_ConnectError					= "Network error (can't connect)";
+char* g_pszNetStat_ConnectTimeoutError			= "Network error (connection attempt timed-out)";
+char* g_pszNetStat_ClientVersionMismatchError_lu_lu	= "Version mismatch--dropping (Host ver is %lu -- Our ver is %lu)";
+char* g_pszNetStat_ServerVersionMismatchError_lu_lu	= "Version mismatch--dropping client (Client ver is %lu -- Our ver is %lu)";
+char* g_pszNetStat_CantOpenPeerSocketError	= "Network error (couldn't connect to other players)";
+char* g_pszNetStat_LoginDeniedError				= "Login failed";
+char* g_pszNetStat_JoinDeniedError				= "Host refused join request";
+char* g_pszNetStat_UnknownError					= "Network error (general failure)";
+char* g_pszNetStat_ProgramError					= "Network error (generic failure)";
 #if defined(WIN32)
-   const char* g_pszNetStat_ClientPlatformMismatchError	= "Cannot login to host because it is a Mac";
-   const char* g_pszNetStat_ServerPlatformMismatchError	= "Cannot allow client to connect because it is a Mac";
+	char* g_pszNetStat_ClientPlatformMismatchError	= "Cannot login to host because it is a Mac";
+	char* g_pszNetStat_ServerPlatformMismatchError	= "Cannot allow client to connect because it is a Mac";
 #else
-   const char* g_pszNetStat_ClientPlatformMismatchError	= "Cannot login to host because it is a PC";
-   const char* g_pszNetStat_ServerPlatformMismatchError	= "Cannot allow client to connect because it is a PC";
+	char* g_pszNetStat_ClientPlatformMismatchError	= "Cannot login to host because it is a PC";
+	char* g_pszNetStat_ServerPlatformMismatchError	= "Cannot allow client to connect because it is a PC";
 #endif
 
 // This is  what we say when the user has chosen a protocol that is not supported.
 // There are two variations: one for if the user only has one choice (because we
 // only support that one) and the other for if the user can try another choice.
-const char* g_pszNetOnlyProtocolUnsupported_s =
+char* g_pszNetOnlyProtocolUnsupported_s =
 	"Your system does not support \"%s\", which is the required network protocol.\n"
 	"\n"
 	"This protocol must be added to your system before multiplayer mode can be used.";
 
-const char* g_pszNetProtocolUnsupported_s =
+char* g_pszNetProtocolUnsupported_s =
 	"Your system does not support \"%s\", which is the currently selected network protocol.\n"
 	"\n"
 	"Either add this protocol to your system or choose a different protocol from the "
 	"multiplayer options menu.";
 
 // Text which is used to dynamically update one of the text fields on the client or server dialog
-const char* g_pszNetDlg_ConnectedPlayers_d			= "Connected Players: %d";
+char* g_pszNetDlg_ConnectedPlayers_d			= "Connected Players: %d";
 
 // Text which is used for the net problems GUI.
 // WARNING: This is an EXTERN and is used by other modules!
-const char*	g_pszNetProb_General =
+char*	g_pszNetProb_General =
 	"Network not responding.\nYou can wait or\npress " NET_PROB_GUI_ABORT_KEY_TEXT" to abort";
 
 // Text to prefix net status messages, if any.
-const char* g_pszNetStatusMsgPrefix						= "> ";
+char* g_pszNetStatusMsgPrefix						= "> ";
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -532,44 +531,44 @@ typedef struct
 //////////////////////////////////////////////////////////////////////////////
 
 // Common.
-static RGuiItem*	ms_pguiRoot			= nullptr;		// Root of GUI tree for network interface.
-static RGuiItem*	ms_pguiOk			= nullptr;		// GUI that, once 'clicked', indicates acceptance.
-static RGuiItem*	ms_pguiCancel		= nullptr;		// GUI that, once 'clicked', indicates rejection.
+static RGuiItem*	ms_pguiRoot			= NULL;		// Root of GUI tree for network interface.
+static RGuiItem*	ms_pguiOk			= NULL;		// GUI that, once 'clicked', indicates acceptance.
+static RGuiItem*	ms_pguiCancel		= NULL;		// GUI that, once 'clicked', indicates rejection.
 
 // Client/Server common.
-static RListBox*	ms_plbPlayers		= nullptr;		// Listbox used by both types of net dialogs.
-static RListBox*	ms_plbNetConsole	= nullptr;		// List of net console (chat and status) strings.
-static RGuiItem*	ms_pguiChatText	= nullptr;		// Chat text.
-static RGuiItem*	ms_pguiChatSend	= nullptr;		// Chat send button.
+static RListBox*	ms_plbPlayers		= NULL;		// Listbox used by both types of net dialogs.
+static RListBox*	ms_plbNetConsole	= NULL;		// List of net console (chat and status) strings.
+static RGuiItem*	ms_pguiChatText	= NULL;		// Chat text.
+static RGuiItem*	ms_pguiChatSend	= NULL;		// Chat send button.
 
 // Server.
-static RListBox*	ms_plbLevelBrowse	= nullptr;		// Level browse listbox.
-static RGuiItem*	ms_pguiDisconnectPlayer	= nullptr;	// Disconnect a player button.
-static RMultiBtn*	ms_pmbCoopLevels	= nullptr;		// Coop levels checkbox.
-static RMultiBtn*	ms_pmbCoopMode		= nullptr;		// Coop mode checkbox.
+static RListBox*	ms_plbLevelBrowse	= NULL;		// Level browse listbox.
+static RGuiItem*	ms_pguiDisconnectPlayer	= NULL;	// Disconnect a player button.
+static RMultiBtn*	ms_pmbCoopLevels	= NULL;		// Coop levels checkbox.
+static RMultiBtn*	ms_pmbCoopMode		= NULL;		// Coop mode checkbox.
 
 // Client.
-static RGuiItem*	ms_pguiOptions		= nullptr;		// Options shown on client dialog.
-static RGuiItem*	ms_pguiRetry		= nullptr;		// Retry button on client dialog shown when needed.
+static RGuiItem*	ms_pguiOptions		= NULL;		// Options shown on client dialog.
+static RGuiItem*	ms_pguiRetry		= NULL;		// Retry button on client dialog shown when needed.
 
 // Browser.
-static RListBox*	ms_plbHostBrowse	= nullptr;		// Browse for host listbox.
+static RListBox*	ms_plbHostBrowse	= NULL;		// Browse for host listbox.
 
 // Other static vars.
 
-static milliseconds_t			ms_lWatchdogTime = 0;			// Watchdog timer
+static int32_t			ms_lWatchdogTime = 0;			// Watchdog timer
 static bool			ms_bNetBlockingAbort = false;	// Net blocking abort flag
 
-static uint32_t			ms_lNumConsoleEntries		= 0;			// Track number of chat items.
+static int32_t			ms_lNumConsoleEntries		= 0;			// Track number of chat items.
 
 static bool			ms_bGotSetupMsg = false;
-static uint16_t		ms_sSetupRealmNum = 0;
+static int16_t		ms_sSetupRealmNum = 0;
 static char			ms_szSetupRealmFile[Net::MaxRealmNameSize];
-//static int32_t			ms_lSetupLastChatComplaint = 0;
+static int32_t			ms_lSetupLastChatComplaint = 0;
 
-static milliseconds_t			ms_lNextOptionsUpdateTime;		// Next time to send an options update.
+static int32_t			ms_lNextOptionsUpdateTime;		// Next time to send an options update.
 
-static RTxt*		ms_ptxtNetProb	= nullptr;			// Net problem GUI.
+static RTxt*		ms_ptxtNetProb	= NULL;			// Net problem GUI.
 static bool			m_bNetWatchdogExpired	= false;	// Whether net blocking expired
 static bool			ms_bCoopLevels	= false;			// true, to use cooperative levels.
 
@@ -648,7 +647,7 @@ void DlgReleaseRes(										// Returns 0 if successfull, non-zero otherwise
 static int16_t NetBlockingCallback(void);			// Returns 0 to continue normally, 1 to abort
 
 static int16_t BrowseForHost(
-   CNetServer*	pserver,									// I/O: Server interface or nullptr if none
+	CNetServer*	pserver,									// I/O: Server interface or NULL if none
 	RSocket::Address* paddress);						// Out: Address returned here (if successfull)
 
 static int16_t FindSpecificSystem(
@@ -703,18 +702,18 @@ void UploadLinkInteger(			// Returns nothing.
 			if ((Int)-1 < 0)
 				{
 				// Signed.
-            pgui->SetText("%i", (long)i);
+				pgui->SetText("%ld", (long)i);
 				}
 			else
 				{
 				// Unsigned.
-            pgui->SetText("%u", (uint32_t)i);
+				pgui->SetText("%lu", (uint32_t)i);
 				}
 #else
 			// Hardwire to signed b/c bool was displaying a warning regarding the
 			// above comparison to determine the [un]signed nature of the templated
 			// type.
-         pgui->SetText("%i", (int32_t)i);
+			pgui->SetText("%ld", (int32_t)i);
 #endif
 			break;
 		}
@@ -757,7 +756,7 @@ void DownloadLinkInteger(		// Returns nothing.
 			else
 				{
 				// Unsigned.
-            *pi = strtoul(pgui->m_szText, nullptr, 0);
+				*pi = strtoul(pgui->m_szText, NULL, 0);
 				}
 #else
 			// Hardwire to signed b/c bool was displaying a warning regarding the
@@ -1005,9 +1004,9 @@ static void CleanClientDlg(
 //////////////////////////////////////////////////////////////////////////////
 static int16_t ShowLevels(void)						// Returns 0 on success.
 	{
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
-   if (ms_plbLevelBrowse != nullptr)
+	if (ms_plbLevelBrowse != NULL)
 		{
 		// Must be listbox.
 		ASSERT(ms_plbLevelBrowse->m_type == RGuiItem::ListBox);
@@ -1016,24 +1015,24 @@ static int16_t ShowLevels(void)						// Returns 0 on success.
 
 		#if !defined(ENABLE_PLAY_SPECIFIC_REALMS_ONLY)
 			// Add all the available realms.
-         char	szRealm[PATH_MAX+1];
+			char	szRealm[RSP_MAX_PATH+1];
 			char	szTitle[512];
 			int16_t	i	= 0;
-         while (sResult == SUCCESS)
+			while (sRes == 0)
 				{
 				// Get realm name from realm prefs file
-            sResult = Play_GetRealmInfo(true, ms_bCoopLevels, false, false, i, g_GameSettings.m_sDifficulty, szRealm, sizeof(szRealm), szTitle, sizeof(szTitle));
-            if (sResult == 1)
+				sRes = Play_GetRealmInfo(true, ms_bCoopLevels, false, false, i, g_GameSettings.m_sDifficulty, szRealm, sizeof(szRealm), szTitle, sizeof(szTitle));
+				if (sRes == 1)
 					{
 					// That's it.
-               sResult = SUCCESS;
+					sRes	= 0;
 					break;
 					}
-            else if (sResult == SUCCESS)
+				else if (sRes == 0)
 					{
 					// Add to listbox.
 					RGuiItem*	pguiLevel = ms_plbLevelBrowse->AddString(szTitle);
-               if (pguiLevel != nullptr)
+					if (pguiLevel != NULL)
 						{
 						// Activate shadow parameters.
 						MakeMoreReadable(pguiLevel);
@@ -1044,7 +1043,7 @@ static int16_t ShowLevels(void)						// Returns 0 on success.
 					else
 						{
 						TRACE("ShowLevels(): Failed to add string to listbox.\n");
-                  sResult = FAILURE;
+						sRes	= -1;
 						}
 					}
 				i++;
@@ -1054,7 +1053,7 @@ static int16_t ShowLevels(void)						// Returns 0 on success.
 
 			// Add the one and only level option.
 			RGuiItem*	pguiLevel = ms_plbLevelBrowse->AddString(SPECIFIC_MP_REALM_TEXT);
-         if (pguiLevel != nullptr)
+			if (pguiLevel != NULL)
 				{
 				// Activate shadow parameters.
 				MakeMoreReadable(pguiLevel);
@@ -1065,7 +1064,7 @@ static int16_t ShowLevels(void)						// Returns 0 on success.
 			else
 				{
 				TRACE("ShowLevels(): Failed to add string to listbox.\n");
-            sResult = FAILURE;
+				sRes	= -1;
 				}
 
 		#endif	// ENABLE_PLAY_SPECIFIC_REALMS_ONLY
@@ -1076,7 +1075,7 @@ static int16_t ShowLevels(void)						// Returns 0 on success.
 		ms_plbLevelBrowse->AdjustContents();
 		}
 
-   return sResult;
+	return sRes;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -1089,25 +1088,25 @@ static void DlgBeGone(void)
 	// Clean up processor.
 	ms_pgDoGui.Unprepare();
 
-   if (ms_pguiRoot != nullptr)
+	if (ms_pguiRoot != NULL)
 		{
 		delete ms_pguiRoot;
 		}
 
-   ms_pguiRoot					= nullptr;
-   ms_pguiOk					= nullptr;
-   ms_pguiCancel				= nullptr;
-   ms_plbPlayers				= nullptr;
-   ms_plbNetConsole			= nullptr;
-   ms_pguiChatText			= nullptr;
-   ms_pguiChatSend			= nullptr;
-   ms_plbLevelBrowse			= nullptr;
-   ms_pguiOptions				= nullptr;
-   ms_pguiDisconnectPlayer	= nullptr;
-   ms_pmbCoopLevels			= nullptr;
-   ms_pmbCoopMode				= nullptr;
-   ms_plbHostBrowse			= nullptr;
-   ms_pguiRetry				= nullptr;
+	ms_pguiRoot					= NULL;
+	ms_pguiOk					= NULL;
+	ms_pguiCancel				= NULL;
+	ms_plbPlayers				= NULL;
+	ms_plbNetConsole			= NULL;
+	ms_pguiChatText			= NULL;
+	ms_pguiChatSend			= NULL;
+	ms_plbLevelBrowse			= NULL;
+	ms_pguiOptions				= NULL;
+	ms_pguiDisconnectPlayer	= NULL;
+	ms_pmbCoopLevels			= NULL;
+	ms_pmbCoopMode				= NULL;
+	ms_plbHostBrowse			= NULL;
+	ms_pguiRetry				= NULL;
 	}
 
 
@@ -1117,10 +1116,10 @@ static void DlgBeGone(void)
 //
 //////////////////////////////////////////////////////////////////////////////
 static int16_t SetupDlg(		// Returns 0 on success.
-    const char* pszGuiFile,			// In:  Full path to GUI file.
+	char*	pszGuiFile,			// In:  Full path to GUI file.
 	DLG_TYPE	type)				// In:  Type of dialog.
 	{
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	// Make sure everything is clean.
 	DlgBeGone();
@@ -1137,7 +1136,7 @@ static int16_t SetupDlg(		// Returns 0 on success.
 	// has already been loaded (or failed to load in this case because the
 	// gui stuff can't possibly know the correct path for loading it).
 	ms_pguiRoot = new RDlg;
-   if (ms_pguiRoot != nullptr)
+	if (ms_pguiRoot != NULL)
 		{
 		// Setup callbacks for getting and releasing resources
 		ms_pguiRoot->m_fnGetRes = DlgGetRes;
@@ -1148,8 +1147,8 @@ static int16_t SetupDlg(		// Returns 0 on success.
 		ms_pguiRoot->m_pprint->SetFont(15, &g_fontPostal);
 
 		// Load the gui description file
-      sResult = ms_pguiRoot->Load(pszGuiFile);
-      if (sResult == SUCCESS)
+		sRes = ms_pguiRoot->Load(pszGuiFile);
+		if (sRes == 0)
 			{
 
 			// Set focus to first child control or none if there's none.
@@ -1167,7 +1166,7 @@ static int16_t SetupDlg(		// Returns 0 on success.
 					UploadLinks(ms_aglClientServerLinkage, ms_pguiRoot);
 
 					// If exists . . .
-               if (ms_plbPlayers != nullptr)
+					if (ms_plbPlayers != NULL)
 						{
 						// Must be listbox.
 						ASSERT(ms_plbPlayers->m_type == RGuiItem::ListBox);
@@ -1176,7 +1175,7 @@ static int16_t SetupDlg(		// Returns 0 on success.
 						}
 
 					// If exists . . .
-               if (ms_pguiChatText != nullptr)
+					if (ms_pguiChatText != NULL)
 						{
 						// Must be edit.
 						ASSERT(ms_pguiChatText->m_type == RGuiItem::Edit);
@@ -1211,7 +1210,7 @@ static int16_t SetupDlg(		// Returns 0 on success.
 					UploadLinks(ms_aglClientServerLinkage, ms_pguiRoot);
 
 					// If exists . . .
-               if (ms_plbPlayers != nullptr)
+					if (ms_plbPlayers != NULL)
 						{
 						// Must be listbox.
 						ASSERT(ms_plbPlayers->m_type == RGuiItem::ListBox);
@@ -1220,7 +1219,7 @@ static int16_t SetupDlg(		// Returns 0 on success.
 						}
 
 					// If exists . . .
-               if (ms_pguiChatText != nullptr)
+					if (ms_pguiChatText != NULL)
 						{
 						// Must be edit.
 						ASSERT(ms_pguiChatText->m_type == RGuiItem::Edit);
@@ -1300,16 +1299,16 @@ static int16_t SetupDlg(		// Returns 0 on success.
 	else
 		{
 		TRACE("SetupDlg(): Failed to allocate RDlg!\n");
-      sResult = FAILURE;
+		sRes = -1;
 		}
 
 	// If any errors . . .
-   if (sResult != SUCCESS)
+	if (sRes != 0)
 		{
 		DlgBeGone();
 		}
 
-   return sResult;
+	return sRes;
 	}
 
 
@@ -1321,7 +1320,7 @@ static int16_t SetupDlg(		// Returns 0 on success.
 int16_t DlgGetRes(											// Returns 0 if successfull, non-zero otherwise
 	RGuiItem* pgui)										// I/O: Pointer to gui item
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Release resources first (just in case)
 	DlgReleaseRes(pgui);
@@ -1329,13 +1328,13 @@ int16_t DlgGetRes(											// Returns 0 if successfull, non-zero otherwise
 	// Allocate and load new resources.  We get the name of the file (which
 	// is ASSUMED to have NO PATH!!) from the gui itself, then tack on the
 	// path we need and get the resource from the resource manager.
-   char szFile[PATH_MAX * 2];
+	char szFile[RSP_MAX_PATH * 2];
 	sprintf(szFile, "%s%s", GUI_DIR, pgui->m_szBkdResName);
 
-   if (rspGetResource(&g_resmgrShell, szFile, &pgui->m_pimBkdRes) == SUCCESS)
+	if (rspGetResource(&g_resmgrShell, szFile, &pgui->m_pimBkdRes) == 0)
 		{
 		// Set palette
-      ASSERT(pgui->m_pimBkdRes->m_pPalette != nullptr);
+		ASSERT(pgui->m_pimBkdRes->m_pPalette != NULL);
 		ASSERT(pgui->m_pimBkdRes->m_pPalette->m_type == RPal::PDIB);
 		rspSetPaletteEntries(
 			0,
@@ -1350,7 +1349,7 @@ int16_t DlgGetRes(											// Returns 0 if successfull, non-zero otherwise
 		}
 	else
 		{
-		sResult = FAILURE;
+		sResult = -1;
 		TRACE("DlgGetRes(): Failed to open file '%s'\n", FullPathVD(szFile));
 		}
 
@@ -1503,7 +1502,7 @@ static DLG_ACTION UpdateDialog(						// Returns dialog action
 	if (action == DLG_NOTHING)
 		{
 		// Temporarily timed based. ***
-      milliseconds_t	lCurTime	= rspGetMilliseconds();
+		int32_t	lCurTime	= rspGetMilliseconds();
 		if (lCurTime > ms_lNextOptionsUpdateTime)
 			{
 			if (bReset)
@@ -1558,7 +1557,7 @@ static int16_t UpdateListBox(					// Returns 0 on success.
 	CNetBrowse::Hosts* phostslistAdded,		// In:  Hosts to add to listbox.
 	CNetBrowse::Hosts* phostslistDropped)	// In:  Hosts to drop from listbox.
 	{
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	if (plb)
 		{
@@ -1579,9 +1578,9 @@ static int16_t UpdateListBox(					// Returns 0 on success.
 					MakeMoreReadable(pgui);
 					pgui->Compose();
 					// Point GUI at entry.
-               pgui->m_ulUserData = reinterpret_cast<uintptr_t>(phost);
+					pgui->m_ulUserData	= (U64)phost;
 					// Successfully added entry.
-               phost->m_u32User = reinterpret_cast<uintptr_t>(pgui);
+					phost->m_u32User	= (U64)pgui;
 					// Note that we updated the dialog and will need to re-adjust
 					// fields and recompose.
 					bRepaginate	= true;
@@ -1589,7 +1588,7 @@ static int16_t UpdateListBox(					// Returns 0 on success.
 				else
 					{
 					TRACE("UpdateListBox():  Failed to add a host to the listbox.\n");
-//					sResult = FAILURE;	// Error?
+//					sResult	= -1;	// Error?
 					}
 				}
 			}
@@ -1606,14 +1605,14 @@ static int16_t UpdateListBox(					// Returns 0 on success.
 		while (phostslistDropped->GetHead())
 			{
 			// Get pointer to first host in list
-         uintptr_t u32User = phostslistDropped->GetHeadData().m_u32User;
+			U32 u32User = phostslistDropped->GetHeadData().m_u32User;
 
 			// We should have already been using this.
 			ASSERT(u32User);
 			if (u32User)
 				{
 				// Remove the corresponding GUI list entry from the listbox.
-            plb->RemoveItem(reinterpret_cast<RGuiItem*>(u32User));
+				plb->RemoveItem((RGuiItem*)(u32User));
 				// Note that we updated the dialog and will need to re-adjust
 				// fields and recompose.
 				bRepaginate	= true;
@@ -1644,7 +1643,7 @@ static int16_t UpdateListBox(					// Returns 0 on success.
 	else
 		{
 		TRACE("UpdateListBox():  No listbox to update.\n");
-		sResult = FAILURE;
+		sResult	= -1;
 		}
 
 	return sResult;
@@ -1660,19 +1659,16 @@ static void AddConsoleMsg(	// Returns nothing.
 	const char* pszFrmt,		// In:  sprintf style formatting.
 	...)							// In:  Optional arguments based on context of pszFrmt.
 	{
-   if (ms_plbNetConsole != nullptr)
+	if (ms_plbNetConsole != NULL)
 		{
 		char szOutput[MAX_STATUS_STR];
 
-      if(pszFrmt != nullptr) // safety first
-      {
-        va_list varp;
-        va_start(varp, pszFrmt);
-        vsprintf(szOutput, pszFrmt, varp);
-        va_end(varp);
-      }
+		va_list varp;
+		va_start(varp, pszFrmt);    
+		vsprintf(szOutput, pszFrmt, varp);
+		va_end(varp);
 
-		uint32_t	u32TextColor	= ms_plbNetConsole->m_u32TextColor;
+		U32	u32TextColor	= ms_plbNetConsole->m_u32TextColor;
 
 		char szMsg[MAX_STATUS_STR];
 		// If it's a chat message . . .
@@ -1727,7 +1723,7 @@ static void AddConsoleMsg(	// Returns nothing.
 				// Subtract the border thickness since we don't use it but add 1 for text shadow effect.
 				pguiConsoleMsg->m_im.m_sWidth - sOrigTotalBorderThickness + 1,
 				pguiConsoleMsg->m_im.m_sHeight - sOrigTotalBorderThickness + 1,
-            pguiConsoleMsg->m_im.m_sDepth) == SUCCESS)
+				pguiConsoleMsg->m_im.m_sDepth) == 0)
 				{
 				// We cannot click on these.
 				pguiConsoleMsg->m_sActive	= FALSE;
@@ -1741,7 +1737,7 @@ static void AddConsoleMsg(	// Returns nothing.
 				{
 				// This is useless then.
 				delete pguiConsoleMsg;
-            pguiConsoleMsg	= nullptr;
+				pguiConsoleMsg	= NULL;
 				}
 			}
 		else
@@ -1766,7 +1762,7 @@ extern const char* NetErrorText(						// Returns pointer to text
 	NetMsg* pmsg)											// In:  Error message
 	{
 	static char szStaticErrorText[512];
-   const char* pText = nullptr;
+	char* pText = "";
 	if (pmsg->msg.nothing.ucType == NetMsg::ERR)
 		{
 		switch (pmsg->msg.err.error)
@@ -1808,12 +1804,12 @@ extern const char* NetErrorText(						// Returns pointer to text
 				pText = g_pszNetStat_ConnectTimeoutError;
 				break;
 			case NetMsg::ServerVersionMismatchError:
-            sprintf(szStaticErrorText, g_pszNetStat_ServerVersionMismatchError_lu_lu, pmsg->msg.err.ulParam, CNetMsgr::CurVersionNum & ~CNetMsgr::MacVersionBit);
-            pText = szStaticErrorText;
+				pText = szStaticErrorText;
+				sprintf(pText, g_pszNetStat_ServerVersionMismatchError_lu_lu, pmsg->msg.err.ulParam, CNetMsgr::CurVersionNum & ~CNetMsgr::MacVersionBit);
 				break;
 			case NetMsg::ClientVersionMismatchError:
-            sprintf(szStaticErrorText, g_pszNetStat_ClientVersionMismatchError_lu_lu, pmsg->msg.err.ulParam, CNetMsgr::CurVersionNum & ~CNetMsgr::MacVersionBit);
-            pText = szStaticErrorText;
+				pText = szStaticErrorText;
+				sprintf(pText, g_pszNetStat_ClientVersionMismatchError_lu_lu, pmsg->msg.err.ulParam, CNetMsgr::CurVersionNum & ~CNetMsgr::MacVersionBit);
 				break;
 			case NetMsg::LoginDeniedError:
 				pText = g_pszNetStat_LoginDeniedError;
@@ -1843,22 +1839,22 @@ extern const char* NetErrorText(						// Returns pointer to text
 // Get the realm filename from the realm title, using the INI.
 //
 //////////////////////////////////////////////////////////////////////////////
-static int16_t GetRealmFileFromRealmTitle(	// Returns SUCCESS, if found; negative otherwise.
+static int16_t GetRealmFileFromRealmTitle(	// Returns 0, if found; non-zero
+														// otherwise.
 	bool	bCoopLevel,								// In:  true, if a coop level; false, if deathmatch level.
-   const char*	pszRealmTitle,							// In:  Realm title.
+	char*	pszRealmTitle,							// In:  Realm title.
 	char* pszRealmFileName,						// Out: Realm filename.
 	int16_t sMaxLen)									// In:  Max space available at 
 														// pszRealmFileName.
 	{
-  UNUSED(sMaxLen);
-   int16_t sResult	= SUCCESS;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	RPrefs prefsRealm;
 	// Try opening the realms.ini file on the HD path first, if that fails go to the CD
 	sResult = prefsRealm.Open(FullPathHD(g_GameSettings.m_pszRealmPrefsFile), "rt");
-   if (sResult != SUCCESS)
+	if (sResult != 0)
 		sResult = prefsRealm.Open(FullPathCD(g_GameSettings.m_pszRealmPrefsFile), "rt");
-   if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// Try each realm section until we find the title we're looking for
 		// or we find an empty entry.
@@ -1901,7 +1897,7 @@ static int16_t GetRealmFileFromRealmTitle(	// Returns SUCCESS, if found; negativ
 		if (bFound == false)
 			{
 			// Let the caller know.
-         sResult	= FAILURE;
+			sResult	= 1;
 			}
 		}
 
@@ -1934,8 +1930,8 @@ static void OnDroppedMsg(
 	RSP_SAFE_GUI_REF_VOID(pguiConnected, Compose());
 
 	// Get client's GUI . . .
-   RGuiItem* pguiClient = ms_plbPlayers->GetItemFromId(static_cast<uint32_t>(pmsg->msg.dropped.id));
-   if (pguiClient != nullptr)
+	RGuiItem* pguiClient = ms_plbPlayers->GetItemFromId( int32_t(pmsg->msg.dropped.id));
+	if (pguiClient != NULL)
 		{
 		// Remove the item.
 		ms_plbPlayers->RemoveItem(pguiClient);
@@ -1958,7 +1954,7 @@ static int16_t OnJoinedMsg(	// Returns 0 on success.
 	NetMsg*		pmsg,			// In:  Joined msg from client to add.
 	bool			bServer)		// In:  true if in server mode; false if client.
 	{
-   int16_t sResult	= SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	ASSERT(pmsg->msg.nothing.ucType == NetMsg::JOINED);
 	
@@ -1979,7 +1975,7 @@ static int16_t OnJoinedMsg(	// Returns 0 on success.
 	RSP_SAFE_GUI_REF_VOID(pguiConnected, Compose() );
 
 	RGuiItem* pguiClient = ms_plbPlayers->AddString(szPlayer);
-   if (pguiClient != nullptr)
+	if (pguiClient != NULL)
 		{
 		// Let's be able to identify this client by its net ID.
 		pguiClient->m_lId	= (int32_t)pmsg->msg.joined.id;
@@ -2001,13 +1997,13 @@ static int16_t OnJoinedMsg(	// Returns 0 on success.
 	else
 		{
 		TRACE("OnJoinedMsg(): ms_plbPlayers->AddString() failed.\n");
-      sResult = FAILURE;
+		sRes = -1;
 		}
 
-   return sResult;
+	return sRes;
 	}
 
-#ifdef UNUSED_FUNCTIONS
+
 //////////////////////////////////////////////////////////////////////////////
 //
 // Player has changed info
@@ -2017,16 +2013,15 @@ static int16_t OnChangedMsg(	// Returns 0 on success.
 	CNetClient*	pnet,			// In:  Network interface.
 	NetMsg*		pmsg)			// In:  Changed msg
 	{
-  UNUSED(pnet);
-   int16_t sResult	= SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	ASSERT(pmsg->msg.nothing.ucType == NetMsg::CHANGED);
 
 	TRACE("OnChangedMsg(): Changes are not yet refelected in the gui's!\n");
 
-   return sResult;
+	return sRes;
 	}
-#endif
+
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -2037,7 +2032,6 @@ static void OnChatMsg(
 	CNetClient*	pnet,				// In:  Network interface.
 	NetMsg*		pmsg)				// In:  Chat msg.
 	{
-  UNUSED(pnet);
 	ASSERT(pmsg->msg.nothing.ucType == NetMsg::CHAT);
 	AddConsoleMsg(true, "%s", pmsg->msg.chat.acText);
 	}
@@ -2102,7 +2096,7 @@ static void OnSetupGameMsg(
 			if (pmsg->msg.setupGame.sRealmNum > -1)
 				{
 				// Convert realm number to file name
-            char szFile[PATH_MAX];
+				char szFile[RSP_MAX_PATH];
 				if (Play_GetRealmInfo(
 					true,					// Multiplayer
 					pmsg->msg.setupGame.sCoopLevels ? true : false,	// Cooperative or Deathmatch levels
@@ -2111,7 +2105,7 @@ static void OnSetupGameMsg(
 					pmsg->msg.setupGame.sRealmNum,
 					pmsg->msg.setupGame.sDifficulty,
 					szFile,
-               sizeof(szFile)) == SUCCESS)
+					sizeof(szFile)) == 0)
 					{
 					// Check if file is available
 					if (CRealm::DoesFileExist(szFile))
@@ -2123,12 +2117,12 @@ static void OnSetupGameMsg(
 				// acRealmFile, due to a bizzarre twist of events, is never a filename
 				// but, rather, the title of the realm.  The only way we can get a filename
 				// from this title is to scan the NetRealm's in the INI.
-            char	szRealmFileName[PATH_MAX];
+				char	szRealmFileName[RSP_MAX_PATH];
 				if (GetRealmFileFromRealmTitle(
 					pmsg->msg.setupGame.sCoopLevels ? true : false,	// Cooperative or Deathmatch levels
 					pmsg->msg.setupGame.acRealmFile,
 					szRealmFileName,
-               sizeof(szRealmFileName) ) == SUCCESS)
+					sizeof(szRealmFileName) ) == 0)
 					{
 					// Check if file is available
 					if (CRealm::DoesFileExist(szRealmFileName))
@@ -2267,12 +2261,12 @@ void ProtoNotSupported(void)
 extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero otherwise.
 	CNetClient*	pclient,									// I/O: Client interface
 	bool bBrowse,											// In:  Whether to browse (true) or connect (false)
-   CNetServer*	pserver,									// I/O: Server interface or nullptr if not server
+	CNetServer*	pserver,									// I/O: Server interface or NULL if not server
 	NetMsg* pmsgOut)										// Out: NetMsg::NOTHING or NetMsg::START_GAME
 	{
-   ASSERT(pclient != nullptr);
+	ASSERT(pclient != NULL);
 
-   int16_t sResult = SUCCESS;									// Assume success.
+	int16_t	sResult = 0;									// Assume success.
 
 	// Under Win95 with DirectX, certain problems have come up due to a
 	// combination of our hogging the CPU and DirectX adding to that hogging,
@@ -2283,17 +2277,17 @@ extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero othe
 	rspSetDoSystemMode(RSP_DOSYSTEM_TOLERATEOS);
 
 	// Init globals
-   ms_pguiRoot			= nullptr;
-   ms_pguiOk			= nullptr;
-   ms_pguiCancel		= nullptr;
-   ms_plbPlayers		= nullptr;
-   ms_plbNetConsole	= nullptr;
-   ms_pguiChatText	= nullptr;
-   ms_pguiChatSend	= nullptr;
-   ms_plbLevelBrowse	= nullptr;
-   ms_pmbCoopLevels	= nullptr;
-   ms_pmbCoopMode		= nullptr;
-   ms_pguiRetry		= nullptr;
+	ms_pguiRoot			= NULL;
+	ms_pguiOk			= NULL;
+	ms_pguiCancel		= NULL;
+	ms_plbPlayers		= NULL;
+	ms_plbNetConsole	= NULL;
+	ms_pguiChatText	= NULL;
+	ms_pguiChatSend	= NULL;
+	ms_plbLevelBrowse	= NULL;
+	ms_pmbCoopLevels	= NULL;
+	ms_pmbCoopMode		= NULL;
+	ms_pguiRetry		= NULL;
 	ms_lWatchdogTime	= 0;
 	ms_bNetBlockingAbort = false;
 
@@ -2352,7 +2346,7 @@ extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero othe
 		// If there's a server, start it up
 		if (pserver)
 			sResult = pserver->Startup(g_GameSettings.m_usServerPort, g_GameSettings.m_szHostName,	&NetBlockingCallback);
-      if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 
 			// Host address
@@ -2361,12 +2355,12 @@ extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero othe
 			// If we're browsing, do it before the client dialog since it uses a dialog of its own
 			if (bBrowse)
 				sResult = BrowseForHost(pserver, &addressHost);
-         if (sResult == SUCCESS)
+			if (sResult == 0)
 				{
 
 				// Setup dialog in client or server mode, as appropriate
 				sResult	= SetupDlg(pserver ? FullPathHD(SERVER_GUI) : FullPathVD(CLIENT_GUI), pserver ? DLG_SERVER : DLG_CLIENT);
-            if (sResult == SUCCESS)
+				if (sResult == 0)
 					{
 					// Display "startup" messages
 					if (pserver)
@@ -2394,7 +2388,7 @@ extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero othe
 							sResult = FindSpecificSystem(&addressHost);
 							}
 						}
-               if (sResult == SUCCESS)
+					if (sResult == 0)
 						{
 
 						// This loop is used for when the user hits the "RETRY" button on the client dialog
@@ -2585,7 +2579,7 @@ extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero othe
 											if (!bStart && !bAbort)
 												{
 												// Make sure text field exists
-                                    if (ms_pguiChatText != nullptr)
+												if (ms_pguiChatText != NULL)
 													{
 													// See if there's any text
 													if (ms_pguiChatText->m_szText[0] != '\0')
@@ -2785,7 +2779,10 @@ extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero othe
 												bClientDone = true;
 											}
 										else
-                                 {
+											{
+											// Assume no problems
+											int16_t sProblem = 0;
+
 											// Process messages from server
 											pclient->GetMsg(&msg);
 											switch(msg.msg.nothing.ucType)
@@ -2838,7 +2835,7 @@ extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero othe
 													break;
 
 												case NetMsg::JOINED:
-                                       if (OnJoinedMsg(pclient, &msg, pserver ? true : false) != SUCCESS)
+													if (OnJoinedMsg(pclient, &msg, pserver ? true : false) != 0)
 														{
 														// A program error occurred, so tell them something vague
 														AddConsoleMsg(false, g_pszNetStat_ProgramError);
@@ -2996,10 +2993,10 @@ extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero othe
 //
 //////////////////////////////////////////////////////////////////////////////
 static int16_t BrowseForHost(
-   CNetServer*	pserver,									// I/O: Server interface or nullptr if none
+	CNetServer*	pserver,									// I/O: Server interface or NULL if none
 	RSocket::Address* paddress)						// Out: Address returned here (if successfull)
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Start with empty list of hosts
 	CNetBrowse::Hosts hostsAll;
@@ -3011,17 +3008,17 @@ static int16_t BrowseForHost(
 	// Create browser and start it up
 	CNetBrowse browse;
 	sResult = browse.Startup(g_GameSettings.m_usServerPort, &NetBlockingCallback);
-   if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		sResult = SetupDlg(FullPathVD(BROWSER_GUI), DLG_BROWSER);
-      if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 			// Since we don't let RProcessGUI draw cleaned up the screen, we should.
 			rspUpdateDisplay();
 
 			DLG_ACTION action	= DLG_NOTHING;
 			// Loop until error, user abort, or user choice . . .
-         while ((sResult == SUCCESS) && action != DLG_OK && action != DLG_CANCEL)
+			while ((sResult == 0) && action != DLG_OK && action != DLG_CANCEL)
 				{
 				// Do default processing.
 				UpdateSystem();
@@ -3036,7 +3033,7 @@ static int16_t BrowseForHost(
 
 				// Update listbox via added and dropped hosts lists.
 				sResult = UpdateListBox(ms_plbHostBrowse, &hostsAll, &hostsAdded, &hostsDropped);
-            if (sResult == SUCCESS)
+				if (sResult == 0)
 					{
 					// Update the dialog (user input and GUI output).
 					action	= UpdateDialog(ms_pguiRoot, true);
@@ -3048,7 +3045,7 @@ static int16_t BrowseForHost(
 				}
 
 			// If no error . . .
-         if (sResult == SUCCESS)
+			if (sResult == 0)
 				{
 				switch (action)
 					{
@@ -3060,7 +3057,7 @@ static int16_t BrowseForHost(
 						// Get selection . . .
 						RGuiItem*	pguiSel	= ms_plbHostBrowse->GetSel();
 						// If there's no selection . . .
-                  if (pguiSel == nullptr)
+						if (pguiSel == NULL)
 							{
 							// Take the first.
 							pguiSel	= ms_plbHostBrowse->GetFirst();
@@ -3079,7 +3076,7 @@ static int16_t BrowseForHost(
 						else
 							{
 							TRACE("BrowseForHost():  No host selected.\n");
-                     sResult = FAILURE * 2;
+							sResult	= -1;
 							}
 						break;
 						}
@@ -3089,12 +3086,12 @@ static int16_t BrowseForHost(
 						PlaySample(g_smidMenuItemSelect, SampleMaster::UserFeedBack);
 
 						// Cancelled.
-                  sResult = FAILURE;
+						sResult	= 1;
 						break;
 
 					default:
 						TRACE("BrowseForHost(): Unknown action.\n");
-                  sResult = FAILURE;
+						sResult	= 1;
 						break;
 					}
 				}
@@ -3130,14 +3127,14 @@ static int16_t BrowseForHost(
 static int16_t FindSpecificSystem(
 	RSocket::Address* paddress)						// Out: Address returned here (if successfull)
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Lookup the specified host (by name or dotted address) and port
 	sResult = CNetBrowse::LookupHost(
 		g_GameSettings.m_szServerName,
 		g_GameSettings.m_usServerPort, 
 		paddress);
-   if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// Success!
 		}
@@ -3167,7 +3164,7 @@ static int16_t BrowseForSelf(
 	{
 	ASSERT(pserver);
 
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Start with empty list of hosts
 	CNetBrowse::Hosts hostsAll;
@@ -3180,10 +3177,10 @@ static int16_t BrowseForSelf(
 	bool bFoundSelf = false;
 	CNetBrowse browse;
 	sResult = browse.Startup(g_GameSettings.m_usServerPort, &NetBlockingCallback);
-   if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// Wait for our own broadcast  
-      uint32_t lTime = rspGetMilliseconds() + Net::BroadcastDropTime;
+		int32_t lTime = rspGetMilliseconds() + Net::BroadcastDropTime;
 		while (!bFoundSelf && (rspGetMilliseconds() < lTime))
 			{
 			UpdateSystem();
@@ -3209,7 +3206,7 @@ static int16_t BrowseForSelf(
 		// If we didn't find ourself, set the error flag
 		if (!bFoundSelf)
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("BrowseForSelf(): Couldn't find myself!\n");
 			}
 
@@ -3220,7 +3217,7 @@ static int16_t BrowseForSelf(
 
 
 	// If this failed, put up a msgbox
-   if (sResult != SUCCESS)
+	if (sResult != 0)
 		{
 		rspMsgBox(
 			RSP_MB_BUT_OK | RSP_MB_ICN_INFO,
@@ -3286,7 +3283,7 @@ static int16_t NetBlockingCallback(void)				// Returns 0 to continue normally, 1
 	// check on a key's status.  The important thing would be NOT to clear
 	// any key's status so we don't affect the input module (input.cpp) or
 	// the play loop (play.cpp:PlayRealm()).
-	static uint8_t*	pau8KeyStatus	= rspGetKeyStatusArray();
+	static U8*	pau8KeyStatus	= rspGetKeyStatusArray();
 
 	// Assume we won't abort
 	int16_t	sAbort = 0;
@@ -3335,7 +3332,7 @@ static int16_t NetBlockingCallback(void)				// Returns 0 to continue normally, 1
 			// Create temporary image of what's currently in the buffer
 			bool bGotImage = false;
 			RImage image;
-         if (image.CreateImage(ptxt->m_im.m_sWidth, ptxt->m_im.m_sHeight, ptxt->m_im.m_type) == SUCCESS)
+			if (image.CreateImage(ptxt->m_im.m_sWidth, ptxt->m_im.m_sHeight, ptxt->m_im.m_type) == 0)
 				{
 				rspLockBuffer();
 				rspBlit(g_pimScreenBuf, &image, ptxt->m_sX, ptxt->m_sY, 0, 0, image.m_sWidth, image.m_sHeight);
@@ -3381,13 +3378,13 @@ static int16_t NetBlockingCallback(void)				// Returns 0 to continue normally, 1
 //////////////////////////////////////////////////////////////////////////////
 extern int16_t InitNetProbGUI(void)
 	{
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	KillNetProbGUI();
 
-   sResult	= rspGetResource(&g_resmgrShell, NET_PROB_GUI_FILE, &ms_ptxtNetProb);
+	sRes	= rspGetResource(&g_resmgrShell, NET_PROB_GUI_FILE, &ms_ptxtNetProb);
 
-   if (sResult == SUCCESS)
+	if (sRes == 0)
 		{
 		// Set some intial stuff.
 		ms_ptxtNetProb->m_sTextEffects			= RGuiItem::Shadow;
@@ -3404,7 +3401,7 @@ extern int16_t InitNetProbGUI(void)
 			NET_PROB_GUI_FILE);
 		}
 
-   return sResult;
+	return sRes;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -3452,7 +3449,6 @@ extern void ClearNetProb(void)
 	}
 
 
-#endif // !defined(MULTIPLAYER_REMOVED)
 ///////////////////////////////////////////////////////////////////////////////
 // EOF
 ///////////////////////////////////////////////////////////////////////////////

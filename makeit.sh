@@ -23,7 +23,7 @@
 
 bindir="./bin"
 
-if [ `uname -m` = "x86_64" ]
+if [ `uname -m` == "x86_64" ]
 then
 	bindir1="64"
 else
@@ -33,38 +33,31 @@ fi
 bindir2="-release"
 for i in "$@"
 do
-	if [ "$i" = "x86" ]
+	if [ "$i" == "x86" ]
 	then
 		x86="yes"
 	fi
-	if [ "$i" = "debug" ]
+	if [ "$i" == "debug" ]
 	then
 		after="debug"
 		bindir2="-debug"
 	fi
-	if [ "$i" = "clean" ]
+	if [ "$i" == "clean" ]
 	then
 		remove="yes"
 	fi
-	if [ "$i" = "smp" ]
-	then
-		thread=$(cat /proc/cpuinfo | awk '/^processor/{print $3}' | tail -1)
-		thread=$(( $thread + 2 ))
-		thread="-j$thread"
-	fi
 done
 
-if [ "$x86" = "yes" ]
+if [ "$x86" == "yes" ]
 then
 	before="linux_x86=\"1\""
 	bindir1="32"
 fi
 
-if [ "$remove" = "yes" ]
+if [ "$remove" == "yes" ]
 then
 	after="clean"
-	thread=""
 fi
 
 bindir="$bindir$bindir1$bindir2"
-eval "BINDIR=$bindir $before make -e $after $thread"
+eval "BINDIR=$bindir $before make -e $after"

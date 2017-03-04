@@ -21,9 +21,14 @@
 #ifndef SPRY_H
 #define SPRY_H
 
-#include <BLUE/System.h>
-#include <ORANGE/CDT/flist.h>
-#include <ORANGE/GameLib/Sprite.h>
+#include "System.h"
+#ifdef PATHS_IN_INCLUDES
+	#include "ORANGE/CDT/flist.h"
+	#include "ORANGE/GameLib/SPRITE.H"
+#else
+	#include "flist.h"
+	#include "sprite.h"
+#endif
 
 
 class RSpry

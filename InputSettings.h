@@ -72,8 +72,12 @@
 #ifndef INPUTSETTINGS_H
 #define INPUTSETTINGS_H
 
-#include <RSPiX.h>
-#include <Prefs/prefs.h>
+#include "RSPiX.h"
+#ifdef PATHS_IN_INCLUDES
+	#include "WishPiX/Prefs/prefs.h"
+#else
+	#include "prefs.h"
+#endif
 
 #include "settings.h"
 #include "localize.h"
@@ -149,11 +153,11 @@ class CInputSettings : CSettings
 		// Game play input information.
 		typedef struct
 			{
-         const char*	pszDescription;	// Description of key.
-         const char*	pszSaveName;		// Name for INI.
-			uint8_t		u8DefaultKey;		// Default rspScanKeys val (RSP_SK_*).
-         uint32_t	sDefMouseButtons;	// Default rspGetMouse psButtons mask (MouseButtons).
-         uint32_t	sDefJoyButtons;	// Default rspGetJoyState buttons mask (JoyButtons).
+			char*	pszDescription;	// Description of key.
+			char*	pszSaveName;		// Name for INI.
+			U8		u8DefaultKey;		// Default rspScanKeys val (RSP_SK_*).
+			int16_t	sDefMouseButtons;	// Default rspGetMouse psButtons mask (MouseButtons).
+			int16_t	sDefJoyButtons;	// Default rspGetJoyState buttons mask (JoyButtons).
 			} InputInfo;
 
 
@@ -198,11 +202,11 @@ class CInputSettings : CSettings
 
 		int16_t		m_sUseJoy;							// Allow joystick input.
 
-		uint32_t	m_asPlayKeys[NumInputFunctions];				// Array of game play keys indexed
+		U32	m_asPlayKeys[NumInputFunctions];				// Array of game play keys indexed
 																		// by an InputFunction value.
-		uint32_t	m_asPlayMouseButtons[NumInputFunctions];	// Array of game play mouse buttons
+		U32	m_asPlayMouseButtons[NumInputFunctions];	// Array of game play mouse buttons
 																		// indexed by an InputFunction value.
-		uint32_t	m_asPlayJoyButtons[NumInputFunctions];		// Array of game play joystick buttons
+		U32	m_asPlayJoyButtons[NumInputFunctions];		// Array of game play joystick buttons
 																		// indexed by an InputFunction value.
 		int16_t	m_sJoyStartButton;						// Default button to use as "Start"
 		int16_t	m_sJoyMenuUpButton;						// Default button to use as "Menu Up"

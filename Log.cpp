@@ -25,15 +25,11 @@
 //
 //		12/23/97 SPA	Moved from Play.cpp to seperate file
 ////////////////////////////////////////////////////////////////////////////////
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "game.h"
 #include "net.h"
-#include "Log.h"
-
-#if !defined(MULTIPLAYER_REMOVED)
 #include "netmsgr.h"
-#endif // !defined(MULTIPLAYER_REMOVED)
-
+#include "Log.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // OpenLogFile()
@@ -42,19 +38,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 int16_t OpenLogFile()
 	{
-   int16_t sResult = SUCCESS; // Assume success
+	int16_t sResult = 0; // Assume success
 	if (g_GameSettings.m_bLogNetTime)
 		{
 			if (!g_GameSettings.m_rfNetSyncLog.IsOpen())
 			{
-#if BYTE_ORDER == BIG_ENDIAN
+#ifdef SYS_ENDIAN_BIG
 			if (g_GameSettings.m_rfNetSyncLog.Open(g_GameSettings.m_szNetSyncLogFile, 
-            "wt+", RFile::BigEndian) != SUCCESS)
-#elif BYTE_ORDER == LITTLE_ENDIAN
-           if (g_GameSettings.m_rfNetSyncLog.Open(g_GameSettings.m_szNetSyncLogFile,
-            "wt+", RFile::LittleEndian) != SUCCESS)
+				"wt+", RFile::BigEndian) != 0)
 #else
-# error NOT IMPLEMENTED
+			if (g_GameSettings.m_rfNetSyncLog.Open(g_GameSettings.m_szNetSyncLogFile, 
+				"wt+", RFile::LittleEndian) != 0)
 #endif
 				{
 				sResult = 1;
@@ -73,10 +67,10 @@ int16_t OpenLogFile()
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CloseLogFile()
 	{
-   int16_t sResult = SUCCESS; // Assume success
+	int16_t sResult = 0; // Assume success
 	if (g_GameSettings.m_bLogNetTime)
 		{
-      if ((g_GameSettings.m_rfNetSyncLog.Close()) != SUCCESS)
+		if ((g_GameSettings.m_rfNetSyncLog.Close()) != 0)
 			{
 			sResult = 1;
 			TRACE("Play: Failed to close the network syn log file\n");
@@ -85,44 +79,40 @@ int16_t CloseLogFile()
 	return sResult;
 	}
 
-#if !defined(MULTIPLAYER_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // WriteTimeStamp()
 //			Write the network time log
 //		global variables used:		g_GameSettings
 ////////////////////////////////////////////////////////////////////////////////
-int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
-                     const char *pszCalleeName,					// Name of player being sent or sending
+extern
+int16_t WriteTimeStamp(char *pszCaller,						// Name of calling routine
+							char *pszCalleeName,					// Name of player being sent or sending 
 							uint8_t ucMsgType,			// Message type
 							Net::SEQ seqStart,					// Beginning sequent sent/received
 							int32_t sNum,								// Number of seq's sent/received
 							char bReceived,							// a received or a sent message? TRUE if received
-							uint16_t u16PackageID/*=0*/)				// Uniquely identifiable package id																		//		True if receiving, false if sending
+							U16 u16PackageID/*=0*/)				// Uniquely identifiable package id																		//		True if receiving, false if sending
 	{	
-   int16_t sResult = SUCCESS;
-   const char *szCallerMsg;
+	int16_t sResult = 0;
+	char *szCallerMsg;
 	char szTime[256]; 
 	char szSeq[256];
 	char szNum[256];
-   milliseconds_t lTime = rspGetMilliseconds();
+	int32_t lTime = rspGetMilliseconds();
 
-  if (ucMsgType == NetMsg::START_REALM && bReceived)
-  {
-    g_GameSettings.m_lStartRealmTime = lTime;
-    sResult = snprintf(szTime, sizeof(szTime), "%u", lTime) < 0 ? FAILURE : SUCCESS;
-    //_ltoa(lTime, szTime, 10);
-  }
-  sResult = snprintf(szTime, sizeof(szTime), "%u", lTime - g_GameSettings.m_lStartRealmTime) < 0 ? FAILURE : SUCCESS;
-  //_ltoa(lTime - g_GameSettings.m_lStartRealmTime, szTime, 10);
+	if ((ucMsgType == NetMsg::START_REALM)&&(bReceived))
+		{
+		g_GameSettings.m_lStartRealmTime = lTime;
+		_ltoa(lTime, szTime, 10);
+		}
 
+	_ltoa(lTime - g_GameSettings.m_lStartRealmTime, szTime, 10);
 
-#if BYTE_ORDER == BIG_ENDIAN
+#ifdef SYS_ENDIAN_BIG
 	RFile::Endian endian = RFile::BigEndian;
-#elif BYTE_ORDER == LITTLE_ENDIAN
-   RFile::Endian endian = RFile::LittleEndian;
 #else
-#error NOT IMPLEMENTED
+	RFile::Endian endian = RFile::LittleEndian;
 #endif
 
 	szCallerMsg = 0;
@@ -133,10 +123,10 @@ int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
 	// Log file should be open, if not, open it
 	if (!prfLog->IsOpen())
 		{
-      if ((prfLog->Open(g_GameSettings.m_szNetSyncLogFile, "wt+", endian)) != SUCCESS)
+		if ((prfLog->Open(g_GameSettings.m_szNetSyncLogFile, "wt+", endian)) != 0)
 			{
 			TRACE("WriteTimeStamp: Failed to open network time stamp log file\n");
-			sResult = FAILURE;
+			sResult = -1;
 			}
 		}
 
@@ -150,7 +140,7 @@ int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
 		prfLog->Write(" Sent     ");
 
 	// Write name of person who will be receiving or has sent the message
-	if (pszCalleeName != nullptr)
+	if (pszCalleeName != NULL)
 		prfLog->Write(pszCalleeName);
 	else
 		prfLog->Write("Server");
@@ -158,8 +148,7 @@ int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
 
 	// Write package ID
 	char szPackageID[256];
-   snprintf(szPackageID, sizeof(szPackageID), "%u", u16PackageID);
-   //ltoa((int32_t)u16PackageID, szPackageID, 10);
+	ltoa((int32_t)u16PackageID, szPackageID, 10);
 	prfLog->Write(szPackageID);
 	prfLog->Write(" ");
 
@@ -167,15 +156,13 @@ int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
 	prfLog->Write(szTime);
 	prfLog->Write(" ");
 
-   // Write starting sequence sent/received
-   snprintf(szSeq, sizeof(szSeq), "%u", seqStart);
-   //itoa(seqStart, szSeq, 10);
+	// Write starting sequence sent/received
+	itoa(seqStart, szSeq, 10);
 	prfLog->Write(szSeq);
 	prfLog->Write(" ");
 
 	// Write number of sequences sent/received
-   snprintf(szNum, sizeof(szNum), "%u", sNum);
-   //ltoa(sNum, szNum, 10);
+	ltoa(sNum, szNum, 10);
 	prfLog->Write(szNum);
 	prfLog->Write(" ");
 
@@ -305,16 +292,16 @@ int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
 //			Write the network input data to network sync log
 //		global variables used:		g_GameSettings
 ////////////////////////////////////////////////////////////////////////////////
-int16_t WriteInputData(uint32_t *input)
+extern
+int16_t WriteInputData(U32 *input)
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	char szInput[256]; 
 
 	// For convenience
 	RFile *prfLog = &(g_GameSettings.m_rfNetSyncLog);
 	
-   snprintf(szInput, sizeof(szInput), "%x", *input);
-   //ltoa(*input, szInput, 16);
+	ltoa(*input, szInput, 16);
 
 	prfLog->Write(szInput);
 	prfLog->Write("\n");
@@ -325,7 +312,6 @@ int16_t WriteInputData(uint32_t *input)
 	}
 
 /*** 12/7/97 AJC ***/
-#endif // !defined(MULTIPLAYER_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // EOF

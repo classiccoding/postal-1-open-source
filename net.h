@@ -29,12 +29,6 @@
 #ifndef NET_H
 #define NET_H
 
-#include <RSPiX.h>
-
-#if defined(MULTIPLAYER_REMOVED)
-typedef int CNetClient;
-typedef int CNetServer;
-#endif // defined(MULTIPLAYER_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -77,15 +71,22 @@ typedef int CNetServer;
 #define SEQ_LTE(a, b)		SEQ_GTE(b, a)
 
 
+
+#ifdef WIN32
 namespace Net
-   {
+	{
+#else
+class Net
+	{
+	public:
+#endif
 
 	//------------------------------------------------------------------------------
 	// These set some overall limits on various network stuff.
 	// The primary reason for moving these into their own file was to get around
 	// some inter-dependancies that came up when they were part of other files.
 	//------------------------------------------------------------------------------
-   enum : uint16_t
+	typedef enum
 		{
 		// Maximum number of ID's.  Can't be more than 16 right now because
 		// some bit masks are hardwired to 16-bits, which is 1 bit per player.
@@ -106,7 +107,7 @@ namespace Net
 		// Maximum length of host text
 		MaxHostNameSize	= 32,
 
-      #if defined(NET_PING)
+		#if NET_PING
 			// These values relate the a ping message that is periodically sent by the client
 			// to the server.  The server echos these pings back as it receives them.  This
 			// serves two purposes: (1) it let's us measure the actual ping times, which may
@@ -154,14 +155,14 @@ namespace Net
 		// One might be tempted to conclude separately that 3 * MaxAheadSeq could also be used to
 		// determine the minimum number of bits required to store a sequence value.  In other words,
 		// if 3 * MaxAheadSeq came to, say, 180, you might be tempted to say you could use an 8-bit
-      // value to store the sequence numbers, and simply have them go from 0x00 to 0xFF and then wrap
+		// value to store the sequence numbers, and simply have them go from 0 to 255 and then wrap
 		// around to 0 again -- or even have them go to 180 and then wrap-around to 0.  However,
 		// one would be wrong to do this.
 		//
 		// The problem is that we are using datagram messages to transmit inputs between players,
 		// and datagrams are unreliable.  They may not get through at all, or they may get through
 		// but in a different order from the order they were sent in.  The problem as it applies to
-      // the sequence numbers is that if we used a range of 0 to 180, or even 0x00 to 0xFF, it is
+		// the sequence numbers is that if we used a range of 0 to 180, or even 0 to 255, it is
 		// quite possible that long after we went past a particular frame, we might get a very old
 		// packet that contained very old data.  If we can't recognize this packet as being obsolete,
 		// we would mistakingly use it's data, which would most likely throw the entire game permanently
@@ -252,7 +253,7 @@ namespace Net
 
 	// This MUST be unsigned to work properly!!!
 	// See above for an explanation of why 16-bits is a good choice.
-	typedef uint16_t					SEQ;
+	typedef U16					SEQ;
 
 	//------------------------------------------------------------------------------
 	// These are the various bandwidths we support
@@ -274,8 +275,7 @@ namespace Net
 		NumBandwidths
 		} Bandwidth;
 
-#ifdef UNUSED_VARIABLES
-   // In a namespace this data is extern, but in a class it's static
+	// In a namespace this data is extern, but in a class it's static
 	#ifdef WIN32
 		#define NETCRAPTHING extern
 	#else
@@ -284,22 +284,8 @@ namespace Net
 
 	// Lookup tables associated with the NetBandwidth enums.
 	NETCRAPTHING int32_t	lBandwidthValues[Net::NumBandwidths];
-   NETCRAPTHING const char* BandwidthText[Net::NumBandwidths];
-#endif
-#if !defined(MULTIPLAYER_REMOVED)
-     static const char* BandwidthText[Net::NumBandwidths] =
-     {
-     "14.4 Modem",						// Analog14_4
-     "28.8 Modem",						// Analog28_8
-     "33.6 Modem",						// Analog33_6
-     "57.6 Modem",						// Analog57_6
-     "ISDN, 1 Channel",				// ISDN1Channel
-     "ISDN, 2 Channels",				// ISDN2Channel
-     "10Mb LAN (or T1)",				// LAN10Mb
-     "100Mb LAN (or T3)"				// LAN100Mb
-     };
-#endif
-   }
+	NETCRAPTHING char* BandwidthText[Net::NumBandwidths];
+	};
 
 
 #endif //NET_H

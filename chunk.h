@@ -15,7 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-// Chunk.h
+// Chunk.H
 // Project: Nostril (aka Postal)
 // 
 // History:
@@ -43,7 +43,7 @@
 #ifndef CHUNK_H
 #define CHUNK_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 
 class CChunk : public CThing
@@ -65,7 +65,7 @@ class CChunk : public CThing
 
 		typedef struct
 			{
-			uint8_t		u8ColorIndex;
+			U8		u8ColorIndex;
 			int16_t	sLen;
 			} TypeInfo;
 
@@ -142,15 +142,15 @@ class CChunk : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 
 			// Don't allow chunks when disabled . . .
 			if (g_GameSettings.m_sParticleEffects)
 				{
 				*ppNew = new CChunk(pRealm);
-				if (*ppNew == nullptr)
+				if (*ppNew == 0)
 					{
-					sResult = FAILURE;
+					sResult = -1;
 					TRACE("CChunk::Construct(): Couldn't construct CChunk (that's really "
 						"not that bad a thing)\n");
 					}
@@ -158,7 +158,7 @@ class CChunk : public CThing
 			else
 				{
 				// Particles disabled.
-				sResult = FAILURE;
+				sResult	= 1;
 				}
 
 			return sResult;
@@ -199,7 +199,7 @@ class CChunk : public CThing
 		// GetRand().
 		static int32_t GetChunkRand(void)
 			{
-         return (((ms_lGetRandomSeed = ms_lGetRandomSeed * 214013L + 2531011L) >> 16) & 0x7FFF);
+			return (((ms_lGetRandomSeed = ms_lGetRandomSeed * 214013L + 2531011L) >> 16) & 0x7fff);
 			}
 
 	//---------------------------------------------------------------------------

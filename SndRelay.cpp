@@ -34,8 +34,9 @@
 // to the selected CSoundThing.
 //
 //////////////////////////////////////////////////////////////////////////////
+#define SNDRELAY_CPP
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "SndRelay.h"
 #include "SoundThing.h"
 #include "game.h"
@@ -74,7 +75,7 @@ int16_t CSndRelay::Load(								// Returns 0 if successfull, non-zero otherwise
 	uint32_t	ulFileVersion)									// In:  Version of file format to load.
 	{
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// If new file . . . 
 		if (sFileCount != ms_sFileCount)
@@ -145,13 +146,13 @@ int16_t CSndRelay::Load(								// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 			{
 			sResult = Init();
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CSndRelay::Load(): Error reading from file!\n");
 			}
 		}
@@ -167,8 +168,8 @@ int16_t CSndRelay::Save(										// Returns 0 if successfull, non-zero otherwis
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
-	int16_t sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == SUCCESS)
+	int16_t	sResult	= CThing::Save(pFile, sFileCount);
+	if (sResult == 0)
 		{
 		pFile->Write(m_dX);
 		pFile->Write(m_dY);
@@ -189,7 +190,7 @@ int16_t CSndRelay::Save(										// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSndRelay::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 	{
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -198,7 +199,7 @@ int16_t CSndRelay::Startup(void)								// Returns 0 if successfull, non-zero ot
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSndRelay::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -231,8 +232,8 @@ void CSndRelay::Update(void)
 		if (m_bEnabled == true)
 			{
 			// Attempt to get ptr to our parent . . .
-			CSoundThing*	pst	= nullptr;	// Safety.
-			if (m_pRealm->m_idbank.GetThingByID((CThing**)&pst, m_idParent) == SUCCESS)
+			CSoundThing*	pst	= NULL;	// Safety.
+			if (m_pRealm->m_idbank.GetThingByID((CThing**)&pst, m_idParent) == 0)
 				{
 				// Make sure this is what we think it is . . .
 				if (pst->GetClassID() == CSoundThingID)
@@ -272,7 +273,7 @@ void CSndRelay::Render(void)
 	{
 	}
 
-#if !defined(EDITOR_REMOVED)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -281,7 +282,7 @@ int16_t CSndRelay::EditNew(								// Returns 0 if successfull, non-zero otherwi
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -292,7 +293,6 @@ int16_t CSndRelay::EditNew(								// Returns 0 if successfull, non-zero otherwi
 
 	return sResult;
 	}
-#endif // !defined(EDITOR_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Helper function/macro for changing a GUIs text value.
@@ -305,11 +305,11 @@ inline void SetGuiItemVal(	// Returns nothing.
 	RGuiItem*	pgui	= pguiRoot->GetItemFromId(lId);
 	if (pgui)
 		{
-      pgui->SetText("%i", lVal);
+		pgui->SetText("%ld", lVal);
 		pgui->Compose();
 		}
 	}
-#ifdef UNUSED_FUNCTIONS
+
 ////////////////////////////////////////////////////////////////////////////////
 // Callback from multibtn checkbox.
 ////////////////////////////////////////////////////////////////////////////////
@@ -336,23 +336,21 @@ static void CheckEnableGuiCall(	// Returns nothing.
 		pguiLoopSettingsContainer->SetVisible(sVisible);
 		}
 	}
-#endif
 
-#if !defined(EDITOR_REMOVED)
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to modify object
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSndRelay::EditModify(void)
 	{
-	int16_t sResult = SUCCESS;
+	int16_t	sResult	= 0;
 
 	// Load gui dialog
 	RGuiItem* pgui = RGuiItem::LoadInstantiate(FullPathVD(GUI_FILE_NAME));
-	if (pgui != nullptr)
+	if (pgui != NULL)
 		{
 		// Init "ID" edit
 		REdit* peditParentId = (REdit*)pgui->GetItemFromId(100);
-		ASSERT(peditParentId != nullptr);
+		ASSERT(peditParentId != NULL);
 		ASSERT(peditParentId->m_type == RGuiItem::Edit);
 		if (m_idParent != CIdBank::IdNil)
 			{
@@ -367,7 +365,7 @@ int16_t CSndRelay::EditModify(void)
 
 		// Init "enable" push button
 		RMultiBtn* pmbEnable = (RMultiBtn*)pgui->GetItemFromId(200);
-		ASSERT(pmbEnable != nullptr);
+		ASSERT(pmbEnable != NULL);
 		pmbEnable->m_sState = (m_bInitiallyEnabled == true) ? 2 : 1;
 		pmbEnable->Compose();
 
@@ -375,7 +373,7 @@ int16_t CSndRelay::EditModify(void)
 		if (DoGui(pgui) == 1)
 			{
 			// Get new values from dialog
-			m_idParent	= (uint16_t)peditParentId->GetVal();
+			m_idParent	= (U16)peditParentId->GetVal();
 			if (m_idParent == 0)
 				{
 				m_idParent	= CIdBank::IdNil;
@@ -385,7 +383,7 @@ int16_t CSndRelay::EditModify(void)
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult	= 1;
 			}
 		
 		// Done with GUI.
@@ -393,11 +391,11 @@ int16_t CSndRelay::EditModify(void)
 		}
 	else
 		{
-		sResult = FAILURE;
+		sResult	= -1;
 		}
 
 	// If everything's okay, init using new values
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		sResult = Init();
 
 	return sResult;
@@ -416,7 +414,7 @@ int16_t CSndRelay::EditMove(									// Returns 0 if successfull, non-zero other
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-   return SUCCESS;
+	return 0;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -501,14 +499,14 @@ void CSndRelay::EditRender(void)
 	// Update sprite in scene
 	m_pRealm->m_scene.UpdateSprite(&m_sprite);
 	}
-#endif // !defined(EDITOR_REMOVED)
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Init object
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSndRelay::Init(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	Kill();
 
@@ -517,13 +515,13 @@ int16_t CSndRelay::Init(void)							// Returns 0 if successfull, non-zero otherw
 	if (m_sprite.m_pImage == 0)
 		{
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(IMAGE_FILE), &m_sprite.m_pImage);
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 			// This is a questionable action on a resource managed item, but it's
 			// okay if EVERYONE wants it to be an FSPR8.
 			if (m_sprite.m_pImage->Convert(RImage::FSPR8) != RImage::FSPR8)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CSndRelay::GetResource() - Couldn't convert to FSPR8\n");
 				}
 			}
@@ -538,12 +536,12 @@ int16_t CSndRelay::Init(void)							// Returns 0 if successfull, non-zero otherw
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSndRelay::Kill(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-   if (m_sprite.m_pImage != nullptr)
+	if (m_sprite.m_pImage != 0)
 		rspReleaseResource(&g_resmgrGame, &m_sprite.m_pImage);
 
 	m_pRealm->m_scene.RemoveSprite(&m_sprite);
 
-   return SUCCESS;
+	return 0;
 	}
 
 

@@ -15,7 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-// AnimThing.h
+// AnimThing.H
 // Project: Nostril (aka Postal)
 // 
 // History:
@@ -50,7 +50,7 @@
 #ifndef ANIMTHING_H
 #define ANIMTHING_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 
 #include "AlphaAnimType.h"
@@ -74,12 +74,12 @@ class CAnimThing : public CThing
 
 		int16_t m_sSuspend;							// Suspend flag
 		int16_t	m_sLoop;								// Loops, if true.
-		char	m_szResName[PATH_MAX];		// Resource name.
+		char	m_szResName[RSP_MAX_PATH];		// Resource name.
 														
-      milliseconds_t	m_lAnimTime;						// Cummulative animation time.
-      milliseconds_t	m_lAnimPrevTime;					// Last animation time.
+		int32_t	m_lAnimTime;						// Cummulative animation time.
+		int32_t	m_lAnimPrevTime;					// Last animation time.
 														
-		uint16_t			m_u16IdSendMsg;			// ID of CThing to send msg to when done.
+		U16			m_u16IdSendMsg;			// ID of CThing to send msg to when done.
 		GameMessage	m_msg;						// Message to send to m_pthingSendMsg.
 
 	protected:
@@ -94,7 +94,7 @@ class CAnimThing : public CThing
 		CAnimThing(CRealm* pRealm)
 			: CThing(pRealm, CAnimThingID)
 			{
-			m_paachannel		= nullptr;
+			m_paachannel		= NULL;
 			m_sSuspend			= 0;
 			m_sLoop				= TRUE;
 			m_szResName[0]		= '\0';
@@ -123,11 +123,11 @@ class CAnimThing : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CAnimThing(pRealm);
-         if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CExplode::Construct(): Couldn't construct CAnimThing (that's a bad thing)\n");
 				}
 			return sResult;
@@ -172,7 +172,6 @@ class CAnimThing : public CThing
 			int16_t sY,												// In: New y coord
 			int16_t sZ);												// In: New z coord
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -206,17 +205,16 @@ class CAnimThing : public CThing
 
 		// Called by editor to render object
 		void EditRender(void);
-#endif // !defined(EDITOR_REMOVED)
 
 		// Get the coordinates of this thing.
 		virtual					// Overriden here.
-      double GetX(void)	const { return m_dX; }
+		double GetX(void)	{ return m_dX; }
 
 		virtual					// Overriden here.
-      double GetY(void)	const { return m_dY; }
+		double GetY(void)	{ return m_dY; }
 
 		virtual					// Overriden here.
-      double GetZ(void)	const { return m_dZ; }
+		double GetZ(void)	{ return m_dZ; }
 
 	//---------------------------------------------------------------------------
 	// Internal functions

@@ -41,9 +41,14 @@
 //		07/10/97 MJR	Removed use of non-ANSI "t" in mode string for file open.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define SETTINGS_CPP
 
-#include <RSPiX.h>
-#include <Prefs/prefs.h>
+#include "RSPiX.h"
+#ifdef PATHS_IN_INCLUDES
+	#include "WishPiX/Prefs/prefs.h"
+#else
+	#include "prefs.h"
+#endif
 
 #include "main.h"
 #include "settings.h"
@@ -90,9 +95,9 @@ CSettings::CSettings(void)
 	// which would be initialized first -- the container or an object that wants
 	// to use it.  This way, the first object that tries to use the container
 	// will create the container, so that problem goes away.
-   if (ms_pSettings == nullptr)
+	if (ms_pSettings == 0)
 		ms_pSettings = new SETTINGS;
-   if (ms_pSettings != nullptr)
+	if (ms_pSettings != 0)
 		{
 
 		// Add this object to container
@@ -112,17 +117,17 @@ CSettings::CSettings(void)
 CSettings::~CSettings()
 	{
 	// Make sure container exists
-   if (ms_pSettings != nullptr)
+	if (ms_pSettings != 0)
 		{
 
 		// Remove this object from container
 		ms_pSettings->Remove(m_pointer);
 
 		// If there are no more objects, then delete the container itself
-      if (ms_pSettings->GetHead() == nullptr)
+		if (ms_pSettings->GetHead() == 0)
 			{
 			delete ms_pSettings;
-         ms_pSettings = nullptr;
+			ms_pSettings = 0;
 			}
 
 		// Make sure to delete memory if it wasn't already deleted
@@ -141,22 +146,22 @@ CSettings::~CSettings()
 //
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSettings::LoadPrefs(					// Returns 0 if successfull, non-zero otherwise
-   const char* pszFile)									// In:  Name of prefs file
+	char* pszFile)									// In:  Name of prefs file
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Make sure container exists
-   if (ms_pSettings != nullptr)
+	if (ms_pSettings != 0)
 		{
 
 		// Open file for read access (text mode is default)
 		RPrefs prefs;
 		sResult = prefs.Open(pszFile, "r");
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 
 			// Do this for all CSettings objects
-         for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != nullptr; i = ms_pSettings->GetNext(i))
+			for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != 0; i = ms_pSettings->GetNext(i))
 				{
 				sResult = ms_pSettings->GetData(i)->LoadPrefs(&prefs);
 				if (sResult)
@@ -166,7 +171,7 @@ int16_t CSettings::LoadPrefs(					// Returns 0 if successfull, non-zero otherwis
 			// If no errors detected, double-check to be sure no I/O errors occurred
 			if (!sResult && prefs.IsError())
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CSettings::LoadPrefs(): Error reading prefs file!\n");
 				}
 
@@ -174,13 +179,13 @@ int16_t CSettings::LoadPrefs(					// Returns 0 if successfull, non-zero otherwis
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CSettings::LoadPrefs(): Couldn't open prefs file: %s !\n", pszFile);
 			}
 		}
 	else
 		{
-		sResult = FAILURE;
+		sResult = -1;
 		TRACE("CSettings::LoadPrefs(): No container!\n");
 		}
 
@@ -199,30 +204,30 @@ int16_t CSettings::LoadPrefs(					// Returns 0 if successfull, non-zero otherwis
 //
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSettings::SavePrefs(					// Returns 0 if successfull, non-zero otherwise
-   const char* pszFile)									// In:  Name of prefs file
+	char* pszFile)									// In:  Name of prefs file
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Make sure container exists
-   if (ms_pSettings != nullptr)
+	if (ms_pSettings != 0)
 		{
 
 		// First open file for read-only access.  If this works, then at least
 		// we know the file exists, although it might be a read-only file.
 		RPrefs prefs;
 		sResult = prefs.Open(pszFile, "r");
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 			prefs.Close();
 
 			// Open file again, this time for read+ (read plus write/append) access.
 			// If this doesn't work, the file is most likely a read-only file.
 			sResult = prefs.Open(pszFile, "r+");
-			if (sResult == SUCCESS)
+			if (sResult == 0)
 				{
 
 				// Do this for all CSettings objects
-            for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != nullptr; i = ms_pSettings->GetNext(i))
+				for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != 0; i = ms_pSettings->GetNext(i))
 					{
 					sResult = ms_pSettings->GetData(i)->SavePrefs(&prefs);
 					if (sResult)
@@ -232,7 +237,7 @@ int16_t CSettings::SavePrefs(					// Returns 0 if successfull, non-zero otherwis
 				// If no errors detected, double-check to be sure no I/O errors occurred
 				if (!sResult && prefs.IsError())
 					{
-					sResult = FAILURE;
+					sResult = -1;
 					TRACE("CSettings::SavePrefs(): Error writing prefs file!\n");
 					}
 
@@ -246,13 +251,13 @@ int16_t CSettings::SavePrefs(					// Returns 0 if successfull, non-zero otherwis
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CSettings::SavePrefs(): Couldn't open prefs file: %s !\n", pszFile);
 			}
 		}
 	else
 		{
-		sResult = FAILURE;
+		sResult = -1;
 		TRACE("CSettings::SavePrefs(): No container!\n");
 		}
 
@@ -266,22 +271,22 @@ int16_t CSettings::SavePrefs(					// Returns 0 if successfull, non-zero otherwis
 //
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSettings::LoadGame(						// Returns 0 if successfull, non-zero otherwise
-   const char* pszFile)									// In:  Name of prefs file
+	char* pszFile)									// In:  Name of prefs file
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Make sure container exists
-   if (ms_pSettings != nullptr)
+	if (ms_pSettings != 0)
 		{
 
 		// Open file for read access in binary mode
 		RFile fileGame;
 		sResult = fileGame.Open(pszFile, "rb", RFile::LittleEndian);
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 
 			// Do this for all CSettings objects
-         for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != nullptr; i = ms_pSettings->GetNext(i))
+			for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != 0; i = ms_pSettings->GetNext(i))
 				{
 				sResult = ms_pSettings->GetData(i)->LoadGame(&fileGame);
 				if (sResult)
@@ -291,7 +296,7 @@ int16_t CSettings::LoadGame(						// Returns 0 if successfull, non-zero otherwis
 			// If no errors detected, double-check to be sure no I/O errors occurred
 			if (!sResult && fileGame.Error())
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CSettings::LoadGame(): Error reading game file!\n");
 				}
 
@@ -299,13 +304,13 @@ int16_t CSettings::LoadGame(						// Returns 0 if successfull, non-zero otherwis
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CSettings::LoadGame(): Couldn't open game file: %s !\n", pszFile);
 			}
 		}
 	else
 		{
-		sResult = FAILURE;
+		sResult = -1;
 		TRACE("CSettings::LoadGame(): No container!\n");
 		}
 
@@ -319,23 +324,23 @@ int16_t CSettings::LoadGame(						// Returns 0 if successfull, non-zero otherwis
 //
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSettings::SaveGame(						// Returns 0 if successfull, non-zero otherwise
-   const char* pszFile)									// In:  Name of prefs file
+	char* pszFile)									// In:  Name of prefs file
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Make sure container exists
-   if (ms_pSettings != nullptr)
+	if (ms_pSettings != 0)
 		{
 
 		// Open file for write access in binary mode
 		// Note: We don't care if the file already exists -- write mode will destroy it
 		RFile fileGame;
 		sResult = fileGame.Open(pszFile, "wb", RFile::LittleEndian);
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 
 			// Do this for all CSettings objects
-         for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != nullptr; i = ms_pSettings->GetNext(i))
+			for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != 0; i = ms_pSettings->GetNext(i))
 				{
 				sResult = ms_pSettings->GetData(i)->SaveGame(&fileGame);
 				if (sResult)
@@ -345,7 +350,7 @@ int16_t CSettings::SaveGame(						// Returns 0 if successfull, non-zero otherwis
 			// If no errors detected, double-check to be sure no I/O errors occurred
 			if (!sResult && fileGame.Error())
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CSettings::SaveGame(): Error writing game file!\n");
 				}
 
@@ -353,13 +358,13 @@ int16_t CSettings::SaveGame(						// Returns 0 if successfull, non-zero otherwis
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CSettings::SaveGame(): Couldn't open game file: %s !\n", pszFile);
 			}
 		}
 	else
 		{
-		sResult = FAILURE;
+		sResult = -1;
 		TRACE("CSettings::SaveGame(): No container!\n");
 		}
 
@@ -375,25 +380,25 @@ int16_t CSettings::SaveGame(						// Returns 0 if successfull, non-zero otherwis
 int16_t CSettings::PreDemo(						// Returns 0 if successfull, non-zero otherwise
 	void)
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Make sure container exists
-   if (ms_pSettings != nullptr)
+	if (ms_pSettings != 0)
 		{
 
 		// Allocate a chunk of memory for settings to be saved to
 		ms_pMem = malloc(CSettings::MemFileSize);
-      if (ms_pMem != nullptr)
+		if (ms_pMem != 0)
 			{
 
 			// Open memory file
 			RFile fileMem;
 			sResult = fileMem.Open(ms_pMem, CSettings::MemFileSize, RFile::LittleEndian);
-			if (sResult == SUCCESS)
+			if (sResult == 0)
 				{
 
 				// Do this for all CSettings objects
-            for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != nullptr; i = ms_pSettings->GetNext(i))
+				for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != 0; i = ms_pSettings->GetNext(i))
 					{
 					sResult = ms_pSettings->GetData(i)->PreDemo(&fileMem);
 					if (sResult)
@@ -403,7 +408,7 @@ int16_t CSettings::PreDemo(						// Returns 0 if successfull, non-zero otherwise
 				// If no errors detected, double-check to be sure no I/O errors occurred
 				if (!sResult && fileMem.Error())
 					{
-					sResult = FAILURE;
+					sResult = -1;
 					TRACE("CSettings::PreDemo(): Error writing to mem file (probably too much data)!\n");
 					}
 
@@ -411,19 +416,19 @@ int16_t CSettings::PreDemo(						// Returns 0 if successfull, non-zero otherwise
 				}
 			else
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CSettings::PreDemo(): Couldn't open mem file!\n");
 				}
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CSettings::PreDemo(): Couldn't allocate memory for mem file!\n");
 			}
 		}
 	else
 		{
-		sResult = FAILURE;
+		sResult = -1;
 		TRACE("CSettings::PreDemo(): No container!\n");
 		}
 
@@ -439,24 +444,24 @@ int16_t CSettings::PreDemo(						// Returns 0 if successfull, non-zero otherwise
 int16_t CSettings::PostDemo(						// Returns 0 if successfull, non-zero otherwise
 	void)
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Make sure container exists
-   if (ms_pSettings != nullptr)
+	if (ms_pSettings != 0)
 		{
 
 		// Make sure memory was allocated by PreDemo()
-      if (ms_pMem != nullptr)
+		if (ms_pMem != 0)
 			{
 
 			// Open previously allocated memory file
 			RFile fileMem;
 			sResult = fileMem.Open(ms_pMem, CSettings::MemFileSize, RFile::LittleEndian);
-			if (sResult == SUCCESS)
+			if (sResult == 0)
 				{
 
 				// Do this for all CSettings objects
-            for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != nullptr; i = ms_pSettings->GetNext(i))
+				for (SETTINGS::Pointer i = ms_pSettings->GetHead(); i != 0; i = ms_pSettings->GetNext(i))
 					{
 					sResult = ms_pSettings->GetData(i)->PostDemo(&fileMem);
 					if (sResult)
@@ -466,7 +471,7 @@ int16_t CSettings::PostDemo(						// Returns 0 if successfull, non-zero otherwis
 				// If no errors detected, double-check to be sure no I/O errors occurred
 				if (!sResult && fileMem.Error())
 					{
-					sResult = FAILURE;
+					sResult = -1;
 					TRACE("CSettings::PostDemo(): Error reading from mem file!\n");
 					}
 
@@ -474,7 +479,7 @@ int16_t CSettings::PostDemo(						// Returns 0 if successfull, non-zero otherwis
 				}
 			else
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CSettings::PostDemo(): Couldn't open mem file!\n");
 				}
 
@@ -484,13 +489,13 @@ int16_t CSettings::PostDemo(						// Returns 0 if successfull, non-zero otherwis
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CSettings::PostDemo(): No memory file to read from! (did you forget to call CSettings::PreDemo?)\n");
 			}
 		}
 	else
 		{
-		sResult = FAILURE;
+		sResult = -1;
 		TRACE("CSettings::PostDemo(): No container!\n");
 		}
 

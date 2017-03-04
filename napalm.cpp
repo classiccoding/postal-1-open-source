@@ -131,9 +131,10 @@
 //		08/28/97 BRH	Added cache of large fire sound.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define NAPALM_CPP
 
-#include <RSPiX.h>
-#include <cmath>
+#include "RSPiX.h"
+#include <math.h>
 
 #include "napalm.h"
 #include "dude.h"
@@ -164,7 +165,7 @@ int16_t CNapalm::ms_sFileCount;
 
 /// Napalm Canister Animation Files
 // An array of pointers to res names (one for each animation component)
-static const char* ms_apszResNames[] =
+static char* ms_apszResNames[] =
 {
 	"3d/napalmcan.sop",
 	"3d/napalmcan.mesh",
@@ -172,8 +173,8 @@ static const char* ms_apszResNames[] =
 	"3d/napalmcan.hot",
 	"3d/napalmcan.bounds",
 	"3d/napalmcan.floor",
-	nullptr,
-	nullptr
+	NULL,
+	NULL
 };
 
 
@@ -218,14 +219,14 @@ int16_t CNapalm::Load(										// Returns 0 if successfull, non-zero otherwise
 			}
 		
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 			{
 			// Get resources
 			sResult = GetResources();
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CNapalm::Load(): Error reading from file!\n");
 			}
 
@@ -259,7 +260,7 @@ int16_t CNapalm::Save(										// Returns 0 if successfull, non-zero otherwise
 
 	// Save object data
 
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -391,7 +392,7 @@ void CNapalm::Update(void)
 					m_dFireZ = m_dZ;
 					// Start a fire here
 					CFire* pFire;
-               if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pFire) == SUCCESS)
+					if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pFire) == 0)
 					{
 						if (pFire->Setup(m_dX - 20 + (GetRand() % 40), m_dY, m_dZ - 20 + (GetRand() % 40), 
 						                 4000 + (GetRand() % 9000), false, CFire::LargeFire) != SUCCESS)
@@ -538,7 +539,7 @@ int16_t CNapalm::Setup(									// Returns 0 if successfull, non-zero otherwise
 	double dHorizVel,										// In:  Starting Horizontal Velocity (has default)
 	double dVertVel*/)									// In:  Starting Vertical Velocity (has default)
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -570,13 +571,13 @@ int16_t CNapalm::Setup(									// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CNapalm::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	sResult = m_anim.Get(ms_apszResNames);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 	{
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(SMALL_SHADOW_FILE), &(m_spriteShadow.m_pImage), RFile::LittleEndian);
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 		{
 			// add more gets
 		}
@@ -601,7 +602,7 @@ int16_t CNapalm::FreeResources(void)						// Returns 0 if successfull, non-zero 
 	{
 	m_anim.Release();
 
-   return SUCCESS;
+	return 0;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////

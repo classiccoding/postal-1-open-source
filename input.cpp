@@ -186,10 +186,11 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "input.h"
+#include "CompileOptions.h"
 
-#if defined(__ANDROID__)
+#ifdef MOBILE
 #include "android/android.h"
 #endif
 
@@ -232,7 +233,7 @@
 			&& g_InputSettings.m_asPlayJoyButtons[input]	!= 0)
 #else
 	#define IS_JOY_INPUT(input)
-#endif // defined(ALLOW_JOYSTICK)
+#endif	// defined(ALLOW_JOYSTICK)
 
 // Minimum memory buffer to use for recording input data.  To figure out a
 // reasonable size, multiply a high number of frames per second by a large
@@ -290,16 +291,16 @@ typedef struct
 UINPUT m_aInputs[INPUT_MAX_DUDES];
 
 // Last input for the local dude.
-UINPUT ms_inputLastLocal	= 0;
+UINPUT	ms_inputLastLocal	= 0;
 
 // Global input settings
-CInputSettings g_InputSettings;
+CInputSettings	g_InputSettings;
 
 // Current mode
 INPUT_MODE m_mode;
 
 // Buffer-related stuff
-uint32_t* m_pBuf = 0;				// Pointer to buffer. Must be a uint32_t to maintain demo compatibility!
+U32* m_pBuf = 0;				// Pointer to buffer. Must be a U32 to maintain demo compatibility!
 int32_t m_lBufIndex;					// Current index into buffer
 int32_t m_lBufEntries;				// Total entries in buffer
 
@@ -307,62 +308,62 @@ int32_t m_lBufEntries;				// Total entries in buffer
 // Add one plus the index of each string item so it's not recognizable when 
 // searching/viewing the exe.  The chars will be untweaked when the cheat is 
 // evaluated at runtime.
-static Cheat ms_acheats[] =
+static Cheat	ms_acheats[]	=
 	{
 #if defined(USE_LA_PALOMA_CHEATS)
 						 
-      { STR_TWEAK('B', 'E', 'E', 'R', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_11, 0, 0 },
-      { STR_TWEAK('V', 'E', 'S', 'T', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_12, 0, 0 },
-      { STR_TWEAK('P', 'A', 'C', 'K', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_13, 0, 0 },
-      { STR_TWEAK('S', 'T', 'U', 'F', 'F', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_14, 0, 0 },
-      { STR_TWEAK('R', 'E', 'V', 'I', 'V', 'E', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_15, 0, 0 },
-      { { 'D'+1, 'A'+2, 'W'+3, 'H'+4, 'O'+5, 'L'+6, 'E'+7, 'E'+8, 'N'+9, 'C'+10, 'H'+11, 'I'+12, 'L'+13, 'A'+14, 'D'+15, 'A'+16, 0, 0 }, INPUT_CHEAT_16, 0, 0 },
-      { { 'B'+1, 'R'+2, 'E'+3, 'A'+4, 'K'+5, 'Y'+6, 'O'+7, 'S'+8, 'A'+9, 'K'+10,				}, INPUT_CHEAT_17, 0, 0 },
-      { STR_TWEAK('M', 'Y', 'T', 'E', 'A', 'M', 'O', 'U', 'S', 'E', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_18, 0, 0 },
-      { STR_TWEAK('S', 'H', 'E', 'L', 'L', 'S', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_19, 0, 0 },
-      { STR_TWEAK('B', 'O', 'O', 'M', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_20, 0, 0 },
-      { STR_TWEAK('F', 'L', 'A', 'M', 'A', 'G', 'E', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_21, 0, 0 },
-      { STR_TWEAK('S', 'H', 'O', 'T', 'G', 'U', 'N', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_22, 0, 0 },
-      { STR_TWEAK('C', 'A', 'N', 'N', 'O', 'N', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_23, 0, 0 },
-      { STR_TWEAK('L', 'O', 'B', 'B', 'E', 'R', 'S', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_24, 0, 0 },
-      { STR_TWEAK('M', 'I', 'S', 'S', 'I', 'L', 'E', 'S', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_25, 0, 0 },
-      { STR_TWEAK('N', 'A', 'P', 'A', 'L', 'M', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_26, 0, 0 },
-      { STR_TWEAK('F', 'L', 'A', 'M', 'E', 'R', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_27, 0, 0 },
-      { STR_TWEAK('M', 'I', 'N', 'E', 'S', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_28, 0, 0 },
-      { STR_TWEAK('N', 'E', 'X', 'T', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_29, 0, 0 },
-      { STR_TWEAK('G', 'A', 'W', 'D', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_30, 0, 0 },
+		{ STR_TWEAK('B', 'E', 'E', 'R', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_11 },
+		{ STR_TWEAK('V', 'E', 'S', 'T', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_12 },
+		{ STR_TWEAK('P', 'A', 'C', 'K', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_13 },
+		{ STR_TWEAK('S', 'T', 'U', 'F', 'F', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_14 },
+		{ STR_TWEAK('R', 'E', 'V', 'I', 'V', 'E', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_15 },
+		{ { 'D'+1, 'A'+2, 'W'+3, 'H'+4, 'O'+5, 'L'+6, 'E'+7, 'E'+8, 'N'+9, 'C'+10, 'H'+11, 'I'+12, 'L'+13, 'A'+14, 'D'+15, 'A'+16, }, INPUT_CHEAT_16, },
+		{ { 'B'+1, 'R'+2, 'E'+3, 'A'+4, 'K'+5, 'Y'+6, 'O'+7, 'S'+8, 'A'+9, 'K'+10,				}, INPUT_CHEAT_17, },
+		{ STR_TWEAK('M', 'Y', 'T', 'E', 'A', 'M', 'O', 'U', 'S', 'E', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_18 },
+		{ STR_TWEAK('S', 'H', 'E', 'L', 'L', 'S', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_19 },
+		{ STR_TWEAK('B', 'O', 'O', 'M', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_20 },
+		{ STR_TWEAK('F', 'L', 'A', 'M', 'A', 'G', 'E', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_21 },
+		{ STR_TWEAK('S', 'H', 'O', 'T', 'G', 'U', 'N', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_22 },
+		{ STR_TWEAK('C', 'A', 'N', 'N', 'O', 'N', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_23 },
+		{ STR_TWEAK('L', 'O', 'B', 'B', 'E', 'R', 'S', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_24 },
+		{ STR_TWEAK('M', 'I', 'S', 'S', 'I', 'L', 'E', 'S', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_25 },
+		{ STR_TWEAK('N', 'A', 'P', 'A', 'L', 'M', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_26 },
+		{ STR_TWEAK('F', 'L', 'A', 'M', 'E', 'R', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_27 },
+		{ STR_TWEAK('M', 'I', 'N', 'E', 'S', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_28 },
+		{ STR_TWEAK('N', 'E', 'X', 'T', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_29 },
+		{ STR_TWEAK('G', 'A', 'W', 'D', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'), INPUT_CHEAT_30 },
 	
 
 #else
-         { { 'H'+1, 'E'+2, 'A'+3, 'L'+4, 'T'+5, 'H'+6, 'F'+7, 'U'+8, 'L'+9,						},	INPUT_CHEAT_11, 0, 0 },
-         { { 'T'+1, 'H'+2, 'I'+3, 'C'+4, 'K'+5, 'S'+6, 'K'+7, 'I'+8, 'N'+9,						},	INPUT_CHEAT_12, 0, 0 },
-         { { 'C'+1, 'A'+2, 'R'+3, 'R'+4, 'Y'+5, 'M'+6, 'O'+7, 'R'+8, 'E'+9,						},	INPUT_CHEAT_13, 0, 0 },
+			{ { 'H'+1, 'E'+2, 'A'+3, 'L'+4, 'T'+5, 'H'+6, 'F'+7, 'U'+8, 'L'+9,						},	INPUT_CHEAT_11, },
+			{ { 'T'+1, 'H'+2, 'I'+3, 'C'+4, 'K'+5, 'S'+6, 'K'+7, 'I'+8, 'N'+9,						},	INPUT_CHEAT_12, },
+			{ { 'C'+1, 'A'+2, 'R'+3, 'R'+4, 'Y'+5, 'M'+6, 'O'+7, 'R'+8, 'E'+9,						},	INPUT_CHEAT_13, },
 	#if defined(USE_NEW_CHEATS)
-         { { 'G'+1, 'I'+2, 'M'+3, 'M'+4, 'E'+5, 'D'+6, 'A'+7, 'T'+8,									},	INPUT_CHEAT_14, 0, 0 },
-         { { 'H'+1, 'E'+2, 'S'+3, 'S'+4, 'T'+5, 'I'+6, 'L'+7, 'L'+8, 'G'+9, 'O'+10,	'O'+11, 'D'+12,	},	INPUT_CHEAT_15, 0, 0 },
+ 			{ { 'G'+1, 'I'+2, 'M'+3, 'M'+4, 'E'+5, 'D'+6, 'A'+7, 'T'+8,									},	INPUT_CHEAT_14, },
+			{ { 'H'+1, 'E'+2, 'S'+3, 'S'+4, 'T'+5, 'I'+6, 'L'+7, 'L'+8, 'G'+9, 'O'+10,	'O'+11, 'D'+12,	},	INPUT_CHEAT_15, },
 	#else
-         { { 'M'+1, 'E'+2, 'G'+3, 'A'+4, 'S'+5, 'T'+6, 'U'+7, 'F'+8, 'F'+9,						},	INPUT_CHEAT_14, 0, 0 },
-         { { 'G'+1, 'E'+2, 'T'+3, 'U'+4, 'P'+5, 'R'+6, 'O'+7, 'G'+8, 'U'+9, 'E'+10,				},	INPUT_CHEAT_15, 0, 0 },
+ 			{ { 'M'+1, 'E'+2, 'G'+3, 'A'+4, 'S'+5, 'T'+6, 'U'+7, 'F'+8, 'F'+9,						},	INPUT_CHEAT_14, },
+			{ { 'G'+1, 'E'+2, 'T'+3, 'U'+4, 'P'+5, 'R'+6, 'O'+7, 'G'+8, 'U'+9, 'E'+10,				},	INPUT_CHEAT_15, },
 	#endif
-         { { 'D'+1, 'A'+2, 'W'+3, 'H'+4, 'O'+5, 'L'+6, 'E'+7, 'E'+8, 'N'+9, 'C'+10, 'H'+11, 'I'+12, 'L'+13, 'A'+14, 'D'+15, 'A'+16, 0, 0 }, INPUT_CHEAT_16, 0, 0 },
-         { { 'B'+1, 'R'+2, 'E'+3, 'A'+4, 'K'+5, 'Y'+6, 'O'+7, 'S'+8, 'A'+9, 'K'+10,				}, INPUT_CHEAT_17, 0, 0 },
-         { { 'M'+1, 'Y'+2, 'T'+3, 'E'+4, 'A'+5, 'M'+6, 'O'+7, 'U'+8, 'S'+9, 'E'+10,				}, INPUT_CHEAT_18, 0, 0 },
-         { { 'S'+1, 'H'+2, 'E'+3, 'L'+4, 'L'+5, 'F'+6, 'E'+7, 'S'+8, 'T'+9,						}, INPUT_CHEAT_19, 0, 0 },
-         { { 'E'+1, 'X'+2, 'P'+3, 'L'+4, 'O'+5, 'D'+6, 'A'+7, 'R'+8, 'A'+9, 'M'+10, 'A'+11,	}, INPUT_CHEAT_20, 0, 0 },
-         { { 'F'+1, 'L'+2, 'A'+3, 'M'+4, 'E'+5, 'N'+6, 'S'+7, 'T'+8, 'E'+9, 'I'+10, 'N'+11,	}, INPUT_CHEAT_21, 0, 0 },
-         { { 'S'+1, 'H'+2, 'O'+3, 'T'+4, 'G'+5, 'U'+6, 'N'+7,											}, INPUT_CHEAT_22, 0, 0 },
-         { { 'T'+1, 'H'+2, 'E'+3, 'B'+4, 'E'+5, 'S'+6, 'T'+7, 'G'+8, 'U'+9, 'N'+10,				}, INPUT_CHEAT_23, 0, 0 },
-         { { 'L'+1, 'O'+2, 'B'+3, 'I'+4, 'T'+5, 'F'+6, 'A'+7, 'R'+8,									}, INPUT_CHEAT_24, 0, 0 },
-         { { 'T'+1, 'I'+2, 'T'+3, 'A'+4, 'N'+5, 'I'+6, 'I'+7, 'I'+8,									}, INPUT_CHEAT_25, 0, 0 },
-         { { 'S'+1, 'T'+2, 'E'+3, 'R'+4, 'N'+5, 'O'+6, 'M'+7, 'A'+8, 'T'+9,						}, INPUT_CHEAT_26, 0, 0 },
-         { { 'F'+1, 'I'+2, 'R'+3, 'E'+4, 'H'+5, 'U'+6, 'R'+7, 'L'+8, 'E'+9, 'R'+10,				}, INPUT_CHEAT_27, 0, 0 },
-         { { 'C'+1, 'R'+2, 'O'+3, 'T'+4, 'C'+5, 'H'+6, 'B'+7, 'O'+8, 'M'+9, 'B'+10,				}, INPUT_CHEAT_28, 0, 0 },
+			{ { 'D'+1, 'A'+2, 'W'+3, 'H'+4, 'O'+5, 'L'+6, 'E'+7, 'E'+8, 'N'+9, 'C'+10, 'H'+11, 'I'+12, 'L'+13, 'A'+14, 'D'+15, 'A'+16, }, INPUT_CHEAT_16, },
+			{ { 'B'+1, 'R'+2, 'E'+3, 'A'+4, 'K'+5, 'Y'+6, 'O'+7, 'S'+8, 'A'+9, 'K'+10,				}, INPUT_CHEAT_17, },
+			{ { 'M'+1, 'Y'+2, 'T'+3, 'E'+4, 'A'+5, 'M'+6, 'O'+7, 'U'+8, 'S'+9, 'E'+10,				}, INPUT_CHEAT_18, },
+			{ { 'S'+1, 'H'+2, 'E'+3, 'L'+4, 'L'+5, 'F'+6, 'E'+7, 'S'+8, 'T'+9,						}, INPUT_CHEAT_19, },
+			{ { 'E'+1, 'X'+2, 'P'+3, 'L'+4, 'O'+5, 'D'+6, 'A'+7, 'R'+8, 'A'+9, 'M'+10, 'A'+11,	}, INPUT_CHEAT_20, },
+			{ { 'F'+1, 'L'+2, 'A'+3, 'M'+4, 'E'+5, 'N'+6, 'S'+7, 'T'+8, 'E'+9, 'I'+10, 'N'+11,	}, INPUT_CHEAT_21, },
+			{ { 'S'+1, 'H'+2, 'O'+3, 'T'+4, 'G'+5, 'U'+6, 'N'+7,											}, INPUT_CHEAT_22, },
+			{ { 'T'+1, 'H'+2, 'E'+3, 'B'+4, 'E'+5, 'S'+6, 'T'+7, 'G'+8, 'U'+9, 'N'+10,				}, INPUT_CHEAT_23, },
+			{ { 'L'+1, 'O'+2, 'B'+3, 'I'+4, 'T'+5, 'F'+6, 'A'+7, 'R'+8,									}, INPUT_CHEAT_24, },
+			{ { 'T'+1, 'I'+2, 'T'+3, 'A'+4, 'N'+5, 'I'+6, 'I'+7, 'I'+8,									}, INPUT_CHEAT_25, },
+			{ { 'S'+1, 'T'+2, 'E'+3, 'R'+4, 'N'+5, 'O'+6, 'M'+7, 'A'+8, 'T'+9,						}, INPUT_CHEAT_26, },
+			{ { 'F'+1, 'I'+2, 'R'+3, 'E'+4, 'H'+5, 'U'+6, 'R'+7, 'L'+8, 'E'+9, 'R'+10,				}, INPUT_CHEAT_27, },
+			{ { 'C'+1, 'R'+2, 'O'+3, 'T'+4, 'C'+5, 'H'+6, 'B'+7, 'O'+8, 'M'+9, 'B'+10,				}, INPUT_CHEAT_28, },
 	#ifdef SALES_DEMO
-         { { 'S'+1, 'E'+2, 'L'+3, 'L'+4, 																		}, INPUT_CHEAT_29, 0, 0 },	// Only used when SALES_DEMO defined
+			{ { 'S'+1, 'E'+2, 'L'+3, 'L'+4, 																		}, INPUT_CHEAT_29, },	// Only used when SALES_DEMO defined
 	#else
-         { { 'T'+1, 'H'+2, 'E'+3, 'R'+4, 'E'+5, 'S'+6, 'N'+7, 'O'+8, 'P'+9, 'L'+10, 'A'+11, 'C'+12, 'E'+13, 'L'+14, 'I'+15, 'K'+16,  'E'+17, 'O'+18, 'Z'+19, 0, 0 }, INPUT_CHEAT_29, 0, 0 },
+			{ { 'T'+1, 'H'+2, 'E'+3, 'R'+4, 'E'+5, 'S'+6, 'N'+7, 'O'+8, 'P'+9, 'L'+10, 'A'+11, 'C'+12, 'E'+13, 'L'+14, 'I'+15, 'K'+16,  'E'+17, 'O'+18, 'Z'+19, }, INPUT_CHEAT_29, },
 	#endif
-         { { 'I'+1, 'A'+2, 'M'+3, 'S'+4, 'O'+5, 'L'+6, 'A'+7, 'M'+8, 'E'+9,						}, INPUT_CHEAT_30, 0, 0 },
+			{ { 'I'+1, 'A'+2, 'M'+3, 'S'+4, 'O'+5, 'L'+6, 'A'+7, 'M'+8, 'E'+9,						}, INPUT_CHEAT_30, },
 
 #endif	// USE_LA_PALOMA_CHEATS
 	};
@@ -431,19 +432,19 @@ extern INPUT_MODE GetInputMode(void)				// Returns current mode
 ////////////////////////////////////////////////////////////////////////////////
 extern int16_t InputDemoInit(void)
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Reset index and number of entries
 	m_lBufIndex = 0;
 	m_lBufEntries = 0;
 
 	// Allocate buffer
-   if (m_pBuf == nullptr)
+	if (m_pBuf == 0)
 		{
-		m_pBuf = new uint32_t[BUF_MAX_ENTRIES];
-      if (m_pBuf == nullptr)
+		m_pBuf = new U32[BUF_MAX_ENTRIES];
+		if (m_pBuf == 0)
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("InputDemoInit(): Error allocating buffer!\n");
 			}
 		}
@@ -474,7 +475,7 @@ void InputDemoKill(void)
 extern int16_t InputDemoLoad(							// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile)											// In:  RFile to load from
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	ASSERT(m_pBuf);
 	if (m_pBuf)
@@ -492,25 +493,25 @@ extern int16_t InputDemoLoad(							// Returns 0 if successfull, non-zero otherw
 				// Check for errors
 				if (pFile->Error())
 					{
-					sResult = FAILURE;
+					sResult = -1;
 					TRACE("InputDemoLoad(): Error reading data!\n");
 					}
 				}
 			else
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("InputDemoLoad(): Too many entries to fit into current buffer size!\n");
 				}
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("InputDemoLoad(): Error reading number of entries!\n");
 			}
 		}
 	else
 		{
-		sResult = FAILURE;
+		sResult = -1;
 		TRACE("InputDemoLoad(): No buffer!\n");
 		}
 
@@ -526,7 +527,7 @@ extern int16_t InputDemoLoad(							// Returns 0 if successfull, non-zero otherw
 extern int16_t InputDemoSave(							// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile)											// In:  RFile to save to
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	ASSERT(m_pBuf);
 	if (m_pBuf)
@@ -541,13 +542,13 @@ extern int16_t InputDemoSave(							// Returns 0 if successfull, non-zero otherw
 		// Check for errors
 		if (pFile->Error())
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("InputDemoSave(): Error saving data!\n");
 			}
 		}
 	else
 		{
-		sResult = FAILURE;
+		sResult = -1;
 		TRACE("InputDemoSave(): No buffer!\n");
 		}
 
@@ -577,7 +578,8 @@ extern void ClearLocalInput(void)
 	memset(rspGetKeyStatusArray(), 0, 128);
 
 	// Clear cheats.
-   for (size_t i = 0; i < NUM_ELEMENTS(ms_acheats); i++)
+	int16_t	i;
+	for (i = 0; i < NUM_ELEMENTS(ms_acheats); i++)
 		{
 		ms_acheats[i].sCurrentIndex	= 0;
 		}
@@ -591,9 +593,10 @@ extern void ClearLocalInput(void)
 static void FindCheatCombos(	// Returns nothing.
 	UINPUT*	pinput,				// In:  Input to augment.
 										// Out: Input with cheats.
-	RInputEvent* pie)				// In:  Latest input event or nullptr.
+	RInputEvent* pie)				// In:  Latest input event or NULL.
 	{
-   int32_t		lNow		= rspGetMilliseconds();
+	int32_t		lNow		= rspGetMilliseconds();
+	int16_t	i;
 
 	if (pie)
 		{
@@ -605,7 +608,7 @@ static void FindCheatCombos(	// Returns nothing.
 				lKey	= toupper(lKey);
 
 			Cheat*	pcheat	= ms_acheats;
-         for (size_t i = 0; i < NUM_ELEMENTS(ms_acheats); ++i, ++pcheat)
+			for (i = 0; i < NUM_ELEMENTS(ms_acheats); i++, pcheat++)
 				{
 				// Been a while since last input?  We should/need to use rspGetMiliseconds() for
 				// consistency.  This should offer no danger to synchronization as this is part
@@ -622,7 +625,7 @@ static void FindCheatCombos(	// Returns nothing.
 				// obvious when searching/viewing the exe.
 				char	c = DETWEAK_CHAR(pcheat->szCheat, pcheat->sCurrentIndex);
 				// If current key is hit . . .
-            if ( lKey == (int32_t)c && c != '\0')
+				if ( lKey == (int32_t)c && c != 0)
 					{
 					// Remember time of this key.
 					pcheat->lLastValidInputTime				= lNow;
@@ -670,9 +673,9 @@ bool CanCycleThroughWeapons()
 {
 #define WEAPON_SWITCH_HOLD_TIME 750
 #define WEAPON_SWITCH_CYCLE_TIME 350
-   static milliseconds_t lLastWeaponSwitchTime = 0;
+	static int32_t lLastWeaponSwitchTime = 0;
 	static bool bFastWeaponSwitching = false;
-   milliseconds_t lCurTime = rspGetMilliseconds();
+	int32_t lCurTime = rspGetMilliseconds();
 	bool bResult = false;
 
 	if (lLastWeaponSwitchTime == 0)
@@ -707,7 +710,7 @@ bool CanCycleThroughWeapons()
 ////////////////////////////////////////////////////////////////////////////////
 extern UINPUT GetLocalInput(				// Returns local input.
 	CRealm* prealm,							// In:  Realm (used to access realm timer)
-	RInputEvent* pie	/*= nullptr*/)			// In:  Latest input event.  nullptr to 
+	RInputEvent* pie	/*= NULL*/)			// In:  Latest input event.  NULL to 
 													//	disable cheats in a way that will be
 													// harder to hack.
 	{
@@ -730,7 +733,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 		static int32_t		lPrevTime		= lCurTime;
 		// Get ptr to Blue's key status array.  Only need to do this
 		// once.
-		static uint8_t*		pu8KeyStatus	= rspGetKeyStatusArray();
+		static U8*		pu8KeyStatus	= rspGetKeyStatusArray();
 
 		int16_t	sButtons	= 0;
 		int16_t	sDeltaX	= 360;
@@ -789,7 +792,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 			}
 
 #if defined(ALLOW_JOYSTICK)
-		uint32_t	u32Buttons	= 0;
+		U32	u32Buttons	= 0;
 
 		// If utilizing joystick input . . .
 		if (g_InputSettings.m_sUseJoy)
@@ -797,7 +800,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 			// Only need to update joystick 1.
 			rspUpdateJoy(0);
 
-			uint32_t	u32Axes	= 0;
+			U32	u32Axes	= 0;
 			rspGetJoyState(0, &u32Buttons, &u32Axes);	
 
 #if defined(ALLOW_TWINSTICK)
@@ -830,7 +833,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 				}
 #endif	// ALLOW_TWINSTICK
 			}
-#endif // defined(ALLOW_JOYSTICK)
+#endif	// defined(ALLOW_JOYSTICK)
 
 		if (IS_INPUT(CInputSettings::Forward))
 			input |= INPUT_FORWARD;
@@ -1113,9 +1116,9 @@ extern UINPUT GetLocalInput(				// Returns local input.
 		// Set only the 10 bits of the delta (as unsigned value).
 		// As long as the above range check is used, we don't need
 		// to & with the rotation mask.
-		input		|=	(uint32_t)sDeltaX;
+		input		|=	(U32)sDeltaX;
 
-#if defined(__ANDROID__)
+#ifdef MOBILE
 		input = AndroidGetInput();
 #endif
 

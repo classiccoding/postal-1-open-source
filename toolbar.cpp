@@ -61,12 +61,12 @@
 //		09/27/99	JMI	Eliminated boolean performance warnings.
 //
 ////////////////////////////////////////////////////////////////////////////////
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "dude.h"
 #include "StockPile.h"
 #include "hood.h"
 #include "toolbar.h"
-#include <ORANGE/color/colormatch.h>
+#include "ORANGE/color/colormatch.h"
 #include "ORANGE/color/dithermatch.h"
 ////////////////////////////////////////////////////////////////////////////////
 // TOOLBAR Graphic parameters:
@@ -87,7 +87,7 @@
 #define	TB_AMMOW_LOW	3			// ammo changes color as warning
 #define	TB_MILLI_TO_LITE	3000	// after you get a powerup.
 
-//#if defined(__ANDROID__)
+//#ifdef MOBILE
 #if 1
 #define TB_MILLI_INTERVAL_TIME	100 //500ms lag is pretty annoying!
 #else
@@ -101,18 +101,18 @@ extern RFont g_fontBig;	// I hope this one is OK....
 
 typedef	struct { uint8_t r; uint8_t g; uint8_t b; } MatchColor;
 
-MatchColor gmcSmallFont     = { 0xFF, 0xFF, 0x00 }; // yellow
-MatchColor gmcLargeFont     = { 0xFF, 0xFF, 0x00 }; // yellow
-MatchColor gmcWarningFont   = { 0xFF, 0x00, 0x00 }; // red
-MatchColor gmcAmmoGoneFont  = { 0x60, 0x00, 0x00 }; // dark red
-MatchColor gmcAttentionFont = { 0xFF, 0xFF, 0x80 }; // saturated yellow
+MatchColor	gmcSmallFont = { 255,255,0 };	// yellow
+MatchColor	gmcLargeFont = { 255,255,0 };	// yellow
+MatchColor	gmcWarningFont = { 255,0,0 };	// red
+MatchColor	gmcAmmoGoneFont = { 96,0,0 };	// dark red
+MatchColor	gmcAttentionFont = { 255,255,128 };	// saturated yellow
 
 //------------------ Top Bar:
-MatchColor gmcSolidScore    = { 0x28, 0x22, 0x0D }; // saturated yellow
-MatchColor gmcShadowScore   = { 0x8A, 0x7B, 0x41 }; // saturated yellow
-//MatchColor gmcShadowScore = { 0x77, 0x66, 0x3C }; // saturated yellow
-//MatchColor gmcSolidScore  = { 0x00, 0x00, 0xFF }; // saturated yellow
-//MatchColor gmcShadowScore = { 0xFF, 0x00, 0x00 }; // saturated yellow
+MatchColor	gmcSolidScore = { 40,34,13 };	// saturated yellow
+MatchColor	gmcShadowScore = { 138,123,65 };	// saturated yellow
+//MatchColor	gmcShadowScore = { 119,102,60 };	// saturated yellow
+//MatchColor	gmcSolidScore = { 0,0,255 };	// saturated yellow
+//MatchColor	gmcShadowScore = { 255,0,0 };	// saturated yellow
 
 //------------------ So Score can access these:
 int16_t gsStatusFontForeIndex	=	251;
@@ -180,7 +180,7 @@ public:
 	bool	m_bExists;		// bar or full?
 	bool	m_bSelected;	// selected or not?
 	bool	m_bTreasure;	// found in a power up
-   milliseconds_t	m_lMilli;		// relative time in milliseconds for timing stuff
+	int32_t	m_lMilli;		// relative time in milliseconds for timing stuff
 	State	m_eState;		// short cut for applying state
 	State	m_ePrevState;	// Stored for event triggering
 	double	m_dValue;	// if ammo
@@ -209,7 +209,7 @@ public:
 	static	int16_t		ms_sAttentionColor;
 	static	RImage*	ms_pimCompositeBuffer;
 	static	RImage*	ms_pimCompositeBufferScaled;
-   static	milliseconds_t		ms_lLastTime;
+	static	int32_t		ms_lLastTime;
 	//----------------------------------------------------------------------
 	CToolItem()
 		{
@@ -223,7 +223,7 @@ public:
 		m_dPrevValue = 0.0;
 		m_dLow = 0;
 		m_eFontType = Small;
-		m_pWeapon = m_pAmmo1 = m_pAmmo2 = nullptr;
+		m_pWeapon = m_pAmmo1 = m_pAmmo2 = NULL;
 		m_eWeaponType = NotWeapon;
 		m_eAmmoType = NotAmmo;
 		m_eStockPile = CDude::NoWeapon;
@@ -240,8 +240,8 @@ public:
 		CDude::WeaponType eStock,
 		const RRect &prImage,
 		CToolItem*	pAmmo1,
-		CToolItem*	pAmmo2 = nullptr,
-		CToolItem*	pAmmo3 = nullptr)
+		CToolItem*	pAmmo2 = NULL,
+		CToolItem*	pAmmo3 = NULL)
 		{
 		m_eWeaponType = eType;
 		m_eStockPile = eStock;
@@ -324,7 +324,7 @@ public:
 #if 0	// checking for palette errors:
 		rspSetWindowColors();
 
-		uint8_t r[256],g[256],b[256];	// for palette checking:
+		U8 r[256],g[256],b[256];	// for palette checking:
 		rspGetPaletteEntries(0,256,r,g,b,1);
 		short i;
 
@@ -380,7 +380,7 @@ public:
 		{
 		// First Draw all the weapons...
 		int16_t i;
-		RImage*	pimPlane = nullptr;
+		RImage*	pimPlane = NULL;
 
 		// Set up the bar to a neutral background:
 		rspBlit(pHood->m_pimEmptyBar,ms_pimCompositeBuffer,0,0,0,0,
@@ -600,7 +600,6 @@ public:
 
 		switch (CurWeapon)
 			{
-        UNHANDLED_SWITCH;
 			case CDude::SemiAutomatic:
 				ms_aWeapons[MachineGun].m_bSelected = true;
 				ms_aAmmo[Bullets].m_bSelected = true;
@@ -744,18 +743,18 @@ public:
 
 // I am hoping that before any instance of a class
 // exists, that the staic members must also exist.
-CToolItem* CToolItem::ms_aWeapons = nullptr;
-CToolItem* CToolItem::ms_aAmmo = nullptr;
-RFont*	CToolItem::ms_pfntTool = nullptr;		// General font and print
+CToolItem* CToolItem::ms_aWeapons = NULL;
+CToolItem* CToolItem::ms_aAmmo = NULL;
+RFont*	CToolItem::ms_pfntTool = NULL;		// General font and print
 RPrint	CToolItem::ms_pntTool;
 int16_t		CToolItem::ms_sSmallFontColor	=	255;	// color index
 int16_t		CToolItem::ms_sLargeFontColor =	255;
 int16_t		CToolItem::ms_sWarningColor	=	255;
 int16_t		CToolItem::ms_sAmmoGoneColor	=	255;
 int16_t		CToolItem::ms_sAttentionColor	=	255;
-RImage*	    CToolItem::ms_pimCompositeBuffer  = nullptr;
-RImage*	    CToolItem::ms_pimCompositeBufferScaled  = nullptr;
-milliseconds_t		CToolItem::ms_lLastTime = 0;
+RImage*	    CToolItem::ms_pimCompositeBuffer  = NULL;
+RImage*	    CToolItem::ms_pimCompositeBufferScaled  = NULL;
+int32_t		CToolItem::ms_lLastTime = 0;
 
 
 // Time to arrange the basic bar relationhips:
@@ -768,7 +767,7 @@ public:
 		CToolItem::ms_aWeapons = new CToolItem[NumberOfWeapons];
 		CToolItem::ms_aAmmo = new CToolItem[NumberOfAmmos];
 
-		// ************* WEAPONS **************
+		//************* WEAPONS **************
 		CToolItem::ms_aWeapons[MachineGun].ArrangeWeapon(
 			MachineGun,CDude::SemiAutomatic,
 			RRect(123,443,48,23),
@@ -800,19 +799,19 @@ public:
 			RRect(464,442,52,22),
 			&CToolItem::ms_aAmmo[Fuel]);
 
-		// ************** AMMO ****************
+		//************** AMMO ****************
 		CToolItem::ms_aAmmo[Health].ArrangeAmmo(
 			Health,CDude::NoWeapon,
 			RRect(0,440,58,40), 
 			42,457,
-			nullptr,
+			NULL,
 			CToolItem::Large);
 
 		CToolItem::ms_aAmmo[KevlarVest].ArrangeAmmo(
 			KevlarVest,CDude::NoWeapon,
 			RRect(61,445,35,34),
 			97,457,
-			nullptr,
+			NULL,
 			CToolItem::Large);
 		//-------------------------------------
 		CToolItem::ms_aAmmo[Bullets].ArrangeAmmo(
@@ -840,7 +839,7 @@ public:
 			Grenades,CDude::Grenade,
 			RRect(272,443,19,23),
 			276,467,
-			nullptr,
+			NULL,
 			CToolItem::Small);
 
 		CToolItem::ms_aAmmo[Rockets].ArrangeAmmo(
@@ -861,7 +860,7 @@ public:
 			Cocktails,CDude::FireBomb,
 			RRect(390,442,20,24),
 			394,467,
-			nullptr,
+			NULL,
 			CToolItem::Small);
 
 		CToolItem::ms_aAmmo[Napalm].ArrangeAmmo(
@@ -882,21 +881,21 @@ public:
 			ProximityMine,CDude::ProximityMine,
 			RRect(567,443,30,23),
 			575,467, // redundantly repeated
-			nullptr,
+			NULL,
 			CToolItem::Small);
 
 		CToolItem::ms_aAmmo[TimedMine].ArrangeAmmo(
 			TimedMine,CDude::TimedMine,
 			RRect(599,443,30,26),
 			575,467, // redundantly repeated
-			nullptr,
+			NULL,
 			CToolItem::Small);
 
 		CToolItem::ms_aAmmo[BouncingBettyMine].ArrangeAmmo(
 			BouncingBettyMine,CDude::BouncingBettyMine,
 			RRect(538,444,28,28),
 			575,467, // redundantly repeated
-			nullptr,
+			NULL,
 			CToolItem::Small);
 		
 		// Now, factor out the bar location from all the coordinates:
@@ -956,7 +955,7 @@ bool	ToolBarRender(CHood* pHood,RImage* pimDst,int16_t sDstX,int16_t sDstY,
 	{
 	bool bRender = true;
 
-	if (pDude == nullptr) 
+	if (pDude == NULL) 
 		{
 		TRACE("ToolBarRender: Dude doesn't exist!\n"); 
 		return false;

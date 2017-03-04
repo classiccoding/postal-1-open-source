@@ -15,7 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-// collision.h
+// collision.H
 // Project: Nostril (aka Postal)
 // 
 // History:
@@ -30,7 +30,27 @@
 #ifndef COLLISION_H
 #define COLLISION_H
 
-#include <BLUE/System.h>
+//////////////////////////////////////////////////////////////////////////////
+// C Headers -- Must be included before RSPiX.h b/c RSPiX utilizes SHMalloc.
+//////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+// RSPiX Headers.
+// If PATHS_IN_INCLUDES macro is defined, we can utilize relative
+// paths to a header file.  In this case we generally go off of our
+// RSPiX root directory.  System.h MUST be included before this macro
+// is evaluated.  System.h is the header that, based on the current
+// platform (or more so in this case on the compiler), defines 
+// PATHS_IN_INCLUDES.  Blue.h includes system.h so you can include that
+// instead.
+///////////////////////////////////////////////////////////////////////////////
+#include "System.h"
+
+#ifdef PATHS_IN_INCLUDES
+
+#else
+
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 // Postal includes.
@@ -61,15 +81,15 @@ template <class Region>	// Must be a type supported by CThing::IsColliding(...)!
 bool GetNextCollision(	// Returns true if a collision is found, false otherwise.
 	CThing::Things*	pthings,		// In:  List of CThings to search within.
 	Region*				pregion,		// In:  Region OR shape to collide with.
-	CThing**				ppthing)		// In:  CThing to start with or nullptr to start at beginning.
-											// Out: CThing collided with or nullptr.
+	CThing**				ppthing)		// In:  CThing to start with or NULL to start at beginning.
+											// Out: CThing collided with or NULL.
 	{
 	bool	bCollision	= false;	// Assume no collision.
 
 	CThing::Things::iterator	i	= pthings->begin();
 
 	// If a beginning was specified . . .
-	if (*ppthing != nullptr)
+	if (*ppthing != NULL)
 		{
 		while (i != pthings->end() && *i != *ppthing)
 			{

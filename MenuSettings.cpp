@@ -47,7 +47,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // RSPiX Headers.
 ///////////////////////////////////////////////////////////////////////////////
-#include <RSPiX.h>
+#include "RSPiX.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Postal Headers.
@@ -134,16 +134,18 @@ CMenuSettings::~CMenuSettings()
 int16_t CMenuSettings::LoadPrefs(
 	RPrefs* pPrefs)
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
-   // Check for entries for all our menus.
+	// Check for entries for all our menus.
+	int16_t	sMenu;
+	int16_t	sMenuItem;
 	char	szSection[256];
-   for (size_t sMenu = 0; sMenu < NUM_ELEMENTS(ms_apmenus); sMenu++)
+	for (sMenu = 0; sMenu < NUM_ELEMENTS(ms_apmenus); sMenu++)
 		{
 		// Create section name.
 		sprintf(szSection, "Menu %s", ms_apmenus[sMenu]->menuheader.pszHeaderText);
 
-      for (size_t sMenuItem = 0; ms_apmenus[sMenu]->ami[sMenuItem].pszText != nullptr; sMenuItem++)
+		for (sMenuItem = 0; ms_apmenus[sMenu]->ami[sMenuItem].pszText != NULL; sMenuItem++)
 			{
 			// Check for var name.
 			pPrefs->GetVal(
@@ -157,7 +159,7 @@ int16_t CMenuSettings::LoadPrefs(
 	if (!sResult)
 		{
 		if (pPrefs->IsError())
-			sResult = FAILURE;
+			sResult = -1;
 		}
 
 	return sResult;
@@ -178,8 +180,7 @@ int16_t CMenuSettings::SavePrefs(
 int16_t CMenuSettings::LoadGame(
 	RFile* pFile)
 	{
-  UNUSED(pFile);
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -189,8 +190,7 @@ int16_t CMenuSettings::LoadGame(
 int16_t CMenuSettings::SaveGame(
 	RFile* pFile)
 	{
-  UNUSED(pFile);
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -200,8 +200,7 @@ int16_t CMenuSettings::SaveGame(
 int16_t CMenuSettings::PreDemo(
 	RFile* pFile)
 	{
-  UNUSED(pFile);
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -211,8 +210,7 @@ int16_t CMenuSettings::PreDemo(
 int16_t CMenuSettings::PostDemo(
 	RFile* pFile)
 	{
-  UNUSED(pFile);
-   return SUCCESS;
+	return 0;
 	}
 
 

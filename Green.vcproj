@@ -42,8 +42,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-        AdditionalIncludeDirectories=".\sys\include;.\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS"
+				AdditionalIncludeDirectories=".\SDL2\include;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;."
+				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;WITH_STEAMWORKS=0"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -114,8 +114,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-        AdditionalIncludeDirectories=".\sys\include;.\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;_DEBUG;WIN32;_WINDOWS;STEAM_CONNECTED"
+				AdditionalIncludeDirectories=".\SDL2\include;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;."
+				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;NOSHMALLOC;WITH_STEAMWORKS=1"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Build\Green\Debug/Green.pch"
@@ -186,8 +186,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-        AdditionalIncludeDirectories=".\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS;TRACENASSERT"
+				AdditionalIncludeDirectories=".\RSPiX\c\Win32\SmartHeap\Include,.\RSPiX\Src,.\RSPiX\Src\Blue,.\RSPiX\Inc,."
+				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;TRACENASSERT"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -241,7 +241,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;hpj;bat;for;f90"
 			>
 			<File
-        RelativePath="RSPiX\GREEN\Hot\hot.cpp"
+				RelativePath="RSPiX\Src\GREEN\Hot\hot.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -275,7 +275,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\Image\Image.cpp"
+				RelativePath="RSPiX\Src\GREEN\Image\Image.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -309,7 +309,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\Image\Imagecon.cpp"
+				RelativePath="RSPiX\Src\GREEN\Image\Imagecon.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -343,7 +343,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\Image\ImageFile.cpp"
+				RelativePath="RSPiX\Src\GREEN\Image\ImageFile.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -377,7 +377,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\InputEvent\InputEvent.cpp"
+				RelativePath="RSPiX\Src\GREEN\InputEvent\InputEvent.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -411,7 +411,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\Mix\mix.cpp"
+				RelativePath="RSPiX\Src\GREEN\Mix\mix.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -445,7 +445,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\Mix\MixBuf.cpp"
+				RelativePath="RSPiX\Src\GREEN\Mix\MixBuf.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -479,7 +479,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\Image\pal.cpp"
+				RelativePath="RSPiX\Src\GREEN\Image\pal.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -513,7 +513,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\Image\PalFile.cpp"
+				RelativePath="RSPiX\Src\GREEN\Image\PalFile.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -547,7 +547,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\Sample\sample.cpp"
+				RelativePath="RSPiX\Src\GREEN\Sample\sample.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -581,7 +581,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\Snd\snd.cpp"
+				RelativePath="RSPiX\Src\GREEN\Snd\snd.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -615,7 +615,41 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\SndFx\SndFx.cpp"
+				RelativePath="RSPiX\Src\GREEN\SndFx\SndFx.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="0"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Optimized Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="RSPiX\Src\GREEN\Task\task.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -654,47 +688,51 @@
 			Filter="h;hpp;hxx;hm;inl;fi;fd"
 			>
 			<File
-        RelativePath="RSPiX\green\hot\hot.h"
+				RelativePath="RSPiX\Src\green\hot\hot.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\IMAGE\IMAGE.H"
+				RelativePath="RSPiX\Src\GREEN\IMAGE\IMAGE.H"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\green\image\ImageFile.h"
+				RelativePath="RSPiX\Src\green\image\ImageFile.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\green\InputEvent\InputEvent.h"
+				RelativePath="RSPiX\Src\green\InputEvent\InputEvent.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\green\mix\mix.h"
+				RelativePath="RSPiX\Src\green\mix\mix.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\green\mix\mixbuf.h"
+				RelativePath="RSPiX\Src\green\mix\mixbuf.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\green\image\pal.h"
+				RelativePath="RSPiX\Src\green\image\pal.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\green\image\PalFile.h"
+				RelativePath="RSPiX\Src\green\image\PalFile.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\green\sample\sample.h"
+				RelativePath="RSPiX\Src\green\sample\sample.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\green\snd\snd.h"
+				RelativePath="RSPiX\Src\green\snd\snd.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\green\SndFx\SndFx.h"
+				RelativePath="RSPiX\Src\green\SndFx\SndFx.h"
+				>
+			</File>
+			<File
+				RelativePath="RSPiX\Src\green\task\task.h"
 				>
 			</File>
 		</Filter>

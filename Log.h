@@ -27,28 +27,26 @@
 int16_t OpenLogFile();
 int16_t CloseLogFile();
 
-#if !defined(MULTIPLAYER_REMOVED)
-
 ////////////////////////////////////////////////////////////////////////////////
 // WriteTimeStamp()
 //			Write the network time log
 //		global variables used:		g_GameSettings
 ////////////////////////////////////////////////////////////////////////////////
 extern
-int16_t WriteTimeStamp(const char *pszCaller,						// Name of calling routine
-                     const char *pszCalleeName,					// Name of player being sent or sending
+int16_t WriteTimeStamp(char *pszCaller,						// Name of calling routine
+							char *pszCalleeName,					// Name of player being sent or sending 
 							uint8_t ucMsgType,			// Message type
 							Net::SEQ seqStart,					// Beginning sequent sent/received
 							int32_t sNum,								// Number of seq's sent/received
 							char bReceived,							// a received or a sent message? TRUE if received
-							uint16_t u16PackageID = 0);				// Uniquely identifiable package id
+							U16 u16PackageID = 0);				// Uniquely identifiable package id
 ////////////////////////////////////////////////////////////////////////////////
 // WriteInputData()
 //			Write the network input data to network sync log
 //		global variables used:		g_GameSettings
 ////////////////////////////////////////////////////////////////////////////////
-extern int16_t WriteInputData(uint32_t *input);
-#endif // !defined(MULTIPLAYER_REMOVED)
+extern int16_t WriteInputData(U32 *input);
+
 
 #endif //LOG_H
 ////////////////////////////////////////////////////////////////////////////////

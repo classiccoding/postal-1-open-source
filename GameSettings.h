@@ -116,14 +116,20 @@
 #ifndef GAMESETTINGS_H
 #define GAMESETTINGS_H
 
-#include <ctime>
+#include <time.h>
 
-#include <RSPiX.h>
-#include <Prefs/prefs.h>
+#include "RSPiX.h"
+#ifdef PATHS_IN_INCLUDES
+	#include "WishPiX/Prefs/prefs.h"
+#else
+	#include "prefs.h"
+#endif
 
 #include "settings.h"
 #include "localize.h"
 #include "SampleMaster.h"
+
+#include "CompileOptions.h"
 
 #define MAX_TITLE_SCREENS	10
 
@@ -131,14 +137,14 @@
 class CGameSettings : CSettings
 	{
 	public:
-		char		m_pszCDPath[PATH_MAX+1];			// CD (Compact Disc) Path.  Where product was installed from.
-		char		m_pszHDPath[PATH_MAX+1];			// HD (Hard Drive) Path.  Where product was installed to.
-		char		m_pszVDPath[PATH_MAX+1];			// VD (Variable Drive) Path.  Either HD or CD path, depending on optional install.
-		char		m_pszSoundPath[PATH_MAX+1];		// Path for sound files
-		char		m_pszGamePath[PATH_MAX+1];		// Path for game sak and other game files
-		char		m_pszHoodsPath[PATH_MAX+1];		// Path for level hoods
-		char		m_szNoSakDir[PATH_MAX];			// NoSakDir path.  The root path to files in the absence of their SAK.
-		char		m_pszRealmPrefsFile[PATH_MAX+1];// Name of realm prefs file
+		char		m_pszCDPath[RSP_MAX_PATH+1];			// CD (Compact Disc) Path.  Where product was installed from.
+		char		m_pszHDPath[RSP_MAX_PATH+1];			// HD (Hard Drive) Path.  Where product was installed to.
+		char		m_pszVDPath[RSP_MAX_PATH+1];			// VD (Variable Drive) Path.  Either HD or CD path, depending on optional install.
+		char		m_pszSoundPath[RSP_MAX_PATH+1];		// Path for sound files
+		char		m_pszGamePath[RSP_MAX_PATH+1];		// Path for game sak and other game files
+		char		m_pszHoodsPath[RSP_MAX_PATH+1];		// Path for level hoods
+		char		m_szNoSakDir[RSP_MAX_PATH];			// NoSakDir path.  The root path to files in the absence of their SAK.
+		char		m_pszRealmPrefsFile[RSP_MAX_PATH+1];// Name of realm prefs file
 
 		int16_t		m_sDifficulty;								// Difficulty level (0 to 11)
 		int16_t		m_sViolence;								// Violence level (0 to 11)
@@ -150,43 +156,43 @@ class CGameSettings : CSettings
 		int16_t		m_sAprilFools;
 #endif
 
-		char		m_szServerName[PATH_MAX];			// Name of server for network game.
+		char		m_szServerName[RSP_MAX_PATH];			// Name of server for network game.
 		uint16_t	m_usServerPort;							// Port on server for network game.
 		uint16_t	m_usProtocol;								// Network protocol enum
 		char		m_szPlayerName[256];						// Player's name for multiplayer mode.
-      uint16_t		m_sPlayerColorIndex;						// Player's color index for multiplayer mode.
-      uint16_t		m_sNetBandwidth;							// Network bandwidth
-      uint16_t		m_sHostMinBandwidth;						// Host's minimum network bandwidth
-      uint16_t		m_sHostMaxPlayers;						// Host's max players
-		char		m_szHostName[PATH_MAX];			// Host name
+		int16_t		m_sPlayerColorIndex;						// Player's color index for multiplayer mode.
+		int16_t		m_sNetBandwidth;							// Network bandwidth
+		int16_t		m_sHostMinBandwidth;						// Host's minimum network bandwidth
+		int16_t		m_sHostMaxPlayers;						// Host's max players
+		char		m_szHostName[RSP_MAX_PATH];			// Host name
 		int16_t		m_sHostResetScoresEachLevel;			// Host's reset-scores-each-level flag
 		int16_t		m_sHostRejuvenate;						// Host's rejuvenation flag
 		int16_t		m_sHostTimeLimit;							// Host's time limit
 		int16_t		m_sHostKillLimit;							// Host's kill limit
-      uint16_t		m_sNetGetInputInterval;					// Interval between getting input
-      uint16_t		m_sNetSendInputInterval;				// Interval between sending input
-      uint16_t		m_sNetMaxFrameLag;						// Maximum lag between output frame and input seq
-      uint16_t		m_sNetTimePerFrame;						// Time per frame
-      milliseconds_t		m_lNetMaxBlockingTime;					// Maximum network blocking time
-      milliseconds_t		m_lNetForceAbortTime;					// Maximum time after which to force abort
+		int16_t		m_sNetGetInputInterval;					// Interval between getting input
+		int16_t		m_sNetSendInputInterval;				// Interval between sending input
+		int16_t		m_sNetMaxFrameLag;						// Maximum lag between output frame and input seq
+		int16_t		m_sNetTimePerFrame;						// Time per frame
+		int32_t		m_lNetMaxBlockingTime;					// Maximum network blocking time
+		int32_t		m_lNetForceAbortTime;					// Maximum time after which to force abort
 /*** 12/5/97 AJC ***/
-		char		m_szNetSyncLogFile[PATH_MAX+1];	// Log file name for recording network syn time
+		char		m_szNetSyncLogFile[RSP_MAX_PATH+1];	// Log file name for recording network syn time
 		RFile		m_rfNetSyncLog;							// Log file for network syn time
-      milliseconds_t		m_lStartRealmTime;						// Time when a client receives START_REALM from server
+		int32_t		m_lStartRealmTime;						// Time when a client receives START_REALM from server
 		char		m_bLogNetTime;								// True, if user wants to log net time
 /*** 12/5/97 AJC ***/
 /*** 01/14/98 SPA ***/
-      uint32_t		m_lPeerDropMaxWaitTime;					// Maximum time to wait for peer data before
+		int32_t		m_lPeerDropMaxWaitTime;					// Maximum time to wait for peer data before
 															// dropping peer (in seconds!!)
 /*** 01/14/98 SPA ***/
 
-      milliseconds_t		m_lInitialDemoTimeOut;					// Initial demo timeout.
-      milliseconds_t		m_lPersistentDemoTimeOut;				// Persistent demo timeout.
+		int32_t		m_lInitialDemoTimeOut;					// Initial demo timeout.
+		int32_t		m_lPersistentDemoTimeOut;				// Persistent demo timeout.
 		int16_t		m_sCanRecordDemos;						// TRUE, if the user can record demos.
-		char		m_szDemoDebugMovie[PATH_MAX];	// If supplied, turns on recording of demo movie to this file name
-      uint16_t		m_sNumAvailableDemos;					// Number of available demos
+		char		m_szDemoDebugMovie[RSP_MAX_PATH];	// If supplied, turns on recording of demo movie to this file name
+		int16_t		m_sNumAvailableDemos;					// Number of available demos
 
-      milliseconds_t		m_alTitleDurations[MAX_TITLE_SCREENS];// Time spent on title screen while "loading".
+		int32_t		m_alTitleDurations[MAX_TITLE_SCREENS];// Time spent on title screen while "loading".
 																
 		int16_t		m_sGammaVal;								// Gamma brighten value for palette.
 		int16_t		m_sUseCurrentDeviceDimensions;		// If TRUE, the current display device dimensions are not changed.
@@ -206,7 +212,7 @@ class CGameSettings : CSettings
 
 		int16_t		m_sTrickySystemQuit;						// TRUE, to use 'trickier' system quit.
 
-		char		m_szSynchLogFile[PATH_MAX];		// If not "", logs if's to specified file.
+		char		m_szSynchLogFile[RSP_MAX_PATH];		// If not "", logs if's to specified file.
 
 		double	m_dGameFilmScale;							// Percentage of default film size for Play mode.
 																	// For example, if 50, what was normally displayed on 640x480
@@ -224,11 +230,11 @@ class CGameSettings : CSettings
 	public:	// Statics.
 		
 		// Player color descriptions.
-      static const char* ms_apszPlayerColorDescriptions[];
+		static char*	ms_apszPlayerColorDescriptions[];
 		// Number of color descriptions.
-      static const size_t ms_sNumPlayerColorDescriptions;
+		static const int16_t	ms_sNumPlayerColorDescriptions;
 		
-      static const char* ms_apszAudioLanguageDescriptions[];
+		static char*	ms_apszAudioLanguageDescriptions[];
 
 	public:
 		// Set settings to default values

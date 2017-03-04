@@ -334,13 +334,14 @@
 //							or deathmatch mode when in multiplayer.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define REALM_CPP
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 #include "game.h"
 #include "reality.h"
 #include "score.h"
-#include <ctime>
+#include <time.h>
 #include "MemFileFest.h"
 
 //#define RSP_PROFILE_ON
@@ -352,8 +353,8 @@
 // Macros/types/etc.
 ////////////////////////////////////////////////////////////////////////////////
 
-// Sets the specified value into the data pointed, if the ptr is not nullptr.
-#define SET(ptr, val)	( (ptr != nullptr) ? *ptr = val : val)
+// Sets the specified value into the data pointed, if the ptr is not NULL.
+#define SET(ptr, val)	( (ptr != NULL) ? *ptr = val : val)
 
 // Time, in ms, between status updates.
 #define STATUS_UPDATE_INTERVAL	1000
@@ -397,7 +398,7 @@ int16_t CRealm::ms_sFileCount;
 int16_t CRealm::ms_asAttribToLayer[CRealm::LayerAttribMask + 1];
 
 // Names of layers.  Use Layer enum values to index.
-const char* CRealm::ms_apszLayerNames[TotalLayers]	=
+char* CRealm::ms_apszLayerNames[TotalLayers]	=
 	{
 	"Background",
 
@@ -452,7 +453,7 @@ const char* CRealm::ms_apszLayerNames[TotalLayers]	=
 // These are the various 2d paths that we currently support.  Eventually, if
 // there's more than two, this can be presented in listbox form (instead of
 // checkbox form).
-const char*	CRealm::ms_apsz2dResPaths[Num2dPaths]	=
+char*	CRealm::ms_apsz2dResPaths[Num2dPaths]	=
 	{
 	"2d/Top/",
 	"2d/Side/",
@@ -591,7 +592,7 @@ CRealm::CRealm()
 	m_pTriggerMapHolder = 0;
 
 	// Set Hood ptr to a safe (but invalid) value.
-	m_phood			= nullptr;
+	m_phood			= NULL;
 
 /*
 	// Create a container of things for each element in the array
@@ -601,28 +602,28 @@ CRealm::CRealm()
 */
 
 	// Initialize current Navigation Net pointer
-	m_pCurrentNavNet = nullptr;
+	m_pCurrentNavNet = NULL;
 
 	// Not currently updating.
 	m_bUpdating		= false;
 
 	// Initialize dummy nodes for linked lists of CThings
 	m_everythingHead.m_pnNext = &m_everythingTail;
-	m_everythingHead.m_pnPrev = nullptr;
-	m_everythingHead.m_powner = nullptr;
-	m_everythingTail.m_pnNext = nullptr;
+	m_everythingHead.m_pnPrev = NULL;
+	m_everythingHead.m_powner = NULL;
+	m_everythingTail.m_pnNext = NULL;
 	m_everythingTail.m_pnPrev = &m_everythingHead;
-	m_everythingTail.m_powner = nullptr;
+	m_everythingTail.m_powner = NULL;
 
 	int16_t i;
 	for (i = 0; i < CThing::TotalIDs; i++)
 		{
 		m_aclassHeads[i].m_pnNext = &(m_aclassTails[i]);
-		m_aclassHeads[i].m_pnPrev = nullptr;
-		m_aclassHeads[i].m_powner = nullptr;
-		m_aclassTails[i].m_pnNext = nullptr;
+		m_aclassHeads[i].m_pnPrev = NULL;
+		m_aclassHeads[i].m_powner = NULL;
+		m_aclassTails[i].m_pnNext = NULL;
 		m_aclassTails[i].m_pnPrev = &(m_aclassHeads[i]);
-		m_aclassTails[i].m_powner = nullptr;
+		m_aclassTails[i].m_powner = NULL;
 		m_asClassNumThings[i] = 0;
 		}
 
@@ -646,7 +647,7 @@ CRealm::CRealm()
 	m_flags.bEditPlay		= false;
 	m_flags.sDifficulty	= 5;
 
-	m_fnProgress			= nullptr;
+	m_fnProgress			= NULL;
 
 	m_bPressedEndLevelKey = false;
 
@@ -719,7 +720,7 @@ void CRealm::Clear()
 	// stuck with an invalid iterator once the object is gone.
 	CListNode<CThing>* pCur;
 	CListNode<CThing>* pNext = m_everythingHead.m_pnNext;
-	while (pNext->m_powner != nullptr)
+	while (pNext->m_powner != NULL)
 	{
 		pCur = pNext;
 		pNext = pNext->m_pnNext;
@@ -754,7 +755,7 @@ bool CRealm::DoesFileExist(							// Returns true if file exists, false otherwis
 	{
 	bool bResult = false;
 	RFile file;
-   if (Open(pszFileName, &file) == SUCCESS)
+	if (Open(pszFileName, &file) == 0)
 		{
 		file.Close();
 		bResult = true;
@@ -772,7 +773,7 @@ int16_t CRealm::Open(										// Returns 0 if successfull, non-zero otherwise
 	const char* pszFileName,							// In:  Name of file to load from
 	RFile* pfile)											// I/O: RFile to be used
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	if (strlen(pszFileName) > 0)
 		{
@@ -782,12 +783,12 @@ int16_t CRealm::Open(										// Returns 0 if successfull, non-zero otherwise
 			// case of loading a level, then try the path with the HD path prepended, 
 			// then try the CD path.
 			sResult = pfile->Open(rspPathToSystem((char*)pszFileName), "rb", RFile::LittleEndian);
-			if (sResult != SUCCESS)
+			if (sResult != 0)
 				{
-            char pszFullPath[PATH_MAX];
+				char pszFullPath[RSP_MAX_PATH];
 				strcpy(pszFullPath, FullPathHD((char*) pszFileName));
 				sResult = pfile->Open((char*)pszFullPath, "rb", RFile::LittleEndian);
-				if (sResult != SUCCESS)
+				if (sResult != 0)
 					{
 					strcpy(pszFullPath, FullPathCD((char*) pszFileName));
 					sResult = pfile->Open((char*)pszFullPath, "rb", RFile::LittleEndian);
@@ -801,7 +802,7 @@ int16_t CRealm::Open(										// Returns 0 if successfull, non-zero otherwise
 		}
 	else
 		{
-		sResult = FAILURE;
+		sResult = -1;
 		TRACE("CRealm::Open(): Empty file name!\n");
 		}
 
@@ -816,7 +817,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 	const char* pszFileName,							// In:  Name of file to load from
 	bool bEditMode)										// In:  Use true for edit mode, false otherwise
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Copy the name to use later for high score purposes
 	m_rsRealmString = pszFileName;
@@ -824,7 +825,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 	// Open file
 	RFile file;
 	sResult = Open(pszFileName, &file);
-   if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// Use alternate load to do most of the work
 		sResult = Load(&file, bEditMode);
@@ -833,7 +834,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 		}
 	else
 		{
-		sResult = FAILURE;
+		sResult = -1;
 		TRACE("CRealm::Load(): Couldn't open file: %s !\n", pszFileName);
 		}
 
@@ -848,7 +849,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,											// In:  File to load from
 	bool bEditMode)										// In:  Use true for edit mode, false otherwise
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Clear the realm before loading this new stuff
 	Clear();
@@ -936,14 +937,14 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 						if (func != 0)
 							{
 							sResult = (*func)(this);
-							if (sResult != SUCCESS)
+							if (sResult != 0)
 								{
 								TRACE("CRealm::Load(): Error reported by Preload() for CThing class ID = %hd\n", (int16_t)sPre);
 								break;
 								}
 							}
 						}
-               if (sResult == SUCCESS)
+					if (sResult == 0)
 						{
 
 						// Read number of things that were written to file (could be 0!)
@@ -964,7 +965,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 								else
 									{
 									// Callback has decided to end this operation.
-									sResult = FAILURE;
+									sResult	= 1;
 									}
 								}
 
@@ -987,7 +988,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 										sResult = pThing->Load(pFile, bEditMode, ms_sFileCount, ulFileVersion);
 
 										// If successful . . .
-                              if (sResult == SUCCESS)
+										if (sResult == 0)
 											{
 											// Store last thing to successfully load.
 											idLastThingLoaded	= id;
@@ -1002,7 +1003,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 												else
 													{
 													// Callback has decided to end this operation.
-													sResult = FAILURE;
+													sResult	= 1;
 													}
 												}
 											}
@@ -1025,7 +1026,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 									}
 								else
 									{
-									sResult = FAILURE;
+									sResult = -1;
 									TRACE("CRealm::Load(): Error reading class ID!\n");
 									}
 								}
@@ -1033,7 +1034,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 							// Check for I/O errors (only matters if no errors were reported so far)
 							if (!sResult && pFile->Error())
 								{
-								sResult = FAILURE;
+								sResult = -1;
 								TRACE("CRealm::Load(): Error reading file!\n");
 								}
 
@@ -1046,37 +1047,37 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 							}
 						else
 							{
-							sResult = FAILURE;
+							sResult = -1;
 							TRACE("CRealm::Load(): Error reading count of objects in file!\n");
 							}
 						}
 					}
 				else
 					{
-					sResult = FAILURE;
+					sResult = -1;
 					TRACE("CRealm::Load(): Incorrect file version (should be 0x%lx or less, was 0x%lx)!\n", CRealm::FileVersion, ulFileVersion);
 					}
 				}
 			else
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CRealm::Load(): Error reading file version!\n");
 				}
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CRealm::Load(): Incorrect file ID (should be 0x%lx, was 0x%lx)!\n", CRealm::FileID, ulFileID);
 			}
 		}
 	else
 		{
-		sResult = FAILURE;
+		sResult = -1;
 		TRACE("CRealm::Load(): Error reading file ID!\n");
 		}
 
 #ifdef NEW_SMASH
-   if (sResult == SUCCESS) // a success....
+	if (sResult == 0) // a success....
 		{
 		/* For now, let's see if this is necessary...
 
@@ -1093,7 +1094,7 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 		if (m_smashatorium.Alloc(sOldW,sOldH,sOldTileW,sOldTileH) != SUCCESS)
 			{
 			TRACE("CRealm::Load(): Error reallocating the smashatorium!\n");
-			sResult = FAILURE;
+			sResult = -1;
 			}
 		*/
 		}
@@ -1109,12 +1110,12 @@ int16_t CRealm::Load(										// Returns 0 if successfull, non-zero otherwise
 int16_t CRealm::Save(										// Returns 0 if successfull, non-zero otherwise
 	const char* pszFile)									// In:  Name of file to save to
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Open file
 	RFile file;
 	sResult = file.Open((char*)pszFile, "wb", RFile::LittleEndian);
-   if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 
 		// Use alternate save to do most of the work
@@ -1126,7 +1127,7 @@ int16_t CRealm::Save(										// Returns 0 if successfull, non-zero otherwise
 		}
 	else
 		{
-		sResult = FAILURE;
+		sResult = -1;
 		TRACE("CRealm::Save(): Couldn't open file: %s !\n", pszFile);
 		}
 
@@ -1140,7 +1141,7 @@ int16_t CRealm::Save(										// Returns 0 if successfull, non-zero otherwise
 int16_t CRealm::Save(										// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile)											// In:  File to save to
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Increment file count
 	ms_sFileCount++;
@@ -1175,7 +1176,7 @@ int16_t CRealm::Save(										// Returns 0 if successfull, non-zero otherwise
 		else
 			{
 			// Callback has decided to end this operation.
-			sResult = FAILURE;
+			sResult	= 1;
 			}
 		}
 
@@ -1183,7 +1184,7 @@ int16_t CRealm::Save(										// Returns 0 if successfull, non-zero otherwise
 	CListNode<CThing>* pCur;
 	CListNode<CThing>* pNext = m_everythingHead.m_pnNext;
 	int16_t	sCurItemNum	= 0;
-	while (pNext->m_powner != nullptr && !sResult)
+	while (pNext->m_powner != NULL && !sResult)
 		{
 		pCur = pNext;
 		pNext = pNext->m_pnNext;
@@ -1210,7 +1211,7 @@ int16_t CRealm::Save(										// Returns 0 if successfull, non-zero otherwise
 				else
 					{
 					// Callback has decided to end this operation.
-					sResult = FAILURE;
+					sResult	= 1;
 					}
 				}
 			}
@@ -1219,7 +1220,7 @@ int16_t CRealm::Save(										// Returns 0 if successfull, non-zero otherwise
 	// Check for I/O errors (only matters if no errors were reported so far)
 	if (!sResult && pFile->Error())
 		{
-		sResult = FAILURE;
+		sResult = -1;
 		TRACE("CRealm::Save(): Error writing file!\n");
 		}
 
@@ -1232,7 +1233,7 @@ int16_t CRealm::Save(										// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CRealm::Startup(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Initialize Population statistics b/c anyone killed already was not done so 
 	// by the player.
@@ -1271,7 +1272,7 @@ int16_t CRealm::Startup(void)							// Returns 0 if successfull, non-zero otherw
 		CListNode<CThing>* pCur;
 		CListNode<CThing>* pNext = m_everythingHead.m_pnNext;
 		// Go through all objects, calling Startup() for those that have the flag set
-		while (pNext->m_powner != nullptr && !sResult)
+		while (pNext->m_powner != NULL && !sResult)
 		{
 			pCur = pNext;
 			pNext = pNext->m_pnNext;
@@ -1302,7 +1303,7 @@ int16_t CRealm::Startup(void)							// Returns 0 if successfull, non-zero otherw
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CRealm::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// This loop is specifically designed so that it will not end until all of
 	// the objects have been scanned in a single pass and none have their flags
@@ -1320,7 +1321,7 @@ int16_t CRealm::Shutdown(void)							// Returns 0 if successfull, non-zero other
 		// stuck with an invalid iterator once the object is gone.
 		CListNode<CThing>* pCur;
 		CListNode<CThing>* pNext = m_everythingHead.m_pnNext;
-		while (pNext->m_powner != nullptr && !sResult)
+		while (pNext->m_powner != NULL && !sResult)
 		{
 			pCur = pNext;
 			pNext = pNext->m_pnNext;
@@ -1357,7 +1358,7 @@ void CRealm::Suspend(void)
 	// stuck with an invalid iterator once the object is gone.
 	CListNode<CThing>* pCur;
 	CListNode<CThing>* pNext = m_everythingHead.m_pnNext;
-	while (pNext->m_powner != nullptr)
+	while (pNext->m_powner != NULL)
 	{
 		pCur = pNext;
 		pNext = pNext->m_pnNext;
@@ -1385,7 +1386,7 @@ void CRealm::Resume(void)
 		// stuck with an invalid iterator once the object is gone.
 		CListNode<CThing>* pCur;
 		CListNode<CThing>* pNext = m_everythingHead.m_pnNext;
-		while (pNext->m_powner != nullptr)
+		while (pNext->m_powner != NULL)
 		{
 			pCur = pNext;
 			pNext = pNext->m_pnNext;
@@ -1434,7 +1435,7 @@ void CRealm::Update(void)
 	// Do this for everything.
 	CThing* pthing;
 	m_pNext = m_everythingHead.m_pnNext;
-	while (m_pNext->m_powner != nullptr)
+	while (m_pNext->m_powner != NULL)
 	{
 		pthing = m_pNext->m_powner;
 		m_pNext = m_pNext->m_pnNext;
@@ -1468,7 +1469,7 @@ void CRealm::Render(void)
 	// Do this for everything.
 	CThing* pthing;
 	m_pNext = m_everythingHead.m_pnNext;
-	while (m_pNext->m_powner != nullptr)
+	while (m_pNext->m_powner != NULL)
 	{
 		pthing = m_pNext->m_powner;
 		m_pNext = m_pNext->m_pnNext;
@@ -1519,7 +1520,7 @@ void CRealm::Render(
 	}
 */
 
-#if !defined(EDITOR_REMOVED)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Edit mode: Update the realm
 ////////////////////////////////////////////////////////////////////////////////
@@ -1529,7 +1530,7 @@ void CRealm::EditUpdate(void)
 	// stuck with an invalid iterator once the object is gone.
 	CListNode<CThing>* pCur;
 	CListNode<CThing>* pNext = m_everythingHead.m_pnNext;
-	while (pNext->m_powner != nullptr)
+	while (pNext->m_powner != NULL)
 		{
 		pCur = pNext;
 		pNext = pNext->m_pnNext;
@@ -1548,7 +1549,7 @@ void CRealm::EditRender(void)
 	// stuck with an invalid iterator once the object is gone.
 	CListNode<CThing>* pCur;
 	CListNode<CThing>* pNext = m_everythingHead.m_pnNext;
-	while (pNext->m_powner != nullptr)
+	while (pNext->m_powner != NULL)
 		{
 		pCur = pNext;
 		pNext = pNext->m_pnNext;
@@ -1605,7 +1606,7 @@ void CRealm::EditModify(void)
 	RGuiItem*	pguiRoot	= RGuiItem::LoadInstantiate(FullPathVD(REALM_DIALOG_FILE));
 	RProcessGui	guiDialog;
 
-	if (pguiRoot != nullptr)
+	if (pguiRoot != NULL)
 	{
 		RGuiItem*	pguiOk		= pguiRoot->GetItemFromId(1);
 		RGuiItem*	pguiCancel	= pguiRoot->GetItemFromId(2);
@@ -1616,12 +1617,12 @@ void CRealm::EditModify(void)
 		REdit* peditKillsPct = (REdit*) pguiRoot->GetItemFromId(KILLS_PCT_EDIT_ID);
 		REdit* peditFlagsNum = (REdit*) pguiRoot->GetItemFromId(FLAGS_NUM_EDIT_ID);
 		RListBox* plbScoreModes = (RListBox*) pguiRoot->GetItemFromId(SCORE_MODE_LB_ID);
-		RGuiItem* pguiItem = nullptr;
+		RGuiItem* pguiItem = NULL;
 		int32_t lMinutes;
 		int32_t lSeconds;
 
-		if (peditMinutes != nullptr && peditSeconds != nullptr && peditKillsNum != nullptr &&
-		    peditKillsPct != nullptr && peditFlagsNum != nullptr && plbScoreModes != nullptr)
+		if (peditMinutes != NULL && peditSeconds != NULL && peditKillsNum != NULL &&
+		    peditKillsPct != NULL && peditFlagsNum != NULL && plbScoreModes != NULL)
 		{
 			ASSERT(peditMinutes->m_type == RGuiItem::Edit);
 			ASSERT(peditSeconds->m_type == RGuiItem::Edit);
@@ -1633,7 +1634,7 @@ void CRealm::EditModify(void)
 			lMinutes = m_lScoreTimeDisplay / 60000;
 			lSeconds = (m_lScoreTimeDisplay / 1000) % 60;
 
-         peditMinutes->SetText("%i", lMinutes);
+			peditMinutes->SetText("%ld", lMinutes);
 			peditSeconds->SetText("%2.2ld", lSeconds);
 			peditKillsNum->SetText("%d", m_sKillsGoal);
 			peditKillsPct->SetText("%3.1f", m_dKillsPercentGoal);
@@ -1645,7 +1646,7 @@ void CRealm::EditModify(void)
 			peditFlagsNum->Compose();
 			
 			pguiItem = plbScoreModes->GetItemFromId(SCORE_MODE_LIST_BASE + m_ScoringMode);
-			if (pguiItem != nullptr)
+			if (pguiItem != NULL)
 			{
 				plbScoreModes->SetSel(pguiItem);
 				plbScoreModes->AdjustContents();
@@ -1667,15 +1668,14 @@ void CRealm::EditModify(void)
 				m_dKillsPercentGoal = (double) peditKillsPct->GetVal();
 
 				pguiItem = plbScoreModes->GetSel();
-				if (pguiItem != nullptr)
+				if (pguiItem != NULL)
 					m_ScoringMode = pguiItem->m_lId - SCORE_MODE_LIST_BASE;
 			}
 		}
 	}
 }
-#endif // !defined(EDITOR_REMOVED)
 
-#if defined(__ANDROID__)
+#ifdef MOBILE
 extern "C"
 {
 #include "android/android.h"
@@ -1687,7 +1687,7 @@ extern "C"
 ////////////////////////////////////////////////////////////////////////////////
 bool CRealm::IsEndOfLevelGoalMet(bool bEndLevelKey)
 {
-#if defined(__ANDROID__)
+#ifdef MOBILE
 	bool showAndroidKey = true;
 	switch (m_ScoringMode)
 	{
@@ -1832,9 +1832,9 @@ bool CRealm::IsPathClear(			// Returns true, if the entire path is clear.
 											// where we'd assume a certain frame rate.
 	int16_t	sDistanceXZ,				// In:  Distance on X/Z plane.
 	int16_t sVerticalTolerance /*= 0*/,	// In:  Max traverser can step up.
-	int16_t* psX /*= nullptr*/,			// Out: If not nullptr, last clear point on path.
-	int16_t* psY /*= nullptr*/,			// Out: If not nullptr, last clear point on path.
-	int16_t* psZ /*= nullptr*/,			// Out: If not nullptr, last clear point on path.
+	int16_t* psX /*= NULL*/,			// Out: If not NULL, last clear point on path.
+	int16_t* psY /*= NULL*/,			// Out: If not NULL, last clear point on path.
+	int16_t* psZ /*= NULL*/,			// Out: If not NULL, last clear point on path.
 	bool bCheckExtents /*= true*/)	// In:  If true, will consider the edge of the realm a path
 												// inhibitor.  If false, reaching the edge of the realm
 												// indicates a clear path.
@@ -1921,7 +1921,7 @@ bool CRealm::IsPathClear(			// Returns true, if the entire path is clear.
 	// FEEDBACK.
 	// Create a line sprite.
 	CSpriteLine2d*	psl2d	= new CSpriteLine2d;
-	if (psl2d != nullptr)
+	if (psl2d != NULL)
 		{
 		Map3Dto2D(
 			sX, 
@@ -1967,9 +1967,9 @@ bool CRealm::IsPathClear(			// Returns true, if the entire path is clear.
 	int16_t	sDstX,						// In:  Destination X.
 	int16_t	sDstZ,						// In:  Destination Z.
 	int16_t sVerticalTolerance /*= 0*/,	// In:  Max traverser can step up.
-	int16_t* psX /*= nullptr*/,			// Out: If not nullptr, last clear point on path.
-	int16_t* psY /*= nullptr*/,			// Out: If not nullptr, last clear point on path.
-	int16_t* psZ /*= nullptr*/,			// Out: If not nullptr, last clear point on path.
+	int16_t* psX /*= NULL*/,			// Out: If not NULL, last clear point on path.
+	int16_t* psY /*= NULL*/,			// Out: If not NULL, last clear point on path.
+	int16_t* psZ /*= NULL*/,			// Out: If not NULL, last clear point on path.
 	bool bCheckExtents /*= true*/)	// In:  If true, will consider the edge of the realm a path
 												// inhibitor.  If false, reaching the edge of the realm
 												// indicates a clear path.
@@ -1993,9 +1993,9 @@ bool CRealm::IsPathClear(			// Returns true, if the entire path is clear.
 									// where we'd assume a certain frame rate.
 		sDistanceXZ,			// In:  Distance on X/Z plane.
 		sVerticalTolerance,	// In:  Max traverser can step up.
-		psX,						// Out: If not nullptr, last clear point on path.
-		psY,						// Out: If not nullptr, last clear point on path.
-		psZ,						// Out: If not nullptr, last clear point on path.
+		psX,						// Out: If not NULL, last clear point on path.
+		psY,						// Out: If not NULL, last clear point on path.
+		psZ,						// Out: If not NULL, last clear point on path.
 		bCheckExtents);		// In:  If true, will consider the edge of the realm a path
 									// inhibitor.  If false, reaching the edge of the realm
 									// indicates a clear path.
@@ -2208,7 +2208,7 @@ int16_t CRealm::GetHeightAndNoWalk(	// Returns height at new location.
 	// Scale the Z based on the view angle.
 	::MapZ3DtoY2D(sZ, &sZ, sRotX);
 
-	uint16_t	u16Attrib	= m_pTerrainMap->GetVal(sX, sZ, REALM_ATTR_NOT_WALKABLE);
+	U16	u16Attrib	= m_pTerrainMap->GetVal(sX, sZ, REALM_ATTR_NOT_WALKABLE);
 
 	int16_t	sH = 4 * (u16Attrib & REALM_ATTR_HEIGHT_MASK); 
 
@@ -2250,7 +2250,7 @@ int16_t CRealm::GetFloorAttribute(int16_t sX, int16_t sZ)
 
 // Get the floor value at an x/z position.
 // sMask, if off map.
-int16_t CRealm::GetFloorMapValue(int16_t sX, int16_t sZ, int16_t sMask/* = 0x007F*/)
+int16_t CRealm::GetFloorMapValue(int16_t sX, int16_t sZ, int16_t sMask/* = 0x007f*/)
 	{
 	// Scale the Z based on the view angle.
 	::MapZ3DtoY2D(sZ, &sZ, m_phood->GetRealmRotX() );
@@ -2294,7 +2294,7 @@ int16_t CRealm::GetEffectMapValue(int16_t sX, int16_t sZ)
 ////////////////////////////////////////////////////////////////////////////////
 // Makes a 2D path based on the current hood setting for 'Use top-view 2Ds'.
 // Note that this function returns to you a ptr to its one and only static
-// string of length PATH_MAX.  Do not write to this string and do not
+// string of length RSP_MAX_PATH.  Do not write to this string and do not
 // store this string.  It is best to just use this call to pass a string to
 // a function that will just use it right away (i.e., will not store it or
 // modify it).
@@ -2305,12 +2305,12 @@ const char* CRealm::Make2dResPath(	// Returns a ptr to an internal static buffer
 												// on the current hood settings.
 	const char* pszResName)				// In:  Resource name to prepend path to.
 	{
-   static char	szFullPath[PATH_MAX];
+	static char	szFullPath[RSP_MAX_PATH];
 
 	ASSERT(m_s2dResPathIndex < NUM_ELEMENTS(ms_apsz2dResPaths) );
 
 	// Get resource path.
-   const char*	pszPath	= ms_apsz2dResPaths[m_s2dResPathIndex];
+	char*	pszPath	= ms_apsz2dResPaths[m_s2dResPathIndex];
 	
 	ASSERT(strlen(pszPath) + strlen(pszResName) < sizeof(szFullPath) );
 
@@ -2330,8 +2330,9 @@ void CRealm::CreateLayerMap(void)
 	{
 	// If table needs to be built . . .
 	if (ms_asAttribToLayer[0] != LayerSprite16)
-      {
-      for (size_t l = 0; l < NUM_ELEMENTS(ms_asAttribToLayer); l++)
+		{
+		int32_t	l;
+		for (l = 0; l < NUM_ELEMENTS(ms_asAttribToLayer); l++)
 			{
 			if (l & 0x0001)
 				ms_asAttribToLayer[l]	= LayerSprite1;

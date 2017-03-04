@@ -28,7 +28,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include <RSPiX.h>
+#include "RSPiX.h"
+
+#include "CompileOptions.h"
 
 //////////////////////////////////////////////////////////////////////////////
 // Typedefs.
@@ -37,7 +39,7 @@
 typedef struct
 	{
 	char*	pszResName;	// Resource filename.
-	uint8_t*	pau8Res;		// Resource data.
+	U8*	pau8Res;		// Resource data.
 	int32_t	lResSize;	// Amount of resource data in bytes.
 	} FATEntry;
 

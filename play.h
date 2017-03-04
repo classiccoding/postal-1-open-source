@@ -68,20 +68,15 @@
 #ifndef PLAY_H
 #define PLAY_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "menus.h"
+#include "netclient.h"
+#include "netserver.h"
 #include "input.h"
 #include "camera.h"
 #include "dude.h"
 
-#if defined(MULTIPLAYER_REMOVED)
-#include "net.h"
-#else // defined(MULTIPLAYER_REMOVED)
-#include "netclient.h"
-#include "netserver.h"
-#endif // defined(MULTIPLAYER_REMOVED)
-
-#if defined(__ANDROID__)
+#ifdef MOBILE
 #include "android/android.h"
 #endif
 ////////////////////////////////////////////////////////////////////////////////
@@ -90,21 +85,21 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
-	CNetClient*	pclient,									// In:  Client object or nullptr if not network game
-	CNetServer*	pserver,									// In:  Server object or nullptr if not server or not network game
+	CNetClient*	pclient,									// In:  Client object or NULL if not network game
+	CNetServer*	pserver,									// In:  Server object or NULL if not server or not network game
 	INPUT_MODE inputMode,								// In:  Input mode
-   const int16_t sRealmNum,								// In:  Realm number to start on or -1 to use specified realm file
+	const int16_t sRealmNum,								// In:  Realm number to start on or -1 to use specified realm file
 	const char*	pszRealmFile,							// In:  Realm file to play (ignored if sRealmNum >= 0)
 	const bool bJustOneRealm,							// In:  Play just this one realm (ignored if sRealmNum < 0)
 	const bool bGauntlet,								// In:  Play challenge levels gauntlet - as selected on menu
 	const int16_t bAddOn,									// In:  Play Add On levels
-   const uint16_t sDifficulty,							// In:  Difficulty level
+	const int16_t sDifficulty,							// In:  Difficulty level
 	const bool bRejuvenate,								// In:  Whether to allow players to rejuvenate (MP only)
-   const uint16_t sTimeLimit,								// In:  Time limit for MP games (0 if none)
-   const uint16_t sKillLimit,								// In:  Kill limit for MP games (0 if none)
+	const int16_t sTimeLimit,								// In:  Time limit for MP games (0 or negative if none)
+	const int16_t sKillLimit,								// In:  Kill limit for MP games (0 or negative if none)
 	const	int16_t	sCoopLevels,							// In:  Zero for deathmatch levels, non-zero for cooperative levels.
 	const	int16_t	sCoopMode,								// In:  Zero for deathmatch mode, non-zero for cooperative mode.
-   const uint16_t sFrameTime,								// In:  Milliseconds per frame (MP only)
+	const int16_t sFrameTime,								// In:  Milliseconds per frame (MP only)
 	RFile* pfileDemoModeDebugMovie);					// In:  File for loading/saving demo mode debug movie
 
 
@@ -118,12 +113,12 @@ extern int16_t Play_GetRealmInfo(						// Returns 0 if successfull, 1 if no such
 	bool	bCoop,											// In:  true if coop net game, false otherwise -- no effect if bNetwork is false.
 	bool  bGauntlet,										// In:  true if playing multiple challenge levels.
 	int16_t  bAddOn,											// In:  true if playing new Add on levels
-   int16_t sRealmNum,										// In:  Realm number
-	uint16_t	sDifficulty,									// In:  Realm difficulty.
+	int16_t sRealmNum,										// In:  Realm number
+	int16_t	sDifficulty,									// In:  Realm difficulty.
 	char* pszFile,											// Out: Realm's file name
-   size_t sMaxFileLen,									// In:  Max length of returned file name, including terminating null
-   char* pszTitle = nullptr,									// Out: Realm's title
-   size_t sMaxTitleLen = 0);						// In:  Max length of returned title, including terminating null
+	int16_t sMaxFileLen,									// In:  Max length of returned file name, including terminating null
+	char* pszTitle = 0,									// Out: Realm's title
+	int16_t sMaxTitleLen = NULL);						// In:  Max length of returned title, including terminating null
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -138,7 +133,7 @@ extern void Play_GetRealmSectionAndEntry(
 	bool  bGauntlet,										// In:  true if playing challenge mode
 	int16_t  bAddOn,											// In:  true if playing new add on levels
 	int16_t sRealmNum,										// In:  Realm number
-   uint16_t	sDifficulty,									// In:  Realm difficulty.
+	int16_t	sDifficulty,									// In:  Realm difficulty.
 	RString* pstrSection,								// Out: Section is returned here
 	RString* pstrEntry);									// Out: Entry is returned here
 
@@ -169,7 +164,7 @@ extern void Play_SnapPicture(void);
 ////////////////////////////////////////////////////////////////////////////////
 extern void Play_GetApplicationDescriptor(		// Returns nothing.
 	char* pszText,											// Out: Text descriptor.
-   size_t	sMaxBytes);										// In:  Amount of writable
+	int16_t	sMaxBytes);										// In:  Amount of writable 
 																// memory pointed to by pszText.
 
 //////////////////////////////////////////////////////////////////////////////

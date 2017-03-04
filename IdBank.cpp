@@ -33,7 +33,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 //
-// See header file for details.
+// See .H for details.
 //
 //////////////////////////////////////////////////////////////////////////////
 
@@ -41,7 +41,23 @@
 // C Headers -- Must be included before RSPiX.h b/c RSPiX utilizes SHMalloc.
 //////////////////////////////////////////////////////////////////////////////
 
-#include <RSPiX.h>
+///////////////////////////////////////////////////////////////////////////////
+// RSPiX Headers.
+// If PATHS_IN_INCLUDES macro is defined, we can utilize relative
+// paths to a header file.  In this case we generally go off of our
+// RSPiX root directory.  System.h MUST be included before this macro
+// is evaluated.  System.h is the header that, based on the current
+// platform (or more so in this case on the compiler), defines 
+// PATHS_IN_INCLUDES.  Blue.h includes system.h so you can include that
+// instead.
+///////////////////////////////////////////////////////////////////////////////
+#include "RSPiX.h"
+
+#ifdef PATHS_IN_INCLUDES
+
+#else
+
+#endif
 
 //////////////////////////////////////////////////////////////////////////////
 // Postal includes.
@@ -79,8 +95,8 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 void CIdBank::Insert(	// Returns nothing.
-	uint16_t	u16Id,			// ID to insert.
-	uint16_t*	pu16IdHead)		// Head of list to add to.
+	U16	u16Id,			// ID to insert.
+	U16*	pu16IdHead)		// Head of list to add to.
 	{
 	// Point this node's next at the current head of the free list.
 	m_aids[u16Id].u16IdNext			= *pu16IdHead;
@@ -104,8 +120,8 @@ void CIdBank::Insert(	// Returns nothing.
 //
 //////////////////////////////////////////////////////////////////////////////
 void CIdBank::Add(	// Returns nothing.
-	uint16_t	u16Id,		// ID to add.
-	uint16_t*	pu16IdTail)	// Tail of list to add to.
+	U16	u16Id,		// ID to add.
+	U16*	pu16IdTail)	// Tail of list to add to.
 	{
 	// Point this node's prev at the current tail of the free list.
 	m_aids[u16Id].u16IdPrev			= *pu16IdTail;
@@ -129,9 +145,9 @@ void CIdBank::Add(	// Returns nothing.
 //
 //////////////////////////////////////////////////////////////////////////////
 void CIdBank::Remove(	// Returns nothing.
-	uint16_t	u16Id,			// ID to remove.
-	uint16_t*	pu16IdHead,		// Head of list to remove from.
-	uint16_t*	pu16IdTail)		// Tail of list to remove from.
+	U16	u16Id,			// ID to remove.
+	U16*	pu16IdHead,		// Head of list to remove from.
+	U16*	pu16IdTail)		// Tail of list to remove from.
 	{
 	// If this was the head . . .
 	if (*pu16IdHead == u16Id)
@@ -180,13 +196,13 @@ void CIdBank::Reset(void)
 	{
 	// Reset all IDs.
 	// Initialize all IDs regardless of current contents.
-	uint16_t	u16Cur;
-	uint16_t	u16Prev;
+	U16	u16Cur;
+	U16	u16Prev;
 	for (u16Cur	= 0, u16Prev = IdNil; u16Cur < NumIds; u16Cur++, u16Prev++)
 		{
 		m_aids[u16Cur].u16IdPrev	= u16Prev;
 		m_aids[u16Cur].u16IdNext	= u16Cur + 1;
-		m_aids[u16Cur].pthing		= nullptr;
+		m_aids[u16Cur].pthing		= NULL;
 		}
 
 	// Last item's next should indicate end.
@@ -207,9 +223,9 @@ void CIdBank::Reset(void)
 int16_t CIdBank::Get(	// Returns 0 on success.
 	CThing*	pthing,	// In:  Thing that wants to get an ID and be put in
 							// the ID table.
-	uint16_t*		pu16ID)	// Out: ID for this particular CThing.
+	U16*		pu16ID)	// Out: ID for this particular CThing.
 	{
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	// Make sure there's one left . . .
 	if (m_u16HeadFreeId != IdNil)
@@ -226,10 +242,10 @@ int16_t CIdBank::Get(	// Returns 0 on success.
 	else
 		{
 		TRACE("GetUniqueID(): Out of IDs!\n");
-		sResult = FAILURE;
+		sRes	= -1;
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -240,15 +256,15 @@ int16_t CIdBank::Get(	// Returns 0 on success.
 int16_t CIdBank::Take(	// Returns 0 on success.
 	CThing*	pthing,	// In:  Thing that wants to take an ID and be put in
 							// the ID table.
-	uint16_t		u16ID)	// In:  ID for this particular CThing.
+	U16		u16ID)	// In:  ID for this particular CThing.
 	{
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	// Range check.
 	ASSERT(u16ID < NumIds);
 
 	// Make sure the ID is available . . .
-	if (m_aids[u16ID].pthing == nullptr)
+	if (m_aids[u16ID].pthing == NULL)
 		{
 		// Set IDs value.
 		m_aids[u16ID].pthing		= pthing;
@@ -259,10 +275,10 @@ int16_t CIdBank::Take(	// Returns 0 on success.
 	else
 		{
 		TRACE("TakeUniqueID(): ID not available!\n");
-		sResult = FAILURE;
+		sRes	= -1;
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -271,7 +287,7 @@ int16_t CIdBank::Take(	// Returns 0 on success.
 //
 //////////////////////////////////////////////////////////////////////////////
 void CIdBank::Release(	// Returns nothing.
-	uint16_t		u16ID)		// ID to release.
+	U16		u16ID)		// ID to release.
 	{
 	// If a valid ID . . .
 	if (u16ID != IdNil)
@@ -279,10 +295,10 @@ void CIdBank::Release(	// Returns nothing.
 		// Range check.
 		ASSERT(u16ID < NumIds);
 		// The ID should be in use.  If not, something has hosened.
-		ASSERT(m_aids[u16ID].pthing != nullptr);
+		ASSERT(m_aids[u16ID].pthing != NULL);
 
 		// Clear ID.
-		m_aids[u16ID].pthing		= nullptr;
+		m_aids[u16ID].pthing		= NULL;
 
 		// Add to free list.
 		Add(u16ID, &m_u16TailFreeId);
@@ -296,9 +312,9 @@ void CIdBank::Release(	// Returns nothing.
 //////////////////////////////////////////////////////////////////////////////
 int16_t CIdBank::GetThingByID(	// Returns 0 on success.
 	CThing**	ppthing,				// Out: Ptr to CThing identified by u16ID.
-	uint16_t		u16ID)				// In:  ID of thing to get.
+	U16		u16ID)				// In:  ID of thing to get.
 	{
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	if (u16ID != IdNil)
 		{
@@ -309,23 +325,23 @@ int16_t CIdBank::GetThingByID(	// Returns 0 on success.
 		*ppthing	= m_aids[u16ID].pthing;
 		
 		// This ID should be used.
-		if (*ppthing != nullptr)
+		if (*ppthing != NULL)
 			{
 			// Success.
 			}
 		else
 			{
 //			TRACE("GetThingByID(): No such ID.\n");
-         sResult = FAILURE * 2;
+			sRes	= -2;
 			}
 		}
 	else
 		{
-		*ppthing	= nullptr;
-		sResult = FAILURE;
+		*ppthing	= NULL;
+		sRes	= -1;
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ///////////////////////////////////////////////////////////////////////////////

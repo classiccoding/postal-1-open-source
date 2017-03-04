@@ -22,7 +22,7 @@
 //		03/31/97	JMI	Started.
 //
 //		07/06/97	JMI	Changed pu8ScanKey parm in KeyDescriptionToValue
-//							call from a uint8_t to a short.
+//							call from a U8 to a short.
 //							Also, changed g_apszButtonDescriptions to 
 //							g_apszMouseButtonDescriptions.
 //
@@ -48,12 +48,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 // RSPiX Includes.
 ////////////////////////////////////////////////////////////////////////////////
-#include <RSPiX.h>
+#include "RSPiX.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // C Includes.
 ////////////////////////////////////////////////////////////////////////////////
-#include <cstring>
+#include <string.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Postal Includes.
@@ -72,7 +72,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Array of key descriptors.
-const char* g_apszKeyDescriptions[128]	=
+extern char* g_apszKeyDescriptions[128]	=
 	{
 	"None",
 	"End",
@@ -205,7 +205,7 @@ const char* g_apszKeyDescriptions[128]	=
 	};
 
 // Array of mouse button descriptors.
-const char* g_apszMouseButtonDescriptions[8]	=
+extern char* g_apszMouseButtonDescriptions[8]	=
 	{
 	"None",
 	"Left",
@@ -218,7 +218,7 @@ const char* g_apszMouseButtonDescriptions[8]	=
 	};
 
 // Array of joy button descriptors.
-const char* g_apszJoyButtonDescriptions[18] =
+extern char* g_apszJoyButtonDescriptions[18] =
 {
 	"None",
 	"A",
@@ -240,7 +240,7 @@ const char* g_apszJoyButtonDescriptions[18] =
 	"RT"
 };
 /*
-extern const char* g_apszJoyButtonDescriptions[16]	=
+extern char* g_apszJoyButtonDescriptions[16]	=
 	{
 	"None",								// 0000
 	"A",									// 0001
@@ -269,25 +269,25 @@ extern const char* g_apszJoyButtonDescriptions[16]	=
 ////////////////////////////////////////////////////////////////////////////////
 extern int16_t KeyDescriptionToValue(	// Returns 0 on success.  Returns non-zero, if
 												// key not found.
-   const char*		pszKeyDescriptor,			// In:  Description of key.
-	uint32_t*	psScanKey)					// Out: Key value.
+	char*		pszKeyDescriptor,			// In:  Description of key.
+	U32*	psScanKey)					// Out: Key value.
 	{
-	int16_t sResult = FAILURE;	// Assume failure.
+	int16_t	sRes	= 1;	// Assume failure.
 
-	uint8_t	u8KeyIndex;
+	U8	u8KeyIndex;
 	for (u8KeyIndex = 0; u8KeyIndex < NUM_ELEMENTS(g_apszKeyDescriptions); u8KeyIndex++)
 		{
 		if (rspStricmp(pszKeyDescriptor, g_apszKeyDescriptions[u8KeyIndex]) == 0)
 			{
 			// Found it!
 			*psScanKey	= u8KeyIndex;
-			sResult = SUCCESS;
+			sRes	= 0;
 
 			break;
 			}
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -296,24 +296,25 @@ extern int16_t KeyDescriptionToValue(	// Returns 0 on success.  Returns non-zero
 extern int16_t MouseButtonDescriptionToMask(	// Returns 0 on success.  Returns
 															// non-zero, if description not 
 															// found.
-   const char*		pszButtonDescriptor,					// In:  Description of button.
-	uint32_t*	psButtonMask)							// Out: Button mask.
+	char*		pszButtonDescriptor,					// In:  Description of button.
+	U32*	psButtonMask)							// Out: Button mask.
 	{
-   int16_t sResult	= FAILURE;	// Assume failure.
+	int16_t	sRes	= 1;	// Assume failure.
 
-   for (size_t sButtonIndex = 0; sButtonIndex < NUM_ELEMENTS(g_apszMouseButtonDescriptions); ++sButtonIndex)
+	int16_t	sButtonIndex;
+	for (sButtonIndex = 0; sButtonIndex < NUM_ELEMENTS(g_apszMouseButtonDescriptions); sButtonIndex++)
 		{
 		if (rspStricmp(pszButtonDescriptor, g_apszMouseButtonDescriptions[sButtonIndex]) == 0)
 			{
 			// Found it!
 			*psButtonMask = MouseIndexToBitfield(sButtonIndex);
-         sResult	= SUCCESS;
+			sRes	= 0;
 
 			break;
 			}
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -321,24 +322,25 @@ extern int16_t MouseButtonDescriptionToMask(	// Returns 0 on success.  Returns
 ////////////////////////////////////////////////////////////////////////////////
 extern int16_t JoyButtonDescriptionToMask(	// Returns 0 on success.  Returns 
 														// non-zero, if description not found.
-   const char*		pszButtonDescriptor,				// In:  Description of button.
-	uint32_t*	psButtonMask)						// Out: Button mask.
+	char*		pszButtonDescriptor,				// In:  Description of button.
+	U32*	psButtonMask)						// Out: Button mask.
 	{
-   int16_t sResult	= FAILURE;	// Assume failure.
+	int16_t	sRes	= 1;	// Assume failure.
 
-   for (size_t sButtonIndex = 0; sButtonIndex < NUM_ELEMENTS(g_apszJoyButtonDescriptions); ++sButtonIndex)
+	int16_t	sButtonIndex;
+	for (sButtonIndex = 0; sButtonIndex < NUM_ELEMENTS(g_apszJoyButtonDescriptions); sButtonIndex++)
 		{
 		if (rspStricmp(pszButtonDescriptor, g_apszJoyButtonDescriptions[sButtonIndex]) == 0)
 			{
 			// Found it!
 			*psButtonMask = JoyIndexToBitfield(sButtonIndex);
-         sResult	= SUCCESS;
+			sRes	= 0;
 
 			break;
 			}
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////

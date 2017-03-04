@@ -93,8 +93,9 @@
 // This CThing-derived class will play sounds with various options.
 //
 //////////////////////////////////////////////////////////////////////////////
+#define DEMON_CPP
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "demon.h"
 #include "game.h"
 #include "dude.h"
@@ -349,7 +350,6 @@ SampleMasterID* CDemon::ms_apsmidKillSeries[NumSoundBanks][NumKillSeriesComments
 int16_t CDemon::Preload(
 	CRealm* prealm)				// In:  Calling realm.
 {
-  UNUSED(prealm);
 #if 0
 	// Tell samplemaster to cache (preload) this sample
 	CacheSample(g_smidDemonBleed);
@@ -393,8 +393,9 @@ int16_t CDemon::Preload(
 	CacheSample(g_smidDemonYes2);
 	CacheSample(g_smidDemonBuckwheat4);
 	CacheSample(g_smidDemonTheMan);
+
 #endif
-	return SUCCESS;
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -407,7 +408,7 @@ int16_t CDemon::Load(								// Returns 0 if successfull, non-zero otherwise
 	uint32_t	ulFileVersion)									// In:  Version of file format to load.
 {
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 	{
 		switch (ulFileVersion)
 		{
@@ -468,7 +469,7 @@ int16_t CDemon::Load(								// Returns 0 if successfull, non-zero otherwise
 				{
 				// For backwards compatability.
 				int32_t	alDummy[2];
-				char	szResNameDummy[PATH_MAX];
+				char	szResNameDummy[RSP_MAX_PATH];
 				pFile->Read(&alDummy[0]/*(long*)&m_bInitiallyEnabled*/);
 				pFile->Read(&alDummy[0]/*(long*)&m_bInitiallyRepeats*/);
 				pFile->Read(alDummy/*m_lMinTime*/, 2);
@@ -479,13 +480,13 @@ int16_t CDemon::Load(								// Returns 0 if successfull, non-zero otherwise
 		}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 		{
 			sResult = Init();
 		}
 		else
 		{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CDemon::Load(): Error reading from file!\n");
 		}
 	}
@@ -501,8 +502,8 @@ int16_t CDemon::Save(										// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 {
-	int16_t sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == SUCCESS)
+	int16_t	sResult	= CThing::Save(pFile, sFileCount);
+	if (sResult == 0)
 	{
 		pFile->Write(m_sSoundBank);
 		pFile->Write(&m_dX);
@@ -522,7 +523,7 @@ int16_t CDemon::Save(										// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDemon::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 {
-	return SUCCESS;
+	return 0;
 }
 
 
@@ -531,7 +532,7 @@ int16_t CDemon::Startup(void)								// Returns 0 if successfull, non-zero other
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDemon::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 {
-	return SUCCESS;
+	return 0;
 }
 
 
@@ -584,7 +585,7 @@ void CDemon::Render(void)
 {
 }
 
-#if !defined(EDITOR_REMOVED)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -593,7 +594,7 @@ int16_t CDemon::EditNew(									// Returns 0 if successfull, non-zero otherwise
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -613,15 +614,15 @@ int16_t CDemon::EditNew(									// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDemon::EditModify(void)
 {
-	int16_t sResult = SUCCESS;
+	int16_t	sResult	= 0;
 
 	// Load gui dialog
 	RGuiItem* pgui = RGuiItem::LoadInstantiate(FullPath(GAME_PATH_HD, GUI_FILE_NAME));
-	if (pgui != nullptr)
+	if (pgui != NULL)
 		{
 		// Init "bank" field.
 		RGuiItem* pguiBankName = pgui->GetItemFromId(GUI_ID_BANK);
-		ASSERT(pguiBankName != nullptr);
+		ASSERT(pguiBankName != NULL);
 		pguiBankName->SetText("%hd", m_sSoundBank);
 		pguiBankName->Compose();
 
@@ -643,7 +644,7 @@ int16_t CDemon::EditModify(void)
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult	= 1;
 			}
 		
 		// Done with GUI.
@@ -651,12 +652,12 @@ int16_t CDemon::EditModify(void)
 		}
 	else
 		{
-		sResult = FAILURE;
+		sResult	= -1;
 		}
 
 #if 0	// No settins via dialog currently require re-Init()age.
 	// If everything's okay, init using new values
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		sResult = Init();
 #endif
 
@@ -676,7 +677,7 @@ int16_t CDemon::EditMove(									// Returns 0 if successfull, non-zero otherwis
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-	return SUCCESS;
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -763,27 +764,27 @@ void CDemon::EditRender(void)
 	// Update sprite in scene
 	m_pRealm->m_scene.UpdateSprite(&m_sprite);
 }
-#endif // !defined(EDITOR_REMOVED)
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Init object
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDemon::Init(void)							// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	Kill();
 
 	if (m_pImage == 0)
 	{
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(IMAGE_FILE), &m_pImage);
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 		{
 			// This is a questionable action on a resource managed item, but it's
 			// okay if EVERYONE wants it to be an FSPR8.
 			if (m_pImage->Convert(RImage::FSPR8) != RImage::FSPR8)
 			{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CDemon::GetResource() - Couldn't convert to FSPR8\n");
 			}
 		}
@@ -798,12 +799,12 @@ int16_t CDemon::Init(void)							// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CDemon::Kill(void)							// Returns 0 if successfull, non-zero otherwise
 {
-   if (m_pImage != nullptr)
+	if (m_pImage != 0)
 		rspReleaseResource(&g_resmgrGame, &m_pImage);
 
 	m_pRealm->m_scene.RemoveSprite(&m_sprite);
 
-	return SUCCESS;
+	return 0;
 }
 
 

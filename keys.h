@@ -22,7 +22,7 @@
 //		03/31/97	JMI	Started.
 //
 //		07/06/97	JMI	Changed pu8ScanKey parm in KeyDescriptionToValue
-//							call from a uint8_t to a short.
+//							call from a U8 to a short.
 //							Also, changed g_apszButtonDescriptions to 
 //							g_apszMouseButtonDescriptions.
 //
@@ -39,31 +39,31 @@
 #define KEYS_H
 
 // Array of key descriptors.
-extern const char* g_apszKeyDescriptions[128];
+extern char* g_apszKeyDescriptions[128];
 
 // Array of button descriptors.
-extern const char* g_apszMouseButtonDescriptions[8];
+extern char* g_apszMouseButtonDescriptions[8];
 
 // Array of joy button descriptors.
-extern const char* g_apszJoyButtonDescriptions[18];
+extern char* g_apszJoyButtonDescriptions[18];
 
 // Given a string, returns the appropriate key code.
 extern int16_t KeyDescriptionToValue(	// Returns 0 on success.  Returns non-zero, if
 												// key not found.
-   const char*		pszKeyDescriptor,			// In:  Description of key.
-	uint32_t*	psScanKey);					// Out: Key value.
+	char*		pszKeyDescriptor,			// In:  Description of key.
+	U32*	psScanKey);					// Out: Key value.
 
 // Given a string, returns the appropriate button mask.
 extern int16_t MouseButtonDescriptionToMask(	// Returns 0 on success.  Returns
 															// non-zero, if description not 
 															// found.
-   const char*		pszButtonDescriptor,					// In:  Description of button.
-	uint32_t*	psButtonMask);							// Out: Button mask.
+	char*		pszButtonDescriptor,					// In:  Description of button.
+	U32*	psButtonMask);							// Out: Button mask.
 
 extern int16_t JoyButtonDescriptionToMask(	// Returns 0 on success.  Returns 
 														// non-zero, if description not found.
-   const char*		pszButtonDescriptor,				// In:  Description of button.
-	uint32_t*	psButtonMask);						// Out: Button mask.
+	char*		pszButtonDescriptor,				// In:  Description of button.
+	U32*	psButtonMask);						// Out: Button mask.
 
 #endif	// KEYS_H
 ////////////////////////////////////////////////////////////////////////////////

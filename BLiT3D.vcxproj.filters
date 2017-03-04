@@ -15,30 +15,30 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="RSPiX\GREEN\3D\pipeline.cpp">
+    <ClCompile Include="RSPiX\Src\GREEN\3D\pipeline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RSPiX\GREEN\3D\render.cpp">
+    <ClCompile Include="RSPiX\Src\GREEN\3D\render.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RSPiX\GREEN\3D\types3d.cpp">
+    <ClCompile Include="RSPiX\Src\GREEN\3D\types3d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RSPiX\GREEN\3D\zbuffer.cpp">
+    <ClCompile Include="RSPiX\Src\GREEN\3D\zbuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="RSPiX\green\3d\pipeline.h">
+    <ClInclude Include="RSPiX\Src\green\3d\pipeline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RSPiX\green\3d\render.h">
+    <ClInclude Include="RSPiX\Src\green\3d\render.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RSPiX\green\3d\types3d.h">
+    <ClInclude Include="RSPiX\Src\green\3d\types3d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RSPiX\green\3d\zbuffer.h">
+    <ClInclude Include="RSPiX\Src\green\3d\zbuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

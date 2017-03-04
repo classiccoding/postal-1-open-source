@@ -78,7 +78,7 @@
 #ifndef PERSON_H
 #define PERSON_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 #include "doofus.h"
 #include "personatorium.h"
@@ -140,7 +140,7 @@ class CPerson : public CDoofus
 
 		// This is the one CPerson that can log its AI table transitions or
 		// CIdBank::IdNil.
-		static uint16_t	ms_u16IdLogAI;
+		static U16	ms_u16IdLogAI;
 
 		// "Constant" values that we want to be able to tune using the editor
 		static double ms_dLongRange;		// Squared distance (500 pixels away)
@@ -148,14 +148,14 @@ class CPerson : public CDoofus
 		static double ms_dInRangeHigh;	// Squared distance to be in range with weapon
 		static double ms_dThrowHorizVel;	// Horizontal throw velocity
 		static double ms_dMaxCrawlVel;	// Speed at which cop crawls when writhing
-      static milliseconds_t ms_lRandomAvoidTime;	// Time to wander before looking again
-      static milliseconds_t ms_lReseekTime;		// Do a 'find' again
-      static milliseconds_t ms_lWatchWaitTime;	// Time to watch shot go
-      static milliseconds_t ms_lReselectDudeTime;// Time to go without finding a dude
+		static int32_t ms_lRandomAvoidTime;	// Time to wander before looking again
+		static int32_t ms_lReseekTime;		// Do a 'find' again 
+		static int32_t ms_lWatchWaitTime;	// Time to watch shot go
+		static int32_t ms_lReselectDudeTime;// Time to go without finding a dude
 													// before calling SelectDude() to find
 													// possibly a closer one.
-      static milliseconds_t ms_lMinCommentTime;	// Min time before making a random comment
-      static milliseconds_t ms_lCommentTimeVariance;// Random amount added on to comment timer.
+		static int32_t ms_lMinCommentTime;	// Min time before making a random comment
+		static int32_t ms_lCommentTimeVariance;// Random amount added on to comment timer.
 
 	public:
 		static int16_t ms_sLogTabUserGlobal;// Global state set and read by logic tables
@@ -173,7 +173,7 @@ class CPerson : public CDoofus
 			m_dX = m_dY = m_dZ = m_dVel = m_dAcc = 0;
 			m_ePersonType = Personatorium::Grenader;
 			m_eWeaponType = CThing::CGrenadeID;
-			m_panimCur = m_panimPrev = nullptr;
+			m_panimCur = m_panimPrev = NULL;
 			m_sprite.m_pthing	= this;
 			m_rstrLogicFile = "res/logics/default.lgk";
 			m_sShowState		= FALSE;
@@ -202,11 +202,11 @@ class CPerson : public CDoofus
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CPerson(pRealm);
-         if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CPerson::Construct(): Couldn't construct CPerson (that's a bad thing)\n");
 				}
 			return sResult;
@@ -243,7 +243,6 @@ class CPerson : public CDoofus
 		// Render object.
 		void Render(void);
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -258,11 +257,10 @@ class CPerson : public CDoofus
 
 		// Called by editor to render object.
 		void EditRender(void);
-#endif // !defined(EDITOR_REMOVED)
 
 		// Function to choose and play the writhing sound effect
 		virtual SampleMaster::SoundInstance PlaySoundWrithing(
-         milliseconds_t* plDuration);					// Out:  Duration of sample, if not nullptr.
+			int32_t* plDuration);					// Out:  Duration of sample, if not NULL.
 
 		// Function to choose and play the Shot sound effect
 		virtual SampleMaster::SoundInstance PlaySoundShot(void);

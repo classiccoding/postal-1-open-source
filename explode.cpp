@@ -128,9 +128,10 @@
 //		09/03/97	JMI	Now marks Civilian as a dont care bit.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define EXPLODE_CPP
 
-#include <RSPiX.h>
-#include <cmath>
+#include "RSPiX.h"
+#include <math.h>
 
 #include "explode.h"
 #include "dude.h"
@@ -175,7 +176,7 @@ int16_t CExplode::Load(									// Returns 0 if successfull, non-zero otherwise
 	{
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -200,14 +201,14 @@ int16_t CExplode::Load(									// Returns 0 if successfull, non-zero otherwise
 		}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 		{
 			// Get resources
 			sResult = GetResources();
 		}
 		else
 		{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CExplode::Load(): Error reading from file!\n");
 		}
 	}
@@ -227,8 +228,8 @@ int16_t CExplode::Save(										// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 {
-	int16_t sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == SUCCESS)
+	int16_t	sResult	= CThing::Save(pFile, sFileCount);
+	if (sResult == 0)
 		{
 		// Save common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -253,7 +254,7 @@ int16_t CExplode::Save(										// Returns 0 if successfull, non-zero otherwise
 int16_t CExplode::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 {
 
-	return SUCCESS;
+	return 0;
 }
 
 
@@ -262,7 +263,7 @@ int16_t CExplode::Startup(void)								// Returns 0 if successfull, non-zero oth
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CExplode::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 {
-	return SUCCESS;
+	return 0;
 }
 
 
@@ -301,7 +302,7 @@ void CExplode::Update(void)
 		m_MessageQueue.Empty();
 
 		// Get new time
-      milliseconds_t lThisTime = m_pRealm->m_time.GetGameTime();
+		int32_t lThisTime = m_pRealm->m_time.GetGameTime(); 
 		
 		if (m_lTimer < m_pAnimChannel->TotalTime())
 		{
@@ -314,7 +315,7 @@ void CExplode::Update(void)
 			CFire* pSmoke;
 			for (a = 0; a < 8; a++)
 			{
-				if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == SUCCESS)
+				if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == 0)
 					pSmoke->Setup(m_dX - 4 + GetRandom() % 9, MAX(m_dY-20, 0.0), m_dZ - 4 + GetRandom() % 9, 4000, true, CFire::Smoke);
 			}
 
@@ -352,10 +353,8 @@ void CExplode::Render(void)
 		m_sprite.m_pImage = &(pAnim->m_imColor);
 		m_sprite.m_pimAlpha = &(pAnim->m_pimAlphaArray[0]);
 
-#ifdef UNUSED_VARIABLES
 		// temp
 		int16_t sTemp = pAnim->m_sNumAlphas;
-#endif
 
 		// Update sprite in scene
 		m_pRealm->m_scene.UpdateSprite(&m_sprite);
@@ -372,10 +371,10 @@ int16_t CExplode::Setup(									// Returns 0 if successfull, non-zero otherwise
 	int16_t sX,												// In:  New x coord
 	int16_t sY,												// In:  New y coord
 	int16_t sZ,												// In:  New z coord
-	uint16_t	u16ShooterID,									// In:  Who is responsible for this explosion
+	U16	u16ShooterID,									// In:  Who is responsible for this explosion
 	int16_t sAnim)											// In:  Which animation to use
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -395,14 +394,14 @@ int16_t CExplode::Setup(									// Returns 0 if successfull, non-zero otherwise
 	m_smash.m_sphere.sphere.lRadius	= ms_sBlastRadius;
 
 	// Update the smash.
-	ASSERT (m_pRealm != nullptr);
+	ASSERT (m_pRealm != NULL);
 //	m_pRealm->m_smashatorium.Update(&m_smash);
 
 	m_smash.m_bits		= 0;
 	m_smash.m_pThing	= this;
 
 	// See who we blew up and send them a message
-	CSmash* pSmashed = nullptr;
+	CSmash* pSmashed = NULL;
 	GameMessage msg;
 	msg.msg_Explosion.eType = typeExplosion;
 	msg.msg_Explosion.sPriority = 0;
@@ -430,7 +429,7 @@ int16_t CExplode::Setup(									// Returns 0 if successfull, non-zero otherwise
 	return sResult;
 }
 
-#if !defined(EDITOR_REMOVED)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -439,7 +438,7 @@ int16_t CExplode::EditNew(									// Returns 0 if successfull, non-zero otherwi
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -460,7 +459,7 @@ int16_t CExplode::EditNew(									// Returns 0 if successfull, non-zero otherwi
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CExplode::EditModify(void)
 {
-	return SUCCESS;
+	return 0;
 }
 
 
@@ -476,7 +475,7 @@ int16_t CExplode::EditMove(									// Returns 0 if successfull, non-zero otherw
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-	return SUCCESS;
+	return 0;
 }
 
 
@@ -498,21 +497,21 @@ void CExplode::EditRender(void)
 	// we can call the normal Render().
 	Render();
 }
-#endif // !defined(EDITOR_REMOVED)
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Get all required resources
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CExplode::GetResources(int16_t sAnim)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	if (sAnim == 0)
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(AA_FILE), &m_pAnimChannel, RFile::LittleEndian);
 	else
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(GE_FILE), &m_pAnimChannel, RFile::LittleEndian);
 
-	if (sResult != SUCCESS)
+	if (sResult != 0)
 		TRACE("CExplosion::GetResources - Error getting explosion animation\n");
 
 	return sResult;
@@ -525,7 +524,7 @@ int16_t CExplode::GetResources(int16_t sAnim)						// Returns 0 if successfull, 
 int16_t CExplode::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
 	rspReleaseResource(&g_resmgrGame, &m_pAnimChannel);
-	return SUCCESS;
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
