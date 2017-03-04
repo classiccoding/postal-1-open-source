@@ -497,7 +497,7 @@ int16_t RImage::sCreateMem(void **hMem,U64 ulSize)
 //
 //////////////////////////////////////////////////////////////////////
 
-int16_t RImage::sCreateAlignedMem(void **hMem, void **hData, size_t ulSize)
+int16_t RImage::sCreateAlignedMem(void **hMem, void **hData, U64 ulSize)
 {
  	// Make sure the data hasn't already been allocated
    if (*hMem != NULL)
