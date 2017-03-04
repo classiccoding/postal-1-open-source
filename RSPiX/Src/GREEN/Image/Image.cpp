@@ -497,10 +497,10 @@ int16_t RImage::sCreateMem(void **hMem,U64 ulSize)
 //
 //////////////////////////////////////////////////////////////////////
 
-int16_t RImage::sCreateAlignedMem(void **hMem, void **hData, U64 ulSize)
+int16_t RImage::sCreateAlignedMem(void **hMem, void **hData, size_t ulSize)
 {
  	// Make sure the data hasn't already been allocated
-	if (*hMem != NULL)
+   if (*hMem != NULL)
 	{
 	 	TRACE("RImage::AllocMem called by CreateData() - buffer has already been allocatd\n");
 		// buffer already exists
@@ -512,7 +512,7 @@ int16_t RImage::sCreateAlignedMem(void **hMem, void **hData, U64 ulSize)
 		{
 			// allocate an extra 15 bytes so that the data ponter can be aligned
 			// to the nearest 128-bit boundry for Blit speed reasons
-			if ((*hMem = calloc(ulSize + 15, 1)) == NULL)
+         if ((*hMem = calloc(ulSize + 15, 1)) == NULL)
 			{
 			 	TRACE("RImage::AllocMem() called by CreateData() - buffer could not be allocated\n");
 				// calloc failed
@@ -520,13 +520,8 @@ int16_t RImage::sCreateAlignedMem(void **hMem, void **hData, U64 ulSize)
 			}
 			else
 			{
-				// DO NOT Set Data buffer to 128-bit alignment
-				// This causes trouble on 64-bit for some stupid reason
-				// and is no longer important anyway
-				// *hData = (void*) ((uintptr_t)(*hMem + 0x0f) & (uintptr_t)0xfffffff0);
-				// TRACE("hData = %p\n", hData);
-				// TRACE("*hData = %p\n", *hData);
-				*hData = *hMem;
+            // Set Data buffer to 128-bit alignment (now with platform independence!)
+            *hData = reinterpret_cast<void*>((uintptr_t(*hMem) + 0x0f) & ~uintptr_t(0xf));
 				// success		 	
 				return SUCCESS;
 			}
@@ -534,7 +529,7 @@ int16_t RImage::sCreateAlignedMem(void **hMem, void **hData, U64 ulSize)
 		else
 		{
 		 	TRACE("RImage::AllocMem() called by CreateData() - Warning attempted to create a buffer of 0 bytes, quit screwing around\n");
-			*hMem = NULL;
+         *hMem = NULL;
 			return SUCCESS;
 		}
 	}
