@@ -63,7 +63,7 @@ class CGameEditThing : public CThing
 
 		// Settings //////////////////////////////////////////////////////////////
 		
-		uint16_t	m_u16CameraTrackId;	// ID of object for grip to track.
+		U16	m_u16CameraTrackId;	// ID of object for grip to track.
 		int16_t	m_sViewPosX;			// View position.
 		int16_t	m_sViewPosY;			// View position.
 		RListBox* m_plbNavNetList; // Pointer to Nav Net List Box
@@ -97,11 +97,11 @@ class CGameEditThing : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CGameEditThing(pRealm);
-         if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CGameEditThing::Construct(): Couldn't construct CGameEditThing!\n");
 				}
 			return sResult;
@@ -120,8 +120,8 @@ class CGameEditThing : public CThing
 			uint32_t	ulFileVersion)									// In:  Version of file format to load.
 			{
 			// Call base class.
-			int16_t sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-			if (sResult == SUCCESS)
+			int16_t	sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
+			if (sResult == 0)
 				{
 				// Read settings.
 				switch (ulFileVersion)
@@ -135,7 +135,7 @@ class CGameEditThing : public CThing
 					}
 
 				// Make sure there were no format errors . . .
-				if (sResult == SUCCESS)
+				if (sResult == 0)
 					{
 					// File status indicates our success, or lack thereof.
 					sResult	= pFile->Error();
@@ -155,8 +155,8 @@ class CGameEditThing : public CThing
 			int16_t sFileCount)										// In:  File count (unique per file, never 0)
 			{
 			// Call base class.
-			int16_t sResult	= CThing::Save(pFile, sFileCount);
-			if (sResult == SUCCESS)
+			int16_t	sResult	= CThing::Save(pFile, sFileCount);
+			if (sResult == 0)
 				{
 				// Write settings.
 				pFile->Write(m_u16CameraTrackId);

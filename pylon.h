@@ -45,7 +45,7 @@
 #ifndef PYLON_H
 #define PYLON_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 #include "smash.h"
 #include "Thing3d.h"
@@ -69,7 +69,7 @@ class CPylon : public CThing
 	public:
 		uint8_t	m_ucID;								// Pylon ID
 		GameMessage m_msg;						// Place for storing hint messages
-		uint16_t	m_u16TargetDudeID;				// ID of dude you are supposed to attack;
+		U16	m_u16TargetDudeID;				// ID of dude you are supposed to attack;
 
 	protected:
 		double m_dX;								// x coord
@@ -134,22 +134,22 @@ class CPylon : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 
 			if (pRealm->m_sNumPylons < PYLON_MAX_PYLONS)
 			{
 				*ppNew = new CPylon(pRealm);
-            if (*ppNew == nullptr)
+				if (*ppNew == 0)
 				{
-					sResult = FAILURE;
+					sResult = -1;
 					TRACE("CPylon::Construct(): Couldn't construct CPylon (that's a bad thing)\n");
 				}
 			}
 			else
 			{
 				TRACE("CPylon::CPylon() - No more pylon ID's available\n");
-				*ppNew = nullptr;
-				sResult = FAILURE;
+				*ppNew = NULL;
+				sResult = -1;
 			}
 
 			return sResult;
@@ -197,7 +197,6 @@ class CPylon : public CThing
 		// Render object
 		void Render(void);
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -228,24 +227,23 @@ class CPylon : public CThing
 										// EditRect() pos.
 			int16_t*	psY);			// Out: Y coord of 2D hotspot relative to
 										// EditRect() pos.
-#endif // !defined(EDITOR_REMOVED)
 
 		// Get the coordinates of this thing.
 		virtual					// Overriden here.
-      double GetX(void)	const { return m_dX; }
+		double GetX(void)	{ return m_dX; }
 
 		virtual					// Overriden here.
-      double GetY(void)	const { return m_dY; }
+		double GetY(void)	{ return m_dY; }
 
 		virtual					// Overriden here.
-      double GetZ(void)	const { return m_dZ; }
+		double GetZ(void)	{ return m_dZ; }
 
 		// Search the list of pylons and return a pointer to the one with the given ID
 		CPylon* GetPylon(uint8_t ucPylonID);
 
 		// Search the list of pylons and return the instance ID of the one with
 		// the given pylon id.
-		uint16_t GetPylonUniqueID(uint8_t ucPylonID);
+		U16 GetPylonUniqueID(uint8_t ucPylonID);
 
 		// Return true if the pylon was triggered in the last interation
 		inline bool Triggered(void)

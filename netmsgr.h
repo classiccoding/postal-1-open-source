@@ -85,7 +85,7 @@
 #ifndef NETMSGR_H
 #define NETMSGR_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "net.h"
 #include "socket.h"
 #include "BufQ.h"
@@ -113,9 +113,9 @@ inline void GetSocketAddress(
 			RProtocolBSDIP::AddressIP* p = (RProtocolBSDIP::AddressIP*)paddress;
 			pBuf->Get(&p->address.sin_family);
 			// Don't byte-swap these!!!  They are always in network order on all systems!
-			pBuf->Get((uint8_t*)&p->address.sin_port, sizeof(p->address.sin_port));
-			pBuf->Get((uint8_t*)&p->address.sin_addr, sizeof(p->address.sin_addr));
-			pBuf->Get((uint8_t*)&p->address.sin_zero, sizeof(p->address.sin_zero));
+			pBuf->Get((U8*)&p->address.sin_port, sizeof(p->address.sin_port));
+			pBuf->Get((U8*)&p->address.sin_addr, sizeof(p->address.sin_addr));
+			pBuf->Get((U8*)&p->address.sin_zero, sizeof(p->address.sin_zero));
 			}
 			break;
 
@@ -143,9 +143,9 @@ inline void PutSocketAddress(
 			RProtocolBSDIP::AddressIP* p = (RProtocolBSDIP::AddressIP*)paddress;
 			pBuf->Put(p->address.sin_family);
 			// Don't let these byte-swap!!!  They are always in network order on all systems!
-			pBuf->Put((uint8_t*)&p->address.sin_port, sizeof(p->address.sin_port));
-			pBuf->Put((uint8_t*)&p->address.sin_addr, sizeof(p->address.sin_addr));
-			pBuf->Put((uint8_t*)&p->address.sin_zero, sizeof(p->address.sin_zero));
+			pBuf->Put((U8*)&p->address.sin_port, sizeof(p->address.sin_port));
+			pBuf->Put((U8*)&p->address.sin_addr, sizeof(p->address.sin_addr));
+			pBuf->Put((U8*)&p->address.sin_zero, sizeof(p->address.sin_zero));
 			}
 			break;
 
@@ -173,7 +173,7 @@ class NetMsg
 
 		// Message types.  Do NOT change the order without making the same changes
 		// to the CNetMsgr static array of info corersponding to these values!!!
-      enum
+		typedef enum
 			{
 			NOTHING,				// 0
 			STAT,					// 1
@@ -214,7 +214,7 @@ class NetMsg
 			};
 
 		// Reasons client can't join
-      enum
+		typedef enum
 			{
 			TooManyPlayers,
 			BandwidthTooLow,
@@ -222,7 +222,7 @@ class NetMsg
 			};
 
 		// Reasons why game was aborted
-      enum
+		typedef enum
 			{
 			UserAbortedGame,
 			ErrorAbortedGame
@@ -284,7 +284,7 @@ class NetMsg
 
 		typedef struct Nothing
 			{
-         enum : size_t { Size = 1 };
+			enum { Size = 1 };
 			uint8_t	ucType;								// Message type
 
 			int32_t lSize;												// Size of message for variable-sized messages
@@ -296,14 +296,12 @@ class NetMsg
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
 				{
-           UNUSED(pmsg, pBuf);
 				TRACE("ERROR!  NOTHING message is not intended to be transmitted!\n");
 				ASSERT(0);
 				}
 
 			static void Write(NetMsg* pmsg, CBufQ* pBuf)
 				{
-           UNUSED(pmsg, pBuf);
 				TRACE("ERROR!  NOTHING message is not intended to be transmitted!\n");
 				ASSERT(0);
 				}
@@ -311,20 +309,18 @@ class NetMsg
 
 		typedef struct Stat
 			{
-         enum : size_t { Size = 1 + sizeof(Status) };
+			enum { Size = 1 + sizeof(Status) };
 			uint8_t	ucType;								// Message type
 			Status			status;								// status value
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
 				{
-           UNUSED(pmsg, pBuf);
 				TRACE("ERROR!  STAT message is not intended to be transmitted!\n");
 				ASSERT(0);
 				}
 
 			static void Write(NetMsg* pmsg, CBufQ* pBuf)
 				{
-           UNUSED(pmsg, pBuf);
 				TRACE("ERROR!  STAT message is not intended to be transmitted!\n");
 				ASSERT(0);
 				}
@@ -332,7 +328,7 @@ class NetMsg
 
 		typedef struct Err
 			{
-         enum : size_t { Size = 1 + sizeof(Error) + sizeof(uint32_t) };
+			enum { Size = 1 + sizeof(Error) + sizeof(uint32_t) };
 			uint8_t	ucType;								// Message type
 			Error				error;								// error value
 			uint32_t				ulParam;								// Miscellaneous param for errors.
@@ -342,14 +338,12 @@ class NetMsg
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
 				{
-           UNUSED(pmsg, pBuf);
 				TRACE("ERROR!  ERR message is not intended to be transmitted!\n");
 				ASSERT(0);
 				}
 
 			static void Write(NetMsg* pmsg, CBufQ* pBuf)
 				{
-           UNUSED(pmsg, pBuf);
 				TRACE("ERROR!  ERR message is not intended to be transmitted!\n");
 				ASSERT(0);
 				}
@@ -358,7 +352,7 @@ class NetMsg
 		// client tells server it wants to login
 		typedef struct Login
 			{
-         enum : size_t { Size = 9 };
+			enum { Size = 9 };
 			uint8_t	ucType;								// Message type
 			uint32_t	ulMagic;								// Magic number
 			uint32_t	ulVersion;							// Version number
@@ -381,7 +375,7 @@ class NetMsg
 		// server tells client it may login
 		typedef struct LoginAccept
 			{
-         enum : size_t { Size = 10 };
+			enum { Size = 10 };
 			uint8_t	ucType;								// Message type
 			Net::ID idAssigned;									// Assigned ID
 			uint32_t	ulMagic;								// Magic number
@@ -407,7 +401,7 @@ class NetMsg
 		// server tells client it may not login
 		typedef struct LoginDeny
 			{
-         enum : size_t { Size = 1 };
+			enum { Size = 1 };
 			uint8_t	ucType;								// Message type
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
@@ -424,7 +418,7 @@ class NetMsg
 		// client tells server it is logging out
 		typedef struct Logout
 			{
-         enum : size_t { Size = 1 };
+			enum { Size = 1 };
 			uint8_t	ucType;								// Message type
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
@@ -441,7 +435,7 @@ class NetMsg
 		// client tells server it wants to join
 		typedef struct JoinReq
 			{
-         enum : size_t { Size = 1 + Net::MaxPlayerNameSize + 1 + 1 + 2 };
+			enum { Size = 1 + Net::MaxPlayerNameSize + 1 + 1 + 2 };
 			uint8_t	ucType;								// Message type
 			char				acName[Net::MaxPlayerNameSize];// Name
 			uint8_t	ucColor;								// Color number
@@ -470,7 +464,7 @@ class NetMsg
 		// server tells client it can join
 		typedef struct JoinAccept
 			{
-         enum : size_t { Size = 1 };
+			enum { Size = 1 };
 			uint8_t	ucType;								// Message type
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
@@ -487,7 +481,7 @@ class NetMsg
 		// server tells client it cannot join
 		typedef struct JoinDeny
 			{
-         enum : size_t { Size = 2 };
+			enum { Size = 2 };
 			uint8_t	ucType;								// Message type
 			uint8_t	ucReason;							// Reason for denail
 
@@ -507,7 +501,7 @@ class NetMsg
 		// server tells client about another client (or about itself!)
 		typedef struct Joined
 			{
-         enum : size_t { Size = 1 + 1 + sizeof(RSocket::Address) + Net::MaxPlayerNameSize + 1 + 1 + 2 };
+			enum { Size = 1 + 1 + sizeof(RSocket::Address) + Net::MaxPlayerNameSize + 1 + 1 + 2 };
 
 			uint8_t	ucType;								// Message type
 			Net::ID id;												// ID
@@ -543,7 +537,7 @@ class NetMsg
 		// client tells server it wants to change its info
 		typedef struct ChangeReq
 			{
-         enum : size_t { Size = 1 + Net::MaxPlayerNameSize + 1 + 1 };
+			enum { Size = 1 + Net::MaxPlayerNameSize + 1 + 1 };
 			uint8_t	ucType;								// Message type
 			char				acName[Net::MaxPlayerNameSize];// Name
 			uint8_t	ucColor;								// Color number
@@ -569,7 +563,7 @@ class NetMsg
 		// server tells client about a client's change
 		typedef struct Changed
 			{
-         enum : size_t { Size = 1 + 1 + Net::MaxPlayerNameSize + 1 + 1 };
+			enum { Size = 1 + 1 + Net::MaxPlayerNameSize + 1 + 1 };
 			uint8_t	ucType;								// Message type
 			Net::ID id;												// ID
 			char				acName[Net::MaxPlayerNameSize];// Name
@@ -598,7 +592,7 @@ class NetMsg
 		// client tells server it wants to drop
 		typedef struct DropReq
 			{
-         enum : size_t { Size = 1 };
+			enum { Size = 1 };
 			uint8_t	ucType;								// Message type
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
@@ -626,7 +620,7 @@ class NetMsg
 		// must respond to this message with a DropAck.
 		typedef struct Dropped
 			{
-         enum : size_t { Size = 1 + 1 + 2 };
+			enum { Size = 1 + 1 + 2 };
 			uint8_t	ucType;								// Message type
 			Net::ID id;												// Dropee's ID
 			int16_t sContext;										// Context or -1 if none
@@ -663,7 +657,7 @@ class NetMsg
 		// they all have the same information.
 		typedef struct DropAck
 			{
-         enum : size_t { Size = 1 + sizeof(Net::SEQ) + sizeof(Net::SEQ) };
+			enum { Size = 1 + sizeof(Net::SEQ) + sizeof(Net::SEQ) };
 			uint8_t	ucType;								// Message type
 			Net::SEQ seqLastDropeeInput;						// Client's last input seq from dropee
 			Net::SEQ seqLastDoneFrame;							// Client's last frame that was done
@@ -693,7 +687,7 @@ class NetMsg
 		// the DropAck that the client sent to the server.
 		typedef struct InputReq
 			{
-         enum : size_t { Size = 1 + 1 + sizeof(Net::SEQ) + 2 };
+			enum { Size = 1 + 1 + sizeof(Net::SEQ) + 2 };
 			uint8_t	ucType;								// Message type
 			Net::ID id;												// ID whose input is being requested
 			Net::SEQ seqStart;									// Startng seq of range
@@ -722,14 +716,14 @@ class NetMsg
 		// The client sends this in response to the server's InputReq.
 		typedef struct InputData
 			{
-         enum : size_t { Size = SIZE_MAX };									// -1 indicates variable-sized message
+			enum { Size = -1 };									// -1 indicates variable-sized message
 			uint8_t	ucType;								// Message type
 			int32_t lSize;												// Message size (must follow type!)
 			Net::ID id;												// ID whose input is being sent
 			Net::SEQ seqStart;									// Starting seq of range
 			int16_t sNum;												// Number of seq's in range
 			UINPUT* pInputs;										// Pointer used to read/write actual input data
-			uint8_t*		pFrameTimes;									// Pointer to read/write actual frame time data *SPA
+			U8*		pFrameTimes;									// Pointer to read/write actual frame time data *SPA
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
 				{
@@ -768,7 +762,7 @@ class NetMsg
 		// invalid after the specified seq.
 		typedef struct InputMark
 			{
-         enum : size_t { Size = 1 + 1 + sizeof(Net::SEQ) };
+			enum { Size = 1 + 1 + sizeof(Net::SEQ) };
 			uint8_t	ucType;								// Message type
 			Net::ID id;												// ID whose input is being requested
 			Net::SEQ seqMark;										// Seq to mark
@@ -791,10 +785,10 @@ class NetMsg
 		// client tells server it wants to chat
 		typedef struct ChatReq
 			{
-         enum : size_t { Size = 1 + 2 + Net::MaxChatSize };
+			enum { Size = 1 + 2 + Net::MaxChatSize };
 
 			uint8_t	ucType;								// Message type
-			uint16_t				u16Mask;								// Who will get this chat text
+			U16				u16Mask;								// Who will get this chat text
 			char				acText[Net::MaxChatSize];		// Chat text
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
@@ -815,7 +809,7 @@ class NetMsg
 		// server tells specified clients the chat message
 		typedef struct Chat
 			{
-         enum : size_t { Size = 1 + 1 + Net::MaxChatSize };
+			enum { Size = 1 + 1 + Net::MaxChatSize };
 
 			uint8_t	ucType;								// Message type
 			uint8_t	id;									// Who said this
@@ -839,7 +833,7 @@ class NetMsg
 		// server tells clients how to setup game
 		typedef struct SetupGame
 			{
-         enum : size_t { Size = 1 + 2 + Net::MaxRealmNameSize + 2 + 2 + 2 + 2 + 2 + 2 };
+			enum { Size = 1 + 2 + Net::MaxRealmNameSize + 2 + 2 + 2 + 2 + 2 + 2 };
 
 			uint8_t	ucType;								// Message type
 			int16_t				sRealmNum;							// Starting realm number or -1 to use name
@@ -881,14 +875,14 @@ class NetMsg
 		// server tells clients to start game
 		typedef struct StartGame
 			{
-         enum : size_t { Size = 1 + 1 + 2 + Net::MaxRealmNameSize + 2 + 2 + 2 + 2 + 2 + sizeof(Net::SEQ) + 2 + 2};
+			enum { Size = 1 + 1 + 2 + Net::MaxRealmNameSize + 2 + 2 + 2 + 2 + 2 + sizeof(Net::SEQ) + 2 + 2};
 			uint8_t	ucType;												// Message type
 			Net::ID			idServer;											// Server's ID
 			int16_t				sRealmNum;											// Starting realm number or -1 to use name
 			char				acRealmFile[Net::MaxRealmNameSize];			// Name of realm file to load
 			int16_t				sDifficulty;										// Difficulty level
 			int16_t				sRejuvenate;
-         uint16_t				sTimeLimit;
+			int16_t				sTimeLimit;
 			int16_t				sKillLimit;
 			int16_t				sCoopLevels;										// Non-zero for cooperative levels, zero for deathmatch levels.
 			int16_t				sCoopMode;											// Non-zero for cooperative mode, zero for deathmatch mode.
@@ -931,7 +925,7 @@ class NetMsg
 		// server tells clients to abort game
 		typedef struct AbortGame
 			{
-         enum : size_t { Size = 1 + 1 };
+			enum { Size = 1 + 1 };
 			uint8_t	ucType;								// Message type
 			uint8_t	ucReason;							// Reason for abort
 
@@ -951,7 +945,7 @@ class NetMsg
 		// client tells server the loaded realm is ready
 		typedef struct ReadyRealm
 			{
-         enum : size_t { Size = 1 };
+			enum { Size = 1 };
 			uint8_t	ucType;								// Message type
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
@@ -968,7 +962,7 @@ class NetMsg
 		// client tells server the load failed
 		typedef struct BadRealm
 			{
-         enum : size_t { Size = 1 };
+			enum { Size = 1 };
 			uint8_t	ucType;								// Message type
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
@@ -985,7 +979,7 @@ class NetMsg
 		// server tells clients to start realm
 		typedef struct StartRealm
 			{
-         enum : size_t { Size = 1 };
+			enum { Size = 1 };
 			uint8_t	ucType;								// Message type
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
@@ -1002,7 +996,7 @@ class NetMsg
 		// server tells clients to start realm
 		typedef struct HaltRealm
 			{
-         enum : size_t { Size = 1 + sizeof(Net::SEQ) };
+			enum { Size = 1 + sizeof(Net::SEQ) };
 			uint8_t	ucType;								// Message type
 			Net::SEQ seqHalt;										// Which seq to halt on
 
@@ -1022,7 +1016,7 @@ class NetMsg
 		// server tells clients to go to next realm when the specified frame seq is reached
 		typedef struct NextRealm
 			{
-         enum : size_t { Size = 1 + sizeof(Net::SEQ) };
+			enum { Size = 1 + sizeof(Net::SEQ) };
 			uint8_t	ucType;								// Message type
 			Net::SEQ seqHalt;										// Which seq to halt on
 
@@ -1043,7 +1037,7 @@ class NetMsg
 		// or something like that which requires a centralized "user input"
 		typedef struct ProgressRealm
 			{
-         enum : size_t { Size = 1 + 2 + 2 };
+			enum { Size = 1 + 2 + 2 };
 			uint8_t	ucType;								// Message type
 			int16_t sNumReady;										// Number of players that are ready
 			int16_t sNumNotReady;									// Number of players that are NOT ready
@@ -1067,7 +1061,7 @@ class NetMsg
 		// or something like that which requires a centralized "user input"
 		typedef struct Proceed
 			{
-         enum : size_t { Size = 1 };
+			enum { Size = 1 };
 			uint8_t	ucType;								// Message type
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
@@ -1084,10 +1078,10 @@ class NetMsg
 		// ping (back and forth between client and server)
 		typedef struct Ping
 			{
-         enum : size_t { Size = 1 + 4 + 4 };
+			enum { Size = 1 + 4 + 4 };
 			uint8_t	ucType;								// Message type
-         uint32_t				lTimeStamp;							// Timestap for this ping
-         uint32_t				lLatestPingResult;				// Latest ping result (round trip time)
+			int32_t				lTimeStamp;							// Timestap for this ping
+			int32_t				lLatestPingResult;				// Latest ping result (round trip time)
 
 			static void Read(NetMsg* pmsg, CBufQ* pBuf)
 				{
@@ -1107,7 +1101,7 @@ class NetMsg
 		// debug message used to compare random number sequences
 		typedef struct Rand
 			{
-         enum : size_t { Size = 1 + 4 + 4 };
+			enum { Size = 1 + 4 + 4 };
 			uint8_t	ucType;								// Message type
 			int32_t				lFrame;								// Current frame
 			int32_t				lRand;								// Current rand()
@@ -1181,7 +1175,7 @@ class NetMsg
 		// This is not sent as part of the message.  It is used by variable-length
 		// messages that require a separate memory block for their data.  Note that
 		// the size refers to the size of this data, not the whole msg.
-		uint8_t*	m_pVarData;
+		U8*	m_pVarData;
 		int32_t	m_lVarSize;
 
 	//------------------------------------------------------------------------------
@@ -1206,12 +1200,12 @@ class NetMsg
 			msg.nothing.ucType = NOTHING;
 			}
 
-		uint8_t* AllocVar(
+		U8* AllocVar(
 			int32_t lSize)
 			{
 			FreeVar();
 			m_lVarSize = lSize;
-			m_pVarData = new uint8_t[lSize];
+			m_pVarData = new U8[lSize];
 			return m_pVarData;
 			}
 
@@ -1222,7 +1216,7 @@ class NetMsg
 			m_lVarSize = 0;
 			}
 
-		static uint8_t* AllocVar(
+		static U8* AllocVar(
 			NetMsg* pmsg,
 			int32_t lSize)
 			{
@@ -1269,9 +1263,9 @@ class CNetMsgr
 	//------------------------------------------------------------------------------
 	public:
 		// Miscellaneous values
-      enum
+		typedef enum
 			{
-         MagicNum				= 0x5655595A,					// Magic number
+			MagicNum				= 0x5655595a,					// Magic number
 			MacVersionBit		= 0x1000,						// Bit that indicates a Mac platform.
 			MinVersionNum		= 0x0003,						// Minimum version number we can support
 			CurVersionNum		= 0x0003							// Current version number
@@ -1311,8 +1305,8 @@ class CNetMsgr
 		RSocket::Address	m_address;							// Address we're connected to
 		CBufQ					m_bufIn;								// Input buffer
 		CBufQ					m_bufOut;							// Output buffer
-      milliseconds_t					m_lMsgRecvTime;					// When most-recent message was recieved
-      milliseconds_t					m_lMsgSentTime;					// When most-recent message was sent
+		int32_t					m_lMsgRecvTime;					// When most-recent message was recieved
+		int32_t					m_lMsgSentTime;					// When most-recent message was sent
 		NetMsg::Error		m_error;								// Error value.
 
 	// Made public by JMB for TAPI access
@@ -1380,7 +1374,7 @@ class CNetMsgr
 			{
 			ASSERT(m_state == Disconnected);
 
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 
 			// Reset to make sure we're starting with a clean slate
 			Reset();
@@ -1394,7 +1388,7 @@ class CNetMsgr
 				RSocket::typStream,
 				RSocket::optDontWaitOnClose | RSocket::optDontCoalesce | RSocket::optDontBlock,
 				callback);
-			if (sResult == SUCCESS)
+			if (sResult == 0)
 				{
 				m_state = Connecting;
 				}
@@ -1416,7 +1410,7 @@ class CNetMsgr
 			ASSERT(m_state == Disconnected);
 
 			int16_t sResult = psocketListen->Accept(&m_socket, &m_address);
-			if (sResult == SUCCESS)
+			if (sResult == 0)
 				{
 				m_socket.SetCallback(callback);
 				m_state = Connected;

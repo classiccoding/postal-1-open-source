@@ -15,7 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-// Demon.h
+// Demon.H
 // Project: Postal
 // 
 // History:
@@ -65,7 +65,7 @@
 #ifndef DEMON_H
 #define DEMON_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 #include "SampleMaster.h"
 
@@ -174,11 +174,11 @@ class CDemon : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CDemon(pRealm);
-			if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CExplode::Construct(): Couldn't construct CDemon (that's a bad thing)\n");
 				}
 			return sResult;
@@ -223,7 +223,6 @@ class CDemon : public CThing
 			int16_t sY,												// In: New y coord
 			int16_t sZ);												// In: New z coord
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -257,17 +256,16 @@ class CDemon : public CThing
 
 		// Called by editor to render object
 		void EditRender(void);
-#endif // !defined(EDITOR_REMOVED)
 
 		// Get the coordinates of this thing.
 		virtual					// Overriden here.
-      double GetX(void)	const { return m_dX; }
+		double GetX(void)	{ return m_dX; }
 
 		virtual					// Overriden here.
-      double GetY(void)	const { return m_dY; }
+		double GetY(void)	{ return m_dY; }
 
 		virtual					// Overriden here.
-      double GetZ(void)	const { return m_dZ; }
+		double GetZ(void)	{ return m_dZ; }
 
 	//---------------------------------------------------------------------------
 	// Optional Static  functions

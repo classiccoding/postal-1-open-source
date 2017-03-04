@@ -92,8 +92,9 @@
 //		09/03/97	JMI	Sentries now exclude CSmash::Bads and CSmash::Civilians.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define SENTRY_CPP
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "sentry.h"
 #include "game.h"
 #include "SampleMaster.h"
@@ -141,16 +142,16 @@ int32_t CSentry::ms_lMaxShootTime = MS_BETWEEN_BULLETS;		// Maximum in ms of con
 int32_t CSentry::ms_lReselectDudeTime	= 3000;	// Time to go without finding a dude
 															// before calling SelectDude() to find
 															// possibly a closer one.
-uint32_t CSentry::ms_u32WeaponIncludeBits = CSmash::Character | CSmash::Barrel | CSmash::Misc;
-uint32_t CSentry::ms_u32WeaponDontcareBits = CSmash::Good | CSmash::Bad;
-uint32_t CSentry::ms_u32WeaponExcludeBits = CSmash::SpecialBarrel | CSmash::Ducking | CSmash::Bad | CSmash::Civilian;
+U32 CSentry::ms_u32WeaponIncludeBits = CSmash::Character | CSmash::Barrel | CSmash::Misc;
+U32 CSentry::ms_u32WeaponDontcareBits = CSmash::Good | CSmash::Bad;
+U32 CSentry::ms_u32WeaponExcludeBits = CSmash::SpecialBarrel | CSmash::Ducking | CSmash::Bad | CSmash::Civilian;
 
 // Let this auto-init to 0
 int16_t CSentry::ms_sFileCount;
 
 /// Throwing Animation Files ////////////////////////////////////////////////////
 // An array of pointers to resource names (one for each channel of the animation)
-static const char* ms_apszShootResNames[] =
+static char* ms_apszShootResNames[] = 
 {
 	"3d/sentry_shoot.sop",
 	"3d/sentry_shoot.mesh",
@@ -159,10 +160,10 @@ static const char* ms_apszShootResNames[] =
 	"3d/sentry_shoot.bounds",
 	"3d/sentry_shoot.floor",
 	"3d/sentry_shoot_tip.trans",
-	nullptr
+	NULL
 };
 
-static const char* ms_apszStandResNames[] =
+static char* ms_apszStandResNames[] = 
 {
 	"3d/sentry_still.sop",
 	"3d/sentry_still.mesh",
@@ -171,10 +172,10 @@ static const char* ms_apszStandResNames[] =
 	"3d/sentry_still.bounds",
 	"3d/sentry_still.floor",
 	"3d/sentry_still_tip.trans",
-	nullptr
+	NULL
 };
 
-static const char* ms_apszDieResNames[] =
+static char* ms_apszDieResNames[] = 
 {
 	"3d/sentry_damaged.sop",
 	"3d/sentry_damaged.mesh",
@@ -183,10 +184,10 @@ static const char* ms_apszDieResNames[] =
 	"3d/sentry_damaged.bounds",
 	"3d/sentry_damaged.floor",
 	"3d/sentry_damaged_tip.trans",
-	nullptr
+	NULL
 };
 
-static const char* ms_apszBaseStandResNames[] =
+static char* ms_apszBaseStandResNames[] = 
 {
 	"3d/stand_still.sop",
 	"3d/stand_still.mesh",
@@ -195,10 +196,10 @@ static const char* ms_apszBaseStandResNames[] =
 	"3d/stand_still.bounds",
 	"3d/stand_still.floor",
 	"3d/stand_still_stand.trans",
-	nullptr
+	NULL
 };
 
-static const char* ms_apszBaseDieResNames[] =
+static char* ms_apszBaseDieResNames[] = 
 {
 	"3d/stand_damaged.sop",
 	"3d/stand_damaged.mesh",
@@ -207,10 +208,10 @@ static const char* ms_apszBaseDieResNames[] =
 	"3d/stand_damaged.bounds",
 	"3d/stand_damaged.floor",
 	"3d/stand_damaged_stand.trans",
-	nullptr
+	NULL
 };
 
-#ifdef UNUSED_VARIABLES
+
 // These are the points that are checked on the attribute map relative to his origin
 static RP3d ms_apt3dAttribCheck[] =
 {
@@ -221,7 +222,7 @@ static RP3d ms_apt3dAttribCheck[] =
 	{ 0, 0,  6},
 	{ 6, 0,  6},
 };
-#endif
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Load object (should call base class version!)
@@ -232,10 +233,10 @@ int16_t CSentry::Load(				// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,					// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)				// In:  Version of file format to load.
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	// Call the base load function to get ID, position, etc.
 	sResult = CDoofus::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -282,14 +283,14 @@ int16_t CSentry::Load(				// Returns 0 if successfull, non-zero otherwise
 //		m_lShootDelay = 500;
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 		{
 			// Get resources
 			sResult = GetResources();
 		}
 		else
 		{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CSentry::Load(): Error reading from file!\n");
 		}
 	}
@@ -353,7 +354,7 @@ int16_t CSentry::Save(										// Returns 0 if successfull, non-zero otherwise
 	else
 	{
 		TRACE("CSentry::Save() - Error writing to file\n");
-		sResult = FAILURE;
+		sResult = -1;
 	}
 
 	m_dX = dTempX;
@@ -371,7 +372,7 @@ void CSentry::Render(void)
 {
 
 	// Do our own render of the stationary base
-	uint16_t	u16CombinedAttributes;
+	U16	u16CombinedAttributes;
 	int16_t	sLightTally;
 	GetEffectAttributes(m_dXBase, m_dZBase, &u16CombinedAttributes, &sLightTally);
 
@@ -404,7 +405,7 @@ void CSentry::Render(void)
 		m_spriteBase.m_ptrans = &m_transBase;
 		}
 
-	ASSERT(m_panimCurBase != nullptr);
+	ASSERT(m_panimCurBase != NULL);
 
 	m_spriteBase.m_pmesh = (RMesh*) m_panimCurBase->m_pmeshes->GetAtTime(m_lAnimTime);
 	m_spriteBase.m_psop = (RSop*) m_panimCurBase->m_psops->GetAtTime(m_lAnimTime);
@@ -428,7 +429,7 @@ void CSentry::Render(void)
 
 int16_t CSentry::Init(void)
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Prepare shadow (get resources and setup sprite).
 	sResult	= PrepareShadow();
@@ -484,7 +485,7 @@ void CSentry::UpdatePosition(void)
 	m_dYBase = m_dY;
 	m_dZBase = m_dZ;
 
-	if (m_panimCurBase != nullptr)
+	if (m_panimCurBase != NULL)
 		{
 		// Below was copied from DetachChild in Thing3d
 
@@ -513,7 +514,7 @@ void CSentry::UpdatePosition(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSentry::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Set the current height, previous time, and Nav Net
 	CDoofus::Startup();
@@ -530,7 +531,7 @@ int16_t CSentry::Startup(void)								// Returns 0 if successfull, non-zero othe
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSentry::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	m_trans.Make1();
 	m_transBase.Make1();
@@ -563,11 +564,9 @@ void CSentry::Resume(void)
 ////////////////////////////////////////////////////////////////////////////////
 void CSentry::Update(void)
 {
-#ifdef UNUSED_VARIABLE
 	int16_t sHeight = m_sPrevHeight;
-#endif
-   milliseconds_t lThisTime;
-   milliseconds_t lTimeDifference;
+	int32_t lThisTime;
+	int32_t lTimeDifference;
 	int32_t lSqDistanceToDude = 0;
 	int16_t sTargetAngle;
 	int16_t sAngleCCL;
@@ -591,7 +590,6 @@ void CSentry::Update(void)
 
 		switch(m_state)
 		{
-        UNHANDLED_SWITCH;
 			case CSentry::State_Wait:
 				if (lThisTime > m_lTimer)
 				{
@@ -658,7 +656,7 @@ void CSentry::Update(void)
 						m_panimCur = &m_animShoot;
 						m_lAnimTime += lTimeDifference;
 						CWeapon* pweapon = PrepareWeapon();
-						if (pweapon != nullptr)
+						if (pweapon != NULL)
 							pweapon->SetRangeToTarget(rspSqrt(lSqDistanceToDude));
 						ShootWeapon(ms_u32WeaponIncludeBits, ms_u32WeaponDontcareBits, ms_u32WeaponExcludeBits);
 						m_sNumRounds--;
@@ -741,7 +739,7 @@ void CSentry::Update(void)
 	}
 }
 
-#if !defined(EDITOR_REMOVED)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -750,7 +748,7 @@ int16_t CSentry::EditNew(									// Returns 0 if successfull, non-zero otherwis
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	sResult = CDoofus::EditNew(sX, sY, sZ);
 
@@ -765,7 +763,7 @@ int16_t CSentry::EditNew(									// Returns 0 if successfull, non-zero otherwis
 	}
 	else
 	{
-		sResult = FAILURE;
+		sResult = -1;
 	}
 
 	return sResult;
@@ -845,8 +843,8 @@ void CSentry::EditHotSpot(			// Returns nothiing.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSentry::EditModify(void)
 {
-	int16_t sResult = SUCCESS;
-	RGuiItem* pGuiItem = nullptr;
+	int16_t sResult = 0;
+	RGuiItem* pGuiItem = NULL;
 	RGuiItem* pGui = RGuiItem::LoadInstantiate(FullPathVD("res/editor/sentry.gui"));
 	if (pGui)
 	{
@@ -885,7 +883,7 @@ int16_t CSentry::EditModify(void)
 						(i != BouncingBettyMine) )
 					{
 					pGuiItem	= pWeaponList->AddString(ms_awdWeapons[i].pszName);
-					if (pGuiItem != nullptr)
+					if (pGuiItem != NULL)
 						{
 						// Store class ID so we can determine user selection
 						pGuiItem->m_lId	= ms_awdWeapons[i].id;
@@ -945,31 +943,30 @@ int16_t CSentry::EditModify(void)
 	}
 	delete pGui;
 
-   return SUCCESS;
+	return 0;
 }
-#endif // !defined(EDITOR_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Get all required resources
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSentry::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	sResult = m_animShoot.Get(ms_apszShootResNames);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 	{
 		sResult = m_animStand.Get(ms_apszStandResNames);
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 		{
 			sResult = m_animDie.Get(ms_apszDieResNames);
-			if (sResult == SUCCESS)
+			if (sResult == 0)
 			{
 				sResult = m_animBaseStand.Get(ms_apszBaseStandResNames);
-				if (sResult == SUCCESS)
+				if (sResult == 0)
 				{
 					sResult = m_animBaseDie.Get(ms_apszBaseDieResNames);
-					if (sResult == SUCCESS)
+					if (sResult == 0)
 					{
 						// Add new animation loads here
 					}
@@ -1013,7 +1010,7 @@ int16_t CSentry::FreeResources(void)						// Returns 0 if successfull, non-zero 
 	m_animBaseStand.Release();
 	m_animBaseDie.Release();
 
-   return SUCCESS;
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1098,7 +1095,6 @@ void CSentry::OnExplosionMsg(Explosion_Message* pMessage)
 
 void CSentry::OnBurnMsg(Burn_Message* pMessage)
 {
-  UNUSED(pMessage);
 	// For now we made the sentry fireproof, the only
 	// way it can be destroyed is by blowing it up.
 }

@@ -124,7 +124,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef SMASH_H
 #define SMASH_H
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "thing.h" // we are tying the nodes back to the things
 #define NEW_SMASH	// We'll risk it!
 ////////////////////////////////////////////////////////////////////////////////
@@ -151,17 +151,17 @@ public:
 	//---------------------------------------------------------------------------
 	void	Erase()
 		{
-		m_pPrev = m_pNext = nullptr;
-		m_pLast = nullptr;
-		m_pParent = nullptr;
+		m_pPrev = m_pNext = NULL;
+		m_pLast = NULL;
+		m_pParent = NULL;
 		}
 
 	CSmashLink() { Erase(); }
 	~CSmashLink() 
 		{ 
-		ASSERT(m_pPrev == nullptr);
-		ASSERT(m_pNext == nullptr);
-		ASSERT(m_pLast == nullptr);
+		ASSERT(m_pPrev == NULL);
+		ASSERT(m_pNext == NULL);
+		ASSERT(m_pLast == NULL);
 
 		Erase(); 
 		}
@@ -179,7 +179,7 @@ public:
 	int16_t						m_sClipX;		// In tile relative to this fat
 	int16_t						m_sClipY;		// shows active grid based on clipping
 	int16_t						m_sClipW;		// Links outside of this region should
-	int16_t						m_sClipH;		// have nullptr list pointers
+	int16_t						m_sClipH;		// have NULL list pointers
 	//--------------------------------------------------------------------
 	int16_t						m_sW;				// Actual size (in grids)
 	int16_t						m_sH;				// Actual Size (in grids)
@@ -214,7 +214,7 @@ class CSmash
 	// Types, enums, etc.
 	//---------------------------------------------------------------------------
 	public:
-		typedef uint32_t Bits;
+		typedef U32 Bits;
 
 		// Available bits for classifying a CSmash
 		enum
@@ -272,7 +272,7 @@ class CSmash
 			m_link3.Erase();
 			m_link4.Erase();
 			m_lSearchTagCode = 0; // Not searched upon!
-			m_pFat = nullptr;
+			m_pFat = NULL;
 			}
 
 		CSmash();
@@ -296,7 +296,7 @@ public:
 		m_sNum = 0;
 		m_slHead.m_pNext = &m_slTail;
 		m_slTail.m_pPrev = &m_slHead;
-		m_slHead.m_pPrev = m_slTail.m_pNext = nullptr;
+		m_slHead.m_pPrev = m_slTail.m_pNext = NULL;
 		}
 
 	CSmashatoriumList()	{ Erase();	}
@@ -339,7 +339,7 @@ public:
 	//------------------- SEARCHING STATE INFORMATION: (QuickCheck info)
 	// This must also handle large regions!
 	// The design is largely for backwards compatibility.
-	CSmash* m_pSmasher;					// nullptr if search NOT in progress
+	CSmash* m_pSmasher;					// NULL if search NOT in progress
 	CSmashLink*	m_pCurrentSmashee;	// 
 
 	CSmash::Bits m_include;
@@ -372,9 +372,9 @@ public:
 		m_sWorldW = m_sWorldH = m_sGridW = m_sGridH = 
 			m_sClipW = m_sClipH = m_sTileW = m_sTileH = 0;
 
-		m_psAccessX = m_psAccessY = m_psClipX = m_psClipY = nullptr;
-		m_pGrid = nullptr;
-		m_ppslAccessY = m_ppslClipY = nullptr;
+		m_psAccessX = m_psAccessY = m_psClipX = m_psClipY = NULL;
+		m_pGrid = NULL;
+		m_ppslAccessY = m_ppslClipY = NULL;
 		m_lCurrentSearchCode = 1; // zero is NOT a valid search key!
 
 		m_sNumInSmash = m_sMaxNumInSmash = 0;
@@ -546,9 +546,9 @@ public:
 		//---------------------------------------------------------------
 		// (1) Cast the sphere into a 2 point square
 		RSphere* pSphere = &(pSmash->m_sphere->sphere);
-      int32_t lR = pSphere->lRadius;
+		long lR = pSphere->lRadius;
 
-      int32_t	x1,x2,y1,y2;
+		long	x1,x2,y1,y2;
 		x1 = x2 = pSphere->X;
 		y1 = y2 = pSphere->Z;
 		x1 -= lR;
@@ -567,7 +567,7 @@ public:
 		///////////////////////////////////
 		// No clip case
 		// (3) process each of the four corners:
-		CSmashatoriumList **pCurrent = nullptr;
+		CSmashatoriumList **pCurrent = NULL;
 
 		//-------------------------------------------------------------
 		pCurrent = m_ppslAccessY[y1] + m_psAccessX[x1];
@@ -606,29 +606,29 @@ public:
 		m_link4.m_pLast = pCurrent; // NOT YET INSTALLED THOUGH!
 		//-------------------------------------------------------------
 
-      // **************************************************
+		//**************************************************
 		// there is an error here! There could have been a 
 		// quadrant which did not CHANGE (so was not removed), 
 		// but is now REDUNDANT.  Think about combining these 
 		// sections!
-      // **************************************************
+		//**************************************************
 
 		// (4) Check for redundancies before installing:
-		// USE a nullptr pointer to signify redundancy
+		// USE a NULL pointer to signify redundancy
 		if (m_link2.m_pLast == m_link3.m_pLast)
 			{
 			// all four in same region, 3 redundant:
-			m_link2.m_pLast = m_link3.m_pLast = m_link4.m_pLast = nullptr;
+			m_link2.m_pLast = m_link3.m_pLast = m_link4.m_pLast = NULL;
 			}
 		else if (m_link1.m_pLast == m_link3.m_pLast)
 			{
 			// vertically redundant:
-			m_link3.m_pLast = m_link4.m_pLast = nullptr;
+			m_link3.m_pLast = m_link4.m_pLast = NULL;
 			}
 		else if (m_link1.m_pLast == m_link2.m_pLast)
 			{
 			// horizontally redundant:
-			m_link2.m_pLast = m_link4.m_pLast = nullptr;
+			m_link2.m_pLast = m_link4.m_pLast = NULL;
 			}
 
 		// Link them all in if not redundant

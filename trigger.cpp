@@ -27,7 +27,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "trigger.h"
 #include "game.h"
 #include "realm.h" 
@@ -53,7 +53,7 @@ CTrigger::CTrigger(CRealm* pRealm)
 	: CThing(pRealm, CTriggerID)
 	{
 	// Insert a default instance into the realm:
-	m_pmgi = nullptr;
+	m_pmgi = NULL;
 	m_pRealm->m_pTriggerMapHolder = this;
 	m_pRealm->m_pTriggerMap = m_pmgi;
 
@@ -71,11 +71,11 @@ CTrigger::CTrigger(CRealm* pRealm)
 CTrigger::~CTrigger()
 	{
 	if (m_pmgi) delete m_pmgi;
-	m_pmgi = nullptr;
+	m_pmgi = NULL;
 
 	// Clear it from the realm:
-	m_pRealm->m_pTriggerMap = nullptr;
-	m_pRealm->m_pTriggerMapHolder = nullptr;
+	m_pRealm->m_pTriggerMap = NULL;
+	m_pRealm->m_pTriggerMapHolder = NULL;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -87,19 +87,19 @@ int16_t CTrigger::Load(								// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,								// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)							// In:  Version of file format to load.
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// In most cases, the base class Load() should be called.
 	sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// Load object data
-		m_pRealm->m_pTriggerMap = nullptr; // clear the shadow
+		m_pRealm->m_pTriggerMap = NULL; // clear the shadow
 		// ASSUME THERE WILL ALREADY BE AN EMPTY TRIGGER MAP HOLDER!
-		if (m_pRealm->m_pTriggerMapHolder == nullptr) m_pRealm->m_pTriggerMapHolder = new CTrigger(m_pRealm);
+		if (m_pRealm->m_pTriggerMapHolder == NULL) m_pRealm->m_pTriggerMapHolder = new CTrigger(m_pRealm);
 
 		if (m_pmgi) delete m_pmgi;
-		m_pmgi = nullptr;
+		m_pmgi = NULL;
 
 		int16_t sData = 0;
 		pFile->Read(&sData);
@@ -113,7 +113,7 @@ int16_t CTrigger::Load(								// Returns 0 if successfull, non-zero otherwise
 				if (m_pmgi->Load(pFile) != SUCCESS)
 					{
 					TRACE("CTrigger::Load(): Warning - couldn't load trigger attributes!\n");
-					sResult = FAILURE;
+					sResult = -1;
 					}
 				else
 					{
@@ -121,7 +121,7 @@ int16_t CTrigger::Load(								// Returns 0 if successfull, non-zero otherwise
 					if (pFile->Read(m_ausPylonUIDs,256) != 256) // Grab the ID's
 						{
 						TRACE("CTrigger::Load(): Warning - I lost my pylon IDs!\n");
-						sResult = FAILURE;
+						sResult = -1;
 						}
 					else
 						{
@@ -137,12 +137,12 @@ int16_t CTrigger::Load(								// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 			{
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CTrigger::Load(): Error reading from file!\n");
 			}
 		}
@@ -162,16 +162,16 @@ int16_t CTrigger::Save(								// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,									// In:  File to save to
 	int16_t sFileCount)								// In:  File count (unique per file, never 0)
 	{
-	int16_t sResult = SUCCESS;
+	int16_t	sResult	= 0;
 
 	// In most cases, the base class Save() should be called.
 	sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// Save object data
 		int16_t sData = 0; // NO DATA
 
-		if (m_pmgi == nullptr) 
+		if (m_pmgi == NULL) 
 			{
 			sData = 0;
 			pFile->Write(sData);
@@ -183,7 +183,7 @@ int16_t CTrigger::Save(								// Returns 0 if successfull, non-zero otherwise
 			pFile->Write(sData);
 			if (m_pmgi->Save(pFile) != SUCCESS)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CTrigger::Save(): Error - coudln't save trigger attributes.\n");
 				}
 			else
@@ -191,14 +191,14 @@ int16_t CTrigger::Save(								// Returns 0 if successfull, non-zero otherwise
 				// Save the Pylon Data:
 				if (pFile->Write(m_ausPylonUIDs,256) != 256)
 					{
-					sResult = FAILURE;
+					sResult = -1;
 					TRACE("CTrigger::Save(): Error - coudln't save Pylon IDs.\n");
 					}
 				}
 			}
 
 		sResult	= pFile->Error();
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 			}
 		else
@@ -220,7 +220,7 @@ int16_t CTrigger::Save(								// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CTrigger::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 	{
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -229,7 +229,7 @@ int16_t CTrigger::Startup(void)								// Returns 0 if successfull, non-zero oth
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CTrigger::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -264,7 +264,7 @@ void CTrigger::Render(void)
 	{
 	}
 
-#if !defined(EDITOR_REMOVED)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -273,8 +273,7 @@ int16_t CTrigger::EditNew(									// Returns 0 if successfull, non-zero otherwi
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-  UNUSED(sX, sY, sZ);
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -283,7 +282,7 @@ int16_t CTrigger::EditNew(									// Returns 0 if successfull, non-zero otherwi
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CTrigger::EditModify(void)
 	{
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -295,7 +294,7 @@ int16_t CTrigger::EditMove(									// Returns 0 if successfull, non-zero otherw
 	int16_t /*sY*/,											// In:  New y coord
 	int16_t /*sZ*/)											// In:  New z coord
 	{
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -313,7 +312,6 @@ void CTrigger::EditUpdate(void)
 void CTrigger::EditRender(void)
 	{
 	}
-#endif // !defined(EDITOR_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Add myself into the realm that created me.

@@ -705,13 +705,13 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 
-#include <cctype>
+#include <ctype.h>
 #include <set>
 
 // This is used to get rid of all trace of the editor code when it's disabled
-#if !defined(EDITOR_REMOVED)
+#if !defined(EDITOR_DISABLED)
 
 #include "game.h"
 #include "update.h"
@@ -739,6 +739,9 @@
 #include "play.h"
 
 #include "score.h"
+
+#include "CompileOptions.h"
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Macros/types/etc.
@@ -1013,8 +1016,8 @@
 // Amount paste buffer grows as it gets larger.
 #define PASTE_BUFFER_GROW_SIZE		1024
 
-#define MAX_ALPHA_LEVEL					0xFF
-#define MIN_ALPHA_LEVEL					0x0F
+#define MAX_ALPHA_LEVEL					255
+#define MIN_ALPHA_LEVEL					15
 
 #define INCDEC_ALPHA_LEVEL				10
 
@@ -1124,12 +1127,12 @@ static bool	ms_bDrawNetwork = true;
 // ID of item most recently pressed or 0, if none.
 static int32_t	ms_lPressedId	= 0;
 // Realm filename.  Assuming only one Realm loaded at once.
-static char	ms_szFileName[PATH_MAX]	= "";
+static char	ms_szFileName[RSP_MAX_PATH]	= "";
 
 static int16_t	ms_sMoving		= FALSE;	// TRUE, if moving/placing a thing (ms_pthingSel).
 
-static CThing*	ms_pthingSel	= nullptr;	// CThing* to thing currently selected.
-static RHot*	ms_photSel		= nullptr;	// RHot* to hotbox associated with selected thing.
+static CThing*	ms_pthingSel	= NULL;	// CThing* to thing currently selected.
+static RHot*	ms_photSel		= NULL;	// RHot* to hotbox associated with selected thing.
 
 // Initial width and height of display so we can
 // restore video mode when done editting.
@@ -1141,7 +1144,7 @@ static int16_t	ms_sInitialDeviceHeight		= 0;
 
 // The current camera.
 // Scrollbars' callback update camera pointed to by this.
-static CCamera*	ms_pcameraCur	= nullptr;
+static CCamera*	ms_pcameraCur	= NULL;
 
 // Global GUIs (used in both editing and edit play modes).
 static RScrollBar	ms_sbVert;
@@ -1149,7 +1152,7 @@ static RScrollBar	ms_sbHorz;
 
 // This points to the CHood's hotbox which is the root of all other CThing
 // hotboxes.
-static RHot*	ms_photHood	= nullptr;
+static RHot*	ms_photHood	= NULL;
 
 // This is the hotbox priority of the farthest item from the user.
 // Start out as close to front as possible.
@@ -1159,28 +1162,28 @@ static int16_t	ms_sBackPriority	= FRONTMOST_HOT_PRIORITY;
 static int16_t	ms_sDragState = 0;
 
 // Root level GUIs to load from *.gui files.
-static RGuiItem*	ms_pguiRealmBar		= nullptr;
-static RGuiItem*	ms_pguiPickObj			= nullptr;
-static RGuiItem*	ms_pguiLayers			= nullptr;
-static RGuiItem*	ms_pguiCameras			= nullptr;
-static RGuiItem*	ms_pguiGUIs				= nullptr;
-static RGuiItem*	ms_pguiMap				= nullptr;
-static RGuiItem*	ms_pguiNavNets			= nullptr;
-static RGuiItem*	ms_pguiShowAttribs	= nullptr;
-static RGuiItem*	ms_pguiInfo				= nullptr;
+static RGuiItem*	ms_pguiRealmBar		= NULL;
+static RGuiItem*	ms_pguiPickObj			= NULL;
+static RGuiItem*	ms_pguiLayers			= NULL;
+static RGuiItem*	ms_pguiCameras			= NULL;
+static RGuiItem*	ms_pguiGUIs				= NULL;
+static RGuiItem*	ms_pguiMap				= NULL;
+static RGuiItem*	ms_pguiNavNets			= NULL;
+static RGuiItem*	ms_pguiShowAttribs	= NULL;
+static RGuiItem*	ms_pguiInfo				= NULL;
 
 // Child GUIs that need to be frequently accessed.
-static RListBox*	ms_plbLayers		= nullptr;
-static RGuiItem*	ms_pguiMapZone		= nullptr;
-static RGuiItem*	ms_pguiInfoXPos	= nullptr;
-static RGuiItem*	ms_pguiInfoYPos	= nullptr;
-static RGuiItem*	ms_pguiInfoZPos	= nullptr;
+static RListBox*	ms_plbLayers		= NULL;
+static RGuiItem*	ms_pguiMapZone		= NULL;
+static RGuiItem*	ms_pguiInfoXPos	= NULL;
+static RGuiItem*	ms_pguiInfoYPos	= NULL;
+static RGuiItem*	ms_pguiInfoZPos	= NULL;
 
 // The current ratio being used for the map.
 static double		ms_dMapRatio		= 0.0;
 
 // The current CGameEditThing.
-static CGameEditThing*	ms_pgething	= nullptr;
+static CGameEditThing*	ms_pgething	= NULL;
 
 // List of cameras and their GUI.
 static RList<View>	ms_listViews;
@@ -1192,7 +1195,7 @@ static bool				ms_bDragScroll	= true;
 static TriggerRgn		ms_argns[256];
 
 // Current pylon being editted.
-static CPylon*			ms_pylonEdit	= nullptr;	// nullptr for none.
+static CPylon*			ms_pylonEdit	= NULL;	// NULL for none.
 
 // Current block size for drawing.
 static int16_t			ms_sDrawBlockSize	= 5;
@@ -1214,11 +1217,11 @@ static CThing::ClassIDType	ms_idPaste;
 static CSprite2		ms_spriteAttributes;
 
 // Attribute masks to draw.
-static uint16_t				ms_u16TerrainMask;
-static uint16_t				ms_u16LayerMask;
+static U16				ms_u16TerrainMask;
+static U16				ms_u16LayerMask;
 
 // Used by RFile callback function
-static milliseconds_t		ms_lRFileCallbackTime;
+static int32_t		ms_lRFileCallbackTime;
 static int32_t		ms_lFileBytesSoFar;
 static char		ms_szFileOpDescriptionFrmt[512];
 static RPrint	ms_printFile;
@@ -1310,7 +1313,7 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 	int16_t		sPosZ,					// Position for new CThing.
 	CThing**	ppthing,					// Out: Pointer to new thing.
 	RHot**	pphot,					// Out: Pointer to new hotbox for thing.
-	RFile*	pfile = nullptr);			// In:  Optional file to load from (instead of EditNew()).
+	RFile*	pfile = NULL);			// In:  Optional file to load from (instead of EditNew()).
 
 // Move a thing to the specified location and update its RHot with an
 // EditRect() call.
@@ -1387,10 +1390,9 @@ static void DrawBouyLink(		// Returns nothing.
 // AddLine - add the newly drawn line to the set of lines.
 static void AddNewLine(int16_t sX0, int16_t sY0, int16_t sX1, int16_t sY1);
 
-#ifdef UNUSED_FUNCTIONS
 // Writes out a log of connected bouys.  This is for debugging only
 static void NetLog(CNavigationNet* pNavNet);
-#endif
+
 // UpdateNetLines - build the full list of link lines from the
 // navigation net.  This function can be used after the bouys have
 // been loaded for a realm before the first time the DrawNetwork is
@@ -1405,7 +1407,7 @@ static void DrawNetwork(		// Returns nothing.
 
 // Get the Editor Thing from the specified realm.
 static CGameEditThing* GetEditorThing(	// Returns ptr to editor thing for 
-													// specified realm or nullptr.
+													// specified realm or NULL.
 	CRealm*	prealm);							// Realm to get editor thing from.
 
 // Creates a view and adds it to the list of views.
@@ -1414,7 +1416,7 @@ static int16_t AddView(		// Returns 0 on success.
 
 // Kills a view and removes it from the list of views.
 static void RemoveView(		// Returns nothing.
-	View*	pview);				// In: View to remove or nullptr to remove currently
+	View*	pview);				// In: View to remove or NULL to remove currently
 									// selected view.
 
 // Removes all current views.
@@ -1422,7 +1424,7 @@ static void RemoveViews(void);
 
 // Creates a new View and adds it to the list of Views.
 static int16_t CreateView(					// Returns 0 on success.
-	View**	ppview,							// Out: New view, if not nullptr.
+	View**	ppview,							// Out: New view, if not NULL.
 	CRealm*	prealm);							// In:  Realm in which to setup camera.
 
 // Destroys a View and removes it from the list of Views.
@@ -1550,7 +1552,7 @@ static void Maprealm2Screen(	// Returns nothing.
 // Blit attribute areas lit by the specified mask into the specified image.
 static void AttribBlit(			// Returns nothing.
 	RMultiGrid*	pmg,				// In:  Multigrid of attributes.
-	uint16_t			u16Mask,			// In:  Mask of important attributes.
+	U16			u16Mask,			// In:  Mask of important attributes.
 	RImage*		pimDst,			// In:  Destination image.
 	int16_t			sSrcX,			// In:  Where in Multigrid to start.
 	int16_t			sSrcY,			// In:  Where in Multigrid to start.
@@ -1570,7 +1572,7 @@ static void RlmNameToRgnName(	// Returns nothing.
 	char* pszRgnName);		// Out: .RGN name.
 
 // Our RFile callback
-static void MyRFileCallback(size_t lBytes);
+static void MyRFileCallback(int32_t lBytes);
 
 // Update selection info in the info GUI.
 static void UpdateSelectionInfo(	// Returns nothing.
@@ -1583,25 +1585,24 @@ static int16_t TmpFileName(								// Returns 0 if successfull, non-zero otherwi
 // Show statistics for the specified realm.
 static int16_t ShowRealmStatistics(	// Returns 0 on success.
 	CRealm*	prealm,						// In:  Realm to get stats on.
-	CThing** ppthing);					// Out: Selected thing, if not nullptr.
+	CThing** ppthing);					// Out: Selected thing, if not NULL.
 
 // Init load/save counter.  You should call KillFileCounter() after
 // done with the file access.
 static void InitFileCounter(			// Returns nothing.
-   const char*	pszDescriptionFrmt);			// In:  sprintf format for description of
+	char*	pszDescriptionFrmt);			// In:  sprintf format for description of 
 												// operation.
 
 // Kill load/save counter.  Can be called multiple times w/o corresponding
 // Init().
 static void KillFileCounter(void);	// Returns nothing.
 
-#ifdef UNUSED_FUNCTIONS
 // Callback from realm during time intensive operations.
 static bool RealmOpProgress(			// Returns true to continue; false to
 												// abort operation.
 	int16_t	sLastItemProcessed,			// In:  Number of items processed so far.
 	int16_t	sTotalItemsToProcess);		// In:  Total items to process.
-#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Set some basic stuff for specified item.
@@ -1611,17 +1612,17 @@ inline void SetPressedCall(	// Returns nothing.
 	RGuiItem*	pguiRoot,		// Root item.
 	int32_t	lId)						// ID of GUI item to set.
 	{
-	ASSERT(pguiRoot != nullptr);
+	ASSERT(pguiRoot != NULL);
 
 	RGuiItem*	pgui	= pguiRoot->GetItemFromId(lId);
-	if (pgui != nullptr)
+	if (pgui != NULL)
 		{
 		// Set callback.
 		pgui->m_bcUser	= GuiPressedCall;
 		}
 	else
 		{
-      TRACE("SetPressedCall(): ID %i missing.\n", lId);
+		TRACE("SetPressedCall(): ID %ld missing.\n", lId);
 		}
 	}
 
@@ -1633,8 +1634,8 @@ inline void SetPressedCall(	// Returns nothing.
 inline void SetMBValsAndCallback(		// Returns nothing.
 	RGuiItem*	pguiRoot,					// In:  Root item.
 	int32_t			lId,							// In:  ID of child to set user vals on.
-	uint32_t			u32UserInstance,			// In:  Value for m_ulUserInstance.
-	uint32_t			u32UserData,				// In:  Value for m_ulUserData.
+	U32			u32UserInstance,			// In:  Value for m_ulUserInstance.
+	U32			u32UserData,				// In:  Value for m_ulUserData.
 	int16_t			sState)						// In:  Initial MultiBtn state.
 	{
 	RMultiBtn*	pmb	= (RMultiBtn*)pguiRoot->GetItemFromId(lId);
@@ -1658,12 +1659,12 @@ extern void GameEdit(
 	void)
 	{
 	// Clear any members that need to be intialized on each entrance.
-	ms_pcameraCur		= nullptr;
-	ms_pthingSel		= nullptr;
-	ms_photSel			= nullptr;
-	ms_plbLayers		= nullptr;
-	ms_pgething			= nullptr;
-	ms_photHood			= nullptr;
+	ms_pcameraCur		= NULL;
+	ms_pthingSel		= NULL;
+	ms_photSel			= NULL;
+	ms_plbLayers		= NULL;
+	ms_pgething			= NULL;
+	ms_photHood			= NULL;
 
 	// Disable 'Organ' on 'Audio Options' menu.
 	menuAudioOptions.ami[1].sEnabled	= FALSE;
@@ -1688,7 +1689,7 @@ extern void GameEdit(
 		&ms_sInitialDeviceDepth,
 		&ms_sInitialDeviceWidth,
 		&ms_sInitialDeviceHeight,
-		nullptr,
+		NULL,
 		&ms_sInitialDisplayWidth,
 		&ms_sInitialDisplayHeight);
 
@@ -1714,10 +1715,10 @@ extern void GameEdit(
 	#endif
 	
 	// Clear rubber band links for bouys
-	m_pBouyLink0 = m_pBouyLink1 = nullptr;
+	m_pBouyLink0 = m_pBouyLink1 = NULL;
 
 	// Init cursor stuff
-   if (InitCursor() == SUCCESS)
+	if (InitCursor() == 0)
 		{
 		//////////////////////////////////////////////////////////////////////
 		// Create realm.
@@ -1726,7 +1727,7 @@ extern void GameEdit(
 		// Create a realm.  At some point we will probably extend the editor to
 		// be able to handle multiple realms at once.  For now it just has one.
 		CRealm* prealm = new CRealm;
-      ASSERT(prealm != nullptr);
+		ASSERT(prealm != 0);
 
 		// This realm will only be used for editting, so it make it known.
 		prealm->m_flags.bEditing	= true;
@@ -1744,7 +1745,7 @@ extern void GameEdit(
 		//////////////////////////////////////////////////////////////////////
 
 		CCamera* pcamera = new CCamera;
-		ASSERT(pcamera != nullptr);
+		ASSERT(pcamera != NULL);
 		pcamera->SetScene(&(prealm->m_scene));
 		// Update display size sensitive objects.
 		SizeUpdate(pcamera, prealm);
@@ -1773,13 +1774,13 @@ extern void GameEdit(
 		ms_pguiInfo				= RGuiItem::LoadInstantiate(FullPath(GAME_PATH_VD, INFO_GUI_FILE) );
 
 		// Make sure we got all our GUIs . . .
-		if (	ms_pguiRealmBar != nullptr 
-			&& ms_pguiPickObj != nullptr 
-			&& ms_pguiLayers != nullptr 
-			&& ms_pguiCameras != nullptr
-			&& ms_pguiGUIs != nullptr
-			&& ms_pguiMap != nullptr
-			&& ms_pguiNavNets != nullptr
+		if (	ms_pguiRealmBar != NULL 
+			&& ms_pguiPickObj != NULL 
+			&& ms_pguiLayers != NULL 
+			&& ms_pguiCameras != NULL
+			&& ms_pguiGUIs != NULL
+			&& ms_pguiMap != NULL
+			&& ms_pguiNavNets != NULL
 			&& ms_pguiShowAttribs
 			&& ms_pguiInfo)
 			{
@@ -1799,7 +1800,7 @@ extern void GameEdit(
 			// Get object picker list box.
 			RListBox*	plbPicker	= (RListBox*)ms_pguiPickObj->GetItemFromId(GUI_ID_PICK_LIST);
 
-			ASSERT(plbPicker != nullptr);
+			ASSERT(plbPicker != NULL);
 			ASSERT(plbPicker->m_type == RGuiItem::ListBox);
 			
 			// Add available objects to listbox.
@@ -1812,7 +1813,7 @@ extern void GameEdit(
 					{
 					// Add string for each item to listbox.
 					pguiItem	= plbPicker->AddString((char*)CThing::ms_aClassInfo[idCur].pszClassName);
-					if (pguiItem != nullptr)
+					if (pguiItem != NULL)
 						{
 						pguiItem->m_lId			= LIST_ITEM_GUI_ID_BASE + idCur;
 						pguiItem->m_ulUserData	= (uint32_t)idCur;
@@ -1828,7 +1829,7 @@ extern void GameEdit(
 
 			// Select the DEFAULT_THING_ID.
 			RGuiItem*	pguiDefThing	= ms_pguiPickObj->GetItemFromId(DEFAULT_THING_ID + LIST_ITEM_GUI_ID_BASE);
-			if (pguiDefThing != nullptr)
+			if (pguiDefThing != NULL)
 				{
 				plbPicker->SetSel(pguiDefThing);
 				// Ensure that the default item is visible.  Not scrolled off somewhere.
@@ -1841,7 +1842,7 @@ extern void GameEdit(
 			// Get layer tweaker list box.
 			ms_plbLayers	= (RListBox*)ms_pguiLayers->GetItemFromId(GUI_ID_LAYER_LIST);
 
-			ASSERT(ms_plbLayers != nullptr);
+			ASSERT(ms_plbLayers != NULL);
 			ASSERT(ms_plbLayers->m_type == RGuiItem::ListBox);
 
 			// Add available layers to listbox.
@@ -1850,7 +1851,7 @@ extern void GameEdit(
 				{
 				// Add string for each item to listbox.
 				pguiItem	= ms_plbLayers->AddString(CRealm::ms_apszLayerNames[sLayer]);
-				if (pguiItem != nullptr)
+				if (pguiItem != NULL)
 					{
 					// Remember which layer it's associated with.
 					pguiItem->m_ulUserData	= (uint32_t)sLayer;
@@ -1895,10 +1896,10 @@ extern void GameEdit(
 			ms_pguiNavNets->SetVisible(ms_pguiNavNets->m_sVisible);
 
 			// ---------- Show Attribs --------
-         SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_LAYERS, (uintptr_t)(&ms_u16LayerMask), REALM_ATTR_LAYER_MASK, 1);
-         SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_HEIGHT, (uintptr_t)(&ms_u16TerrainMask), REALM_ATTR_HEIGHT_MASK, 1);
-         SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_NOWALK, (uintptr_t)(&ms_u16TerrainMask), REALM_ATTR_NOT_WALKABLE, 1);
-         SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_LIGHT, (uintptr_t)(&ms_u16TerrainMask), REALM_ATTR_LIGHT_BIT, 1);
+			SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_LAYERS, (U64)(&ms_u16LayerMask), REALM_ATTR_LAYER_MASK, 1);
+			SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_HEIGHT, (U64)(&ms_u16TerrainMask), REALM_ATTR_HEIGHT_MASK, 1);
+			SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_NOWALK, (U64)(&ms_u16TerrainMask), REALM_ATTR_NOT_WALKABLE, 1);
+			SetMBValsAndCallback(ms_pguiShowAttribs, GUI_ID_ATTRIB_LIGHT, (U64)(&ms_u16TerrainMask), REALM_ATTR_LIGHT_BIT, 1);
 
 			ms_pguiShowAttribs->SetVisible(TRUE);
 
@@ -1952,11 +1953,11 @@ extern void GameEdit(
 			rspSetMouseCursorShowLevel(1);
 
 			// User must load an existing realm or start a new one to go any further
-//			bool bGoEdit = false;
+			bool bGoEdit = false;
 			bool bExit = false;
 
 			// Set currently select thing to default value
-//			CThing::ClassIDType idCurrent = DEFAULT_THING_ID;
+			CThing::ClassIDType idCurrent = DEFAULT_THING_ID;
 			// Clear mouse and keyboard events
 			rspClearAllInputEvents();
 
@@ -1992,23 +1993,23 @@ extern void GameEdit(
 
 			// Done with GUIs.
 			delete ms_pguiRealmBar;
-			ms_pguiRealmBar	= nullptr;
+			ms_pguiRealmBar	= NULL;
 			delete ms_pguiPickObj;
-			ms_pguiPickObj		= nullptr;
+			ms_pguiPickObj		= NULL;
 			delete ms_pguiLayers;
-			ms_pguiLayers		= nullptr;
+			ms_pguiLayers		= NULL;
 			delete ms_pguiCameras;
-			ms_pguiCameras		= nullptr;
+			ms_pguiCameras		= NULL;
 			delete ms_pguiGUIs;
-			ms_pguiGUIs			= nullptr;
+			ms_pguiGUIs			= NULL;
 			delete ms_pguiMap;
-			ms_pguiMap			= nullptr;
+			ms_pguiMap			= NULL;
 			delete ms_pguiNavNets;
-			ms_pguiNavNets		= nullptr;
+			ms_pguiNavNets		= NULL;
 			delete ms_pguiShowAttribs;
-			ms_pguiShowAttribs	= nullptr;
+			ms_pguiShowAttribs	= NULL;
 			delete ms_pguiInfo;
-			ms_pguiInfo				= nullptr;
+			ms_pguiInfo				= NULL;
 			}
 		else
 			{
@@ -2020,11 +2021,11 @@ extern void GameEdit(
 
 		// Done with the realm.
 		delete prealm;
-		prealm	= nullptr;
+		prealm	= NULL;
 		// Done with the camera.
 		delete pcamera;
-		pcamera	= nullptr;
-		ms_pcameraCur	= nullptr;
+		pcamera	= NULL;
+		ms_pcameraCur	= NULL;
 
 		// Kill cursor stuff
 		KillCursor();
@@ -2032,7 +2033,7 @@ extern void GameEdit(
 
 	// If there is an image, delete it.
 	delete ms_spriteAttributes.m_pImage;
-	ms_spriteAttributes.m_pImage	= nullptr;
+	ms_spriteAttributes.m_pImage	= NULL;
 
 	// If paste buffer open . . .
 	if (ms_filePaste.IsOpen() != FALSE)
@@ -2094,7 +2095,7 @@ static bool DoInput(		// Returns true when done.
 	
 	Menu*	pmenu	= GetCurrentMenu();
 	// If there is a menu . . .
-	if (pmenu != nullptr)
+	if (pmenu != NULL)
 		{
 		// This is CHEEZY AS HELL but the normal menu callback calls
 		// game.cpp which sets its action flag telling it to call this
@@ -2111,7 +2112,7 @@ static bool DoInput(		// Returns true when done.
 		DoMenuInput(&ie, 0);
 
 		// If there is no longer a menu . . .
-		if (GetCurrentMenu() == nullptr)
+		if (GetCurrentMenu() == NULL)
 			{
 			// Show the mouse.
 			rspShowMouseCursor();
@@ -2123,7 +2124,7 @@ static bool DoInput(		// Returns true when done.
 	else
 		{
 		// If editting a pylon trigger region . . .
-		if (ms_pylonEdit != nullptr)
+		if (ms_pylonEdit != NULL)
 			{
 			static int16_t	sButtons	= 0;
 			// Get cursor position and event
@@ -2131,7 +2132,7 @@ static bool DoInput(		// Returns true when done.
 			
 			uint8_t	ucId	= ms_pylonEdit->m_ucID;
 
-			static uint8_t*	pau8KeyStatus	= rspGetKeyStatusArray();
+			static U8*	pau8KeyStatus	= rspGetKeyStatusArray();
 
 			// Move unit for arrow key movement of region.
 			// Note: Combinations of SHIFT, CONTROL, and ALT
@@ -2191,7 +2192,7 @@ static bool DoInput(		// Returns true when done.
 						switch (ie.lKey & 0x0000FFFF)
 							{
 							case 27:
-								EditPylonTriggerRegion(nullptr);
+								EditPylonTriggerRegion(NULL);
 								break;
 							case EDIT_KEY_ENLARGE_DISPLAY1:
 							case EDIT_KEY_ENLARGE_DISPLAY2:
@@ -2256,8 +2257,8 @@ static bool DoInput(		// Returns true when done.
 			if (ie.type == RInputEvent::Key && ie.sUsed == FALSE)
 				{
 				// Force alpha keys to upper keys
-            if (isalpha(ie.lKey & 0xFFFF))
-               ie.lKey = (ie.lKey & 0xFFFF0000) | toupper(ie.lKey & 0xFFFF);
+				if (isalpha(ie.lKey & 0xffff))
+					ie.lKey = (ie.lKey & 0xffff0000) | toupper(ie.lKey & 0xffff);
 
 				// In case we're gonna scroll, set amount based on CTRL key status
 				int16_t sScrollX = EDIT_SCROLL_AMOUNT;
@@ -2300,7 +2301,7 @@ static bool DoInput(		// Returns true when done.
 						{
 							CThing*	pThing;
 							CListNode<CThing>* pNext = prealm->m_aclassHeads[CThing::CBouyID].m_pnNext;
-							while (pNext->m_powner != nullptr)
+							while (pNext->m_powner != NULL)
 							{
 								pThing = pNext->m_powner;
 								if (pThing)
@@ -2316,7 +2317,7 @@ static bool DoInput(		// Returns true when done.
 						{
 							CThing*	pThing;
 							CListNode<CThing>* pNext = prealm->m_aclassHeads[CThing::CBouyID].m_pnNext;
-							while (pNext->m_powner != nullptr)
+							while (pNext->m_powner != NULL)
 							{
 								pThing = pNext->m_powner;
 								if (pThing)
@@ -2348,12 +2349,12 @@ static bool DoInput(		// Returns true when done.
 							{
 		#if 1
 							// If menu is not running . . .
-							if (GetCurrentMenu() == nullptr)
+							if (GetCurrentMenu() == NULL)
 								{
 								// Fade out and preserve colors.
 								PalTranOn();
 
-                        if (StartMenu(&menuEditor, &g_resmgrShell, g_pimScreenBuf) == SUCCESS)
+								if (StartMenu(&menuEditor, &g_resmgrShell, g_pimScreenBuf) == 0)
 									{
 									// Hide the mouse.
 									rspHideMouseCursor();
@@ -2414,9 +2415,9 @@ static bool DoInput(		// Returns true when done.
 					case EDIT_KEY_MODIFY1:
 					case EDIT_KEY_MODIFY2:
 						// Verify there is a selection . . .
-						if (ms_pthingSel != nullptr)
+						if (ms_pthingSel != NULL)
 							{
-							ASSERT(ms_photSel != nullptr);
+							ASSERT(ms_photSel != NULL);
 							// Modify.
 							ms_pthingSel->EditModify();
 							// Size may have changed.
@@ -2516,7 +2517,7 @@ static bool DoInput(		// Returns true when done.
 
 						if (pthing)
 							{
-							SetSel(pthing, nullptr);
+							SetSel(pthing, NULL);
 							}
 
 						break;
@@ -2547,7 +2548,7 @@ static bool DoInput(		// Returns true when done.
 			ms_sbVert.m_hot.Do(&ie);
 			ms_sbHorz.m_hot.Do(&ie);
 			// If there's a hood hotbox and no item being dragged . . .
-			if (ms_photHood != nullptr && ms_sMoving == FALSE)
+			if (ms_photHood != NULL && ms_sMoving == FALSE)
 				{
 				// Pass the event to the Thing hotboxes in Realm coords.
 				RInputEvent	ieRealm	= ie;
@@ -2576,7 +2577,7 @@ static bool DoInput(		// Returns true when done.
 			GetCursor(&ie, &sCursorX, &sCursorY, &sCursorZ, &sCursorEvent);
 			
 			// If there is a realm . . .
-			if (prealm != nullptr)
+			if (prealm != NULL)
 				{
 				// Map the cursor position to a realm coordinate.
 				MapScreen2Realm(prealm, pcamera, sCursorX, sCursorZ, &sCursorX, &sCursorY, &sCursorZ);
@@ -2598,7 +2599,7 @@ static bool DoInput(		// Returns true when done.
 
 				case CURSOR_LEFT_DRAG_BEGIN:
 					// If there is a selection . . .
-					if (ms_pthingSel != nullptr)
+					if (ms_pthingSel != NULL)
 						{
 						// Let's not drag the hood . . .
 						if (ms_pthingSel->GetClassID() != CThing::CHoodID)
@@ -2607,7 +2608,7 @@ static bool DoInput(		// Returns true when done.
 							ms_sMoving			= TRUE;
 
 							// Make sure this is valid.
-							ASSERT(ms_photSel != nullptr);
+							ASSERT(ms_photSel != NULL);
 
 							// Get hotspot for item in 2D.
 							int16_t	sOffsetX;
@@ -2643,8 +2644,8 @@ static bool DoInput(		// Returns true when done.
 					// If there is an item being moved . . .
 					if (ms_sMoving != FALSE)
 						{
-						ASSERT(ms_pthingSel != nullptr);
-						ASSERT(ms_photSel != nullptr);
+						ASSERT(ms_pthingSel != NULL);
+						ASSERT(ms_photSel != NULL);
 
 						MoveThing(
 							ms_pthingSel, 
@@ -2740,15 +2741,15 @@ static bool DoInput(		// Returns true when done.
 					NewRealm(prealm);
 					// Setup camera.
 					pcamera->SetHood(prealm->m_phood);
-					m_pBouyLink0 = nullptr;
-					m_pBouyLink1 = nullptr;
+					m_pBouyLink0 = NULL;
+					m_pBouyLink1 = NULL;
 					break;
 
 				case GUI_ID_OPEN_REALM:
 					// Load realm
 					LoadRealm(prealm);
-					m_pBouyLink0 = nullptr;
-					m_pBouyLink1 = nullptr;
+					m_pBouyLink0 = NULL;
+					m_pBouyLink1 = NULL;
 					break;
 
 				case GUI_ID_SAVE_REALM:
@@ -2762,7 +2763,7 @@ static bool DoInput(		// Returns true when done.
 					break;
 
 				case GUI_ID_PLAY_REALM:
-					if (prealm->m_phood != nullptr)
+					if (prealm->m_phood != NULL)
 						{
 						CancelDrag(prealm);
 
@@ -2789,18 +2790,18 @@ static bool DoInput(		// Returns true when done.
 				case GUI_ID_CLOSE_REALM:
 					// Clear the ream.
 					CloseRealm(prealm);
-					m_pBouyLink0 = nullptr;
-					m_pBouyLink1 = nullptr;
+					m_pBouyLink0 = NULL;
+					m_pBouyLink1 = NULL;
 					break;
 
 				case GUI_ID_EXIT:
 					// If we can close the realm . . .
-               if (CloseRealm(prealm) == SUCCESS)
+					if (CloseRealm(prealm) == 0)
 						{
 						// Exit the editor
 						bExit = true;
-						m_pBouyLink0 = nullptr;
-						m_pBouyLink1 = nullptr;
+						m_pBouyLink0 = NULL;
+						m_pBouyLink1 = NULL;
 						}
 					break;
 
@@ -2813,7 +2814,7 @@ static bool DoInput(		// Returns true when done.
 					{
 					// Get currently selected list item.
 					RGuiItem*	pguiSel	= ms_plbLayers->GetSel();
-					if (pguiSel != nullptr)
+					if (pguiSel != NULL)
 						{
 						// Get layer to toggle.
 						CRealm::Layer	layer	= (CRealm::Layer)pguiSel->m_ulUserData;
@@ -2834,7 +2835,7 @@ static bool DoInput(		// Returns true when done.
 
 				case GUI_ID_CLOSE_CAMERA:
 					{
-					RemoveView(nullptr);
+					RemoveView(NULL);
 					break;
 					}
 
@@ -2892,11 +2893,11 @@ static bool DoInput(		// Returns true when done.
 
 					// Get object picker list box.
 					RListBox*	plbPicker	= (RListBox*)ms_pguiPickObj->GetItemFromId(GUI_ID_PICK_LIST);
-					if (plbPicker != nullptr)
+					if (plbPicker != NULL)
 						{
 						RGuiItem*	pguiSel	= plbPicker->GetSel();
 						// If there is a selection . . .
-						if (pguiSel != nullptr)
+						if (pguiSel != NULL)
 							{
 							// Get ID of list item representing thing to create.
 							ms_lPressedId	= pguiSel->m_lId;
@@ -2954,13 +2955,13 @@ static bool DoInput(		// Returns true when done.
 				}
 
 			// If the mapped is pressed . . .
-			if (ms_pguiMapZone != nullptr)
+			if (ms_pguiMapZone != NULL)
 				{
 				if (ms_pguiMapZone->m_sPressed != FALSE)
 					{
 					// Determine position.
 					int16_t	sPosX, sPosY;
-					rspGetMouse(&sPosX, &sPosY, nullptr);
+					rspGetMouse(&sPosX, &sPosY, NULL);
 					ms_pguiMapZone->TopPosToClient(&sPosX, &sPosY);
 					// Map position into map coords scroll to it.
 					ms_sbVert.SetPos(sPosY / ms_dMapRatio - pcamera->m_sViewH / 2);
@@ -3002,7 +3003,7 @@ static void DoOutput(	// Returns nothing.
 	int16_t		sCursorZ)	// Cursor Z position.
 	{
 	// If not in menu . . .
-	if (GetCurrentMenu() == nullptr)
+	if (GetCurrentMenu() == NULL)
 		{
 		// Lock the composite buffer for much access.
 		rspLockBuffer();
@@ -3075,7 +3076,7 @@ static void DoOutput(	// Returns nothing.
 		DrawNetwork(prealm, pcamera);
 
 		// If there's a selected item . . .
-		if (ms_pthingSel != nullptr)
+		if (ms_pthingSel != NULL)
 			{
 			static RRect	rc;
 			static int16_t	sColorSwap	= 0;
@@ -3101,7 +3102,7 @@ static void DoOutput(	// Returns nothing.
 			}
 
 		// If there's no current hood . . .
-		if (prealm->m_phood == nullptr)
+		if (prealm->m_phood == NULL)
 			{
 			// Erase entire screen.
 			rspRect(
@@ -3150,10 +3151,10 @@ static void DoOutput(	// Returns nothing.
 		ms_pguiGUIs->Draw(g_pimScreenBuf);
 
 		// If editting a pylon . . .
-		if (ms_pylonEdit != nullptr)
+		if (ms_pylonEdit != NULL)
 			{
 			uint8_t	ucId	= ms_pylonEdit->m_ucID;
-			ASSERT(ms_argns[ucId].pimRgn != nullptr);
+			ASSERT(ms_argns[ucId].pimRgn != NULL);
 
 			// Draw trigger region.
 #if 0	// Now done with a sprite.
@@ -3167,8 +3168,8 @@ static void DoOutput(	// Returns nothing.
 				ms_argns[ucId].sY - pcamera->m_sScene2FilmY,	// Dst.
 				ms_argns[ucId].pimRgn->m_sWidth,					// Both.
 				ms_argns[ucId].pimRgn->m_sHeight,				// Both.
-				nullptr,														// Dst.
-				nullptr														// Src.
+				NULL,														// Dst.
+				NULL														// Src.
 				);
 #endif
 
@@ -3232,7 +3233,7 @@ static void GetCursor(	// Returns nothing.
 	// Init mouse drag stuff
 	static int16_t sDragX;
 	static int16_t sDragY;
-   static milliseconds_t lDragTime;
+	static int32_t lDragTime;
 
 	// Init mouse pressed stuff.
 	static int16_t sPressed	= FALSE;
@@ -3244,7 +3245,7 @@ static void GetCursor(	// Returns nothing.
 	// Default to no event
 	*psEvent = CURSOR_NOTHING;
 
-	ASSERT(pie != nullptr);
+	ASSERT(pie != NULL);
 
 	int16_t sMouseX			= pie->sPosX;
 	int16_t sMouseY			= pie->sPosY;
@@ -3362,7 +3363,7 @@ static void GetCursor(	// Returns nothing.
 	else
 		{
 		// If there was no mouse event, just get the current mouse position
-		rspGetMouse(&sMouseX, &sMouseY, nullptr);
+		rspGetMouse(&sMouseX, &sMouseY, NULL);
 		}
 	
 	// If we're in "maybe" drag mode, check if we should go to "full" drag mode
@@ -3427,13 +3428,13 @@ static void GetCursor(	// Returns nothing.
 static int16_t InitCursor(
 	void)
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	m_pimCursorBase = new RImage;
-	ASSERT(m_pimCursorBase != nullptr);
-   if (m_pimCursorBase->Load(FullPath(GAME_PATH_VD, CURSOR_BASE_IMAGE_FILE) ) != SUCCESS)
+	ASSERT(m_pimCursorBase != NULL);
+	if (m_pimCursorBase->Load(FullPath(GAME_PATH_VD, CURSOR_BASE_IMAGE_FILE) ) != 0)
 		{
-		sResult = FAILURE;
+		sResult = -1;
 		TRACE("LoadCursor(): Couldn't load cursor file: %s\n", 
 			FullPath(GAME_PATH_VD, CURSOR_BASE_IMAGE_FILE));
 		goto Exit;
@@ -3441,16 +3442,16 @@ static int16_t InitCursor(
 
 	if (m_pimCursorBase->Convert(RImage::FSPR8) != RImage::FSPR8)
 		{
-		sResult = FAILURE;
+		sResult = -1;
 		TRACE("LoadCursor(): Couldn't convert cursor base to FSPR8!\n");
 		goto Exit;
 		}
 
 	m_pimCursorTip = new RImage;
-	ASSERT(m_pimCursorTip != nullptr);
-   if (m_pimCursorTip->Load(FullPath(GAME_PATH_VD, CURSOR_TIP_IMAGE_FILE) ) != SUCCESS)
+	ASSERT(m_pimCursorTip != NULL);
+	if (m_pimCursorTip->Load(FullPath(GAME_PATH_VD, CURSOR_TIP_IMAGE_FILE) ) != 0)
 		{
-		sResult = FAILURE;
+		sResult = -1;
 		TRACE("LoadCursor(): Couldn't load cursor file: %s\n", 
 			FullPath(GAME_PATH_VD, CURSOR_TIP_IMAGE_FILE) );
 		goto Exit;
@@ -3458,7 +3459,7 @@ static int16_t InitCursor(
 
 	if (m_pimCursorTip->Convert(RImage::FSPR8) != RImage::FSPR8)
 		{
-		sResult = FAILURE;
+		sResult = -1;
 		TRACE("LoadCursor(): Couldn't convert cursor tip to FSPR8!\n");
 		goto Exit;
 		}
@@ -3528,7 +3529,7 @@ static void DrawCursor(
 		short sMin = MIN(sCursorZ, (short)(sCursorZ - sCursorY));
 		short sMax = MAX(sCursorZ, (short)(sCursorZ - sCursorY));
 		for (short y = sMin; y <= sMax; y++)
-         rspPlot<uint8_t>(255, pimDst, sCursorX, y);
+			rspPlot((uint8_t)255, pimDst, sCursorX, y);
 #else
 		rspLine(
 			(uint8_t)255,
@@ -3550,17 +3551,17 @@ static void DrawCursor(
 static int16_t NewRealm(
 	CRealm* prealm)
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Close realm in case it contains anything
 	sResult	= CloseRealm(prealm);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// Set the bouy lines to default to on
 		ms_bDrawNetwork = true;
 
 		// Clear the network lines from the previous level (if any)
-		UpdateNetLines(nullptr);
+		UpdateNetLines(NULL);
 
 		// Set disk path for this realm.
 		prealm->m_resmgr.SetBasePath(g_GameSettings.m_szNoSakDir);
@@ -3568,19 +3569,19 @@ static int16_t NewRealm(
 		CThing*	pthing;
 		int16_t		sResult	= CreateNewThing(prealm, CThing::CHoodID, 0, 0, 0, &pthing, &ms_photHood);
 		// Create hood object because we can't really do anything without it
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 			RHot*		photdummy;
 			sResult	= CreateNewThing(prealm, CThing::CGameEditThingID, 0, 0, 0, &pthing, &photdummy);
 			// Create editor object . . .
-			if (sResult == SUCCESS)
+			if (sResult == 0)
 				{
 				// Store ptr to GameEdit thing.
 				ms_pgething	= (CGameEditThing*)pthing;
 				ms_pgething->m_plbNavNetList = (RListBox*) ms_pguiNavNets->GetItemFromId(GUI_ID_NAVNET_LIST);
 
 				sResult	= CreateNewThing(prealm, CThing::CNavigationNetID, 150, 0, 50, &pthing, &ms_photSel);
-				if (sResult == SUCCESS)
+				if (sResult == 0)
 					{
 					// Success.
 					// Update size affected stuff.
@@ -3593,7 +3594,7 @@ static int16_t NewRealm(
 					RefreshMap(prealm);
 
 					sResult = CreateNewThing(prealm, CThing::CTriggerID, 0, 0, 0, &pthing, &photdummy);
-					if (sResult == SUCCESS) 
+					if (sResult == 0) 
 						{
 						prealm -> m_pTriggerMap = ((CTrigger*)pthing)->m_pmgi;
 						}
@@ -3619,7 +3620,7 @@ static int16_t NewRealm(
 static int16_t CloseRealm(
 	CRealm* prealm)
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Cancel drag, if one is in progress.
 	CancelDrag(prealm);
@@ -3648,32 +3649,32 @@ static int16_t CloseRealm(
 				break;
 			case RSP_MB_RET_CANCEL:
 				// User abort.
-            sResult = FAILURE;
+				sResult	= 1;
 				break;
 			}
 		}
 
 	// If successful so far . . .
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
-		if (ms_pcameraCur != nullptr)
+		if (ms_pcameraCur != NULL)
 			{
 			// Clear hood ptr.
-			ms_pcameraCur->SetHood(nullptr);
+			ms_pcameraCur->SetHood(NULL);
 			}
 		
 		// Clear realm in case it contains anything
 		prealm->Clear();
 
 		// This's gone now.
-		ms_pgething	= nullptr;
+		ms_pgething	= NULL;
 
 		// If there are any . . .
-		if (ms_photHood != nullptr)
+		if (ms_photHood != NULL)
 			{
 			// Destroy all child hotboxes.
 			RHot*	phot	= ms_photHood->m_listChildren.GetHead();
-			while (phot != nullptr)
+			while (phot != NULL)
 				{
 				delete phot;
 
@@ -3682,11 +3683,11 @@ static int16_t CloseRealm(
 
 			// Destroy root/hood hotbox.
 			delete ms_photHood;
-			ms_photHood	= nullptr;
+			ms_photHood	= NULL;
 			}
 
 		// Clean up trigger regions.
-      size_t i;
+		int16_t i;
 		for (i = 0; i < NUM_ELEMENTS(ms_argns); i++)
 			{
 			ms_argns[i].Destroy();
@@ -3694,7 +3695,7 @@ static int16_t CloseRealm(
 
 		// Better clear these.
 		ms_sMoving		= FALSE;
-		SetSel(nullptr, nullptr);
+		SetSel(NULL, NULL);
 
 		// Set filename such that initially open and save dialogs start in
 		// *.RLM dir.
@@ -3719,11 +3720,11 @@ static int16_t CloseRealm(
 static int16_t LoadRealm(
 	CRealm* prealm)
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Close current realm.
 	sResult	= CloseRealm(prealm);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// Attempt to get filename . . .
 		// ***LOCALIZE***
@@ -3733,10 +3734,10 @@ static int16_t LoadRealm(
 			ms_szFileName, 
 			sizeof(ms_szFileName), 
 			".rlm");
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 			// Attach file counter callback to RFile and setup necessary components.
-         InitFileCounter("Loading -- %i bytes so far.");
+			InitFileCounter("Loading -- %ld bytes so far.");
 			
 			// Convert to RSPiX format b/c CRealm::Load() now likes it that way.
 			char	szRealmName[sizeof(ms_szFileName)];
@@ -3747,7 +3748,7 @@ static int16_t LoadRealm(
 			// Clean and detach file counter.
 			KillFileCounter();
 			// If load was successful . . .
-			if (sResult == SUCCESS)
+			if (sResult == 0)
 				{
 				// Get the editor thing.
 				ms_pgething	= GetEditorThing(prealm);
@@ -3788,17 +3789,17 @@ static int16_t LoadRealm(
 						rc.sH,							// Dimensions.
 						ThingHotCall,					// Callback.
 						TRUE,								// TRUE, if active.
-                  (uintptr_t)phood,						// User value (CThing*).
+						(U64)phood,						// User value (CThing*).
 						FRONTMOST_HOT_PRIORITY);	// New items towards front.
 					// If successful . . .
-					if (ms_photHood != nullptr)
+					if (ms_photHood != NULL)
 						{
 						// Setup hotboxes for all objects.
 						CListNode<CThing>* pList;
 						CThing*  pthing;
 						int16_t	sActivateHot;
 						pList = prealm->m_everythingHead.m_pnNext;
-						while (pList->m_powner != nullptr && sResult == SUCCESS)
+						while (pList->m_powner != NULL && sResult == 0)
 							{
 							pthing	= pList->m_powner;
 							// Already got one for Hood.  If not the Hood . . .
@@ -3833,11 +3834,11 @@ static int16_t LoadRealm(
 									rc.sH,							// Dimensions.
 									ThingHotCall,					// Callback.
 									sActivateHot,					// TRUE, if initially active.
-                           (uintptr_t)pthing,					// User value (CThing*).
+									(U64)pthing,					// User value (CThing*).
 									FRONTMOST_HOT_PRIORITY);	// New items towards front.
 
 								// If successful . . .
-								if (pthing->m_phot != nullptr)
+								if (pthing->m_phot != NULL)
 									{
 									// Make child of Hood's hotbox.
 									pthing->m_phot->SetParent(ms_photHood);
@@ -3845,7 +3846,7 @@ static int16_t LoadRealm(
 								else
 									{
 									TRACE("LoadRealm(): Unable to allocate hotbox for thing.\n");
-                           sResult = FAILURE;
+									sResult	= 1;
 									}
 								}
 								// Go to next item
@@ -3855,18 +3856,18 @@ static int16_t LoadRealm(
 					else
 						{
 						TRACE("LoadRealm(): Unable to allocate hotbox for Hood.\n");
-                  sResult = FAILURE;
+						sResult	= 1;
 						}
 
 					}
 				else
 					{
 					TRACE("LoadRealm(): Realm has no hood.\n");
-               sResult = FAILURE;
+					sResult	= 1;
 					}
 				
 				// If any errors occurred . . .
-				if (sResult != SUCCESS)
+				if (sResult != 0)
 					{
 					// Clean up any partial stuff.
 					CloseRealm(prealm);
@@ -3881,7 +3882,7 @@ static int16_t LoadRealm(
 					// Make sure our loaded settings are unaffected.
 					int16_t	sViewPosX	= 0;
 					int16_t	sViewPosY	= 0;
-					if (ms_pgething != nullptr)
+					if (ms_pgething != NULL)
 						{
 						sViewPosX	= ms_pgething->m_sViewPosX;
 						sViewPosY	= ms_pgething->m_sViewPosY;
@@ -3894,7 +3895,7 @@ static int16_t LoadRealm(
 					SizeUpdate(ms_pcameraCur, prealm);
 
 					// If there is an editor thing . . .
-					if (ms_pgething != nullptr)
+					if (ms_pgething != NULL)
 						{
 						// Update view position.
 						ms_sbVert.SetPos(sViewPosY);
@@ -3946,14 +3947,14 @@ static int16_t LoadRealm(
 static int16_t SaveRealmAs(
 	CRealm* prealm)
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	#ifdef DISABLE_EDITOR_SAVE_AND_PLAY
 		rspMsgBox(
 			RSP_MB_ICN_INFO | RSP_MB_BUT_OK,
 			"Postal Editor",
 			"Sorry, but the save feature is disabled.");
-		sResult = FAILURE;
+		sResult = -1;
 	#else
 		// Attempt to get filename . . .
 		// ***LOCALIZE***
@@ -3962,7 +3963,7 @@ static int16_t SaveRealmAs(
 			ms_szFileName, 
 			ms_szFileName, 
 			sizeof(ms_szFileName), 
-         ".rlm") == SUCCESS)
+			".rlm") == 0)
 			{
 			ASSERT(ms_szFileName[0] != '\0');
 			// Save realm.
@@ -3973,7 +3974,7 @@ static int16_t SaveRealmAs(
 		else
 			{
 			// Cancelled.
-         sResult = FAILURE;
+			sResult	= 1;
 			}
 	#endif
 
@@ -3988,7 +3989,7 @@ static int16_t SaveRealmAs(
 static int16_t SaveRealm(
 	CRealm* prealm)
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// If filename . . .
 	if (strcmp(ms_szFileName, FullPathVD(INITIAL_REALM_DIR)) != 0)
@@ -4017,26 +4018,26 @@ static int16_t SaveRealm(			// Returns 0 on success.
 	char* pszRealmName,			// In:  Filename to save as.
 	bool	bSaveTriggerRegions)	// In:  Save the trigger regions too.
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	#ifdef DISABLE_EDITOR_SAVE_AND_PLAY
 		rspMsgBox(
 			RSP_MB_ICN_INFO | RSP_MB_BUT_OK,
 			"Postal Editor",
 			"Sorry, but the save feature is disabled.");
-		sResult = FAILURE;
+		sResult = -1;
 	#else
 		// Convert the Trigger Regions into an attribute map:
 		CreateTriggerRegions(prealm);
 
 		// Attach file counter callback to RFile and setup necessary components.
-      InitFileCounter("Saving -- %i bytes so far.");
+		InitFileCounter("Saving -- %ld bytes so far.");
 		// Save realm
 		sResult = prealm->Save(pszRealmName);
 		// Clean and detach file counter.
 		KillFileCounter();
 		// If successful . . .
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 			// If we are to save the trigger regions . . .
 			if (bSaveTriggerRegions == true)
@@ -4048,7 +4049,7 @@ static int16_t SaveRealm(			// Returns 0 on success.
 						RSP_MB_ICN_INFO | RSP_MB_BUT_OK,
 						"SaveRealm()",
 						"Pylon editor regions failed to save.");
-					sResult = FAILURE;
+					sResult	= -1;
 					}
 				}
 			}
@@ -4084,7 +4085,7 @@ static void PlayRealm(
 			"Sorry, but the play feature is disabled.");
 	#else
 		// This is not returned by the function, but used internally
-      int16_t sResult = SUCCESS;
+		int16_t sResult = 0;
 
 		// Enable RMix's autopump.
 		RMix::SetAutoPump(TRUE);
@@ -4096,22 +4097,22 @@ static void PlayRealm(
 			rspHideMouseCursor();
 
 		// Create a temporary filename
-      char	szFileName[PATH_MAX];
-      if (TmpFileName(szFileName, sizeof(szFileName)) == SUCCESS)
+		char	szFileName[RSP_MAX_PATH];
+		if (TmpFileName(szFileName, sizeof(szFileName)) == 0)
 			{
 			// Attach file counter callback to RFile and setup necessary components.
-         InitFileCounter("Saving -- %i bytes so far.");
+			InitFileCounter("Saving -- %ld bytes so far.");
 			// Save realm being edited without the trigger regions.
 			sResult	= SaveRealm(pEditRealm, szFileName, false);
 			// Clean and detach file counter.
 			KillFileCounter();
 			// If successful . . .
-			if (sResult == SUCCESS)
+			if (sResult == 0)
 				{
 				// Create a new realm so we don't accidentally rely on any side-effects
 				// that may result from using the editor's realm.
 				CRealm* prealm = new CRealm;
-				ASSERT(prealm != nullptr);
+				ASSERT(prealm != NULL);
 
 				// Setup progress callback right away.
 //				prealm->m_fnProgress	= RealmOpProgress;
@@ -4130,7 +4131,7 @@ static void PlayRealm(
 				SetInputMode(INPUT_MODE_LIVE);
 
 				// Attach file counter callback to RFile and setup necessary components.
-            InitFileCounter("Loading -- %i bytes so far.");
+				InitFileCounter("Loading -- %ld bytes so far.");
 			
 				// Convert to RSPiX format b/c CRealm::Load() now likes it that way.
 				char	szRealmName[sizeof(szFileName)];
@@ -4142,7 +4143,7 @@ static void PlayRealm(
 				KillFileCounter();
 
 				// If successful . . .
-				if (sResult == SUCCESS)
+				if (sResult == 0)
 					{
 					// Set up the score module - initialize the font etc.
 					ScoreInit();
@@ -4156,9 +4157,9 @@ static void PlayRealm(
 
 
 					// Startup the realm
-               if (prealm->Startup() == SUCCESS)
+					if (prealm->Startup() == 0)
 						{
-						uint16_t	idSpecificWarp	= CIdBank::IdNil;
+						U16	idSpecificWarp	= CIdBank::IdNil;
 
 						//////////// Special behaviors based on the current selection ////////////
 						// Note that pthingSel does not exist in prealm (it is in pEditRealm).
@@ -4206,11 +4207,11 @@ static void PlayRealm(
 						ClearLocalInput();
 
 						// We'll need access to the key status array.
-						uint8_t* pau8KeyStatus = rspGetKeyStatusArray();
+						U8* pau8KeyStatus = rspGetKeyStatusArray();
 						
 						// Setup camera
 						CCamera* pcamera = new CCamera;
-						ASSERT(pcamera != nullptr);
+						ASSERT(pcamera != NULL);
 						pcamera->SetScene(&(prealm->m_scene));
 
 						// Update display size sensitive objects.
@@ -4234,19 +4235,19 @@ static void PlayRealm(
 						bool	bTracking	= true;
 
 						// Get thing to track . . .
-						CThing*	pthingTrack	= nullptr;
-						uint16_t		u16IdTrack	= CIdBank::IdNil;
-						if (ms_pgething != nullptr)
+						CThing*	pthingTrack	= NULL;
+						U16		u16IdTrack	= CIdBank::IdNil;
+						if (ms_pgething != NULL)
 							{
 							u16IdTrack = ms_pgething->m_u16CameraTrackId;
 							}
 
 						// Make sure no Scrollbars have focus.
-						RGuiItem::SetFocus(nullptr);
+						RGuiItem::SetFocus(NULL);
 
 						CListNode<CThing>* pNext = prealm->m_aclassHeads[CThing::CDudeID].m_pnNext;
-						uint16_t u16IdDude = CIdBank::IdNil;
-						while (pNext->m_powner != nullptr)
+						U16 u16IdDude = CIdBank::IdNil;
+						while (pNext->m_powner != NULL)
 						{
 							CDude*	pdude = (CDude*) pNext->m_powner;
 							// if this is the local dude...
@@ -4264,16 +4265,16 @@ static void PlayRealm(
 						if (u16IdDude == CIdBank::IdNil)
 							{
 							// Create one using warps (if any):
-							CDude*	pdude	= nullptr;
-							CWarp*	pwarp	= nullptr;
+							CDude*	pdude	= NULL;
+							CWarp*	pwarp	= NULL;
 							// If there's a specific warp desired . . .
-                     if (prealm->m_idbank.GetThingByID( (CThing**)&pwarp, idSpecificWarp) == SUCCESS)
+							if (prealm->m_idbank.GetThingByID( (CThing**)&pwarp, idSpecificWarp) == 0)
 								{
 								// Use the specific warp to create the dude . . .
 								if (pwarp->WarpIn(		// Returns 0 on success.                                 
-									&pdude,					// In:  CDude to 'warp in', *ppdude = nullptr to create one.
+									&pdude,					// In:  CDude to 'warp in', *ppdude = NULL to create one.
 																// Out: Newly created CDude, if no CDude passed in.      
-                           CWarp::None) == SUCCESS)	// In:  Options for 'warp in'.
+									CWarp::None) == 0)	// In:  Options for 'warp in'.
 									{
 									// Success.
 									}
@@ -4284,14 +4285,14 @@ static void PlayRealm(
 								}
 
 							// If no dude yet . . .
-							if (pdude == nullptr)
+							if (pdude == NULL)
 								{
 								// Warp one in anywhere . . .
 								if (CWarp::WarpInAnywhere(	// Returns 0 on success.                                 
 									prealm,						// In:  Realm in which to choose CWarp.                  
-									&pdude,						// In:  CDude to 'warp in', *ppdude = nullptr to create one.
+									&pdude,						// In:  CDude to 'warp in', *ppdude = NULL to create one.
 																	// Out: Newly created CDude, if no CDude passed in.      
-                           CWarp::None) == SUCCESS)		// In:  Options for 'warp in'.
+									CWarp::None) == 0)		// In:  Options for 'warp in'.                           
 									{
 									// Success.
 									}
@@ -4313,13 +4314,13 @@ static void PlayRealm(
 								}
 							}
 
-						CDude*	pdudeLocal	= nullptr;
-                  if (prealm->m_idbank.GetThingByID((CThing**)&pdudeLocal, u16IdDude) == SUCCESS)
+						CDude*	pdudeLocal	= NULL;
+						if (prealm->m_idbank.GetThingByID((CThing**)&pdudeLocal, u16IdDude) == 0)
 							{
-							pdudeLocal->m_sTextureIndex = MAX((int16_t)0, MIN((int16_t)(CDude::MaxTextures - 1), (int16_t)g_GameSettings.m_sPlayerColorIndex));
+							pdudeLocal->m_sTextureIndex = MAX((int16_t)0, MIN((int16_t)(CDude::MaxTextures - 1), g_GameSettings.m_sPlayerColorIndex));
 
 							// Don't use later.
-							pdudeLocal	= nullptr;
+							pdudeLocal	= NULL;
 							}
 
 						RInputEvent	ie;
@@ -4342,10 +4343,10 @@ static void PlayRealm(
 							INFO_STATUS_RECT_W,
 							INFO_STATUS_RECT_H);
 
-//						int32_t	lLastDispTime			= 0;
-//						int32_t	lFramesTime				= 0;
-//						int32_t	lUpdateDisplayTime	= 0;
-//						int32_t	lNumFrames				= 0;
+						int32_t	lLastDispTime			= 0;
+						int32_t	lFramesTime				= 0;
+						int32_t	lUpdateDisplayTime	= 0;
+						int32_t	lNumFrames				= 0;
 
 						RPrint	printDisp;
 						printDisp.SetFont(DISP_INFO_FONT_H, &g_fontBig);
@@ -4376,8 +4377,8 @@ static void PlayRealm(
 							if (ie.type == RInputEvent::Key)
 								{
 								// Force alpha keys to upper keys
-                        if (isalpha(ie.lKey & 0xFFFF))
-                           ie.lKey = (ie.lKey & 0xFFFF0000) | toupper(ie.lKey & 0xFFFF);
+								if (isalpha(ie.lKey & 0xffff))
+									ie.lKey = (ie.lKey & 0xffff0000) | toupper(ie.lKey & 0xffff);
 
 								switch (ie.lKey)
 									{
@@ -4473,7 +4474,7 @@ static void PlayRealm(
 												ms_sbHorz.m_im.m_sHeight);
 
 											// Reset the grip, if necessary.
-											if (pthingTrack != nullptr && bTracking == true)
+											if (pthingTrack != NULL && bTracking == true)
 												{
 												RRect	rc;
 												pthingTrack->EditRect(&rc);
@@ -4483,7 +4484,7 @@ static void PlayRealm(
 												grip.ResetTarget(rc.sX + sHotX, rc.sY + sHotY, rc.sH / 2);
 
 												// Make sure no Scrollbars have focus.
-												RGuiItem::SetFocus(nullptr);
+												RGuiItem::SetFocus(NULL);
 												}
 											}
 										else	// We are now using scrollbars.
@@ -4525,7 +4526,7 @@ static void PlayRealm(
 										
 										prealm->Suspend();
 
-										ShowRealmStatistics(prealm, nullptr);
+										ShowRealmStatistics(prealm, NULL);
 
 										prealm->Resume();
 
@@ -4570,7 +4571,7 @@ static void PlayRealm(
 								{
 								CDude*	pdudeLocal;
 								// If there's a local dude . . .
-                        if (prealm->m_idbank.GetThingByID((CThing**)&pdudeLocal, u16IdDude) == SUCCESS)
+								if (prealm->m_idbank.GetThingByID((CThing**)&pdudeLocal, u16IdDude) == 0)
 									{
 									// If dead . . .
 									if (pdudeLocal->m_state == CCharacter::State_Dead)
@@ -4599,14 +4600,14 @@ static void PlayRealm(
 
 							if (u16IdTrack != CIdBank::IdNil)
 								{
-                        if (prealm->m_idbank.GetThingByID(&pthingTrack, u16IdTrack) != SUCCESS)
+								if (prealm->m_idbank.GetThingByID(&pthingTrack, u16IdTrack) != 0)
 									{
 									u16IdTrack	= CIdBank::IdNil;
 									}
 								}
 
 							// Update grip/camera
-							if (pthingTrack != nullptr)
+							if (pthingTrack != NULL)
 								{
 								RRect	rc;
 								pthingTrack->EditRect(&rc);
@@ -4646,7 +4647,7 @@ static void PlayRealm(
 							pcamera->Snap();
 
 							// If there is a local dude . . .
-							CDude*	pdudeLocal	= nullptr;
+							CDude*	pdudeLocal	= NULL;
 							// If there's a local dude, get him.
 							prealm->m_idbank.GetThingByID((CThing**)&pdudeLocal, u16IdDude);
 
@@ -4683,7 +4684,7 @@ static void PlayRealm(
 								&lNumFrames,							// In/Out:  Number of frames since last display info output.
 								0,											// In:  Current input sequence number.
 								0,											// In:  Current frame number.
-								nullptr,										// In:  pointer to net client to get player names for Score
+								NULL,										// In:  pointer to net client to get player names for Score
 								TRUE);									// In:  Update entire display.
 #else
 							rspUpdateDisplay();
@@ -4713,13 +4714,13 @@ static void PlayRealm(
 
 						// Done with the camera.
 						delete pcamera;
-						pcamera			= nullptr;
-						ms_pcameraCur	= nullptr;
+						pcamera			= NULL;
+						ms_pcameraCur	= NULL;
 						}
 					else
 						{
 						TRACE("EditPlay(): Error starting-up temporary realm!\n");
-						sResult = FAILURE;
+						sResult = -1;
 						}
 					}
 				else
@@ -4741,7 +4742,7 @@ static void PlayRealm(
 		else
 			{
 			TRACE("PlayRealm(): Error getting temporary file name!\n");
-			sResult = FAILURE;
+			sResult = -1;
 			}
 
 		// If mouse is being used, restore mouse cursor
@@ -4779,9 +4780,9 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 	int16_t		sPosZ,					// Position for new CThing.
 	CThing**	ppthing,					// Out: Pointer to new thing.
 	RHot**	pphot,					// Out: Pointer to new hotbox for thing.
-	RFile*	pfile/* = nullptr*/)		// In:  Optional file to load from (instead of EditNew()).
+	RFile*	pfile/* = NULL*/)		// In:  Optional file to load from (instead of EditNew()).
 	{
-   int16_t sError = SUCCESS;
+	int16_t		sError		= 0;
 
 	// Don't allow more than one CHood . . .
 	if ((id == CThing::CHoodID) && (prealm->m_asClassNumThings[CThing::CHoodID] > 0))
@@ -4792,29 +4793,29 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 			"Editor: ",
 			"Can't have multiple CHood's!");
 		//STRACE("Editor: Can't have multiple CHood's!\n");
-      sError = FAILURE;
+		sError	= 1;
 		}
 	else
 		{
 		if (prealm->m_asClassNumThings[CThing::CHoodID] > 0 || id == CThing::CHoodID)
 			{
-			if (!(id == CThing::CBouyID && prealm->GetCurrentNavNet() == nullptr))
+			if (!(id == CThing::CBouyID && prealm->GetCurrentNavNet() == NULL))
 				{
 				// Create new object of currently selected type
-            if (CThing::ConstructWithID(id, prealm, ppthing) == SUCCESS)
+				if (CThing::ConstructWithID(id, prealm, ppthing) == 0)
 					{
 					// Successfully allocated object.
 
 					// If loading from file specified . . .
-					if (pfile != nullptr)
+					if (pfile != NULL)
 						{
 						// Remember its ID.
-						uint16_t	idInstance	= (*ppthing)->GetInstanceID();
+						U16	idInstance	= (*ppthing)->GetInstanceID();
 						// Release its ID.
 						(*ppthing)->SetInstanceID(CIdBank::IdNil);
 
 						// Load object . . .
-                  if ((*ppthing)->Load(pfile, true, ms_sFileCount--, CRealm::FileVersion) == SUCCESS)
+						if ((*ppthing)->Load(pfile, true, ms_sFileCount--, CRealm::FileVersion) == 0)
 							{
 							// Loaded.
 							// Reset ID.
@@ -4829,25 +4830,25 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 						else
 							{
 							TRACE("CreateNewThing(): Load() failed for object.\n");
-                     sError = FAILURE * 4;
+							sError	= 4;
 							}
 						}
 					else
 						{
 						// Edit new object (required to get object up and running)
-                  if ((*ppthing)->EditNew(sPosX, sPosY, sPosZ) == SUCCESS)
+						if ((*ppthing)->EditNew(sPosX, sPosY, sPosZ) == 0)
 							{
 							// Newed.
 							}
 						else
 							{
 							TRACE("CreateNewThing(): EditNew() failed for object.\n");
-                     sError = FAILURE * 4;
+							sError	= 4;
 							}
 						}
 
 					// If successful so far . . .
-               if (sError == SUCCESS)
+					if (sError == 0)
 						{
 						int16_t sActivateHot	= TRUE;
 
@@ -4876,10 +4877,10 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 							rc.sH,							// Dimensions.
 							ThingHotCall,					// Callback.
 							sActivateHot,					// TRUE, if initially active.
-                     (uintptr_t)*ppthing,					// User value (CThing*).
+							(U64)*ppthing,					// User value (CThing*).
 							FRONTMOST_HOT_PRIORITY);	// New items towards front.
 
-						if (*pphot != nullptr)
+						if (*pphot != NULL)
 							{
 							// If this is not THE HOOD . . .
 							if (id != CThing::CHoodID)
@@ -4892,7 +4893,7 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 								{
 								case CThing::CDudeID:
 									// If there is an editor thing . . .
-									if (ms_pgething != nullptr)
+									if (ms_pgething != NULL)
 										{
 										// If no camera focus yet . . .
 										if (ms_pgething->m_u16CameraTrackId == CIdBank::IdNil)
@@ -4908,33 +4909,33 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 									if (pdude->m_sDudeNum == 0)
 										{
 										// Set him to the user selected color.
-										pdude->m_sTextureIndex = MAX((int16_t)0, MIN((int16_t)(CDude::MaxTextures - 1), (int16_t)g_GameSettings.m_sPlayerColorIndex));
+										pdude->m_sTextureIndex = MAX((int16_t)0, MIN((int16_t)(CDude::MaxTextures - 1), g_GameSettings.m_sPlayerColorIndex));
 										}
 
 									break;
 								}
 
 							// If an error occurred after allocation . . .
-							if (sError != SUCCESS)
+							if (sError != 0)
 								{
 								// On error, destroy object
 								delete *pphot;
-								*pphot	= nullptr;
+								*pphot	= NULL;
 								}
 							}
 						else
 							{
 							TRACE("CreateNewThing(): Failed to allocate new RHot.\n");
-                     sError = FAILURE * 3;
+							sError	= 3;
 							}
 						}
 
 					// If an error occurred after allocation . . .
-					if (sError != SUCCESS)
+					if (sError != 0)
 						{
 						// On error, destroy object
 						delete *ppthing;
-						*ppthing	= nullptr;
+						*ppthing	= NULL;
 						}
 					}
 				}
@@ -4946,12 +4947,12 @@ static int16_t CreateNewThing(		// Returns 0 on success.
 					RSP_MB_ICN_STOP | RSP_MB_BUT_OK,
 					"No current NavNet",
 					"Cannot create new Buoy when there is no current NavNet.");
-            sError = FAILURE * 6;
+				sError	= 6;
 				}
 			}
 		else
 			{
-         sError =FAILURE * 7;
+			sError = 7;
 			}
 		}
 	return sError;
@@ -4970,8 +4971,8 @@ static void MoveThing(				// Returns nothing.
 	int16_t		sPosY,					// New position.
 	int16_t		sPosZ)					// New position.
 	{
-	ASSERT(pthing != nullptr);
-	ASSERT(phot != nullptr);
+	ASSERT(pthing != NULL);
+	ASSERT(phot != NULL);
 
 	// Move to 3D position.
 	pthing->EditMove(
@@ -5029,7 +5030,7 @@ static int16_t SetDisplayArea(	// Returns 0 on success.
 	int16_t	sDisplayW,				// New width of display area.
 	int16_t	sDisplayH)				// New height of display area.
 	{
-   int16_t	sError = SUCCESS;
+	int16_t	sError	= 0;
 	int16_t	sDeviceW, sDeviceH;
 	int16_t	sDeviceScaling	= FALSE;
 	// Get device size/mode for this display size.
@@ -5057,7 +5058,7 @@ static int16_t SetDisplayArea(	// Returns 0 on success.
 		}
 
 	// If successful so far . . .
-   if (sError == SUCCESS)
+	if (sError == 0)
 		{
 		// Set the adjusted mode . . .
 		sError	= rspSetVideoMode(
@@ -5073,7 +5074,7 @@ static int16_t SetDisplayArea(	// Returns 0 on success.
 		// I'm not sure if this is necessary, but let's be safe.
 		rspNameBuffers(&g_pimScreenBuf);
 
-      if (sError == SUCCESS)
+		if (sError == 0)
 			{
 			}
 		else
@@ -5125,7 +5126,7 @@ static int16_t AdjustDisplaySize(	// Returns 0 on success.
 	CCamera* pcamera,					// Camera to update.
 	CRealm*	prealm)					// Realm to update.
 	{
-   int16_t	sError = SUCCESS;
+	int16_t	sError		= 0;
 
 	int16_t	sDisplayW	= 640;	// Safety.
 	int16_t	sDisplayH	= 480;	// Safety.
@@ -5134,9 +5135,9 @@ static int16_t AdjustDisplaySize(	// Returns 0 on success.
 	// Get current settings.
 	rspGetVideoMode(
 		&sDeviceD,
-		nullptr,
-		nullptr,
-		nullptr,
+		NULL,
+		NULL,
+		NULL,
 		&sDisplayW,
 		&sDisplayH);
 
@@ -5144,13 +5145,13 @@ static int16_t AdjustDisplaySize(	// Returns 0 on success.
 	if (SetDisplayArea(
 		sDeviceD,
 		sDisplayW	+ sAdjustX,
-      sDisplayH	+ sAdjustY) == SUCCESS)
+		sDisplayH	+ sAdjustY) == 0)
 		{
 		SizeUpdate(pcamera, prealm);
 		}
 	else
 		{
-      sError = FAILURE;
+		sError	= 1;
 		}
 
 	return sError;
@@ -5165,7 +5166,7 @@ static int16_t SizeUpdate(		// Returns 0 on success.
 	CCamera* pcamera,				// Camera to update.
 	CRealm*	prealm)				// Realm to update.
 	{
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	int16_t	sDisplayW	= 640;	// Safety.
 	int16_t	sDisplayH	= 480;	// Safety.
@@ -5174,9 +5175,9 @@ static int16_t SizeUpdate(		// Returns 0 on success.
 	// Get current settings.
 	rspGetVideoMode(
 		&sDisplayD,
-		nullptr,
-		nullptr,
-		nullptr,
+		NULL,
+		NULL,
+		NULL,
 		&sDisplayW,
 		&sDisplayH);
 
@@ -5184,13 +5185,13 @@ static int16_t SizeUpdate(		// Returns 0 on success.
 	int16_t	sViewH	= sDisplayH - DISPLAY_BOTTOM_BORDER - SCROLL_BAR_THICKNESS;
 
 	// Get the hood . . .
-	CHood*	phood = nullptr;
+	CHood*	phood = NULL;
 	if (prealm->m_asClassNumThings[CThing::CHoodID] > 0)
 		phood = (CHood*) prealm->m_aclassHeads[CThing::CHoodID].GetNext();
 	else
 		{
 		TRACE("SizeUpdate(): No hood.\n");
-      sResult = FAILURE;
+		sRes	= -1;
 		}
 
 	// Give Jeff a chance to update his cool wrapper.
@@ -5198,7 +5199,7 @@ static int16_t SizeUpdate(		// Returns 0 on success.
 	rspNameBuffers(&g_pimScreenBuf);
 
 	// If there's a camera to update . . .
-	if (pcamera != nullptr)
+	if (pcamera != NULL)
 		{
 		pcamera->SetHood(phood);
 		// Adjust camera by same amount.
@@ -5212,31 +5213,31 @@ static int16_t SizeUpdate(		// Returns 0 on success.
 		}
 
 	// Put GUIs somewhere out of the way.
-	if (ms_pguiRealmBar != nullptr)
+	if (ms_pguiRealmBar != NULL)
 		{
 		ms_pguiRealmBar->Move(REALM_BAR_X, REALM_BAR_Y);
 		}
-	if (ms_pguiPickObj != nullptr)
+	if (ms_pguiPickObj != NULL)
 		{
 		ms_pguiPickObj->Move(PICKOBJ_LIST_X, PICKOBJ_LIST_Y);
 		}
-	if (ms_pguiLayers != nullptr)
+	if (ms_pguiLayers != NULL)
 		{
 		ms_pguiLayers->Move(LAYERS_LIST_X, LAYERS_LIST_Y);
 		}
-	if (ms_pguiCameras != nullptr)
+	if (ms_pguiCameras != NULL)
 		{
 		ms_pguiCameras->Move(CAMERAS_LIST_X, CAMERAS_LIST_Y);
 		}
-	if (ms_pguiGUIs != nullptr)
+	if (ms_pguiGUIs != NULL)
 		{
 		ms_pguiGUIs->Move(GUIS_BAR_X, GUIS_BAR_Y);
 		}
-	if (ms_pguiNavNets != nullptr)
+	if (ms_pguiNavNets != NULL)
 		{
 		ms_pguiNavNets->Move(NAVNETS_X, NAVNETS_Y);
 		}
-	if (ms_pguiMap != nullptr)
+	if (ms_pguiMap != NULL)
 		{
 		ms_pguiMap->Move(MAP_X, MAP_Y);
 		}
@@ -5266,10 +5267,10 @@ static int16_t SizeUpdate(		// Returns 0 on success.
 		0,
 		SCROLL_BAR_THICKNESS,
 		sViewH + SCROLL_BAR_THICKNESS,
-      sDisplayD) == SUCCESS)
+		sDisplayD) == 0)
 		{
 		// Set scroll range.
-		if (phood != nullptr)
+		if (phood != NULL)
 			{
 			ms_sbVert.SetRange(-lEdgeOvershoot, phood->GetHeight() - sViewH + lEdgeOvershoot);
 			}
@@ -5285,7 +5286,7 @@ static int16_t SizeUpdate(		// Returns 0 on success.
 	else
 		{
 		TRACE("SizeUpdate(): ms_sbVert.Create() failed.\n");
-      sResult = FAILURE * 3;
+		sRes	= -3;
 		}
 
 	if (ms_sbHorz.Create(
@@ -5293,10 +5294,10 @@ static int16_t SizeUpdate(		// Returns 0 on success.
 		sViewH,
 		sViewW,
 		SCROLL_BAR_THICKNESS,
-      sDisplayD) == SUCCESS)
+		sDisplayD) == 0)
 		{
 		// Set scroll range.
-		if (phood != nullptr)
+		if (phood != NULL)
 			{
 			ms_sbHorz.SetRange(-lEdgeOvershoot, phood->GetWidth() - sViewW + lEdgeOvershoot);
 			}
@@ -5312,13 +5313,13 @@ static int16_t SizeUpdate(		// Returns 0 on success.
 	else
 		{
 		TRACE("SizeUpdate(): ms_sbHorz.Create() failed.\n");
-      sResult = FAILURE * 3;
+		sRes	= -3;
 		}
 
 	// Re-Create attribute displayer sprite.
 	SizeShowAttribsSprite();
 
-   return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -5327,10 +5328,10 @@ static int16_t SizeUpdate(		// Returns 0 on success.
 //
 ////////////////////////////////////////////////////////////////////////////////
 static CGameEditThing* GetEditorThing(	// Returns ptr to editor thing for 
-													// specified realm or nullptr.
+													// specified realm or NULL.
 	CRealm*	prealm)							// Realm to get editor thing from.
 	{
-	CGameEditThing*	pgething	= nullptr;
+	CGameEditThing*	pgething	= NULL;
 
 	if (prealm->m_asClassNumThings[CThing::CGameEditThingID] > 0)
 	{
@@ -5371,7 +5372,7 @@ static void ListItemPressedCall(	// Returns nothing.
 		GuiPressedCall(pgui);
 		// Select item.
 		RListBox*	plb	= (RListBox*)pgui->m_ulUserInstance;
-		if (plb != nullptr)
+		if (plb != NULL)
 			{
 			// Set new item as selection.
 			plb->SetSel(pgui);
@@ -5396,7 +5397,7 @@ void NavNetListPressedCall(	// Returns nothing
 	// Select item
 	RGuiItem* pitem = (RGuiItem*) pgui->GetParent();
 	RListBox* plb = (RListBox*) pitem->GetParent();
-	if (plb != nullptr)
+	if (plb != NULL)
 		{
 		// Set selection
 		plb->SetSel(pgui);
@@ -5424,28 +5425,28 @@ static void ScrollPosUpdate(	// Returns nothing.
 		{
 		case RScrollBar::Vertical:
 			// If there's a camera . . .
-			if (ms_pcameraCur != nullptr)
+			if (ms_pcameraCur != NULL)
 				{
 				ms_pcameraCur->m_sSceneViewY	= psb->GetPos();
 				ms_pcameraCur->Update();
 				}
 
 			// If there is an editor object . . .
-			if (ms_pgething != nullptr)
+			if (ms_pgething != NULL)
 				{
 				ms_pgething->m_sViewPosY	= psb->GetPos();
 				}
 			break;
 		case RScrollBar::Horizontal:
 			// If there's a camera . . .
-			if (ms_pcameraCur != nullptr)
+			if (ms_pcameraCur != NULL)
 				{
 				ms_pcameraCur->m_sSceneViewX	= psb->GetPos();
 				ms_pcameraCur->Update();
 				}
 
 			// If there is an editor object . . .
-			if (ms_pgething != nullptr)
+			if (ms_pgething != NULL)
 				{
 				ms_pgething->m_sViewPosX	= psb->GetPos();
 				}
@@ -5465,7 +5466,7 @@ static void ThingHotCall(	// Returns nothing.
 									// pie->sUsed = TRUE, if used.
 	{
 	CThing*	pthing	= (CThing*)phot->m_ulUser;
-	ASSERT(pthing != nullptr);
+	ASSERT(pthing != NULL);
 
 	// If not used . . .
 	if (pie->sUsed == FALSE)
@@ -5490,7 +5491,7 @@ static void ThingHotCall(	// Returns nothing.
 				// If EDIT_KEY_SENDTOBACK held down . . .
 				uint8_t	aucKeys[128];
 				rspScanKeys(aucKeys);
-            if (aucKeys[EDIT_KEY_SENDTOBACK] != '\0')
+				if (aucKeys[EDIT_KEY_SENDTOBACK] != 0)
 					{
 					// Send this hot to back.
 					phot->SetPriority(++ms_sBackPriority);
@@ -5501,13 +5502,13 @@ static void ThingHotCall(	// Returns nothing.
 						}
 
 					// Unselect.
-					SetSel(nullptr, nullptr);
+					SetSel(NULL, NULL);
 					}
 				// If EDIT_KEY_SETCAMERATRACK held down . . .
-            else if (aucKeys[EDIT_KEY_SETCAMERATRACK] != '\0')
+				else if (aucKeys[EDIT_KEY_SETCAMERATRACK] != 0)
 					{
 					// If there is an editor thing . . .
-					if (ms_pgething != nullptr)
+					if (ms_pgething != NULL)
 						{
 						// If this thing is not the hood . . .
 						if (pthing->GetClassID() != CThing::CHoodID)
@@ -5558,15 +5559,15 @@ static void ThingHotCall(	// Returns nothing.
 				{
 					// If no bouys have been clicked on yet, set the
 					// starting bouy link and start drawing the line
-					if ((m_pBouyLink0 == nullptr && m_pBouyLink1 == nullptr) ||
-						 (m_pBouyLink0 != nullptr && m_pBouyLink1 != nullptr))
+					if ((m_pBouyLink0 == NULL && m_pBouyLink1 == NULL) ||
+						 (m_pBouyLink0 != NULL && m_pBouyLink1 != NULL))
 					{
 						m_pBouyLink0 = (CBouy*) ms_pthingSel;
-						m_pBouyLink1 = nullptr;
+						m_pBouyLink1 = NULL;
 							
 					}
 					// This is the ending bouy
-					else if (m_pBouyLink0 != nullptr && m_pBouyLink1 == nullptr)
+					else if (m_pBouyLink0 != NULL && m_pBouyLink1 == NULL)
 					{
 						m_pBouyLink1 = (CBouy*) ms_pthingSel;					
 						m_pBouyLink0->AddLink(m_pBouyLink1);
@@ -5580,9 +5581,9 @@ static void ThingHotCall(	// Returns nothing.
 				// If they double clicked on something other than a bouy
 				// while they were drawing a bouy link line, then abort
 				// the link draw.
-				else if (m_pBouyLink0 != nullptr && m_pBouyLink1 == nullptr)
+				else if (m_pBouyLink0 != NULL && m_pBouyLink1 == NULL)
 				{
-					m_pBouyLink0 = m_pBouyLink1 = nullptr;				
+					m_pBouyLink0 = m_pBouyLink1 = NULL;				
 				}
 
 				// Note that we used the event.
@@ -5650,7 +5651,7 @@ static void DrawBouyLink(	// Returns nothing.
 	int16_t sMouseY;
 	int16_t sButtons;
 
-	if (ms_bDrawNetwork && m_pBouyLink0 != nullptr && m_pBouyLink1 != nullptr &&
+	if (ms_bDrawNetwork && m_pBouyLink0 != NULL && m_pBouyLink1 != NULL &&
 	    m_pBouyLink0->Visible() && m_pBouyLink1->Visible())
 	{
 		// These lines show the paths the characters would take so
@@ -5683,7 +5684,7 @@ static void DrawBouyLink(	// Returns nothing.
 		        sBouyLink1Y);
 
 	}
-	else if (m_pBouyLink0 != nullptr && m_pBouyLink1 == nullptr)
+	else if (m_pBouyLink0 != NULL && m_pBouyLink1 == NULL)
 	{
 		// These lines show the paths the characters would take so
 		// they should be only on the X/Z plane and, therefore, Y
@@ -5715,13 +5716,13 @@ static void DrawBouyLink(	// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 static void ResetHotPriorities(void)	// Returns nothing.
 	{
-	if (ms_photHood != nullptr)
+	if (ms_photHood != NULL)
 		{
 		// Set Hood's priority.
 		ms_photHood->SetPriority(FRONTMOST_HOT_PRIORITY);
 		// Do children.
 		RHot*	phot	= ms_photHood->m_listChildren.GetHead();
-		while (phot != nullptr)
+		while (phot != NULL)
 			{
 			phot->SetPriority(FRONTMOST_HOT_PRIORITY);
 
@@ -5788,10 +5789,9 @@ static void AddNewLine(int16_t sX0, int16_t sY0, int16_t sX1, int16_t sY1)
 ////////////////////////////////////////////////////////////////////////////////
 // Write a NavNet log file to display the connections.- for debugging purposes
 ////////////////////////////////////////////////////////////////////////////////
-#ifdef UNUSED_FUNCTIONS
+
 static void NetLog(CNavigationNet* pNavNet)
 {
-  UNUSED(pNavNet);
 /*
 	ofstream txtout;
 	ofstream routeout;
@@ -5850,7 +5850,7 @@ static void NetLog(CNavigationNet* pNavNet)
 	}
 */
 }
-#endif
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // UpdateNetLines
@@ -5860,7 +5860,7 @@ static void UpdateNetLines(CNavigationNet* pNavNet)
 {
 
 	CNavigationNet::nodeMap::iterator ibouy;
-	CBouy* pLinkedBouy = nullptr;
+	CBouy* pLinkedBouy = NULL;
 
 	if (pNavNet)
 	{
@@ -5965,18 +5965,17 @@ static int16_t AddView(		// Returns 0 on success.
 	CRealm*	prealm)			// In:  Realm in which to setup camera.
 	{
 	static int16_t	sNum	= 0;
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 	RListBox*	plb	= (RListBox*)ms_pguiCameras->GetItemFromId(GUI_ID_CAMERA_LIST);
-	if (plb != nullptr)
+	if (plb != NULL)
 		{
 		View*	pview;
-      if (CreateView(&pview, prealm) == SUCCESS)
+		if (CreateView(&pview, prealm) == 0)
 			{
 			char	szTitle[256];
 			sprintf(szTitle, "Camera %d", ++sNum);
-         RGuiItem*	pgui			= plb->AddString(szTitle);
-         TRACE("SUSPICIOUS CODE!");
-         pgui->m_lId					= (intptr_t)pview;
+			RGuiItem*	pgui			= plb->AddString(szTitle);
+			pgui->m_lId					= (S64)pview;
 			plb->AdjustContents();
 
 			pview->pgui->SetText("%s", szTitle);
@@ -5984,40 +5983,39 @@ static int16_t AddView(		// Returns 0 on success.
 			}
 		else
 			{
-         sResult = FAILURE * 2;
+			sRes	= -2;
 			}
 		}
 	else
 		{
-      sResult = FAILURE;
+		sRes	= -1;
 		}
 
-   return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Kills a view and removes it from the list of views.
 ////////////////////////////////////////////////////////////////////////////////
 static void RemoveView(		// Returns nothing.
-	View*	pview)				// In: View to remove or nullptr to remove currently
+	View*	pview)				// In: View to remove or NULL to remove currently
 									// selected view.
 	{
 	RListBox*	plb	= (RListBox*)ms_pguiCameras->GetItemFromId(GUI_ID_CAMERA_LIST);
-	if (plb != nullptr)
+	if (plb != NULL)
 		{
 		RGuiItem*	pguiRemove;
-		if (pview != nullptr)
+		if (pview != NULL)
 			{
-         pguiRemove	= pview->pgui;
+			pguiRemove	= plb->GetItemFromId((S64)pview);
 			}
 		else
 			{
 			pguiRemove	= plb->GetSel();
 			}
 
-		if (pguiRemove != nullptr)
+		if (pguiRemove != NULL)
 			{
-        TRACE("SUSPICIOUS CODE!");
 			KillView((View*)(pguiRemove->m_lId));
 			plb->RemoveItem(pguiRemove);
 			plb->AdjustContents();
@@ -6031,7 +6029,7 @@ static void RemoveView(		// Returns nothing.
 static void RemoveViews(void)
 	{
 	View*	pview	= ms_listViews.GetHead();
-	while (pview != nullptr)
+	while (pview != NULL)
 		{
 		RemoveView(pview);
 		pview	= ms_listViews.GetNext();
@@ -6042,57 +6040,57 @@ static void RemoveViews(void)
 // Creates a new View and adds it to the list of Views.
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t CreateView(					// Returns 0 on success.
-	View**	ppview,							// Out: New view, if not nullptr.
+	View**	ppview,							// Out: New view, if not NULL.
 	CRealm*	prealm)							// In:  Realm in which to setup camera.
 	{
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
-	if (ppview != nullptr)
+	if (ppview != NULL)
 		{
-		*ppview	= nullptr;	// Safety.
+		*ppview	= NULL;	// Safety.
 		}
 
 	// Create view . . .
 	View*	pview	= new View;
-	if (pview != nullptr)
+	if (pview != NULL)
 		{
 		// Create and load GUI . . .
 		pview->pgui	= RGuiItem::LoadInstantiate(FullPath(GAME_PATH_VD, VIEW_GUI_FILE) );
-		if (pview->pgui != nullptr)
+		if (pview->pgui != NULL)
 			{
-			pview->pgui->GetClient(nullptr, nullptr, &(pview->sViewW), &(pview->sViewH) );
+			pview->pgui->GetClient(NULL, NULL, &(pview->sViewW), &(pview->sViewH) );
 
 			// Get the scrollbars.
 			pview->psbVert	= (RScrollBar*)pview->pgui->GetItemFromId(3);
 			pview->psbHorz	= (RScrollBar*)pview->pgui->GetItemFromId(4);
 			// Adjust dimensions to make scrollbars visible.
-			if (pview->psbVert != nullptr)
+			if (pview->psbVert != NULL)
 				{
 				pview->sViewW	-= pview->psbVert->m_im.m_sWidth;
 				}
-			if (pview->psbHorz != nullptr)
+			if (pview->psbHorz != NULL)
 				{
 				pview->sViewH	-= pview->psbHorz->m_im.m_sHeight;
 				}
 
 			// Set scrollbar range based on view size and realm size.
-			if (pview->psbVert != nullptr)
+			if (pview->psbVert != NULL)
 				{
 				pview->psbVert->SetRange(0, prealm->m_phood->GetHeight() - pview->sViewH);
 				}
-			if (pview->psbHorz != nullptr)
+			if (pview->psbHorz != NULL)
 				{
 				pview->psbHorz->SetRange(0, prealm->m_phood->GetWidth() - pview->sViewW);
 				}
 
 			// Add to list . . .
-         if (ms_listViews.Add(pview) == SUCCESS)
+			if (ms_listViews.Add(pview) == 0)
 				{
 				// Activate.
 				pview->pgui->SetVisible(TRUE);
 
 				// Succcess.
-				if (ppview != nullptr)
+				if (ppview != NULL)
 					{
 					*ppview	= pview;
 					}
@@ -6100,11 +6098,11 @@ static int16_t CreateView(					// Returns 0 on success.
 			else
 				{
 				TRACE("CreateView(): Failed to add view to list.\n");
-            sResult = FAILURE * 3;
+				sRes	= -3;
 				}
 
 			// If an error occurred after allocating GUI . . .
-         if (sResult != SUCCESS)
+			if (sRes != 0)
 				{
 				delete pview->pgui;
 				}
@@ -6112,11 +6110,11 @@ static int16_t CreateView(					// Returns 0 on success.
 		else
 			{
 			TRACE("CreateView(): Failed to load %s.\n", VIEW_GUI_FILE);
-         sResult = FAILURE * 2;
+			sRes	= -2;
 			}
 
 		// If an error occurred after allocating View . . .
-      if (sResult != SUCCESS)
+		if (sRes != 0)
 			{
 			delete pview;
 			}
@@ -6124,10 +6122,10 @@ static int16_t CreateView(					// Returns 0 on success.
 	else
 		{
 		TRACE("CreateView(): Failed to allocate new View.\n");
-      sResult = FAILURE;
+		sRes	= -1;
 		}
 
-   return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -6151,7 +6149,7 @@ static void DrawView(						// Returns nothing.
 	{
 	// Get client.
 	int16_t	sClientPosX, sClientPosY;
-	pview->pgui->GetClient(&sClientPosX, &sClientPosY, nullptr, nullptr);
+	pview->pgui->GetClient(&sClientPosX, &sClientPosY, NULL, NULL);
 	
 	// Add in GUI's position.
 	sClientPosX	+= pview->pgui->m_sX;
@@ -6160,12 +6158,12 @@ static void DrawView(						// Returns nothing.
 	// Use scrollbars for position.
 	int16_t	sViewX	= 0;	// Safety.
 	int16_t	sViewY	= 0;	// Safety.
-	if (pview->psbVert != nullptr)
+	if (pview->psbVert != NULL)
 		{
 		sViewY	= pview->psbVert->GetPos();
 		}
 	
-	if (pview->psbHorz != nullptr)
+	if (pview->psbHorz != NULL)
 		{
 		sViewX	= pview->psbHorz->GetPos();
 		}
@@ -6194,7 +6192,7 @@ static void DrawViews(						// Returns nothing.
 	CRealm*	prealm)							// Realm to draw.
 	{
 	View*	pview	= ms_listViews.GetHead();
-	while (pview != nullptr)
+	while (pview != NULL)
 		{
 		DrawView(pview, prealm);
 		pview	= ms_listViews.GetNext();
@@ -6224,7 +6222,7 @@ static void ClearGUI(						// Returns nothing.
 static void ClearViews(void)					// Returns nothing.
 	{
 	View*	pview	= ms_listViews.GetHead();
-	while (pview != nullptr)
+	while (pview != NULL)
 		{
 		ClearGUI(pview->pgui);
 
@@ -6253,7 +6251,7 @@ static void DoViews(
 	ms_pguiCameras->m_hot.Do(pie);
 
 	View*	pview	= ms_listViews.GetTail();
-	while (pview != nullptr)
+	while (pview != NULL)
 		{
 		DoView(pview, pie);
 		pview	= ms_listViews.GetPrev();
@@ -6266,9 +6264,9 @@ static void DoViews(
 static void RefreshMap(						// Returns nothing.
 	CRealm*	prealm)							// Realm to map.
 	{
-	ASSERT(ms_pguiMap != nullptr);
+	ASSERT(ms_pguiMap != NULL);
 	// Get area to draw in.
-	if (ms_pguiMapZone != nullptr)
+	if (ms_pguiMapZone != NULL)
 		{
 		// Clear.
 		ms_pguiMapZone->Compose();
@@ -6284,7 +6282,7 @@ static void RefreshMap(						// Returns nothing.
 		if (imFilm.CreateImage(
 			sViewW,
 			sViewH,
-         RImage::BMP8) == SUCCESS)
+			RImage::BMP8) == 0)
 			{
 			// Take a shot.
 			camera.Snap(
@@ -6345,8 +6343,8 @@ static void DragDrop(	// Returns nothing.
 	// If there is an item being moved . . .
 	if (ms_sMoving != FALSE)
 		{
-		ASSERT(ms_pthingSel != nullptr);
-		ASSERT(ms_photSel != nullptr);
+		ASSERT(ms_pthingSel != NULL);
+		ASSERT(ms_photSel != NULL);
 
 		// Final position.
 		MoveThing(
@@ -6356,7 +6354,7 @@ static void DragDrop(	// Returns nothing.
 			sDropY,
 			sDropZ);
 
-		SetSel(nullptr, nullptr);
+		SetSel(NULL, NULL);
 		ms_sMoving		= FALSE;
 
 		rspShowMouseCursor();
@@ -6427,15 +6425,15 @@ static void RlmNameToRgnName(	// Returns nothing.
 static void NextItem(	// Returns nothing.
 	CRealm*	prealm)		// In:  The realm we want the next thing in.
 	{
-	if (ms_pthingSel != nullptr)
+	if (ms_pthingSel != NULL)
 		{
-		// This may make ms_pthingSel nullptr.
-		SetSel(ms_pthingSel->m_everything.GetNext(), nullptr);
+		// This may make ms_pthingSel NULL.
+		SetSel(ms_pthingSel->m_everything.GetNext(), NULL);
 		}
 
-	if (ms_pthingSel == nullptr)
+	if (ms_pthingSel == NULL)
 		{
-		SetSel(prealm->m_everythingHead.GetNext(), nullptr);
+		SetSel(prealm->m_everythingHead.GetNext(), NULL);
 		}
 	}
 
@@ -6445,15 +6443,15 @@ static void NextItem(	// Returns nothing.
 static void PrevItem(	// Returns nothing.
 	CRealm*	prealm)		// In:  The realm we want the next thing in.
 	{
-	if (ms_pthingSel != nullptr)
+	if (ms_pthingSel != NULL)
 		{
-		// This may make ms_pthingSel nullptr.
-		SetSel(ms_pthingSel->m_everything.GetPrev(), nullptr);
+		// This may make ms_pthingSel NULL.
+		SetSel(ms_pthingSel->m_everything.GetPrev(), NULL);
 		}
 
-	if (ms_pthingSel == nullptr)
+	if (ms_pthingSel == NULL)
 		{
-		SetSel(prealm->m_everythingTail.GetPrev(), nullptr);
+		SetSel(prealm->m_everythingTail.GetPrev(), NULL);
 		}
 	}
 
@@ -6464,18 +6462,19 @@ static int16_t LoadTriggerRegions(	// Returns 0 on success.
 	char*	pszRealmName)				// In:  Name of the REALM (*.RLM) file.
 											// The .ext is stripped and .rgn is appended.
 	{
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t sRes	= 0;	// Assume success.
 
 	// Change filename to .RGN name.
-   char	szRgnName[PATH_MAX];
+	char	szRgnName[RSP_MAX_PATH];
 	RlmNameToRgnName(pszRealmName, szRgnName);
 
 	RFile	file;
-   if (file.Open(szRgnName, "rb", RFile::LittleEndian) == SUCCESS)
-      {
-      for (size_t i = 0; i < NUM_ELEMENTS(ms_argns) && sResult == SUCCESS; ++i)
+	if (file.Open(szRgnName, "rb", RFile::LittleEndian) == 0)
+		{
+		int16_t	i;
+		for (i = 0; i < NUM_ELEMENTS(ms_argns) && sRes == 0; i++)
 			{
-         sResult	= ms_argns[i].Load(&file);
+			sRes	= ms_argns[i].Load(&file);
 			}
 
 		file.Close();
@@ -6483,10 +6482,10 @@ static int16_t LoadTriggerRegions(	// Returns 0 on success.
 	else
 		{
 		TRACE("LoadTriggerRegions(): WARNING:  \"%s\" could not be opened.\n", szRgnName);
-      sResult = FAILURE;
+		sRes	= 1;
 		}
 
-   return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -6497,19 +6496,19 @@ static int16_t SaveTriggerRegions(	// Returns 0 on success.
 	CRealm*	prealm					// In:  Access of Realm Info
 	)										// The .ext is stripped and .rgn is appended.
 	{
-  UNUSED(prealm);
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t sRes	= 0;	// Assume success.
 
 	// Change filename to .RGN name.
-   char	szRgnName[PATH_MAX];
+	char	szRgnName[RSP_MAX_PATH];
 	RlmNameToRgnName(pszRealmName, szRgnName);
 
 	RFile	file;
-   if (file.Open(szRgnName, "wb", RFile::LittleEndian) == SUCCESS)
-      {
-      for (size_t i = 0; i < NUM_ELEMENTS(ms_argns) && sResult == SUCCESS; ++i)
+	if (file.Open(szRgnName, "wb", RFile::LittleEndian) == 0)
+		{
+		int16_t	i;
+		for (i = 0; i < NUM_ELEMENTS(ms_argns) && sRes == 0; i++)
 			{
-         sResult	= ms_argns[i].Save(&file);
+			sRes	= ms_argns[i].Save(&file);
 			}
 
 		file.Close();
@@ -6517,10 +6516,10 @@ static int16_t SaveTriggerRegions(	// Returns 0 on success.
 	else
 		{
 		TRACE("SaveTriggerRegions(): Could not open \"%s\" for write.\n", szRgnName);
-      sResult = FAILURE;
+		sRes	= -1;
 		}
 
-   return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -6533,38 +6532,38 @@ static int16_t CreateTriggerRegions(	// Returns 0 on success.
 	CRealm*	prealm					// In:  Access of Realm Info
 	)										
 	{
-   int16_t sResult = SUCCESS;	// Assume success.
-	if (prealm->m_pTriggerMapHolder == nullptr)
+	int16_t sRes	= 0;	// Assume success.
+	if (prealm->m_pTriggerMapHolder == NULL)
 		{
 		int16_t sResult;
 
 		TRACE("CreateTriggerRegions(): No default CThing to hold triggers!\n");
 		TRACE("CreateTriggerRegions(): Adding one for your convenience!\n");
-		CThing*	pThing = nullptr;
+		CThing*	pThing = NULL;
 		RHot*	photdummy;
 
 		sResult = CreateNewThing(prealm, CThing::CTriggerID, 0, 0, 0, &pThing, &photdummy);
-		if (sResult == SUCCESS) 
+		if (sResult == 0) 
 			{
 			prealm -> m_pTriggerMap = ((CTrigger*)pThing)->m_pmgi;
 			}
 		else
 			{
 			TRACE("CreateTriggerRegions(): I really, REALLY tried, but there won't be trigger info\n");
-         return FAILURE;
+			return -1;
 			}
 		
 		}
 
 	// REMOVE THE OLD TRIGGER MAP!
 	if (prealm->m_pTriggerMap) delete prealm->m_pTriggerMap;
-	prealm->m_pTriggerMap = nullptr;
+	prealm->m_pTriggerMap = NULL;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Create, Compress, and Save the trigger attribute map for the specified realm.
 	////////////////////////////////////////////////////////////////////////////////
 
-	RMultiGridIndirect* pTriggers = nullptr;
+	RMultiGridIndirect* pTriggers = NULL;
 	// Let's try going with a maximum of EIGHT overlapping regions for now.
 	// And we'll try 32 x 32 tiles for now.  Assume tries largest to smallest.
 	pTriggers = CreateRegionMap(prealm->m_phood->GetWidth(),
@@ -6572,14 +6571,14 @@ static int16_t CreateTriggerRegions(	// Returns 0 on success.
 	if (!pTriggers)
 		{
 		TRACE("CreateTriggerRegions(): Could not create region attributes!\n");
-      sResult = FAILURE;
+		sRes = -1;
 		}
 	else
 		{
 		if (StrafeAddRegion(pTriggers,ms_argns))
 			{
 			TRACE("CreateTriggerRegions(): Problem adding attributes!\n");
-         sResult = FAILURE;
+			sRes = -1;
 			delete pTriggers;
 			}
 		else
@@ -6602,7 +6601,7 @@ static int16_t CreateTriggerRegions(	// Returns 0 on success.
 			if (CompressMap(pTriggers,16,16) != SUCCESS)
 				{
 				TRACE("CreateTriggerRegions(): Problem compressing attributes!\n");
-            sResult = FAILURE;
+				sRes = -1;
 				delete pTriggers;
 				}
 			else
@@ -6617,7 +6616,7 @@ static int16_t CreateTriggerRegions(	// Returns 0 on success.
 			}
 		}
 
-   return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -6627,30 +6626,30 @@ static void EditPylonTriggerRegion(	// Returns nothing.
 	CThing* pthingPylon)					// In:  Pylon whose trigger area we want to
 	{
 	// If there's a current pylon being edited . . .
-	if (ms_pylonEdit != nullptr)
+	if (ms_pylonEdit != NULL)
 		{
 		// Remove sprite from scene.
 		ms_pylonEdit->m_pRealm->m_scene.RemoveSprite(&ms_spriteTriggerRgn);
 
-		ms_spriteTriggerRgn.m_pImage	= nullptr;
+		ms_spriteTriggerRgn.m_pImage	= NULL;
 
 		// Put it into storage mode.
 		ms_argns[ms_pylonEdit->m_ucID].SetMode(TriggerRgn::Storage);
 		// Clear.
-		ms_pylonEdit	= nullptr;
+		ms_pylonEdit	= NULL;
 		// Show mouse.
 		rspShowMouseCursor();
 		}
 
 	// If there's a new pylon . . .
-	if (pthingPylon != nullptr)
+	if (pthingPylon != NULL)
 		{
 		ASSERT(pthingPylon->GetClassID() == CThing::CPylonID);
 
 		CPylon*	pylon	= (CPylon*)pthingPylon;
 
 		// If the region did not previously exist . . .
-		if (ms_argns[pylon->m_ucID].pimRgn == nullptr)
+		if (ms_argns[pylon->m_ucID].pimRgn == NULL)
 			{
 			// Set location by mapping 3D pylon position to viewing surface 
 			// position.
@@ -6668,7 +6667,7 @@ static void EditPylonTriggerRegion(	// Returns nothing.
 			}
 		
 		// Attempt to put it into edit mode . . .
-      if (ms_argns[pylon->m_ucID].SetMode(TriggerRgn::Edit) == SUCCESS)
+		if (ms_argns[pylon->m_ucID].SetMode(TriggerRgn::Edit) == 0)
 			{
 			ms_spriteTriggerRgn.m_pImage			= ms_argns[pylon->m_ucID].pimRgn;
 			ms_spriteTriggerRgn.m_sLayer			= CRealm::LayerSprite16;
@@ -6700,13 +6699,13 @@ static CThing*	SetSel(	// Returns CThing that previously was selected.
 	ms_photSel		= photSel;
 
 	// If this is an actual CThing . . .
-	if (ms_pthingSel != nullptr)
+	if (ms_pthingSel != NULL)
 		{
 		// Don't allow GUI focus.
-		RGuiItem::SetFocus(nullptr);
+		RGuiItem::SetFocus(NULL);
 		
 		// If the corresponding hotbox was not specified . . .
-		if (photSel == nullptr)
+		if (photSel == NULL)
 			{
 			// Get it.
 			ms_photSel	= ms_pthingSel->m_phot;
@@ -6726,15 +6725,15 @@ static void DelThing(	// Returns nothing.
 	RHot*	photDel,			// In:  Hotbox of CThing to be deleted.
 	CRealm* prealm)		// In:  Current Realm
 	{
-	if (pthingDel != nullptr)
+	if (pthingDel != NULL)
 		{
 		// If hot not specified . . .
-		if (photDel == nullptr)
+		if (photDel == NULL)
 			{
 			photDel	= pthingDel->m_phot;
 			}
 
-		CNavigationNet* pNavNet = nullptr;
+		CNavigationNet* pNavNet = NULL;
 
 		switch (pthingDel->GetClassID())
 			{
@@ -6744,9 +6743,9 @@ static void DelThing(	// Returns nothing.
 					RSP_MB_ICN_STOP | RSP_MB_BUT_OK,
 					"Delete Hood",
 					"You may not delete the hood.");
-				SetSel(nullptr, nullptr);
-				pthingDel = nullptr;
-				photDel = nullptr;
+				SetSel(NULL, NULL);
+				pthingDel = NULL;
+				photDel = NULL;
 				break;
 
 			case CThing::CGameEditThingID:
@@ -6755,9 +6754,9 @@ static void DelThing(	// Returns nothing.
 					RSP_MB_ICN_STOP | RSP_MB_BUT_OK,
 					"Delete Hood",
 					"You may not delete the CGameEditThing.");
-				SetSel(nullptr, nullptr);
-				pthingDel = nullptr;
-				photDel = nullptr;
+				SetSel(NULL, NULL);
+				pthingDel = NULL;
+				photDel = NULL;
 				break;
 
 			case CThing::CPylonID:
@@ -6776,7 +6775,7 @@ static void DelThing(	// Returns nothing.
 				// drawn to, then clear the connection line.
 				if ((CBouy*) ms_pthingSel == m_pBouyLink0 ||
 					 (CBouy*) ms_pthingSel == m_pBouyLink1)
-					m_pBouyLink0 = m_pBouyLink1 = nullptr;
+					m_pBouyLink0 = m_pBouyLink1 = NULL;
 				// If the network lines are being shown, update them, otherwise
 				// they will get updated when view lines is turned on.
 				if (ms_bDrawNetwork)
@@ -6801,8 +6800,8 @@ static void DelThing(	// Returns nothing.
 					{
 						CListNode<CThing>* pNext = prealm->m_aclassHeads[CThing::CNavigationNetID].m_pnNext;
 						bool bSearching = true;
-						CNavigationNet* pNet = nullptr;
-						while (bSearching && pNext->m_powner != nullptr)
+						CNavigationNet* pNet = NULL;
+						while (bSearching && pNext->m_powner != NULL)
 						{
 							pNet = (CNavigationNet*) pNext->m_powner;
 							if (ms_pthingSel != pNet)
@@ -6825,9 +6824,9 @@ static void DelThing(	// Returns nothing.
 					rspMsgBox(RSP_MB_ICN_STOP | RSP_MB_BUT_OK,
 					"Delete Navigation Net",
 					"You may not delete the last remaining Navigation Net.");
-					SetSel(nullptr, nullptr);
-					pthingDel = nullptr;
-					photDel = nullptr;
+					SetSel(NULL, NULL);
+					pthingDel = NULL;
+					photDel = NULL;
 				}
 				break;
 			}
@@ -6836,7 +6835,7 @@ static void DelThing(	// Returns nothing.
 		if (pthingDel)
 			{
 			// If there is an editor thing . . .
-			if (ms_pgething != nullptr)
+			if (ms_pgething != NULL)
 				{
 				// If this item was being tracked by camera . . .
 				if (pthingDel->GetInstanceID() == ms_pgething->m_u16CameraTrackId)
@@ -6849,7 +6848,7 @@ static void DelThing(	// Returns nothing.
 			// If this is the selection . . .
 			if (pthingDel == ms_pthingSel)
 				{
-				SetSel(nullptr, nullptr);
+				SetSel(NULL, NULL);
 				}
 			}
 
@@ -6857,7 +6856,7 @@ static void DelThing(	// Returns nothing.
 		if (ms_sMoving != FALSE)
 			{
 			// If nothing left to move . . .
-			if (ms_pthingSel == nullptr)
+			if (ms_pthingSel == NULL)
 				{
 				// Stop moving.
 				ms_sMoving		= FALSE;
@@ -6867,7 +6866,7 @@ static void DelThing(	// Returns nothing.
 			}
 		}
 
-	// Safe if nullptr.
+	// Safe if NULL.
 	delete pthingDel;
 	delete photDel;
 	}
@@ -6883,7 +6882,7 @@ static void DelClass(	// Returns nothing.
 	sprintf(
 		szTitle, 
 		"Delete entire \"%s\" class",
-		(pthingDel != nullptr) 
+		(pthingDel != NULL) 
 			? CThing::ms_aClassInfo[pthingDel->GetClassID()].pszClassName
 			: "CThing"
 		);
@@ -6897,7 +6896,7 @@ static void DelClass(	// Returns nothing.
 		CListNode<CThing>*	plnDel;
 		CListNode<CThing>*	plnTail;
 		// If thing specified . . .
-		if (pthingDel != nullptr)
+		if (pthingDel != NULL)
 			{
 			// Use category of item.
 			plnDel	= prealm->m_aclassHeads[pthingDel->GetClassID()].m_pnNext;
@@ -6915,7 +6914,7 @@ static void DelClass(	// Returns nothing.
 			{
 			plnNext	= plnDel->m_pnNext;
 
-			DelThing(plnDel->m_powner, nullptr, prealm);
+			DelThing(plnDel->m_powner, NULL, prealm);
 
 			plnDel	= plnNext;
 			}
@@ -6924,7 +6923,7 @@ static void DelClass(	// Returns nothing.
 
 ////////////////////////////////////////////////////////////////////////////////
 // Delete all but the pylons, bouys, soundthings and soundrelays.
-// This is useful for making a template of a level that is already fully
+// This is useful for making a template of a level that is already fully \
 // populated.
 ////////////////////////////////////////////////////////////////////////////////
 static void DelMost(	// Returns nothing.
@@ -6958,7 +6957,7 @@ static void DelMost(	// Returns nothing.
 			switch (classType)
 			{
 				default:
-					DelThing(plnDel->m_powner, nullptr, prealm);
+					DelThing(plnDel->m_powner, NULL, prealm);
 					break;
 
 				case CThing::CHoodID:
@@ -6984,10 +6983,10 @@ static void DelMost(	// Returns nothing.
 static int16_t CopyItem(	// Returns 0 on success.
 	CThing* pthingCopy)	// In:  CThing to copy.
 	{
-   int16_t		sResult = SUCCESS;	// Assume success.
+	int16_t		sRes	= 0;	// Assume success.
 
 	// If anything to copy . . .
-	if (pthingCopy != nullptr)
+	if (pthingCopy != NULL)
 		{
 		// Switch for exceptions by type.
 		switch (pthingCopy->GetClassID() )
@@ -7014,9 +7013,9 @@ static int16_t CopyItem(	// Returns 0 on success.
 				if (ms_filePaste.Open(
 					PASTE_BUFFER_INITIAL_SIZE,
 					PASTE_BUFFER_GROW_SIZE,
-               RFile::NeutralEndian) == SUCCESS)
+					RFile::NeutralEndian) == 0)
 					{
-               if (pthingCopy->Save(&ms_filePaste, ms_sFileCount--) == SUCCESS)
+					if (pthingCopy->Save(&ms_filePaste, ms_sFileCount--) == 0)
 						{
 						// Success.  Store the type.
 						ms_idPaste	= pthingCopy->GetClassID();
@@ -7024,30 +7023,30 @@ static int16_t CopyItem(	// Returns 0 on success.
 					else
 						{
 						TRACE("CopyItem(): pthingCopy->Save() failed.\n");
-                  sResult = FAILURE * 2;
+						sRes	= -2;
 						}
 					}
 				else
 					{
 					TRACE("CopyItem(): Failed to open paste buffer.\n");
-               sResult = FAILURE;
+					sRes	= -1;
 					}
 				break;
 				}
 			}
 
 		// If any errors . . .
-      if (sResult != SUCCESS)
+		if (sRes != 0)
 			{
 			ms_filePaste.Close();
 			}
 		}
 	else
 		{
-      sResult = FAILURE;
+		sRes	= 1;
 		}
 
-   return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -7059,7 +7058,7 @@ static int16_t PasteItem(	// Returns 0 on success.
 	int16_t		sY,			// In:  Location for new thing.
 	int16_t		sZ)			// In:  Location for new thing.
 	{
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	// Drop anything we currently are holding onto.
 	DragDrop(
@@ -7104,11 +7103,11 @@ static int16_t PasteItem(	// Returns 0 on success.
 		else
 			{
 			TRACE("PasteItem(): CreateNewThing() failed.\n");
-         sResult = FAILURE;
+			sRes	= -1;
 			}
 		}
 
-   return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -7131,7 +7130,7 @@ static void MapScreen2Realm(	// Returns nothing.
 	int16_t	sRealmY2	= sScreenY + pcamera->m_sScene2FilmY;
 
 	// If there's a hood . . .
-	if (prealm->m_phood != nullptr)
+	if (prealm->m_phood != NULL)
 		{
 		// Map to realm's X/Z plane:
 		// Z is stretched.
@@ -7140,7 +7139,7 @@ static void MapScreen2Realm(	// Returns nothing.
 		*psRealmX	= sRealmX2;
 
 		// If there is an attribute map . . .
-		if (prealm->m_pTerrainMap != nullptr)
+		if (prealm->m_pTerrainMap != NULL)
 			{
 			// The realm y is the height indicated by the attribute map
 			// in the given location on the X/Z plane.
@@ -7195,7 +7194,7 @@ static void Maprealm2Screen(	// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 static void AttribBlit(			// Returns nothing.
 	RMultiGrid*	pmg,				// In:  Multigrid of attributes.
-	uint16_t			u16Mask,			// In:  Mask of important attributes.
+	U16			u16Mask,			// In:  Mask of important attributes.
 	RImage*		pimDst,			// In:  Destination image.
 	int16_t			sSrcX,			// In:  Where in Multigrid to start.
 	int16_t			sSrcY,			// In:  Where in Multigrid to start.
@@ -7211,8 +7210,8 @@ static void AttribBlit(			// Returns nothing.
 	ASSERT(pimDst->m_sHeight >= sH);
 
 	// Get dst start.
-	uint8_t*	pu8RowDst	= pimDst->m_pData;
-	uint8_t*	pu8Dst;
+	U8*	pu8RowDst	= pimDst->m_pData;
+	U8*	pu8Dst;
 	int32_t	lPitch;
 
 	int16_t	sGridW, sGridH;
@@ -7251,7 +7250,7 @@ static void AttribMaskBtnPressed(	// Returns nothing.
 	RMultiBtn*	pmb	= (RMultiBtn*)pgui_pmb;
 
 	// Get mask to affect.
-	uint16_t*	pu16AttribMask	= (uint16_t*)(pmb->m_ulUserInstance);
+	U16*	pu16AttribMask	= (U16*)(pmb->m_ulUserInstance);
 
 	// Add or subtract mask dependent on state.
 	switch (pmb->m_sState)
@@ -7270,7 +7269,7 @@ static void AttribMaskBtnPressed(	// Returns nothing.
 	if (*pu16AttribMask)
 		{
 		// If there's no image . . .
-		if (ms_spriteAttributes.m_pImage == nullptr)
+		if (ms_spriteAttributes.m_pImage == NULL)
 			{
 			int16_t	sErr	= 0;
 
@@ -7284,7 +7283,7 @@ static void AttribMaskBtnPressed(	// Returns nothing.
 				if (sErr)
 					{
 					delete ms_spriteAttributes.m_pImage;
-					ms_spriteAttributes.m_pImage	= nullptr;
+					ms_spriteAttributes.m_pImage	= NULL;
 					}
 				}
 			else
@@ -7308,7 +7307,7 @@ static void AttribMaskBtnPressed(	// Returns nothing.
 			{
 			// If there is an image, delete it.  No longer needed.
 			delete ms_spriteAttributes.m_pImage;
-			ms_spriteAttributes.m_pImage	= nullptr;
+			ms_spriteAttributes.m_pImage	= NULL;
 			}
 		}
 	}
@@ -7318,7 +7317,7 @@ static void AttribMaskBtnPressed(	// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t SizeShowAttribsSprite(void)	// Returns 0 on success.
 	{
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	if (ms_spriteAttributes.m_pImage)
 		{
@@ -7327,7 +7326,7 @@ static int16_t SizeShowAttribsSprite(void)	// Returns 0 on success.
 		if (ms_spriteAttributes.m_pImage->CreateImage(
 			ms_pcameraCur->m_sViewW,
 			ms_pcameraCur->m_sViewH,
-         RImage::BMP8) == SUCCESS)
+			RImage::BMP8) == 0)
 			{
 			ms_spriteAttributes.m_sLayer			= CRealm::LayerSprite16;
 			ms_spriteAttributes.m_sPriority		= 32767;	// Always on top.
@@ -7335,18 +7334,18 @@ static int16_t SizeShowAttribsSprite(void)	// Returns 0 on success.
 		else
 			{
 			TRACE("SizeShowAttribsSprite(): RImage::CreateImage() failed.\n");
-         sResult = FAILURE;
+			sRes	= -1;
 			}
 
 		// If an error occurred . . .
-      if (sResult)
+		if (sRes)
 			{
 			delete ms_spriteAttributes.m_pImage;
-			ms_spriteAttributes.m_pImage	= nullptr;
+			ms_spriteAttributes.m_pImage	= NULL;
 			}
 		}
 
-   return sResult;
+	return sRes;
 	}
 
 
@@ -7355,11 +7354,11 @@ static int16_t SizeShowAttribsSprite(void)	// Returns 0 on success.
 // Our RFile callback
 //
 ////////////////////////////////////////////////////////////////////////////////
-static void MyRFileCallback(size_t lBytes)
+static void MyRFileCallback(int32_t lBytes)
 	{
 	ms_lFileBytesSoFar	+= lBytes;
 
-   milliseconds_t lNow = rspGetMilliseconds();
+	int32_t lNow = rspGetMilliseconds();
 	if ((lNow - ms_lRFileCallbackTime) > MY_RFILE_CALLBACK_INTERVAL)
 		{
 		// Do an update
@@ -7406,7 +7405,7 @@ static void MyRFileCallback(size_t lBytes)
 // done with the file access.
 ////////////////////////////////////////////////////////////////////////////////
 static void InitFileCounter(			// Returns nothing.
-   const char*	pszDescriptionFrmt)			// In:  sprintf format for description of
+	char*	pszDescriptionFrmt)			// In:  sprintf format for description of 
 												// operation.
 	{
 	// Make sure string (with some digits) will fit . . .
@@ -7416,7 +7415,7 @@ static void InitFileCounter(			// Returns nothing.
 		}
 	else
 		{
-      strcpy(ms_szFileOpDescriptionFrmt, "Progress: %i bytes");
+		strcpy(ms_szFileOpDescriptionFrmt, "Progress: %ld bytes");
 		}
 
 	// Hook the RFile callback and reset the timer.  The callback does nothing
@@ -7438,11 +7437,11 @@ static void InitFileCounter(			// Returns nothing.
 	// Determine size and position of text.
 	// Create sample string.
 	char	szSample[sizeof(ms_szFileOpDescriptionFrmt)];
-	sprintf(szSample, ms_szFileOpDescriptionFrmt, INT32_MAX);
+	sprintf(szSample, ms_szFileOpDescriptionFrmt, LONG_MAX);
 	// Just use entire width for now.
 	ms_sFileOpTextW	= ms_printFile.GetWidth(szSample);
 	// Get height.
-	ms_printFile.GetPos(nullptr, nullptr, nullptr, &ms_sFileOpTextH);
+	ms_printFile.GetPos(NULL, NULL, NULL, &ms_sFileOpTextH);
 	ms_sFileOpTextX	= PROGRESS_X;
 	ms_sFileOpTextY	= PROGRESS_Y - (ms_sFileOpTextH + 5);
 
@@ -7475,7 +7474,7 @@ static void KillFileCounter(void)	// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 inline
 void SetPosInfo(			// Returns nothing.
-	RGuiItem*	pgui,		// In:  GUI to update.  nullptr is safe.
+	RGuiItem*	pgui,		// In:  GUI to update.  NULL is safe.
 	double		dVal)		// In:  Value to udpate to GUI.
 	{
 	if (pgui)
@@ -7545,32 +7544,30 @@ static int16_t TmpFileName(								// Returns 0 if successfull, non-zero otherwi
 	char* pszFileName,									// Out: Temp file name returned here
 	int16_t sMaxSize)										// In:  Maximum size of file name
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	#if defined(WIN32)
-   UNUSED(sMaxSize);
 
-      char	szPath[PATH_MAX];
+		char	szPath[RSP_MAX_PATH];
 		uint32_t	ulLen	= GetTempPath(sizeof(szPath), szPath);
 		if (ulLen >= sizeof(szPath) )
 			{
 			TRACE("TmpFileName(): GetTempPath() could not fit the path and filename into our string.\n");
-			sResult = FAILURE;
+			sResult = -1;
 			}
 		else if (ulLen == 0)
 			{
 			TRACE("TmpFileName(): GetTempPath() failed.\n");
-			sResult = FAILURE;
+			sResult = -1;
 			}
 
 		if (GetTempFileName(szPath, "RLM", 0, pszFileName) == FALSE)
 			{
 			TRACE("TmpFileName(): GetTempFileName() failed.\n");
-			sResult = FAILURE;
+			sResult = -1;
 			}
 
 	#else
-   UNUSED(pszFileName, sMaxSize);
 
 		// Impliment for some other system!
 		ASSERT(0);
@@ -7604,9 +7601,9 @@ void Pos2Str(		// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 static int16_t ShowRealmStatistics(	// Returns 0 on success.
 	CRealm*	prealm,						// In:  Realm to get stats on.
-	CThing** ppthing)						// Out: Selected thing, if not nullptr.
+	CThing** ppthing)						// Out: Selected thing, if not NULL.
 	{
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	// Store cursor show level so we can restore it when done.
 	int16_t sOrigCursorShowLevel	= rspGetMouseCursorShowLevel();
@@ -7646,7 +7643,7 @@ static int16_t ShowRealmStatistics(	// Returns 0 on success.
 
 				sprintf(
 					szThingDescription, 
-               "%i) \"%s\" ID: %u X: %s Y: %s Z: %s",
+					"%ld) \"%s\" ID: %u X: %s Y: %s Z: %s",
 					lNum,
 					CThing::ms_aClassInfo[pthing->GetClassID()].pszClassName,
 					pthing->GetInstanceID(),
@@ -7658,14 +7655,13 @@ static int16_t ShowRealmStatistics(	// Returns 0 on success.
 
 				if (pguiThing)
 					{
-               // Success.
-              TRACE("SUSPICIOUS CODE!");
-               pguiThing->m_lId	= (intptr_t)pthing;
+					// Success.
+					pguiThing->m_lId	= (S64)pthing;
 					}
 				else
 					{
 					TRACE("ShowRealmStatistics(): Error adding <<%s>> to the list box.\n", szThingDescription);
-               sResult = FAILURE * 3;
+					sRes	= -3;
 					}
 
 				pthingnode	= pthingnode->m_pnNext;
@@ -7683,28 +7679,27 @@ static int16_t ShowRealmStatistics(	// Returns 0 on success.
 				RGuiItem* pguiSel	= plb->GetSel();
 				if (pguiSel)
 					{
-              TRACE("SUSPICIOUS CODE!");
 					*ppthing	= (CThing*)(pguiSel->m_lId);
 					}
 				else
 					{
-					*ppthing	= nullptr;
+					*ppthing	= NULL;
 					}
 				}
 			}
 		else
 			{
 			TRACE("ShowRealmStatistics(): Failed to get realm stats listbox.\n");
-         sResult = FAILURE * 2;
+			sRes	= -2;
 			}
 
 		delete pguiRoot;
-		pguiRoot	= nullptr;
+		pguiRoot	= NULL;
 		}
 	else
 		{
 		TRACE("ShowRealmStatistics(): Failed to load realm stats GUI.\n");
-      sResult = FAILURE;
+		sRes	= -1;
 		}
 
 	// Clear queues.
@@ -7715,9 +7710,9 @@ static int16_t ShowRealmStatistics(	// Returns 0 on success.
 	// Restore cursor show level.
 	rspSetMouseCursorShowLevel(sOrigCursorShowLevel);
 
-   return sResult;
+	return sRes;
 	}
-#ifdef UNUSED_FUNCTIONS
+
 ////////////////////////////////////////////////////////////////////////////////
 // Callback from realm during time intensive operations.
 ////////////////////////////////////////////////////////////////////////////////
@@ -7728,10 +7723,10 @@ static bool RealmOpProgress(			// Returns true to continue; false to
 	{
 	static int32_t	lLastProgressPos;
 	static int32_t	lProgressX, lProgressY, lProgressW, lProgressH;
-   static milliseconds_t	lLastCallTime;
+	static int32_t	lLastCallTime;
 
 	// Just need to get the key status array once.
-	uint8_t*	pau8KeyStatus	= rspGetKeyStatusArray();
+	U8*	pau8KeyStatus	= rspGetKeyStatusArray();
 
 	bool	bContinue	= true;	// Assume we want to continue.
 
@@ -7771,7 +7766,7 @@ static bool RealmOpProgress(			// Returns true to continue; false to
 			lProgressH + 2);
 		}
 
-   milliseconds_t lNow = rspGetMilliseconds();
+	int32_t lNow = rspGetMilliseconds();
 	if ((lNow - lLastCallTime) > PROGRESS_CALLBACK_INTERVAL)
 		{
 		// Do an update
@@ -7830,8 +7825,9 @@ static bool RealmOpProgress(			// Returns true to continue; false to
 
 	return bContinue;
 	}
-#endif
-#endif // !defined(EDITOR_REMOVED)
+
+
+#endif // !defined(EDITOR_DISABLED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // EOF

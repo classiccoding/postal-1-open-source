@@ -15,7 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-// Personatorium.h
+// Personatorium.H
 // Project: Postal
 // 
 // History:
@@ -233,19 +233,19 @@ typedef struct
 	public:
 
 		// User level description of person.
-      const char*	pszDescription;		// Example: "Gunner Gal", as in "Place a GUNNER GAL".
+		char*	pszDescription;		// Example: "Gunner Gal", as in "Place a GUNNER GAL".
 		
 		// Animation strings for this person.
 		struct
 			{
 			// Names used to create animation resource filenames.
-         const char* pszBaseName;		// Example: "Gunner", as in "3d/GUNNER_shoot.sop".
+			char* pszBaseName;		// Example: "Gunner", as in "3d/GUNNER_shoot.sop".
 			int16_t sTextureScheme;	// Example: 0 would make "3d/GUNNER0.tex"
-         const char*	pszObjectName;		// Name of channels of transforms for ammo.
+			char*	pszObjectName;		// Name of channels of transforms for ammo.
 											// Example: "Bullet", as in "3d/gunner_shoot_BULLET.trans".
-         const char*	pszHandName;		// Name of channels of transforms for hand.
+			char*	pszHandName;		// Name of channels of transforms for hand.
 											// Example: "hand", as in "3d/gunner_shoot_HAND.trans"
-         const char*	pszEventName;		// Example: "main", as in "3d/gunner_shoot_MAIN.event".
+			char*	pszEventName;		// Example: "main", as in "3d/gunner_shoot_MAIN.event".
 			} Anim;
 
 		// Sound effects for this person.

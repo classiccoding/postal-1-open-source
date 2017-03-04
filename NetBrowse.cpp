@@ -34,10 +34,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <RSPiX.h>
-
-#if !defined(MULTIPLAYER_REMOVED)
-
+#include "RSPiX.h"
 #include "netbrowse.h"
 
 
@@ -77,7 +74,7 @@ int16_t CNetBrowse::Startup(							// Returns 0 if sucessfull, non-zero otherwis
 	uint16_t usPort,											// In:  Server's base port number
 	RSocket::BLOCK_CALLBACK callback)				// In:  Blocking callback
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Make sure we start in a good state
 	Reset();
@@ -87,11 +84,11 @@ int16_t CNetBrowse::Startup(							// Returns 0 if sucessfull, non-zero otherwis
 
 	// Create socket on which to broadcast
 	sResult = m_socketBrowse.Open(m_usBasePort + Net::BroadcastPortOffset, RSocket::typDatagram, RSocket::optDontBlock, callback);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// Set socket to broadcast mode
 		sResult = m_socketBrowse.Broadcast();
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 
 			}
@@ -130,11 +127,11 @@ void CNetBrowse::Update(
 	Hosts* phostsRemoved)								// I/O:  List of hosts that were removed
 	{
 	// Check if it's time to broadcast
-   milliseconds_t lTime = rspGetMilliseconds();
+	int32_t lTime = rspGetMilliseconds();
 	if ((lTime - m_lLastBroadcast) > Net::BroadcastInterval)
 		{
 		// Create message
-		uint8_t buf1[4];
+		U8 buf1[4];
 		buf1[0] = Net::BroadcastMagic0;
 		buf1[1] = Net::BroadcastMagic1;
 		buf1[2] = Net::BroadcastMagic2;
@@ -145,16 +142,16 @@ void CNetBrowse::Update(
 		RSocket::CreateBroadcastAddress(m_usBasePort + Net::AntennaPortOffset, &address);
 
 		// Broadcast the message
-      size_t lBytesSent;
-		int16_t sError = m_socketBrowse.SendTo(buf1, sizeof(buf1), &lBytesSent, &address);
-		if (sError == SUCCESS)
+		int32_t lBytesSent;
+		int16_t serr = m_socketBrowse.SendTo(buf1, sizeof(buf1), &lBytesSent, &address);
+		if (serr == 0)
 			{
 			if (lBytesSent != sizeof(buf1))
 				TRACE("CNetBrowse::Update(): Error sending broadcast (wrong size)!\n");
 			}
 		else
 			{
-			if (sError != RSocket::errWouldBlock)
+			if (serr != RSocket::errWouldBlock)
 				TRACE("CNetBrowse::Update(): Error sending broadcast!\n");
 			}
 
@@ -162,7 +159,7 @@ void CNetBrowse::Update(
 		// retry as soon as possible.  If the error is a recurring one that won't go
 		// away, we'll be retrying every time this is called, but what the hell -- if
 		// it isn't working, what are we gonna do instead?
-		if (sError == SUCCESS)
+		if (serr == 0)
 			m_lLastBroadcast = lTime;
 		}
 
@@ -173,10 +170,10 @@ void CNetBrowse::Update(
 	// using the same port as us.  If we do get a message, the address of the sender
 	// will be recorded -- this gives us the host's address!
 	CHost host;
-   size_t lReceived;
-	uint8_t buf[sizeof(host.m_acName) + 4 + 4];
-	int16_t sError = m_socketBrowse.ReceiveFrom(buf, sizeof(buf), &lReceived, &host.m_address);
-	if (sError == SUCCESS)
+	int32_t lReceived;
+	U8 buf[sizeof(host.m_acName) + 4 + 4];
+	int16_t serr = m_socketBrowse.ReceiveFrom(buf, sizeof(buf), &lReceived, &host.m_address);
+	if (serr == 0)
 		{
 		// Validate the message to make sure it was sent by another app of this
 		// type, as opposed to some unknown app that happens to use the same port.
@@ -192,10 +189,10 @@ void CNetBrowse::Update(
 			// is the same, that entity will get the same value that it sent.  All
 			// other entities will see this as a meaningless value, which is fine.
 			host.m_lMagic =
-            ((int32_t)buf[4] & 0x000000FF) +
-            (((int32_t)buf[5] <<  8) & 0x0000FF00) +
-            (((int32_t)buf[6] << 16) & 0x00FF0000) +
-            (((int32_t)buf[7] << 24) & 0xFF000000);
+				((int32_t)buf[4] & 0x000000ff) +
+				(((int32_t)buf[5] <<  8) & 0x0000ff00) +
+				(((int32_t)buf[6] << 16) & 0x00ff0000) +
+				(((int32_t)buf[7] << 24) & 0xff000000);
 
 			// Copy the name
 			strncpy(host.m_acName, (char*)&buf[8], sizeof(host.m_acName));
@@ -236,7 +233,7 @@ void CNetBrowse::Update(
 		}
 	else
 		{
-		if (sError != RSocket::errWouldBlock)
+		if (serr != RSocket::errWouldBlock)
 			TRACE("CNetBrowse::Update(): Error receiving broadcast!\n");
 		}
 
@@ -269,13 +266,12 @@ int16_t CNetBrowse::LookupHost(						// Returns 0 if successfull, non-zero other
 	{
 	// Try to get requested address 
 	int16_t sResult = RSocket::GetAddress(pszName, usPort, paddress);
-	if (sResult != SUCCESS)
+	if (sResult != 0)
 		TRACE("CNetBrowse::LookupHost(): Error getting host address!\n");
 	return sResult;
 	}
 
 
-#endif // !defined(MULTIPLAYER_REMOVED)
 ////////////////////////////////////////////////////////////////////////////////
 // EOF
 ////////////////////////////////////////////////////////////////////////////////

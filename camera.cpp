@@ -35,8 +35,9 @@
 //							edges.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define CAMERA_CPP
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "camera.h"
 
 
@@ -165,7 +166,7 @@ void CCamera::SetFilm(
 ////////////////////////////////////////////////////////////////////////////////
 void CCamera::SnapWithLensCoverOn(void)
 	{
-	ASSERT(m_pimFilm != nullptr);
+	ASSERT(m_pimFilm != NULL);
 
 	// Draw black rectangle (automatically clips to image size)
 	rspRect(RSP_BLACK_INDEX, m_pimFilm, m_sFilmViewX, m_sFilmViewY, m_sViewW, m_sViewH);
@@ -177,8 +178,8 @@ void CCamera::SnapWithLensCoverOn(void)
 ////////////////////////////////////////////////////////////////////////////////
 void CCamera::Snap(void)
 	{
-	ASSERT(m_pScene != nullptr);
-	ASSERT(m_pimFilm != nullptr);
+	ASSERT(m_pScene != NULL);
+	ASSERT(m_pimFilm != NULL);
 
 /*
 	// Init film clipping rect to view's location on the film
@@ -248,7 +249,7 @@ void CCamera::Update(void)
 			m_sSceneViewY = 0;
 
 		// Limit to right edge of scene
-      if (m_pHood != nullptr)
+		if (m_pHood != 0)
 			{
 			int16_t sClipX = (m_sSceneViewX + m_sViewW) - m_pHood->GetWidth();
 			if (sClipX > 0)

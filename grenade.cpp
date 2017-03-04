@@ -155,9 +155,10 @@
 //		08/17/97	JMI	Changed m_pthingParent to m_idParent.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define GRENADE_CPP
 
-#include <RSPiX.h>
-#include <cmath>
+#include "RSPiX.h"
+#include <math.h>
 
 #include "grenade.h"
 #include "dude.h"
@@ -198,7 +199,7 @@ int32_t CGrenade::ms_lReseekTime = 1000;					// Do a 'find' again
 int32_t CGrenade::ms_lGrenadeFuseTime = 1500;			// Time from throw to blow
 int32_t CGrenade::ms_lSmokeInterval		= 100;			// Time between smokes.
 
-const char*	CGrenade::ms_apszResNames[CGrenade::NumStyles]	= // Res names indexed Style.
+char*	CGrenade::ms_apszResNames[CGrenade::NumStyles]	= // Res names indexed Style.
 	{
 	"3d/grenade",		// Grenade.
 	"3d/dynamite",		// Dynamite.
@@ -230,7 +231,7 @@ int16_t CGrenade::Load(				// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,					// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)				// In:  Version of file format to load.
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	sResult = CWeapon::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 	if (sResult == SUCCESS)
@@ -263,14 +264,14 @@ int16_t CGrenade::Load(				// Returns 0 if successfull, non-zero otherwise
 			}
 		
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 			{
 			// Get resources
 			sResult = GetResources();
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CGrenade::Load(): Error reading from file!\n");
 			}
 	}
@@ -305,7 +306,7 @@ int16_t CGrenade::Save(										// Returns 0 if successfull, non-zero otherwise
 
 	// Save object data
 
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -534,7 +535,7 @@ void CGrenade::Update(void)
 					// Start an explosion object and then kill rocket
 					// object
 					CExplode* pExplosion;
-					if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == SUCCESS)
+					if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == 0)
 					{
 						pExplosion->Setup(m_dX, m_dY, m_dZ, m_u16ShooterID, 1);
 						PlaySample(g_smidGrenadeExplode, 
@@ -546,7 +547,7 @@ void CGrenade::Update(void)
 					CFire* pSmoke;
 					for (a = 0; a < 4; a++)
 					{
-						if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == SUCCESS)
+						if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == 0)
 						{
 							pSmoke->Setup(m_dX + GetRand() % 8, m_dY, m_dZ + GetRand() % 8, 2000, true, CFire::Smoke);
 							pSmoke->m_u16ShooterID = m_u16ShooterID;
@@ -633,7 +634,7 @@ int16_t CGrenade::Setup(									// Returns 0 if successfull, non-zero otherwise
 	double dHorizVelocity,								// In:  Horiz Vel (has a default)
 	double dVertVelocity*/)								// In:  Vertical velocity (has a default)
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -664,13 +665,13 @@ int16_t CGrenade::Setup(									// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CGrenade::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
-	sResult	= m_anim.Get(ms_apszResNames[m_style], nullptr, nullptr, nullptr, RChannel_LoopAtStart | RChannel_LoopAtEnd);
-	if (sResult == SUCCESS)
+	sResult	= m_anim.Get(ms_apszResNames[m_style], NULL, NULL, NULL, RChannel_LoopAtStart | RChannel_LoopAtEnd);
+	if (sResult == 0)
 		{
 			sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(SMALL_SHADOW_FILE), &(m_spriteShadow.m_pImage), RFile::LittleEndian);
-			if (sResult == SUCCESS)
+			if (sResult == 0)
 			{
 				// add more gets
 			}
@@ -693,7 +694,7 @@ int16_t CGrenade::GetResources(void)						// Returns 0 if successfull, non-zero 
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CGrenade::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Release resources for animation.
 	m_anim.Release();
@@ -710,7 +711,7 @@ int16_t CGrenade::FreeResources(void)						// Returns 0 if successfull, non-zero
 int16_t CGrenade::Preload(
 	CRealm* prealm)				// In:  Calling realm.
 	{
-	int16_t sResult = SUCCESS;
+	int16_t	sResult	= 0;
 
 	CAnim3D anim;
 	RImage* pimage;
@@ -718,14 +719,14 @@ int16_t CGrenade::Preload(
 	int16_t	sStyle;
 	for (sStyle = 0; sStyle < NumStyles; sStyle++)
 		{
-		if (anim.Get(ms_apszResNames[sStyle], nullptr, nullptr, nullptr, RChannel_LoopAtStart | RChannel_LoopAtEnd) == SUCCESS)
+		if (anim.Get(ms_apszResNames[sStyle], NULL, NULL, NULL, RChannel_LoopAtStart | RChannel_LoopAtEnd) == 0)
 			{
 			anim.Release();
 			}
 		else
 			{
 			// Go ahead and overwrite any previous error.
-			sResult = FAILURE;
+			sResult	= 1;
 			}
 		}
 
@@ -774,7 +775,7 @@ void CGrenade::Smoke(void)
 		if (lCurTime > m_lNextSmokeTime)
 			{
 			CFire*	pSmoke;
-			if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == SUCCESS)
+			if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pSmoke) == 0)
 				{
 				pSmoke->Setup(m_dX + GetRand() % 8, m_dY, m_dZ + GetRand() % 8, 2000, true, CFire::SmallSmoke);
 				pSmoke->m_u16ShooterID = m_u16ShooterID;

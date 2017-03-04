@@ -62,7 +62,7 @@
 #ifndef MINE_H
 #define MINE_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 #include "weapon.h"
 #include "bulletFest.h"
@@ -78,7 +78,7 @@ class CMine : public CWeapon
 
 	typedef uint8_t MineType;
 
-   enum
+	typedef enum
 	{
 		ProximityMine = 3,
 		TimedMine,
@@ -161,11 +161,11 @@ class CMine : public CWeapon
 			CThing** ppNew,										// Out: Pointer to new object
 			ClassIDType id)										// In:  ID of mine to construct.
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CMine(pRealm, id);
-         if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CMine::Construct(): Couldn't construct CMine (that's a bad thing)\n");
 				}
 			return sResult;
@@ -210,7 +210,7 @@ class CMine : public CWeapon
 		// Resets members.
 		void Reset(void)
 			{
-			m_pImage = nullptr;
+			m_pImage = NULL;
 			m_sprite.m_pthing	= this;
 			m_lFuseTime = 0;
 			m_u16ShooterID = CIdBank::IdNil;
@@ -223,7 +223,6 @@ class CMine : public CWeapon
 		// Init - common initialization code for startup, setup & edit new
 		int16_t Init(void);
 
-#if !defined(EDITOR_REMOVED)
 		// Puts up a dialog box in the editor to select mine type
 		int16_t EditModify(void);
 
@@ -266,7 +265,6 @@ class CMine : public CWeapon
 				CWeapon::EditHotSpot(psX, psY);
 				}
 			}
-#endif // !defined(EDITOR_REMOVED)
 
 	//---------------------------------------------------------------------------
 	// Optional static functions

@@ -21,8 +21,8 @@
 // History:
 //		12/11/96	JPW	RPrefsLine created to contain ini file lines, information
 //							on the type of lines, and to help in processing of lines.
-//		12/16/96	JPW	Fixed so it will work with the STL stuff that comes with
-//							MSVC 4.1 or newer.  Also fixed a few psz parameters that
+//		12/16/96	JPW	Fixed so it will work with the STL stuff that comes with 
+//							MSVC 4.1 or newer.  Also fixed a few psz parameters that 
 //							should have been const's.
 //
 //		05/08/97	JMI	Added conditions for compiler versions' STL
@@ -43,12 +43,12 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <cstdio>
-#include <cstring>
-#include <cassert>
-#include <cctype>
+#include <stdio.h>
+#include <string.h>
+#include <assert.h>
+#include <ctype.h>
 
-#include <BLUE/System.h>
+#include "Blue.h"
 #include "prefline.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,10 +57,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 inline int16_t GetVar(	// Returns 0 on success.
 	char*	pszLine,		// In:  Line to parse.
-	char*	pszVar,		// Out: Var name, if not nullptr.
-	char* pszVal)		// Out: Val, if not nullptr.
+	char*	pszVar,		// Out: Var name, if not NULL.
+	char* pszVal)		// Out: Val, if not NULL.
 	{
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	int16_t	j, i, k;
 	// Copy variable name to out string
@@ -83,7 +83,7 @@ inline int16_t GetVar(	// Returns 0 on success.
 	if (pszLine[i] == '\0')
 		{
 		TRACE("GetVar(): Missing '=' in line: '%s'\n", pszLine);
-      sResult = FAILURE * 2;
+		sRes = 2;
 		}
 	else
 		{
@@ -97,7 +97,7 @@ inline int16_t GetVar(	// Returns 0 on success.
 				{
 // 7/10/97 MJR - Removed this TRACE() because we often use entries with nothing after the '='
 //				TRACE("GetVar(): Badly formed variable syntax.\n");
-            sResult = FAILURE * 3;
+				sRes = 3;
 				}
 			else
 				// Copy variable value to out string
@@ -105,7 +105,7 @@ inline int16_t GetVar(	// Returns 0 on success.
 			}
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -128,7 +128,7 @@ RPrefsLine::RPrefsLine (RPrefsLine::ePrefsLineType Type, const char *pszLine)
 RPrefsLine::~RPrefsLine ()
 	{
 	delete [] m_pszLine;
-	m_pszLine = nullptr;
+	m_pszLine = NULL;
 	return;
 	}
 
@@ -153,11 +153,11 @@ RPrefsLine::ePrefsLineType RPrefsLine::GetType()
 ////////////////////////////////////////////////////////////////////////////////
 int16_t RPrefsLine::GetSectionName(char *pszSection)
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sRes = 0;
 	if (m_Type != Section)
 		{
 		TRACE("RPrefsLine::GetSectionName(): Not a section line.\n");
-		sResult = 1;
+		sRes = 1;
 		}
 	else
 		{
@@ -168,7 +168,7 @@ int16_t RPrefsLine::GetSectionName(char *pszSection)
 			;
 		// Make sure there even is somthing after the '[' beside space
 		if (m_pszLine[i] == '\0')
-         sResult = FAILURE * 2;
+			sRes = 2;
 		else
 			{
 			// Copy section name to out string
@@ -184,9 +184,9 @@ int16_t RPrefsLine::GetSectionName(char *pszSection)
 			pszSection[j + 1] = '\0';
 			}
 		}
-	if (sResult != SUCCESS)
+	if (sRes != 0)
 		strcpy(pszSection, "");
-	return (sResult);
+	return (sRes);
 	}
 		
 ////////////////////////////////////////////////////////////////////////////////
@@ -194,11 +194,11 @@ int16_t RPrefsLine::GetSectionName(char *pszSection)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t RPrefsLine::GetVariableName(char *pszVariable)
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sRes = 0;
 	if (m_Type != Variable)
 		{
 		TRACE("RPrefsLine::GetVariableName(): Not a variable line.\n");
-		sResult = 1;
+		sRes = 1;
 		}
 	else
 #if 0
@@ -210,7 +210,7 @@ int16_t RPrefsLine::GetVariableName(char *pszVariable)
 		if (m_pszLine[i] == '\0')
 			{
 			TRACE("RPrefsLine::GetVariableName(): Badly formed variable name.\n");
-         sResult = FAILURE * 2;
+			sRes = 2;
 			}
 		else
 			{
@@ -221,12 +221,12 @@ int16_t RPrefsLine::GetVariableName(char *pszVariable)
 			pszVariable[j] = '\0';
 			}
 		}
-	if (sResult != SUCCESS)
+	if (sRes != 0)
 		strcpy(pszVariable, "");
 #else
-		sResult	= GetVar(m_pszLine, pszVariable, nullptr);
+		sRes	= GetVar(m_pszLine, pszVariable, NULL);
 #endif
-	return (sResult);
+	return (sRes);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -234,13 +234,13 @@ int16_t RPrefsLine::GetVariableName(char *pszVariable)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t RPrefsLine::GetVariableValue(char *pszValue)
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sRes = 0;
 
 	// Make sure the prefs line is a variable
 	if (m_Type != Variable)
 		{
 		TRACE("RPrefsLine::GetVariableValue(): Not a variable line.\n");
-		sResult = 1;
+		sRes = 1;
 		}
 	else
 #if 0
@@ -252,7 +252,7 @@ int16_t RPrefsLine::GetVariableValue(char *pszValue)
 		if (m_pszLine[i] == '\0')
 			{
 			TRACE("RPrefsLine::GetVariableName(): Missing '=' in line: '%s'\n", m_pszLine);
-         sResult = FAILURE * 2;
+			sRes = 2;
 			}
 		else
 			{
@@ -264,19 +264,19 @@ int16_t RPrefsLine::GetVariableValue(char *pszValue)
 				{
 // 7/10/97 MJR - Removed this TRACE() because we often use entries with nothing after the '='
 //				TRACE("RPrefsLine::GetVariableName(): Badly formed variable syntax.\n");
-            sResult = FAILURE * 3;
+				sRes = 3;
 				}
 			else
 				// Copy variable value to out string
 				strcpy(pszValue, &m_pszLine[i]);
 			}
 		}
-	if (sResult != SUCCESS)
+	if (sRes != 0)
 		strcpy(pszValue, "");
 #else
-		sResult	= GetVar(m_pszLine, nullptr, pszValue);
+		sRes	= GetVar(m_pszLine, NULL, pszValue);
 #endif
-	return (sResult);
+	return (sRes);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -284,7 +284,7 @@ int16_t RPrefsLine::GetVariableValue(char *pszValue)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t RPrefsLine::SetVariableValue(const char *pszValue)
 	{
-	int16_t sResult = SUCCESS;
+	int16_t	sRes = 0;
 	char	pszLine[128], pszVariable[64];
 
 	ASSERT(pszValue);
@@ -292,7 +292,7 @@ int16_t RPrefsLine::SetVariableValue(const char *pszValue)
 	if (m_Type != Variable)
 		{
 		TRACE("RPrefsLine::SetVariableValue(): Not a variable line.\n");
-		sResult = 1;
+		sRes = 1;
 		}
 	else
 		{
@@ -303,17 +303,17 @@ int16_t RPrefsLine::SetVariableValue(const char *pszValue)
 			pszVariable[i] = m_pszLine[i];
 		pszVariable[i] = '\0';
 #else
-		sResult	= GetVar(m_pszLine, pszVariable, nullptr);
-		if (sResult == SUCCESS)
+		sRes	= GetVar(m_pszLine, pszVariable, NULL);
+		if (sRes == 0)
 #endif
 			{
 			ASSERT(m_pszLine);
 			delete [] m_pszLine;
-			m_pszLine = nullptr;
+			m_pszLine = NULL;
 			sprintf(pszLine, "%s = %s", pszVariable, pszValue);
 			m_pszLine = new char[strlen(pszLine) + 1];
 			strcpy(m_pszLine, pszLine);
 			}
 		}
-	return (sResult);
+	return (sRes);
 	}

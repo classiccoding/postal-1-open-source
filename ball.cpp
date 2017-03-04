@@ -81,9 +81,10 @@
 //							projected Y position.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define BALL_CPP
 
-#include <RSPiX.h>
-#include <cstring>
+#include "RSPiX.h"
+#include <string.h>
 
 #include "ball.h"
 #include "hood.h"
@@ -117,7 +118,7 @@ int16_t CBall::ms_sFileCount;
 
 /// Standing Animation Files ////////////////////////////////////////////////////
 // An array of pointers to res names (one for each animation component).
-static const char*	ms_apszAnimNames[]	=
+static char*	ms_apszAnimNames[]	=
 	{
 	"3d/main_bobbing.sop",
 	"3d/main_bobbing.mesh",
@@ -125,8 +126,8 @@ static const char*	ms_apszAnimNames[]	=
 	"3d/main_bobbing.hot",
 	"3d/main_bobbing.bounds",
 	"3d/main_bobbing.floor",
-	nullptr,						// No rigid body for this anim.
-	nullptr						// For safety, this should ensure a crash if referenced
+	NULL,						// No rigid body for this anim.
+	NULL						// For safety, this should ensure a crash if referenced
 								// beyond useful portion of array.
 	};
 
@@ -140,11 +141,11 @@ int16_t CBall::Load(										// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,										// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)									// In:  Version of file format to load.
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// In most cases, the base class Load() should be called.
 	sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -176,13 +177,13 @@ int16_t CBall::Load(										// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 			{
 			sResult = GetResources();
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CBall::Load(): Error reading from file!\n");
 			}
 		}
@@ -202,11 +203,11 @@ int16_t CBall::Save(										// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// In most cases, the base class Save() should be called.
 	sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// Save common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -241,7 +242,7 @@ int16_t CBall::Save(										// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBall::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sResult	= 0;	// Assume success.
 
 	// At this point we can assume the CHood was loaded, so we init our height
 	m_sPrevHeight = m_pRealm->GetHeight(m_dX, m_dZ);
@@ -261,7 +262,7 @@ int16_t CBall::Startup(void)								// Returns 0 if successfull, non-zero otherw
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBall::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = SUCCESS;
+	int16_t	sResult	= 0;
 
 	m_trans.Make1();
 	
@@ -398,7 +399,6 @@ void CBall::Render(void)
 	m_pRealm->m_scene.UpdateSprite(&m_sprite);
 	}
 
-#if !defined(EDITOR_REMOVED)
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -407,7 +407,7 @@ int16_t CBall::EditNew(									// Returns 0 if successfull, non-zero otherwise
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = sX;
@@ -416,10 +416,10 @@ int16_t CBall::EditNew(									// Returns 0 if successfull, non-zero otherwise
 
 	// Load resources.
 	sResult = GetResources();
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		sResult	= Shutdown();
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 			// Attempt to startup as if in a real play . . .
 			sResult	= Startup();
@@ -435,11 +435,11 @@ int16_t CBall::EditNew(									// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBall::EditModify(void)
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Load GUI . . .
 	RGuiItem*	pguiRoot	= RGuiItem::LoadInstantiate(FullPath(GAME_PATH_VD, BALL_GUI_FILE) );
-	if (pguiRoot != nullptr)
+	if (pguiRoot != NULL)
 		{
 		// Modal loop.
 		rspClearAllInputEvents();
@@ -448,13 +448,13 @@ int16_t CBall::EditModify(void)
 		RGuiItem*	pguiOk		= pguiRoot->GetItemFromId(GUI_ID_OK);
 		RGuiItem*	pguiCancel	= pguiRoot->GetItemFromId(GUI_ID_CANCEL);
 		
-		if (pguiOk != nullptr && pguiCancel != nullptr)
+		if (pguiOk != NULL && pguiCancel != NULL)
 			{
 			// Prepare values.
 			// These should definitely check to make sure they exist.
 			// A nice inline helper function that takes varargs would do.
 			RGuiItem*	pguiEditX	= pguiRoot->GetItemFromId(GUI_ID_X_OFFSET);
-			if (pguiEditX != nullptr)
+			if (pguiEditX != NULL)
 				{
 				pguiEditX->SetText("%g", m_dDX);
 				// Compose with new text.
@@ -462,7 +462,7 @@ int16_t CBall::EditModify(void)
 				}
 
 			RGuiItem*	pguiEditY	= pguiRoot->GetItemFromId(GUI_ID_Y_OFFSET);
-			if (pguiEditY != nullptr)
+			if (pguiEditY != NULL)
 				{
 				pguiEditY->SetText("%g", m_dDY);
 				// Compose with new text.
@@ -470,7 +470,7 @@ int16_t CBall::EditModify(void)
 				}
 
 			RGuiItem*	pguiEditZ	= pguiRoot->GetItemFromId(GUI_ID_Z_OFFSET);
-			if (pguiEditZ != nullptr)
+			if (pguiEditZ != NULL)
 				{
 				pguiEditZ->SetText("%g", m_dDZ);
 				// Compose with new text.
@@ -483,25 +483,25 @@ int16_t CBall::EditModify(void)
 				FreeResources();
 
 				// Set values.
-				if (pguiEditX != nullptr)
+				if (pguiEditX != NULL)
 					{
-					m_dDX	= strtod(pguiEditX->m_szText, nullptr);
+					m_dDX	= strtod(pguiEditX->m_szText, NULL);
 					}
-				if (pguiEditY != nullptr)
+				if (pguiEditY != NULL)
 					{
-					m_dDY	= strtod(pguiEditY->m_szText, nullptr);
+					m_dDY	= strtod(pguiEditY->m_szText, NULL);
 					}
-				if (pguiEditZ != nullptr)
+				if (pguiEditZ != NULL)
 					{
-					m_dDZ	= strtod(pguiEditZ->m_szText, nullptr);
+					m_dDZ	= strtod(pguiEditZ->m_szText, NULL);
 					}
 				
 				// Load resources.
 				sResult = GetResources();
-				if (sResult == SUCCESS)
+				if (sResult == 0)
 					{
 					sResult	= Shutdown();
-					if (sResult == SUCCESS)
+					if (sResult == 0)
 						{
 						// Attempt to startup as if in a real play . . .
 						sResult	= Startup();
@@ -530,7 +530,7 @@ int16_t CBall::EditModify(void)
 	else
 		{
 		TRACE("EditNew(): Failed to load GUI file \"%s\".\n", BALL_GUI_FILE);
-		sResult = FAILURE;
+		sResult	= 1;
 		}
 
 	return sResult;
@@ -549,7 +549,7 @@ int16_t CBall::EditMove(									// Returns 0 if successfull, non-zero otherwise
 	m_dY = sY;
 	m_dZ = sZ;
 
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -606,14 +606,13 @@ void CBall::EditHotSpot(			// Returns nothiing.
 	*psX	= m_sCurRadius;
 	*psY	= m_sCurRadius;
 	}
-#endif // !defined(EDITOR_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Get all required resources
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBall::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	sResult	= m_anim.Get(
 		ms_apszAnimNames, 
@@ -628,7 +627,7 @@ int16_t CBall::GetResources(void)						// Returns 0 if successfull, non-zero oth
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBall::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	m_anim.Release();
 

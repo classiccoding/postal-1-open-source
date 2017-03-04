@@ -169,7 +169,7 @@
 // RSPiX Headers.
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 
 //////////////////////////////////////////////////////////////////////////////
 // Postal headers.
@@ -190,7 +190,7 @@
 
 // This is the master list of person descriptions that can be used to describe
 // a CPerson.  See header comment for details of adding a person description.
-Personatorium g_apersons[Personatorium::NumPersons]	=
+extern Personatorium g_apersons[Personatorium::NumPersons]	=
 	{
 	
 	///////////////////////////////Grenader////////////////////////////////////
@@ -205,7 +205,7 @@ Personatorium g_apersons[Personatorium::NumPersons]	=
 			0,								// Texture 0
 			"grenade",					// Name of channels of transforms for ammo.
 											// Example: "Bullet", as in "3d/gunner_shoot_BULLET.trans".
-         nullptr,							// Name of channels of transforms for hand.
+			NULL,							// Name of channels of transforms for hand.
 											// Example: "hand", as in "3d/gunner_shoot_HAND.trans"
 			"grenader",					// Example: "main", as in "3d/gunner_shoot_MAIN.event".
 			},
@@ -434,7 +434,7 @@ Personatorium g_apersons[Personatorium::NumPersons]	=
 			0,								// Texture to use
 			"grenade",					// Name of channels of transforms for ammo.
 											// Example: "Bullet", as in "3d/gunner_shoot_BULLET.trans".
-         nullptr,							// Name of channels of transforms for hand.
+			NULL,							// Name of channels of transforms for hand.
 											// Example: "hand", as in "3d/gunner_shoot_HAND.trans"
 			"miner",						// Example: "main", as in "3d/gunner_shoot_MAIN.event".
 			},
@@ -602,9 +602,9 @@ Personatorium g_apersons[Personatorium::NumPersons]	=
 			{
 			"3d/protestor",			// Example: "Miner", as in "3d/MINER_shoot.sop".         
 			0,								// Texture to use
-         nullptr,							// Name of channels of transforms for ammo.
+			NULL,							// Name of channels of transforms for ammo.
 											// Example: "Bullet", as in "3d/gunner_shoot_BULLET.trans".
-         nullptr,							// Name of channels of transforms for hand.
+			NULL,							// Name of channels of transforms for hand.
 											// Example: "hand", as in "3d/gunner_shoot_HAND.trans"
 			"protest",					// Example: "main", as in "3d/gunner_shoot_MAIN.event".
 			},
@@ -776,7 +776,7 @@ Personatorium g_apersons[Personatorium::NumPersons]	=
 			0,								// Texture to use
 			"grenade",					// Name of channels of transforms for ammo.
 											// Example: "Bullet", as in "3d/gunner_shoot_BULLET.trans".
-         nullptr,							// Name of channels of transforms for hand.
+			NULL,							// Name of channels of transforms for hand.
 											// Example: "hand", as in "3d/gunner_shoot_HAND.trans"
 			"construct",				// Example: "main", as in "3d/gunner_shoot_MAIN.event".
 			},
@@ -950,7 +950,7 @@ Personatorium g_apersons[Personatorium::NumPersons]	=
 			1,								// Texture to use
 			"grenade",					// Name of channels of transforms for ammo.
 											// Example: "Bullet", as in "3d/gunner_shoot_BULLET.trans".
-         nullptr,							// Name of channels of transforms for hand.
+			NULL,							// Name of channels of transforms for hand.
 											// Example: "hand", as in "3d/gunner_shoot_HAND.trans"
 			"construct",				// Example: "main", as in "3d/gunner_shoot_MAIN.event".
 			},
@@ -1008,7 +1008,7 @@ Personatorium g_apersons[Personatorium::NumPersons]	=
 			1,								// Texture to use
 			"grenade",					// Name of channels of transforms for ammo.
 											// Example: "Bullet", as in "3d/gunner_shoot_BULLET.trans".
-         nullptr,							// Name of channels of transforms for hand.
+			NULL,							// Name of channels of transforms for hand.
 											// Example: "hand", as in "3d/gunner_shoot_HAND.trans"
 			"construct",				// Example: "main", as in "3d/gunner_shoot_MAIN.event".
 			},
@@ -1066,7 +1066,7 @@ Personatorium g_apersons[Personatorium::NumPersons]	=
 			2,								// Texture to use
 			"grenade",					// Name of channels of transforms for ammo.
 											// Example: "Bullet", as in "3d/gunner_shoot_BULLET.trans".
-         nullptr,							// Name of channels of transforms for hand.
+			NULL,							// Name of channels of transforms for hand.
 											// Example: "hand", as in "3d/gunner_shoot_HAND.trans"
 			"grenader",					// Example: "main", as in "3d/gunner_shoot_MAIN.event".
 			},
@@ -1123,7 +1123,7 @@ Personatorium g_apersons[Personatorium::NumPersons]	=
 			0,								// Texture to use
 			"grenade",					// Name of channels of transforms for ammo.
 											// Example: "Bullet", as in "3d/gunner_shoot_BULLET.trans".
-         nullptr,							// Name of channels of transforms for hand.
+			NULL,							// Name of channels of transforms for hand.
 											// Example: "hand", as in "3d/gunner_shoot_HAND.trans"
 			"grenader",					// Example: "main", as in "3d/gunner_shoot_MAIN.event".
 			},
@@ -1527,7 +1527,7 @@ Personatorium g_apersons[Personatorium::NumPersons]	=
 			0,								// Texture to use
 			"grenade",					// Name of channels of transforms for ammo.
 											// Example: "Bullet", as in "3d/gunner_shoot_BULLET.trans".
-         nullptr,							// Name of channels of transforms for hand.
+			NULL,							// Name of channels of transforms for hand.
 											// Example: "hand", as in "3d/gunner_shoot_HAND.trans"
 			"miner",						// Example: "main", as in "3d/gunner_shoot_MAIN.event".
 			},
@@ -1585,7 +1585,7 @@ Personatorium g_apersons[Personatorium::NumPersons]	=
 			1,								// Texture to use
 			"grenade",					// Name of channels of transforms for ammo.
 											// Example: "Bullet", as in "3d/gunner_shoot_BULLET.trans".
-         nullptr,							// Name of channels of transforms for hand.
+			NULL,							// Name of channels of transforms for hand.
 											// Example: "hand", as in "3d/gunner_shoot_HAND.trans"
 			"miner",						// Example: "main", as in "3d/gunner_shoot_MAIN.event".
 			},

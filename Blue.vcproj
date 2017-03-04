@@ -42,8 +42,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-				AdditionalIncludeDirectories=".\sys\include;.\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS"
+				AdditionalIncludeDirectories=".\SDL2\include;.\RSPiX\c\Win32\DirectX\Inc;.\RSPiX\c\Win32\WinG\Inc;.\RSPiX\c\Win32\SmartHeap\Include;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;."
+				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;WITH_STEAMWORKS=0"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -115,8 +115,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-				AdditionalIncludeDirectories=".\sys\include;.\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS;TRACENASSERT"
+				AdditionalIncludeDirectories=".\SDL2\include;.\RSPiX\c\Win32\DirectX\Inc;.\RSPiX\c\Win32\WinG\Inc;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;."
+				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;TRACENASSERT"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -188,8 +188,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\sys\include;.\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;_DEBUG;WIN32;_WINDOWS;STEAM_CONNECTED"
+				AdditionalIncludeDirectories=".\SDL2\include;.\RSPiX\c\Win32\WinG\Inc;.\RSPiX\c\Win32\DirectX\Inc;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;.\RSPiX\c\Win32\HeapAgent\Include;."
+				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;NOSHMALLOC;WITH_STEAMWORKS=1"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Build\Blue\Debug/Blue.pch"
@@ -241,35 +241,35 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;hpj;bat;for;f90"
 			>
 			<File
-				RelativePath=".\RSPiX\Blue\sdl2\Bdebug.cpp"
+				RelativePath=".\RSPiX\Src\Blue\unix\Bdebug.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Blue\sdl2\Bdisp.cpp"
+				RelativePath=".\RSPiX\Src\Blue\unix\Bdisp.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Blue\sdl2\Bjoy.cpp"
+				RelativePath=".\RSPiX\Src\Blue\unix\Bjoy.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Blue\sdl2\Bkey.cpp"
+				RelativePath=".\RSPiX\Src\Blue\unix\Bkey.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Blue\sdl2\Bmain.cpp"
+				RelativePath=".\RSPiX\Src\Blue\unix\Bmain.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Blue\sdl2\Bmouse.cpp"
+				RelativePath=".\RSPiX\Src\Blue\unix\Bmouse.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Blue\sdl2\Bsound.cpp"
+				RelativePath=".\RSPiX\Src\Blue\unix\Bsound.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RSPiX\Blue\sdl2\Btime.cpp"
+				RelativePath=".\RSPiX\Src\Blue\unix\Btime.cpp"
 				>
 			</File>
 		</Filter>

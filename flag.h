@@ -31,7 +31,7 @@
 #ifndef FLAG_H
 #define FLAG_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 #include "Thing3d.h"
 
@@ -56,16 +56,16 @@ class CFlag : public CThing3d
 	//---------------------------------------------------------------------------
 	public:
 		CAnim3D*		m_panimCurBase;					// current animation for the base
-		uint16_t			m_u16FlagID;						// Used to match flag & base
+		U16			m_u16FlagID;						// Used to match flag & base
 
 	protected:
 		CAnim3D		m_animFlagWave;					// animation for the flag waving
-		uint32_t			m_u32IncludeBits;					// Bits to include for Smash collision
-		uint32_t			m_u32DontcareBits;				// Bits to ignore for Smash collision
-		uint32_t			m_u32ExcludeBits;					// Bits to exclude for Smash collision
+		U32			m_u32IncludeBits;					// Bits to include for Smash collision
+		U32			m_u32DontcareBits;				// Bits to ignore for Smash collision
+		U32			m_u32ExcludeBits;					// Bits to exclude for Smash collision
 		int32_t			m_lTimeBonus;						// Flag stores a time bonus for
 																// special game play modes.
-		uint16_t			m_u16FlagColor;					// Color of flag;
+		U16			m_u16FlagColor;					// Color of flag;
 		int16_t			m_sSavedX;							// Save the position of the flagbase
 		int16_t			m_sSavedY;							// Save the position of the flagbase
 		int16_t			m_sSavedZ;							// Save the position of the flagbase
@@ -87,7 +87,7 @@ class CFlag : public CThing3d
 			m_sSuspend = 0;
 			m_dRot = 0;
 			m_dX = m_dY = m_dZ = m_dVel = m_dAcc = 0;
-			m_panimCur = nullptr;
+			m_panimCur = NULL;
 			m_sprite.m_pthing	= this;
 			m_u16FlagID = 1;
 			m_lTimeBonus = 0;
@@ -118,11 +118,11 @@ class CFlag : public CThing3d
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CFlag(pRealm);
-         if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CFlag::Construct(): Couldn't construct CFlag (that's a bad thing)\n");
 				}
 			return sResult;
@@ -153,7 +153,6 @@ class CFlag : public CThing3d
 		// Update object
 		void Update(void);
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -179,7 +178,6 @@ class CFlag : public CThing3d
 										// EditRect() pos.
 			int16_t*	psY);			// Out: Y coord of 2D hotspot relative to
 										// EditRect() pos.
-#endif // !defined(EDITOR_REMOVED)
 
 	//---------------------------------------------------------------------------
 	// Internal functions

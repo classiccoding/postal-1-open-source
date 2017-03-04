@@ -182,9 +182,11 @@
 //						as DVD, CD-R, etc.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define LOCALIZE_CPP
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "localize.h"
+#include "CompileOptions.h"
 #include "realm.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -204,11 +206,11 @@
 // Variables/data
 ////////////////////////////////////////////////////////////////////////////////
 
-extern const char g_pszAppName[] = APP_NAME;
+extern char g_pszAppName[] = APP_NAME;
 
-extern const char g_pszCriticalErrorTitle[] = APP_NAME;
+extern char g_pszCriticalErrorTitle[] = APP_NAME;
 
-extern const char g_pszBadBlueInit[] =
+extern char g_pszBadBlueInit[] =
 	"A system incompatibility has been detected."
 	"\n\n"
 #ifdef WIN32
@@ -217,7 +219,7 @@ extern const char g_pszBadBlueInit[] =
 #endif
 	"See code R100 in " APP_NAME " Help for more information.";
 
-extern const char g_pszVideoModeError[] =
+extern char g_pszVideoModeError[] =
 	"The required display settings (%s) were reported by the system as being available, "
 	"but could not be set properly."
 	"\n\n"
@@ -226,7 +228,7 @@ extern const char g_pszVideoModeError[] =
 	"\n\n"
 	"See code R101 in " APP_NAME " Help for more information.";
 
-extern const char g_pszVideoChangeDepthError[] =
+extern char g_pszVideoChangeDepthError[] =
 	"The required display settings (%s) could not be set properly."
 	"\n\n"
 	"The required number of colors is different from your current settings."
@@ -235,7 +237,7 @@ extern const char g_pszVideoChangeDepthError[] =
 	"\n\n"
 	"See code R102 in " APP_NAME " Help for more information.";
 
-extern const char g_pszVideoDepthError[] =
+extern char g_pszVideoDepthError[] =
 	"The required display settings (%s) could not be set properly."
 	"\n\n"
 	"Your video card does not appear to support this number of colors."
@@ -245,7 +247,7 @@ extern const char g_pszVideoDepthError[] =
 	"\n\n"
 	"See code R103 in " APP_NAME " Help for more information.";
 
-extern const char g_pszVideoResolutionError[] =
+extern char g_pszVideoResolutionError[] =
 	"The required display settings (%s) could not be set properly."
 	"\n\n"
 	"Your video card does not appear to support this pixel area (resolution) with this "
@@ -256,7 +258,7 @@ extern const char g_pszVideoResolutionError[] =
 	"\n\n"
 	"See code R104 in " APP_NAME " Help for more information.";
 
-extern const char g_pszVideoPagesError[] =
+extern char g_pszVideoPagesError[] =
 	"The required display settings (%s) could not be set properly."
 	"\n\n"
 	"Your video card does not appear to support this number of pages at these settings."
@@ -266,7 +268,7 @@ extern const char g_pszVideoPagesError[] =
 	"\n\n"
 	"See code R105 in " APP_NAME " Help for more information.";
 
-extern const char	g_pszVideoChangeDepthErrorUnderGDI_s[]	=
+extern char	g_pszVideoChangeDepthErrorUnderGDI_s[]	=
 	"The required display settings (%s) could not be set properly because you are not "
 	"using DirectX."
 	"\n\n"
@@ -275,7 +277,7 @@ extern const char	g_pszVideoChangeDepthErrorUnderGDI_s[]	=
 	"\n\n"
 	"See code R106 in " APP_NAME " Help for more information.";
 
-extern const char g_pszAudioModeGeneralError_s[] =
+extern char g_pszAudioModeGeneralError_s[] =
 	"The required audio mode (%s) could not be set properly."
 	"\n\n"
 	"If the audio device is or was being used, it may be available once the current "
@@ -286,7 +288,7 @@ extern const char g_pszAudioModeGeneralError_s[] =
 	"\n\n"
 	"If you want to stop the program, choose 'Abort'.";
 
-extern const char g_pszAudioModeInUseError_s[]	=
+extern char g_pszAudioModeInUseError_s[]	=
 	"The required audio mode (%s) could not be set properly."
 	"\n\n"
 	"The audio device is or was being used, it may be available once the current "
@@ -297,7 +299,7 @@ extern const char g_pszAudioModeInUseError_s[]	=
 	"\n\n"
 	"If you want to stop the program, choose 'Abort'.";
 
-extern const char g_pszAudioModeNoDeviceError_s[]	=
+extern char g_pszAudioModeNoDeviceError_s[]	=
 	"The required audio mode (%s) could not be set properly."
 	"\n\n"
 	"There is no audio device or the driver is incorrectly installed or missing."
@@ -308,7 +310,7 @@ extern const char g_pszAudioModeNoDeviceError_s[]	=
 	"\n\n"
 	"Would you like to continue without audio?";
 
-extern const char g_pszAudioModeNotSupportedError_s[]	=
+extern char g_pszAudioModeNotSupportedError_s[]	=
 	"The audio mode (%s) could not be set properly."
 	"\n\n"
 	"The audio device does not support this mode."
@@ -320,7 +322,7 @@ extern const char g_pszAudioModeNotSupportedError_s[]	=
 	"\n\n"
 	"If you want to continue without audio, choose 'Ignore'.";
 
-extern const char g_pszAudioVanillaModeNotSupportedError_s[]	=
+extern char g_pszAudioVanillaModeNotSupportedError_s[]	=
 	"The audio mode (%s) could not be set properly."
 	"\n\n"
 	"The audio device does not support this mode."
@@ -331,68 +333,68 @@ extern const char g_pszAudioVanillaModeNotSupportedError_s[]	=
 	"\n\n"
 	"Would you like to continue without audio?";
 
-extern const char g_pszPrefFileName[] = PREFS_FILE;
+extern char g_pszPrefFileName[] = PREFS_FILE;
 
-extern const char g_pszPrefOpenError[] =
+extern char g_pszPrefOpenError[] =
 	"The preference file '" PREFS_FILE "' could not be opened."
 	"\n\n"
 	"See code A100 in " APP_NAME " Help for more information.";
 
-extern const char g_pszPrefReadError[] =
+extern char g_pszPrefReadError[] =
 	"An error occurred while reading from '" PREFS_FILE "'."
 	"\n\n"
 	"See code A101 in " APP_NAME " Help for more information.";
 
-extern const char g_pszPrefWriteError[] =
+extern char g_pszPrefWriteError[] =
 	"An error occurred while saving to '" PREFS_FILE "'."
 	"\n\n"
 	"Any settings that you may have made will not be saved."
 	"\n\n"
 	"See code A102 in " APP_NAME " Help for more information.";
 
-extern const char g_pszPrefReadOnly[] =
+extern char g_pszPrefReadOnly[] =
 	"The file '" PREFS_FILE "' is set to 'READ-ONLY'."
 	"\n\n"
 	"Any settings that you may have made will not be saved."
 	"\n\n"
 	"See code A103 in " APP_NAME " Help for more information.";
 
-extern const char g_pszTitleError[] =
+extern char g_pszTitleError[] =
 	"An error occurred during the title sequence."
 	"\n\n"
 	"See code A104 in " APP_NAME " Help for more information.";
 
-extern const char g_pszCantFindAssets[] =
+extern char g_pszCantFindAssets[] =
 	"One or more required files could not be found."
 	"\n\n"
 	CD_DRIVE_CHANGE_MESSAGE
 	"\n\n"
 	"See code A105 in " APP_NAME " Help for more information.";
 
-extern const char g_pszWrongCD[] =
+extern char g_pszWrongCD[] =
 	"The original Postal CD is not in the drive it was installed from."
 	"\n\n"
 	"The CD in the drive does not appear to be the original Postal CD."
 	"\n\n"
 	"Please insert the original Postal CD and click on Retry.";
 
-extern const char g_pszPromptForOriginalCD[] =
+extern char g_pszPromptForOriginalCD[] =
 	"Please make sure the original Postal CD\n"
 	"is in the drive it was installed from.";
 
-extern const char g_pszNotOnCDROM[] =
+extern char g_pszNotOnCDROM[] =
 	"Please insert the " APP_NAME " CD into the drive you used to install it."
 	"\n\n"
 	CD_DRIVE_CHANGE_MESSAGE
 	"\n\n"
 	"See code A106 in " APP_NAME " Help for more information.";
 
-extern const char g_pszGeneralError[] =
+extern char g_pszGeneralError[] =
 	"An error has occurred.  This application cannot proceed."
 	"\n\n"
 	"See code A107 in " APP_NAME " Help for more information.";
 
-extern const char g_pszBadPath_s_s[] =
+extern char g_pszBadPath_s_s[] =
 	"One or more file locations for the game are invalid."
 	"\n\n"
 	CD_DRIVE_CHANGE_MESSAGE
@@ -401,7 +403,7 @@ extern const char g_pszBadPath_s_s[] =
 	"\n\n"
 	"See code A108 in " APP_NAME " Help for more information.";
 
-extern const char g_pszBadCDPath_s_s[] =
+extern char g_pszBadCDPath_s_s[] =
 	"Make sure the " APP_NAME " CD is in the drive you used to install it."
 	"\n\n"
 	CD_DRIVE_CHANGE_MESSAGE
@@ -410,13 +412,13 @@ extern const char g_pszBadCDPath_s_s[] =
 	"\n\n"
 	"See code A108 in " APP_NAME " Help for more information.";
 
-extern const char g_pszCannotOpenSoundFiles_s_s[]	=
+extern char g_pszCannotOpenSoundFiles_s_s[]	=
 	"Your audio hardware supports %s, but the " APP_NAME " file(s) associated with that "
 	"sound format were not installed."
 	"\n\n"
 	"See code A109 in " APP_NAME " Help for more information.";
 
-extern const char g_pszNoSoundFiles[]	=
+extern char g_pszNoSoundFiles[]	=
 	"There is no sound file installed."
 	"\n\n"
 	"Please run " APP_NAME " Setup and choose a sound option."
@@ -424,64 +426,64 @@ extern const char g_pszNoSoundFiles[]	=
 	"See code A110 in " APP_NAME " Help for more information.";
 
 
-extern const char	g_pszAssetsMissingError[] =
+extern char	g_pszAssetsMissingError[] =
 	"One or more files needed by the editor could not be found.";
 
-extern const char	g_pszSaveFileQuery[]	=
+extern char	g_pszSaveFileQuery[]	=
 	"Save file before this operation?";
 
-extern const char g_pszSaveDemoTitle[]	=
+extern char g_pszSaveDemoTitle[]	=
 	"Save Demo";
 
-extern const char g_pszSaveGameTitle[] =
+extern char g_pszSaveGameTitle[] = 
 	"Choose a name for your saved game";
 
-extern const char g_pszSaveGameErrorTitle[] =
+extern char g_pszSaveGameErrorTitle[] = 
 	"Error saving file";
 
-extern const char g_pszSaveGameErrorText[] =
+extern char g_pszSaveGameErrorText[] = 
 	"Your game could not be saved.  Check to see if your disk is full.";
 
-extern const char g_pszLoadGameTitle[] =
+extern char g_pszLoadGameTitle[] = 
 	"Choose the game you wish to restore";
 
-extern const char	g_pszFileOpenError_s[] =
+extern char	g_pszFileOpenError_s[] =
 	"Unable to open the file '%s'."
 	"\n\n"
 	"The file may be missing or corrupted, or you may not have permission to open it.";
 
-extern const char	g_pszFileReadError_s[] =
+extern char	g_pszFileReadError_s[] =
 	"An error has occurred while reading from the file '%s'."
 	"\n\n"
 	"The file may be corrupted, or you may not have permission to access it.";
 
-extern const char	g_pszFileWriteError_s[] =
+extern char	g_pszFileWriteError_s[] =
 	"An error has occurred while writing to the file '%s'."
 	"\n\n"
 	"The file may be corrupted, or you may not have permission to write to it.";
 
 
-extern const char g_pszDispenserNoDispenseeTypeChosen[]	=
+extern char g_pszDispenserNoDispenseeTypeChosen[]	=
 	"You must choose a dispensee type or Cancel.";
 
-extern const char g_pszGenericBrowseFor_s_Title[]	=
+extern char g_pszGenericBrowseFor_s_Title[]	=
 	"Browse for %s";
 
-extern const char	g_pszGenericMustBeRelativePath_s[]	=
+extern char	g_pszGenericMustBeRelativePath_s[]	=
 	"You must choose a file below path \"%s\".\n";
 
-extern const char g_pszDontDropYourselfMORON[]	=
+extern char g_pszDontDropYourselfMORON[]	=
 	"You don't really want to drop yourself!!\n"; 
 	
-extern const char g_pszDoofusCannotFindNavNet_EditMode_hu_hu[]	=
+extern char g_pszDoofusCannotFindNavNet_EditMode_hu_hu[]	=
 	"Doofus with ID %hd found that ID %hd (its NavNet ID) was not "
 	"a NavNet.\n";
 
-extern const char g_pszDoofusCannotFindNavNet_PlayMode_hu_hu[] =
+extern char g_pszDoofusCannotFindNavNet_PlayMode_hu_hu[] =
 	"A character with ID %hd was unable to locate its NavNet with "
 	"ID %hd.\n";
 
-extern const char g_pszPlayOneRealmOnlyMessage[]	=
+extern char g_pszPlayOneRealmOnlyMessage[]	=
 	"This version of " APP_NAME " only allows you to play the"
 	"\n"
 	"levels that it came with."
@@ -494,9 +496,9 @@ extern const char g_pszPlayOneRealmOnlyMessage[]	=
 
 // NOTICE: These aren't currently available in any language other than english!
 #if ENGLISH_LOCALE
-   extern const char g_pszEditorDisabled[]			=	"The editor is not available in this demo version.";
-   extern const char g_pszMultiplayerDisabled[]		=	"Multiplayer is not available in this demo version.";
-   extern const char g_pszBuy[]							=	"You can order the full version of the game from"
+	extern char g_pszEditorDisabled[]			=	"The editor is not available in this demo version.";
+	extern char g_pszMultiplayerDisabled[]		=	"Multiplayer is not available in this demo version.";
+	extern char g_pszBuy[]							=	"You can order the full version of the game from"
 																"\n\n"
 																"         www.gopostal.com"
 																"\n\n"
@@ -512,454 +514,452 @@ extern const char g_pszPlayOneRealmOnlyMessage[]	=
 
 #if ENGLISH_LOCALE ////////////////////////////////////////////////////////////
 
-   extern const char	g_pszMainMenu_Title[]							= MAIN_MENU_TITLE;
-   extern const char g_pszMainMenu_Start[]							= "START";
-   extern const char g_pszMainMenu_Options[]							= "OPTIONS";
-   extern const char g_pszMainMenu_Editor[]							= "EDITOR";
-   extern const char g_pszMainMenu_Buy[]								= "ORDER INFO";
-   extern const char g_pszMainMenu_Exit[]								= "EXIT";
+	extern char	g_pszMainMenu_Title[]							= MAIN_MENU_TITLE;
+	extern char g_pszMainMenu_Start[]							= "START";
+	extern char g_pszMainMenu_Options[]							= "OPTIONS";
+	extern char g_pszMainMenu_Editor[]							= "EDITOR";
+	extern char g_pszMainMenu_Buy[]								= "ORDER INFO";
+	extern char g_pszMainMenu_Exit[]								= "EXIT";
 
-   extern const char g_pszVerifyExitMenu_Title[]					= "REALLY EXIT?";
-   extern const char g_pszVerifyExitMenu_Yes[]						= "YES";
-   extern const char g_pszVerifyExitMenu_No[]						= "NO";
+	extern char g_pszVerifyExitMenu_Title[]					= "REALLY EXIT?";
+	extern char g_pszVerifyExitMenu_Yes[]						= "YES";
+	extern char g_pszVerifyExitMenu_No[]						= "NO";
 
-   extern const char g_pszVerifyQuitMenu_Title[]					= "REALLY QUIT?";
-   extern const char g_pszVerifyQuitMenu_Yes[]						= "YES";
-   extern const char g_pszVerifyQuitMenu_No[]						= "NO";
+	extern char g_pszVerifyQuitMenu_Title[]					= "REALLY QUIT?";
+	extern char g_pszVerifyQuitMenu_Yes[]						= "YES";
+	extern char g_pszVerifyQuitMenu_No[]						= "NO";
 
-   extern const char g_pszGameMenu_Title[]							= "GAME";
-   extern const char g_pszGameMenu_Continue[]						= "CONTINUE";
-   extern const char g_pszGameMenu_Save[]								= "SAVE";
-   extern const char g_pszGameMenu_Options[]							= "OPTIONS";
-   extern const char g_pszGameMenu_Quit[]								= "QUIT";
+	extern char g_pszGameMenu_Title[]							= "GAME";
+	extern char g_pszGameMenu_Continue[]						= "CONTINUE";
+	extern char g_pszGameMenu_Save[]								= "SAVE";
+	extern char g_pszGameMenu_Options[]							= "OPTIONS";
+	extern char g_pszGameMenu_Quit[]								= "QUIT";
 
-   extern const char g_pszEditorMenu_Title[]							= "EDITOR";
-   extern const char g_pszEditorMenu_Continue[]						= "CONTINUE";
-   extern const char g_pszEditorMenu_Options[]						= "OPTIONS";
-   extern const char g_pszEditorMenu_Quit[]							= "QUIT";
+	extern char g_pszEditorMenu_Title[]							= "EDITOR";
+	extern char g_pszEditorMenu_Continue[]						= "CONTINUE";
+	extern char g_pszEditorMenu_Options[]						= "OPTIONS";
+	extern char g_pszEditorMenu_Quit[]							= "QUIT";
 
-   extern const char g_pszOptionsMenu_Title[]						= "OPTIONS";
-   extern const char g_pszOptionsMenu_Video[]						= "VIDEO";
-   extern const char g_pszOptionsMenu_Audio[]						= "AUDIO";
-   extern const char g_pszOptionsMenu_Controls[]					= "CONTROLS";
-   extern const char g_pszOptionsMenu_Multiplayer[]				= "MULTIPLAYER";
-   extern const char g_pszOptionsMenu_Performance[]				= "PERFORMANCE";
-   extern const char g_pszOptionsMenu_Difficulty[]					= "DIFFICULTY";
-   extern const char g_pszOptionsMenu_Crosshair[]					= "CROSSHAIR";
+	extern char g_pszOptionsMenu_Title[]						= "OPTIONS";
+	extern char g_pszOptionsMenu_Video[]						= "VIDEO";
+	extern char g_pszOptionsMenu_Audio[]						= "AUDIO";
+	extern char g_pszOptionsMenu_Controls[]					= "CONTROLS";
+	extern char g_pszOptionsMenu_Multiplayer[]				= "MULTIPLAYER";
+	extern char g_pszOptionsMenu_Performance[]				= "PERFORMANCE";
+	extern char g_pszOptionsMenu_Difficulty[]					= "DIFFICULTY";
+	extern char g_pszOptionsMenu_Crosshair[]					= "CROSSHAIR";
 #ifdef KID_FRIENDLY_OPTION
-   extern const char g_pszOptionsMenu_KidMode[]						= "KID MODE";
+	extern char g_pszOptionsMenu_KidMode[]						= "KID MODE";
 #endif
-   extern const char g_pszDifficultyMenu_Title[]					= "DIFFICULTY";
-   extern const char g_pszDifficultyMenu_SetDifficulty[]			= "SET";
+	extern char g_pszDifficultyMenu_Title[]					= "DIFFICULTY";
+	extern char g_pszDifficultyMenu_SetDifficulty[]			= "SET";
 
-   extern const char g_pszOrganMenu_Title[]							= "SOUND TEST";
-   extern const char g_pszOrganMenu_SpecialKeysHeading[]			= "SPECIAL KEYS";
-   extern const char g_pszOrganMenu_NumericKeysFunction[]		= "  0 thru 9 - PLAY A SOUND";
-   extern const char g_pszOrganMenu_AlphaKeysFunction[]			= "  A thru Z - PLAY A SOUND";
-   extern const char g_pszOrganMenu_TabKeyFunction[]				= "  TAB - NEXT SET OF SOUNDS";
-   extern const char g_pszOrganMenu_Exit[]							= "EXIT";
+	extern char g_pszOrganMenu_Title[]							= "SOUND TEST";
+	extern char g_pszOrganMenu_SpecialKeysHeading[]			= "SPECIAL KEYS";
+	extern char g_pszOrganMenu_NumericKeysFunction[]		= "  0 thru 9 - PLAY A SOUND";
+	extern char g_pszOrganMenu_AlphaKeysFunction[]			= "  A thru Z - PLAY A SOUND";
+	extern char g_pszOrganMenu_TabKeyFunction[]				= "  TAB - NEXT SET OF SOUNDS";
+	extern char g_pszOrganMenu_Exit[]							= "EXIT";
 
-   extern const char g_pszAudioMenu_Title[]							= "AUDIO";
-   extern const char g_pszAudioMenu_Mixer[]							= "MIXER";
-   extern const char g_pszAudioMenu_SoundTest[]						= "SOUND TEST";
-   extern const char g_pszAudioMenu_Language[]						= "LANGUAGE";
-   extern const char g_pszAudioMenu_English[]						= "English";
-   extern const char g_pszAudioMenu_Japanese[]						= "Japanese";
+	extern char g_pszAudioMenu_Title[]							= "AUDIO";
+	extern char g_pszAudioMenu_Mixer[]							= "MIXER";
+	extern char g_pszAudioMenu_SoundTest[]						= "SOUND TEST";
+	extern char g_pszAudioMenu_Language[]						= "LANGUAGE";
+	extern char g_pszAudioMenu_English[]						= "English";
+	extern char g_pszAudioMenu_Japanese[]						= "Japanese";
 
-   extern const char g_pszVideoMenu_Title[]							= "VIDEO";
-   extern const char g_pszVideoMenu_Gamma[]							= "GAMMA";
+	extern char g_pszVideoMenu_Title[]							= "VIDEO";
+	extern char g_pszVideoMenu_Gamma[]							= "GAMMA";
 
-   extern const char g_pszControlsMenu_Title[]						= "CONTROLS";
-   extern const char g_pszControlsMenu_KeyboardSetup[]			= "KEYBOARD SETUP";
-   extern const char g_pszControlsMenu_MouseSetup[]				= "MOUSE SETUP";
-   extern const char g_pszControlsMenu_JoystickSetup[]			= "X CONTROLLER SETUP";
-   extern const char g_pszControlsMenu_TurningSpeeds[]			= "TURNING SPEEDS";
-   extern const char g_pszControlsMenu_UseMouse[]					= "USE MOUSE";
-   extern const char g_pszControlsMenu_HorizMouseSensitivity[]	= "HORIZ MOUSE SENS.";
-   extern const char g_pszControlsMenu_VertMouseSensitivity[]	= "VERT MOUSE SENS.";
+	extern char g_pszControlsMenu_Title[]						= "CONTROLS";
+	extern char g_pszControlsMenu_KeyboardSetup[]			= "KEYBOARD SETUP";
+	extern char g_pszControlsMenu_MouseSetup[]				= "MOUSE SETUP";
+	extern char g_pszControlsMenu_JoystickSetup[]			= "X CONTROLLER SETUP";
+	extern char g_pszControlsMenu_TurningSpeeds[]			= "TURNING SPEEDS";
+	extern char g_pszControlsMenu_UseMouse[]					= "USE MOUSE";
+	extern char g_pszControlsMenu_HorizMouseSensitivity[]	= "HORIZ MOUSE SENS.";
+	extern char g_pszControlsMenu_VertMouseSensitivity[]	= "VERT MOUSE SENS.";
 
-   extern const char g_pszKeyboardSetupMenu_Title[]				= "KEYBOARD SETUP";
+	extern char g_pszKeyboardSetupMenu_Title[]				= "KEYBOARD SETUP";
 
-   extern const char g_pszMouseSetupMenu_Title[]					= "MOUSE SETUP";
+	extern char g_pszMouseSetupMenu_Title[]					= "MOUSE SETUP";
 
-   extern const char g_pszJoystickSetupMenu_Title[]				= "X CONTROLLER SETUP";
+	extern char g_pszJoystickSetupMenu_Title[]				= "X CONTROLLER SETUP";
 
-   extern const char g_pszPerformanceMenu_Title[]					= "PERFORMANCE";
-   extern const char g_pszPerformanceMenu_Transparency[]			= "TRANSPARENCY";
-   extern const char g_pszPerformanceMenu_3dLighting[]			= "3D LIGHTING";
-   extern const char g_pszPerformanceMenu_Particles[]				= "PARTICLES";
-   extern const char g_pszPerformanceMenu_DynamicVolume[]		= "DYNAMIC VOLUME";
-   extern const char g_pszPerformanceMenu_AmbientSounds[]		= "AMBIENT SOUNDS";
+	extern char g_pszPerformanceMenu_Title[]					= "PERFORMANCE";
+	extern char g_pszPerformanceMenu_Transparency[]			= "TRANSPARENCY";
+	extern char g_pszPerformanceMenu_3dLighting[]			= "3D LIGHTING";
+	extern char g_pszPerformanceMenu_Particles[]				= "PARTICLES";
+	extern char g_pszPerformanceMenu_DynamicVolume[]		= "DYNAMIC VOLUME";
+	extern char g_pszPerformanceMenu_AmbientSounds[]		= "AMBIENT SOUNDS";
 
-   extern const char g_pszRotationSetupMenu_Title[]				= "TURNING SPEEDS ";
-   extern const char g_pszRotationSetupMenu_RunningSlow[]		= "RUNNING (SLOW)";
-   extern const char g_pszRotationSetupMenu_RunningFast[]		= "RUNNING (FAST)";
-   extern const char g_pszRotationSetupMenu_StandingSlow[]		= "STANDING (SLOW)";
-   extern const char g_pszRotationSetupMenu_StandingFast[]		= "STANDING (FAST)";
-   extern const char g_pszRotationSetupMenu_TapDegrees[]			= "TAP DEGREES";
-   extern const char g_pszRotationSetupMenu_RestoreDefaults[]	= "RESTORE DEFAULTS";
-   extern const char g_pszRotationSetupMenu_RestoreDefaultsOld[] = "RESTORE OLD DEFAULTS";
+	extern char g_pszRotationSetupMenu_Title[]				= "TURNING SPEEDS ";
+	extern char g_pszRotationSetupMenu_RunningSlow[]		= "RUNNING (SLOW)";
+	extern char g_pszRotationSetupMenu_RunningFast[]		= "RUNNING (FAST)";
+	extern char g_pszRotationSetupMenu_StandingSlow[]		= "STANDING (SLOW)";
+	extern char g_pszRotationSetupMenu_StandingFast[]		= "STANDING (FAST)";
+	extern char g_pszRotationSetupMenu_TapDegrees[]			= "TAP DEGREES";
+	extern char g_pszRotationSetupMenu_RestoreDefaults[]	= "RESTORE DEFAULTS";
+	extern char g_pszRotationSetupMenu_RestoreDefaultsOld[] = "RESTORE OLD DEFAULTS";
 
-   extern const char g_pszVolumesMenu_Title[]						= "AUDIO MIXER";
+	extern char g_pszVolumesMenu_Title[]						= "AUDIO MIXER";
 
-   extern const char g_pszStartGameMenu_Title[]						= "START GAME";
-   extern const char g_pszStartGameMenu_SinglePlayer[]			= "SINGLE PLAYER";
-   extern const char g_pszStartGameMenu_Multiplayer[]				= "MULTIPLAYER";
-   extern const char g_pszStartGameMenu_Demo[]						= "DEMO";
+	extern char g_pszStartGameMenu_Title[]						= "START GAME";
+	extern char g_pszStartGameMenu_SinglePlayer[]			= "SINGLE PLAYER";
+	extern char g_pszStartGameMenu_Multiplayer[]				= "MULTIPLAYER";
+	extern char g_pszStartGameMenu_Demo[]						= "DEMO";
 
-   extern const char g_pszStartSinglePlayerMenu_Title[]			= "SINGLE PLAYER";
+	extern char g_pszStartSinglePlayerMenu_Title[]			= "SINGLE PLAYER";
 #if defined(START_MENU_ADDON_ITEM)
 	#if TARGET == JAPAN_ADD_ON
-      extern const char g_pszStartSinglePlayerMenu_New[]			= "GO POSTAL IN THE USA";
-      extern const char g_pszStartSinglePlayerMenu_AddOn[]		= "GO POSTAL IN JAPAN";
+		extern char g_pszStartSinglePlayerMenu_New[]			= "GO POSTAL IN THE USA";
+		extern char g_pszStartSinglePlayerMenu_AddOn[]		= "GO POSTAL IN JAPAN";
 	#elif TARGET == POSTAL_PLUS
-      extern const char g_pszStartSinglePlayerMenu_New[]			= "NEW GAME (ALL LEVELS)";
-      extern const char g_pszStartSinglePlayerMenu_AddOn[]		= "SPECIAL DELIVERY LEVELS";
-   #elif TARGET == POSTAL_2015
-      extern const char g_pszStartSinglePlayerMenu_NewCampaign[]	= "NEW CAMPAIGN";
-      extern const char g_pszStartSinglePlayerMenu_New[]		= "POSTAL";
-      extern const char g_pszStartSinglePlayerMenu_AddOn[]		= "SPECIAL DELIVERY";
-      extern const char g_pszStartSinglePlayerMenu_AddOn2[]		= "SUPER POSTAL";
-      extern const char g_pszStartSinglePlayerMenu_AllLevels[]	= "EXCESS POSTAGE (ALL LEVELS)";
+		extern char g_pszStartSinglePlayerMenu_New[]			= "NEW GAME (ALL LEVELS)";
+		extern char g_pszStartSinglePlayerMenu_AddOn[]		= "SPECIAL DELIVERY LEVELS";
+	#elif TARGET == POSTAL_2015
+		extern char g_pszStartSinglePlayerMenu_NewCampaign[]	= "NEW CAMPAIGN";
+		extern char g_pszStartSinglePlayerMenu_New[]		= "POSTAL";
+		extern char g_pszStartSinglePlayerMenu_AddOn[]		= "SPECIAL DELIVERY";
+		extern char g_pszStartSinglePlayerMenu_AddOn2[]		= "SUPER POSTAL";
+		extern char g_pszStartSinglePlayerMenu_AllLevels[]	= "EXCESS POSTAGE (ALL LEVELS)";
 	#else
 		#error Strings must be customized for current TARGET
 	#endif
 #else
 	#if TARGET == SUPER_POSTAL
-      extern const char g_pszStartSinglePlayerMenu_New[]			= "GO POSTAL ALL OVER";
-      extern const char g_pszStartSinglePlayerMenu_NewCampaign[]	= "NEW CAMPAIGN"; // BUILD FIX
-   #elif TARGET == POSTAL_PLUS || TARGET == POSTAL_2015 || TARGET == POSTAL_1997
-      extern const char g_pszStartSinglePlayerMenu_New[]			= "NEW GAME";
-      extern const char g_pszStartSinglePlayerMenu_NewCampaign[]	= "NEW CAMPAIGN"; // BUILD FIX
+		extern char g_pszStartSinglePlayerMenu_New[]			= "GO POSTAL ALL OVER";
+	#elif (TARGET == POSTAL_PLUS || TARGET == POSTAL_2015)
+		extern char g_pszStartSinglePlayerMenu_New[]			= "NEW GAME";
 	#else
 		#error Strings must be customized for current TARGET
 	#endif
 #endif
-   extern const char g_pszStartSinglePlayerMenu_LoadLevel[]		= "LEVEL SELECT";
-   extern const char g_pszStartSinglePlayerMenu_LoadGame[]		= "LOAD GAME";
-   extern const char g_pszStartSinglePlayerMenu_Challenge[]		= "GAUNTLET CHALLENGE";
+	extern char g_pszStartSinglePlayerMenu_LoadLevel[]		= "LEVEL SELECT";
+	extern char g_pszStartSinglePlayerMenu_LoadGame[]		= "LOAD GAME";
+	extern char g_pszStartSinglePlayerMenu_Challenge[]		= "GAUNTLET CHALLENGE";
 
-   extern const char g_pszStartChallengeMenu_Title[]				= "CHALLENGE";
-   extern const char g_pszStartChallengeMenu_Gauntlet[]			= "THE GAUNTLET";
-   extern const char g_pszStartChallengeMenu_Timed[]				= "TIMED";
-   extern const char g_pszStartChallengeMenu_Goal[]				= "GOAL";
-   extern const char g_pszStartChallengeMenu_Flag[]				= "FLAG";
-   extern const char g_pszStartChallengeMenu_CheckPoint[]		= "CHECKPOINT";
+	extern char g_pszStartChallengeMenu_Title[]				= "CHALLENGE";
+	extern char g_pszStartChallengeMenu_Gauntlet[]			= "THE GAUNTLET";
+	extern char g_pszStartChallengeMenu_Timed[]				= "TIMED";
+	extern char g_pszStartChallengeMenu_Goal[]				= "GOAL";
+	extern char g_pszStartChallengeMenu_Flag[]				= "FLAG";
+	extern char g_pszStartChallengeMenu_CheckPoint[]		= "CHECKPOINT";
 
-   extern const char g_pszStartMultiplayerMenu_Title[]			= "MULTIPLAYER";
-   extern const char g_pszStartMultiplayerMenu_Join[]				= "JOIN GAME";
-   extern const char g_pszStartMultiplayerMenu_Host[]				= "HOST GAME";
-   extern const char g_pszStartMultiplayerMenu_Options[]			= "OPTIONS";
+	extern char g_pszStartMultiplayerMenu_Title[]			= "MULTIPLAYER";
+	extern char g_pszStartMultiplayerMenu_Join[]				= "JOIN GAME";
+	extern char g_pszStartMultiplayerMenu_Host[]				= "HOST GAME";
+	extern char g_pszStartMultiplayerMenu_Options[]			= "OPTIONS";
 
 
-   extern const char g_pszJoinGameMenu_Title[]						= "JOIN GAME";
-   extern const char g_pszJoinGameMenu_Browse[]						= "BROWSE (LAN only)";
-   extern const char g_pszJoinGameMenu_ConnectTo[]					= "CONNECT TO";
+	extern char g_pszJoinGameMenu_Title[]						= "JOIN GAME";
+	extern char g_pszJoinGameMenu_Browse[]						= "BROWSE (LAN only)";
+	extern char g_pszJoinGameMenu_ConnectTo[]					= "CONNECT TO";
 
-   extern const char g_pszHostGameMenu_Title[]						= "HOST GAME";
-   extern const char g_pszHostGameMenu_Start[]						= "START";
+	extern char g_pszHostGameMenu_Title[]						= "HOST GAME";
+	extern char g_pszHostGameMenu_Start[]						= "START";
 
-   extern const char g_pszStartDemoMenu_Title[]						= "DEMO";
-   extern const char g_pszStartDemoMenu_Browse[]					= "BROWSE";
-   extern const char g_pszStartDemoMenu_Play[]						= "PLAY";
-   extern const char g_pszStartDemoMenu_Record[]					= "RECORD";
-   extern const char g_pszStartDemoMenu_ConSite[]				= "CONSTRUCTION";
-   extern const char g_pszStartDemoMenu_Home[]					= "HOME";
-   extern const char g_pszStartDemoMenu_Bridge[]					= "BRIDGE";
+	extern char g_pszStartDemoMenu_Title[]						= "DEMO";
+	extern char g_pszStartDemoMenu_Browse[]					= "BROWSE";
+	extern char g_pszStartDemoMenu_Play[]						= "PLAY";
+	extern char g_pszStartDemoMenu_Record[]					= "RECORD";
+	extern char g_pszStartDemoMenu_ConSite[]				= "CONSTRUCTION";
+	extern char g_pszStartDemoMenu_Home[]					= "HOME";
+	extern char g_pszStartDemoMenu_Bridge[]					= "BRIDGE";
 
-   extern const char g_pszMultiplayerSetupMenu_Title[]			= "MULTIPLAYER";
-   extern const char g_pszMultiplayerSetupMenu_Name[]				= "NAME";
-   extern const char g_pszMultiplayerSetupMenu_Color[]			= "COAT COLOR";
-   extern const char g_pszMultiplayerSetupMenu_Protocol[]		= "PROTOCOL";
-   extern const char g_pszMultiplayerSetupMenu_Connection[]		= "CONNECTION";
+	extern char g_pszMultiplayerSetupMenu_Title[]			= "MULTIPLAYER";
+	extern char g_pszMultiplayerSetupMenu_Name[]				= "NAME";
+	extern char g_pszMultiplayerSetupMenu_Color[]			= "COAT COLOR";
+	extern char g_pszMultiplayerSetupMenu_Protocol[]		= "PROTOCOL";
+	extern char g_pszMultiplayerSetupMenu_Connection[]		= "CONNECTION";
 
 	// Keep at end -- was not in original localizable text.
-   extern const char g_pszControlsMenu_UseJoystick[]				= "USE X CONTROLLER";
+	extern char g_pszControlsMenu_UseJoystick[]				= "USE X CONTROLLER";
 
 #elif LOCALE == GERMAN	///////////////////////////////////////////////////////
 
-   extern const char	g_pszMainMenu_Title[]							= MAIN_MENU_TITLE;
-   extern const char g_pszMainMenu_Start[]							= "SPIEL STARTEN";
-   extern const char g_pszMainMenu_Options[]							= "OPTIONEN";
-   extern const char g_pszMainMenu_Editor[]							= "EDITOR";
-   extern const char g_pszMainMenu_Buy[]								= "ORDER INFO";
-   extern const char g_pszMainMenu_Exit[]								= "BEENDEN";
+	extern char	g_pszMainMenu_Title[]							= MAIN_MENU_TITLE;
+	extern char g_pszMainMenu_Start[]							= "SPIEL STARTEN";
+	extern char g_pszMainMenu_Options[]							= "OPTIONEN";
+	extern char g_pszMainMenu_Editor[]							= "EDITOR";
+	extern char g_pszMainMenu_Buy[]								= "ORDER INFO";
+	extern char g_pszMainMenu_Exit[]								= "BEENDEN";
 
-   extern const char g_pszVerifyExitMenu_Title[]					= "WIRKLICH BEENDEN?";
-   extern const char g_pszVerifyExitMenu_Yes[]						= "JA";
-   extern const char g_pszVerifyExitMenu_No[]						= "NEIN";
+	extern char g_pszVerifyExitMenu_Title[]					= "WIRKLICH BEENDEN?";
+	extern char g_pszVerifyExitMenu_Yes[]						= "JA";
+	extern char g_pszVerifyExitMenu_No[]						= "NEIN";
 
-   extern const char g_pszVerifyQuitMenu_Title[]					= "WIRKLICH BEENDEN?";
-   extern const char g_pszVerifyQuitMenu_Yes[]						= "JA";
-   extern const char g_pszVerifyQuitMenu_No[]						= "NEIN";
+	extern char g_pszVerifyQuitMenu_Title[]					= "WIRKLICH BEENDEN?";
+	extern char g_pszVerifyQuitMenu_Yes[]						= "JA";
+	extern char g_pszVerifyQuitMenu_No[]						= "NEIN";
 
-   extern const char g_pszGameMenu_Title[]							= "SPIEL";
-   extern const char g_pszGameMenu_Continue[]						= "WEITER";
-   extern const char g_pszGameMenu_Save[]								= "SPEICHERN";
-   extern const char g_pszGameMenu_Options[]							= "OPTIONEN";
-   extern const char g_pszGameMenu_Quit[]								= "BEENDEN";
+	extern char g_pszGameMenu_Title[]							= "SPIEL";
+	extern char g_pszGameMenu_Continue[]						= "WEITER";
+	extern char g_pszGameMenu_Save[]								= "SPEICHERN";
+	extern char g_pszGameMenu_Options[]							= "OPTIONEN";
+	extern char g_pszGameMenu_Quit[]								= "BEENDEN";
 
-   extern const char g_pszEditorMenu_Title[]							= "EDITOR";
-   extern const char g_pszEditorMenu_Continue[]						= "WEITER";
-   extern const char g_pszEditorMenu_Options[]						= "OPTIONEN";
-   extern const char g_pszEditorMenu_Quit[]							= "BEENDEN";
+	extern char g_pszEditorMenu_Title[]							= "EDITOR";
+	extern char g_pszEditorMenu_Continue[]						= "WEITER";
+	extern char g_pszEditorMenu_Options[]						= "OPTIONEN";
+	extern char g_pszEditorMenu_Quit[]							= "BEENDEN";
 
-   extern const char g_pszOptionsMenu_Title[]						= "OPTIONEN";
-   extern const char g_pszOptionsMenu_Video[]						= "VIDEO";
-   extern const char g_pszOptionsMenu_Audio[]						= "AUDIO";
-   extern const char g_pszOptionsMenu_Controls[]					= "STEUERUNG";
-   extern const char g_pszOptionsMenu_Multiplayer[]				= "MEHRERE SPIELER";
-   extern const char g_pszOptionsMenu_Performance[]				= "LEISTUNG";
-   extern const char g_pszOptionsMenu_Difficulty[]					= "SCHWIERIGKEIT";
+	extern char g_pszOptionsMenu_Title[]						= "OPTIONEN";
+	extern char g_pszOptionsMenu_Video[]						= "VIDEO";
+	extern char g_pszOptionsMenu_Audio[]						= "AUDIO";
+	extern char g_pszOptionsMenu_Controls[]					= "STEUERUNG";
+	extern char g_pszOptionsMenu_Multiplayer[]				= "MEHRERE SPIELER";
+	extern char g_pszOptionsMenu_Performance[]				= "LEISTUNG";
+	extern char g_pszOptionsMenu_Difficulty[]					= "SCHWIERIGKEIT";
 #ifdef KID_FRIENDLY_OPTION
-   extern const char g_pszOptionsMenu_KidMode[]						= "KID-MODUS";  // FIXME: Google translated, again. But does it matter this time?
+	extern char g_pszOptionsMenu_KidMode[]						= "KID-MODUS";  // FIXME: Google translated, again. But does it matter this time?
 #endif
-   extern const char g_pszDifficultyMenu_Title[]					= "SCHWIERIGKEIT";
-   extern const char g_pszDifficultyMenu_SetDifficulty[]			= "";
+	extern char g_pszDifficultyMenu_Title[]					= "SCHWIERIGKEIT";
+	extern char g_pszDifficultyMenu_SetDifficulty[]			= "";
 
-   extern const char g_pszOrganMenu_Title[]							= "SOUND-TEST";
-   extern const char g_pszOrganMenu_SpecialKeysHeading[]			= "SONDERTASTEN";
-   extern const char g_pszOrganMenu_NumericKeysFunction[]		= "0 BIS 9 - SOUND ABSPIELEN";
-   extern const char g_pszOrganMenu_AlphaKeysFunction[]			= "A BIS Z - SOUND ABSPIELEN";
-   extern const char g_pszOrganMenu_TabKeyFunction[]				= "TAB - NACHSTE SOUND-REIHE";
-   extern const char g_pszOrganMenu_Exit[]							= "BEENDEN";
+	extern char g_pszOrganMenu_Title[]							= "SOUND-TEST";
+	extern char g_pszOrganMenu_SpecialKeysHeading[]			= "SONDERTASTEN";
+	extern char g_pszOrganMenu_NumericKeysFunction[]		= "0 BIS 9 - SOUND ABSPIELEN";
+	extern char g_pszOrganMenu_AlphaKeysFunction[]			= "A BIS Z - SOUND ABSPIELEN";
+	extern char g_pszOrganMenu_TabKeyFunction[]				= "TAB - NACHSTE SOUND-REIHE";
+	extern char g_pszOrganMenu_Exit[]							= "BEENDEN";
 
-   extern const char g_pszAudioMenu_Title[]							= "AUDIO";
-   extern const char g_pszAudioMenu_Mixer[]							= "MISCHPULT";
-   extern const char g_pszAudioMenu_SoundTest[]						= "SOUND-TEST";
-   extern const char g_pszAudioMenu_Language[]						= "SPRACHE"; // Google Translated, but almost certainly right
-   extern const char g_pszAudioMenu_English[]						= "Englisch"; // Google Translated
-   extern const char g_pszAudioMenu_Japanese[]						= "Japanisch"; // Google Translated
+	extern char g_pszAudioMenu_Title[]							= "AUDIO";
+	extern char g_pszAudioMenu_Mixer[]							= "MISCHPULT";
+	extern char g_pszAudioMenu_SoundTest[]						= "SOUND-TEST";
+	extern char g_pszAudioMenu_Language[]						= "SPRACHE"; // Google Translated, but almost certainly right
+	extern char g_pszAudioMenu_English[]						= "Englisch"; // Google Translated
+	extern char g_pszAudioMenu_Japanese[]						= "Japanisch"; // Google Translated
 
-   extern const char g_pszVideoMenu_Title[]							= "VIDEO";
-   extern const char g_pszVideoMenu_Gamma[]							= "GAMMA";
+	extern char g_pszVideoMenu_Title[]							= "VIDEO";
+	extern char g_pszVideoMenu_Gamma[]							= "GAMMA";
 
-   extern const char g_pszControlsMenu_Title[]						= "STEUERUNG";
-   extern const char g_pszControlsMenu_KeyboardSetup[]			= "TASTATUR-SETUP";
-   extern const char g_pszControlsMenu_MouseSetup[]				= "MAUS-SETUP";
-   extern const char g_pszControlsMenu_JoystickSetup[]			= "JOYSTICK-SETUP";
-   extern const char g_pszControlsMenu_TurningSpeeds[]			= "DREHGESCHWINDIGKEITEN";
-   extern const char g_pszControlsMenu_UseMouse[]					= "MAUS VERWENDEN";
-   extern const char g_pszControlsMenu_HorizMouseSensitivity[]	= "HORIZONTALE MAUSBEWEGUNG";
-   extern const char g_pszControlsMenu_VertMouseSensitivity[]	= "VERTIKALE MAUSBEWEGUNG";
+	extern char g_pszControlsMenu_Title[]						= "STEUERUNG";
+	extern char g_pszControlsMenu_KeyboardSetup[]			= "TASTATUR-SETUP";
+	extern char g_pszControlsMenu_MouseSetup[]				= "MAUS-SETUP";
+	extern char g_pszControlsMenu_JoystickSetup[]			= "JOYSTICK-SETUP";
+	extern char g_pszControlsMenu_TurningSpeeds[]			= "DREHGESCHWINDIGKEITEN";
+	extern char g_pszControlsMenu_UseMouse[]					= "MAUS VERWENDEN";
+	extern char g_pszControlsMenu_HorizMouseSensitivity[]	= "HORIZONTALE MAUSBEWEGUNG";
+	extern char g_pszControlsMenu_VertMouseSensitivity[]	= "VERTIKALE MAUSBEWEGUNG";
 
-   extern const char g_pszKeyboardSetupMenu_Title[]				= "TASTATUR-SETUP";
+	extern char g_pszKeyboardSetupMenu_Title[]				= "TASTATUR-SETUP";
 
-   extern const char g_pszMouseSetupMenu_Title[]					= "MAUS-SETUP";
+	extern char g_pszMouseSetupMenu_Title[]					= "MAUS-SETUP";
 
-   extern const char g_pszJoystickSetupMenu_Title[]				= "JOYSTICK-SETUP";
+	extern char g_pszJoystickSetupMenu_Title[]				= "JOYSTICK-SETUP";
 
-   extern const char g_pszPerformanceMenu_Title[]					= "LEISTUNG";
-   extern const char g_pszPerformanceMenu_Transparency[]			= "TRANSPARENZ";
-   extern const char g_pszPerformanceMenu_3dLighting[]			= "3D-BELEUCHTUNG";
-   extern const char g_pszPerformanceMenu_Particles[]				= "PARTIKEL";
-   extern const char g_pszPerformanceMenu_DynamicVolume[]		= "DYNAMISCHE LAUTSTARKE";
-   extern const char g_pszPerformanceMenu_AmbientSounds[]		= "UMGEBENDE KLANGE";
+	extern char g_pszPerformanceMenu_Title[]					= "LEISTUNG";
+	extern char g_pszPerformanceMenu_Transparency[]			= "TRANSPARENZ";
+	extern char g_pszPerformanceMenu_3dLighting[]			= "3D-BELEUCHTUNG";
+	extern char g_pszPerformanceMenu_Particles[]				= "PARTIKEL";
+	extern char g_pszPerformanceMenu_DynamicVolume[]		= "DYNAMISCHE LAUTSTARKE";
+	extern char g_pszPerformanceMenu_AmbientSounds[]		= "UMGEBENDE KLANGE";
 
-   extern const char g_pszRotationSetupMenu_Title[]				= "DREHGESCHWINDIGKEITEN";
-   extern const char g_pszRotationSetupMenu_RunningSlow[]		= "LAUFT (LANGSAM)";
-   extern const char g_pszRotationSetupMenu_RunningFast[]		= "LAUFT (SCHNELL)";
-   extern const char g_pszRotationSetupMenu_StandingSlow[]		= "STEHT (LANGSAM)";
-   extern const char g_pszRotationSetupMenu_StandingFast[]		= "STEHT (SCHNELL)";
-   extern const char g_pszRotationSetupMenu_TapDegrees[]			= "TIPPEN GRADE";
-   extern const char g_pszRotationSetupMenu_RestoreDefaults[]	= "ZURUCKSETZEN";
+	extern char g_pszRotationSetupMenu_Title[]				= "DREHGESCHWINDIGKEITEN";
+	extern char g_pszRotationSetupMenu_RunningSlow[]		= "LAUFT (LANGSAM)";
+	extern char g_pszRotationSetupMenu_RunningFast[]		= "LAUFT (SCHNELL)";
+	extern char g_pszRotationSetupMenu_StandingSlow[]		= "STEHT (LANGSAM)";
+	extern char g_pszRotationSetupMenu_StandingFast[]		= "STEHT (SCHNELL)";
+	extern char g_pszRotationSetupMenu_TapDegrees[]			= "TIPPEN GRADE";
+	extern char g_pszRotationSetupMenu_RestoreDefaults[]	= "ZURUCKSETZEN";
 
-   extern const char g_pszVolumesMenu_Title[]						= "AUDIO-MISCHPULT";
+	extern char g_pszVolumesMenu_Title[]						= "AUDIO-MISCHPULT";
 
-   extern const char g_pszStartGameMenu_Title[]						= "SPIEL STARTEN";
-   extern const char g_pszStartGameMenu_SinglePlayer[]			= "EINZELSPIELER";
-   extern const char g_pszStartGameMenu_Multiplayer[]				= "MEHRERE SPIELER";
-   extern const char g_pszStartGameMenu_Demo[]						= "DEMO";
+	extern char g_pszStartGameMenu_Title[]						= "SPIEL STARTEN";
+	extern char g_pszStartGameMenu_SinglePlayer[]			= "EINZELSPIELER";
+	extern char g_pszStartGameMenu_Multiplayer[]				= "MEHRERE SPIELER";
+	extern char g_pszStartGameMenu_Demo[]						= "DEMO";
 
-   extern const char g_pszStartSinglePlayerMenu_Title[]			= "EINZELSPIELER";
-   extern const char g_pszStartSinglePlayerMenu_NewCampaign[]	= "NEUE KAMPAGNE"; // FIXME: Google Translated, probably wrong
-   extern const char g_pszStartSinglePlayerMenu_New[]				= "ORIGINAL SPIEL";	// Mike's lame translation
-   extern const char g_pszStartSinglePlayerMenu_AddOn[]			= "ADD-ON SPIEL"		// Mike's lame translation
+	extern char g_pszStartSinglePlayerMenu_Title[]			= "EINZELSPIELER";
+	extern char g_pszStartSinglePlayerMenu_NewCampaign[]	= "NEUE KAMPAGNE"; // FIXME: Google Translated, probably wrong
+	extern char g_pszStartSinglePlayerMenu_New[]				= "ORIGINAL SPIEL";	// Mike's lame translation
+	extern char g_pszStartSinglePlayerMenu_AddOn[]			= "ADD-ON SPIEL"		// Mike's lame translation
 #if TARGET == POSTAL_2015
-   extern const char g_pszStartSinglePlayerMenu_AddOn2[]			= "SUPER POSTAL";
-   extern const char g_pszStartSinglePlayerMenu_AllLevels[]	= "ALLE EBENEN"; // FIXME: Google Translated, possibly wrong
+	extern char g_pszStartSinglePlayerMenu_AddOn2[]			= "SUPER POSTAL";
+	extern char g_pszStartSinglePlayerMenu_AllLevels[]	= "ALLE EBENEN"; // FIXME: Google Translated, possibly wrong
 #endif
-   extern const char g_pszStartSinglePlayerMenu_LoadLevel[]		= "EBENE LADEN";
-   extern const char g_pszStartSinglePlayerMenu_LoadGame[]		= "SPIEL LADEN";
-   extern const char g_pszStartSinglePlayerMenu_Challenge[]		= "HERAUSFORDERUNG";
+	extern char g_pszStartSinglePlayerMenu_LoadLevel[]		= "EBENE LADEN";
+	extern char g_pszStartSinglePlayerMenu_LoadGame[]		= "SPIEL LADEN";
+	extern char g_pszStartSinglePlayerMenu_Challenge[]		= "HERAUSFORDERUNG";
 
-   extern const char g_pszStartChallengeMenu_Title[]				= "HERAUSFORDERUNG";
-   extern const char g_pszStartChallengeMenu_Gauntlet[]			= "SPIESSRUTEN";
-   extern const char g_pszStartChallengeMenu_Timed[]				= "ZEIT NEHMEN";
-   extern const char g_pszStartChallengeMenu_Goal[]				= "ZIEL";
-   extern const char g_pszStartChallengeMenu_Flag[]				= "FLAGGE";
-   extern const char g_pszStartChallengeMenu_CheckPoint[]		= "CHECKPOINT";
+	extern char g_pszStartChallengeMenu_Title[]				= "HERAUSFORDERUNG";
+	extern char g_pszStartChallengeMenu_Gauntlet[]			= "SPIESSRUTEN";
+	extern char g_pszStartChallengeMenu_Timed[]				= "ZEIT NEHMEN";
+	extern char g_pszStartChallengeMenu_Goal[]				= "ZIEL";
+	extern char g_pszStartChallengeMenu_Flag[]				= "FLAGGE";
+	extern char g_pszStartChallengeMenu_CheckPoint[]		= "CHECKPOINT";
 
-   extern const char g_pszStartMultiplayerMenu_Title[]			= "MEHRERE SPIELER";
-   extern const char g_pszStartMultiplayerMenu_Join[]				= "MITSPIELEN";
-   extern const char g_pszStartMultiplayerMenu_Host[]				= "HOST-SPIEL";
-   extern const char g_pszStartMultiplayerMenu_Options[]			= "OPTIONEN";
+	extern char g_pszStartMultiplayerMenu_Title[]			= "MEHRERE SPIELER";
+	extern char g_pszStartMultiplayerMenu_Join[]				= "MITSPIELEN";
+	extern char g_pszStartMultiplayerMenu_Host[]				= "HOST-SPIEL";
+	extern char g_pszStartMultiplayerMenu_Options[]			= "OPTIONEN";
 
 
-   extern const char g_pszJoinGameMenu_Title[]						= "MITSPIELEN";
-   extern const char g_pszJoinGameMenu_Browse[]						= "DURCHSUCHEN";
-   extern const char g_pszJoinGameMenu_ConnectTo[]					= "VERBINDEN MIT";
+	extern char g_pszJoinGameMenu_Title[]						= "MITSPIELEN";
+	extern char g_pszJoinGameMenu_Browse[]						= "DURCHSUCHEN";
+	extern char g_pszJoinGameMenu_ConnectTo[]					= "VERBINDEN MIT";
 
-   extern const char g_pszHostGameMenu_Title[]						= "HOST-SPIEL";
-   extern const char g_pszHostGameMenu_Start[]						= "START";
+	extern char g_pszHostGameMenu_Title[]						= "HOST-SPIEL";
+	extern char g_pszHostGameMenu_Start[]						= "START";
 
-   extern const char g_pszStartDemoMenu_Title[]						= "DEMO";
-   extern const char g_pszStartDemoMenu_Browse[]					= "DURCHSUCHEN";
-   extern const char g_pszStartDemoMenu_Play[]						= "ABSPIELEN";
-   extern const char g_pszStartDemoMenu_Record[]					= "AUSZEICHNEN";
-   extern const char g_pszStartDemoMenu_ConSite[]				= "DIE BAUSTELLE"; // FIXME: Google Translated
-   extern const char g_pszStartDemoMenu_Home[]					= "ZUHAUSE"; // FIXME: Google Translated
-   extern const char g_pszStartDemoMenu_Bridge[]					= "DIE BRÜCKE";	// FIXME: Google Translated
+	extern char g_pszStartDemoMenu_Title[]						= "DEMO";
+	extern char g_pszStartDemoMenu_Browse[]					= "DURCHSUCHEN";
+	extern char g_pszStartDemoMenu_Play[]						= "ABSPIELEN";
+	extern char g_pszStartDemoMenu_Record[]					= "AUSZEICHNEN";
+	extern char g_pszStartDemoMenu_ConSite[]				= "DIE BAUSTELLE"; // FIXME: Google Translated
+	extern char g_pszStartDemoMenu_Home[]					= "ZUHAUSE"; // FIXME: Google Translated
+	extern char g_pszStartDemoMenu_Bridge[]					= "DIE BRÜCKE";	// FIXME: Google Translated
 
-   extern const char g_pszMultiplayerSetupMenu_Title[]			= "MEHRERE SPIELER";
-   extern const char g_pszMultiplayerSetupMenu_Name[]				= "NAME";
-   extern const char g_pszMultiplayerSetupMenu_Color[]			= "FARBE";
-   extern const char g_pszMultiplayerSetupMenu_Protocol[]		= "PROTOKOLL";
-   extern const char g_pszMultiplayerSetupMenu_Connection[]		= "VERBINDUNG";
+	extern char g_pszMultiplayerSetupMenu_Title[]			= "MEHRERE SPIELER";
+	extern char g_pszMultiplayerSetupMenu_Name[]				= "NAME";
+	extern char g_pszMultiplayerSetupMenu_Color[]			= "FARBE";
+	extern char g_pszMultiplayerSetupMenu_Protocol[]		= "PROTOKOLL";
+	extern char g_pszMultiplayerSetupMenu_Connection[]		= "VERBINDUNG";
 
 	// Keep at end -- was not in original localizable text.
-   extern const char g_pszControlsMenu_UseJoystick[]				= "JOYSTICK VERWENDEN";
+	extern char g_pszControlsMenu_UseJoystick[]				= "JOYSTICK VERWENDEN";
 
 #elif LOCALE == FRENCH	///////////////////////////////////////////////////////
 
-   extern const char	g_pszMainMenu_Title[]							= MAIN_MENU_TITLE;
-   extern const char g_pszMainMenu_Start[]							= "DEMARRER";
-   extern const char g_pszMainMenu_Options[]							= "OPTIONS";
-   extern const char g_pszMainMenu_Editor[]							= "EDITEUR";
-   extern const char g_pszMainMenu_Buy[]								= "ORDER INFO";
-   extern const char g_pszMainMenu_Exit[]								= "QUITTER";
+	extern char	g_pszMainMenu_Title[]							= MAIN_MENU_TITLE;
+	extern char g_pszMainMenu_Start[]							= "DEMARRER";
+	extern char g_pszMainMenu_Options[]							= "OPTIONS";
+	extern char g_pszMainMenu_Editor[]							= "EDITEUR";
+	extern char g_pszMainMenu_Buy[]								= "ORDER INFO";
+	extern char g_pszMainMenu_Exit[]								= "QUITTER";
 
-   extern const char g_pszVerifyExitMenu_Title[]					= "VRAIMENT SORTIR ?";
-   extern const char g_pszVerifyExitMenu_Yes[]						= "OUI";
-   extern const char g_pszVerifyExitMenu_No[]						= "NON";
+	extern char g_pszVerifyExitMenu_Title[]					= "VRAIMENT SORTIR ?";
+	extern char g_pszVerifyExitMenu_Yes[]						= "OUI";
+	extern char g_pszVerifyExitMenu_No[]						= "NON";
 
-   extern const char g_pszVerifyQuitMenu_Title[]					= "VRAIMENT QUITTER ?";
-   extern const char g_pszVerifyQuitMenu_Yes[]						= "OUI";
-   extern const char g_pszVerifyQuitMenu_No[]						= "NON";
+	extern char g_pszVerifyQuitMenu_Title[]					= "VRAIMENT QUITTER ?";
+	extern char g_pszVerifyQuitMenu_Yes[]						= "OUI";
+	extern char g_pszVerifyQuitMenu_No[]						= "NON";
 
-   extern const char g_pszGameMenu_Title[]							= "JEU";
-   extern const char g_pszGameMenu_Continue[]						= "CONTINUER";
-   extern const char g_pszGameMenu_Save[]								= "ENREGISTRER";
-   extern const char g_pszGameMenu_Options[]							= "OPTIONS";
-   extern const char g_pszGameMenu_Quit[]								= "QUITTER";
+	extern char g_pszGameMenu_Title[]							= "JEU";
+	extern char g_pszGameMenu_Continue[]						= "CONTINUER";
+	extern char g_pszGameMenu_Save[]								= "ENREGISTRER";
+	extern char g_pszGameMenu_Options[]							= "OPTIONS";
+	extern char g_pszGameMenu_Quit[]								= "QUITTER";
 
-   extern const char g_pszEditorMenu_Title[]							= "EDITEUR";
-   extern const char g_pszEditorMenu_Continue[]						= "CONTINUER";
-   extern const char g_pszEditorMenu_Options[]						= "OPTIONS";
-   extern const char g_pszEditorMenu_Quit[]							= "QUITTER";
+	extern char g_pszEditorMenu_Title[]							= "EDITEUR";
+	extern char g_pszEditorMenu_Continue[]						= "CONTINUER";
+	extern char g_pszEditorMenu_Options[]						= "OPTIONS";
+	extern char g_pszEditorMenu_Quit[]							= "QUITTER";
 
-   extern const char g_pszOptionsMenu_Title[]						= "OPTIONS";
-   extern const char g_pszOptionsMenu_Video[]						= "VIDEO";
-   extern const char g_pszOptionsMenu_Audio[]						= "AUDIO";
-   extern const char g_pszOptionsMenu_Controls[]					= "COMMANDES";
-   extern const char g_pszOptionsMenu_Multiplayer[]				= "JOUEURS MULTIPLES";
-   extern const char g_pszOptionsMenu_Performance[]				= "PERFORMANCE";
-   extern const char g_pszOptionsMenu_Difficulty[]					= "DIFFICULTE";
+	extern char g_pszOptionsMenu_Title[]						= "OPTIONS";
+	extern char g_pszOptionsMenu_Video[]						= "VIDEO";
+	extern char g_pszOptionsMenu_Audio[]						= "AUDIO";
+	extern char g_pszOptionsMenu_Controls[]					= "COMMANDES";
+	extern char g_pszOptionsMenu_Multiplayer[]				= "JOUEURS MULTIPLES";
+	extern char g_pszOptionsMenu_Performance[]				= "PERFORMANCE";
+	extern char g_pszOptionsMenu_Difficulty[]					= "DIFFICULTE";
 #ifdef KID_FRIENDLY_OPTION
-   extern const char g_pszOptionsMenu_KidMode[]						= "MODE ENFANT"; // FIXME: Google Translated, again.
+	extern char g_pszOptionsMenu_KidMode[]						= "MODE ENFANT"; // FIXME: Google Translated, again.
 #endif
-   extern const char g_pszDifficultyMenu_Title[]					= "DIFFICULTE";
-   extern const char g_pszDifficultyMenu_SetDifficulty[]			= "DEFINIR";
+	extern char g_pszDifficultyMenu_Title[]					= "DIFFICULTE";
+	extern char g_pszDifficultyMenu_SetDifficulty[]			= "DEFINIR";
 
-   extern const char g_pszOrganMenu_Title[]							= "TEST SONORE";
-   extern const char g_pszOrganMenu_SpecialKeysHeading[]			= "TOUCHES SPECIALES";
-   extern const char g_pszOrganMenu_NumericKeysFunction[]		= "0 A 9 - JOUER UN SON";
-   extern const char g_pszOrganMenu_AlphaKeysFunction[]			= "A A Z - JOUER UN SON";
-   extern const char g_pszOrganMenu_TabKeyFunction[]				= "TAB - PROCHAIN JEU DE SONS";
-   extern const char g_pszOrganMenu_Exit[]							= "QUITTER";
+	extern char g_pszOrganMenu_Title[]							= "TEST SONORE";
+	extern char g_pszOrganMenu_SpecialKeysHeading[]			= "TOUCHES SPECIALES";
+	extern char g_pszOrganMenu_NumericKeysFunction[]		= "0 A 9 - JOUER UN SON";
+	extern char g_pszOrganMenu_AlphaKeysFunction[]			= "A A Z - JOUER UN SON";
+	extern char g_pszOrganMenu_TabKeyFunction[]				= "TAB - PROCHAIN JEU DE SONS";
+	extern char g_pszOrganMenu_Exit[]							= "QUITTER";
 
-   extern const char g_pszAudioMenu_Title[]							= "AUDIO";
-   extern const char g_pszAudioMenu_Mixer[]							= "MIXER";
-   extern const char g_pszAudioMenu_SoundTest[]						= "TEST SONORE";
+	extern char g_pszAudioMenu_Title[]							= "AUDIO";
+	extern char g_pszAudioMenu_Mixer[]							= "MIXER";
+	extern char g_pszAudioMenu_SoundTest[]						= "TEST SONORE";
 
-   extern const char g_pszVideoMenu_Title[]							= "VIDEO";
-   extern const char g_pszVideoMenu_Gamma[]							= "GAMMA";
+	extern char g_pszVideoMenu_Title[]							= "VIDEO";
+	extern char g_pszVideoMenu_Gamma[]							= "GAMMA";
 
-   extern const char g_pszControlsMenu_Title[]						= "COMMANDES";
-   extern const char g_pszControlsMenu_KeyboardSetup[]			= "CONFIGURATION CLAVIER";
-   extern const char g_pszControlsMenu_MouseSetup[]				= "CONFIGURATION SOURIS";
-   extern const char g_pszControlsMenu_JoystickSetup[]			= "CONFIGURATION DE LA MANETTE DE JEU";
-   extern const char g_pszControlsMenu_TurningSpeeds[]			= "VITESSES DE ROTATION";
-   extern const char g_pszControlsMenu_UseMouse[]					= "UTILISER LA SOURIS";
-   extern const char g_pszControlsMenu_HorizMouseSensitivity[]	= "SOURIS HORIZONTALE";
-   extern const char g_pszControlsMenu_VertMouseSensitivity[]	= "SOURIS VERTICALE";
+	extern char g_pszControlsMenu_Title[]						= "COMMANDES";
+	extern char g_pszControlsMenu_KeyboardSetup[]			= "CONFIGURATION CLAVIER";
+	extern char g_pszControlsMenu_MouseSetup[]				= "CONFIGURATION SOURIS";
+	extern char g_pszControlsMenu_JoystickSetup[]			= "CONFIGURATION DE LA MANETTE DE JEU";
+	extern char g_pszControlsMenu_TurningSpeeds[]			= "VITESSES DE ROTATION";
+	extern char g_pszControlsMenu_UseMouse[]					= "UTILISER LA SOURIS";
+	extern char g_pszControlsMenu_HorizMouseSensitivity[]	= "SOURIS HORIZONTALE";
+	extern char g_pszControlsMenu_VertMouseSensitivity[]	= "SOURIS VERTICALE";
 
-   extern const char g_pszKeyboardSetupMenu_Title[]				= "CONFIGURATION CLAVIER";
+	extern char g_pszKeyboardSetupMenu_Title[]				= "CONFIGURATION CLAVIER";
 
-   extern const char g_pszMouseSetupMenu_Title[]					= "CONFIGURATION SOURIS";
+	extern char g_pszMouseSetupMenu_Title[]					= "CONFIGURATION SOURIS";
 
-   extern const char g_pszJoystickSetupMenu_Title[]				= "CONFIGURATION DE LA MANETTE DE JEU";
+	extern char g_pszJoystickSetupMenu_Title[]				= "CONFIGURATION DE LA MANETTE DE JEU";
 
-   extern const char g_pszPerformanceMenu_Title[]					= "PERFORMANCE";
-   extern const char g_pszPerformanceMenu_Transparency[]			= "TRANSPARENCE";
-   extern const char g_pszPerformanceMenu_3dLighting[]			= "ECLAIRAGE 3D";
-   extern const char g_pszPerformanceMenu_Particles[]				= "PARTICULES";
-   extern const char g_pszPerformanceMenu_DynamicVolume[]		= "VOLUME DYNAMIQUE";
-   extern const char g_pszPerformanceMenu_AmbientSounds[]		= "SONS AMBIANTS";
+	extern char g_pszPerformanceMenu_Title[]					= "PERFORMANCE";
+	extern char g_pszPerformanceMenu_Transparency[]			= "TRANSPARENCE";
+	extern char g_pszPerformanceMenu_3dLighting[]			= "ECLAIRAGE 3D";
+	extern char g_pszPerformanceMenu_Particles[]				= "PARTICULES";
+	extern char g_pszPerformanceMenu_DynamicVolume[]		= "VOLUME DYNAMIQUE";
+	extern char g_pszPerformanceMenu_AmbientSounds[]		= "SONS AMBIANTS";
 
-   extern const char g_pszRotationSetupMenu_Title[]				= "VITESSES DE ROTATION";
-   extern const char g_pszRotationSetupMenu_RunningSlow[]		= "COURIR (LENTEMENT)";
-   extern const char g_pszRotationSetupMenu_RunningFast[]		= "COURIR (VITE)";
-   extern const char g_pszRotationSetupMenu_StandingSlow[]		= "SE TENIR DEBOUT (LENTEMENT)";
-   extern const char g_pszRotationSetupMenu_StandingFast[]		= "SE TENIR DEBOUT (VITE)";
-   extern const char g_pszRotationSetupMenu_TapDegrees[]			= "DEGRES DE FRAPPE";
-   extern const char g_pszRotationSetupMenu_RestoreDefaults[]	= "DEFAUT";
+	extern char g_pszRotationSetupMenu_Title[]				= "VITESSES DE ROTATION";
+	extern char g_pszRotationSetupMenu_RunningSlow[]		= "COURIR (LENTEMENT)";
+	extern char g_pszRotationSetupMenu_RunningFast[]		= "COURIR (VITE)";
+	extern char g_pszRotationSetupMenu_StandingSlow[]		= "SE TENIR DEBOUT (LENTEMENT)";
+	extern char g_pszRotationSetupMenu_StandingFast[]		= "SE TENIR DEBOUT (VITE)";
+	extern char g_pszRotationSetupMenu_TapDegrees[]			= "DEGRES DE FRAPPE";
+	extern char g_pszRotationSetupMenu_RestoreDefaults[]	= "DEFAUT";
 
-   extern const char g_pszVolumesMenu_Title[]						= "MIXER AUDIO";
+	extern char g_pszVolumesMenu_Title[]						= "MIXER AUDIO";
 
-   extern const char g_pszStartGameMenu_Title[]						= "DEMARRE LE JEU";
-   extern const char g_pszStartGameMenu_SinglePlayer[]			= "JOUEUR UNIQUE";
-   extern const char g_pszStartGameMenu_Multiplayer[]				= "JOUEURS MULTIPLES";
-   extern const char g_pszStartGameMenu_Demo[]						= "DEMO";
+	extern char g_pszStartGameMenu_Title[]						= "DEMARRE LE JEU";
+	extern char g_pszStartGameMenu_SinglePlayer[]			= "JOUEUR UNIQUE";
+	extern char g_pszStartGameMenu_Multiplayer[]				= "JOUEURS MULTIPLES";
+	extern char g_pszStartGameMenu_Demo[]						= "DEMO";
 
-   extern const char g_pszStartSinglePlayerMenu_Title[]			= "JOUEUR UNIQUE";
-   extern const char g_pszStartSinglePlayerMenu_NewCampaign[]	= "NOUVELLE CAMPAGNE"; // FIXME: Google Translated, probably wrong
-   extern const char g_pszStartSinglePlayerMenu_New[]				= "CHARGER ORIGINAL";	// Mike's lame translation
-   extern const char g_pszStartSinglePlayerMenu_AddOn[]			= "CHARGER ADD-ON";		// Mike's lame translation
+	extern char g_pszStartSinglePlayerMenu_Title[]			= "JOUEUR UNIQUE";
+	extern char g_pszStartSinglePlayerMenu_NewCampaign[]	= "NOUVELLE CAMPAGNE"; // FIXME: Google Translated, probably wrong
+	extern char g_pszStartSinglePlayerMenu_New[]				= "CHARGER ORIGINAL";	// Mike's lame translation
+	extern char g_pszStartSinglePlayerMenu_AddOn[]			= "CHARGER ADD-ON";		// Mike's lame translation
 #if TARGET == POSTAL_2015
-   extern const char g_pszStartSinglePlayerMenu_AddOn2[]			= "SUPER POSTAL";
-   extern const char g_pszStartSinglePlayerMenu_AllLevels[]	= "TOUS LES NIVEAUX"; // FIXME: Google Translated, probably wrong
+	extern char g_pszStartSinglePlayerMenu_AddOn2[]			= "SUPER POSTAL";
+	extern char g_pszStartSinglePlayerMenu_AllLevels[]	= "TOUS LES NIVEAUX"; // FIXME: Google Translated, probably wrong
 #endif
-   extern const char g_pszStartSinglePlayerMenu_LoadLevel[]		= "CHARGER LE NIVEAU";
-   extern const char g_pszStartSinglePlayerMenu_LoadGame[]		= "CHARGER LE JEU";
-   extern const char g_pszStartSinglePlayerMenu_Challenge[]		= "DEFI";
+	extern char g_pszStartSinglePlayerMenu_LoadLevel[]		= "CHARGER LE NIVEAU";
+	extern char g_pszStartSinglePlayerMenu_LoadGame[]		= "CHARGER LE JEU";
+	extern char g_pszStartSinglePlayerMenu_Challenge[]		= "DEFI";
 
-   extern const char g_pszStartChallengeMenu_Title[]				= "DEFI";
-   extern const char g_pszStartChallengeMenu_Gauntlet[]			= "LE GANT";
-   extern const char g_pszStartChallengeMenu_Timed[]				= "CHRONOMETRE";
-   extern const char g_pszStartChallengeMenu_Goal[]				= "BUT";
-   extern const char g_pszStartChallengeMenu_Flag[]				= "DRAPEAU";
-   extern const char g_pszStartChallengeMenu_CheckPoint[]		= "CONTROLE";
+	extern char g_pszStartChallengeMenu_Title[]				= "DEFI";
+	extern char g_pszStartChallengeMenu_Gauntlet[]			= "LE GANT";
+	extern char g_pszStartChallengeMenu_Timed[]				= "CHRONOMETRE";
+	extern char g_pszStartChallengeMenu_Goal[]				= "BUT";
+	extern char g_pszStartChallengeMenu_Flag[]				= "DRAPEAU";
+	extern char g_pszStartChallengeMenu_CheckPoint[]		= "CONTROLE";
 
-   extern const char g_pszStartMultiplayerMenu_Title[]			= "JOUEURS MULTIPLES";
-   extern const char g_pszStartMultiplayerMenu_Join[]				= "JOINDRE LE JEU";
-   extern const char g_pszStartMultiplayerMenu_Host[]				= "ANIMER LE JEU";
-   extern const char g_pszStartMultiplayerMenu_Options[]			= "OPTIONS";
+	extern char g_pszStartMultiplayerMenu_Title[]			= "JOUEURS MULTIPLES";
+	extern char g_pszStartMultiplayerMenu_Join[]				= "JOINDRE LE JEU";
+	extern char g_pszStartMultiplayerMenu_Host[]				= "ANIMER LE JEU";
+	extern char g_pszStartMultiplayerMenu_Options[]			= "OPTIONS";
 
 
-   extern const char g_pszJoinGameMenu_Title[]						= "JOINDRE LE JEU";
-   extern const char g_pszJoinGameMenu_Browse[]						= "PARCOURIR (RESEAU LOCAL UNIQUEMENT)";
-   extern const char g_pszJoinGameMenu_ConnectTo[]					= "SE CONNECTER A";
+	extern char g_pszJoinGameMenu_Title[]						= "JOINDRE LE JEU";
+	extern char g_pszJoinGameMenu_Browse[]						= "PARCOURIR (RESEAU LOCAL UNIQUEMENT)";
+	extern char g_pszJoinGameMenu_ConnectTo[]					= "SE CONNECTER A";
 
-   extern const char g_pszHostGameMenu_Title[]						= "ANIMER LE JEU";
-   extern const char g_pszHostGameMenu_Start[]						= "DEMARRER";
+	extern char g_pszHostGameMenu_Title[]						= "ANIMER LE JEU";
+	extern char g_pszHostGameMenu_Start[]						= "DEMARRER";
 
-   extern const char g_pszStartDemoMenu_Title[]						= "DEMO";
-   extern const char g_pszStartDemoMenu_Browse[]					= "PARCOURIR";
-   extern const char g_pszStartDemoMenu_Play[]						= "JOUER";
-   extern const char g_pszStartDemoMenu_Record[]					= "ENREGISTRER";
-   extern const char g_pszStartDemoMenu_ConSite[]				= "LE CHANTIER"; // FIXME: Google Translated
-   extern const char g_pszStartDemoMenu_Home[]					= "DOMICILE"; // FIXME: Google Translated
-   extern const char g_pszStartDemoMenu_Bridge[]					= "LE PONT";	// FIXME: Google Translated
+	extern char g_pszStartDemoMenu_Title[]						= "DEMO";
+	extern char g_pszStartDemoMenu_Browse[]					= "PARCOURIR";
+	extern char g_pszStartDemoMenu_Play[]						= "JOUER";
+	extern char g_pszStartDemoMenu_Record[]					= "ENREGISTRER";
+	extern char g_pszStartDemoMenu_ConSite[]				= "LE CHANTIER"; // FIXME: Google Translated
+	extern char g_pszStartDemoMenu_Home[]					= "DOMICILE"; // FIXME: Google Translated
+	extern char g_pszStartDemoMenu_Bridge[]					= "LE PONT";	// FIXME: Google Translated	
 
-   extern const char g_pszMultiplayerSetupMenu_Title[]			= "JOUEURS MULTIPLES";
-   extern const char g_pszMultiplayerSetupMenu_Name[]				= "NOM";
-   extern const char g_pszMultiplayerSetupMenu_Color[]			= "COULEUR";
-   extern const char g_pszMultiplayerSetupMenu_Protocol[]		= "PROTOCOLE";
-   extern const char g_pszMultiplayerSetupMenu_Connection[]		= "CONNEXION";
+	extern char g_pszMultiplayerSetupMenu_Title[]			= "JOUEURS MULTIPLES";
+	extern char g_pszMultiplayerSetupMenu_Name[]				= "NOM";
+	extern char g_pszMultiplayerSetupMenu_Color[]			= "COULEUR";
+	extern char g_pszMultiplayerSetupMenu_Protocol[]		= "PROTOCOLE";
+	extern char g_pszMultiplayerSetupMenu_Connection[]		= "CONNEXION";
 
 	// Keep at end -- was not in original localizable text.
-   extern const char g_pszControlsMenu_UseJoystick[]				= "UTILISER LA MANETTE DE JEU";
+	extern char g_pszControlsMenu_UseJoystick[]				= "UTILISER LA MANETTE DE JEU";
 
 #endif
 
@@ -969,7 +969,7 @@ extern const char g_pszPlayOneRealmOnlyMessage[]	=
 
 #if ENGLISH_LOCALE
 
-   const char* g_apszSoundCategories[]	=
+	extern char* g_apszSoundCategories[]	=
 		{
 		"GENERAL",		
 		"SOUNDTRACK",			
@@ -985,7 +985,7 @@ extern const char g_pszPlayOneRealmOnlyMessage[]	=
 
 #elif LOCALE == GERMAN
 
-   const char* g_apszSoundCategories[]	=
+	extern char* g_apszSoundCategories[]	=
 		{
 		"ALLGEMEIN",
 		"SOUNDTRACK",
@@ -1001,7 +1001,7 @@ extern const char g_pszPlayOneRealmOnlyMessage[]	=
 
 #elif LOCALE == FRENCH
 
-   const char* g_apszSoundCategories[]	=
+	extern char* g_apszSoundCategories[]	=
 		{
 		"GENERAL",
 		"PISTE MUSICALE",
@@ -1023,7 +1023,7 @@ extern const char g_pszPlayOneRealmOnlyMessage[]	=
 
 #if ENGLISH_LOCALE // ScoreDisplayText
 
-const char* g_apszScoreDisplayText[CRealm::TotalScoringModes] =
+extern char* g_apszScoreDisplayText[CRealm::TotalScoringModes] = 
 	{
 	"      Population %d                        Hostiles %d   Killed %d (%d%% / %d%%)",	// Standard
 	" Time Remaining %d:%2.2d                                Kills %d",				// Timed
@@ -1044,7 +1044,7 @@ const char* g_apszScoreDisplayText[CRealm::TotalScoringModes] =
 	};
 
 #elif LOCALE == GERMAN
-const char* g_apszScoreDisplayText[CRealm::TotalScoringModes] =
+extern char* g_apszScoreDisplayText[CRealm::TotalScoringModes] = 
 	{
 	"      Leute %d                        Feinden %d   Totungen %d (%d%%)",	// Standard
 	" Verbleibende Zeit %d:%2.2d                                Totungen %d",				// Timed
@@ -1065,7 +1065,7 @@ const char* g_apszScoreDisplayText[CRealm::TotalScoringModes] =
 	};
 
 #elif LOCALE == FRENCH
-const char* g_apszScoreDisplayText[CRealm::TotalScoringModes] =
+extern char* g_apszScoreDisplayText[CRealm::TotalScoringModes] = 
 	{
 	"      Personnes %d                        Ennemis %d   Victimes %d (%d%%)",	// Standard
 	" Temps restant %d:%2.2d                                Victimes %d",				// Timed
@@ -1087,7 +1087,7 @@ const char* g_apszScoreDisplayText[CRealm::TotalScoringModes] =
 #endif // ScoreDisplayText
 
 #if ENGLISH_LOCALE // ScoreGoalText
-const char* g_apszScoreGoalText[CRealm::TotalScoringModes] =
+extern char* g_apszScoreGoalText[CRealm::TotalScoringModes] = 
 	{
 	"      You must kill %d%% of the hostiles.",												// Standard
 	" Score as many kills as possible in the time remaining.",							// Timed
@@ -1109,7 +1109,7 @@ const char* g_apszScoreGoalText[CRealm::TotalScoringModes] =
 	};
 
 #elif LOCALE == GERMAN
-const char* g_apszScoreGoalText[CRealm::TotalScoringModes] =
+extern char* g_apszScoreGoalText[CRealm::TotalScoringModes] = 
 	{
 	"      Sie mussen %d%% Feinde toten.",												// Standard
 	" Erzielen Sie in der verbleibenden Zeit su viele Totungen wie moglich.",							// Timed
@@ -1131,7 +1131,7 @@ const char* g_apszScoreGoalText[CRealm::TotalScoringModes] =
 	};
 
 #elif LOCALE == FRENCH
-const char* g_apszScoreGoalText[CRealm::TotalScoringModes] =
+extern char* g_apszScoreGoalText[CRealm::TotalScoringModes] = 
 	{
 	"      Vous devez tuer %d%% ennemis.",												// Standard
 	" Faites autant de victimes que possible dans le delai restant.",							// Timed
@@ -1155,7 +1155,7 @@ const char* g_apszScoreGoalText[CRealm::TotalScoringModes] =
 
 #if ENGLISH_LOCALE // ScoreUnits
 // Units for the various scoring types.
-const char* g_apszScoreUnits[]	=
+extern char* g_apszScoreUnits[]	=
 		{
 		"",				// Standard.
 		"Kills",			// Timed.
@@ -1176,7 +1176,7 @@ const char* g_apszScoreUnits[]	=
 		};
 
 #elif LOCALE == GERMAN
-const char* g_apszScoreUnits[]	=
+extern char* g_apszScoreUnits[]	=
 		{
 		"",				// Standard.
 		"Totungen",			// Timed.
@@ -1197,7 +1197,7 @@ const char* g_apszScoreUnits[]	=
 		};
 
 #elif LOCALE == FRENCH
-const char* g_apszScoreUnits[]	=
+extern char* g_apszScoreUnits[]	=
 		{
 		"",				// Standard.
 		"tues",			// Timed.
@@ -1220,7 +1220,7 @@ const char* g_apszScoreUnits[]	=
 
 #if ENGLISH_LOCALE // ScoreExplanations
 // Explanations for the various scoring types.
-const char* g_apszScoreExplanations[]	=
+extern char* g_apszScoreExplanations[]	=
 		{
 		"",												// Standard.
 		"Most kills in %s",							// Timed.
@@ -1241,7 +1241,7 @@ const char* g_apszScoreExplanations[]	=
 		};
 
 #elif LOCALE == GERMAN
-const char* g_apszScoreExplanations[]	=
+extern char* g_apszScoreExplanations[]	=
 		{
 		"",												// Standard.
 		"Die meisten Totungen in %s",							// Timed.
@@ -1262,7 +1262,7 @@ const char* g_apszScoreExplanations[]	=
 		};
 
 #elif LOCALE == FRENCH
-const char* g_apszScoreExplanations[]	=
+extern char* g_apszScoreExplanations[]	=
 		{
 		"",												// Standard.
 		"Maximum de victimes en %s",							// Timed.

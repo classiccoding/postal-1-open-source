@@ -22,8 +22,8 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				OptimizeForProcessor="1"
-				AdditionalIncludeDirectories=".\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS;LOCALE=JAPAN;TARGET=SUPER_POSTAL"
+				AdditionalIncludeDirectories=".\RSPiX\Src,.\RSPiX\Src\Blue,.\RSPiX\Inc,.\RSPiX\c\Win32\HeapAgent\Include,."
+				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;LOCALE=JAPAN;TARGET=SUPER_POSTAL"
 				StringPooling="TRUE"
 				RuntimeLibrary="4"
 				EnableFunctionLevelLinking="TRUE"
@@ -86,11 +86,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				OptimizeForProcessor="1"
-				AdditionalIncludeDirectories=".\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;_DEBUG;TRACENASSERT;WIN32;_WINDOWS;LOCALE=JAPAN;TARGET=SUPER_POSTAL"
+				AdditionalIncludeDirectories=".\RSPiX\c\Win32\HeapAgent\Include,.\RSPiX\Src,.\RSPiX\Src\Blue,.\RSPiX\Inc,."
+				PreprocessorDefinitions="_DEBUG;NOSHMALLOC;TRACENASSERT;WIN32;_WINDOWS;LOCALE=JAPAN;TARGET=SUPER_POSTAL"
 				RuntimeLibrary="5"
 				UsePrecompiledHeader="3"
-				PrecompiledHeaderThrough="RSPiX.h"
+				PrecompiledHeaderThrough="RSPiX.H"
 				PrecompiledHeaderFile=".\Build\Super Postal\Debug/Super Postal.pch"
 				AssemblerListingLocation=".\Build\Super Postal\Debug/"
 				ObjectFile=".\Build\Super Postal\Debug/"
@@ -153,13 +153,13 @@
 				Optimization="2"
 				InlineFunctionExpansion="2"
 				OptimizeForProcessor="1"
-				AdditionalIncludeDirectories=".\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;TRACENASSERT;WIN32;_WINDOWS;LOCALE=JAPAN;TARGET=SUPER_POSTAL"
+				AdditionalIncludeDirectories=".\RSPiX\c\Win32\SmartHeap\Include,.\RSPiX\Src,.\RSPiX\Src\Blue,.\RSPiX\Inc,.\RSPiX\c\Win32\HeapAgent\Include,."
+				PreprocessorDefinitions="NDEBUG;TRACENASSERT;WIN32;_WINDOWS;LOCALE=JAPAN;TARGET=SUPER_POSTAL"
 				StringPooling="TRUE"
 				RuntimeLibrary="4"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="3"
-				PrecompiledHeaderThrough="RSPiX.h"
+				PrecompiledHeaderThrough="RSPiX.H"
 				PrecompiledHeaderFile=".\Build\Super Postal\Optimized Debug/Super Postal.pch"
 				AssemblerListingLocation=".\Build\Super Postal\Optimized Debug/"
 				ObjectFile=".\Build\Super Postal\Optimized Debug/"
@@ -285,7 +285,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 					UsePrecompiledHeader="1"
-					PrecompiledHeaderThrough="RSPiX.h"/>
+					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Win32">
@@ -317,7 +317,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 					UsePrecompiledHeader="3"
-					PrecompiledHeaderThrough="RSPiX.h"/>
+					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Win32">
@@ -406,7 +406,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 					UsePrecompiledHeader="3"
-					PrecompiledHeaderThrough="RSPiX.h"/>
+					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Win32">
@@ -436,7 +436,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 					UsePrecompiledHeader="3"
-					PrecompiledHeaderThrough="RSPiX.h"/>
+					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Win32">
@@ -497,7 +497,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 					UsePrecompiledHeader="3"
-					PrecompiledHeaderThrough="RSPiX.h"/>
+					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Win32">
@@ -527,7 +527,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 					UsePrecompiledHeader="3"
-					PrecompiledHeaderThrough="RSPiX.h"/>
+					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Win32">
@@ -581,7 +581,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 					UsePrecompiledHeader="3"
-					PrecompiledHeaderThrough="RSPiX.h"/>
+					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Win32">
@@ -617,7 +617,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 					UsePrecompiledHeader="3"
-					PrecompiledHeaderThrough="RSPiX.h"/>
+					PrecompiledHeaderThrough="RSPiX.H"/>
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Win32">

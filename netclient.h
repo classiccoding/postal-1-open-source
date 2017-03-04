@@ -28,10 +28,7 @@
 #ifndef NETCLIENT_H
 #define NETCLIENT_H
 
-#include <RSPiX.h>
-
-#if !defined(MULTIPLAYER_REMOVED)
-
+#include "RSPiX.h"
 #include "socket.h"
 #include "net.h"
 #include "netmsgr.h"
@@ -103,13 +100,13 @@ class CNetClient
 				bool					m_bInactive;							// True after last active sequence was used
 //				Net::SEQ				m_seqWhatHeNeeds;						// What input seq he needs from me
 //				Net::SEQ				m_seqWhatINeed;						// What input seq I need from him
-//				milliseconds_t		m_lNextSendTime;						// When to next send inputs to him
-            milliseconds_t		m_lLastReceiveTime;					// When we last got data from him *SPA
+//				long					m_lNextSendTime;						// When to next send inputs to him
+				int32_t					m_lLastReceiveTime;					// When we last got data from him *SPA
 
-//				FQueue<int32_t, NumAvgItems>	m_qPings;					// Queue of ping times for running average
-//				int32_t					m_lRunnigAvgPing;						// Running average
+//				FQueue<long, NumAvgItems>	m_qPings;					// Queue of ping times for running average
+//				long					m_lRunnigAvgPing;						// Running average
 
-				uint16_t					m_idDude;								// Dude's ID
+				U16					m_idDude;								// Dude's ID
 
 			//------------------------------------------------------------------------------
 			// Functions
@@ -186,7 +183,7 @@ class CNetClient
 		State						m_state;							// My state
 		NetMsg					m_msgError;						// Error type
 		NetMsg::Status			m_status;						// Status type
-      milliseconds_t			m_lTimeOut;						// Timer used to detect time-outs
+		int32_t						m_lTimeOut;						// Timer used to detect time-outs
 
 		Net::ID					m_id;								// My id
 		Net::ID					m_idServer;						// Server's client's ID
@@ -201,22 +198,22 @@ class CNetClient
 		Net::SEQ					m_seqFrame;						// My frame sequence
 		Net::SEQ					m_seqMaxAhead;					// Max ahead for input versus frame
 		Net::SEQ					m_seqInputNotYetSent;		// Input seq that we did NOT send yet
-      CNetInput				m_netinput;						// My input buffer
-      milliseconds_t			m_lFrameTime;					// Current frame time
-      milliseconds_t			m_lNextLocalInputTime;		// When to get next local input
+		CNetInput					m_netinput;						// My input buffer
+		int32_t						m_lFrameTime;					// Current frame time
+		int32_t						m_lNextLocalInputTime;		// When to get next local input
 		bool						m_bNextRealmPending;			// Whether next realm is pending
 
 		CPeer						m_aPeers[Net::MaxNumIDs];	// Array of peers
 		/** SPA **/
-      milliseconds_t			m_lStartTime;					// The start from which time to calculate the frame delta
-      milliseconds_t			m_alAvgFrameTimes[8];		// Array to hold the last several average frame times
+		int32_t						m_lStartTime;					// The start from which time to calculate the frame delta
+		int32_t						m_alAvgFrameTimes[8];		// Array to hold the last several average frame times
 		/** SPA **/
 
 		/** 12/16/97 AJC **/
-      uint16_t					m_u16PackageID;				// Unique number for every package sent
+		U16							m_u16PackageID;				// Unique number for every package sent
 		/** 12/16/97 AJC **/
 		bool						m_bSendNextFrame;		// 12/30/97 *SPA True if we have all the info to render the current frame (m_seqFrame)
-      milliseconds_t			m_lMaxWaitTime;
+		int32_t						m_lMaxWaitTime;
 		//------------------------------------------------------------------------------
 	// Functions
 	//------------------------------------------------------------------------------
@@ -276,7 +273,7 @@ class CNetClient
 			m_lNextLocalInputTime = 0;
 			m_bNextRealmPending = false;
 
-			for (uint8_t id = 0; id < Net::MaxNumIDs; id++)
+			for (U8 id = 0; id < Net::MaxNumIDs; id++)
 				m_aPeers[id].Reset();
 
 			/** 12/15/97 SPA **/
@@ -451,7 +448,7 @@ class CNetClient
 		////////////////////////////////////////////////////////////////////////////////
 		// Get or set specified player's dude ID (not to be confused with a Net::ID)
 		////////////////////////////////////////////////////////////////////////////////
-		uint16_t GetPlayerDudeID(
+		U16 GetPlayerDudeID(
 			Net::ID id)
 			{
 			ASSERT(id != Net::InvalidID);
@@ -462,7 +459,7 @@ class CNetClient
 
 		void SetPlayerDudeID(
 			Net::ID id,
-			uint16_t idDude)
+			U16 idDude)
 			{
 			ASSERT(id != Net::InvalidID);
 			ASSERT(id < Net::MaxNumIDs);
@@ -556,7 +553,6 @@ class CNetClient
 	};
 
 
-#endif // !defined(MULTIPLAYER_REMOVED)
 #endif //NETCLIENT_H
 ////////////////////////////////////////////////////////////////////////////////
 // EOF

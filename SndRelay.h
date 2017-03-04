@@ -32,7 +32,7 @@
 #ifndef SNDRELAY_H
 #define SNDRELAY_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 #include "SampleMaster.h"
 
@@ -66,7 +66,7 @@ class CSndRelay : public CThing
 
 		State	m_state;								// Current state.
 
-		uint16_t	m_idParent;							// Parent CSoundThing.
+		U16	m_idParent;							// Parent CSoundThing.
 
 	protected:
 
@@ -106,11 +106,11 @@ class CSndRelay : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CSndRelay(pRealm);
-			if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CSndRelay::Construct(): Couldn't construct CSndRelay (that's a bad thing)\n");
 				}
 			return sResult;
@@ -155,7 +155,6 @@ class CSndRelay : public CThing
 			int16_t sY,												// In: New y coord
 			int16_t sZ);												// In: New z coord
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -189,7 +188,6 @@ class CSndRelay : public CThing
 
 		// Called by editor to render object
 		void EditRender(void);
-#endif // !defined(EDITOR_REMOVED)
 
 		// Get the coordinates of this thing.
 		virtual					// Overriden here.

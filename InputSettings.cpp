@@ -105,7 +105,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // RSPiX Headers.
 ///////////////////////////////////////////////////////////////////////////////
-#include <RSPiX.h>
+#include "RSPiX.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Postal Headers.
@@ -263,7 +263,7 @@ CInputSettings::~CInputSettings()
 int16_t CInputSettings::LoadPrefs(
 	RPrefs* pPrefs)
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	pPrefs->GetVal("Input", "WalkTurnRate", m_dMovingSlowDegreesPerSec, &m_dMovingSlowDegreesPerSec);
 	pPrefs->GetVal("Input", "RunTurnRate", m_dMovingFastDegreesPerSec, &m_dMovingFastDegreesPerSec);
@@ -306,7 +306,7 @@ int16_t CInputSettings::LoadPrefs(
 			);
 
 		// Attempt to translate . . .
-      if (KeyDescriptionToValue(szDescriptor, &(m_asPlayKeys[i]) ) != SUCCESS)
+		if (KeyDescriptionToValue(szDescriptor, &(m_asPlayKeys[i]) ) != 0)
 			{
 			TRACE("LoadPrefs(): Failed to convert key description %s to key value.\n",
 				szDescriptor);
@@ -320,7 +320,7 @@ int16_t CInputSettings::LoadPrefs(
 			);
 
 		// Attempt to translate . . .
-      if (MouseButtonDescriptionToMask(szDescriptor, &(m_asPlayMouseButtons[i]) ) != SUCCESS)
+		if (MouseButtonDescriptionToMask(szDescriptor, &(m_asPlayMouseButtons[i]) ) != 0)
 			{
 			TRACE("LoadPrefs(): Failed to convert mouse button description %s to button mask.\n",
 				szDescriptor);
@@ -334,7 +334,7 @@ int16_t CInputSettings::LoadPrefs(
 			);
 
 		// Attempt to translate . . .
-      if (JoyButtonDescriptionToMask(szDescriptor, &(m_asPlayJoyButtons[i]) ) != SUCCESS)
+		if (JoyButtonDescriptionToMask(szDescriptor, &(m_asPlayJoyButtons[i]) ) != 0)
 			{
 			TRACE("LoadPrefs(): Failed to convert joy button description %s to button mask.\n",
 				szDescriptor);
@@ -344,7 +344,7 @@ int16_t CInputSettings::LoadPrefs(
 	if (!sResult)
 		{
 		if (pPrefs->IsError())
-			sResult = FAILURE;
+			sResult = -1;
 		}
 
 	return sResult;
@@ -402,8 +402,7 @@ int16_t CInputSettings::SavePrefs(
 int16_t CInputSettings::LoadGame(
 	RFile* pFile)
 	{
-  UNUSED(pFile);
-	return SUCCESS;
+	return 0;
 	}
 
 
@@ -413,8 +412,7 @@ int16_t CInputSettings::LoadGame(
 int16_t CInputSettings::SaveGame(
 	RFile* pFile)
 	{
-  UNUSED(pFile);
-	return SUCCESS;
+	return 0;
 	}
 
 
@@ -424,10 +422,9 @@ int16_t CInputSettings::SaveGame(
 int16_t CInputSettings::PreDemo(
 	RFile* pFile)
 	{
-  UNUSED(pFile);
 	// Store current keys?
 
-	return SUCCESS;
+	return 0;
 	}
 
 
@@ -437,10 +434,9 @@ int16_t CInputSettings::PreDemo(
 int16_t CInputSettings::PostDemo(
 	RFile* pFile)
 	{
-  UNUSED(pFile);
 	// Restore user keys?
 
-	return SUCCESS;
+	return 0;
 	}
 
 

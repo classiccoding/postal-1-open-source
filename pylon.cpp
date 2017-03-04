@@ -74,9 +74,10 @@
 //							projected Y position.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define PYLON_CPP
 
-#include <RSPiX.h>
-#include <cmath>
+#include "RSPiX.h"
+#include <math.h>
 
 #include "pylon.h"
 
@@ -107,7 +108,7 @@ int16_t CPylon::Load(										// Returns 0 if successfull, non-zero otherwise
 {
 	// Call the base load to get the u16InstanceID
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -157,7 +158,7 @@ int16_t CPylon::Load(										// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 		{
 			// ONLY IN EDIT MODE . . .
 			if (bEditMode == true)
@@ -168,7 +169,7 @@ int16_t CPylon::Load(										// Returns 0 if successfull, non-zero otherwise
 		}
 		else
 		{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CPylon::Load(): Error reading from file!\n");
 		}
 	}
@@ -220,7 +221,7 @@ int16_t CPylon::Save(										// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPylon::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// At this point we can assume the CHood was loaded, so we init our height
 	m_dY = m_pRealm->GetHeight((int16_t) m_dX, (int16_t) m_dZ);
@@ -248,7 +249,7 @@ int16_t CPylon::Startup(void)								// Returns 0 if successfull, non-zero other
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPylon::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 {
-   return SUCCESS;
+	return 0;
 }
 
 
@@ -295,7 +296,7 @@ void CPylon::Render(void)
 {
 }
 
-#if !defined(EDITOR_REMOVED)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -304,7 +305,7 @@ int16_t CPylon::EditNew(									// Returns 0 if successfull, non-zero otherwise
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -338,9 +339,9 @@ void SetText(					// Returns nothing.
 	int32_t			lVal)			// In:  Value to set text to.
 	{
 	RGuiItem*	pgui	= pguiRoot->GetItemFromId(lId);
-	if (pgui != nullptr)
+	if (pgui != NULL)
 		{
-      pgui->SetText("%i", lVal);
+		pgui->SetText("%ld", lVal);
 		pgui->Compose(); 
 		}
 	}
@@ -350,9 +351,9 @@ void SetText(					// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPylon::EditModify(void)
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	RGuiItem* pGui = RGuiItem::LoadInstantiate(FullPathVD("res/editor/bouy.gui"));
-	RGuiItem* pSecondaryGui = nullptr;
+	RGuiItem* pSecondaryGui = NULL;
 	if (pGui)
 	{
 		RListBox* pList = (RListBox*) pGui->GetItemFromId(3);
@@ -424,7 +425,7 @@ int16_t CPylon::EditModify(void)
 										m_msg.msg_Popout.ucIDNext = pSecondaryGui->GetVal(3);
 										m_msg.msg_Popout.u16UniquePylonID = GetPylonUniqueID(m_msg.msg_Popout.ucIDNext);
 										CPylon* pPylon;
-                              if (m_pRealm->m_idbank.GetThingByID((CThing**) &pPylon, m_msg.msg_Popout.u16UniquePylonID) == SUCCESS)
+										if (m_pRealm->m_idbank.GetThingByID((CThing**) &pPylon, m_msg.msg_Popout.u16UniquePylonID) == 0)
 										{
 											m_msg.msg_Popout.sNextPylonX = pPylon->GetX();
 											m_msg.msg_Popout.sNextPylonZ = pPylon->GetZ();
@@ -452,7 +453,7 @@ int16_t CPylon::EditModify(void)
 										m_msg.msg_ShootCycle.ucIDNext = pSecondaryGui->GetVal(3);
 										m_msg.msg_ShootCycle.u16UniquePylonID = GetPylonUniqueID(m_msg.msg_ShootCycle.ucIDNext);
 										CPylon* pPylon;
-                              if (m_pRealm->m_idbank.GetThingByID((CThing**) &pPylon, m_msg.msg_ShootCycle.u16UniquePylonID) == SUCCESS)
+										if (m_pRealm->m_idbank.GetThingByID((CThing**) &pPylon, m_msg.msg_ShootCycle.u16UniquePylonID) == 0)
 										{
 											m_msg.msg_ShootCycle.sNextPylonX = pPylon->GetX();
 											m_msg.msg_ShootCycle.sNextPylonZ = pPylon->GetZ();
@@ -474,7 +475,7 @@ int16_t CPylon::EditModify(void)
 	delete pGui;
 	delete pSecondaryGui;
 
-   return SUCCESS;
+	return 0;
 }
 
 
@@ -501,7 +502,7 @@ int16_t CPylon::EditMove(									// Returns 0 if successfull, non-zero otherwis
 	// Update the smash.
 	m_pRealm->m_smashatorium.Update(&m_smash);
 
-   return SUCCESS;
+	return 0;
 }
 
 
@@ -561,7 +562,7 @@ void CPylon::EditRect(RRect* pRect)
 	pRect->sW	= 10;	// Safety.
 	pRect->sH	= 10;	// Safety.
 
-	if (m_pImage != nullptr)
+	if (m_pImage != NULL)
 		{
 		pRect->sW	= m_pImage->m_sWidth;
 		pRect->sH	= m_pImage->m_sHeight;
@@ -584,30 +585,30 @@ void CPylon::EditHotSpot(	// Returns nothiing.
 	*psX	= (m_pImage->m_sWidth / 2);
 	*psY	= m_pImage->m_sHeight;
 	}
-#endif // !defined(EDITOR_REMOVED)
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Get all required resources
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPylon::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
-   if (m_pImage == nullptr)
+	if (m_pImage == 0)
 		{
 		RImage*	pimBouyRes;
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(IMAGE_FILE), &pimBouyRes);
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 			// Allocate image . . .
 			m_pImage	= new RImage;
-			if (m_pImage != nullptr)
+			if (m_pImage != NULL)
 				{
 				// Allocate image data . . .
 				if (m_pImage->CreateImage(
 					pimBouyRes->m_sWidth,
 					pimBouyRes->m_sHeight,
-               RImage::BMP8) == SUCCESS)
+					RImage::BMP8) == 0)
 					{
 					// Blt bouy res.
 					rspBlit(
@@ -615,7 +616,7 @@ int16_t CPylon::GetResources(void)						// Returns 0 if successfull, non-zero ot
 						m_pImage,		// Dst.
 						0,					// Dst.
 						0,					// Dst.
-						nullptr);			// Dst clip.
+						NULL);			// Dst clip.
 
 					// Put in ID.
 					RPrint	print;
@@ -632,7 +633,7 @@ int16_t CPylon::GetResources(void)						// Returns 0 if successfull, non-zero ot
 					// Convert to efficient transparent blit format . . .
 					if (m_pImage->Convert(RImage::FSPR8) != RImage::FSPR8)
 						{
-						sResult = FAILURE * 3;
+						sResult = -3;
 						TRACE("CPylon::GetResource() - Couldn't convert to FSPR8\n");
 						}
 					else
@@ -642,20 +643,20 @@ int16_t CPylon::GetResources(void)						// Returns 0 if successfull, non-zero ot
 					}
 				else
 					{
-					sResult = FAILURE * 2;
+					sResult	= -2;
 					TRACE("CPylon::GetResource() - m_pImage->CreateImage() failed.\n");
 					}
 
 				// If an error occurred after allocation . . .
-				if (sResult != SUCCESS)
+				if (sResult != 0)
 					{
 					delete m_pImage;
-					m_pImage	= nullptr;
+					m_pImage	= NULL;
 					}
 				}
 			else
 				{
-				sResult = FAILURE;
+				sResult	= -1;
 				TRACE("CPylon::GetResource(): Failed to allocate RImage.\n");
 				}
 			
@@ -672,13 +673,13 @@ int16_t CPylon::GetResources(void)						// Returns 0 if successfull, non-zero ot
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPylon::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	if (m_pImage != nullptr)
+	if (m_pImage != NULL)
 		{
 		delete m_pImage;
-		m_pImage	= nullptr;
+		m_pImage	= NULL;
 		}
 
-   return SUCCESS;
+	return 0;
 }
 
 
@@ -704,9 +705,9 @@ uint8_t CPylon::GetFreePylonID(void)
 	uint8_t id = m_pRealm->m_ucNextPylonID;
 
 	if (m_pRealm->m_sNumPylons >= PYLON_MAX_PYLONS)
-      return SUCCESS;
+		return 0;
 
-	CListNode<CThing>* pNext = nullptr; 
+	CListNode<CThing>* pNext = NULL; 
 	bool bIdInUse = false;
 
 	do
@@ -747,7 +748,7 @@ uint8_t CPylon::GetFreePylonID(void)
 
 CPylon* CPylon::GetPylon(uint8_t ucPylonID)
 {
-	CPylon* pPylon = nullptr;;
+	CPylon* pPylon = NULL;;
 
 	if (m_pRealm->m_idbank.GetThingByID((CThing**) &pPylon, GetPylonUniqueID(ucPylonID)) != SUCCESS)
 		pPylon = this;
@@ -759,9 +760,9 @@ CPylon* CPylon::GetPylon(uint8_t ucPylonID)
 // GetPylonUniqueID - loop through list of pylons to get Unique ID
 ////////////////////////////////////////////////////////////////////////////////
 
-uint16_t CPylon::GetPylonUniqueID(uint8_t ucPylonID)
+U16 CPylon::GetPylonUniqueID(uint8_t ucPylonID)
 {
-	uint16_t u16UniqueID = CIdBank::IdNil;
+	U16 u16UniqueID = CIdBank::IdNil;
 	CListNode<CThing>* pNext = m_pRealm->m_aclassHeads[CThing::CPylonID].m_pnNext;
 	
 	bool bSearching = true;

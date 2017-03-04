@@ -15,7 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-// Anim3D.h
+// Anim3D.H
 // Project: Postal
 // 
 // History:
@@ -40,7 +40,7 @@
 #ifndef ANIM3D_H
 #define ANIM3D_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 
 // These are the basic components of any 3D animation.
 typedef RChannel<RSop> ChanForm;				// Channel of SOPs.
@@ -52,7 +52,7 @@ typedef RChannel<RP3d> ChanBounds;				// Channel of bounding
 typedef RChannel<REAL> ChanFloor;				// Channel of floor circles
 															// for attribute map..?
 typedef RChannel<RTransform> ChanTransform;	// Channel of transforms.
-typedef RChannel<uint8_t> ChanEvent;					// Channel of event states.
+typedef RChannel<U8> ChanEvent;					// Channel of event states.
 
 /////////////////////////////////////////////////////////////////////////
 // This class describes the components of any 3D animation.
@@ -88,7 +88,7 @@ class CAnim3D
 		virtual								// If you override this function,
 												// call base class for default functionality.
 		int16_t Get(							// Returns 0 on success.
-         const char**	ppszFileNames);	// Pointer to array of pointers to filenames.
+			char**	ppszFileNames);	// Pointer to array of pointers to filenames.
 												// These filenames should be in the order
 												// the members are listed in this class's
 												// definition.
@@ -98,7 +98,7 @@ class CAnim3D
 		virtual								// If you override this function,
 												// call base class for default functionality.
 		int16_t Get(							// Returns 0 on success.
-         const char**	ppszFileNames,		// Pointer to array of pointers to filenames.
+			char**	ppszFileNames,		// Pointer to array of pointers to filenames.
 												// These filenames should be in the order
 												// the members are listed in this class's
 												// definition.
@@ -109,13 +109,13 @@ class CAnim3D
 		virtual									// If you override this function,
 													// call base class for default functionality.
 		int16_t Get(								// Returns 0 on success.
-         const char*		pszBaseFileName,		// In:  Base string for resource filenames.
-         const char*		pszRigidName,			// In:  String to add for rigid transform channel,
-													// "", or nullptr for none.
-         const char*		pszEventName,			// In:  String to add for event states channel,
-													// "", or nullptr for none.
-         const char*		pszWeaponTransName,	// In:  String to add for weapon transforms channel,
-													// "", or nullptr for none.
+			char*		pszBaseFileName,		// In:  Base string for resource filenames.
+			char*		pszRigidName,			// In:  String to add for rigid transform channel,
+													// "", or NULL for none.
+			char*		pszEventName,			// In:  String to add for event states channel,
+													// "", or NULL for none.
+			char*		pszWeaponTransName,	// In:  String to add for weapon transforms channel,
+													// "", or NULL for none.
 			int16_t		sLoopFlags);			// In:  Looping flags to apply to all channels
 													// in this anim.
 
@@ -124,14 +124,14 @@ class CAnim3D
 		virtual									// If you override this function,
 													// call base class for default functionality.
 		int16_t Get(								// Returns 0 on success.
-         const char*		pszBaseName,			// In:  Base string for resource filenames.
-         const char*		pszVerb,					// In:  Action name to be appended to the base
-         const char*		pszRigidName,			// In:  String to add for rigid transform channel,
-													// "", or nullptr for none.
-         const char*		pszEventName,			// In:  String to add for event states channel,
-													// "", or nullptr for none.
-         const char*		pszWeaponTransName,	// In:  String to add for weapon transforms channel,
-													// "", or nullptr for none.
+			char*		pszBaseName,			// In:  Base string for resource filenames.
+			char*		pszVerb,					// In:  Action name to be appended to the base
+			char*		pszRigidName,			// In:  String to add for rigid transform channel,
+													// "", or NULL for none.
+			char*		pszEventName,			// In:  String to add for event states channel,
+													// "", or NULL for none.
+			char*		pszWeaponTransName,	// In:  String to add for weapon transforms channel,
+													// "", or NULL for none.
 			int16_t		sLoopFlags);			// In:  Looping flags to apply to all channels
 													// in this anim.
 
@@ -140,15 +140,15 @@ class CAnim3D
 		virtual									// If you override this function,
 													// call base class for default functionality.
 		int16_t Get(								// Returns 0 on success.
-         const char*		pszBaseName,			// In:  Base string for resource filenames.
+			char*		pszBaseName,			// In:  Base string for resource filenames.
 			int16_t		sTextureScheme,		// In:  Number of texture file to be loaded
-         const char*		pszVerb,					// In:  Action name to be appended to the base
-         const char*		pszRigidName,			// In:  String to add for rigid transform channel,
-													// "", or nullptr for none.
-         const char*		pszEventName,			// In:  String to add for event states channel,
-													// "", or nullptr for none.
-         const char*		pszWeaponTransName,	// In:  String to add for weapon transforms channel,
-													// "", or nullptr for none.
+			char*		pszVerb,					// In:  Action name to be appended to the base
+			char*		pszRigidName,			// In:  String to add for rigid transform channel,
+													// "", or NULL for none.
+			char*		pszEventName,			// In:  String to add for event states channel,
+													// "", or NULL for none.
+			char*		pszWeaponTransName,	// In:  String to add for weapon transforms channel,
+													// "", or NULL for none.
 			int16_t		sLoopFlags);			// In:  Looping flags to apply to all channels
 													// in this anim.
 

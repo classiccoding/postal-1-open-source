@@ -103,7 +103,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // RSPiX Headers.
 ///////////////////////////////////////////////////////////////////////////////
-#include <RSPiX.h>
+#include "RSPiX.h"
 
 #include "game.h"
 #include "update.h"
@@ -112,6 +112,8 @@
 #include "keys.h"
 #include "menus.h"
 #include "InputSettingsDlg.h"
+
+#include "CompileOptions.h"	// For ALLOW_JOYSTICK macro.
 
 //////////////////////////////////////////////////////////////////////////////
 // Module specific macros.
@@ -141,7 +143,7 @@
 static bool			ms_bListenForInput	= false;	// true, when listening for input
 																// to set for current input function.
 
-static uint32_t			ms_u32OrigTextColor;
+static U32			ms_u32OrigTextColor;
 
 static bool			ms_bMenuDone			= false;	// true, when the current menu
 																// is done.
@@ -153,13 +155,13 @@ static int16_t		ms_sResetItemOld;					// Index of item that restores the old def
 static int16_t		ms_sMouseButtons;
 static int16_t		ms_sJoyButtons;
 
-static milliseconds_t			ms_lFlashTimer;
+static int32_t			ms_lFlashTimer;
 
 // This array contains RSP_SK_* macros for the keys that should be 
 // inaccessible to the user when it comes to mapping the input keys.
 // If you are adding a key to this array, PLEASE ADD THE _SK_ VERSION (not
 // the _GK_ version).
-static uint8_t			ms_au8UnmappableKeys[]	=
+static U8			ms_au8UnmappableKeys[]	=
 	{
 	RSP_SK_F1,				// Next level.
 	RSP_SK_F2,				// Toggle targeting.
@@ -202,10 +204,10 @@ static uint8_t			ms_au8UnmappableKeys[]	=
 extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
 	Menu* pmenu)									// In:  Menu to setup.
 	{
-	int16_t		sResult				= 0;		// Assume success.
+	int16_t		sRes				= 0;		// Assume success.
 	int16_t		sInputIndex		= 0;		// Safety.
-	uint32_t*	pasPlayInputs	= nullptr;	// Input value array.
-   const char**	papszInputDescriptions	= nullptr;	// Descriptions of input values.
+	U32*	pasPlayInputs	= NULL;	// Input value array.
+	char**	papszInputDescriptions	= NULL;	// Descriptions of input values.
 	bool	bIsJoystick = false;
 
 	switch (pmenu->u32Id)
@@ -228,7 +230,7 @@ extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
 			break;
 		default:
 			TRACE("InptuSettingsDlg_InitMenu(): Unsupported menu.\n");
-			sResult = FAILURE;
+			sRes	= -1;
 			break;
 		}
 
@@ -240,7 +242,7 @@ extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
 	// Cell height doesn't matter since it is set by the GUIs themselves.
 	RGuiItem::ms_print.SetFont(FONT_HEIGHT, &g_fontBig);
 
-   for (sInputIndex = 0; sInputIndex < CInputSettings::NumInputFunctions && sResult == SUCCESS; sInputIndex++)
+	for (sInputIndex = 0; sInputIndex < CInputSettings::NumInputFunctions && sRes == 0; sInputIndex++)
 		{
 		// Set text describing input function for this menu item.
 		pmenu->ami[sInputIndex].pszText	= CInputSettings::ms_ainputinfo[sInputIndex].pszDescription;
@@ -249,7 +251,7 @@ extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
 		// Load GUI for input method description.
 
 		RGuiItem*	pgui;
-      if (rspGetResourceInstance(&g_resmgrShell, INPUT_ITEM_GUI, (RTxt**)(&pgui)) == SUCCESS)
+		if (rspGetResourceInstance(&g_resmgrShell, INPUT_ITEM_GUI, (RTxt**)(&pgui)) == 0)
 			{
 			// Let the menu know about the GUI.
 			pmenu->ami[sInputIndex].pgui	= pgui;
@@ -272,7 +274,7 @@ extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
 		else
 			{
 			TRACE("InputSettingsDlg_InitMenu(): LoadInstantiate() failed.\n");
-			sResult = FAILURE;
+			sRes	= -1;
 			}
 		}
 
@@ -301,7 +303,7 @@ extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
 	// Make the back the cancel item.
 	pmenu->menuautoitems.sCancelItem	= sInputIndex;
 
-	return sResult;
+	return sRes;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -310,11 +312,11 @@ extern int16_t InputSettingsDlg_InitMenu(	// Returns 0 on success.
 extern int16_t InputSettingsDlg_KillMenu(	// Returns 0 on success.
 	Menu* pmenu)									// In:  Menu to clean up.  
 	{
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	int16_t	sInputIndex;
 	// Delete the loaded GUIs.
-   for (sInputIndex = 0; sInputIndex < CInputSettings::NumInputFunctions && sResult == SUCCESS; sInputIndex++)
+	for (sInputIndex = 0; sInputIndex < CInputSettings::NumInputFunctions && sRes == 0; sInputIndex++)
 		{
 		// Clean up the GUI.
 		rspReleaseResourceInstance(&g_resmgrShell, &pmenu->ami[sInputIndex].pgui);
@@ -323,7 +325,7 @@ extern int16_t InputSettingsDlg_KillMenu(	// Returns 0 on success.
 	// Flag the looper that we're done.
 	ms_bMenuDone	= true;
 
-	return sResult;
+	return sRes;
 	}
 
 
@@ -336,9 +338,9 @@ void InputSettingsDlg_Choice(	// Returns nothing.
 	int16_t sMenuItem)				// In:  Menu item chosen or -1 if selection 
 										// change.
 	{
-	static uint8_t*	pau8KeyStatusArray	= rspGetKeyStatusArray();
+	static U8*	pau8KeyStatusArray	= rspGetKeyStatusArray();
 
-   int16_t sError = SUCCESS;
+	int16_t	sError	 = 0;
 
 	if (sMenuItem > -1)
 		{
@@ -380,8 +382,8 @@ void InputSettingsDlg_Choice(	// Returns nothing.
 			if (sMenuItem == ms_sResetItem
 				|| sMenuItem == ms_sResetItemOld)
 				{
-				uint32_t*	pasPlayInputs	= nullptr;				// Input value array.
-            const char**	papszInputDescriptions	= nullptr;	// Descriptions of input values.
+				U32*	pasPlayInputs	= NULL;				// Input value array.
+				char**	papszInputDescriptions	= NULL;	// Descriptions of input values.
 
 				switch (pmenu->u32Id)
 					{
@@ -402,13 +404,13 @@ void InputSettingsDlg_Choice(	// Returns nothing.
 						break;
 					default:
 						TRACE("InputSettingsDlg_Choice(): Unsupported menu.\n");
-                  sError = FAILURE;
+						sError	= 1;
 						break;
 					}
 
 				int16_t	sInputIndex;
 				RGuiItem*	pgui;
-            for (sInputIndex = 0; sInputIndex < CInputSettings::NumInputFunctions && sError == SUCCESS; sInputIndex++)
+				for (sInputIndex = 0; sInputIndex < CInputSettings::NumInputFunctions && sError == 0; sInputIndex++)
 					{
 					pgui	= pmenu->ami[sInputIndex].pgui;
 					// Restore input default.
@@ -446,11 +448,12 @@ void InputSettingsDlg_Choice(	// Returns nothing.
 // Checks is a key is mappable as an input via ms_au8UnmappableKeys[].
 //////////////////////////////////////////////////////////////////////////////
 static bool IsMappable(	// Returns true, if mappable, false otherwise.
-	uint8_t	u8Key)				// In:  Key to check mappable status on.
+	U8	u8Key)				// In:  Key to check mappable status on.
 	{
 	bool	bMappable	= true;
 
-   for (size_t sIndex = 0; sIndex < NUM_ELEMENTS(ms_au8UnmappableKeys); ++sIndex)
+	int16_t	sIndex;
+	for (sIndex = 0; sIndex < NUM_ELEMENTS(ms_au8UnmappableKeys); sIndex++)
 		{
 		// If this is the specified key . . .
 		if (ms_au8UnmappableKeys[sIndex] == u8Key)
@@ -471,7 +474,7 @@ static bool IsMappable(	// Returns true, if mappable, false otherwise.
 inline void ListenForInput(	// Returns nothing.
 	RInputEvent*	pie)			// In:  Input event.
 	{
-	static uint8_t*	pau8KeyStatusArray	= rspGetKeyStatusArray();
+	static U8*	pau8KeyStatusArray	= rspGetKeyStatusArray();
 
 	RGuiItem*	pgui	= RGuiItem::ms_pguiFocus;
 	bool			bAffirmitiveFeedback	= true;	// true to play affirmitive audible
@@ -479,7 +482,6 @@ inline void ListenForInput(	// Returns nothing.
 
 	switch (pie->type)
 		{
-     UNHANDLED_SWITCH;
 		case RInputEvent::Key:
 			if (pie->lKey == 27)
 				{
@@ -500,7 +502,7 @@ inline void ListenForInput(	// Returns nothing.
 			{
 			case KEYBOARD_MENU_ID:
 				{
-				uint8_t*	pu8Key = pau8KeyStatusArray;
+				U8*	pu8Key = pau8KeyStatusArray;
 				int16_t	i;
 				for (i = 0; i < 128; i++, pu8Key++)
 					{
@@ -530,7 +532,6 @@ inline void ListenForInput(	// Returns nothing.
 			case MOUSE_MENU_ID:
 				 switch (pie->type)
 					{
-               UNHANDLED_SWITCH;
 					case RInputEvent::Key:
 						if (pie->lKey == '\r')
 							{
@@ -575,7 +576,6 @@ inline void ListenForInput(	// Returns nothing.
 			case JOYSTICK_MENU_ID:
 				 switch (pie->type)
 					{
-               UNHANDLED_SWITCH;
 					case RInputEvent::Key:
 						if (pie->lKey == '\r')
 							{
@@ -613,8 +613,8 @@ inline void ListenForInput(	// Returns nothing.
 						rspUpdateJoy(0);
 
 						// Get prev and current status.
-						uint32_t	u32ButtonsPrev;
-						uint32_t	u32ButtonsCur;
+						U32	u32ButtonsPrev;
+						U32	u32ButtonsCur;
 						rspGetJoyPrevState(0, &u32ButtonsPrev);
 						rspGetJoyState(0, &u32ButtonsCur);
 
@@ -715,7 +715,7 @@ inline void ListenForInput(	// Returns nothing.
 //////////////////////////////////////////////////////////////////////////////
 extern int16_t EditInputSettings(void)	// Returns nothing.
 	{
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 	bool bDeleteKeybind = false;	// If true, we want to delete the keybind we're on.
 
 	// Menu is already started.
@@ -736,7 +736,6 @@ extern int16_t EditInputSettings(void)	// Returns nothing.
 
 		switch (ie.type)
 			{
-        UNHANDLED_SWITCH;
 			case RInputEvent::Key:
 				if (ie.lKey == RSP_SK_BACKSPACE)
 					bDeleteKeybind = true;
@@ -766,8 +765,8 @@ extern int16_t EditInputSettings(void)	// Returns nothing.
 					rspUpdateJoy(0);
 
 					// Get prev and current status.
-					uint32_t	u32ButtonsPrev;
-					uint32_t	u32ButtonsCur;
+					U32	u32ButtonsPrev;
+					U32	u32ButtonsCur;
 					rspGetJoyPrevState(0, &u32ButtonsPrev);
 					rspGetJoyState(0, &u32ButtonsCur);
 
@@ -811,7 +810,6 @@ extern int16_t EditInputSettings(void)	// Returns nothing.
 		DoMenuInput(&ie, 1);
 		DoMenuOutput(g_pimScreenBuf);
 
-#if defined(ALLOW_JOYSTICK)
 		// Joystick: erase keybind with Back button
 		XInputState xis = {};
 		GetLastXInputState(&xis);
@@ -820,7 +818,6 @@ extern int16_t EditInputSettings(void)	// Returns nothing.
 			bDeleteKeybind = true;
 			GetXInputState(&xis); // throw out this state
 		}
-#endif // defined(ALLOW_JOYSTICK)
 
 		if (bDeleteKeybind)
 		{
@@ -843,7 +840,7 @@ extern int16_t EditInputSettings(void)	// Returns nothing.
 		rspUpdateDisplay();
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 //////////////////////////////////////////////////////////////////////////////

@@ -99,8 +99,9 @@
 // This CThing-derived class will play sounds with various options.
 //
 //////////////////////////////////////////////////////////////////////////////
+#define SOUNDTHING_CPP
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "SoundThing.h"
 #include "game.h"
 
@@ -113,8 +114,8 @@
 	#undef GetRand
 #endif
 
-#if defined(__ANDROID__) //Arm RAND_MAX is a full int, code expecting a short!!
-#define RAND_MAX INT16_MAX
+#ifdef MOBILE //Arm RAND_MAX is a full int, code expecting a short!!
+#define RAND_MAX 0x7fff
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -125,7 +126,7 @@
 
 #define GUI_FILE_NAME		"res/editor/Sound.gui"
 
-#define END_OF_TIME			INT32_MAX	// Unfortunately, we won't be dead (or,
+#define END_OF_TIME			0x7fffffff	// Unfortunately, we won't be dead (or,
 													// considering it's always just 24 days 
 													// off, fortunately).  The program, will
 													// break, however.
@@ -147,7 +148,7 @@ int16_t CSoundThing::Load(								// Returns 0 if successfull, non-zero otherwis
 	uint32_t	ulFileVersion)									// In:  Version of file format to load.
 	{
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// If new file . . . 
 		if (sFileCount != ms_sFileCount)
@@ -227,13 +228,13 @@ int16_t CSoundThing::Load(								// Returns 0 if successfull, non-zero otherwis
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 			{
 			sResult = Init();
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CSoundThing::Load(): Error reading from file!\n");
 			}
 		}
@@ -249,8 +250,8 @@ int16_t CSoundThing::Save(										// Returns 0 if successfull, non-zero otherw
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
-	int16_t sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == SUCCESS)
+	int16_t	sResult	= CThing::Save(pFile, sFileCount);
+	if (sResult == 0)
 		{
 		pFile->Write(m_sAmbient);
 		pFile->Write(m_sPurgeSampleWhenDone	);
@@ -285,7 +286,7 @@ int16_t CSoundThing::Startup(void)								// Returns 0 if successfull, non-zero 
 	// Set the collective volume to zero to start.
 	m_lCollectiveVolume	= 0;
 
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -294,7 +295,7 @@ int16_t CSoundThing::Startup(void)								// Returns 0 if successfull, non-zero 
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSoundThing::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -331,17 +332,17 @@ void CSoundThing::Update(void)
 	if (!m_sSuspend)
 		{
 		// Get current time
-      milliseconds_t lCurTime = m_pRealm->m_time.GetGameTime();
+		int32_t lCurTime = m_pRealm->m_time.GetGameTime();
 
 		// If enabled and (non-ambient or ambients allowed) . . .
 		if (m_bEnabled == true && (m_sAmbient == FALSE || g_GameSettings.m_sPlayAmbientSounds) )
 			{
 			// If current time hits next starting time (or if we're in the init state)
-         if ((lCurTime >= m_lNextStartTime) || (m_sWhichTime < 0))
+			if ((lCurTime >= m_lNextStartTime) || (m_sWhichTime < 0))
 				{
-            milliseconds_t	lSampleDuration	= 0;
-            milliseconds_t	lLoopStartTime;
-            milliseconds_t	lLoopEndTime	= m_lLoopBackFrom;
+				int32_t	lSampleDuration	= 0;
+				int32_t	lLoopStartTime;
+				int32_t	lLoopEndTime	= m_lLoopBackFrom;
 				if (m_sUseLooping)
 					{
 					lLoopStartTime	= m_lLoopBackTo;
@@ -379,7 +380,7 @@ void CSoundThing::Update(void)
 						SampleMaster::Ambient,												// In:  Sound Volume Category for user adjustment
 						DistanceToVolume(m_dX, m_dY, m_dZ, m_lVolumeHalfLife),	// In:  Initial Sound Volume (0 - 255) 
 						&m_siChannel,															// Out: Handle for adjusting sound volume
-						&lSampleDuration,														// Out: Sample duration in ms, if not nullptr.
+						&lSampleDuration,														// Out: Sample duration in ms, if not NULL.
 						lLoopStartTime,														// In:  Where to loop back to in milliseconds.                
 																									//	-1 indicates no looping (unless m_sLoop is                 
 																									// explicitly set).                                           
@@ -410,7 +411,7 @@ void CSoundThing::Update(void)
 						lLoopEndTime = lSampleDuration;
 						}
 
-               if (lLoopStartTime > INT32_MAX && m_sUseLooping)
+					if (lLoopStartTime < 0 && m_sUseLooping)
 						{
 						lLoopStartTime = 0;
 						}
@@ -421,7 +422,7 @@ void CSoundThing::Update(void)
 						}
 
 					// If using loop parameters and loop backs are not infinite . . .
-               if (m_sUseLooping && m_lNumLoopBacks < INT32_MAX)
+					if (m_sUseLooping && m_lNumLoopBacks >= 0)
 						{
 						// Calculate time until we stop looping . . .
 						m_lStopLoopingTime	= lCurTime + (m_lNumLoopBacks + 1) * (lLoopEndTime - lLoopStartTime) + lLoopStartTime;
@@ -444,7 +445,7 @@ void CSoundThing::Update(void)
 				// Pick random time between 0 and specified random time
 				int32_t	lRnd = (int32_t)(((float)GetRand() / (float)RAND_MAX) * (float)m_lRndTime[m_sWhichTime]);
 				// Make sure this at least the length of the sample.
-        milliseconds_t	lWaitDuration	= MAX<milliseconds_t>(milliseconds_t(m_lMinTime[m_sWhichTime] + lRnd), lSampleDuration);
+				int32_t	lWaitDuration	= MAX(int32_t(m_lMinTime[m_sWhichTime] + lRnd), lSampleDuration);
 				// Calculate next starting time
 				m_lNextStartTime = m_lLastStartTime + lWaitDuration;
 				}
@@ -491,13 +492,13 @@ void CSoundThing::Render(void)
 	//	here.
 
 	// Adjust volume of last play instance.  Clip just in case.
-  SetInstanceVolume(m_siChannel, MIN<int32_t>((int32_t)255L, m_lCollectiveVolume) );
+	SetInstanceVolume(m_siChannel, MIN((int32_t)255L, m_lCollectiveVolume) );
 
 	// Reset volume.
 	m_lCollectiveVolume	= 0;
 	}
 
-#if !defined(EDITOR_REMOVED)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -506,7 +507,7 @@ int16_t CSoundThing::EditNew(									// Returns 0 if successfull, non-zero othe
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -529,7 +530,7 @@ inline void SetGuiItemVal(	// Returns nothing.
 	RGuiItem*	pgui	= pguiRoot->GetItemFromId(lId);
 	if (pgui)
 		{
-		pgui->SetText("%i", lVal);
+		pgui->SetText("%ld", lVal);
 		pgui->Compose();
 		}
 	}
@@ -577,7 +578,7 @@ static void BrowseCall(		// Returns nothing.
 		sprintf(szTitle, g_pszGenericBrowseFor_s_Title, "sound file");
 
 		// Create full system path from existing RSPiX subpath.
-		char	szSystemPath[PATH_MAX];
+		char	szSystemPath[RSP_MAX_PATH];
 		char*	pszSakpath	= g_resmgrSamples.GetBasePath();
 		if (pguiName->m_szText[0] == '\0')
 			{
@@ -586,7 +587,7 @@ static void BrowseCall(		// Returns nothing.
 
 		strcpy(szSystemPath, FullPathCustom(pszSakpath, pguiName->m_szText) );
 
-		int16_t sResult;
+		int16_t	sResult;
 		do {
 			sResult	= SubPathOpenBox(			// Returns 0 on success, negative on error, 1 if 
 														// not subpathable (i.e., returned path is full path).
@@ -595,7 +596,7 @@ static void BrowseCall(		// Returns nothing.
 				szSystemPath,						// In:  Default filename (system format).            
 				szSystemPath,						// Out: User's choice (system format).               
 				sizeof(szSystemPath),			// In:  Amount of memory pointed to by pszChosenFileName.
-				"wav");								// In:  If not nullptr, '.' delimited extension based filename
+				"wav");								// In:  If not NULL, '.' delimited extension based filename
 														//	filter specification.  Ex: ".cpp.h.exe.lib" or "cpp.h.exe.lib"
 														// Note: Cannot use '.' in filter.  Preceding '.' ignored.
 
@@ -611,7 +612,7 @@ static void BrowseCall(		// Returns nothing.
 			} while (sResult > 0);
 
 		// If successful in getting a relative path . . .
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 			// Udpate GUI.
 			pguiName->SetText("%s", rspPathFromSystem(szSystemPath) );
@@ -625,15 +626,15 @@ static void BrowseCall(		// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSoundThing::EditModify(void)
 	{
-	int16_t sResult = SUCCESS;
+	int16_t	sResult	= 0;
 
 	// Load gui dialog
 	RGuiItem* pgui = RGuiItem::LoadInstantiate(FullPathVD(GUI_FILE_NAME));
-	if (pgui != nullptr)
+	if (pgui != NULL)
 		{
 		// Init "name" edit
 		REdit* pResName = (REdit*)pgui->GetItemFromId(3);
-		ASSERT(pResName != nullptr);
+		ASSERT(pResName != NULL);
 		ASSERT(pResName->m_type == RGuiItem::Edit);
 		pResName->SetText("%s", m_szResName);
 		pResName->Compose();
@@ -648,49 +649,49 @@ int16_t CSoundThing::EditModify(void)
 
 		// Init "first time" edit
 		REdit* pFirstTime = (REdit*)pgui->GetItemFromId(100);
-		ASSERT(pFirstTime != nullptr);
+		ASSERT(pFirstTime != NULL);
 		ASSERT(pFirstTime->m_type == RGuiItem::Edit);
-		pFirstTime->SetText("%i", m_lMinTime[0]);
+		pFirstTime->SetText("%ld", m_lMinTime[0]);
 		pFirstTime->Compose();
 
 		// Init "first random time" edit
 		REdit* pFirstRndTime = (REdit*)pgui->GetItemFromId(101);
-		ASSERT(pFirstRndTime != nullptr);
+		ASSERT(pFirstRndTime != NULL);
 		ASSERT(pFirstRndTime->m_type == RGuiItem::Edit);
-		pFirstRndTime->SetText("%i", m_lRndTime[0]);
+		pFirstRndTime->SetText("%ld", m_lRndTime[0]);
 		pFirstRndTime->Compose();
 
 		// Init "repeat time" edit
 		REdit* pRepeatTime = (REdit*)pgui->GetItemFromId(102);
-		ASSERT(pRepeatTime != nullptr);
+		ASSERT(pRepeatTime != NULL);
 		ASSERT(pRepeatTime->m_type == RGuiItem::Edit);
-		pRepeatTime->SetText("%i", m_lMinTime[1]);
+		pRepeatTime->SetText("%ld", m_lMinTime[1]);
 		pRepeatTime->Compose();
 
 		// Init "repeat random time" edit
 		REdit* pRepeatRndTime = (REdit*)pgui->GetItemFromId(103);
-		ASSERT(pRepeatRndTime != nullptr);
+		ASSERT(pRepeatRndTime != NULL);
 		ASSERT(pRepeatRndTime->m_type == RGuiItem::Edit);
-		pRepeatRndTime->SetText("%i", m_lRndTime[1]);
+		pRepeatRndTime->SetText("%ld", m_lRndTime[1]);
 		pRepeatRndTime->Compose();
 
 		// Init "enable" push button
 		RPushBtn* pEnable = (RPushBtn*)pgui->GetItemFromId(200);
-		ASSERT(pEnable != nullptr);
+		ASSERT(pEnable != NULL);
 		pEnable->m_state = m_bInitiallyEnabled ? RPushBtn::On : RPushBtn::Off;
 		pEnable->Compose();
 
 		// Init "repeat" push button
 		RPushBtn* pRepeat = (RPushBtn*)pgui->GetItemFromId(201);
-		ASSERT(pRepeat != nullptr);
+		ASSERT(pRepeat != NULL);
 		pRepeat->m_state = m_bInitiallyRepeats ? RPushBtn::On : RPushBtn::Off;
 		pRepeat->Compose();
 
 		// Init "volume half life" edit.
 		REdit* peditHalfLife = (REdit*)pgui->GetItemFromId(301);
-		ASSERT(peditHalfLife != nullptr);
+		ASSERT(peditHalfLife != NULL);
 		ASSERT(peditHalfLife->m_type == RGuiItem::Edit);
-		peditHalfLife->SetText("%i", m_lVolumeHalfLife);
+		peditHalfLife->SetText("%ld", m_lVolumeHalfLife);
 		peditHalfLife->Compose();
 
 		// Init "Purge sample when done" checkbox.
@@ -717,7 +718,7 @@ int16_t CSoundThing::EditModify(void)
 
 		SetGuiItemVal(pgui, 401, m_lLoopBackTo);
 		SetGuiItemVal(pgui, 402, (m_lLoopBackFrom == 0) ? 1 : m_lLoopBackFrom);
-      SetGuiItemVal(pgui, 403, (m_lNumLoopBacks > INT32_MAX) ? 0 : m_lNumLoopBacks);
+		SetGuiItemVal(pgui, 403, (m_lNumLoopBacks < 0) ? 0 : m_lNumLoopBacks);
 
 		// Init "End" checkbox.
 		RMultiBtn*	pmbLoopFromEnd	= (RMultiBtn*)pgui->GetItemFromId(404);
@@ -738,7 +739,7 @@ int16_t CSoundThing::EditModify(void)
 		RMultiBtn*	pmbLoopInfinitely	= (RMultiBtn*)pgui->GetItemFromId(405);
 		ASSERT(pmbLoopInfinitely);
 		ASSERT(pmbLoopInfinitely->m_type == RGuiItem::MultiBtn);
-      pmbLoopInfinitely->m_sState	= (m_lNumLoopBacks > INT32_MAX) ? 2 : 1;
+		pmbLoopInfinitely->m_sState	= (m_lNumLoopBacks < 0) ? 2 : 1;
 		pmbLoopInfinitely->Compose();
 		// Set the callback so we can tell when state changes.
 		pmbLoopInfinitely->m_bcUser	= CheckEnableGuiCall;
@@ -777,7 +778,7 @@ int16_t CSoundThing::EditModify(void)
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult	= 1;
 			}
 		
 		// Done with GUI.
@@ -785,11 +786,11 @@ int16_t CSoundThing::EditModify(void)
 		}
 	else
 		{
-		sResult = FAILURE;
+		sResult	= -1;
 		}
 
 	// If everything's okay, init using new values
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		sResult = Init();
 
 	return sResult;
@@ -808,7 +809,7 @@ int16_t CSoundThing::EditMove(									// Returns 0 if successfull, non-zero oth
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-   return SUCCESS;
+	return 0;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -895,14 +896,14 @@ void CSoundThing::EditRender(void)
 	// Update sprite in scene
 	m_pRealm->m_scene.UpdateSprite(&m_sprite);
 	}
-#endif // !defined(EDITOR_REMOVED)
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Init object
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSoundThing::Init(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	Kill();
 
@@ -918,13 +919,13 @@ int16_t CSoundThing::Init(void)							// Returns 0 if successfull, non-zero othe
 	if (m_pImage == 0)
 		{
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(IMAGE_FILE), &m_pImage);
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 			// This is a questionable action on a resource managed item, but it's
 			// okay if EVERYONE wants it to be an FSPR8.
 			if (m_pImage->Convert(RImage::FSPR8) != RImage::FSPR8)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CSoundThing::GetResource() - Couldn't convert to FSPR8\n");
 				}
 			}
@@ -939,7 +940,7 @@ int16_t CSoundThing::Init(void)							// Returns 0 if successfull, non-zero othe
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CSoundThing::Kill(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-   if (m_pImage != nullptr)
+	if (m_pImage != 0)
 		rspReleaseResource(&g_resmgrGame, &m_pImage);
 
 	m_pRealm->m_scene.RemoveSprite(&m_sprite);
@@ -953,7 +954,7 @@ int16_t CSoundThing::Kill(void)							// Returns 0 if successfull, non-zero othe
 		m_siChannel	= 0;
 		}
 
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -982,7 +983,7 @@ void CSoundThing::ProcessMessages(void)
 ////////////////////////////////////////////////////////////////////////////////
 int32_t CSoundThing::GetRandom(void)
 	{
-   return (((ms_lGetRandomSeed = ms_lGetRandomSeed * 214013L + 2531011L) >> 16) & 0x7FFF);
+	return (((ms_lGetRandomSeed = ms_lGetRandomSeed * 214013L + 2531011L) >> 16) & 0x7fff);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////

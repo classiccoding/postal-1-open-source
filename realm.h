@@ -320,11 +320,7 @@
 #ifndef REALM_H
 #define REALM_H
 
-#include <RSPiX.h>
-#include <ResourceManager/resmgr.h>
-#include <ORANGE/MultiGrid/MultiGrid.h>
-#include <ORANGE/MultiGrid/MultiGridIndirect.h>
-
+#include "RSPiX.h"
 #include "scene.h"
 #include "thing.h"
 #include "hood.h"
@@ -333,6 +329,24 @@
 #include "smash.h"
 #include "trigger.h"
 
+///////////////////////////////////////////////////////////////////////////////
+// If PATHS_IN_INCLUDES macro is defined, we can utilize relative
+// paths to a header file.  In this case we generally go off of our
+// RSPiX root directory.  System.h MUST be included before this macro
+// is evaluated.  System.h is the header that, based on the current
+// platform (or more so in this case on the compiler), defines 
+// PATHS_IN_INCLUDES.  Blue.h includes system.h so you can include that
+// instead.
+///////////////////////////////////////////////////////////////////////////////
+#ifdef PATHS_IN_INCLUDES
+	#include "WishPiX/ResourceManager/resmgr.h"
+	#include "ORANGE/MultiGrid/MultiGrid.h"
+	#include "ORANGE/MultiGrid/MultiGridIndirect.h"
+#else
+	#include "resmgr.h"
+	#include "multigrid.h"
+	#include "multigridindirect.h"
+#endif
 
 // The overall "universe" in which a game takes place is represented by one or
 // more CRealm's.  A realm is basically a collection of objects plus a handfull
@@ -398,15 +412,15 @@
 
 // Masks and bits for m_pTerrainMap:
 // The height map contains the height, the 'no walk', and the light attributes.
-#define REALM_ATTR_HEIGHT_MASK	0x00FF
-#define REALM_ATTR_FLOOR_MASK		0xFF00
-#define REALM_ATTR_EFFECT_MASK	0xFF00
+#define REALM_ATTR_HEIGHT_MASK	0x00ff
+#define REALM_ATTR_FLOOR_MASK		0xff00
+#define REALM_ATTR_EFFECT_MASK	0xff00
 #define REALM_ATTR_LIGHT_BIT		0x0200
 #define REALM_ATTR_NOT_WALKABLE	0x0100
 
 // Masks and bits for m_pLayerMap:
 // The attribute map contains only the layer bits.
-#define REALM_ATTR_LAYER_MASK		0x7FFF
+#define REALM_ATTR_LAYER_MASK		0x7fff
 
 #define REALM_NONSTL 1
 
@@ -486,7 +500,7 @@ class CRealm
 
 		// Scoring modes
 		typedef uint16_t ScoringMode;
-      enum
+		typedef enum
 			{
 			Standard = 0,		// Standard single player showing population, hostiles, kills and kill %
 			Timed,				// Score as many kills as possible in set amount of time
@@ -549,10 +563,10 @@ class CRealm
 		static int16_t ms_asAttribToLayer[LayerAttribMask + 1];
 		
 		// Names of layers.  Use Layer enum values to index.
-      static const char* ms_apszLayerNames[TotalLayers];
+		static char* ms_apszLayerNames[TotalLayers];
 
 		// 2D resource paths.
-      static const char* ms_apsz2dResPaths[Num2dPaths];
+		static char* ms_apsz2dResPaths[Num2dPaths];
 
 
 	//---------------------------------------------------------------------------
@@ -625,7 +639,7 @@ class CRealm
 		uint8_t		m_ucNextPylonID;
 
 		// Path index for 2D assets.
-      uint16_t		m_s2dResPathIndex;
+		int16_t		m_s2dResPathIndex;
 
 		// Process progress callback.  See ProgressCall typedef for details.
 		ProgressCall	m_fnProgress;
@@ -889,7 +903,6 @@ class CRealm
 		// Render
 		void Render(void);
 
-#if !defined(EDITOR_REMOVED)
 		// Edit-mode update
 		void EditUpdate(void);
 
@@ -898,7 +911,6 @@ class CRealm
 
 		// Edit-Modify dialog - set properties for the realm like scoring & play mode.
 		void EditModify(void);
-#endif // !defined(EDITOR_REMOVED)
 
 		// Give the current network for this realm
 		CNavigationNet* GetCurrentNavNet(void)
@@ -915,7 +927,7 @@ class CRealm
 
 		int16_t GetFloorAttribute(int16_t sX, int16_t sZ);
 
-      int16_t GetFloorMapValue(int16_t sX, int16_t sZ, int16_t sMask = 0x007F);
+		int16_t GetFloorMapValue(int16_t sX, int16_t sZ, int16_t sMask = 0x007f);
 
 		int16_t GetLayer(int16_t sX, int16_t sZ);
 
@@ -940,9 +952,9 @@ class CRealm
 													// where we'd assume a certain frame rate.
 			int16_t	sDistanceXZ,				// In:  Distance on X/Z plane.
 			int16_t sVerticalTolerance = 0,	// In:  Max traverser can step up.
-			int16_t* psX = nullptr,				// Out: If not nullptr, last clear point on path.
-			int16_t* psY = nullptr,				// Out: If not nullptr, last clear point on path.
-			int16_t* psZ = nullptr,				// Out: If not nullptr, last clear point on path.
+			int16_t* psX = NULL,				// Out: If not NULL, last clear point on path.
+			int16_t* psY = NULL,				// Out: If not NULL, last clear point on path.
+			int16_t* psZ = NULL,				// Out: If not NULL, last clear point on path.
 			bool bCheckExtents = true);	// In:  If true, will consider the edge of the realm a path
 													// inhibitor.  If false, reaching the edge of the realm
 													// indicates a clear path.
@@ -965,9 +977,9 @@ class CRealm
 			int16_t	sDstX,						// In:  Destination X.
 			int16_t	sDstZ,						// In:  Destination Z.
 			int16_t sVerticalTolerance = 0,	// In:  Max traverser can step up.
-			int16_t* psX = nullptr,				// Out: If not nullptr, last clear point on path.
-			int16_t* psY = nullptr,				// Out: If not nullptr, last clear point on path.
-			int16_t* psZ = nullptr,				// Out: If not nullptr, last clear point on path.
+			int16_t* psX = NULL,				// Out: If not NULL, last clear point on path.
+			int16_t* psY = NULL,				// Out: If not NULL, last clear point on path.
+			int16_t* psZ = NULL,				// Out: If not NULL, last clear point on path.
 			bool bCheckExtents = true);	// In:  If true, will consider the edge of the realm a path
 													// inhibitor.  If false, reaching the edge of the realm
 													// indicates a clear path.
@@ -1065,7 +1077,7 @@ class CRealm
 
 		// Makes a 2D path based on the current hood setting for 'Use top-view 2Ds'.
 		// Note that this function returns to you a ptr to its one and only static
-		// string of length PATH_MAX.  Do not write to this string and do not
+		// string of length RSP_MAX_PATH.  Do not write to this string and do not
 		// store this string.  It is best to just use this call to pass a string to
 		// a function that will just use it right away (i.e., will not store it or
 		// modify it).
@@ -1092,7 +1104,7 @@ class CRealm
 
 		static int16_t GetLayerViaAttrib(	// Returns the sprite layer indicated by
 													// the specified attribute.             
-			uint16_t u16Attrib)
+			U16 u16Attrib)
 			{
 			return ms_asAttribToLayer[u16Attrib & REALM_ATTR_LAYER_MASK];
 			}

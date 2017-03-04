@@ -15,7 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-// BufQ.h
+// BufQ.H
 // 
 // History:
 //		05/24/97 JMI	Started.
@@ -51,7 +51,7 @@
 #ifndef BUFQ_H
 #define BUFQ_H
 
-#include <BLUE/System.h>
+#include "System.h"
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -97,10 +97,10 @@ class CBufQ
 	//----------------------------------------------------------------------------
 
 	// Calculate the next position in the queue, relative to the specified position 'i'
-   #define BUFQ_NEXT(i) 	((i+1) >= QueueSize ? 0 : i+1)
+	#define BUFQ_NEXT(i) 	(((i)+(short)1) >= QueueSize ? (short)0 : ((i)+(short)1))
 	
 	// Calculate the previous position in the queue, relative to the specified position 'i'
-   #define BUFQ_PREV(i)		((i-1) >= 0 ? i - 1 : QueueSize - 1)
+	#define BUFQ_PREV(i)		(((i)-(short)1) >= 0 ? ((i)-(short)1) : (QueueSize-(short)1))
 
 	//----------------------------------------------------------------------------
 	// Types, enums, etc.
@@ -122,9 +122,9 @@ class CBufQ
 	// Variables
 	//----------------------------------------------------------------------------
 	public:
-      uint8_t		m_au8Buf[QueueSize];		// Buffer.
-      uint16_t		m_sPutPos;					// Current put position in buffer.
-      uint16_t		m_sGetPos;					// Current get position in buffer.
+		U8			m_au8Buf[QueueSize];		// Buffer.
+		int16_t		m_sPutPos;					// Current put position in buffer.
+		int16_t		m_sGetPos;					// Current get position in buffer.
 
 	//----------------------------------------------------------------------------
 	// Functions
@@ -184,21 +184,21 @@ class CBufQ
 			}
 
 		// Check how many bytes can be gotten via Get()
-      size_t CheckGetable(void)
+		int32_t CheckGetable(void)
 			{
 			// Calculate total amount of used space in queue
 			return (m_sGetPos <= m_sPutPos) ? m_sPutPos - m_sGetPos : QueueSize - m_sGetPos + m_sPutPos;
 			}
 
 		// Check how many bytes can be put via Put()
-      size_t CheckPutable(void)
+		int32_t CheckPutable(void)
 			{
 			// Calculate total amount of free space in queue
 			return (m_sPutPos < m_sGetPos) ? m_sGetPos - (m_sPutPos + 1) : QueueSize - (m_sPutPos + 1) + m_sGetPos;
 			}
 
 		// Check how many bytes can be gotten via LockGetPtr()
-      size_t CheckLockGetPtr(void)
+		int32_t CheckLockGetPtr(void)
 			{
 			// We need to figure out how many bytes can be gotten from the queue
 			// without wrapping around or hitting the put position.
@@ -206,13 +206,13 @@ class CBufQ
 			}
 
 		// Check how many bytes can be put via LockPutPtr()
-      size_t CheckLockPutPtr(void)
+		int32_t CheckLockPutPtr(void)
 			{
 			// We need to figure out how many bytes can be put to the queue without
 			// wrapping around or hitting the get position.  A special case exists
 			// when the get position is at 0, because then we can't fill out to the
 			// end of the queue, but must instead stop one byte before the end.
-         size_t lPutable;
+			int32_t lPutable;
 			if (m_sPutPos < m_sGetPos)
 				lPutable = m_sGetPos - (m_sPutPos + 1);
 			else
@@ -228,10 +228,10 @@ class CBufQ
 		///////////////////////////////////////////////////////////////////////////////
 		// Various flavors of Put()
 		///////////////////////////////////////////////////////////////////////////////
-      int32_t Put(				// Returns 1 if it fit, 0 if not enough room in queue
-			uint8_t u8Val)			// In:  Data to enqueue in buffer.
+		int32_t Put(				// Returns 1 if it fit, 0 if not enough room in queue
+			U8 u8Val)			// In:  Data to enqueue in buffer.
 			{
-         int32_t lResult = SUCCESS;
+			int32_t lResult = 0;
 			if (CanPutByte())
 				{
 				*(m_au8Buf + m_sPutPos) = u8Val;
@@ -241,135 +241,131 @@ class CBufQ
 			return lResult;
 			}
 
-      size_t Put(				// Returns number of items that were put into queue
-			uint8_t* pu8Buf,			// In:  Data to enqueue in buffer.
-         size_t lNum = 1)		// In:  Number of bytes to put.
+		int32_t Put(				// Returns number of items that were put into queue
+			U8* pu8Buf,			// In:  Data to enqueue in buffer.
+			int32_t lNum = 1)		// In:  Number of bytes to put.
 			{
-         size_t	lNumPut	= 0;
-         do
+			int32_t	lNumPut	= -1;
+			while (++lNumPut < lNum)
 				{
 				if (!Put(*pu8Buf++))
 					break;
-            } while (++lNumPut < lNum);
+				}
 			return lNumPut;
 			}
 
-      size_t Put(				// Returns 1 if it fit, 0 if not enough room in queue
-			int8_t s8Val)			// In:  Data to enqueue in buffer.
+		int32_t Put(				// Returns 1 if it fit, 0 if not enough room in queue
+			S8 s8Val)			// In:  Data to enqueue in buffer.
 			{
-			return Put((uint8_t)s8Val);
+			return Put((U8)s8Val);
 			}
 
-      size_t Put(				// Returns number of items that were put into queue
-			int8_t* ps8Buf,			// In:  Data to enqueue in buffer.
-         size_t lNum = 1)		// In:  Number of bytes to put.
+		int32_t Put(				// Returns number of items that were put into queue
+			S8* ps8Buf,			// In:  Data to enqueue in buffer.
+			int32_t lNum = 1)		// In:  Number of bytes to put.
 			{
-			return Put((uint8_t*)ps8Buf, lNum);
+			return Put((U8*)ps8Buf, lNum);
 			}
 
-      size_t Put(				// Returns number of items that were put into queue
+		int32_t Put(				// Returns number of items that were put into queue
 			void* pvBuf,		// In:  Data to enqueue in buffer.
-         size_t lNum)			// In:  Number of bytes to put.
+			int32_t lNum)			// In:  Number of bytes to put.
 			{
-			return Put((uint8_t*)pvBuf, lNum);
+			return Put((U8*)pvBuf, lNum);
 			}
 
-      size_t Put(				// Returns number of items that were put into queue
-			uint16_t* pu16Buf,		// In:  Data to enqueue in buffer.
-         size_t lNum = 1)		// In:  Number of U16s to put.
+		int32_t Put(				// Returns number of items that were put into queue
+			U16* pu16Buf,		// In:  Data to enqueue in buffer.
+			int32_t lNum = 1)		// In:  Number of U16s to put.
 			{
-         size_t	lNumPut	= 0;
-			uint8_t*	pu8Buf	= (uint8_t*)pu16Buf;
+			int32_t	lNumPut	= -1;
+			U8*	pu8Buf	= (U8*)pu16Buf;
 
-#if BYTE_ORDER == BIG_ENDIAN
-         do
-         {
-           Put(*pu8Buf++);
-           if (!Put(*pu8Buf++))
-             break;
-         } while (++lNumPut < lNum);
-#elif BYTE_ORDER == LITTLE_ENDIAN
-         do
-         {
-           Put(*(pu8Buf + 1));
-           if (!Put(*(pu8Buf + 0)))
-             break;
-           pu8Buf	+= 2;
-         } while (++lNumPut < lNum);
-#else
-# error NOT IMPLEMENTED
-#endif
+			#ifdef SYS_ENDIAN_BIG
+				while (++lNumPut < lNum)
+					{
+					Put(*pu8Buf++);
+					if (!Put(*pu8Buf++))
+						break;
+					}
+			#else
+				while (++lNumPut < lNum)
+					{
+					Put(*(pu8Buf + 1));
+					if (!Put(*(pu8Buf + 0)))
+						break;
+					pu8Buf	+= 2;
+					}
+			#endif
 			
 			return lNumPut;
 			}
 									
-      size_t Put(				// Returns number of items that were put into queue
-			int16_t* ps16Buf,		// In:  Data to enqueue in buffer.
-         size_t lNum = 1)		// In:  Number of S16s to put.
+		int32_t Put(				// Returns number of items that were put into queue
+			S16* ps16Buf,		// In:  Data to enqueue in buffer.
+			int32_t lNum = 1)		// In:  Number of S16s to put.
 			{
-			return Put((uint16_t*)ps16Buf, lNum);
+			return Put((U16*)ps16Buf, lNum);
 			}
 
-      size_t Put(				// Returns 1 if it fit, 0 if not enough room in queue
-			uint16_t u16Val)			// In:  Data to enqueue in buffer.
+		int32_t Put(				// Returns 1 if it fit, 0 if not enough room in queue
+			U16 u16Val)			// In:  Data to enqueue in buffer.
 			{
 			return Put(&u16Val);
 			}
 
-      size_t Put(				// Returns 1 if it fit, 0 if not enough room in queue
-			int16_t s16Val)			// In:  Data to enqueue in buffer.
+		int32_t Put(				// Returns 1 if it fit, 0 if not enough room in queue
+			S16 s16Val)			// In:  Data to enqueue in buffer.
 			{
 			return Put(&s16Val);
 			}
 
-      size_t Put(				// Returns number of items that were put into queue
-			uint32_t* pu32Buf,		// In:  Data to enqueue in buffer.
-         size_t lNum = 1)		// In:  Number of U32s to put.
+		int32_t Put(				// Returns number of items that were put into queue
+			U32* pu32Buf,		// In:  Data to enqueue in buffer.
+			int32_t lNum = 1)		// In:  Number of U32s to put.
 			{
-         size_t	lNumPut	= 0;
-			uint8_t*	pu8Buf	= (uint8_t*)pu32Buf;
+			int32_t	lNumPut	= -1;
+			U8*	pu8Buf	= (U8*)pu32Buf;
 
-#if BYTE_ORDER == BIG_ENDIAN
-         do
-         {
-           Put(*pu8Buf++);
-           Put(*pu8Buf++);
-           Put(*pu8Buf++);
-           if (!Put(*pu8Buf++))
-             break;
-         } while (++lNumPut < lNum);
-#elif BYTE_ORDER == LITTLE_ENDIAN
-         do
-         {
-           Put(*(pu8Buf + 3));
-           Put(*(pu8Buf + 2));
-           Put(*(pu8Buf + 1));
-           if (!Put(*(pu8Buf + 0)))
-             break;
-           pu8Buf	+= 4;
-         } while (++lNumPut < lNum);
-#else
-# error NOT IMPLEMENTED
-#endif
+			#ifdef SYS_ENDIAN_BIG
+				while (++lNumPut < lNum)
+					{
+					Put(*pu8Buf++);
+					Put(*pu8Buf++);
+					Put(*pu8Buf++);
+					if (!Put(*pu8Buf++))
+						break;
+					}
+			#else
+				while (++lNumPut < lNum)
+					{
+					Put(*(pu8Buf + 3));
+					Put(*(pu8Buf + 2));
+					Put(*(pu8Buf + 1));
+					if (!Put(*(pu8Buf + 0)))
+						break;
+					pu8Buf	+= 4;
+					}
+			#endif
 
 			return lNumPut;
 			}
 									
-      size_t Put(				// Returns number of items that were put into queue
-			int32_t* ps32Buf,		// In:  Data to enqueue in buffer.
-         size_t lNum = 1)		// In:  Number of S32s to put.
+		int32_t Put(				// Returns number of items that were put into queue
+			S32* ps32Buf,		// In:  Data to enqueue in buffer.
+			int32_t lNum = 1)		// In:  Number of S32s to put.
 			{
-			return Put((uint32_t*)ps32Buf, lNum);
+			return Put((U32*)ps32Buf, lNum);
 			}
 
-      size_t Put(				// Returns 1 if it fit, 0 if not enough room in queue
-			uint32_t u32Val)			// In:  Data to enqueue in buffer.
+		int32_t Put(				// Returns 1 if it fit, 0 if not enough room in queue
+			U32 u32Val)			// In:  Data to enqueue in buffer.
 			{
 			return Put(&u32Val);
 			}
 
-      size_t Put(				// Returns 1 if it fit, 0 if not enough room in queue
-			int32_t s32Val)			// In:  Data to enqueue in buffer.
+		int32_t Put(				// Returns 1 if it fit, 0 if not enough room in queue
+			S32 s32Val)			// In:  Data to enqueue in buffer.
 			{
 			return Put(&s32Val);
 			}
@@ -377,10 +373,10 @@ class CBufQ
 		///////////////////////////////////////////////////////////////////////////////
 		// Various flavors of Get()
 		///////////////////////////////////////////////////////////////////////////////
-      size_t Get(				// Returns 1 if item was dequeued, 0 otherwise
-			uint8_t* pu8Val)			// Out: Where to dequeue from buffer.
+		int32_t Get(				// Returns 1 if item was dequeued, 0 otherwise
+			U8* pu8Val)			// Out: Where to dequeue from buffer.
 			{
-         size_t lNumGot = 0;
+			int32_t lNumGot = 0;
 			if (CanGetByte())
 				{
 				*pu8Val = *(m_au8Buf + m_sGetPos);
@@ -390,107 +386,103 @@ class CBufQ
 			return lNumGot;
 			}
 									
-      size_t Get(				// Returns number of items dequeued.
-			uint8_t* pu8Buf,			// Out: Where to dequeue from buffer.
-         size_t lNum)			// In:  Number of bytes to get.
+		int32_t Get(				// Returns number of items dequeued.
+			U8* pu8Buf,			// Out: Where to dequeue from buffer.
+			int32_t lNum)			// In:  Number of bytes to get.
 			{
-         size_t	lNumGot	= 0;
-         do
+			int32_t	lNumGot	= -1;
+			while (++lNumGot < lNum)
 				{
 				if (!Get(pu8Buf++))
 					break;
-            } while (++lNumGot < lNum);
+				}
 			return lNumGot;
 			}
 
-      size_t Get(				// Returns number of items dequeued.
-			int8_t* ps8Buf,			// Out: Where to dequeue from buffer.
-         size_t lNum = 1)		// In:  Number of bytes to get.
+		int32_t Get(				// Returns number of items dequeued.
+			S8* ps8Buf,			// Out: Where to dequeue from buffer.
+			int32_t lNum = 1)		// In:  Number of bytes to get.
 			{
-			return Get((uint8_t*)ps8Buf, lNum);
+			return Get((U8*)ps8Buf, lNum);
 			}
 
-      size_t Get(				// Returns number of items dequeued
+		int32_t Get(				// Returns number of items dequeued
 			void* pvBuf,		// Out: Where to dequeue from buffer.
-         size_t lNum)			// In:  Number of bytes to get.
+			int32_t lNum)			// In:  Number of bytes to get.
 			{
-			return Get((uint8_t*)pvBuf, lNum);
+			return Get((U8*)pvBuf, lNum);
 			}
 
-      size_t Get(				// Returns number of items dequeued.
-			uint16_t* pu16Buf,		// Out: Where to dequeue from buffer.
-         size_t lNum = 1)		// In:  Number of U16s to get.
+		int32_t Get(				// Returns number of items dequeued.
+			U16* pu16Buf,		// Out: Where to dequeue from buffer.
+			int32_t lNum = 1)		// In:  Number of U16s to get.
 			{
-         size_t	lNumGot	= 0;
-			uint8_t*	pu8Buf	= (uint8_t*)pu16Buf;
+			int32_t	lNumGot	= -1;
+			U8*	pu8Buf	= (U8*)pu16Buf;
 
-#if BYTE_ORDER == BIG_ENDIAN
-         do
-         {
-           Get(pu8Buf++);
-           if (!Get(pu8Buf++))
-             break;
-         } while (++lNumGot < lNum);
-#elif BYTE_ORDER == LITTLE_ENDIAN
-         do
-         {
-           Get(pu8Buf + 1);
-           if (!Get(pu8Buf + 0))
-             break;
-           pu8Buf	+= 2;
-         } while (++lNumGot < lNum);
-#else
-# error NOT IMPLEMENTED
-#endif
-
-			return lNumGot;
-			}
-
-      size_t Get(				// Returns number of items dequeued.
-			int16_t* ps16Buf,		// Out: Where to dequeue from buffer.
-         size_t lNum = 1)		// In:  Number of S16s to get.
-			{
-			return Get((uint16_t*)ps16Buf, lNum);
-			}
-
-      size_t Get(				// Returns number of items dequeued.
-			uint32_t* pu32Buf,		// Out: Where to dequeue from buffer.
-         size_t lNum = 1)		// In:  Number of U32s to get.
-			{
-         size_t	lNumGot	= 0;
-			uint8_t*	pu8Buf	= (uint8_t*)pu32Buf;
-
-#if BYTE_ORDER == BIG_ENDIAN
-         do
-         {
-           Get(pu8Buf++);
-           Get(pu8Buf++);
-           Get(pu8Buf++);
-           if (!Get(pu8Buf++))
-             break;
-         } while (++lNumGot < lNum);
-#elif BYTE_ORDER == LITTLE_ENDIAN
-         do
-         {
-           Get(pu8Buf + 3);
-           Get(pu8Buf + 2);
-           Get(pu8Buf + 1);
-           if (!Get(pu8Buf + 0))
-             break;
-           pu8Buf	+= 4;
-         } while (++lNumGot < lNum);
-#else
-# error NOT IMPLEMENTED
-#endif
+			#ifdef SYS_ENDIAN_BIG
+				while (++lNumGot < lNum)
+					{
+					Get(pu8Buf++);
+					if (!Get(pu8Buf++))
+						break;
+					}
+			#else
+				while (++lNumGot < lNum)
+					{
+					Get(pu8Buf + 1);
+					if (!Get(pu8Buf + 0))
+						break;
+					pu8Buf	+= 2;
+					}
+			#endif
 
 			return lNumGot;
 			}
 
 		int32_t Get(				// Returns number of items dequeued.
-			int32_t* ps32Buf,		// Out: Where to dequeue from buffer.
-         size_t lNum = 1)		// In:  Number of S32s to get.
+			S16* ps16Buf,		// Out: Where to dequeue from buffer.
+			int32_t lNum = 1)		// In:  Number of S16s to get.
 			{
-			return Get((uint32_t*)ps32Buf, lNum);
+			return Get((U16*)ps16Buf, lNum);
+			}
+
+		int32_t Get(				// Returns number of items dequeued.
+			U32* pu32Buf,		// Out: Where to dequeue from buffer.
+			int32_t lNum = 1)		// In:  Number of U32s to get.
+			{
+			int32_t	lNumGot	= -1;
+			U8*	pu8Buf	= (U8*)pu32Buf;
+
+			#ifdef SYS_ENDIAN_BIG
+				while (++lNumGot < lNum)
+					{
+					Get(pu8Buf++);
+					Get(pu8Buf++);
+					Get(pu8Buf++);
+					if (!Get(pu8Buf++))
+						break;
+					}
+			#else
+				while (++lNumGot < lNum)
+					{
+					Get(pu8Buf + 3);
+					Get(pu8Buf + 2);
+					Get(pu8Buf + 1);
+					if (!Get(pu8Buf + 0))
+						break;
+					pu8Buf	+= 4;
+					}
+			#endif
+
+			return lNumGot;
+			}
+
+		int32_t Get(				// Returns number of items dequeued.
+			S32* ps32Buf,		// Out: Where to dequeue from buffer.
+			int32_t lNum = 1)		// In:  Number of S32s to get.
+			{
+			return Get((U32*)ps32Buf, lNum);
 			}
 
 		///////////////////////////////////////////////////////////////////////////////
@@ -499,7 +491,7 @@ class CBufQ
 		///////////////////////////////////////////////////////////////////////////////
 		int16_t UnPut(void)								// Returns 1 if able to unput, 0 if nothing to unput
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			// Being able to get a byte also happens to indicate that we can unput a byte!
 			// In other words, if we can move the get pointer forward 1 byte, it means we
 			// can instead move the put pointer back 1 byte.  Get it?
@@ -518,7 +510,7 @@ class CBufQ
 		///////////////////////////////////////////////////////////////////////////////
 		int16_t UnGet(void)								// Returns 1 if able to unget, 0 if nothing to unget
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			// Being able to put a byte also happens to indicate that we can unput a byte!
 			// In other words, if we can move the put pointer forward 1 byte, it means we
 			// can instead move the get pointer back 1 byte.  Get it?
@@ -536,8 +528,8 @@ class CBufQ
 		// Don't forget to release this ptr with ReleasePutPtr()!!!!
 		///////////////////////////////////////////////////////////////////////////////
 		void LockPutPtr(
-			uint8_t** ppu8Put,				// Out: Pointer to which up to *plAmountAvail bytes can be put
-         size_t* plAvail)				// Out: Number of bytes that can be put to above pointer
+			U8** ppu8Put,				// Out: Pointer to which up to *plAmountAvail bytes can be put
+			int32_t* plAvail)				// Out: Number of bytes that can be put to above pointer
 			{
 			*plAvail = CheckLockPutPtr();
 			*ppu8Put = m_au8Buf + m_sPutPos;
@@ -548,7 +540,7 @@ class CBufQ
 		// This function is indiscriminant and will screw you if you lie!
 		///////////////////////////////////////////////////////////////////////////////
 		void ReleasePutPtr(
-         size_t	lBytes)				// In:  Number of bytes written to locked pointer
+			int32_t	lBytes)				// In:  Number of bytes written to locked pointer
 			{
 			ASSERT(lBytes <= CheckLockPutPtr());
 			m_sPutPos += lBytes;
@@ -561,8 +553,8 @@ class CBufQ
 		// Don't forget to release this ptr with ReleaseGetPtr()!!!!
 		///////////////////////////////////////////////////////////////////////////////
 		void LockGetPtr(
-			uint8_t** ppu8Get,				// Out: Pointer from which up to *plAmountAvail bytes can be gotten
-         size_t* plAvail)				// Out: Number of bytes that can be gotten from above pointer
+			U8** ppu8Get,				// Out: Pointer from which up to *plAmountAvail bytes can be gotten
+			int32_t* plAvail)				// Out: Number of bytes that can be gotten from above pointer
 			{
 			*plAvail = CheckLockGetPtr();
 			*ppu8Get = m_au8Buf + m_sGetPos;
@@ -573,7 +565,7 @@ class CBufQ
 		// This function is indiscriminant and will screw you if you lie!
 		///////////////////////////////////////////////////////////////////////////////
 		void ReleaseGetPtr(
-         size_t	lBytes)				// In:  Number of bytes that were gotten from locked pointer
+			int32_t	lBytes)				// In:  Number of bytes that were gotten from locked pointer
 			{
 			ASSERT(lBytes <= CheckLockGetPtr());
 			m_sGetPos += lBytes;

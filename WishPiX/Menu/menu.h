@@ -86,10 +86,22 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 // RSPiX Headers.
+// If PATHS_IN_INCLUDES macro is defined, we can utilize relative
+// paths to a header file.  In this case we generally go off of our
+// RSPiX root directory.  System.h MUST be included before this macro
+// is evaluated.  System.h is the header that, based on the current
+// platform (or more so in this case on the compiler), defines 
+// PATHS_IN_INCLUDES.  Blue.h includes system.h so you can include that
+// instead.
 ///////////////////////////////////////////////////////////////////////////////
-#include <BLUE/System.h>
-#include <ORANGE/GUI/guiItem.h>
-#include <ResourceManager/resmgr.h>
+#include "Blue.h"
+#ifdef PATHS_IN_INCLUDES
+	#include "ORANGE/GUI/guiItem.h"
+	#include "WishPiX/ResourceManager/resmgr.h"
+#else
+	#include "guiItem.h"
+	#include "resmgr.h"
+#endif
 
 // If under Microsoft compiler . . .
 #ifdef _MSC_VER
@@ -101,14 +113,12 @@
 // Macros.
 //////////////////////////////////////////////////////////////////////////////
 
-#if BYTE_ORDER == LITTLE_ENDIAN
+#ifdef SYS_ENDIAN_LITTLE
 	#define MAKE_U32_COLOR(u8Red, u8Blue, u8Green, u8Alpha)	\
 		( (u8Alpha << 0) | (u8Red << 8) | (u8Green << 16) | (u8Blue << 24) )
-#elif BYTE_ORDER == BIG_ENDIAN
+#else
 	#define MAKE_U32_COLOR(u8Red, u8Blue, u8Green, u8Alpha)	\
 		( (u8Alpha << 24) | (u8Red << 16) | (u8Green << 8) | (u8Blue << 0) )
-#else
-# error NOT IMPLEMENTED
 #endif
 
 //////////////////////////////////////////////////////////////////////////////
@@ -167,8 +177,8 @@ typedef struct
 
 typedef struct
 	{
-   const char*			pszFile;				// Filespec of image for background of menu or nullptr.
-	uint32_t			u32BackColor;		// Background color.
+	char*			pszFile;				// Filespec of image for background of menu or NULL.
+	U32			u32BackColor;		// Background color.
 	int16_t			sSetStartIndex;	// Starting index of palette entries to set.
 	int16_t			sSetNumEntries;	// Number of palette entries to set.
 	int16_t			sMapStartIndex;	// Starting index of palette entries that can be mapped to.
@@ -182,28 +192,28 @@ typedef struct
 
 typedef struct
 	{
-   const char*	pszFile;				// Filespec of font to use for menu item text.
+	char*	pszFile;				// Filespec of font to use for menu item text.
 	int16_t	sHeight;				// Height to use for menu item text.
-	uint32_t	u32ForeColor;		// Color or color index for font to use for menu item
+	U32	u32ForeColor;		// Color or color index for font to use for menu item
 									// text.
-	uint32_t	u32ShadowColor;	// Color or color index for font to use for shadow
+	U32	u32ShadowColor;	// Color or color index for font to use for shadow
 									// of menu item text.
 	} MenuItemsFont;
 
 typedef struct
 	{
-   const char*	pszHeaderText;		// Header text.
-   const char*	pszFontFile;		// Filespec of font to use for menu header text.
+	char*	pszHeaderText;		// Header text.
+	char*	pszFontFile;		// Filespec of font to use for menu header text.
 	int16_t	sHeight;				// Height to use for menu header text.
-	uint32_t	u32ForeColor;		// Color or color index for font to use for menu header
+	U32	u32ForeColor;		// Color or color index for font to use for menu header
 									// text.
-	uint32_t	u32ShadowColor;	// Color or color index for font to use for shadow
+	U32	u32ShadowColor;	// Color or color index for font to use for shadow
 									// of menu header text.
 	} MenuHeader;
 
 typedef struct
 	{
-   const char*	pszFile;			// Filespec of indicator image to use for current
+	char*	pszFile;			// Filespec of indicator image to use for current
 								// selection.
 	RImage::Type	type;	// New type to convert image to after load or 
 								// RImage::NOT_SUPPORTED to skip conversion.
@@ -217,7 +227,7 @@ typedef struct
 	int16_t	sCancelItem;	// Menu item (index in ami[]) chosen on cancel.
 								// Negative indicates distance from number of items
 								// (e.g., -1 is the last item).
-	Menu*	pmenuBack;		// If not nullptr, the menu to go back to in the case
+	Menu*	pmenuBack;		// If not NULL, the menu to go back to in the case
 								// the cancel item (sCancelItem) is chosen.
 	int16_t	sBackItem;		// Last item selected on this menu.  Only use, if
 								// getting to this menu via pmenuBack.
@@ -242,16 +252,16 @@ typedef struct
 
 typedef struct
 	{
-   const char*			pszText;		// Text for menu item.
+	char*			pszText;		// Text for menu item.
 	int16_t			sEnabled;	// TRUE if item is enabled, FALSE if disabled.
-	Menu*			pmenu;		// Menu this item leads to or nullptr.
+	Menu*			pmenu;		// Menu this item leads to or NULL.
 	RGuiItem*	pgui;			// GuiItem to appear after text.
 	} MenuItem;
 
 struct Menu		// Structure defining a menu.
 	{
 	// User defined identifier.
-	uint32_t				u32Id;	// User may used to identify this menu.
+	U32				u32Id;	// User may used to identify this menu.
 
 	// Position info.
 	MenuPos			menupos;
@@ -280,7 +290,7 @@ struct Menu		// Structure defining a menu.
 	// Items chosen or selected automatically under certain conditions.
 	MenuAutoItems	menuautoitems;
 
-	// Menu item descriptors.  In order.  "" for empty lines.  nullptr to end.
+	// Menu item descriptors.  In order.  "" for empty lines.  NULL to end.
 	// Note: Metrowerks Codewarrior compiler doesn't like unsized arrays, so
 	//       this had to be given a size.  For now, 10 lines seems reasonable.
 	//	But, alas, that was not enough so I upped it to 4096 and then I thought
@@ -321,7 +331,7 @@ extern void DoMenuOutput(	// Returns nothing.
 
 // Get the current menu.
 extern Menu* GetCurrentMenu(void);	// Returns a pointer to the current
-												// menu or nullptr if there is none.
+												// menu or NULL if there is none.
 
 // Call this to release all memory being used by the menu system
 // It should be safe to call this function even if StartMenu()  
@@ -332,11 +342,11 @@ extern int16_t StopMenu(void);		// Returns 0 on success.
 // Get the Menu's background image.
 extern RImage* GetCurrentMenuBackground(void);	// Returns a pointer to the
 																// current background image
-																// or nullptr, if none.
+																// or NULL, if none.
 
 // Get the Menu's GUI.
 extern RGuiItem* GetCurrentMenuBox(void);	// Returns a pointer to the current
-														// menu GUI or nullptr, if none.
+														// menu GUI or NULL, if none.
 
 #endif	// MENU_H
 //////////////////////////////////////////////////////////////////////////////

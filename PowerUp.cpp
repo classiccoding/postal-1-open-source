@@ -144,9 +144,10 @@
 // pick up.
 //
 //////////////////////////////////////////////////////////////////////////////
+#define POWERUP_CPP
 
-#include <RSPiX.h>
-#include <cmath>
+#include "RSPiX.h"
+#include <math.h>
 
 #include "PowerUp.h"
 #include "dude.h"
@@ -169,7 +170,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Animations.
-const char*	CPowerUp::ms_apszPowerUpResNames[CStockPile::NumStockPileItems + 2]	=
+char*	CPowerUp::ms_apszPowerUpResNames[CStockPile::NumStockPileItems + 2]	=
 	{
 	"3d/ammo",							// Bullets.
 	"3d/grenadeicon",					// Grenades.
@@ -209,7 +210,7 @@ int16_t CPowerUp::Load(								// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,									// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)								// In:  Version of file format to load.
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	if (ulFileVersion < 20)
 		{
 		sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
@@ -220,7 +221,7 @@ int16_t CPowerUp::Load(								// Returns 0 if successfull, non-zero otherwise
 		sResult	= CThing3d::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 		}
 
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		CacheSample(g_smidPickedUpWeapon);
 		switch (ulFileVersion)
@@ -268,7 +269,7 @@ int16_t CPowerUp::Load(								// Returns 0 if successfull, non-zero otherwise
 				pFile->Read(&m_dX);
 				pFile->Read(&m_dY);
 				pFile->Read(&m_dZ);
-				uint8_t	u8Type	= (uint8_t)CStockPile::Bullets; 
+				U8	u8Type	= (U8)CStockPile::Bullets; 
 				pFile->Read(&u8Type);
 				int32_t	lPowerVal;
 				pFile->Read(&lPowerVal);
@@ -313,14 +314,14 @@ int16_t CPowerUp::Load(								// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 			{
 			// Get resources and initialize.
 			sResult = Init();
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CPowerUp::Load(): Error reading from file!\n");
 			}
 		}
@@ -337,8 +338,8 @@ int16_t CPowerUp::Save(										// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
 	// Note that we bypass CItem3d::Save() cuz I think that would be wierd.
-   int16_t sResult	= CThing3d::Save(pFile, sFileCount);
-	if (sResult == SUCCESS)
+	int16_t	sResult	= CThing3d::Save(pFile, sFileCount);
+	if (sResult == 0)
 		{
 		// Base class does it all.
 		}
@@ -426,7 +427,7 @@ int16_t CPowerUp::Setup(									// Returns 0 if successfull, non-zero otherwise
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -436,7 +437,7 @@ int16_t CPowerUp::Setup(									// Returns 0 if successfull, non-zero otherwise
 	// Load resources and initialize.
 	sResult = Init();
 
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		sResult	= Startup();
 		}
@@ -444,7 +445,7 @@ int16_t CPowerUp::Setup(									// Returns 0 if successfull, non-zero otherwise
 	return sResult;
 	}
 
-#if !defined(EDITOR_REMOVED)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -453,7 +454,7 @@ int16_t CPowerUp::EditNew(								// Returns 0 if successfull, non-zero otherwis
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -471,10 +472,10 @@ int16_t CPowerUp::EditNew(								// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPowerUp::EditModify(void)
 	{
-   int16_t sResult	= m_stockpile.UserEdit();
+	int16_t	sResult	= m_stockpile.UserEdit();
 
 	// If successful so far . . .
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// Load resources and initialize.
 		sResult = Init();
@@ -482,17 +483,17 @@ int16_t CPowerUp::EditModify(void)
 
 	return sResult;
 	}
-#endif // !defined(EDITOR_REMOVED)
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Initialize object.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPowerUp::Init(void)	// Returns 0 on success.
 	{
-   int16_t sResult	= GetResources();
+	int16_t	sRes	= GetResources();
 
 	// Prepare shadow (get resources and setup sprite).
-	sResult	|= PrepareShadow();
+	sRes	|= PrepareShadow();
 
 	m_dExtRotVelY	= Y_AXIS_ROTATION_RATE;
 
@@ -501,7 +502,7 @@ int16_t CPowerUp::Init(void)	// Returns 0 on success.
 	// Set up collision object
 	m_smash.m_bits		= CSmash::PowerUp | CSmash::Misc;
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -537,19 +538,19 @@ void CPowerUp::GetResName(	// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPowerUp::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Safe to call even if no resource.
 	FreeResources();
 
-	char	szResName[PATH_MAX];
+	char	szResName[RSP_MAX_PATH];
 	GetResName(szResName);
 
 	sResult	= m_anim.Get(
 		szResName, 
-      nullptr,
-      nullptr,
-      nullptr,
+		NULL,
+		NULL,
+		NULL,
 		RChannel_LoopAtStart | RChannel_LoopAtEnd);
 
 	return sResult;
@@ -560,9 +561,9 @@ int16_t CPowerUp::GetResources(void)						// Returns 0 if successfull, non-zero 
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPowerUp::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
-   if (m_anim.m_psops != nullptr)
+	if (m_anim.m_psops != NULL)
 		{
 		m_anim.Release();
 		}
@@ -577,14 +578,14 @@ int16_t CPowerUp::FreeResources(void)						// Returns 0 if successfull, non-zero
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CPowerUp::Preload(CRealm* /*prealm*/)
 {
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	int16_t i;
 	CAnim3D anim;
 
 	for (i = 0; i < CStockPile::NumStockPileItems + 2; i++)
 	{
-      sResult |= anim.Get(ms_apszPowerUpResNames[i], nullptr, nullptr, nullptr, 0);
+		sResult |= anim.Get(ms_apszPowerUpResNames[i], NULL, NULL, NULL, 0);
 		anim.Release();			
 	}	
 
@@ -597,10 +598,10 @@ int16_t CPowerUp::Preload(CRealm* /*prealm*/)
 int16_t CPowerUp::Grab(		// Returns 0 on success..
 	CSprite* psprParent)		// In:  Parent's sprite.
 	{
-   int16_t sResult	= SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	// If we are not already grabbed . . .
-   if (m_sprite.m_psprParent == nullptr)
+	if (m_sprite.m_psprParent == NULL)
 		{
 		m_dX	= 0.0;
 		m_dY	= 0.0;
@@ -619,10 +620,10 @@ int16_t CPowerUp::Grab(		// Returns 0 on success..
 	else
 		{
 		// Already have a parent.
-		sResult = FAILURE;
+		sRes	= -1;
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -638,7 +639,7 @@ void CPowerUp::Drop(			// Returns nothing.
 	m_dZ	= sZ;
 
 	// If we have a parent . . .
-   if (m_sprite.m_psprParent != nullptr)
+	if (m_sprite.m_psprParent != NULL)
 		{
 		// Remove from parent.
 		m_sprite.m_psprParent->RemoveChild(&m_sprite);
@@ -666,7 +667,7 @@ void CPowerUp::RepaginateNow(void)
 	if (IsEmpty() == false)
 		{
 		// If this fails, we'd better go away . . .
-      if (GetResources() != SUCCESS)
+		if (GetResources() != 0)
 			{
 			delete this;
 			}
@@ -714,7 +715,7 @@ void CPowerUp::OnExplosionMsg(			// Returns nothing.
 			if (bFirst == false)
 				{
 				CPowerUp*	ppowerup;
-				if (ConstructWithID(CPowerUpID, m_pRealm, (CThing**)&ppowerup) == SUCCESS)
+				if (ConstructWithID(CPowerUpID, m_pRealm, (CThing**)&ppowerup) == 0)
 					{
 					// Transfer item.
 					ppowerup->m_stockpile.GetItem(sTypeIndex)	= m_stockpile.GetItem(sTypeIndex);
@@ -746,7 +747,7 @@ void CPowerUp::OnExplosionMsg(			// Returns nothing.
 	if (sNumGenerated)
 		{
 		// This one was altered.
-      if (GetResources() != SUCCESS)
+		if (GetResources() != 0)
 			{
 			// Doh!
 			delete this;

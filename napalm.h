@@ -117,11 +117,11 @@ class CNapalm : public CWeapon
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CNapalm(pRealm);
-         if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CNapalm::Construct(): Couldn't construct CNapalm (that's a bad thing)\n");
 				}
 			return sResult;

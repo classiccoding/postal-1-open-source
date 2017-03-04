@@ -94,16 +94,13 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <RSPiX.h>
-
-#if !defined(MULTIPLAYER_REMOVED)
-
+#include "RSPiX.h"
 #include "netclient.h"
 #include "NetDlg.h"
 
 // This is the maximum size of the peer messages.
 #define PEER_MSG_HEADER_SIZE		(1 + 2 + 2 + 2 + 2)
-#define PEER_MSG_MAX_SIZE		  (PEER_MSG_HEADER_SIZE + ((Net::MaxAheadSeq * 2) * (sizeof(UINPUT) + sizeof(uint8_t)))) // *SPA
+#define PEER_MSG_MAX_SIZE		  (PEER_MSG_HEADER_SIZE + ((Net::MaxAheadSeq * 2) * (sizeof(UINPUT) + sizeof(U8)))) // *SPA
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -112,76 +109,72 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 //------------------------------------------------------------------------------
-// Get a uint8_t
+// Get a U8
 //------------------------------------------------------------------------------
-inline void Get(uint8_t* &pget, uint8_t* pval)
+inline void Get(U8* &pget, U8* pval)
 	{
 	*pval = *pget++;
 	}
 
 //------------------------------------------------------------------------------
-// Get an int8_t
+// Get an S8
 //------------------------------------------------------------------------------
-inline void Get(uint8_t* &pget, int8_t* pval)
+inline void Get(U8* &pget, S8* pval)
 	{
-	Get(pget, (uint8_t*)pval);
+	Get(pget, (U8*)pval);
 	}
 
 //------------------------------------------------------------------------------
-// Get a uint16_t
+// Get a U16
 //------------------------------------------------------------------------------
-inline void Get(uint8_t* &pget, uint16_t* pval)
+inline void Get(U8* &pget, U16* pval)
 	{
-#if BYTE_ORDER == LITTLE_ENDIAN
-		uint8_t* ptmp = ((uint8_t*)(pval)) + 1;
+	#ifdef SYS_ENDIAN_LITTLE
+		U8* ptmp = ((U8*)(pval)) + 1;
 		*ptmp-- = *pget++;
 		*ptmp   = *pget++;
-#elif BYTE_ORDER == BIG_ENDIAN
-      uint8_t* ptmp = (uint8_t*)(pval);
+	#else
+		U8* ptmp = (U8*)(pval);
 		*ptmp++ = *pget++;
 		*ptmp   = *pget++;
-#else
-# error NOT IMPLEMENTED
-#endif
+	#endif
 	}
 
 //------------------------------------------------------------------------------
-// Get an int16_t
+// Get an S16
 //------------------------------------------------------------------------------
-inline void Get(uint8_t* &pget, int16_t* pval)
+inline void Get(U8* &pget, S16* pval)
 	{
-	Get(pget, (uint16_t*)pval);
+	Get(pget, (U16*)pval);
 	}
 
 //------------------------------------------------------------------------------
-// Get a uint32_t
+// Get a U32
 //------------------------------------------------------------------------------
-inline void Get(uint8_t* &pget, uint32_t* pval)
+inline void Get(U8* &pget, U32* pval)
 	{
-#if BYTE_ORDER == LITTLE_ENDIAN
-		uint8_t* ptmp = ((uint8_t*)(pval)) + 3;
+	#ifdef SYS_ENDIAN_LITTLE
+		U8* ptmp = ((U8*)(pval)) + 3;
 		*ptmp-- = *pget++;
 		*ptmp-- = *pget++;
 		*ptmp-- = *pget++;
 		*ptmp   = *pget++;
-#elif BYTE_ORDER == BIG_ENDIAN
-      uint8_t* ptmp = (uint8_t*)(pval);
+	#else
+		U8* ptmp = (U8*)(pval);
 		*ptmp++ = *pget++;
 		*ptmp++ = *pget++;
 		*ptmp++ = *pget++;
 		*ptmp   = *pget++;
-#else
-# error NOT IMPLEMENTED
-#endif
+	#endif
 	}
 
 //------------------------------------------------------------------------------
-// Get a uint64_t
+// Get a U64
 //------------------------------------------------------------------------------
-inline void Get(uint8_t* &pget, uint64_t* pval)
+inline void Get(U8* &pget, U64* pval)
 {
-#if BYTE_ORDER == LITTLE_ENDIAN
-   uint8_t* ptmp = ((uint8_t*)(pval)) + 3;
+#ifdef SYS_ENDIAN_LITTLE
+	U8* ptmp = ((U8*)(pval)) + 3;
 	*ptmp-- = *pget++;
 	*ptmp-- = *pget++;
 	*ptmp-- = *pget++;
@@ -189,28 +182,26 @@ inline void Get(uint8_t* &pget, uint64_t* pval)
 	*ptmp-- = *pget++;
 	*ptmp-- = *pget++;
 	*ptmp-- = *pget++;
-	*ptmp = *pget++;
-#elif BYTE_ORDER == BIG_ENDIAN
-	uint8_t* ptmp = (uint8_t*)(pval);
-	*ptmp++ = *pget++;
-	*ptmp++ = *pget++;
-	*ptmp++ = *pget++;
-	*ptmp++ = *pget++;
-	*ptmp++ = *pget++;
-	*ptmp++ = *pget++;
-	*ptmp++ = *pget++;
 	*ptmp = *pget++;
 #else
-# error NOT IMPLEMENTED
+	U8* ptmp = (U8*)(pval);
+	*ptmp++ = *pget++;
+	*ptmp++ = *pget++;
+	*ptmp++ = *pget++;
+	*ptmp++ = *pget++;
+	*ptmp++ = *pget++;
+	*ptmp++ = *pget++;
+	*ptmp++ = *pget++;
+	*ptmp = *pget++;
 #endif
 }
 
 //------------------------------------------------------------------------------
-// Get an int32_t
+// Get an S32
 //------------------------------------------------------------------------------
-inline void Get(uint8_t* &pget, int32_t* pval)
+inline void Get(U8* &pget, S32* pval)
 	{
-	Get(pget, (uint32_t*)pval);
+	Get(pget, (U32*)pval);
 	}
 
 
@@ -220,76 +211,72 @@ inline void Get(uint8_t* &pget, int32_t* pval)
 ////////////////////////////////////////////////////////////////////////////////
 
 //------------------------------------------------------------------------------
-// Put a uint8_t
+// Put a U8
 //------------------------------------------------------------------------------
-inline void Put(uint8_t* &pput, uint8_t val)
+inline void Put(U8* &pput, U8 val)
 	{
 	*pput++ = val;
 	}
 
 //------------------------------------------------------------------------------
-// Put an int8_t
+// Put an S8
 //------------------------------------------------------------------------------
-inline void Put(uint8_t* &pput, int8_t val)
+inline void Put(U8* &pput, S8 val)
 	{
-	Put(pput, (uint8_t)val);
+	Put(pput, (U8)val);
 	}
 
 //------------------------------------------------------------------------------
-// Put a uint16_t
+// Put a U16
 //------------------------------------------------------------------------------
-inline void Put(uint8_t* &pput, uint16_t val)
+inline void Put(U8* &pput, U16 val)
 	{
-#if BYTE_ORDER == LITTLE_ENDIAN
-		uint8_t* ptmp = ((uint8_t*)(&val)) + 1;
+	#ifdef SYS_ENDIAN_LITTLE
+		U8* ptmp = ((U8*)(&val)) + 1;
 		*pput++ = *ptmp--;
 		*pput++ = *ptmp;
-#elif BYTE_ORDER == BIG_ENDIAN
-		uint8_t* ptmp = (uint8_t*)(&val);
+	#else
+		U8* ptmp = (U8*)(&val);
 		*pput++ = *ptmp++;
 		*pput++ = *ptmp;
-#else
-# error NOT IMPLEMENTED
-#endif
+	#endif
 	}
 
 //------------------------------------------------------------------------------
-// Put an int16_t
+// Put an S16
 //------------------------------------------------------------------------------
-inline void Put(uint8_t* &pput, int16_t val)
+inline void Put(U8* &pput, S16 val)
 	{
-	Put(pput, (uint16_t)val);
+	Put(pput, (U16)val);
 	}
 
 //------------------------------------------------------------------------------
-// Put a uint32_t
+// Put a U32
 //------------------------------------------------------------------------------
-inline void Put(uint8_t* &pput, uint32_t val)
+inline void Put(U8* &pput, U32 val)
 	{
-#if BYTE_ORDER == LITTLE_ENDIAN
-		uint8_t*ptmp = ((uint8_t*)(&val)) + 3;
+	#ifdef SYS_ENDIAN_LITTLE
+		U8*ptmp = ((U8*)(&val)) + 3;
 		*pput++ = *ptmp--;
 		*pput++ = *ptmp--;
 		*pput++ = *ptmp--;
 		*pput++ = *ptmp;
-#elif BYTE_ORDER == BIG_ENDIAN
-		uint8_t*ptmp = (uint8_t*)(&val);
+	#else
+		U8*ptmp = (U8*)(&val);
 		*pput++ = *ptmp++;
 		*pput++ = *ptmp++;
 		*pput++ = *ptmp++;
 		*pput++ = *ptmp;
-#else
-# error NOT IMPLEMENTED
-#endif
+	#endif
 	}
 
 //------------------------------------------------------------------------------
-// Put a uint64_t
+// Put a U64
 //------------------------------------------------------------------------------
-inline void Put(uint8_t* &pput, uint64_t val)
+inline void Put(U8* &pput, U64 val)
 {
-#if BYTE_ORDER == LITTLE_ENDIAN
-	uint8_t*ptmp = ((uint8_t*)(&val)) + 3;
+#ifdef SYS_ENDIAN_LITTLE
+	U8*ptmp = ((U8*)(&val)) + 3;
 	*pput++ = *ptmp--;
 	*pput++ = *ptmp--;
 	*pput++ = *ptmp--;
@@ -298,8 +285,8 @@ inline void Put(uint8_t* &pput, uint64_t val)
 	*pput++ = *ptmp--;
 	*pput++ = *ptmp--;
 	*pput++ = *ptmp;
-#elif BYTE_ORDER == BIG_ENDIAN
-	uint8_t*ptmp = (uint8_t*)(&val);
+#else
+	U8*ptmp = (U8*)(&val);
 	*pput++ = *ptmp++;
 	*pput++ = *ptmp++;
 	*pput++ = *ptmp++;
@@ -312,11 +299,11 @@ inline void Put(uint8_t* &pput, uint64_t val)
 }
 
 //------------------------------------------------------------------------------
-// Put an int32_t
+// Put an S32
 //------------------------------------------------------------------------------
-inline void Put(uint8_t* &pput, int32_t val)
+inline void Put(U8* &pput, S32 val)
 	{
-	Put(pput, (uint32_t)val);
+	Put(pput, (U32)val);
 	}
 
 
@@ -579,7 +566,7 @@ void CNetClient::Update(void)
 
 						// Open peer socket (this is an unconnected datagram socket, so all the peers
 						// simply hurl their data at this port, and we figure out who it came from).
-						if (m_socketPeers.Open(usPeerPort, RSocket::typDatagram, RSocket::optDontBlock, m_callback) == SUCCESS)
+						if (m_socketPeers.Open(usPeerPort, RSocket::typDatagram, RSocket::optDontBlock, m_callback) == 0)
 							{
 							// We are now fully joined.  HOWEVER, we don't adjust the m_sNumJoined here
 							// because we want to allow the server to be in direct control of that by
@@ -833,7 +820,7 @@ void CNetClient::GetMsg(
 					msg.msg.inputData.seqStart	= pmsg->msg.inputReq.seqStart;
 					msg.msg.inputData.sNum		= pmsg->msg.inputReq.sNum;
 					msg.msg.inputData.pInputs	= (UINPUT*)msg.AllocVar((int32_t)pmsg->msg.inputReq.sNum * sizeof(UINPUT));
-					msg.msg.inputData.pFrameTimes	= (uint8_t*)msg.AllocVar((int32_t)pmsg->msg.inputReq.sNum * sizeof(uint8_t));
+					msg.msg.inputData.pFrameTimes	= (U8*)msg.AllocVar((int32_t)pmsg->msg.inputReq.sNum * sizeof(U8));
 					
 					// Copy the requested values into the allocated memory
 					Net::SEQ seq = msg.msg.inputData.seqStart;
@@ -1040,7 +1027,7 @@ void CNetClient::SendChat(
 		// the future, we could allow the user to specify who will/won't get it.
 		NetMsg msg;
 		msg.msg.chatReq.ucType = NetMsg::CHAT_REQ;
-      msg.msg.chatReq.u16Mask = UINT16_MAX;
+		msg.msg.chatReq.u16Mask = 0xffff;
 
 		// We're assuming the chat field is longer than the maximum name
 		ASSERT(sizeof(msg.msg.chatReq.acText) > sizeof(m_aPeers[m_id].m_acName));
@@ -1073,7 +1060,7 @@ void CNetClient::SendText(
 		// the future, we could allow the user to specify who will/won't get it.
 		NetMsg msg;
 		msg.msg.chatReq.ucType = NetMsg::CHAT_REQ;
-      msg.msg.chatReq.u16Mask = UINT16_MAX;
+		msg.msg.chatReq.u16Mask = 0xffff;
 
 		// Copy text, truncating in case the specified text is too long
 		strncpy(msg.msg.chatReq.acText, pszText, sizeof(msg.msg.chatReq.acText));
@@ -1182,10 +1169,10 @@ void CNetClient::ReceiveFromPeers(void)
 		// Get next datagram, If we get a too-large datagram, an error occurs and
 		// and the unreceived portion is automatically discarded.  Such a message
 		// could come from a foreign app that is using the same port as us.
-		uint8_t msg[PEER_MSG_MAX_SIZE];
-      size_t lReceived;
-      int16_t sError = m_socketPeers.ReceiveFrom(msg, sizeof(msg), &lReceived, nullptr);
-      if (sError == SUCCESS)
+		U8 msg[PEER_MSG_MAX_SIZE];
+		int32_t lReceived;
+		int16_t serr = m_socketPeers.ReceiveFrom(msg, sizeof(msg), &lReceived, NULL);
+		if (serr == 0)
 			{
 			// Make sure size is within proper range
 			if ((lReceived >= PEER_MSG_HEADER_SIZE) && (lReceived <= PEER_MSG_MAX_SIZE))
@@ -1193,23 +1180,23 @@ void CNetClient::ReceiveFromPeers(void)
 
 				// Get the id from the message
 				Net::ID id;
-				uint8_t* pget = msg;
+				U8* pget = msg;
 				Get(pget, &id);
 
 				// Make sure id is valid
-            if (id < Net::MaxNumIDs)
+				if ((id >= 0) && (id < Net::MaxNumIDs))
 					{
 					// Make sure peer is joined (could be an old message from a dropped peer)
 					if (m_aPeers[id].m_state == CPeer::Joined)
 						{
 						// Calculate the number of input values the message contains. *SPA add sizeof frame time
-                  int32_t lNumInputs = (lReceived - PEER_MSG_HEADER_SIZE) / (sizeof(UINPUT) + sizeof(uint8_t));
+						int32_t lNumInputs = (lReceived - PEER_MSG_HEADER_SIZE) / (sizeof(UINPUT) + sizeof(U8));
 
 						// Get the rest of the message
-//						uint16_t u16SenderPing;
-//						uint16_t u16ReceiverPing;
-						uint16_t u16MsgType; // *SPA
-						uint16_t u16PackageID; // *SPA
+//						U16 u16SenderPing;
+//						U16 u16ReceiverPing;
+						U16 u16MsgType; // *SPA
+						U16 u16PackageID; // *SPA
 						Net::SEQ seqWhatHeNeeds;
 						Net::SEQ seqInputs;
 						Get(pget, &u16PackageID); // *SPA
@@ -1239,8 +1226,8 @@ void CNetClient::ReceiveFromPeers(void)
 */
 						// Add input values to peer's input buffer
 						UINPUT input;
-						uint8_t frameTime;
-                  for (int16_t s = 0; s < lNumInputs; s++)
+						U8 frameTime;
+						for (int16_t s = 0; s < lNumInputs; s++)
 							{
 							// Add input to peer's buffer
 							Get(pget, &input);
@@ -1275,7 +1262,7 @@ void CNetClient::ReceiveFromPeers(void)
 
 						// Calculate the time our ping took to get back (it won't be valid until
 						// he starts getting my ping times -- before that, he'll set it to 0xffff)
-                  if (u16ReceiverPing != UINT16_MAX)
+						if (u16ReceiverPing != 0xffff)
 							{
 							}
 #endif
@@ -1291,7 +1278,7 @@ void CNetClient::ReceiveFromPeers(void)
 			}
 		else
 			{
-         if (sError != RSocket::errWouldBlock)
+			if (serr != RSocket::errWouldBlock)
 				TRACE("CNetClient::ReceiveFromPeers(): Error receiving datagram -- ignored!\n");
 
 			// Break out of the loop (there's no data or we got an error)
@@ -1360,8 +1347,8 @@ void CNetClient::SendToPeer(Net::ID id,				// id of peer to send to
 							bool bSeqReq)			// true if this is a request for data
 	{
 	// Set the header values
-	uint8_t msg[PEER_MSG_MAX_SIZE];
-	uint8_t* pput = msg;
+	U8 msg[PEER_MSG_MAX_SIZE];
+	U8* pput = msg;
 	
 	// Increment the package number
 	m_u16PackageID++;
@@ -1370,15 +1357,15 @@ void CNetClient::SendToPeer(Net::ID id,				// id of peer to send to
 
 	if (!bSeqReq)
 		{
-		Put(pput, (uint16_t)0);
-		Put(pput, (uint16_t)0);
+		Put(pput, (U16)0);
+		Put(pput, (U16)0);
 		}
 	else
 		{
 		// If bSeqReq then set flag for data request
-		Put(pput, (uint16_t)1);
+		Put(pput, (U16)1);
 		// request the data for the current frame (since that must be the one that we can't render)
-		Put(pput, (uint16_t)m_seqFrame);
+		Put(pput, (U16)m_seqFrame);
 		}
 
 	Put(pput, seqStart);
@@ -1387,7 +1374,7 @@ void CNetClient::SendToPeer(Net::ID id,				// id of peer to send to
 	// up to the maximum amount.  We know we'll get at least 1 because
 	// we already determined the one he needs is available (see above).
 	UINPUT input;
-	uint8_t frameTime; // *SPA
+	U8 frameTime; // *SPA
 	int16_t s;
 	for (s = seqStart; s < m_seqInputNotYetSent; s++)
 		{
@@ -1431,9 +1418,8 @@ void CNetClient::SendToPeer(Net::ID id,				// id of peer to send to
 
 	// Calculate size of message.  The peer uses the message size to determine
 	// how many input values it contains.
-   ASSERT(pput > msg);
-   ASSERT(static_cast<uintptr_t>(pput - msg) <= PEER_MSG_MAX_SIZE);
-   size_t lSize = pput - msg;
+	ASSERT((pput - msg) <= PEER_MSG_MAX_SIZE);
+	int32_t lSize = pput - msg;
 
 	// Make sure maximum message size is <= maximum datagram size
 	ASSERT(PEER_MSG_MAX_SIZE <= Net::MaxDatagramSize);
@@ -1442,16 +1428,16 @@ void CNetClient::SendToPeer(Net::ID id,				// id of peer to send to
 	// hopes that the next time we try, it will work.  This may not be a good
 	// idea.  Although datagram messages are not guaranteed to arrive, getting
 	// a send error probably indicates a real problem that may not go away.
-   size_t lSent;
-   int16_t sError = m_socketPeers.SendTo(msg, lSize, &lSent, &m_aPeers[id].m_address);
-   if (sError == SUCCESS)
+	int32_t lSent;
+	int16_t serr = m_socketPeers.SendTo(msg, lSize, &lSent, &m_aPeers[id].m_address);
+	if (serr == 0)
 		{
 		if (lSent != lSize)
-         TRACE("Error sending message to peer -- should have sent %i bytes but actually sent %i.\n", lSize, lSent);
+			TRACE("Error sending message to peer -- should have sent %ld bytes but actually sent %ld.\n", (int32_t)lSize, (int32_t)lSent);
 		}
 	else
 		{
-      if (sError != RSocket::errWouldBlock)
+		if (serr != RSocket::errWouldBlock)
 			TRACE("Error sending message to peer -- SendTo() failed!\n");
 		}
 	}
@@ -1512,7 +1498,7 @@ bool CNetClient::CanDoFrame(							// Returns true if frame can be done, false o
 			}
 
 		// Check to see if we've not been able to render this frame for a while *SPA
-      milliseconds_t lCurTime = rspGetMilliseconds();
+		int32_t lCurTime = rspGetMilliseconds();
 		if (lCurTime > m_lMaxWaitTime)
 			{
 			for (Net::ID id = 0; id < Net::MaxNumIDs; id++)
@@ -1569,7 +1555,7 @@ bool CNetClient::CanDoFrame(							// Returns true if frame can be done, false o
 				frameTime = g_GameSettings.m_sNetTimePerFrame;
 				}
 			// Put this time into the next frame that we know has not been sent to anybody *SPA
-         m_netinput.PutFrameTime(m_seqInputNotYetSent, (uint8_t)(frameTime & 0x00FF));
+			m_netinput.PutFrameTime(m_seqInputNotYetSent, (U8)(frameTime & 0x00ff));
 
 			// This is the only place where we increment the frame seq, so it's the
 			// right place to check if we've reached the halt frame (if there is one).
@@ -1633,7 +1619,7 @@ bool CNetClient::IsLocalInputNeeded(void)
 	if (m_bPlaying)
 		{
 		// Check if timer expired
-//		milliseconds_t lCurTime = rspGetMilliseconds();
+//		long lCurTime = rspGetMilliseconds();
 //		if (lCurTime > m_lNextLocalInputTime)
 //			{
 			// The input seq is only allowed to get m_seqMaxAhead ahead of the
@@ -1673,7 +1659,7 @@ bool CNetClient::IsLocalInputNeeded(void)
 					{
 					UINPUT input = m_netinput.Get(m_seqFrame);
 					m_aPeers[m_id].m_netinput.Put(m_seqFrame, input);
-					uint8_t frameTime = m_netinput.GetFrameTime(m_seqFrame);
+					U8 frameTime = m_netinput.GetFrameTime(m_seqFrame);
 					m_aPeers[m_id].m_netinput.PutFrameTime(m_seqFrame, frameTime);
 					}
 				}
@@ -1700,7 +1686,7 @@ void CNetClient::SetLocalInput(
 		// Set our own peer data for the current frame from the local data *SPA 12/30/97
 		input = m_netinput.Get(m_seqFrame);
 		m_aPeers[m_id].m_netinput.Put(m_seqFrame, input);
-		uint8_t frameTime = m_netinput.GetFrameTime(m_seqFrame);
+		U8 frameTime = m_netinput.GetFrameTime(m_seqFrame);
 		m_aPeers[m_id].m_netinput.PutFrameTime(m_seqFrame, frameTime);
 		// Reset the receive timer *SPA
 		m_aPeers[m_id].m_lLastReceiveTime = rspGetMilliseconds();
@@ -1759,7 +1745,7 @@ Net::ID CNetClient::CheckForLostPeer(void)
 				{
 				if (id != m_id)
 					{
-               milliseconds_t lElapsedTime = rspGetMilliseconds() - m_aPeers[id].m_lLastReceiveTime;
+					int32_t lElapsedTime = rspGetMilliseconds() - m_aPeers[id].m_lLastReceiveTime;
 					if (lElapsedTime > g_GameSettings.m_lPeerDropMaxWaitTime)
 						return id;
 					}
@@ -1768,8 +1754,6 @@ Net::ID CNetClient::CheckForLostPeer(void)
 		}
 	return Net::MaxNumIDs;
 	}
-
-#endif // !defined(MULTIPLAYER_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // EOF

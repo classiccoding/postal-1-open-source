@@ -15,7 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-// IdBank.h
+// IdBank.H
 // 
 // History:
 //		01/29/97 JMI	Started.
@@ -42,8 +42,21 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 // RSPiX Headers.
+// If PATHS_IN_INCLUDES macro is defined, we can utilize relative
+// paths to a header file.  In this case we generally go off of our
+// RSPiX root directory.  System.h MUST be included before this macro
+// is evaluated.  System.h is the header that, based on the current
+// platform (or more so in this case on the compiler), defines 
+// PATHS_IN_INCLUDES.  Blue.h includes system.h so you can include that
+// instead.
 ///////////////////////////////////////////////////////////////////////////////
-#include <BLUE/System.h>
+#include "System.h"
+
+#ifdef PATHS_IN_INCLUDES
+
+#else
+
+#endif
 
 //////////////////////////////////////////////////////////////////////////////
 // Postal Headers.
@@ -81,8 +94,8 @@ class CIdBank
 		typedef struct
 			{
 			CThing*	pthing;		// CThing associate with this ID.
-			uint16_t		u16IdNext;	// Next ID in used or free list.
-			uint16_t		u16IdPrev;	// Prev ID in used or free list.
+			U16		u16IdNext;	// Next ID in used or free list.
+			U16		u16IdPrev;	// Prev ID in used or free list.
 			} IdNode;
 
 //////////////////////////////////////////////////////////////////////////////
@@ -111,22 +124,22 @@ class CIdBank
 		int16_t Get(				// Returns 0 on success.
 			CThing*	pthing,	// In:  Thing that wants to get an ID and be put in
 									// the ID table.
-			uint16_t*		pu16ID);	// Out: ID for this particular CThing.
+			U16*		pu16ID);	// Out: ID for this particular CThing.
 
 		// Take a unique ID and associate it with a thing (CThing).
 		int16_t Take(				// Returns 0 on success.
 			CThing*	pthing,	// In:  Thing that wants to take an ID and be put in
 									// the ID table.
-			uint16_t		u16ID);	// In:  ID for this particular CThing.
+			U16		u16ID);	// In:  ID for this particular CThing.
 
 		// Release ID and unregister thing associated with it.
 		void Release(			// Returns nothing.
-			uint16_t		u16ID);	// ID to release.
+			U16		u16ID);	// ID to release.
 
 		// Get a CThing via its ID.
 		int16_t GetThingByID(	// Returns 0 on success.
 			CThing**	ppthing,	// Out: Ptr to CThing identified by u16ID.
-			uint16_t		u16ID);	// In:  ID of thing to get.
+			U16		u16ID);	// In:  ID of thing to get.
 
 //////////////////////////////////////////////////////////////////////////////
 	protected:	// Internal calls.
@@ -134,19 +147,19 @@ class CIdBank
 
 		// Helper to insert an ID into a particular list.
 		void Insert(				// Returns nothing.
-			uint16_t	u16Id,			// ID to insert.
-			uint16_t*	pu16IdHead);	// Head of list to add to.
+			U16	u16Id,			// ID to insert.
+			U16*	pu16IdHead);	// Head of list to add to.
 		
 		// Helper to add an ID to a particular list.
 		void Add(					// Returns nothing.
-			uint16_t	u16Id,			// ID to add.
-			uint16_t*	pu16IdTail);	// Tail of list to add to.
+			U16	u16Id,			// ID to add.
+			U16*	pu16IdTail);	// Tail of list to add to.
 		
 		// Helper to remove an ID from a particular list.
 		void Remove(				// Returns nothing.
-			uint16_t	u16Id,			// ID to remove.
-			uint16_t*	pu16IdHead,		// Head of list to remove from.
-			uint16_t*	pu16IdTail);	// Tail of list to remove from.
+			U16	u16Id,			// ID to remove.
+			U16*	pu16IdHead,		// Head of list to remove from.
+			U16*	pu16IdTail);	// Tail of list to remove from.
 
 //////////////////////////////////////////////////////////////////////////////
 	protected:	// Internal variables.
@@ -156,9 +169,9 @@ class CIdBank
 		IdNode	m_aids[NumIds];
 
 		// Head of Free IDs.
-		uint16_t		m_u16HeadFreeId;
+		U16		m_u16HeadFreeId;
 		// Tail of Free IDs.
-		uint16_t		m_u16TailFreeId;
+		U16		m_u16TailFreeId;
 
 	};
 

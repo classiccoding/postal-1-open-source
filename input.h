@@ -117,7 +117,7 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 #include "InputSettings.h"
 
@@ -158,7 +158,7 @@
 #define INPUT_BACKWARD_BIT	14	    
 #define INPUT_FORWARD		0x00008000
 #define INPUT_FORWARD_BIT	15    
-#define INPUT_DIR_MASK		0x0000F000
+#define INPUT_DIR_MASK		0x0000f000
 #define INPUT_STRAFE			0x00010000
 #define INPUT_STRAFE_BIT	16    
 #define INPUT_FIRE			0x00020000
@@ -203,7 +203,7 @@
 #define INPUT_WEAPONS_MASK	0x01F00000	// Includes cheats!
 #define INPUT_WEAPONS_BIT	20	// thru 24.
 
-//#if defined(__ANDROID__)
+//#ifdef MOBILE
 #define INPUT_WEAPON_NEXT		0x02000000
 #define INPUT_WEAPON_PREV		0x04000000
 #define INPUT_ROT_IS_ABS		0x08000000
@@ -238,8 +238,8 @@ typedef enum
 
 // UINPUT type
 // Had to rename this from INPUT because of a pre-existing type
-// Redefined to uint64_t because we ran out of input room.
-typedef uint64_t UINPUT;
+// Redefined to U64 because we ran out of input room.
+typedef U64 UINPUT;
 
 // Global input settings.
 extern CInputSettings g_InputSettings;
@@ -328,7 +328,7 @@ extern bool InputIsDemoOver(void);		// Returns true when demo is over
 ////////////////////////////////////////////////////////////////////////////////
 extern UINPUT GetLocalInput(				// Returns local input structure.
 	CRealm* prealm,							// In:  Realm (used to access realm timer)
-	RInputEvent* pie	= nullptr);				// In:  Latest input event.  nullptr to 
+	RInputEvent* pie	= NULL);				// In:  Latest input event.  NULL to 
 													//	disable cheats in a way that will be
 													// harder to hack.
 

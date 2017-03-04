@@ -198,29 +198,37 @@
 #ifndef RESMGR_H
 #define RESMGR_H
 
-#include <cctype>
+#include <ctype.h>
 
-#include <BLUE/System.h>
-
-#include <CYAN/Cyan.h>
-#include <ORANGE/File/file.h>
-#include <ORANGE/RString/rstring.h>
-
-#if _MSC_VER >= 1020 || __MWERKS__ >= 0x1100 || __GNUC__
-# include <map>
-# include <vector>
-# include <set>
-# include <functional>
-# include <algorithm>
-# include <memory>
+#include "Blue.h"
+#ifdef PATHS_IN_INCLUDES
+	#include "CYAN/cyan.h"
+	#include "ORANGE/File/file.h"
+	#include "ORANGE/RString/rstring.h"
 #else
-# include <map.h>
-# include <vector.h>
-# include <set.h>
+	#include "cyan.h"
+	#include "file.h"
+	#include "rstring.h"
 #endif
 
-#define SAK_COOKIE 0x204B4153		// Looks like "SAK " in the file
+#if _MSC_VER >= 1020 || __MWERKS__ >= 0x1100 || __GNUC__
+	#include <map>
+	#include <vector>
+	#include <set>
+	#include <functional>
+	#include <algorithm>
+#else
+	#include <map.h>
+	#include <vector.h>
+	#include <set.h>
+#endif
+
+#define SAK_COOKIE 0x204b4153		// Looks like "SAK " in the file
 #define SAK_CURRENT_VERSION 1		// Current version of SAK file format
+
+#ifdef __GNUC__
+using namespace std;
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -264,11 +272,10 @@
 // to it because you can't overload functions based soley on return type.
 struct GenericCreateResFunc
 	{
-  virtual ~GenericCreateResFunc(void) { }
 	virtual int16_t operator()(void** ppT)
 		{
 		*ppT = 0;
-      return FAILURE;	// generic version should never be called!
+		return -1;	// generic version should never be called!
 		}
 	};
 
@@ -287,7 +294,6 @@ struct CreateResFunc : GenericCreateResFunc
 // destroy a specific type of resource.  The function simply does a "delete". 
 struct GenericDestroyResFunc
 	{
-  virtual ~GenericDestroyResFunc(void) { }
 	virtual void operator()(void* /*pT*/)
 		{  }
 	};
@@ -304,9 +310,8 @@ struct DestroyResFunc : GenericDestroyResFunc
 // load a specific type of resource.  The function uses rspAnyLoad().
 struct GenericLoadResFunc
 	{
-  virtual ~GenericLoadResFunc(void) { }
 	virtual int16_t operator()(void* /*pT*/, RFile* /*pfile*/)
-      { return FAILURE; }	// generic version should never be called!
+		{ return -1; }	// generic version should never be called!
 	};
 
 template<class T>
@@ -336,9 +341,9 @@ class CResourceBlock
 			{
 			m_sRefCount = 0;
 			m_sAccessCount = 0;
-			m_vpRes = nullptr;
+			m_vpRes = NULL;
 			m_pfnDestroy = 0;
-         }
+			};
 
 		~CResourceBlock()
 			{
@@ -347,7 +352,7 @@ class CResourceBlock
 			// Delete the function object
 			delete m_pfnDestroy;
 			m_pfnDestroy = 0;
-         }
+			};
 
 		void FreeResource(void)
 			{
@@ -368,21 +373,21 @@ class CResourceBlock
 	#if __MWERKS__ >= 0x1100
 		ITERATOR_TRAIT(const RString);
 	#endif
-  typedef std::map<RString, CResourceBlock, std::less<RString>, std::allocator<CResourceBlock> > resclassMap;
-  typedef std::map<void*, RString, std::less<void*>, std::allocator<RString> > ptrLookupMap;
-  typedef std::vector<RString, std::allocator<RString> > accessVector;
-  typedef std::set<RString, std::less<RString>, std::allocator<RString> > dupSet;
-  typedef std::vector<uint16_t, std::allocator<uint16_t> > typeVector;
-  typedef std::map<RString, int32_t, std::less<RString>, std::allocator<int32_t> > dirMap;
-  typedef std::set<int32_t, std::less<int32_t>, std::allocator<int32_t> > dirOffsets;
+	typedef map <RString, CResourceBlock, less<RString>, allocator<CResourceBlock> > resclassMap;
+	typedef map <void*, RString, less<void*>, allocator<RString> > ptrLookupMap;
+	typedef vector <RString, allocator<RString> > accessVector;
+	typedef set <RString, less<RString>, allocator<RString> > dupSet;
+	typedef vector <uint16_t, allocator<uint16_t> > typeVector;
+	typedef map <RString, int32_t, less<RString>, allocator<int32_t> > dirMap;
+	typedef set <int32_t, less<int32_t>, allocator<int32_t> > dirOffsets;
 #else
-  typedef std::map<RString, CResourceBlock, std::less<RString> > resclassMap;
-  typedef std::map<void*, RString, std::less<void*> > ptrLookupMap;
-  typedef std::vector<RString > accessVector;
-  typedef std::set<RString, std::less<RString> > dupSet;
-  typedef std::vector<uint16_t > typeVector;
-  typedef std::map<RString, int32_t, std::less<RString> > dirMap;
-  typedef std::set<int32_t, std::less<int32_t> > dirOffsets;
+	typedef map <RString, CResourceBlock, less<RString> > resclassMap;
+	typedef map <void*, RString, less<void*> > ptrLookupMap;
+	typedef vector <RString > accessVector;
+	typedef set <RString, less<RString> > dupSet;
+	typedef vector <uint16_t > typeVector;
+	typedef map <RString, int32_t, less<RString> > dirMap;
+	typedef set <int32_t, less<int32_t> > dirOffsets;
 #endif
 
 
@@ -504,7 +509,7 @@ class RResMgr
 		// for the file you are trying to get
 		RFile* FromSak(RString strResourceName)
 		{
-			RFile* prf = nullptr;
+			RFile* prf = NULL;
 			if (m_rfSakAlt.IsOpen()) 
 			  {
 				int32_t	lResSeekPos	= m_SakAltDirectory[strResourceName];
@@ -517,7 +522,7 @@ class RResMgr
 						}
 					else
 						{
-						TRACE("RResMgr::FromSak - m_rfSakAlt.Seek(%i, SEEK_SET) failed.\n", 
+						TRACE("RResMgr::FromSak - m_rfSakAlt.Seek(%ld, SEEK_SET) failed.\n", 
 							lResSeekPos);
 						}
 					}
@@ -531,14 +536,16 @@ class RResMgr
 					}
 				else
 					{
-					TRACE("RResMgr::FromSak - m_rfSak.Seek(%i, SEEK_SET) failed.\n", 
+					TRACE("RResMgr::FromSak - m_rfSak.Seek(%ld, SEEK_SET) failed.\n", 
 						lResSeekPos);
 					}
-            }
+				}
+#ifdef RESMGR_VERBOSE
 			else
-            TRACE("RResMgr::FromSak - Resource %s is not in this SAK file\n",
+				TRACE("RResMgr::FromSak - Break Yo Self! Resource %s is not in this SAK file\n",
 				      (char*) strResourceName);
 //				      (char*) strResourceName.c_str());
+#endif // RESMGR_VERBOSE
 
 			return prf;
 		}
@@ -657,7 +664,7 @@ class RResMgr
 			RString strSystemPartial = rspPathToSystem((char*) strResourceName);
 			m_strFullpath = m_strBasepath + strSystemPartial;
 			// Make sure that the RString is not too long for rspix functions
-			ASSERT(m_strFullpath.GetLen() < PATH_MAX);
+			ASSERT(m_strFullpath.GetLen() < RSP_MAX_PATH);
 			return (char*) m_strFullpath;
 			}
 
@@ -699,7 +706,7 @@ int16_t rspGetResource(									// Returns 0 on success
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Release a resource and set the specified pointer to nullptr.
+// Release a resource and set the specified pointer to NULL.
 //
 ///////////////////////////////////////////////////////////////////////////////
 template <class T>
@@ -708,7 +715,7 @@ void rspReleaseResource(								// Returns 0 on success
 	T** ppres)												// In:  Pointer to resource
 	{
 	presmgr->Release(*ppres);
-	*ppres = nullptr;
+	*ppres = NULL;
 	}
 
 
@@ -727,7 +734,7 @@ bool rspReleaseAndPurgeResource(	// Returns true if it was acutally purged,
 	T** ppres)
 	{
 	bool bPurged = presmgr->ReleaseAndPurge(*ppres);
-	*ppres = nullptr;
+	*ppres = NULL;
 	return bPurged;
 	}
 
@@ -761,7 +768,7 @@ int16_t rspGetResourceInstance(							// Returns 0 on success
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Release a resource instance and set the specified pointer to nullptr.  
+// Release a resource instance and set the specified pointer to NULL.  
 // The resource will be destroyed immediately.
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -776,7 +783,7 @@ void rspReleaseResourceInstance(						// Returns 0 on success
 	{
 	// Be gone.
 	delete *ppres;
-	*ppres = nullptr;
+	*ppres = NULL;
 	}
 
 #endif //RESMGR_H

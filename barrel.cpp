@@ -106,9 +106,10 @@
 //							shot.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define BARREL_CPP
 
-#include <RSPiX.h>
-#include <cmath>
+#include "RSPiX.h"
+#include <math.h>
 
 #include "barrel.h"
 #include "dude.h"
@@ -142,7 +143,7 @@ int16_t CBarrel::ms_sFileCount;
 
 /// Still Animation Files ///////////////////////////////////////////////////////
 // An array of pointers to resource names (one for each channel of the animation)
-static const char* ms_apszStillResNames[] =
+static char* ms_apszStillResNames[] = 
 {
 	"3d/barrel_still.sop",
 	"3d/barrel_still.mesh",
@@ -150,13 +151,13 @@ static const char* ms_apszStillResNames[] =
 	"3d/barrel_still.hot",
 	"3d/barrel_still.bounds",
 	"3d/barrel_still.floor",
-	nullptr,
-	nullptr
+	NULL,
+	NULL
 };
 
 /// Spinning Animation Files ///////////////////////////////////////////////////
 // An array of pointers to resource names (one for each channel of the animation)
-static const char* ms_apszSpinResNames[] =
+static char* ms_apszSpinResNames[] = 
 {
 	"3d/barrel_spin.sop",
 	"3d/barrel_spin.mesh",
@@ -164,8 +165,8 @@ static const char* ms_apszSpinResNames[] =
 	"3d/barrel_spin.hot",
 	"3d/barrel_spin.bounds",
 	"3d/barrel_spin.floor",
-	nullptr,
-	nullptr
+	NULL,
+	NULL
 };
 
 
@@ -179,11 +180,11 @@ int16_t CBarrel::Load(				// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,					// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)				// In:  Version of file format to load.
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	// Call the base load function to get ID, position, etc.
 	sResult = CThing3d::Load(pFile, bEditMode, sFileCount, ulFileVersion);
 
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -268,14 +269,14 @@ int16_t CBarrel::Load(				// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 		{
 			// Get resources
 			sResult = GetResources();
 		}
 		else
 		{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CBarrel::Load(): Error reading from file!\n");
 		}
 	}
@@ -325,7 +326,7 @@ int16_t CBarrel::Save(										// Returns 0 if successfull, non-zero otherwise
 	else
 	{
 		TRACE("CBarrel::Save() - Error writing to file\n");
-		sResult = FAILURE;
+		sResult = -1;
 	}
 
 	return sResult;
@@ -337,7 +338,7 @@ int16_t CBarrel::Save(										// Returns 0 if successfull, non-zero otherwise
 
 int16_t CBarrel::Init(void)
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Init other stuff
 	m_dVel = 0.0;
@@ -371,7 +372,7 @@ int16_t CBarrel::Init(void)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBarrel::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Set the current height, previous time, and Nav Net
 	CThing3d::Startup();
@@ -421,8 +422,8 @@ void CBarrel::Resume(void)
 ////////////////////////////////////////////////////////////////////////////////
 void CBarrel::Update(void)
 {
-   milliseconds_t lThisTime;
-   milliseconds_t lTimeDifference;
+	int32_t lThisTime;
+	int32_t lTimeDifference;
 
 	if (!m_sSuspend)
 	{
@@ -431,7 +432,7 @@ void CBarrel::Update(void)
 		lTimeDifference = lThisTime - m_lPrevTime;
 
 		// Calculate elapsed time in seconds
-//		double dSeconds = (double)(lThisTime - m_lPrevTime) / 1000.0;
+		double dSeconds = (double)(lThisTime - m_lPrevTime) / 1000.0;
 
 		// Check for new messages that may change the state
 		ProcessMessages();
@@ -439,7 +440,6 @@ void CBarrel::Update(void)
 		// Check the current state
 		switch (m_state)
 		{
-        UNHANDLED_SWITCH;
 
 //-----------------------------------------------------------------------
 // Idle - just sitting around waiting to be hit
@@ -456,7 +456,7 @@ void CBarrel::Update(void)
 				if (lThisTime > m_lTimer)
 				{
 					CExplode* pExplosion;
-					if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == SUCCESS)
+					if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == 0)
 					{
 						pExplosion->Setup(m_dX, m_dY, m_dZ, m_u16ShooterID);
 						PlaySample(g_smidGrenadeExplode, SampleMaster::Destruction);
@@ -499,7 +499,7 @@ void CBarrel::Update(void)
 					CFire* pFire;
 					for (i = 0; i < ms_sNumFires; i++)
 					{
-						if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pFire) == SUCCESS)
+						if (CThing::Construct(CThing::CFireID, m_pRealm, (CThing**) &pFire) == 0)
 						{
 							if (pFire->Setup(m_dX - 20 + (GetRandom() % 40), m_dY, m_dZ - 20 + (GetRandom() % 40), 
 											  4000 + (GetRandom() % 9000), false, CFire::LargeFire) != SUCCESS)
@@ -515,6 +515,7 @@ void CBarrel::Update(void)
 				}
 
 				break;
+
 		}
 
 		// Update sphere.
@@ -532,7 +533,7 @@ void CBarrel::Update(void)
 	}
 }
 
-#if !defined(EDITOR_REMOVED)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -541,7 +542,7 @@ int16_t CBarrel::EditNew(									// Returns 0 if successfull, non-zero otherwis
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	sResult = CThing3d::EditNew(sX, sY, sZ);
 
@@ -552,14 +553,14 @@ int16_t CBarrel::EditNew(									// Returns 0 if successfull, non-zero otherwis
 	{
 		// Load resources
 		sResult = GetResources();
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 			sResult	= Init();
 			}
 	}
 	else
 	{
-		sResult = FAILURE;
+		sResult = -1;
 	}
 
 	return sResult;
@@ -571,7 +572,8 @@ int16_t CBarrel::EditNew(									// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBarrel::EditModify(void)
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
+	RGuiItem* pGuiItem = NULL;
 	RGuiItem* pGui = RGuiItem::LoadInstantiate(FullPathVD("res/editor/barrel.gui"));
 	if (pGui)
 	{
@@ -601,20 +603,20 @@ int16_t CBarrel::EditModify(void)
 	}
 	delete pGui;
 
-	return SUCCESS;
+	return 0;
 }
-#endif // !defined(EDITOR_REMOVED)
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Get all required resources
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBarrel::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	sResult	= m_animStill.Get(ms_apszStillResNames, RChannel_LoopAtStart | RChannel_LoopAtEnd);
 	sResult	|= m_animSpin.Get(ms_apszSpinResNames, RChannel_LoopAtStart | RChannel_LoopAtEnd);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 	{
 		// Add additional gets here
 	}
@@ -636,7 +638,7 @@ int16_t CBarrel::FreeResources(void)						// Returns 0 if successfull, non-zero 
 	m_animSpin.Release();
 	// Release the shadow image
 
-	return SUCCESS;
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -665,7 +667,7 @@ void CBarrel::OnShotMsg(Shot_Message* pMessage)
 			m_state = State_BlownUp;
 			m_lAnimTime = 0;
 			CExplode* pExplosion;
-			if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == SUCCESS)
+			if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == 0)
 			{
 				pExplosion->Setup(m_dX, m_dY, m_dZ, m_u16ShooterID);
 				PlaySample(g_smidGrenadeExplode, SampleMaster::Destruction);
@@ -747,7 +749,7 @@ void CBarrel::OnBurnMsg(Burn_Message* pMessage)
 			m_lTimer = m_pRealm->m_time.GetGameTime();
 			m_lAnimTime = 0;
 			CExplode* pExplosion;
-			if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == SUCCESS)
+			if (CThing::Construct(CThing::CExplodeID, m_pRealm, (CThing**) &pExplosion) == 0)
 			{
 				pExplosion->Setup(m_dX, m_dY, m_dZ, m_u16ShooterID);
 				PlaySample(g_smidGrenadeExplode, SampleMaster::Destruction);

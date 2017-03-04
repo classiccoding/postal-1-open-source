@@ -65,10 +65,14 @@
 #ifndef TRIGGER_H
 #define TRIGGER_H
 
-#include <RSPiX.h>
-#include <Spry/spry.h>
-#include <ORANGE/MultiGrid/MultiGridIndirect.h>
-
+#include "RSPiX.h"
+#ifdef PATHS_IN_INCLUDES
+	#include "WishPiX/Spry/spry.h"
+	#include "ORANGE/MultiGrid/MultiGridIndirect.h"
+#else
+	#include "spry.h"
+	#include "multigridindirect.h"
+#endif
 #include "thing.h"
 
 // A fake declaration for CRealm pointers...
@@ -110,11 +114,11 @@ class CTrigger : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CTrigger(pRealm);
-         if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CTrigger::Construct(): Couldn't construct CTrigger!\n");
 				}
 			return sResult;
@@ -154,7 +158,6 @@ class CTrigger : public CThing
 		// Render object
 		void Render(void);
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -187,7 +190,6 @@ class CTrigger : public CThing
 			prc->sW	= 16;
 			prc->sH	= 16;
 			}
-#endif // !defined(EDITOR_REMOVED)
 
 	//---------------------------------------------------------------------------
 	// Trigger Specific Functions

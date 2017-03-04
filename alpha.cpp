@@ -30,8 +30,19 @@
 //////////////////////////////////////////////////////////////////////////////
 // Includes.
 //////////////////////////////////////////////////////////////////////////////
+/*
+#include "System.h"
 
-#include <RSPiX.h>
+#ifdef PATHS_IN_INCLUDES
+	#include "GREEN/Image/Image.h"
+	#include "GREEN/BLiT/BLIT.H"
+#else
+	#include "Image.h"
+	#include "BLIT.H"
+#endif
+#else
+*/
+#include "RSPiX.h"
 #include "alpha.h"
 
 
@@ -45,7 +56,7 @@
 //////////////////////////////////////////////////////////////////////////////
 #if 0
 //========================================================================================
-extern	short	rspBlitT(uint8_t u8Trans, RImage* pimSrc,RImage* pimDst,short sSrcX,short sSrcY,short sDstX,
+extern	short	rspBlitT(U8 u8Trans, RImage* pimSrc,RImage* pimDst,short sSrcX,short sSrcY,short sDstX,
 			  short sDstY,short sW,short sH,RRect* prDst,const RRect* prSrc);
 //========================================================================================
 #endif
@@ -61,7 +72,7 @@ extern	short	rspBlitT(uint8_t u8Trans, RImage* pimSrc,RImage* pimDst,short sSrcX
 ///////////////////////////////////////////////////////////////////////////
 // Functions.
 ///////////////////////////////////////////////////////////////////////////
-#ifdef UNUSED_FUNCTIONS
+
 ///////////////////////////////////////////////////////////////////////////
 //
 // Whatever this ends up doing, it will suck and eventually be replaced
@@ -79,7 +90,7 @@ static int16_t Alpha(	// Returns 0 on success.
 	int16_t		sW,		// Width to blt.
 	int16_t		sH)		// Height to blt.
 	{
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	int16_t	sMaskX	= 0;
 	int16_t	sMaskY	= 0;
@@ -151,12 +162,12 @@ static int16_t Alpha(	// Returns 0 on success.
 	// If there's anything left . . .
 	if (sW > 0 && sH > 0)
 		{
-		uint8_t*	pu8SrcRow	= pimSrc->m_pData + sSrcX + sSrcY * pimSrc->m_lPitch;
-		uint8_t*	pu8SrcBlt;
-		uint8_t*	pu8MaskRow	= pimMask->m_pData + sMaskX + sMaskY * pimMask->m_lPitch;
-		uint8_t*	pu8MaskBlt;
-		uint8_t*	pu8DstRow	= pimDst->m_pData + sDstX + sDstY * pimDst->m_lPitch;
-		uint8_t*	pu8DstBlt;
+		U8*	pu8SrcRow	= pimSrc->m_pData + sSrcX + sSrcY * pimSrc->m_lPitch;
+		U8*	pu8SrcBlt;
+		U8*	pu8MaskRow	= pimMask->m_pData + sMaskX + sMaskY * pimMask->m_lPitch;
+		U8*	pu8MaskBlt;
+		U8*	pu8DstRow	= pimDst->m_pData + sDstX + sDstY * pimDst->m_lPitch;
+		U8*	pu8DstBlt;
 		
 		int16_t	sWidth;
 
@@ -184,9 +195,9 @@ static int16_t Alpha(	// Returns 0 on success.
 			}
 		}
 
-   return sResult;
+	return sRes;
 	}
-#endif
+
 ///////////////////////////////////////////////////////////////////////////
 //
 // BLiTs using loaded m_imMask (8 bpp only) as mask.
@@ -204,10 +215,10 @@ int16_t CAlpha::Blit(	// Returns 0 on success.
 	int16_t	sDstY,		// Destination coordinate in pimDst for pimSrc(0,0).
 	RRect*	prc)			// Rectangle to clip Dst to.
 	{
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	// If there is any data . . .
-	if (m_imMask.m_pData != nullptr || m_imMask.m_pSpecial != nullptr)
+	if (m_imMask.m_pData != NULL || m_imMask.m_pSpecial != NULL)
 		{
 		RImage	imDecompress;
 		// Allocate image.
@@ -216,7 +227,7 @@ int16_t CAlpha::Blit(	// Returns 0 on success.
 			pimSrc->m_sHeight, 
 			RImage::BMP8, 
 			0,		// Use default pitch.
-         pimSrc->m_sDepth) == SUCCESS)
+			pimSrc->m_sDepth) == 0)
 			{
 			// Decompress sprite.
 			rspBlit(pimSrc, &imDecompress, 0, 0);
@@ -228,8 +239,8 @@ int16_t CAlpha::Blit(	// Returns 0 on success.
 				0, 0,
 				sSrcX, sSrcY,
 				m_imMask.m_sWidth, m_imMask.m_sHeight, 
-				nullptr, 
-				nullptr);
+				NULL, 
+				NULL);
 
 			// Blit to screen.
 			rspBlitT(
@@ -240,21 +251,21 @@ int16_t CAlpha::Blit(	// Returns 0 on success.
 				sDstX, sDstY, 
 				imDecompress.m_sWidth, imDecompress.m_sHeight, 
 				prc,
-				nullptr);
+				NULL);
 			}
 		else
 			{
 			TRACE("Blit(): Unable to allocate image to decompress pimSrc.\n");
-         sResult = FAILURE * 2;
+			sRes	= -2;
 			}
 		}
 	else
 		{
 		TRACE("Blit(): No mask!  Use regular blt.\n");
-      sResult = FAILURE;
+		sRes	= -1;
 		}
 
-   return sResult;
+	return sRes;
 	}
 
 ///////////////////////////////////////////////////////////////////////////
@@ -266,10 +277,10 @@ int16_t CAlpha::Blit(	// Returns 0 on success.
 int16_t CAlpha::Load(		// Returns 0 on success.
 	char*	pszFileName)	// Filename to load.
 	{
-   int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 
-   if (m_imMask.Load(pszFileName) == SUCCESS)
+	if (m_imMask.Load(pszFileName) == 0)
 		{
 #if 0
 		rspSetConvertToFSPR1(128, 0);
@@ -281,7 +292,7 @@ int16_t CAlpha::Load(		// Returns 0 on success.
 		else
 			{
 			TRACE("Load(): RImage::Convert(FSPR1) failed.\n");
-         sResult = FAILURE * 2;
+			sRes	= -2;
 			}
 #endif
 		m_sShadowW	= m_imMask.m_sWidth;
@@ -292,10 +303,10 @@ int16_t CAlpha::Load(		// Returns 0 on success.
 	else
 		{
 		TRACE("Load(): RImage::Load() failed.\n");
-      sResult = FAILURE;
+		sRes	= -1;
 		}
 
-   return sResult;
+	return sRes;
 	}
 
 

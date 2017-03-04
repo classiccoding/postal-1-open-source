@@ -1,4 +1,3 @@
-//imadoofus
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Copyright 2016 RWS Inc, All Rights Reserved
@@ -193,12 +192,13 @@
 #ifndef DOOFUS_H
 #define DOOFUS_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 #include "navnet.h"
 #include "bouy.h"
 #include "dude.h"
 #include "pylon.h"
+#include "CompileOptions.h"
 
 // CDoofus is the class for the enemy guys
 class CDoofus : public CCharacter
@@ -260,8 +260,8 @@ class CDoofus : public CCharacter
 
 			typedef struct
 			{
-            const char*			pszName;
-            const char*			pszResName;
+				char*			pszName;
+				char*			pszResName;
 				ClassIDType	id;
 			} WeaponDetails;
 
@@ -271,7 +271,7 @@ class CDoofus : public CCharacter
 	//---------------------------------------------------------------------------
 	protected:
 		// General position, motion and time variables
-		uint16_t	m_idDude;						// The target CDude 
+		U16	m_idDude;						// The target CDude 
 
 		// Animations
 		CAnim3D	m_animStand;				// Standing animation
@@ -295,21 +295,21 @@ class CDoofus : public CCharacter
 
 		// Navigation Net control
 		CNavigationNet* m_pNavNet;			// The network I should use
-		uint16_t m_u16NavNetID;					// My network's ID				
+		U16 m_u16NavNetID;					// My network's ID				
 		uint8_t m_ucDestBouyID;				// Destination bouy
 		uint8_t m_ucNextBouyID;				// Next bouy to go to
 		uint8_t m_ucSpecialBouy0ID;			// Starting bouy for special cases like marching
 		uint8_t m_ucSpecialBouy1ID;			// Ending bouy for special cases like marching
 		CBouy* m_pNextBouy;					// pointer to next bouy to go to.
-      double m_sNextX;						// Position of next Bouy
-      double m_sNextZ;						// Position of next Bouy
+		int16_t m_sNextX;						// Position of next Bouy
+		int16_t m_sNextZ;						// Position of next Bouy
 		int16_t m_sRotateDir;					// Direction to rotate when avoiding obstacles
-      milliseconds_t	m_lAlignTimer;					// Recheck position to bouy every so often
-      milliseconds_t	m_lEvalTimer;					// Reevaluate state every so often
-      milliseconds_t	m_lShotTimeout;				// Only do Shot animation every so often
-      milliseconds_t	m_lStuckTimeout;				// time given to recovery from stuck state
-      milliseconds_t	m_lShootTimer;					// Limit number of shots from a gun.
-      milliseconds_t	m_lCommentTimer;				// Time between random comments
+		int32_t	m_lAlignTimer;					// Recheck position to bouy every so often
+		int32_t	m_lEvalTimer;					// Reevaluate state every so often
+		int32_t	m_lShotTimeout;				// Only do Shot animation every so often
+		int32_t	m_lStuckTimeout;				// time given to recovery from stuck state
+		int32_t	m_lShootTimer;					// Limit number of shots from a gun.
+		int32_t	m_lCommentTimer;				// Time between random comments
 		int16_t	m_usCommentCounter;			// Number of comments
 		CDoofus::Action m_eSuggestedAction;	// Suggested logic action
 		CDoofus::Action m_eCurrentAction;	// Currently running action
@@ -329,7 +329,7 @@ class CDoofus : public CCharacter
 		CSmash			m_smashAvoid;		// Smash used to avoid fire
 		CPylon*			m_pPylonStart;		// Starting pylon for popout or run/shoot
 		CPylon*			m_pPylonEnd;		// Ending pylon for popout or run/shoot
-      double			m_sDistRemaining;	// Distance to new position for fighting.
+		int16_t				m_sDistRemaining;	// Distance to new position for fighting.
 		bool				m_bPylonSafeAvailable;
 		bool				m_bPylonPopoutAvailable;
 		bool				m_bPylonRunShootAvailable;
@@ -338,19 +338,19 @@ class CDoofus : public CCharacter
 													// in one direction while moving in another direction.
 		double			m_dShootAngle;
 
-      milliseconds_t				m_lIdleTimer;		// Timer for idle animations.
+		int32_t				m_lIdleTimer;		// Timer for idle animations.
 		bool				m_bAnimUp;			// Run animation up or down for idle animation. (crouch)
 
-      milliseconds_t				m_lSampleTimeIsPlaying; // Expected time for this sample
+		int32_t				m_lSampleTimeIsPlaying; // Expected time for this sample
 		bool				m_bRecentlyStuck;			// Flag for when you get stuck on a wall.		
 		bool				m_bCivilian;				// Flag for civilian/hostile
 		bool				m_bRegisteredBirth;		// true, once we've registered our birth with the realm.
 
-      milliseconds_t				m_lGuardTimeout;			// Tunable personatorium value with doofus default
-      milliseconds_t				m_lShootTimeout;			// Tunable time between shots - based on difficulty level
-      milliseconds_t				m_lRunShootInterval;		// Tunable personatorium value with doofus default.
-      milliseconds_t				m_lShotReactionTimeout;	// Tunable personatorium value with doofus default
-      milliseconds_t				m_lLastHelpCallTime;	// Last time someone called for help
+		int32_t				m_lGuardTimeout;			// Tunable personatorium value with doofus default
+		int32_t				m_lShootTimeout;			// Tunable time between shots - based on difficulty level
+		int32_t				m_lRunShootInterval;		// Tunable personatorium value with doofus default.
+		int32_t				m_lShotReactionTimeout;	// Tunable personatorium value with doofus default
+		int32_t				m_lLastHelpCallTime;	// Last time someone called for help
 
 		CSprite3			m_spriteWeapon;			// Sprite for weapon.
 		ClassIDType		m_eFallbackWeaponType;	// Fallback weapon type or TotalIDs for none.
@@ -397,9 +397,9 @@ class CDoofus : public CCharacter
 		static int32_t ms_lHelpingTimeout;	// time before shooting when helping
 		static int32_t ms_lStuckRecoveryTime;//time to allow recovery from stuck position
 
-		static uint32_t ms_u32CollideBitsInclude;	// Default weapon collision bits
-		static uint32_t ms_u32CollideBitsDontcare;	// Default weapon collision bits
-		static uint32_t ms_u32CollideBitsExclude;	// Default weapon collision bits
+		static U32 ms_u32CollideBitsInclude;	// Default weapon collision bits
+		static U32 ms_u32CollideBitsDontcare;	// Default weapon collision bits
+		static U32 ms_u32CollideBitsExclude;	// Default weapon collision bits
 
 		static int16_t ms_sStuckLimit;				// Number of retrys before changing states to get unstuck
 
@@ -410,7 +410,7 @@ class CDoofus : public CCharacter
 		static WeaponType		ms_awtId2Type[TotalIDs];			// Maps a CThing ID to a WeaponType enum.
 
 	public:
-      static const char* ms_apszActionNames[];// Names of the logic actions
+		static char* ms_apszActionNames[];// Names of the logic actions
 
 	//---------------------------------------------------------------------------
 	// Constructor(s) / destructor
@@ -432,8 +432,7 @@ class CDoofus : public CCharacter
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-        UNUSED(pRealm, ppNew);
-         return SUCCESS;
+			return 0;
 			}
 
 	//---------------------------------------------------------------------------
@@ -455,7 +454,6 @@ class CDoofus : public CCharacter
 		// Startup object
 		virtual int16_t Startup(void);							// Returns 0 if successfull, non-zero otherwise
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		virtual int16_t EditNew(									// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -464,7 +462,6 @@ class CDoofus : public CCharacter
 
 		// Called by editor to render object
 		virtual void EditRender(void);
-#endif // !defined(EDITOR_REMOVED)
 
 		// Override to swap the animation and direction rotations temporarily
 		virtual void Render(void);
@@ -602,9 +599,9 @@ class CDoofus : public CCharacter
 
 		// Function to choose and play the writhing sound effect
 		virtual SampleMaster::SoundInstance PlaySoundWrithing(
-			int32_t* plDuration)					// Out:  Duration of sample, if not nullptr.
+			int32_t* plDuration)					// Out:  Duration of sample, if not NULL.
 			{
-			if (plDuration != nullptr)
+			if (plDuration != NULL)
 				{
 				*plDuration	= 0;
 				}
@@ -613,28 +610,34 @@ class CDoofus : public CCharacter
 			}
 
 		// Function to choose and play the Shot sound effect
-      virtual SampleMaster::SoundInstance PlaySoundShot(void) { return 0; }
+		virtual SampleMaster::SoundInstance PlaySoundShot(void)
+			{return 0;};
 
 		// Function to choose and play the Blown up sound effect
-      virtual SampleMaster::SoundInstance PlaySoundBlownup(void) { return 0; }
+		virtual SampleMaster::SoundInstance PlaySoundBlownup(void)
+			{return 0;};
 
 		// Funciton to choose and play the Burning sound effect
-      virtual SampleMaster::SoundInstance PlaySoundBurning(void) { return 0; }
+		virtual SampleMaster::SoundInstance PlaySoundBurning(void)
+			{return 0;};
 
 		// Function to choose and play the shooting comment
-      virtual SampleMaster::SoundInstance PlaySoundShooting(void) { return 0; }
+		virtual SampleMaster::SoundInstance PlaySoundShooting(void)
+			{return 0;};
 
 		// Function to choose and play the dying sound.
-      virtual SampleMaster::SoundInstance PlaySoundDying(void) { return 0; }
+		virtual SampleMaster::SoundInstance PlaySoundDying(void)
+			{return 0;};
 
 		// Function to choose and play the Random comments
-      virtual SampleMaster::SoundInstance PlaySoundRandom(void) { return 0; }
+		virtual SampleMaster::SoundInstance PlaySoundRandom(void)
+			{return 0;};
 
 		// Prepare current weapon (ammo).
 		// This should be done when the character starts its shoot animation.
 		virtual			// Override to implement additional functionality.
 							// Call base class to get default functionality.
-		CWeapon* PrepareWeapon(void);	// Returns the weapon ptr or nullptr.
+		CWeapon* PrepareWeapon(void);	// Returns the weapon ptr or NULL.
 
 		// Implements basic functionality while holding and preparing to release
 		// a weapon.  Shows the weapon when the event hits 1 and releases the
@@ -642,9 +645,9 @@ class CDoofus : public CCharacter
 		virtual			// Override to implement additional functionality.
 							// Call base class to get default functionality.
 		bool WhileHoldingWeapon(	// Returns true when weapon is released.
-			uint32_t u32BitsInclude,		// In:  Collision bits passed to ShootWeapon
-			uint32_t u32BitsDontcare,		// In:  Collision bits passed to ShootWeapon
-			uint32_t u32BitsExclude);		// In:  Collision bits passed to ShootWeapon
+			U32 u32BitsInclude,		// In:  Collision bits passed to ShootWeapon
+			U32 u32BitsDontcare,		// In:  Collision bits passed to ShootWeapon
+			U32 u32BitsExclude);		// In:  Collision bits passed to ShootWeapon
 
 
 	//---------------------------------------------------------------------------
@@ -729,11 +732,11 @@ class CDoofus : public CCharacter
 		// Check for cheaters and make the game interesting
 		inline void Cheater(void)
 		{
-#if 0 //!__unix__   // This isn't cheating, this is beta expiration. --ryan.
+            #if 0 //!PLATFORM_UNIX   // This isn't cheating, this is beta expiration. --ryan.
 			if (g_lRegValue < 0 || g_lExpValue < 0 || g_lCookieMonster == SAFE_DATE)
 			{
 				GameMessage msg;
-				CThing* pThing = nullptr;
+				CThing* pThing = NULL;
 
 				msg.msg_Burn.eType = typeBurn;
 				msg.msg_Burn.sPriority = 0;
@@ -741,23 +744,23 @@ class CDoofus : public CCharacter
 				msg.msg_Burn.u16ShooterID = GetInstanceID();;
 
 				CListNode<CThing>* pNext = m_pRealm->m_everythingHead.m_pnNext;
-				while (pNext->m_powner != nullptr)
+				while (pNext->m_powner != NULL)
 				{
 					pThing = pNext->m_powner;
 					SendThingMessage(&msg, pThing);
 					pNext = pNext->m_pnNext;
 				}	
 			}
-#endif
+            #endif
 		}
 
 		// Look up a WeaponDetails by CThing class ID.
-		inline WeaponDetails* GetWeaponDetails(	// Returns ptr to details or nullptr, if none.
+		inline WeaponDetails* GetWeaponDetails(	// Returns ptr to details or NULL, if none.
 			ClassIDType	id)								// In:  ID to look up.
 			{
 			ASSERT(id <= TotalIDs);
 
-			WeaponDetails*	pwd	= nullptr;
+			WeaponDetails*	pwd	= NULL;
 
 			if (id < TotalIDs)
 				{
@@ -776,12 +779,12 @@ class CDoofus : public CCharacter
 			}
 
 		// Look up a weapon animation by CThing class ID.
-		inline CAnim3D* GetWeaponAnim(		// Returns ptr to anim or nullptr, if none.
+		inline CAnim3D* GetWeaponAnim(		// Returns ptr to anim or NULL, if none.
 			ClassIDType	id)						// In:  ID to look up.
 			{
 			ASSERT(id <= TotalIDs);
 
-			CAnim3D*	panim	= nullptr;
+			CAnim3D*	panim	= NULL;
 
 			if (id < TotalIDs)
 				{

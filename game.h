@@ -119,8 +119,12 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <RSPiX.h>
-#include <ResourceManager/resmgr.h>
+#include "RSPiX.h"
+#ifdef PATHS_IN_INCLUDES
+	#include "WishPiX/ResourceManager/resmgr.h"
+#else
+	#include "resmgr.h"
+#endif
 
 #include "settings.h"
 #include "localize.h"
@@ -171,11 +175,11 @@ extern RResMgr	g_resmgrShell;
 extern RResMgr	g_resmgrRes;
 
 // Time codes for registry values and expiration date
-extern milliseconds_t g_lRegTime;
-extern milliseconds_t g_lRegValue;
-extern milliseconds_t g_lExpTime;
-extern milliseconds_t g_lExpValue;
-extern milliseconds_t g_lReleaseTime;
+extern int32_t g_lRegTime;
+extern int32_t g_lRegValue;
+extern int32_t g_lExpTime;
+extern int32_t g_lExpValue;
+extern int32_t g_lReleaseTime;
 
 // Loaded and saved games use this stockpile to transfer to/from the
 // dude's stockpile
@@ -203,6 +207,7 @@ extern void TheGame(void);
 extern void Game_StartSinglePlayerGame(
 	int16_t sMenuItem);
 
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Callback for the "Start MultiPlayer Game" menu
@@ -210,6 +215,7 @@ extern void Game_StartSinglePlayerGame(
 ////////////////////////////////////////////////////////////////////////////////
 extern bool Game_StartMultiPlayerGame(
 	int16_t sMenuItem);
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -293,7 +299,7 @@ extern void Game_AudioOptionsChoice(	// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 
 extern int16_t Game_SavePlayersGame(	// Returns SUCCESS if all goes well
-            const char* pszSaveName,		// In:  Name of the save file
+				char* pszSaveName,		// In:  Name of the save file
 				int16_t sDifficulty);		// In:  Current realm difficulty.
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -316,7 +322,7 @@ extern void SeedRandom(
 #if defined(_DEBUG) || defined(TRACENASSERT)
 
 	#define GetRandom()	GetRandomDebug(__FILE__, __LINE__)
-   extern int32_t GetRandomDebug(const char* FILE_MACRO, size_t LINE_MACRO);
+	extern int32_t GetRandomDebug(char* FILE_MACRO, int32_t LINE_MACRO);
 
 #else
 
@@ -335,10 +341,10 @@ extern void SeedRandom(
 ////////////////////////////////////////////////////////////////////////////////
 extern int SynchLog(		// Result of expr.
 	double	expr,			// In:  Expression to evaluate.
-   const char*		pszFile,		// In:  Calling file.
+	char*		pszFile,		// In:  Calling file.
 	int32_t		lLine,		// In:  Calling line.
-   const char*		pszExpr,		// In:  Original C++ source expression.
-	uint32_t		u32User);	// In:  A user value that is intended to be consistent.
+	char*		pszExpr,		// In:  Original C++ source expression.
+	U32		u32User);	// In:  A user value that is intended to be consistent.
 
 ////////////////////////////////////////////////////////////////////////////////
 // If 'LOG_IFS' macro is defined, this will redefine 'if' such that it will 
@@ -403,31 +409,31 @@ extern void PalTranOff(void);
 #define GAME_PATH_GAME		4
 #define GAME_PATH_HOODS		5
 
-extern const char* FullPath(									// Returns full path in system format
+extern char* FullPath(									// Returns full path in system format
 	int16_t sPathType,										// In:  PATH_CD, PATH_HD, or PATH_VD
-   const char* pszPartialPath);								// In:  Partial path in RSPiX format
+	char* pszPartialPath);								// In:  Partial path in RSPiX format
 
-extern const char* FullPathCD(								// Returns full path in system format
-   const char* pszPartialPath);								// In:  Partial path in RSPiX format
+extern char* FullPathCD(								// Returns full path in system format
+	char* pszPartialPath);								// In:  Partial path in RSPiX format
 
-extern const char* FullPathHD(								// Returns full path in system format
+extern char* FullPathHD(								// Returns full path in system format
 	const char* pszPartialPath);						// In:  Partial path in RSPiX format
 
-extern const char* FullPathVD(								// Returns full path in system format
-   const char* pszPartialPath);								// In:  Partial path in RSPiX format
+extern char* FullPathVD(								// Returns full path in system format
+	char* pszPartialPath);								// In:  Partial path in RSPiX format
 
-extern const char* FullPathSound(							// Returns full path in system format
-   const char* pszPartialPath);								// In:  Partial path in RSPiX format
+extern char* FullPathSound(							// Returns full path in system format
+	char* pszPartialPath);								// In:  Partial path in RSPiX format
 
-extern const char* FullPathGame(								// Returns full path in system format
-   const char* pszPartialPath);								// In:  Partial path in RSPiX format
+extern char* FullPathGame(								// Returns full path in system format
+	char* pszPartialPath);								// In:  Partial path in RSPiX format
 
-extern const char* FullPathHoods(							// Returns full path in system format
-   const char* pszPartialPath);								// In:  Partial path in RSPiX format
+extern char* FullPathHoods(							// Returns full path in system format
+	char* pszPartialPath);								// In:  Partial path in RSPiX format
 
-extern const char* FullPathCustom(							// Returns full path in system format
-   const char*	pszFullPath,									// In:  Full path in in RSPiX format.
-   const char* pszPartialPath);								// In:  Partial path in RSPiX format.
+extern char* FullPathCustom(							// Returns full path in system format
+	char*	pszFullPath,									// In:  Full path in in RSPiX format.
+	char* pszPartialPath);								// In:  Partial path in RSPiX format.
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -440,7 +446,7 @@ extern const char* FullPathCustom(							// Returns full path in system format
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CorrectifyBasePath(								// Returns 0 if successfull, non-zero otherwise
 	char* pszBasePath,									// I/O: Base path to be corrected
-   size_t sMaxPathLen);									// In:  Maximum length of base path
+	int16_t sMaxPathLen);									// In:  Maximum length of base path
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -449,12 +455,12 @@ int16_t CorrectifyBasePath(								// Returns 0 if successfull, non-zero otherwi
 ////////////////////////////////////////////////////////////////////////////////
 extern int16_t SubPathOpenBox(		// Returns 0 on success, negative on error, 1 if 
 											// not subpathable (i.e., returned path is full path).
-   const char*	pszFullPath,				// In:  Full path to be relative to.
-   const char* pszBoxTitle,				// In:  Title of box.
-   const char*	pszDefFileName,			// In:  Default filename.
+	char*	pszFullPath,				// In:  Full path to be relative to.
+	char* pszBoxTitle,				// In:  Title of box.
+	char*	pszDefFileName,			// In:  Default filename.
 	char* pszChosenFileName,		// Out: User's choice.
-   size_t sStrSize,					// In:  Amount of memory pointed to by pszChosenFileName.
-   const char*	pszFilter = nullptr);		// In:  If not nullptr, '.' delimited extension based filename
+	int16_t sStrSize,					// In:  Amount of memory pointed to by pszChosenFileName.
+	char*	pszFilter = NULL);		// In:  If not NULL, '.' delimited extension based filename
 											//	filter specification.  Ex: ".cpp.h.exe.lib" or "cpp.h.exe.lib"
 											// Note: Cannot use '.' in filter.  Preceding '.' ignored.
 
@@ -492,6 +498,11 @@ extern int16_t GetGammaLevel(void);					// Returns current brighten value
 extern void Game_StartLevelOnce(
 	int16_t sMenuItem);
 
+#ifdef WIN32
+#define snprintf _snprintf
+#define mkdir _mkdir
+#endif
+
 extern bool StatsAreAllowed;
 
 extern int Stat_BulletsFired;
@@ -509,7 +520,7 @@ extern int Stat_KilledCivilians;
 extern int Stat_TotalKilled;
 extern int Stat_LevelsPlayed;
 
-extern milliseconds_t playthroughMS;
+extern int32_t playthroughMS;
 
 extern uint32_t Flag_Achievements;
 #define FLAG_USED_M16             (1<<0)
@@ -527,7 +538,7 @@ extern uint32_t Flag_Achievements;
 #define FLAG_USED_HEATSEEKER      (1<<12)
 #define FLAG_USED_SPRAY_CANNON    (1<<13)
 #define FLAG_USED_DEATHWAD        (1<<14)
-#define FLAG_MASK_WEAPONS         0x3BFB // everything but dbl_shotgun, remote_mine and deathwad //((1<<15)-1)
+#define FLAG_MASK_WEAPONS         0x3bfb // everything but dbl_shotgun, remote_mine and deathwad //((1<<15)-1)
 
 #define FLAG_USED_CHEATS          (1<<15)
 #define FLAG_KILLED_EVERYTHING    (1<<16)
@@ -571,7 +582,7 @@ enum Achievement
     ACHIEVEMENT_MAX  // not an achievement, just the total count.
 };
 
-#if defined(STEAM_CONNECTED)
+#if WITH_STEAMWORKS
 extern void UnlockAchievement(const Achievement ach);
 extern void RunSteamworksUpkeep();
 extern void RequestSteamStatsStore();

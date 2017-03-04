@@ -42,8 +42,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-        AdditionalIncludeDirectories=".\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS;TRACENASSERT"
+				AdditionalIncludeDirectories=".\RSPiX\c\Win32\SmartHeap\Include,.\RSPiX\Src,.\RSPiX\Src\Blue,.\RSPiX\Inc,."
+				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;TRACENASSERT"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -115,8 +115,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-        AdditionalIncludeDirectories=".\sys\include;.\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;_DEBUG;WIN32;_WINDOWS;STEAM_CONNECTED"
+				AdditionalIncludeDirectories=".\SDL2\include;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;."
+				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;NOSHMALLOC;WITH_STEAMWORKS=1"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Build\Orange\Debug/Orange.pch"
@@ -187,8 +187,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-        AdditionalIncludeDirectories=".\sys\include;.\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS"
+				AdditionalIncludeDirectories=".\SDL2\include;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;."
+				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;WITH_STEAMWORKS=0"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -241,7 +241,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;hpj;bat;for;f90"
 			>
 			<File
-        RelativePath="RSPiX\ORANGE\GameLib\AnimSprite.cpp"
+				RelativePath="RSPiX\Src\ORANGE\GameLib\ANIMSPRT.CPP"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -275,7 +275,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\Attribute\attribute.cpp"
+				RelativePath="RSPiX\Src\ORANGE\Attribute\attribute.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -309,7 +309,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\GUI\btn.cpp"
+				RelativePath="RSPiX\Src\ORANGE\GUI\btn.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -343,7 +343,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\Channel\channel.cpp"
+				RelativePath="RSPiX\Src\ORANGE\Channel\channel.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -377,7 +377,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\color\colormatch.cpp"
+				RelativePath="RSPiX\Src\ORANGE\color\colormatch.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -411,7 +411,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\DirtRect\DirtRect.cpp"
+				RelativePath="RSPiX\Src\ORANGE\DirtRect\DirtRect.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -445,7 +445,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\color\dithermatch.cpp"
+				RelativePath="RSPiX\Src\ORANGE\color\dithermatch.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -479,7 +479,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\GUI\dlg.cpp"
+				RelativePath="RSPiX\Src\ORANGE\GUI\dlg.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -513,7 +513,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\GUI\edit.cpp"
+				RelativePath="RSPiX\Src\ORANGE\GUI\edit.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -547,7 +547,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\File\file.cpp"
+				RelativePath="RSPiX\Src\ORANGE\File\file.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -581,7 +581,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\QuickMath\FixedPoint.cpp"
+				RelativePath="RSPiX\Src\ORANGE\QuickMath\FixedPoint.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -615,7 +615,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\GUI\guiItem.cpp"
+				RelativePath="RSPiX\Src\ORANGE\GUI\guiItem.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -649,7 +649,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\IFF\iff.cpp"
+				RelativePath="RSPiX\Src\ORANGE\IFF\iff.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -683,7 +683,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\ImageTools\lasso.cpp"
+				RelativePath="RSPiX\Src\ORANGE\ImageTools\lasso.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -717,7 +717,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\Laymage\laymage.cpp"
+				RelativePath="RSPiX\Src\ORANGE\Laymage\laymage.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -751,7 +751,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\GUI\ListBox.cpp"
+				RelativePath="RSPiX\Src\ORANGE\GUI\ListBox.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -785,7 +785,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\GUI\ListContents.cpp"
+				RelativePath="RSPiX\Src\ORANGE\GUI\ListContents.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -819,7 +819,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\Meter\meter.cpp"
+				RelativePath="RSPiX\Src\ORANGE\Meter\meter.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -853,7 +853,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\MsgBox\MsgBox.cpp"
+				RelativePath="RSPiX\Src\ORANGE\MsgBox\MsgBox.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -887,7 +887,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\GUI\MultiBtn.cpp"
+				RelativePath="RSPiX\Src\ORANGE\MTask\mtask.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -921,7 +921,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\MultiGrid\MultiGrid.cpp"
+				RelativePath="RSPiX\Src\ORANGE\GUI\MultiBtn.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -955,7 +955,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\MultiGrid\MultiGridIndirect.cpp"
+				RelativePath="RSPiX\Src\ORANGE\MultiGrid\MultiGrid.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -989,7 +989,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\GUI\ProcessGui.cpp"
+				RelativePath="RSPiX\Src\ORANGE\MultiGrid\MultiGridIndirect.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -1023,7 +1023,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\Debug\profile.cpp"
+				RelativePath="RSPiX\Src\ORANGE\GUI\ProcessGui.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -1057,7 +1057,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\GUI\PushBtn.cpp"
+				RelativePath="RSPiX\Src\ORANGE\Debug\profile.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -1091,7 +1091,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\QuickMath\QuickMath.cpp"
+				RelativePath="RSPiX\Src\ORANGE\GUI\PushBtn.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -1125,7 +1125,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\GameLib\Region.cpp"
+				RelativePath="RSPiX\Src\ORANGE\QuickMath\QuickMath.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -1159,7 +1159,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\RString\rstring.cpp"
+				RelativePath="RSPiX\Src\ORANGE\GameLib\Region.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -1193,7 +1193,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\GUI\scrollbar.cpp"
+				RelativePath="RSPiX\Src\ORANGE\RString\rstring.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -1227,7 +1227,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\GameLib\SHAPES.CPP"
+				RelativePath="RSPiX\Src\ORANGE\GUI\scrollbar.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -1261,7 +1261,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\Parse\SimpleBatch.cpp"
+				RelativePath="RSPiX\Src\ORANGE\GameLib\SHAPES.CPP"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -1295,7 +1295,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\GameLib\SPRITE.CPP"
+				RelativePath="RSPiX\Src\ORANGE\Parse\SimpleBatch.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -1329,7 +1329,41 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\str\str.cpp"
+				RelativePath="RSPiX\Src\ORANGE\GameLib\SPRITE.CPP"
+				>
+				<FileConfiguration
+					Name="Optimized Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="0"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="RSPiX\Src\ORANGE\str\str.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -1365,7 +1399,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\GUI\txt.cpp"
+				RelativePath="RSPiX\Src\ORANGE\GUI\txt.cpp"
 				>
 				<FileConfiguration
 					Name="Optimized Debug|Win32"
@@ -1404,127 +1438,127 @@
 			Filter="h;hpp;hxx;hm;inl;fi;fd"
 			>
 			<File
-        RelativePath="RSPiX\orange\gamelib\AnimSprite.h"
+				RelativePath="RSPiX\Src\orange\gamelib\animsprt.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\Attribute\Attribute.h"
+				RelativePath="RSPiX\Src\orange\Attribute\Attribute.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\gui\Btn.h"
+				RelativePath="RSPiX\Src\orange\gui\Btn.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\channel\channel.h"
+				RelativePath="RSPiX\Src\orange\channel\channel.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\ORANGE\COLOR\COLORMATCH.H"
+				RelativePath="RSPiX\Src\ORANGE\COLOR\COLORMATCH.H"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\dirtrect\dirtrect.h"
+				RelativePath="RSPiX\Src\orange\dirtrect\dirtrect.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\Gui\Dlg.h"
+				RelativePath="RSPiX\Src\orange\Gui\Dlg.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\gui\edit.h"
+				RelativePath="RSPiX\Src\orange\gui\edit.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\file\file.h"
+				RelativePath="RSPiX\Src\orange\file\file.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\quickmath\fixedpoint.h"
+				RelativePath="RSPiX\Src\orange\quickmath\fixedpoint.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\gui\guiItem.h"
+				RelativePath="RSPiX\Src\orange\gui\guiItem.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\iff\iff.h"
+				RelativePath="RSPiX\Src\orange\iff\iff.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\ImageTools\lasso.h"
+				RelativePath="RSPiX\Src\orange\ImageTools\lasso.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\Laymage\Laymage.h"
+				RelativePath="RSPiX\Src\orange\Laymage\Laymage.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\gui\ListBox.h"
+				RelativePath="RSPiX\Src\orange\gui\ListBox.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\gui\ListContents.h"
+				RelativePath="RSPiX\Src\orange\gui\ListContents.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\Meter\Meter.h"
+				RelativePath="RSPiX\Src\orange\Meter\Meter.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\MsgBox\MsgBox.h"
+				RelativePath="RSPiX\Src\orange\MsgBox\MsgBox.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\MTask\MTask.h"
+				RelativePath="RSPiX\Src\orange\MTask\MTask.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\gui\multibtn.h"
+				RelativePath="RSPiX\Src\orange\gui\multibtn.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\multigrid\multigrid.h"
+				RelativePath="RSPiX\Src\orange\multigrid\multigrid.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\multigrid\multigridIndirect.h"
+				RelativePath="RSPiX\Src\orange\multigrid\multigridIndirect.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\gui\PushBtn.h"
+				RelativePath="RSPiX\Src\orange\gui\PushBtn.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\quickmath\quickmath.h"
+				RelativePath="RSPiX\Src\orange\quickmath\quickmath.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\gamelib\region.h"
+				RelativePath="RSPiX\Src\orange\gamelib\region.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\rstring\rstring.h"
+				RelativePath="RSPiX\Src\orange\rstring\rstring.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\gui\ScrollBar.h"
+				RelativePath="RSPiX\Src\orange\gui\ScrollBar.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\gamelib\shapes.h"
+				RelativePath="RSPiX\Src\orange\gamelib\shapes.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\gamelib\sprite.h"
+				RelativePath="RSPiX\Src\orange\gamelib\sprite.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\str\str.h"
+				RelativePath="RSPiX\Src\orange\str\str.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\orange\gui\txt.h"
+				RelativePath="RSPiX\Src\orange\gui\txt.h"
 				>
 			</File>
 		</Filter>

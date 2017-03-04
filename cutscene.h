@@ -52,8 +52,8 @@
 #ifndef CUTSCENE_H
 #define CUTSCENE_H
 
-#include <RSPiX.h>
-#include <Prefs/prefs.h>
+#include "RSPiX.h"
+#include "WishPiX/Prefs/prefs.h"
 #include "SampleMaster.h"
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -70,12 +70,12 @@ int16_t	MartiniDo(	RImage*	pimBackground,	// actually, this is the ONLY graphic
 						int16_t	sStartX,				// logical start position of image
 						int16_t	sStartY,				// NOTE: it will be clipped so won't actually hit this point!
 						RMultiAlpha*	pAlpha,	// only need 50% - see cut scenes
-                  milliseconds_t	lMilliLen,			// how long to do the effect
+						int32_t	lMilliLen,			// how long to do the effect
 						int16_t	sRadius = 24,		// Your tuning pleasure
-                  milliseconds_t	lSpinTime = 3600,	// in milliseconds
-                  milliseconds_t	lSwayTime = 4000,	// in milliseconds
-						RRect*  prCenter = nullptr,// if not nullptr, use this portion of the image only!
-                  milliseconds_t	lFadeTime = 0,		// fade to black, in milliseconds. (INCL in total time!)
+						int32_t	lSpinTime = 3600,	// in milliseconds
+						int32_t	lSwayTime = 4000,	// in milliseconds
+						RRect*  prCenter = NULL,// if not NULL, use this portion of the image only!
+						int32_t	lFadeTime = 0,		// fade to black, in milliseconds. (INCL in total time!)
 						SampleMaster::SoundInstance siFade=0// to make sound fade out
 					);
 

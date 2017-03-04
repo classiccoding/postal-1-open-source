@@ -42,8 +42,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-        AdditionalIncludeDirectories=".\sys\include;.\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS"
+				AdditionalIncludeDirectories=".\SDL2\include;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;."
+				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;WITH_STEAMWORKS=0"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -114,8 +114,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-        AdditionalIncludeDirectories=".\sys\include;.\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;_DEBUG;WIN32;_WINDOWS;STEAM_CONNECTED"
+				AdditionalIncludeDirectories=".\SDL2\include;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;."
+				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;NOSHMALLOC;WITH_STEAMWORKS=1"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Build\BLiT\Debug/BLiT.pch"
@@ -186,8 +186,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-        AdditionalIncludeDirectories=".\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS;TRACENASSERT"
+				AdditionalIncludeDirectories=".\RSPiX\c\Win32\SmartHeap\Include,.\RSPiX\Src,.\RSPiX\Src\Blue,.\RSPiX\Inc,."
+				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;TRACENASSERT"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -242,7 +242,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;hpj;bat;for;f90"
 			>
 			<File
-        RelativePath="RSPiX\GREEN\BLiT\alphablit.cpp"
+				RelativePath="RSPiX\Src\GREEN\BLiT\alphablit.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -277,7 +277,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\BLiT\BLIT.CPP"
+				RelativePath="RSPiX\Src\GREEN\BLiT\BLIT.CPP"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -312,7 +312,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\BLiT\BLITINIT.CPP"
+				RelativePath="RSPiX\Src\GREEN\BLiT\BLITINIT.CPP"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -347,7 +347,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\BLiT\BLiTT.cpp"
+				RelativePath="RSPiX\Src\GREEN\BLiT\BLiTT.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -382,7 +382,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\BLiT\CFNT.cpp"
+				RelativePath="RSPiX\Src\GREEN\BLiT\CFNT.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -417,7 +417,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\BLiT\Fspr1.cpp"
+				RelativePath="RSPiX\Src\GREEN\BLiT\Fspr1.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -452,7 +452,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\BLiT\FSPR8.cpp"
+				RelativePath="RSPiX\Src\GREEN\BLiT\FSPR8.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -487,7 +487,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\BLiT\line.cpp"
+				RelativePath="RSPiX\Src\GREEN\BLiT\line.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -522,7 +522,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\BLiT\mono.cpp"
+				RelativePath="RSPiX\Src\GREEN\BLiT\mono.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -557,7 +557,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\BLiT\Rotate96.cpp"
+				RelativePath="RSPiX\Src\GREEN\BLiT\Rotate96.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -592,7 +592,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\BLiT\RPrint.cpp"
+				RelativePath="RSPiX\Src\GREEN\BLiT\RPrint.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -627,7 +627,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\BLiT\ScaleFlat.cpp"
+				RelativePath="RSPiX\Src\GREEN\BLiT\ScaleFlat.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -667,19 +667,19 @@
 			Filter="h;hpp;hxx;hm;inl;fi;fd"
 			>
 			<File
-        RelativePath="RSPiX\green\blit\alphablit.h"
+				RelativePath="RSPiX\Src\green\blit\alphablit.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\GREEN\BLIT\BLiT.H"
+				RelativePath="RSPiX\Src\GREEN\BLIT\BLiT.H"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\green\blit\cfnt.h"
+				RelativePath="RSPiX\Src\green\blit\cfnt.h"
 				>
 			</File>
 			<File
-        RelativePath="RSPiX\green\blit\rprint.h"
+				RelativePath="RSPiX\Src\green\blit\rprint.h"
 				>
 			</File>
 		</Filter>

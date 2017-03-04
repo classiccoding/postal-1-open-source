@@ -35,8 +35,9 @@
 //							projected Y position.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define GOALTIMER_CPP
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "goaltimer.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -69,7 +70,7 @@ int16_t CGoalTimer::Load(							// Returns 0 if successfull, non-zero otherwise
 {
 	// Call the base class load to get the instance ID
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -100,14 +101,14 @@ int16_t CGoalTimer::Load(							// Returns 0 if successfull, non-zero otherwise
 		}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 		{
 			// Get resources
 			sResult = GetResources();
 		}
 		else
 		{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CGoalTimer::Load(): Error reading from file!\n");
 		}
 	}
@@ -146,7 +147,7 @@ int16_t CGoalTimer::Save(										// Returns 0 if successfull, non-zero otherwi
 	pFile->Write(&m_sKillGoal);
 	pFile->Write(&m_sUpDown);
 
-   return SUCCESS;
+	return 0;
 }
 
 
@@ -155,11 +156,11 @@ int16_t CGoalTimer::Save(										// Returns 0 if successfull, non-zero otherwi
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CGoalTimer::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 {
-   int16_t sResult = SUCCESS;
+	int16_t sReturn = 0;
 	// At this point we can assume the CHood was loaded, so we init our height
 	m_dY = m_pRealm->GetHeight((int16_t) m_dX, (int16_t) m_dZ);
 
-   return sResult;
+	return sReturn;
 }
 
 
@@ -168,7 +169,7 @@ int16_t CGoalTimer::Startup(void)								// Returns 0 if successfull, non-zero o
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CGoalTimer::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 {
-   return SUCCESS;
+	return 0;
 }
 
 
@@ -209,7 +210,7 @@ void CGoalTimer::Render(void)
 {
 }
 
-#if !defined(EDITOR_REMOVED)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -218,7 +219,7 @@ int16_t CGoalTimer::EditNew(									// Returns 0 if successfull, non-zero other
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -234,7 +235,7 @@ int16_t CGoalTimer::EditNew(									// Returns 0 if successfull, non-zero other
 		CListNode<CThing>* pEditorList = m_pRealm->m_aclassHeads[CThing::CGameEditThingID].m_pnNext;
 		CGameEditThing* peditor = (CGameEditThing*) pEditorList->m_powner;
 		RListBox* plb = peditor->m_plbNavNetList;
-		if (plb != nullptr)
+		if (plb != NULL)
 		{
 			RGuiItem* pgui = plb->AddString((char*) m_rstrNetName);
 			pgui->m_lId = GetInstanceID();
@@ -248,7 +249,6 @@ int16_t CGoalTimer::EditNew(									// Returns 0 if successfull, non-zero other
 
 	return sResult;
 }
-#endif // !defined(EDITOR_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Helper inline to get a GUI, set its text to the value, and recompose it.
@@ -260,9 +260,9 @@ void SetText(					// Returns nothing.
 	int32_t			lVal)			// In:  Value to set text to.
 	{
 	RGuiItem*	pgui	= pguiRoot->GetItemFromId(lId);
-	if (pgui != nullptr)
+	if (pgui != NULL)
 		{
-		pgui->SetText("%i", lVal);
+		pgui->SetText("%ld", lVal);
 		pgui->Compose(); 
 		}
 	}
@@ -276,8 +276,10 @@ void CheckMultiBtn(			// Returns nothing.
 	int32_t			lId,			// In:  ID of GUI to set text.
 	int16_t			sChecked)	// In:  1 to check, 0 to uncheck.
 	{
+	int16_t	sRes	= 0;	// Assume nothing;
+
 	RMultiBtn*	pmb	= (RMultiBtn*)pguiRoot->GetItemFromId(lId);
-	if (pmb != nullptr)
+	if (pmb != NULL)
 		{
 		ASSERT(pmb->m_type == RGuiItem::MultiBtn);
 
@@ -295,27 +297,27 @@ int16_t IsMultiBtnChecked(	// Returns multibtn's state.
 	RGuiItem*	pguiRoot,	// In:  Root GUI.
 	int32_t			lId)			// In:  ID of GUI to set text.
 	{
-   int16_t sResult = SUCCESS;	// Assume nothing;
+	int16_t	sRes	= 0;	// Assume nothing;
 
 	RMultiBtn*	pmb	= (RMultiBtn*)pguiRoot->GetItemFromId(lId);
-	if (pmb != nullptr)
+	if (pmb != NULL)
 		{
 		ASSERT(pmb->m_type == RGuiItem::MultiBtn);
 
-		sResult	= (pmb->m_sState == 1) ? 0 : 1;
+		sRes	= (pmb->m_sState == 1) ? 0 : 1;
 		}
 
-	return sResult;
+	return sRes;
 	}
 
-#if !defined(EDITOR_REMOVED)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Edit Modify
 ////////////////////////////////////////////////////////////////////////////////
 
 int16_t CGoalTimer::EditModify(void)
 {
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	RGuiItem* pgui = RGuiItem::LoadInstantiate(FullPathVD("res/editor/clock.gui"));
 	if (pgui)
 	{
@@ -333,7 +335,7 @@ int16_t CGoalTimer::EditModify(void)
 		delete pgui;
 	}
 
-   return SUCCESS;
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -348,7 +350,7 @@ int16_t CGoalTimer::EditMove(									// Returns 0 if successfull, non-zero othe
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-   return SUCCESS;
+	return 0;
 }
 
 
@@ -408,7 +410,7 @@ void CGoalTimer::EditRect(RRect* pRect)
 	pRect->sW	= 10;	// Safety.
 	pRect->sH	= 10;	// Safety.
 
-	if (m_pImage != nullptr)
+	if (m_pImage != NULL)
 	{
 		pRect->sW	= m_pImage->m_sWidth;
 		pRect->sH	= m_pImage->m_sHeight;
@@ -431,25 +433,25 @@ void CGoalTimer::EditHotSpot(	// Returns nothiing.
 	*psX	= (m_pImage->m_sWidth / 2);
 	*psY	= m_pImage->m_sHeight;
 }
-#endif // !defined(EDITOR_REMOVED)
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Get all required resources
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CGoalTimer::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
-   if (m_pImage == nullptr)
+	if (m_pImage == 0)
 	{
 		sResult	= rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(IMAGE_FILE), &m_pImage);
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 		{
 			// This is a questionable action on a resource managed item, but it's
 			// okay if EVERYONE wants it to be an FSPR8.
 			if (m_pImage->Convert(RImage::FSPR8) != RImage::FSPR8)
 			{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CGoalTimer::GetResource(): Couldn't convert to FSPR8!\n");
 			}
 		}
@@ -464,9 +466,9 @@ int16_t CGoalTimer::GetResources(void)						// Returns 0 if successfull, non-zer
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CGoalTimer::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-   int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
-   if (m_pImage != nullptr)
+	if (m_pImage != 0)
 	{
 		rspReleaseResource(&g_resmgrGame, &m_pImage);
 	}

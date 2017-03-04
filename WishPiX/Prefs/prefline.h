@@ -38,8 +38,12 @@
 #ifndef PREFLINE_H
 #define PREFLINE_H
 
-#include <BLUE/System.h>
-#include <ORANGE/CDT/flist.h>
+#include "Blue.h"
+#ifdef PATHS_IN_INCLUDES
+	#include "ORANGE/CDT/flist.h"
+#else
+	#include "flist.h"
+#endif
 
 class RPrefsLine;
 
@@ -49,7 +53,7 @@ typedef RFList<RPrefsLine*> RPrefsLineList;
 class RPrefsLine
 	{
 	public:
-      enum ePrefsLineType
+		typedef enum ePrefsLineType
 			{
 			Comment,
 			Section,

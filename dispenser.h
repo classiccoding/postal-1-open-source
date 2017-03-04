@@ -52,7 +52,7 @@
 #ifndef DISPENSER_H
 #define DISPENSER_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 
 #include "thing.h"
 #include "scene.h"
@@ -82,9 +82,9 @@ class CDispenser : public CThing
 
 		typedef struct
 			{
-         const char*	pszName;					// Name of logic (for list box).
-         const char*	apszParms[NumParms];	// Parm descriptions or nullptr for none.
-         const char*	pszDescription;		// Description of logic (for text box).
+			char*	pszName;					// Name of logic (for list box).
+			char*	apszParms[NumParms];	// Parm descriptions or NULL for none.
+			char*	pszDescription;		// Description of logic (for text box).
 			} LogicInfo;
 
 	//---------------------------------------------------------------------------
@@ -116,7 +116,7 @@ class CDispenser : public CThing
 		int16_t			m_sNumDispensees;						// Number of dispensees already
 																	// dispensed.
 
-		uint16_t			m_u16IdDispensee;						// ID of the last dispensee
+		U16			m_u16IdDispensee;						// ID of the last dispensee
 																	// we created.
 
 		int32_t			m_lNextUpdate;							// Time of next update.
@@ -152,7 +152,7 @@ class CDispenser : public CThing
 		CDispenser(CRealm* pRealm)
 			: CThing(pRealm, CDispenserID)
 			{
-			m_pim					= nullptr;
+			m_pim					= NULL;
 			m_idDispenseeType	= TotalIDs;			// This means none.
 			m_sSuspend			= FALSE;
 			memset(m_alLogicParms, 0, sizeof(m_alLogicParms) );
@@ -182,11 +182,11 @@ class CDispenser : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CDispenser(pRealm);
-			if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CDispenser::Construct(): Couldn't construct CDispenser!\n");
 				}
 
@@ -225,7 +225,6 @@ class CDispenser : public CThing
 		// (virtual (Overridden here)).
 		void Update(void);
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		// (virtual (Overridden here)).
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
@@ -259,17 +258,16 @@ class CDispenser : public CThing
 										// EditRect() pos.
 			int16_t*	psY);			// Out: Y coord of 2D hotspot relative to
 										// EditRect() pos.
-#endif // !defined(EDITOR_REMOVED)
 
 		// Get the coordinates of this thing.
 		virtual					// Overriden here.
-      double GetX(void)	const { return (double)m_sX; }
+		double GetX(void)	{ return (double)m_sX; }
 
 		virtual					// Overriden here.
-      double GetY(void)	const { return (double)m_sY; }
+		double GetY(void)	{ return (double)m_sY; }
 
 		virtual					// Overriden here.
-      double GetZ(void)	const { return (double)m_sZ; }
+		double GetZ(void)	{ return (double)m_sZ; }
 
 	//---------------------------------------------------------------------------
 	// Other functions

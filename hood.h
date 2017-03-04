@@ -98,10 +98,14 @@
 #ifndef HOOD_H
 #define HOOD_H
 
-#include <RSPiX.h>
-#include <Spry/spry.h>
-#include <ORANGE/MultiGrid/MultiGrid.h>
-
+#include "RSPiX.h"
+#ifdef PATHS_IN_INCLUDES
+	#include "WishPiX/Spry/spry.h"
+	#include "ORANGE/MultiGrid/MultiGrid.h"
+#else
+	#include "spry.h"
+	#include "multigrid.h"
+#endif
 #include "thing.h"
 
 
@@ -164,7 +168,7 @@ class CHood : public CThing
 
 		bool m_bResourcesExist;									// Flags whether resources exist
 
-		char m_acBaseName[PATH_MAX];						// Base name for all resources.
+		char m_acBaseName[RSP_MAX_PATH];						// Base name for all resources.
 
 		int16_t	m_sRealmRotX;										// Realm X rotation.
 		int16_t	m_sSceneRotX;										// Scene transform X rotation.
@@ -194,11 +198,11 @@ class CHood : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CHood(pRealm);
-         if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CHood::Construct(): Couldn't construct CHood!\n");
 				}
 			return sResult;
@@ -238,7 +242,6 @@ class CHood : public CThing
 		// Render object
 		void Render(void);
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -271,7 +274,6 @@ class CHood : public CThing
 			prc->sW	= m_pimBackground->m_sWidth;
 			prc->sH	= m_pimBackground->m_sHeight;
 			}
-#endif // !defined(EDITOR_REMOVED)
 
 	//---------------------------------------------------------------------------
 	// Hood-specific functions

@@ -31,8 +31,14 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#include "RSPiX.h"
+#ifdef PATHS_IN_INCLUDES
+	#include "ORANGE/MultiGrid/MultiGridIndirect.h"
+#else
+	#include "multigridindirect.h"
+#endif
 #include "TriggerRegions.h"
-
+#include "TriggerRgn.h"
 #include "realm.h"
 #include "thing.h"
 
@@ -52,7 +58,7 @@
 //  OUPUT:	An allocated RMultiGridIndirect containing an uncompressed 
 //				RMultiGrid within it, ready for writing to.
 //
-//	 RETURN VALUE:	nullptr on failure, else the new grid.  Can fail due to memory
+//	 RETURN VALUE:	NULL on failure, else the new grid.  Can fail due to memory
 //						alloc errors.
 //
 ////////////////////////////////////////////////////////////////////////////////
@@ -69,13 +75,13 @@ RMultiGridIndirect*	CreateRegionMap(int16_t sWidth,int16_t sHeight,int16_t sMaxP
 		{
 		TRACE("CreateRegionMap: alloc error!\n");
 
-		return nullptr;
+		return NULL;
 		}
 
 	if (pMGI->Alloc(sWidth,sHeight,sMaxPlanes,sTileW,sTileH) != SUCCESS) 
 		{
 		TRACE("CreateRegionMap: alloc error!\n");
-		return nullptr;
+		return NULL;
 		}
 
 	// Create and install the MultiGrid.
@@ -84,14 +90,14 @@ RMultiGridIndirect*	CreateRegionMap(int16_t sWidth,int16_t sHeight,int16_t sMaxP
 	if (!pmg)
 		{
 		TRACE("CreateRegionMap: alloc error!\n");
-		return nullptr;
+		return NULL;
 		}
 
 	if (pmg->Alloc(sWidth,sHeight) != SUCCESS)
 		{
 		TRACE("CreateRegionMap: alloc error!\n");
 		delete pmg;
-		return nullptr;
+		return NULL;
 		}
 
 	pMGI->InstallMultiGrid(pmg);
@@ -119,7 +125,7 @@ RMultiGridIndirect*	CreateRegionMap(int16_t sWidth,int16_t sHeight,int16_t sMaxP
 int16_t	StrafeAddRegion(RMultiGridIndirect* pMGI,TriggerRgn regions[256])
 	{
 	ASSERT(pMGI);
-   int16_t sResult = SUCCESS;
+	int16_t sRet = SUCCESS;
 
 	for (int16_t i=1; i < 256;i++)
 		{
@@ -130,12 +136,12 @@ int16_t	StrafeAddRegion(RMultiGridIndirect* pMGI,TriggerRgn regions[256])
 				!= SUCCESS)
 				{
 				TRACE("StrafeAddRegion:: Problem installing region %hd\n",i);
-            sResult = FAILURE;
+				sRet = FAILURE;
 				}
 			}
 		}
 
-   return sResult;
+	return sRet;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -164,7 +170,7 @@ int16_t CompressMap(RMultiGridIndirect* pMGI,int16_t sTileW,int16_t sTileH)
 void	SpewTriggers(CRealm* pRealm,	uint16_t	usDudeUID,int16_t sX,int16_t sZ)
 	{
 	uint8_t	aucHitList[MGI_MAX_PLANES];
-	if (pRealm->m_pTriggerMap == nullptr) return; // No triggers
+	if (pRealm->m_pTriggerMap == NULL) return; // No triggers
 
 	int16_t sMax = pRealm->m_pTriggerMap->m_sMaxPlanes;
 
@@ -183,7 +189,7 @@ void	SpewTriggers(CRealm* pRealm,	uint16_t	usDudeUID,int16_t sX,int16_t sZ)
 	while (*pHit && sNum) // got a hit:
 		{
 		// send a trigger message out:
-		CThing* pThing = nullptr;
+		CThing* pThing = NULL;
 
 		if (pRealm->m_idbank.GetThingByID(&pThing, pRealm->m_asPylonUIDs[*pHit]) == SUCCESS)
 			{

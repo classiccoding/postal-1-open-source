@@ -48,7 +48,7 @@
 // Includes.
 //------------------------------------------------------------------------------
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 
 #include "TexEdit.h"
 
@@ -341,7 +341,7 @@ bool
 TrianglesIntersectLineSegment(
 	RP3d &linept1,				// In: line segment point 1
 	RP3d &linept2, 			// In: line segment point 2 closest to this point. this should be the first point.
-	uint16_t *ptri, 					// In: mesh
+	U16 *ptri, 					// In: mesh
 	RP3d *soparr, 				// In: points for mesh
 	int16_t smeshNum,			// In: number of points in mesh
 	RP3d &hitpoint,			// Out: point where line hit triangle
@@ -428,7 +428,7 @@ void Transform(RSop* psopSrc, RSop* psopDst, RPipeLine* ppipe, RTransform& tObj)
 #if 0	// Find the magic offset.
 	static short sOffX = 0;
 	static short sOffY = 0;
-	static uint8_t*	pau8KeyStatus = rspGetKeyStatusArray();
+	static U8*	pau8KeyStatus = rspGetKeyStatusArray();
 	if (pau8KeyStatus[RSP_SK_LEFT] & 1)
 		sOffX--;
 	if (pau8KeyStatus[RSP_SK_RIGHT] & 1)
@@ -478,7 +478,7 @@ CreatePalette(
 				&pgui->m_im,
 				sX, sY,
 				sCellW, sCellH,
-				nullptr);
+				NULL);
 			
 			sColor += c_sPalColorsPerSwatch;
 			}
@@ -524,20 +524,20 @@ ValidateTextures(
 	{
 	if (ptex->m_sNum < sNum)
 		{
-		int16_t sResult = rspMsgBox(
+		int16_t	sRes = rspMsgBox(
 			RSP_MB_ICN_QUERY | RSP_MB_BUT_YESNO,
 			"Incorrect Texture File",
 			"This texture file does not have enough entries to cover the entire mesh.\n"
 			"Do you want this utility to recreate the texture scheme filling in the\n"
 			"empty entries with bright green?");
-		switch (sResult)
+		switch (sRes)
 			{
 			case RSP_MB_RET_YES:
 				{
 				int16_t	sOrigNum	= ptex->m_sNum;
 
 				// Create temp space for the existing colors.
-				uint8_t*	pau8	= new uint8_t[sOrigNum];
+				U8*	pau8	= new U8[sOrigNum];
 				
 				// Duplicate the existing colors.
 				int16_t sColor;
@@ -586,12 +586,12 @@ ValidateTextures(
 ////////////////////////////////////////////////////////////////////////////////
 CTexEdit::CTexEdit(void)
 	{
-	m_pguiRoot			= nullptr;
-	m_pguiAnim			= nullptr;
-	m_pguiCurColor		= nullptr;
-	m_pguiPal			= nullptr;
+	m_pguiRoot			= NULL;
+	m_pguiAnim			= NULL;
+	m_pguiCurColor		= NULL;
+	m_pguiPal			= NULL;
 
-	m_scene.SetupPipeline(nullptr, nullptr, c_dScale);
+	m_scene.SetupPipeline(NULL, NULL, c_dScale);
 
 	m_manip	= Trans;
 
@@ -608,8 +608,8 @@ CTexEdit::CTexEdit(void)
 
 	m_lTriIndex	= -1;
 
-	m_ptexSrc		= nullptr;
-	m_ptexchanSrc	= nullptr;
+	m_ptexSrc		= NULL;
+	m_ptexchanSrc	= NULL;
 
 	m_bModified	= false;
 
@@ -727,7 +727,7 @@ CTexEdit::DoModal(
 		// Get up to two controls that can end the processing that can be
 		// passed on the DoModal() line.  More buttons can be set though.
 		// Set up ptrs and erase buffer.
-		gm.Prepare(m_pguiRoot, nullptr, nullptr);
+		gm.Prepare(m_pguiRoot, NULL, NULL);
 
 		RInputEvent	ie;
 
@@ -795,12 +795,12 @@ CTexEdit::DoModal(
 				if (m_bModified)
 					{
 					// Query if user wants to apply the work textures (and not lose changes).
-					int16_t sResult	= rspMsgBox(
+					int16_t	sRes	= rspMsgBox(
 						RSP_MB_ICN_QUERY | RSP_MB_BUT_YESNOCANCEL,
 						g_pszAppName,
 						"Apply changes before exiting texture editor?");
 
-					switch (sResult)
+					switch (sRes)
 						{
 						case RSP_MB_RET_YES:		// Yes - apply.
 							Apply();
@@ -819,15 +819,15 @@ CTexEdit::DoModal(
 		// Clean up ptrs, erase buffer, and dirty rect list.
 		gm.Unprepare();
 
-		m_ptexSrc		= nullptr;
-		m_ptexchanSrc	= nullptr;
+		m_ptexSrc		= NULL;
+		m_ptexchanSrc	= NULL;
 		m_texWork.FreeIndices();
 
 		delete m_pguiRoot;
-		m_pguiRoot = nullptr;
-		m_pguiAnim = nullptr;
-		m_pguiCurColor = nullptr;
-		m_pguiPal = nullptr;
+		m_pguiRoot = NULL;
+		m_pguiAnim = NULL;
+		m_pguiCurColor = NULL;
+		m_pguiPal = NULL;
 		}
 	else
 		{
@@ -853,7 +853,6 @@ CTexEdit::DoOutput(
 	int16_t sOffsetY,		// In:  Y offset.
 	RRect& rcClip)			// In:  Dst clip rect.
 	{
-  UNUSED(trans);
 	m_scene.Render3D(
 		pimDst,			// Destination image.     
 		sOffsetX,		// Destination 2D x coord.
@@ -865,7 +864,7 @@ CTexEdit::DoOutput(
 #if 0	// Draw wire frame.
 	RMesh*	pmesh	= psprite->m_pmesh;
 	short sTris = pmesh->m_sNum;
-	uint16_t* pu16Vertex	= pmesh->m_pArray;
+	U16* pu16Vertex	= pmesh->m_pArray;
 	while (sTris--)
 		{
 		const RP3d&	v1	= psopView->m_pArray[*pu16Vertex++];
@@ -922,13 +921,13 @@ CTexEdit::ProcessManip(
 			}
 
 		int16_t sCursorX, sCursorY;
-		rspGetMouse(&sCursorX, &sCursorY, nullptr);
+		rspGetMouse(&sCursorX, &sCursorY, NULL);
 		rspSetMouse(m_sCursorResetX, m_sCursorResetY);
 
 		int16_t sDeltaX = sCursorX - m_sCursorResetX;
 		int16_t sDeltaY = m_sCursorResetY - sCursorY;
 
-		static uint8_t*	pau8KeyStatus = rspGetKeyStatusArray();
+		static U8*	pau8KeyStatus = rspGetKeyStatusArray();
 		
 		if (pau8KeyStatus[RSP_SK_SHIFT] & 1)
 			sDeltaY = 0;
@@ -937,7 +936,6 @@ CTexEdit::ProcessManip(
 
 		switch (m_manip)
 			{
-        UNHANDLED_SWITCH;
 			case Trans:
 				m_fX += sDeltaX * c_fTransRate;
 				m_fY += sDeltaY * c_fTransRate;
@@ -975,7 +973,7 @@ CTexEdit::ProcessManip(
 		RP3d	linept1, linept2;
 
 		int16_t sMouseX, sMouseY;
-		rspGetMouse(&sMouseX, &sMouseY, nullptr);
+		rspGetMouse(&sMouseX, &sMouseY, NULL);
 		m_pguiAnim->TopPosToChild(&sMouseX, &sMouseY);
 
 		linept1.x	= sMouseX;
@@ -999,7 +997,7 @@ CTexEdit::ProcessManip(
 			{
 			m_lTriIndex	= lTriIndex;
 
-			SetStatusText("Triangle %i", m_lTriIndex);
+			SetStatusText("Triangle %ld", m_lTriIndex);
 
 			if (bButtonDown)
 				{
@@ -1038,11 +1036,11 @@ CTexEdit::ProcessManip(
 	if (m_pguiPal->m_sPressed)
 		{
 		int16_t sMouseX, sMouseY;
-		rspGetMouse(&sMouseX, &sMouseY, nullptr);
+		rspGetMouse(&sMouseX, &sMouseY, NULL);
 		m_pguiPal->TopPosToChild(&sMouseX, &sMouseY);
 
 		// Get color directly out of GUI.
-		uint8_t	u8Color	= *(m_pguiPal->m_im.m_pData + (sMouseY * m_pguiPal->m_im.m_lPitch) + sMouseX);
+		U8	u8Color	= *(m_pguiPal->m_im.m_pData + (sMouseY * m_pguiPal->m_im.m_lPitch) + sMouseX);
 		SetColor(u8Color);
 		// Go into paint mode when a color is chosen.  Feels right somehow.
 		SetManip(Paint);
@@ -1144,7 +1142,7 @@ CTexEdit::Save(void)
 
 	if (m_ptexchanSrc)
 		{
-		if (rspEZSave(m_ptexchanSrc, m_strFileName) == SUCCESS)
+		if (rspEZSave(m_ptexchanSrc, m_strFileName) == 0)
 			{
 			SetStatusText("Applied; Saved \"%s\".", (const char*)m_strFileName);
 			}
@@ -1177,7 +1175,7 @@ CTexEdit::SetManip(
 //////////////////////////////////////////////////////////////////////////////
 void
 CTexEdit::SetColor(
-	uint8_t	u8Color)		// In:  New color index.
+	U8	u8Color)		// In:  New color index.
 	{
 	// Make sure it's in range . . .
 	if (u8Color >= c_sPalStart && u8Color <= c_sPalEnd)
@@ -1194,7 +1192,7 @@ CTexEdit::SetColor(
 				&m_pguiCurColor->m_im,
 				sX, sY,
 				sW, sH,
-				nullptr);
+				NULL);
 			}
 		}
 	}
@@ -1212,7 +1210,7 @@ CTexEdit::SetToNotify(
 	if (pgui)
 		{
 		pgui->m_bcUser				= pfn;
-      pgui->m_ulUserInstance	= reinterpret_cast<uintptr_t>(this);
+		pgui->m_ulUserInstance	= (U64)this;
 		}
 	}
 
@@ -1229,7 +1227,7 @@ CTexEdit::SetToNotify(
 	if (pgui)
 		{
 		pgui->m_fnInputEvent		= pfn;
-      pgui->m_ulUserInstance	= reinterpret_cast<uintptr_t>(this);
+		pgui->m_ulUserInstance	= (U64)this;
 		}
 	}
 
@@ -1248,7 +1246,7 @@ CTexEdit::SetToNotify(
 		if (psb->m_type == RGuiItem::ScrollBar)
 			{
 			psb->m_upcUser			= pfn;
-         psb->m_ulUserInstance	= reinterpret_cast<uintptr_t>(this);
+			psb->m_ulUserInstance	= (U64)this;
 			}
 		}
 	}
@@ -1297,7 +1295,6 @@ CTexEdit::ComposeTransform(
 void
 CTexEdit::QuitCall(RGuiItem* pgui)
 	{
-  UNUSED(pgui);
 	m_bQuit	= true;
 	}
 
@@ -1316,7 +1313,6 @@ CTexEdit::ManipCall(RGuiItem* pgui)
 void
 CTexEdit::ColorCall(RGuiItem* pgui, RInputEvent* pie)
 	{
-  UNUSED(pgui);
 	if (pie->type == RInputEvent::Mouse)
 		{
 		switch (pie->sEvent)
@@ -1325,7 +1321,7 @@ CTexEdit::ColorCall(RGuiItem* pgui, RInputEvent* pie)
 				{
 #if 0	// This is now done in ProcessManip().
 				// Get color directly out of GUI.
-				uint8_t	u8Color	= *(pgui->m_im.m_pData + (pie->sPosY * pgui->m_im.m_lPitch) + pie->sPosX);
+				U8	u8Color	= *(pgui->m_im.m_pData + (pie->sPosY * pgui->m_im.m_lPitch) + pie->sPosX);
 				SetColor(u8Color);
 				// Go into paint mode when a color is chosen.  Feels right somehow.
 				SetManip(Paint);
@@ -1342,7 +1338,6 @@ CTexEdit::ColorCall(RGuiItem* pgui, RInputEvent* pie)
 void
 CTexEdit::ApplyCall(RGuiItem* pgui)
 	{
-  UNUSED(pgui);
 	Apply();
 	}
 
@@ -1352,7 +1347,6 @@ CTexEdit::ApplyCall(RGuiItem* pgui)
 void
 CTexEdit::SaveCall(RGuiItem* pgui)
 	{
-  UNUSED(pgui);
 	Save();
 	}
 
@@ -1362,7 +1356,6 @@ CTexEdit::SaveCall(RGuiItem* pgui)
 void
 CTexEdit::RevertCall(RGuiItem* pgui)
 	{
-  UNUSED(pgui);
 	Revert();
 	}
 
@@ -1398,26 +1391,25 @@ CTexEdit::BrightnessCall(RScrollBar* psb)
 void
 CTexEdit::AdjustCall(RGuiItem* pgui)
 	{
-  UNUSED(pgui);
 	// Get frequency.
 	int32_t	lFreq	= m_pguiRoot->GetVal(c_lIdFrequency);
 	
 	char	szText[GUI_MAX_STR];
 	m_pguiRoot->GetText(c_lIdAmount, szText, sizeof(szText) );
 
-	float	fAdjust	= strtod(szText, nullptr);
+	float	fAdjust	= strtod(szText, NULL);
 
 	// Get palette to work with.
-	uint8_t	au8Red[256];
-	uint8_t	au8Green[256];
-	uint8_t	au8Blue[256];
+	U8	au8Red[256];
+	U8	au8Green[256];
+	U8	au8Blue[256];
 	rspGetPaletteEntries(
 		0,					// Palette entry to start copying from                           
 		256,				// Number of palette entries to do                               
 		au8Red,			// Pointer to first red component to copy to                     
 		au8Green,		// Pointer to first green component to copy to                   
 		au8Blue,			// Pointer to first blue component to copy to                    
-		sizeof(uint8_t) );	// Number of bytes by which to increment pointers after each copy
+		sizeof(U8) );	// Number of bytes by which to increment pointers after each copy
 
 
 	// Unmap colors from palette into full color values.
@@ -1425,7 +1417,7 @@ CTexEdit::AdjustCall(RGuiItem* pgui)
 		au8Red,
 		au8Green,
 		au8Blue,
-		sizeof(uint8_t) );
+		sizeof(U8) );
 
 	// Adjust colors.
 	m_texWork.Adjust(
@@ -1439,7 +1431,7 @@ CTexEdit::AdjustCall(RGuiItem* pgui)
 		au8Red,
 		au8Green,
 		au8Blue,
-		sizeof(uint8_t) );
+		sizeof(U8) );
 
 	// Get rid of full colors.
 	m_texWork.FreeColors();
@@ -1451,7 +1443,6 @@ CTexEdit::AdjustCall(RGuiItem* pgui)
 void
 CTexEdit::AnimCall(RGuiItem* pgui, RInputEvent* pie)
 	{
-  UNUSED(pgui);
 	if (pie->type == RInputEvent::Mouse)
 		{
 		switch (pie->sEvent)
@@ -1461,7 +1452,7 @@ CTexEdit::AnimCall(RGuiItem* pgui, RInputEvent* pie)
 				// undergone lighting effects.  Get the color from the actual texture.
 				if (m_lTriIndex)
 					{
-					uint8_t	u8Color	= m_texWork.m_pIndices[m_lTriIndex];
+					U8	u8Color	= m_texWork.m_pIndices[m_lTriIndex];
 					SetColor(u8Color);
 					}
 				break;

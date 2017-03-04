@@ -22,8 +22,12 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <RSPiX.h>
-#include <ORANGE/CDT/flist.h>
+#include "RSPiX.h"
+#ifdef PATHS_IN_INCLUDES
+	#include "ORANGE/CDT/flist.h"
+#else
+	#include "flist.h"
+#endif
 
 class RPrefs;
 class RFile;
@@ -33,7 +37,7 @@ class CSettings
 	private:
 		typedef RFList<CSettings*> SETTINGS;
 
-      enum
+		typedef enum
 			{
 			MemFileSize = 512
 			};
@@ -50,19 +54,19 @@ class CSettings
 	public:
 		// Read settings that are stored in preference file
 		static int16_t LoadPrefs(
-         const char* pszFile);
+			char* pszFile);
 
 		// Write settings that are stored in preference file
 		static int16_t SavePrefs(
-         const char* pszFile);
+			char* pszFile);
 
 		// Load settings that are stored in game file
 		static int16_t LoadGame(
-         const char* pszFile);
+			char* pszFile);
 
 		// Save settings that are stored in game file
 		static int16_t SaveGame(
-         const char* pszFile);
+			char* pszFile);
 
 		// Temporarily set settings for demo mode
 		static int16_t PreDemo(

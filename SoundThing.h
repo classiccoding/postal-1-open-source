@@ -66,7 +66,7 @@
 #ifndef SOUNDTHING_H
 #define SOUNDTHING_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 #include "SampleMaster.h"
 
@@ -99,9 +99,9 @@ class CSoundThing : public CThing
 	public:
 		bool m_bInitiallyEnabled;
 		bool m_bInitiallyRepeats;
-      milliseconds_t m_lMinTime[2];
-      milliseconds_t m_lRndTime[2];
-		char	m_szResName[PATH_MAX];		// Resource name
+		int32_t m_lMinTime[2];
+		int32_t m_lRndTime[2];
+		char	m_szResName[RSP_MAX_PATH];		// Resource name
 
 		SampleMasterID m_id;
 
@@ -113,17 +113,17 @@ class CSoundThing : public CThing
 
 		SampleMaster::SoundInstance	m_siChannel;
 
-      milliseconds_t m_lLastStartTime;
-      milliseconds_t m_lNextStartTime;
+		int32_t m_lLastStartTime;
+		int32_t m_lNextStartTime;
 		int16_t m_sWhichTime;
 		bool m_bEnabled;
 		bool m_bRepeats;
 
 		int16_t	m_sUseLooping;						// TRUE, to use looping parameters.
-      milliseconds_t	m_lStopLoopingTime;				// Time that we stop looping the sample.
-      uint32_t	m_lNumLoopBacks;					// Number of times to play loop area of sample.
-      milliseconds_t	m_lLoopBackTo;						// Where to loop back to.
-      milliseconds_t	m_lLoopBackFrom;					// Where to loop back from.
+		int32_t	m_lStopLoopingTime;				// Time that we stop looping the sample.
+		int32_t	m_lNumLoopBacks;					// Number of times to play loop area of sample.
+		int32_t	m_lLoopBackTo;						// Where to loop back to.
+		int32_t	m_lLoopBackFrom;					// Where to loop back from.
 
 		int16_t m_sSuspend;							// Suspend flag
 
@@ -207,11 +207,11 @@ class CSoundThing : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CSoundThing(pRealm);
-			if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CExplode::Construct(): Couldn't construct CSoundThing (that's a bad thing)\n");
 				}
 			return sResult;
@@ -256,7 +256,6 @@ class CSoundThing : public CThing
 			int16_t sY,												// In: New y coord
 			int16_t sZ);												// In: New z coord
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -290,7 +289,6 @@ class CSoundThing : public CThing
 
 		// Called by editor to render object
 		void EditRender(void);
-#endif // !defined(EDITOR_REMOVED)
 
 		// Get the coordinates of this thing.
 		virtual					// Overriden here.

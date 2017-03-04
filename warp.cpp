@@ -84,8 +84,9 @@
 // 'warp' in at/with.
 //
 //////////////////////////////////////////////////////////////////////////////
+#define WARP_CPP
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 
 #include "warp.h"
 #include "game.h"
@@ -151,7 +152,7 @@ int16_t CWarp::Load(								// Returns 0 if successfull, non-zero otherwise
 	uint32_t	ulFileVersion)								// In:  Version of file format to load.
 	{
 	int16_t sResult = CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// If statics have not yet been loaded . . .
 		if (ms_sFileCount != sFileCount)
@@ -213,7 +214,7 @@ int16_t CWarp::Load(								// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 			{
 			// If in edit mode . . .
 			if (bEditMode == true)
@@ -224,7 +225,7 @@ int16_t CWarp::Load(								// Returns 0 if successfull, non-zero otherwise
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CWarp::Load(): Error reading from file!\n");
 			}
 		}
@@ -240,8 +241,8 @@ int16_t CWarp::Save(										// Returns 0 if successfull, non-zero otherwise
 	RFile* pFile,											// In:  File to save to
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
-	int16_t sResult	= CThing::Save(pFile, sFileCount);
-	if (sResult == SUCCESS)
+	int16_t	sResult	= CThing::Save(pFile, sFileCount);
+	if (sResult == 0)
 		{
 		// Save common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -269,7 +270,7 @@ int16_t CWarp::Save(										// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWarp::Startup(void)								// Returns 0 if successfull, non-zero otherwise
 	{
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -278,7 +279,7 @@ int16_t CWarp::Startup(void)								// Returns 0 if successfull, non-zero otherw
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWarp::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -316,7 +317,7 @@ void CWarp::Render(void)
 	// edit mode).
 	}
 
-#if !defined(EDITOR_REMOVED)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -325,7 +326,7 @@ int16_t CWarp::EditNew(								// Returns 0 if successfull, non-zero otherwise
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -343,7 +344,7 @@ int16_t CWarp::EditNew(								// Returns 0 if successfull, non-zero otherwise
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWarp::EditModify(void)
 	{
-	int16_t sResult = SUCCESS;
+	int16_t	sResult	= 0;
 	// Load our GUI.
 	RGuiItem* pgui = RGuiItem::LoadInstantiate(FullPathVD(GUI_FILENAME));
 	if (pgui)
@@ -360,7 +361,7 @@ int16_t CWarp::EditModify(void)
 		sResult	= ms_stockpile.UserEdit(pgui);
 
 		// If not cancelled . . .
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 			{
 			if (pguiRotY)
 				{
@@ -388,7 +389,7 @@ int16_t CWarp::EditMove(								// Returns 0 if successfull, non-zero otherwise
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-   return SUCCESS;
+	return 0;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -408,7 +409,7 @@ void CWarp::EditRect(	// Returns nothiing.
 	prc->sW	= 10;	// Safety.
 	prc->sH	= 10;	// Safety.
 
-	if (m_sprite.m_pImage != nullptr)
+	if (m_sprite.m_pImage != NULL)
 		{
 		prc->sW	= m_sprite.m_pImage->m_sWidth;
 		prc->sH	= m_sprite.m_pImage->m_sHeight;
@@ -431,7 +432,7 @@ void CWarp::EditHotSpot(	// Returns nothiing.
 	*psX	= 0;	// Safety.
 	*psY	= 0;	// Safety.
 
-	if (m_sprite.m_pImage != nullptr)
+	if (m_sprite.m_pImage != NULL)
 		{
 		*psX	= m_sprite.m_pImage->m_sWidth / 2;
 		*psY	= m_sprite.m_pImage->m_sHeight;
@@ -472,16 +473,16 @@ void CWarp::EditRender(void)
 	// Update sprite in scene
 	m_pRealm->m_scene.UpdateSprite(&m_sprite);
 	}
-#endif // !defined(EDITOR_REMOVED)
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Initialize object.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWarp::Init(void)	// Returns 0 on success.
 	{
-	int16_t sResult	= GetResources();
+	int16_t	sRes	= GetResources();
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -489,7 +490,7 @@ int16_t CWarp::Init(void)	// Returns 0 on success.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWarp::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Safe to call even if no resource.
 	FreeResources();
@@ -508,9 +509,9 @@ int16_t CWarp::GetResources(void)						// Returns 0 if successfull, non-zero oth
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWarp::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
-	if (m_sprite.m_pImage != nullptr)
+	if (m_sprite.m_pImage != NULL)
 		{
 		rspReleaseResource(&g_resmgrGame, &m_sprite.m_pImage);
 		}
@@ -524,11 +525,11 @@ int16_t CWarp::FreeResources(void)						// Returns 0 if successfull, non-zero ot
 // function or allocated by this function.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWarp::WarpIn(	// Returns 0 on success.
-	CDude**	ppdude,	// In:  CDude to 'warp in', *ppdude = nullptr to create one.
+	CDude**	ppdude,	// In:  CDude to 'warp in', *ppdude = NULL to create one.
 							// Out: Newly created CDude, if no CDude passed in.
 	int16_t	sOptions)	// In:  Options for 'warp in'.
 	{
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	// If we are on difficulty 11, multiply the dude's hit points by 10 so that
 	// the player can have some chance of playing.
@@ -548,20 +549,20 @@ int16_t CWarp::WarpIn(	// Returns 0 on success.
 	}
 
 	// If no dude passed . . .
-	if (*ppdude == nullptr)
+	if (*ppdude == NULL)
 		{
-		sResult	= ConstructWithID(CDudeID, m_pRealm, (CThing**)ppdude);
-		if (sResult == SUCCESS)
+		sRes	= ConstructWithID(CDudeID, m_pRealm, (CThing**)ppdude);
+		if (sRes == 0)
 			{
 			// Copy stockpile to new CDude.
 			(*ppdude)->m_stockpile.Copy(&ms_stockpile);
 			// Initialize.
-			sResult	= (*ppdude)->Init();
-			if (sResult == SUCCESS)
+			sRes	= (*ppdude)->Init();
+			if (sRes == 0)
 				{
 				// Start up.
-				sResult	= (*ppdude)->Startup();
-				if (sResult == SUCCESS)
+				sRes	= (*ppdude)->Startup();
+				if (sRes == 0)
 					{
 					// Successfully created and setup CDude.
 					}
@@ -600,7 +601,7 @@ int16_t CWarp::WarpIn(	// Returns 0 on success.
 		}
 
 	// If successful so far . . .
-	if (sResult == SUCCESS)
+	if (sRes == 0)
 		{
 		// Truncate to amount he can carry.
 		(*ppdude)->m_stockpile.Truncate();
@@ -617,7 +618,7 @@ int16_t CWarp::WarpIn(	// Returns 0 on success.
 		(*ppdude)->m_dRot	= m_sRotY;
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -627,11 +628,11 @@ int16_t CWarp::WarpIn(	// Returns 0 on success.
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWarp::WarpInAnywhere(	// Returns 0 on success.
 	CRealm*	prealm,				// In:  Realm in which to choose CWarp.
-	CDude**	ppdude,				// In:  CDude to 'warp in', *ppdude = nullptr to create one.
+	CDude**	ppdude,				// In:  CDude to 'warp in', *ppdude = NULL to create one.
 										// Out: Newly created CDude, if no CDude passed in.
 	int16_t	sOptions)				// In:  Options for 'warp in'.
 	{
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	// Find a warp:
 	
@@ -650,24 +651,24 @@ int16_t CWarp::WarpInAnywhere(	// Returns 0 on success.
 		// If we found one . . .
 		if (pln != plnTail)
 			{
-			ASSERT(pln->m_powner != nullptr);
+			ASSERT(pln->m_powner != NULL);
 
 			// Do it.
-			sResult	= ((CWarp*)(pln->m_powner) )->WarpIn(ppdude, sOptions);
+			sRes	= ((CWarp*)(pln->m_powner) )->WarpIn(ppdude, sOptions);
 			}
 		else
 			{
 			TRACE("WarpInAnywhere(): Failed to find chosen CWarp.\n");
-			sResult = FAILURE * 2;
+			sRes	= -2;
 			}
 		}
 	else
 		{
 		TRACE("WarpInAnywhere(): Specified realm contains no CWarps.\n");
-		sResult = FAILURE;
+		sRes	= -1;
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -680,10 +681,10 @@ int16_t CWarp::CreateWarpFromDude(	// Returns 0 on success.
 	CWarp**	ppwarp,					// Out: New warp on success.
 	bool		bCopyStockPile)		// In:  true to copy stockpile, false otherwise.
 	{
-	int16_t sResult = SUCCESS;	// Assume success.
+	int16_t	sRes	= 0;	// Assume success.
 
 	// Create warp . . .
-	if (ConstructWithID(CWarpID, prealm, (CThing**)ppwarp) == SUCCESS)
+	if (ConstructWithID(CWarpID, prealm, (CThing**)ppwarp) == 0)
 		{
 		// Copy dude's position and orientation.
 		(*ppwarp)->m_dX		= pdude->m_dX;
@@ -702,10 +703,10 @@ int16_t CWarp::CreateWarpFromDude(	// Returns 0 on success.
 	else
 		{
 		TRACE("CreateWarpFromDude(): ConstructWithID() failed.\n");
-		sResult = FAILURE;
+		sRes	= -1;
 		}
 
-	return sResult;
+	return sRes;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////

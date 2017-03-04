@@ -55,7 +55,7 @@
 #ifndef BAND_H
 #define BAND_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "doofus.h"
 
 // CBand is a class of marching band members for the parade
@@ -81,7 +81,7 @@ class CBand : public CDoofus
 		CAnim3D m_animBlownup;					// Blown up by explosion
 		CAnim3D m_animOnFire;					// Running while on fire
 
-		uint16_t					m_idChildItem;		// ID of child item or CIdBank::IdNil.
+		U16					m_idChildItem;		// ID of child item or CIdBank::IdNil.
 
 		// Tracks file counter so we know when to load/save "common" data 
 		static int16_t ms_sFileCount;
@@ -95,7 +95,7 @@ class CBand : public CDoofus
 		static int32_t ms_lMingleTime;			// How long to mingle before moving
 		static int16_t ms_sStartingHitPoints;	// How many hit points to start with
 		static SampleMaster::SoundInstance ms_siBandSongInstance;		// sound played during band march.
-		static uint16_t	ms_idBandLeader;			// The person who adjusts the band sound
+		static U16	ms_idBandLeader;			// The person who adjusts the band sound
 														// volume or IdNil.
 
 
@@ -144,11 +144,11 @@ class CBand : public CDoofus
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CBand(pRealm);
-			if (*ppNew == nullptr)
+			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CBand::Construct(): Couldn't construct CBand (that's a bad thing)\n");
 				}
 			return sResult;
@@ -179,7 +179,6 @@ class CBand : public CDoofus
 		// Render object
 		void Render(void);
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor when a new object is created
 		int16_t EditNew(int16_t sX, int16_t sY, int16_t sZ);
 
@@ -187,7 +186,6 @@ class CBand : public CDoofus
 		int16_t EditModify(void);									// Returns 0 if successfull, non-zero otherwise
 		// Called by editor to render object
 //		void EditRender(void);
-#endif // !defined(EDITOR_REMOVED)
 
 	//---------------------------------------------------------------------------
 	// Message handlers that are called by CCharacter ProcessMessage().  These

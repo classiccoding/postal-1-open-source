@@ -105,8 +105,8 @@ class CTexEdit
 		typedef struct
 			{
 			int32_t	lTriIndex;		// Triangle affected.
-			uint8_t		u8Color;			// Color applied.
-			uint8_t		u8PrevColor;	// Prev color.
+			U8		u8Color;			// Color applied.
+			U8		u8PrevColor;	// Prev color.
 			} Cmd;
 
 	//------------------------------------------------------------------------------
@@ -128,7 +128,7 @@ class CTexEdit
 		float			m_fX;					// Translation.
 		float			m_fY;					// Translation.
 		bool			m_bQuit;				// true when done.
-		uint8_t				m_u8Color;			// Current color.
+		U8				m_u8Color;			// Current color.
 		int32_t			m_lTriIndex;		// Index of tri selected or < 0, if none.
 		RTexture		m_texWork;			// Work texture.
 		RTexture*	m_ptexSrc;			// The real thing.
@@ -245,7 +245,7 @@ class CTexEdit
 		//////////////////////////////////////////////////////////////////////////////
 		void
 		SetColor(
-			uint8_t	u8Color)		// In:  New color index.
+			U8	u8Color)		// In:  New color index.
 			;
 
 		//////////////////////////////////////////////////////////////////////////////

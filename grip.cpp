@@ -25,8 +25,9 @@
 //		01/28/97	MJR	Actually started filling in some usefull code.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define GRIP_CPP
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "grip.h"
 
 
@@ -71,7 +72,7 @@ void CGrip::SetCamera(
 //	short sTargetY)										// In:  Target's y coord
 //	{
 //	// For now, simply move camera to specified coordinates
-//	ASSERT(m_pCamera != nullptr);
+//	ASSERT(m_pCamera != 0);
 //	m_pCamera->SetViewPos(sTargetX, sTargetY);
 //	}
 

@@ -41,8 +41,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-        AdditionalIncludeDirectories=".\sys\include;.\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;STEAM_CONNECTED"
+				AdditionalIncludeDirectories=".\SDL2\include;.\RSPiX\c\Win32\WinG\Inc;.\RSPiX\c\Win32\DirectX\Inc;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;."
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;NOSHMALLOC;WITH_STEAMWORKS=1"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Build\Cyan\Debug/Cyan.pch"
@@ -113,8 +113,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-        AdditionalIncludeDirectories=".\sys\include;.\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS"
+				AdditionalIncludeDirectories=".\SDL2\include;.\RSPiX\c\Win32\WinG\Inc;.\RSPiX\c\Win32\DirectX\Inc;.\RSPiX\Src;.\RSPiX\Src\Blue;.\RSPiX\Inc;."
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;WITH_STEAMWORKS=0"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -186,8 +186,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-        AdditionalIncludeDirectories=".\RSPiX"
-        PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;NDEBUG;WIN32;_WINDOWS;TRACENASSERT"
+				AdditionalIncludeDirectories=".\RSPiX\c\Win32\WinG\Inc,.\RSPiX\c\Win32\SmartHeap\Include,.\RSPiX\c\Win32\DirectX\Inc,.\RSPiX\Src,.\RSPiX\Src\Blue,.\RSPiX\Inc,."
+				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;TRACENASSERT"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -237,15 +237,15 @@
 	</References>
 	<Files>
 		<File
-      RelativePath=".\RSPiX\Cyan\sdl2\uColors.cpp"
+			RelativePath=".\RSPiX\Src\Cyan\Unix\uColors.cpp"
 			>
 		</File>
 		<File
-      RelativePath=".\RSPiX\Cyan\sdl2\uDialog.cpp"
+			RelativePath=".\RSPiX\Src\Cyan\Unix\uDialog.cpp"
 			>
 		</File>
 		<File
-      RelativePath=".\RSPiX\Cyan\sdl2\uPath.cpp"
+			RelativePath=".\RSPiX\Src\Cyan\Unix\uPath.cpp"
 			>
 		</File>
 	</Files>

@@ -46,8 +46,9 @@
 //		07/30/97	JMI	Now hides shadow if mainsprite is hidden.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define WEAPON_CPP
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "weapon.h"
 #include "reality.h"
 
@@ -74,11 +75,11 @@ int16_t CWeapon::Load(										// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,										// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)									// In:  Version of file format to load.
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Call the CThing base class load to get the instance ID
 	sResult	= CThing::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -120,14 +121,14 @@ int16_t CWeapon::Load(										// Returns 0 if successfull, non-zero otherwise
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 			{
 			// Get resources
 	//		sResult = GetResources();
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CWeapon::Load(): Error reading from file!\n");
 			}
 		}
@@ -167,7 +168,7 @@ int16_t CWeapon::Save(										// Returns 0 if successfull, non-zero otherwise
 	pFile->Write(&m_dHorizVel);
 	pFile->Write(&m_eState);
 
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -180,7 +181,7 @@ int16_t CWeapon::Startup(void)								// Returns 0 if successfull, non-zero othe
 	// Init other stuff
 	m_lPrevTime = m_pRealm->m_time.GetGameTime();
 
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -193,7 +194,7 @@ int16_t CWeapon::Setup(int16_t sX, int16_t sY, int16_t sZ)
 	m_dX = sX;
 	m_dY = sY;
 	m_dZ = sZ;
-   return SUCCESS;
+	return 0;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -201,7 +202,7 @@ int16_t CWeapon::Setup(int16_t sX, int16_t sY, int16_t sZ)
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWeapon::Shutdown(void)							// Returns 0 if successfull, non-zero otherwise
 	{
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -288,7 +289,7 @@ void CWeapon::Render(void)
 	}
 }
 
-#if !defined(EDITOR_REMOVED)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -297,7 +298,7 @@ int16_t CWeapon::EditNew(									// Returns 0 if successfull, non-zero otherwis
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 	{
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	
 	// Use specified position
 	m_dX = (double)sX;
@@ -313,7 +314,7 @@ int16_t CWeapon::EditNew(									// Returns 0 if successfull, non-zero otherwis
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWeapon::EditModify(void)
 	{
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -329,7 +330,7 @@ int16_t CWeapon::EditMove(									// Returns 0 if successfull, non-zero otherwi
 	m_dY = (double)sY;
 	m_dZ = (double)sZ;
 
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -351,14 +352,14 @@ void CWeapon::EditRender(void)
 	// we can call the normal Render().
 	Render();
 	}
-#endif // !defined(EDITOR_REMOVED)
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Get all required resources
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWeapon::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-   return SUCCESS;
+	return 0;
 	}
 
 
@@ -367,7 +368,7 @@ int16_t CWeapon::GetResources(void)						// Returns 0 if successfull, non-zero o
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CWeapon::FreeResources(void)						// Returns 0 if successfull, non-zero otherwise
 	{
-   return SUCCESS;
+	return 0;
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -439,7 +440,6 @@ void CWeapon::ProcessMessage(		// Returns nothing.
 void CWeapon::OnShotMsg(	// Returns nothing.
 	Shot_Message* pshotmsg)		// In:  Message to handle.
 {
-  UNUSED(pshotmsg);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -449,7 +449,6 @@ void CWeapon::OnShotMsg(	// Returns nothing.
 void CWeapon::OnExplosionMsg(			// Returns nothing.
 	Explosion_Message* pexplosionmsg)	// In:  Message to handle.
 {
-  UNUSED(pexplosionmsg);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -459,7 +458,6 @@ void CWeapon::OnExplosionMsg(			// Returns nothing.
 void CWeapon::OnBurnMsg(	// Returns nothing.
 	Burn_Message* pburnmsg)		// In:  Message to handle.
 {
-  UNUSED(pburnmsg);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -469,7 +467,6 @@ void CWeapon::OnBurnMsg(	// Returns nothing.
 void CWeapon::OnDeleteMsg(				// Returns nothing.
 	ObjectDelete_Message* pdeletemsg)	// In:  Message to handle.
 {
-  UNUSED(pdeletemsg);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -479,7 +476,6 @@ void CWeapon::OnDeleteMsg(				// Returns nothing.
 void CWeapon::OnTriggerMsg(			// Returns nothing
 	Trigger_Message* ptriggermsg)		// In: Message to handle
 {
-  UNUSED(ptriggermsg);
 }
 
 
@@ -492,7 +488,7 @@ int16_t CWeapon::PrepareShadow(void)
 	int16_t sResult = SUCCESS;
 
 	// If the shadow doesn't have resource loaded yet, load the default
-	if (m_spriteShadow.m_pImage == nullptr)
+	if (m_spriteShadow.m_pImage == NULL)
 	{
 		sResult = rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(SHADOW_FILE), &(m_spriteShadow.m_pImage), RFile::LittleEndian);
 	}

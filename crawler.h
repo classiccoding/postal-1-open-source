@@ -52,7 +52,7 @@
 #define CRAWLER_H
 
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 
 #include "realm.h"
 #include "reality.h"
@@ -178,7 +178,7 @@ class CCrawler
 			int16_t* psTerrainH)							// Out: Final terrain height
 
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 
 			int16_t sx1 = (int16_t)dx1;
 			int16_t sy1 = (int16_t)dy1;
@@ -269,7 +269,7 @@ class CCrawler
 					*pdx = dx1;
 					*pdy = dy1;
 					*pdz = dz1;
-					sResult = FAILURE;
+					sResult = -1;
 					TRACE("Crawler::Move(): Starting position is invalid!\n");
 					}
 				}
@@ -457,11 +457,11 @@ class CCrawler
 
 				if (CanWalk(sx, sBaseY, sz, &sTerrainH) == true)
 					{
-//					Plot((uint8_t)0xFA, sx, sBaseY, sz);
+//					Plot((U8)0xfa, sx, sBaseY, sz);
 					}
 				else
 					{
-//					Plot((uint8_t)0xF9, sx, sBaseY, sz);
+//					Plot((U8)0xf9, sx, sBaseY, sz);
 					if (m_pnub[s].sHard)
 						bResult = false;
 					m_dPushX += m_pnub[s].dPushX;
@@ -516,14 +516,14 @@ class CCrawler
 		// Plot a point via the CScene.  
 		////////////////////////////////////////////////////////////////////////////////
 		void Plot(		// Returns nothing.
-			uint8_t	u8Color,	// Color index.
+			U8	u8Color,	// Color index.
 			int16_t	sx,	// In:  X position.
 			int16_t	sy,	// In:  Y position.
 			int16_t sz)	// In:  Z position.
 			{
 			// Create a line sprite.
 			CSpriteLine2d*	psl2d	= new CSpriteLine2d;
-			if (psl2d != nullptr)
+			if (psl2d != NULL)
 				{
 				m_prealm->Map3Dto2D(
 					sx, 

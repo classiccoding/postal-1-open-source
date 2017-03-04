@@ -306,9 +306,10 @@
 //		08/28/97 BRH	Added a virtual put me down message handler.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define CHARACTER_CPP
 
-#include <RSPiX.h>
-#include <cmath>
+#include "RSPiX.h"
+#include <math.h>
 
 #include "character.h"
 #include "reality.h"
@@ -362,8 +363,8 @@
 // Amount of time for character to burn.
 #define BURN_DURATION			2500	// In ms.
 
-// Sets a value pointed to if ptr is not nullptr.
-#define SET(pval, val)					((pval != nullptr) ? *pval = val : val)
+// Sets a value pointed to if ptr is not NULL.
+#define SET(pval, val)					((pval != NULL) ? *pval = val : val)
 
 // Maximum chunks that can be generated from one MakeBloody().
 #define MAX_CHUNKS				10
@@ -436,13 +437,13 @@ int16_t CCharacter::Load(									// Returns 0 if successfull, non-zero otherwis
 	{
 	// Call the CThing base class load to get the instance ID
 	int16_t sResult = CThing3d::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 		{
 		switch (ulFileVersion)
 			{
 			default:
 			case 3:
-            pFile->Read(&m_eWeaponType);
+				pFile->Read(&m_eWeaponType);
 				break;
 
 			case 2:	// Versions 1 and 2, when CCharacter was not descended from
@@ -454,13 +455,13 @@ int16_t CCharacter::Load(									// Returns 0 if successfull, non-zero otherwis
 			}
 
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 			{
 			// Success.
 			}
 		else
 			{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CCharacter::Load(): Error reading from file!\n");
 			}
 		}
@@ -477,8 +478,8 @@ int16_t CCharacter::Save(									// Returns 0 if successfull, non-zero otherwis
 	int16_t sFileCount)										// In:  File count (unique per file, never 0)
 	{
 	// Call the base class save to save the u16InstanceID
-	int16_t sResult	= CThing3d::Save(pFile, sFileCount);
-	if (sResult == SUCCESS)
+	int16_t	sResult	= CThing3d::Save(pFile, sFileCount);
+	if (sResult == 0)
 		{
 		// Save object data
 		pFile->Write(&m_eWeaponType);
@@ -498,7 +499,7 @@ void CCharacter::Update(void)										// Returns nothing.
 	if (m_u16IdWeapon != CIdBank::IdNil)
 		{
 		CWeapon*	pweapon;
-		if (m_pRealm->m_idbank.GetThingByID((CThing**)&pweapon, m_u16IdWeapon) == SUCCESS)
+		if (m_pRealm->m_idbank.GetThingByID((CThing**)&pweapon, m_u16IdWeapon) == 0)
 			{
 			RTransform*	ptransWeapon	= m_panimCur->m_ptransRigid->GetAtTime(m_lAnimTime);
 			// Position weapon.
@@ -591,7 +592,7 @@ bool CCharacter::WhileBurning(void)	// Returns true until state is complete.
 
 	// If the fire still exists . . .
 	CFire*	pfire;
-	if (m_pRealm->m_idbank.GetThingByID((CThing**)&pfire, m_u16IdFire) == SUCCESS)
+	if (m_pRealm->m_idbank.GetThingByID((CThing**)&pfire, m_u16IdFire) == 0)
 		{
 		// If the fire is still burning . . .
 		if (pfire->IsBurning() != FALSE)
@@ -651,18 +652,18 @@ bool CCharacter::WhileDying(void)	// Returns true until state is complete.
 // weapon via ShootWeapon() when the event hits 2.
 ////////////////////////////////////////////////////////////////////////////////
 bool CCharacter::WhileHoldingWeapon(	// Returns true when weapon is released.
-	uint32_t u32BitsInclude,						// In:  Collision bits to pass to ShootWeapon
-	uint32_t u32BitsDontcare,						// In:  Collision bits to pass to ShootWeapon
-	uint32_t u32BitsExclude)						// In:  Collision bits to pass to ShootWeapon
+	U32 u32BitsInclude,						// In:  Collision bits to pass to ShootWeapon
+	U32 u32BitsDontcare,						// In:  Collision bits to pass to ShootWeapon
+	U32 u32BitsExclude)						// In:  Collision bits to pass to ShootWeapon
 	{
 	bool	bReleased	= false;	// Assume not released.
 
-	uint8_t	u8Event	= *( (uint8_t*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
+	U8	u8Event	= *( (U8*)(m_panimCur->m_pevent->GetAtTime(m_lAnimTime) ) );
 	// Check for show point in animation . . .
 	if (u8Event > 0)
 		{
 		CWeapon*	pweapon;
-		if (m_pRealm->m_idbank.GetThingByID((CThing**)&pweapon, m_u16IdWeapon) == SUCCESS)
+		if (m_pRealm->m_idbank.GetThingByID((CThing**)&pweapon, m_u16IdWeapon) == 0)
 			{
 			// If hidden . . .
 			if (pweapon->m_eState == CWeapon::State_Hide)
@@ -710,7 +711,7 @@ void CCharacter::OnDead(void)
 	
 	// If we just rendered a child weapon into the background . . .
 	CThing*	pthing;
-	if (m_pRealm->m_idbank.GetThingByID(&pthing, m_u16IdWeapon) == SUCCESS)
+	if (m_pRealm->m_idbank.GetThingByID(&pthing, m_u16IdWeapon) == 0)
 		{
 		// It has a permanent place in the background and, therefore, is no
 		// longer needed.
@@ -870,8 +871,7 @@ void CCharacter::OnDrawBloodMsg(				// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 void CCharacter::OnSuicideMsg(		// Returns nothing.
 	Suicide_Message* psuicidemsg)		// In:  Message to handle.
-   {
-  UNUSED(psuicidemsg);
+	{
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -882,7 +882,6 @@ void CCharacter::OnSuicideMsg(		// Returns nothing.
 void CCharacter::OnHelpMsg(			// Returns nothing
 	Help_Message* phelpmsg)
 	{
-  UNUSED(phelpmsg);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -893,7 +892,6 @@ void CCharacter::OnHelpMsg(			// Returns nothing
 void CCharacter::OnPutMeDownMsg(		// Returns nothing
 	PutMeDown_Message* pputmedownmsg)
 	{
-  UNUSED(pputmedownmsg);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -937,7 +935,7 @@ void CCharacter::MakeBloody(
 
 	// Create blood animation.
 	CAnimThing*	pat	= new CAnimThing(m_pRealm);
-	if (pat != nullptr)
+	if (pat != NULL)
 		{
 		strcpy(pat->m_szResName, BLOOD_SPLAT_RES_NAME);
 
@@ -955,9 +953,9 @@ void CCharacter::MakeBloody(
 	for (i = 0; i < sNumChunks; i++)
 		{
 		// Create blood particles . . .
-		CChunk*	pchunk	= nullptr;	// Initialized for safety.
+		CChunk*	pchunk	= NULL;	// Initialized for safety.
 		// Note that this will fail if particles are disabled.
-		if (Construct(CChunkID, m_pRealm, (CThing**)&pchunk) == SUCCESS)
+		if (Construct(CChunkID, m_pRealm, (CThing**)&pchunk) == 0)
 			{
 			pchunk->Setup(
 				dHitX,				// Source position.
@@ -993,7 +991,7 @@ void CCharacter::MakeBloodPool(void)
 	{
 #endif
 	CAnimThing*	pat	= new CAnimThing(m_pRealm);
-	if (pat != nullptr)
+	if (pat != NULL)
 		{
 		strcpy(pat->m_szResName, BLOOD_POOL_RES_NAME);
 
@@ -1036,17 +1034,17 @@ void CCharacter::BloodToBackground(
 #endif
 	// Draw last frame of pool directly into background.
 	CAnimThing::ChannelAA*	paachannel;
-	if (rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(BLOOD_POOL_RES_NAME), &paachannel) == SUCCESS)
+	if (rspGetResource(&g_resmgrGame, m_pRealm->Make2dResPath(BLOOD_POOL_RES_NAME), &paachannel) == 0)
 		{
 		// Get last frame.
 		CAlphaAnim*	paa = paachannel->GetItem(paachannel->NumItems() - 1);
-		ASSERT(paa != nullptr);
+		ASSERT(paa != NULL);
 		
 		int16_t	sX	= sAnimX2d + paa->m_sX;
 		int16_t	sY	= sAnimY2d + paa->m_sY;
 		
 		// Note this does not handle alpha case yet.
-		if (paa->m_pimAlphaArray != nullptr)
+		if (paa->m_pimAlphaArray != NULL)
 			{
 			RRect	rcClip(0, 0, 
 				m_pRealm->m_phood->m_pimBackground->m_sWidth,
@@ -1070,7 +1068,7 @@ void CCharacter::BloodToBackground(
 				m_pRealm->m_phood->m_pimBackground,		// Dst.
 				sX,												// 2D Dst coord.
 				sY,												// 2D Dst coord.
-				nullptr);											// Dst.
+				NULL);											// Dst.
 			}
 		
 		rspReleaseResource(&g_resmgrGame, &paachannel);
@@ -1086,9 +1084,9 @@ void CCharacter::BloodToBackground(
 // This should be done when the character starts its shoot animation.
 // (virtual).
 ////////////////////////////////////////////////////////////////////////////////
-CWeapon* CCharacter::PrepareWeapon(void)	// Returns the weapon ptr or nullptr.
+CWeapon* CCharacter::PrepareWeapon(void)	// Returns the weapon ptr or NULL.
 	{
-	CWeapon*	pweapon	= nullptr;
+	CWeapon*	pweapon	= NULL;
 
 	switch (m_eWeaponType)
 	{
@@ -1103,7 +1101,7 @@ CWeapon* CCharacter::PrepareWeapon(void)	// Returns the weapon ptr or nullptr.
 			break;
 
 		default:
-			if (ConstructWithID(m_eWeaponType, m_pRealm, (CThing**) &pweapon) == SUCCESS)
+			if (ConstructWithID(m_eWeaponType, m_pRealm, (CThing**) &pweapon) == 0)
 				{
 				// Set its parent.
 				pweapon->m_idParent = GetInstanceID();
@@ -1134,14 +1132,14 @@ CWeapon* CCharacter::PrepareWeapon(void)	// Returns the weapon ptr or nullptr.
 // shooting.
 // (virtual).
 ////////////////////////////////////////////////////////////////////////////////
-CWeapon* CCharacter::ShootWeapon(	// Returns the weapon ptr or nullptr
+CWeapon* CCharacter::ShootWeapon(	// Returns the weapon ptr or NULL
 	CSmash::Bits bitsInclude,			// Bits to use for bullet collision (enemies can specify different bits)
 	CSmash::Bits bitsDontcare,			// Bits to use for bullet colllsion
 	CSmash::Bits bitsExclude)			// Bits to use for bullet collision
 	{
-	CWeapon*	pweapon	= nullptr;
+	CWeapon*	pweapon	= NULL;
 	// Detatch the weapon.
-	ASSERT(m_panimCur != nullptr);
+	ASSERT(m_panimCur != NULL);
 	
 	// Get weapon's position relative to this character.
 	double dWeaponRelX, dWeaponRelY, dWeaponRelZ;
@@ -1188,7 +1186,7 @@ CWeapon* CCharacter::ShootWeapon(	// Returns the weapon ptr or nullptr
 					SampleMaster::Destruction,				// In:  Sound Volume Category for user adjustment
 					255,											// In:  Initial Sound Volume (0 - 255)
 					&m_siLastWeaponPlayInstance,			// Out: Handle for adjusting sound volume
-					nullptr,											// Out: Sample duration in ms, if not nullptr.
+					NULL,											// Out: Sample duration in ms, if not NULL.
 					250,											// In:  Where to loop back to in milliseconds.
 																	//	-1 indicates no looping (unless m_sLoop is
 																	// explicitly set).
@@ -1205,7 +1203,7 @@ CWeapon* CCharacter::ShootWeapon(	// Returns the weapon ptr or nullptr
 			{
 			ASSERT(m_u16IdWeapon != CIdBank::IdNil);
 
-			if (m_pRealm->m_idbank.GetThingByID((CThing**)&pweapon, m_u16IdWeapon) == SUCCESS)
+			if (m_pRealm->m_idbank.GetThingByID((CThing**)&pweapon, m_u16IdWeapon) == 0)
 				{
 				// Set weapon position to character's position offset by rigid body's realm offset.
 				pweapon->m_dX = m_dX + pt3WeaponRel.x;
@@ -1284,7 +1282,7 @@ bool CCharacter::ValidateWeaponPosition(void)	// Returns true, if weapon is in a
 			case CHeatseekerID:
 				{
 				CWeapon*	pweapon;
-				if (m_pRealm->m_idbank.GetThingByID((CThing**)&pweapon, m_u16IdWeapon) == SUCCESS)
+				if (m_pRealm->m_idbank.GetThingByID((CThing**)&pweapon, m_u16IdWeapon) == 0)
 					{
 					// If this weapon is not hidden . . .
 					if (pweapon->m_eState != CWeapon::State_Hide)
@@ -1390,7 +1388,7 @@ bool CCharacter::FireBullets(				// Returns true, if we hit someone/thing.
 										// would stop if no CThing collisions occurred).
 			&sZ,						// Out: Terrain hit position (i.e., where the bullet
 										// would stop if no CThing collisions occurred).
-			&pthingTarget,			// Out: Ptr to thing hit or nullptr.
+			&pthingTarget,			// Out: Ptr to thing hit or NULL.
 			true,						// In:  Draw a tracer at random point along path.
 			(i == 0) ? smidAmmo : g_smidNil)	// In:  Use ammo sample.
 			
@@ -1482,9 +1480,9 @@ bool CCharacter::FireBullets(				// Returns true, if we hit someone/thing.
 		}
 
 	// Create shells/casings . . .
-	CChunk*	pchunk	= nullptr;	// Initialized for safety.
+	CChunk*	pchunk	= NULL;	// Initialized for safety.
 	// Note that this will fail if particles are disabled.
-	if (Construct(CChunkID, m_pRealm, (CThing**)&pchunk) == SUCCESS)
+	if (Construct(CChunkID, m_pRealm, (CThing**)&pchunk) == 0)
 		{
 		pchunk->Setup(
 			m_dX + ppt3d->x,			// Source position.
@@ -1528,8 +1526,8 @@ bool CCharacter::IsPathClear(	// Returns true, if the entire path is clear.
 	int16_t* psX,						// Out: Point of intercept, if any, on path.
 	int16_t* psY,						// Out: Point of intercept, if any, on path.
 	int16_t* psZ,						// Out: Point of intercept, if any, on path.
-	CThing** ppthing,				// Out: Thing that intercepted us or nullptr, if none.
-	CSmash*	psmashExclude/*= nullptr*/)	// In:  Optional CSmash to exclude or nullptr, if none.
+	CThing** ppthing,				// Out: Thing that intercepted us or NULL, if none.
+	CSmash*	psmashExclude/*= NULL*/)	// In:  Optional CSmash to exclude or NULL, if none.
 	{
 	bool	bEntirelyClear	= false;	// Assume entire path is not clear.
 
@@ -1570,7 +1568,7 @@ bool CCharacter::IsPathClear(	// Returns true, if the entire path is clear.
 	int16_t	sMinZ			= 0;
 
 	int16_t	sCurH;
-	uint16_t	u16Attribute;
+	U16	u16Attribute;
 
 	// Scan while in realm.
 	while (
@@ -1645,7 +1643,7 @@ bool CCharacter::IsPathClear(	// Returns true, if the entire path is clear.
 		line2.Z2	= fPosZ + sRadius;
 		}
 
-	CSmash*	psmashClosest	= nullptr;
+	CSmash*	psmashClosest	= NULL;
 	// Determine if anything with specified smash description was hit on along each edge . . .
 	CSmash*	psmash1;
 	if (m_pRealm->m_smashatorium.QuickCheckClosest(
@@ -1656,7 +1654,7 @@ bool CCharacter::IsPathClear(	// Returns true, if the entire path is clear.
 		&psmash1,
 		psmashExclude) == false)
 		{
-		psmash1	= nullptr;
+		psmash1	= NULL;
 		}
 	CSmash*	psmash2;
 	if (m_pRealm->m_smashatorium.QuickCheckClosest(
@@ -1667,11 +1665,11 @@ bool CCharacter::IsPathClear(	// Returns true, if the entire path is clear.
 		&psmash2,
 		psmashExclude) == false)
 		{
-		psmash2	= nullptr;
+		psmash2	= NULL;
 		}
 
 	// If two smashes found . . .
-	if (psmash1 != nullptr && psmash2 != nullptr && psmash1 != psmash2)
+	if (psmash1 != NULL && psmash2 != NULL && psmash1 != psmash2)
 		{
 		// Determine closer on X/Z plane.
 		if (	ABS2(psmash1->m_sphere.sphere.X, psmash1->m_sphere.sphere.Y)
@@ -1686,8 +1684,8 @@ bool CCharacter::IsPathClear(	// Returns true, if the entire path is clear.
 		}
 	else
 		{
-		// Whichever is not nullptr.
-		if (psmash1 != nullptr)
+		// Whichever is not NULL.
+		if (psmash1 != NULL)
 			{
 			psmashClosest	= psmash1;
 			}
@@ -1698,7 +1696,7 @@ bool CCharacter::IsPathClear(	// Returns true, if the entire path is clear.
 		}
 
 	// If anything hit . . . 
-	if (psmashClosest != nullptr)
+	if (psmashClosest != NULL)
 		{
 		// Set *ppthing to thing hit.
 		*ppthing	= psmashClosest->m_pThing;
@@ -1711,7 +1709,7 @@ bool CCharacter::IsPathClear(	// Returns true, if the entire path is clear.
 	else
 		{
 		// Clear thing ptr.
-		*ppthing	= nullptr;
+		*ppthing	= NULL;
 		// Set end pt.
 		*psX		= fPosX;
 		*psY		= fPosY;
@@ -1728,7 +1726,7 @@ bool CCharacter::IsPathClear(	// Returns true, if the entire path is clear.
 	// FEEDBACK.
 	// Create a line sprite.
 	CSpriteLine2d*	psl2d	= new CSpriteLine2d;
-	if (psl2d != nullptr)
+	if (psl2d != NULL)
 		{
 		Map3Dto2D(
 			sX, 
@@ -1769,8 +1767,8 @@ bool CCharacter::IlluminateTarget(			// Returns true if there is a target
 	CSmash::Bits bitsInclude,		// In:  Mask of CSmash bits that would count as a hit
 	CSmash::Bits bitsDontCare,		// In:  Mask of CSmash bits that would not affect path
 	CSmash::Bits bitsExclude,		// In:  Mask of CSmash bits that cannot affect path
-	CThing** hThing,					// Out: Handle to thing that is the Target or nullptr if none
-	CSmash* psmashExclude)			// In: Optional CSmash to exclude or nullptr, if none. 
+	CThing** hThing,					// Out: Handle to thing that is the Target or NULL if none
+	CSmash* psmashExclude)			// In: Optional CSmash to exclude or NULL, if none. 
 {
 	bool bTargetFound = false;
 
@@ -1833,7 +1831,7 @@ bool CCharacter::IlluminateTarget(			// Returns true if there is a target
 		line2.Z2	= fPosZ + sRadius;
 		}
 
-	CSmash*	psmashClosest	= nullptr;
+	CSmash*	psmashClosest	= NULL;
 	// Determine if anything with specified smash description was hit on along each edge . . .
 	CSmash*	psmash1;
 	if (m_pRealm->m_smashatorium.QuickCheckClosest(
@@ -1844,7 +1842,7 @@ bool CCharacter::IlluminateTarget(			// Returns true if there is a target
 		&psmash1,
 		psmashExclude) == false)
 		{
-		psmash1	= nullptr;
+		psmash1	= NULL;
 		}
 	CSmash*	psmash2;
 	if (m_pRealm->m_smashatorium.QuickCheckClosest(
@@ -1855,11 +1853,11 @@ bool CCharacter::IlluminateTarget(			// Returns true if there is a target
 		&psmash2,
 		psmashExclude) == false)
 		{
-		psmash2	= nullptr;
+		psmash2	= NULL;
 		}
 
 	// If two smashes found . . .
-	if (psmash1 != nullptr && psmash2 != nullptr && psmash1 != psmash2)
+	if (psmash1 != NULL && psmash2 != NULL && psmash1 != psmash2)
 		{
 		// Determine closer on X/Z plane.
 		if (	ABS2(psmash1->m_sphere.sphere.X, psmash1->m_sphere.sphere.Y)
@@ -1874,8 +1872,8 @@ bool CCharacter::IlluminateTarget(			// Returns true if there is a target
 		}
 	else
 		{
-		// Whichever is not nullptr.
-		if (psmash1 != nullptr)
+		// Whichever is not NULL.
+		if (psmash1 != NULL)
 			{
 			psmashClosest	= psmash1;
 			}
@@ -1886,7 +1884,7 @@ bool CCharacter::IlluminateTarget(			// Returns true if there is a target
 		}
 
 	// If anything hit . . . 
-	if (psmashClosest != nullptr)
+	if (psmashClosest != NULL)
 		{
 		// Set *ppthing to thing hit.
 		*hThing	= psmashClosest->m_pThing;
@@ -1899,7 +1897,7 @@ bool CCharacter::IlluminateTarget(			// Returns true if there is a target
 	else
 		{
 		// Clear thing ptr.
-		*hThing	= nullptr;
+		*hThing	= NULL;
 		// Set end pt.
 //		*psX		= fPosX;
 //		*psY		= fPosY;
@@ -1911,7 +1909,7 @@ bool CCharacter::IlluminateTarget(			// Returns true if there is a target
 	// FEEDBACK.
 	// Create a line sprite.
 	CSpriteLine2d*	psl2d	= new CSpriteLine2d;
-	if (psl2d != nullptr)
+	if (psl2d != NULL)
 		{
 		Map3Dto2D(
 			sX, 
@@ -1946,14 +1944,14 @@ int16_t CCharacter::Preload(
 	CRealm* prealm)				// In:  Calling realm.
 	{
 	CAnimThing::ChannelAA*	paaCache;
-	int16_t sResult = SUCCESS;
+	int16_t	sResult	= 0;
 
-	if (rspGetResource(&g_resmgrGame, prealm->Make2dResPath(BLOOD_SPLAT_RES_NAME), &paaCache) == SUCCESS)
+	if (rspGetResource(&g_resmgrGame, prealm->Make2dResPath(BLOOD_SPLAT_RES_NAME), &paaCache) == 0)
 		rspReleaseResource(&g_resmgrGame, &paaCache);
 	else
 		sResult |= 1;
 
-	if (rspGetResource(&g_resmgrGame, prealm->Make2dResPath(BLOOD_POOL_RES_NAME), &paaCache) == SUCCESS)
+	if (rspGetResource(&g_resmgrGame, prealm->Make2dResPath(BLOOD_POOL_RES_NAME), &paaCache) == 0)
 		rspReleaseResource(&g_resmgrGame, &paaCache);
 	else
 		sResult |= 1;

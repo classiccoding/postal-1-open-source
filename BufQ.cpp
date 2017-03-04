@@ -26,7 +26,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "BufQ.h"
 
 // Nothing to do here.  It's all in the header for maximum inlining!
@@ -38,7 +38,7 @@ void test(void);
 void test(void)
 	{
 	CBufQ buf;
-	uint8_t val = 0;
+	U8 val = 0;
 	buf.Get(&val);
 	buf.Put(val);
 	}

@@ -165,13 +165,16 @@
 //							satisfying the CompilerOptions macro VIOLENT_LOCALE.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define BAND_CPP
 
-#include <RSPiX.h>
-#include <cmath>
+#include "RSPiX.h"
+#include <math.h>
 
 #include "band.h"
 #include "SampleMaster.h"
 #include "item3d.h"
+
+#include "CompileOptions.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Macros/types/etc.
@@ -205,7 +208,7 @@ double CBand::ms_dMaxRunVel = 80.0;
 int32_t CBand::ms_lMingleTime = 400;
 int16_t CBand::ms_sStartingHitPoints = 100;
 SampleMaster::SoundInstance CBand::ms_siBandSongInstance = 0;
-uint16_t	CBand::ms_idBandLeader	= CIdBank::IdNil;		// The person who adjusts the band sound
+U16	CBand::ms_idBandLeader	= CIdBank::IdNil;		// The person who adjusts the band sound
 																	// volume or IdNil.
 
 // Let this auto-init to 0
@@ -216,7 +219,7 @@ bool	CBand::ms_bDonePlaying	= false;
 
 /// Standing Animation Files
 // An array of pointers to resource names (one for each channel of the animation)
-static const char* ms_apszStandResNames[] =
+static char* ms_apszStandResNames[] = 
 {
 	"3d/bandg_stand.sop",
 	"3d/bandg_stand.mesh",
@@ -225,12 +228,12 @@ static const char* ms_apszStandResNames[] =
 	"3d/bandg_stand.bounds",
 	"3d/bandg_stand.floor",
 	"3d/bandg_stand_instrument.trans",
-	nullptr	
+	NULL	
 };
 
 /// Running Animation Files
 // An array of pointers to resource names (one for each channel of the animation)
-static const char* ms_apszRunResNames[] =
+static char* ms_apszRunResNames[] = 
 {
 	"3d/bandg_run.sop",
 	"3d/bandg_run.mesh",
@@ -239,12 +242,12 @@ static const char* ms_apszRunResNames[] =
 	"3d/bandg_run.bounds",
 	"3d/bandg_run.floor",
 	"3d/bandg_run_instrument.trans",
-	nullptr
+	NULL
 };
 
 /// Throwing Animation Files 
 // An array of pointers to resource names (one for each channel of the animation)
-static const char* ms_apszMarchResNames[] =
+static char* ms_apszMarchResNames[] = 
 {
 	"3d/bandg_march.sop",
 	"3d/bandg_march.mesh",
@@ -253,12 +256,12 @@ static const char* ms_apszMarchResNames[] =
 	"3d/bandg_march.bounds",
 	"3d/bandg_march.floor",
 	"3d/bandg_march_instrument.trans",
-	nullptr
+	NULL
 };
 
 // Shot Animation Files
 // An array of pointers to resource names (one for each channel of the animation)
-static const char* ms_apszShotResNames[] =
+static char* ms_apszShotResNames[] = 
 {
 	"3d/bandg_shot.sop",
 	"3d/bandg_shot.mesh",
@@ -267,12 +270,12 @@ static const char* ms_apszShotResNames[] =
 	"3d/bandg_shot.bounds",
 	"3d/bandg_shot.floor",
 	"3d/bandg_shot_instrument.trans",
-	nullptr
+	NULL
 };
 
 /// Blown up Animation Files
 // An array of pointers to resource names (one for each channel of the animation)
-static const char* ms_apszBlownupResNames[] =
+static char* ms_apszBlownupResNames[] =
 {
 	"3d/bandg_blownup.sop",
 	"3d/bandg_blownup.mesh",
@@ -281,12 +284,12 @@ static const char* ms_apszBlownupResNames[] =
 	"3d/bandg_blownup.bounds",
 	"3d/bandg_blownup.floor",
 	"3d/bandg_blownup_instrument.trans",
-	nullptr
+	NULL
 };
 
 /// OnFire Animation Files
 // An array of pointers to resource names (one for each channel of the animation)
-static const char* ms_apszOnFireResNames[] =
+static char* ms_apszOnFireResNames[] =
 {
 	"3d/bandg_onfire.sop",
 	"3d/bandg_onfire.mesh",
@@ -295,10 +298,9 @@ static const char* ms_apszOnFireResNames[] =
 	"3d/bandg_onfire.bounds",
 	"3d/bandg_onfire.floor",
 	"3d/bandg_onfire_instrument.trans",
-	nullptr
+	NULL
 };
 
-#ifdef UNUSED_VARIABLES
 // These are the points that are checked on the attribute map relative to his origin
 static RP3d ms_apt3dAttribCheck[] =
 {
@@ -309,7 +311,6 @@ static RP3d ms_apt3dAttribCheck[] =
 	{ 0, 0,  6},
 	{ 6, 0,  6},
 };
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // Load object (should call base class version!)
@@ -320,11 +321,11 @@ int16_t CBand::Load(					// Returns 0 if successfull, non-zero otherwise
 	int16_t sFileCount,					// In:  File count (unique per file, never 0)
 	uint32_t	ulFileVersion)				// In:  Version of file format to load.
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Call the base class load to get the instance ID, position, motion etc.
 	sResult	= CDoofus::Load(pFile, bEditMode, sFileCount, ulFileVersion);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 	{
 		// Load common data just once per file (not with each object)
 		if (ms_sFileCount != sFileCount)
@@ -353,7 +354,7 @@ int16_t CBand::Load(					// Returns 0 if successfull, non-zero otherwise
 				case 37:
 					pFile->Read(&m_ucDestBouyID);
 					pFile->Read(&m_idChildItem);
-               pFile->Read(&m_eWeaponType);
+					pFile->Read(&m_eWeaponType);
 					pFile->Read(&m_ucNextBouyID);
 					break;
 				case 36:
@@ -402,14 +403,14 @@ int16_t CBand::Load(					// Returns 0 if successfull, non-zero otherwise
 			}
 			
 		// Make sure there were no file errors or format errors . . .
-		if (!pFile->Error() && sResult == SUCCESS)
+		if (!pFile->Error() && sResult == 0)
 		{
 			// Get resources
 			sResult = GetResources();
 		}
 		else
 		{
-			sResult = FAILURE;
+			sResult = -1;
 			TRACE("CBand::Load(): Error reading from file!\n");
 		}
 	}
@@ -455,7 +456,7 @@ int16_t CBand::Save(										// Returns 0 if successfull, non-zero otherwise
 	else
 	{
 		TRACE("CBand::Save() - Error writing to file\n");
-		sResult = FAILURE;
+		sResult = -1;
 	}
 
 	return sResult;
@@ -468,7 +469,7 @@ int16_t CBand::Save(										// Returns 0 if successfull, non-zero otherwise
 
 int16_t CBand::Init(void)
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Prepare shadow (get resources and setup sprite).
 	sResult	= PrepareShadow();
@@ -492,8 +493,8 @@ int16_t CBand::Init(void)
 //	m_ucDestBouyID = 1;		// This is the end of the parade route bouy
 //	m_ucNextBouyID = m_pNavNet->FindNearestBouy(m_dX, m_dZ);
 	m_pNextBouy = m_pNavNet->GetBouy(m_ucNextBouyID);
-//	ASSERT(m_pNextBouy != nullptr);
-	if (m_pNextBouy != nullptr)
+//	ASSERT(m_pNextBouy != NULL);
+	if (m_pNextBouy != NULL)
 		{
 		m_sNextX = m_pNextBouy->GetX();
 		m_sNextZ = m_pNextBouy->GetZ();
@@ -503,7 +504,7 @@ int16_t CBand::Init(void)
 	else
 		{
 		TRACE("Init():  Where's the dang, blam, dangin, blamin, BOUY?!\n");
-		sResult = FAILURE;
+		sResult	= -1;
 		}
 
 	m_state = CCharacter::State_March;
@@ -521,7 +522,7 @@ int16_t CBand::Startup(void)								// Returns 0 if successfull, non-zero otherw
 #if !VIOLENT_LOCALE
 	// We must kill band members in these countries b/c of their lack of tolerance.
 	delete this;
-	return SUCCESS;
+	return 0;
 #else
 
 	// Set the current height, previous time, and Nav Net by calling the
@@ -547,9 +548,9 @@ void CBand::Update(void)
 	double dZ;
 	double dStartX;
 	double dStartZ;
-   milliseconds_t lThisTime;
-   milliseconds_t lTimeDifference;
-	CThing* pDemon = nullptr;
+	int32_t lThisTime;
+	int32_t lTimeDifference;
+	CThing* pDemon = NULL;
 
 	if (!m_sSuspend)
 	{
@@ -569,7 +570,6 @@ void CBand::Update(void)
 		// Check the current state
 		switch (m_state)
 		{
-        UNHANDLED_SWITCH;
 
 //-----------------------------------------------------------------------
 // March - follow the parade route until you get to the end
@@ -585,7 +585,7 @@ void CBand::Update(void)
 						SampleMaster::Unspecified,				// In:  Sound Volume Category for user adjustment
 						255,											// In:  Initial Sound Volume (0 - 255)
 						&ms_siBandSongInstance,					// Out: Handle for adjusting sound volume
-						nullptr,											// Out: Sample duration in ms, if not nullptr.
+						NULL,											// Out: Sample duration in ms, if not NULL.
 						0,												// In:  Where to loop back to in milliseconds.
 																		//	-1 indicates no looping (unless m_sLoop is
 																		// explicitly set).
@@ -678,7 +678,7 @@ void CBand::Update(void)
 					m_ucNextBouyID = m_pNavNet->FindNearestBouy(m_dX, m_dZ);
 					m_pNextBouy = m_pNavNet->GetBouy(m_ucNextBouyID);
 					m_lTimer = lThisTime + ms_lMingleTime;
-					if (m_ucDestBouyID == 0 || m_pNextBouy == nullptr)
+					if (m_ucDestBouyID == 0 || m_pNextBouy == NULL)
 					{
 						m_state = State_Wait;
 					}
@@ -686,7 +686,7 @@ void CBand::Update(void)
 					{
 						m_ucNextBouyID = m_pNextBouy->NextRouteNode(m_ucDestBouyID);
 						m_pNextBouy = m_pNavNet->GetBouy(m_ucNextBouyID);
-						if (m_pNextBouy != nullptr)
+						if (m_pNextBouy != NULL)
 						{
 							m_sNextX = m_pNextBouy->GetX();
 							m_sNextZ = m_pNextBouy->GetZ();
@@ -867,7 +867,7 @@ void CBand::Update(void)
 					else
 					{
 						m_pNextBouy = m_pNavNet->GetBouy(m_ucNextBouyID);
-						if (m_pNextBouy != nullptr)
+						if (m_pNextBouy != NULL)
 						{
 							m_sNextX = m_pNextBouy->GetX();
 							m_sNextZ = m_pNextBouy->GetZ();
@@ -1007,6 +1007,7 @@ void CBand::Update(void)
 				return;
 
 				break;
+
 		}
 
 		m_smash.m_sphere.sphere.X			= m_dX;
@@ -1040,7 +1041,7 @@ void CBand::Render(void)
 	if (m_idChildItem != CIdBank::IdNil)
 	{
 		CItem3d*	pitem;
-		if (m_pRealm->m_idbank.GetThingByID((CThing**)&pitem, m_idChildItem) == SUCCESS)
+		if (m_pRealm->m_idbank.GetThingByID((CThing**)&pitem, m_idChildItem) == 0)
 		{
 			// Set transform from our rigid body transfanimation for the child
 			// sprite.
@@ -1060,7 +1061,6 @@ void CBand::Render(void)
 	}
 }
 
-#if !defined(EDITOR_REMOVED)
 ////////////////////////////////////////////////////////////////////////////////
 // Called by editor to init new object at specified position
 ////////////////////////////////////////////////////////////////////////////////
@@ -1069,7 +1069,7 @@ int16_t CBand::EditNew(									// Returns 0 if successfull, non-zero otherwise
 	int16_t sY,												// In:  New y coord
 	int16_t sZ)												// In:  New z coord
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	// Call the base class to place the item.
 	sResult = CDoofus::EditNew(sX, sY, sZ);
@@ -1093,7 +1093,7 @@ int16_t CBand::EditNew(									// Returns 0 if successfull, non-zero otherwise
 
 int16_t CBand::EditModify(void)
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 	RGuiItem* pGui = RGuiItem::LoadInstantiate(FullPathVD("res/editor/band.gui"));
 	if (pGui)
 	{
@@ -1112,15 +1112,15 @@ int16_t CBand::EditModify(void)
 
 			CItem3d::ItemType	itChild	= CItem3d::None;
 			// If there's currently a child . . .
-			CItem3d*	pitem	= nullptr;
-			if (m_pRealm->m_idbank.GetThingByID((CThing**)&pitem, m_idChildItem) == SUCCESS)
+			CItem3d*	pitem	= NULL;
+			if (m_pRealm->m_idbank.GetThingByID((CThing**)&pitem, m_idChildItem) == 0)
 				{
 				// Get the type.
 				itChild	= pitem->m_type;
 				}
 
 			RListBox*	plbChildTypes	= (RListBox*)pGui->GetItemFromId(3);
-			if (plbChildTypes != nullptr)
+			if (plbChildTypes != NULL)
 				{
 				ASSERT(plbChildTypes->m_type == RGuiItem::ListBox);
 				
@@ -1133,7 +1133,7 @@ int16_t CBand::EditModify(void)
 					if (i != CItem3d::Custom)
 						{
 						pguiItem	= plbChildTypes->AddString(CItem3d::ms_apszKnownAnimDescriptions[i]);
-						if (pguiItem != nullptr)
+						if (pguiItem != NULL)
 							{
 							// Set item number.
 							pguiItem->m_ulUserData	= i;
@@ -1153,10 +1153,10 @@ int16_t CBand::EditModify(void)
 			{
 				m_ucNextBouyID = RSP_SAFE_GUI_REF(pguiStartBouy, GetVal());
 				m_ucDestBouyID = RSP_SAFE_GUI_REF(pguiDestBouy, GetVal());
-				if (plbChildTypes != nullptr)
+				if (plbChildTypes != NULL)
 					{
 					RGuiItem*	pguiSel	= plbChildTypes->GetSel();
-					if (pguiSel != nullptr)
+					if (pguiSel != NULL)
 						{
 						itChild	= (CItem3d::ItemType)pguiSel->m_ulUserData;
 						}
@@ -1166,7 +1166,7 @@ int16_t CBand::EditModify(void)
 						itChild	= CItem3d::None;
 						}
 
-					if (pitem != nullptr)
+					if (pitem != NULL)
 						{
 						// If it is not of the new type . . .
 						if (pitem->m_type != itChild)
@@ -1177,23 +1177,23 @@ int16_t CBand::EditModify(void)
 								(RTransform*) m_panimCur->m_ptransRigid->GetAtTime(m_lAnimTime) );
 							// Be gone.
 							delete pitem;
-							pitem	= nullptr;
+							pitem	= NULL;
 							}
 						}
 
 					// If there is no child item . . .
-					if (pitem == nullptr)
+					if (pitem == NULL)
 						{
 						// If a child is desired . . .
 						if (itChild != CItem3d::None)
 							{
 							// Have one.
-							if (ConstructWithID(CItem3dID, m_pRealm, (CThing**)&pitem) == SUCCESS)
+							if (ConstructWithID(CItem3dID, m_pRealm, (CThing**)&pitem) == 0)
 								{
 								// Remember who our child is.
 								m_idChildItem	= pitem->GetInstanceID();
 								// Setup the child.
-								pitem->Setup(0, 0, 0, itChild, nullptr, m_u16InstanceId);
+								pitem->Setup(0, 0, 0, itChild, NULL, m_u16InstanceId);
 								}
 							else
 								{
@@ -1215,32 +1215,31 @@ int16_t CBand::EditModify(void)
 	return sResult;
 
 }
-#endif // !defined(EDITOR_REMOVED)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Get all required resources
 ////////////////////////////////////////////////////////////////////////////////
 int16_t CBand::GetResources(void)						// Returns 0 if successfull, non-zero otherwise
 {
-	int16_t sResult = SUCCESS;
+	int16_t sResult = 0;
 
 	sResult = m_animRun.Get(ms_apszRunResNames, RChannel_LoopAtStart | RChannel_LoopAtEnd);
-	if (sResult == SUCCESS)
+	if (sResult == 0)
 	{
 		sResult = m_animStand.Get(ms_apszStandResNames, RChannel_LoopAtStart | RChannel_LoopAtEnd);
-		if (sResult == SUCCESS)
+		if (sResult == 0)
 		{
 			sResult = m_animMarch.Get(ms_apszMarchResNames, RChannel_LoopAtStart | RChannel_LoopAtEnd);
-			if (sResult == SUCCESS)
+			if (sResult == 0)
 			{
 				sResult = m_animShot.Get(ms_apszShotResNames);
-				if (sResult == SUCCESS)
+				if (sResult == 0)
 				{
 					sResult = m_animBlownup.Get(ms_apszBlownupResNames);
-					if (sResult == SUCCESS)
+					if (sResult == 0)
 					{
 						sResult = m_animOnFire.Get(ms_apszOnFireResNames, RChannel_LoopAtStart | RChannel_LoopAtEnd);
-						if (sResult == SUCCESS)
+						if (sResult == 0)
 						{
 							// Add more anim gets here if necessary
 						}
@@ -1290,7 +1289,7 @@ int16_t CBand::FreeResources(void)						// Returns 0 if successfull, non-zero ot
 	m_animBlownup.Release();
 	m_animOnFire.Release();
 		
-	return SUCCESS;
+	return 0;
 }
 
 
@@ -1394,7 +1393,7 @@ void CBand::OnExplosionMsg(Explosion_Message* pMessage)
 			&m_idChildItem,
 			(RTransform*) m_panimCur->m_ptransRigid->GetAtTime(m_lAnimTime) );
 		// If we got something back . . . 
-		if (pthing3d != nullptr)
+		if (pthing3d != NULL)
 			{
 			// Let it know about the explosion.
 			GameMessage msg;
@@ -1521,7 +1520,6 @@ void CBand::OnBurnMsg(Burn_Message* pMessage)
 
 void CBand::OnPanicMsg(Panic_Message* pMessage)
 {
-  UNUSED(pMessage);
 	if (m_state != State_Die &&
 	    m_state != State_Dead &&
 		 m_state != State_BlownUp &&
@@ -1572,12 +1570,10 @@ void CBand::AlertBand(void)
 {
 	CThing* pThing;
 	GameMessage msg;
-#ifdef UNUSED_VARIABLES
 	GameMessage msgStopSound;
 
 	msgStopSound.msg_ObjectDelete.eType = typeObjectDelete;
 	msgStopSound.msg_ObjectDelete.sPriority = 0;
-#endif
 
 	msg.msg_Panic.eType = typePanic;
 	msg.msg_Panic.sPriority = 0;
@@ -1586,7 +1582,7 @@ void CBand::AlertBand(void)
 	msg.msg_Panic.sZ = (int16_t) m_dZ;
 
 	CListNode<CThing>* pNext = m_pRealm->m_aclassHeads[CThing::CBandID].m_pnNext;
-	while (pNext->m_powner != nullptr)
+	while (pNext->m_powner != NULL)
 	{
 		pThing = pNext->m_powner;
 		if (pThing != this)
@@ -1658,7 +1654,7 @@ void CBand::DropItem(void)	// Returns nothing.
 			&m_idChildItem,
 			(RTransform*) m_panimCur->m_ptransRigid->GetAtTime(m_lAnimTime) );
 		// If we got something back . . . 
-		if (pthing3d != nullptr)
+		if (pthing3d != NULL)
 			{
 			// Send it spinning.
 			pthing3d->m_dExtRotVelY	= GetRand() % 720;

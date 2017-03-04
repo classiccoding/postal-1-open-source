@@ -316,8 +316,9 @@
 //							to make it more general.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#define SCENE_CPP
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "scene.h"
 #include "game.h"
 #include "alphablitforpostal.h"
@@ -340,7 +341,7 @@
 #define SCREEN_DIAMETER_FOR_3D	(MODEL_DIAMETER * SCREEN2MODEL_RATIO)	
 
 int16_t	gsGlobalBrightnessPerLightAttribute = 5;  
-// int16_t gsGlobalLightingAdjustment = 128; /* neutral center */
+/* short gsGlobalLightingAdjustment = 128; /* neutral center */
 // NOTE: This max value completely depends on the actual lighting effect curve:
 // it should be set near the bright spot of the curve.
 int16_t gsGlobalLightingAdjustment = 128; // NEUTRAL BABY!
@@ -383,7 +384,7 @@ CScene::CScene()
 	SetupPipeline();
 
 	// If the static print has no font . . .
-	if (ms_print.GetFont() == nullptr)
+	if (ms_print.GetFont() == NULL)
 		{
 		ms_print.SetFont(FONT_CELL_HEIGHT, &g_fontBig);
 		ms_print.SetColor(FONT_FORE_COLOR, FONT_BACK_COLOR, FONT_SHADOW_COLOR);
@@ -486,7 +487,7 @@ void CScene::SetLayers(
 void CScene::UpdateSprite(
 	CSprite* pSprite)										// In:  Sprite to add
 	{
-	ASSERT(pSprite != nullptr);
+	ASSERT(pSprite != NULL);
 
 	// Check if it's already in the scene
 	if (pSprite->m_sPrivFlags & CSprite::PrivInserted)
@@ -538,7 +539,7 @@ void CScene::UpdateSprite(
 void CScene::RemoveSprite(
 	CSprite* pSprite)										// In:  Sprite to remove
 	{
-	ASSERT(pSprite != nullptr);
+	ASSERT(pSprite != NULL);
 
 	// Make sure sprite is currently inserted -- if not, skip it.  This is
 	// not treated as an error because there may be situations where the
@@ -657,14 +658,14 @@ CScene::Render3D(
 	int16_t		sRenderOffX;		// Offset to Render().
 	int16_t		sRenderOffY;		// Offset to Render().
 
-	ASSERT(ps3Cur->m_psop != nullptr);
-	ASSERT(ps3Cur->m_ptex != nullptr);
-	ASSERT(ps3Cur->m_pmesh != nullptr);
-	ASSERT(ps3Cur->m_ptrans != nullptr);
-	ASSERT(ps3Cur->m_psphere != nullptr);
+	ASSERT(ps3Cur->m_psop != NULL);
+	ASSERT(ps3Cur->m_ptex != NULL);
+	ASSERT(ps3Cur->m_pmesh != NULL);
+	ASSERT(ps3Cur->m_ptrans != NULL);
+	ASSERT(ps3Cur->m_psphere != NULL);
 
 	// If there's a parent . . .
-	if (ps3Cur->m_psprParent != nullptr)
+	if (ps3Cur->m_psprParent != NULL)
 		{
 		// NOTE: This does NOT work for more than 1 level of child depth.
 		// To make that work, we must put a transform in the CSprite3.
@@ -757,7 +758,7 @@ if (g_bSceneDontBlit == false)
 			*ptransRender);		// The transformation.
 
 		// If there's no parent . . .
-		if (ps3Cur->m_psprParent == nullptr)
+		if (ps3Cur->m_psprParent == NULL)
 			{
 			// Clear Z buffer for new 3D tree.
 			m_pipeline.m_pZB->Clear();
@@ -779,7 +780,7 @@ if (g_bSceneDontBlit == false)
 		//	- (m_pipeline.m_sCenZ + m_pipeline.m_sZ); 
 
 		// If no parent . . .
-		if (ps3Cur->m_psprParent == nullptr)
+		if (ps3Cur->m_psprParent == NULL)
 			{
 			// For indirect Render:  
 			// Render so center of sphere is at center of clip image.
@@ -819,7 +820,7 @@ if (g_bSceneDontBlit == false)
 			}
 
 		// If this sprite has children . . .
-		if (ps3Cur->m_psprHeadChild != nullptr)
+		if (ps3Cur->m_psprHeadChild != NULL)
 			{
 			// Store Render() positions for children to use.
 			ps3Cur->m_sDirectRenderX	= sDirectRenderX;
@@ -835,7 +836,7 @@ if (g_bSceneDontBlit == false)
 		// If only partially on screen . . .
 		if (sClipLeft > 0 || sClipTop > 0 || sClipRight > 0 || sClipBottom > 0)
 			{
-			ASSERT(m_pipeline.m_pimClipBuf != nullptr);
+			ASSERT(m_pipeline.m_pimClipBuf != NULL);
 			// Use clip image.
 			pimRender			= m_pipeline.m_pimClipBuf;
 			// Remember to blit to composite.
@@ -914,7 +915,7 @@ if (g_bSceneDontBlit == false)
 					m_pipeline.m_sW,											// Both.
 					m_pipeline.m_sH,											// Both.
 					prcDstClip,													// Dst.
-					nullptr);														// Src.
+					NULL);														// Src.
 
 				m_pipeline.ClearClipBuffer();
 				}
@@ -974,8 +975,8 @@ if (g_bSceneDontBlit == false)
 
 			// Draw image.
 			rspRect(1, RSP_WHITE_INDEX, pimDst, 
-            sCenterX - (int16_t)(SCREEN_DIAMETER_FOR_3D / 2),
-            sCenterY - (int16_t)(SCREEN_DIAMETER_FOR_3D / 2),
+				sCenterX - (short)(SCREEN_DIAMETER_FOR_3D / 2), 
+				sCenterY - (short)(SCREEN_DIAMETER_FOR_3D / 2), 
 				m_pipeline.m_pimClipBuf->m_sWidth, 
 				m_pipeline.m_pimClipBuf->m_sHeight,
 				prcDstClip);
@@ -1003,7 +1004,7 @@ if (g_bSceneDontBlit == false)
 			
 			// If there's a parent . . .
 			CSprite*	psprParent	= ps3Cur->m_psprParent;
-			if (psprParent != nullptr)
+			if (psprParent != NULL)
 				{
 				if (psprParent->m_pthing)
 					{
@@ -1034,7 +1035,7 @@ if (g_bSceneDontBlit == false)
 ////////////////////////////////////////////////////////////////////////////////
 inline
 void DrawLine2d(			// Returns nothing.
-	uint8_t			u8Color,		// Color to draw line with.
+	U8			u8Color,		// Color to draw line with.
 	RImage*	pimDst,		// Destination image.
 	int16_t		sDstX1,		// Start pt.
 	int16_t		sDstY1,		// Start pt.
@@ -1047,8 +1048,8 @@ void DrawLine2d(			// Returns nothing.
 		// *****VERY CHEESY, INCORRECT CLIP FOR LINE TOTALLY ON SCREEN****
 		RRect	rcClipPt1(sDstX1, sDstY1, 1, 1);
 		RRect	rcClipPt2(sDstX2, sDstY2, 1, 1);
-      if (	rcClipPt1.ClipTo(prcDstClip) != FAILURE
-         &&	rcClipPt2.ClipTo(prcDstClip) != FAILURE)
+		if (	rcClipPt1.ClipTo(prcDstClip) != -1
+			&&	rcClipPt2.ClipTo(prcDstClip) != -1)
 			{
 			// Draw.
 			rspLine(
@@ -1077,7 +1078,7 @@ void DrawLine2d(			// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 inline
 void DrawLine3d(			// Returns nothing.
-	uint8_t			u8Color,		// Color to draw line with.
+	U8			u8Color,		// Color to draw line with.
 	RImage*	pimDst,		// Destination image.
 	int16_t		sDstX1,		// Start pt.
 	int16_t		sDstY1,		// Start pt.
@@ -1297,18 +1298,18 @@ void CScene::Render2D(		// Returns nothing.
 	CSprite2*	ps2Cur,		// Tree of sprites to render.
 	CHood*		phood,		// Da hood, homey.
 	RRect*		prcDstClip,	// Dst clip rect.
-	CSprite*		psprXRayee)	// XRayee, if not nullptr.
+	CSprite*		psprXRayee)	// XRayee, if not NULL.
 	{
 	// Make sure the stuff we need is there.
-	ASSERT(ps2Cur->m_pImage != nullptr);
+	ASSERT(ps2Cur->m_pImage != NULL);
 
-   ASSERT(ps2Cur->m_sAlphaLevel >= 0x0000);
-   ASSERT(ps2Cur->m_sAlphaLevel <= 0x00FF);
+	ASSERT(ps2Cur->m_sAlphaLevel >= 0);
+	ASSERT(ps2Cur->m_sAlphaLevel <= 255);
 
-	if (ps2Cur->m_pimAlpha != nullptr && g_GameSettings.m_sAlphaBlend != FALSE)
+	if (ps2Cur->m_pimAlpha != NULL && g_GameSettings.m_sAlphaBlend != FALSE)
 		{
 		// If the alpha level is not opaque . . .
-      if (ps2Cur->m_sAlphaLevel < 0x00FF)
+		if (ps2Cur->m_sAlphaLevel < 255)
 			{
 			// Do the Alpha Mask with adaptable alpha level blit.
 			rspGeneralAlphaBlit(
@@ -1337,7 +1338,7 @@ void CScene::Render2D(		// Returns nothing.
 	else
 		{
 		// If the alpha level is not opaque . . .
-      if (ps2Cur->m_sAlphaLevel < 0x00FF && g_GameSettings.m_sAlphaBlend != FALSE)
+		if (ps2Cur->m_sAlphaLevel < 255 && g_GameSettings.m_sAlphaBlend != FALSE)
 			{
 			// Do Homogeneous Alpha blit.
 			rspAlphaBlitT(
@@ -1361,13 +1362,13 @@ void CScene::Render2D(		// Returns nothing.
 #if 0			// The math equiv which appears to be slower than the confusing but
 				// similar compares.  Also, the math allows none of the short circuiting 
 				// that the C++ compares do.
-            int16_t	sUseXRay
+				short	sUseXRay		
 					=	(	(ps2Cur->m_sInFlags & CSprite::InAlpha) 
 						+	(	(ps2Cur->m_sInFlags & CSprite::InOpaque)
 							*	m_bXRayAll
 							)
 						)
-               *	(int32_t)psprXRayee
+					*	(long)psprXRayee
 					*	(	g_GameSettings.m_sXRayEffect
 						+	m_bXRayAll
 						)
@@ -1397,7 +1398,6 @@ void CScene::Render2D(		// Returns nothing.
 					int16_t	sXRayeeY	= psprXRayee->m_sY2;	// Default to 2D blit location.
 					switch (psprXRayee->m_type)
 						{
-                 UNHANDLED_SWITCH;
 						case CSprite::Standard2d:
 							// Use default sXRayeeX, sXRayeeY.
 							break;
@@ -1414,7 +1414,7 @@ void CScene::Render2D(		// Returns nothing.
 					// Do an exteremely cheesy collision detecting by clipping the two rects!!!!
 					RRect rect1(sXRayeeX, sXRayeeY, sXRayeeW, sXRayeeH);
 					RRect rect2(ps2Cur->m_sX2, ps2Cur->m_sY2, ps2Cur->m_pImage->m_sWidth, ps2Cur->m_pImage->m_sHeight);
-               if (rect2.ClipTo(&rect1) != FAILURE)
+					if (rect2.ClipTo(&rect1) != -1)
 						{
 						// Clear flag so he doesn't get drawn by normal blit
 						sNormalBlit = 0;
@@ -1462,7 +1462,7 @@ void CScene::Render2D(		// Returns nothing.
 					ps2Cur->m_pImage->m_sWidth,	// width
 					ps2Cur->m_pImage->m_sHeight,	// height
 					prcDstClip,							// dst clip
-					nullptr);								// Src clip.
+					NULL);								// Src clip.
 				}
 			}
 		}
@@ -1478,9 +1478,9 @@ void CScene::Render(			// Returns nothing.
 	CSprite*		pSprite,		// Tree of sprites to render.
 	CHood*		phood,		// Da hood, homey.
 	RRect*		prcDstClip,	// Dst clip rect.
-	CSprite*		psprXRayee)	// XRayee, if not nullptr.
+	CSprite*		psprXRayee)	// XRayee, if not NULL.
 	{
-	while (pSprite != nullptr)
+	while (pSprite != NULL)
 		{
 		// Make sure sprite isn't hidden (if it is, skip it)
 		if (!(pSprite->m_sInFlags & CSprite::InHidden))
@@ -1506,7 +1506,7 @@ void CScene::Render(			// Returns nothing.
 						(CSprite2*)pSprite,	// Tree of sprites to render.
 						phood,					// Da hood, homey.
 						prcDstClip,				// Dst clip rect.
-						psprXRayee);			// XRayee, if not nullptr.
+						psprXRayee);			// XRayee, if not NULL.
 		// ****TEMP****
 		}
 		// ****END TEMP****
@@ -1573,7 +1573,7 @@ void CScene::Render(			// Returns nothing.
 			{
 			// ****END TEMP****
 			// If there's some text . . .
-			if (pSprite->m_pszText != nullptr)
+			if (pSprite->m_pszText != NULL)
 				{
 
 
@@ -1603,7 +1603,7 @@ void CScene::Render(			// Returns nothing.
 			// ****END TEMP****
 
 			// If this sprite has any children . . .
-			if (pSprite->m_psprHeadChild != nullptr)
+			if (pSprite->m_psprHeadChild != NULL)
 				{
 				Render(								// Returns nothing.
 					pimDst,							// Destination image.
@@ -1612,7 +1612,7 @@ void CScene::Render(			// Returns nothing.
 					pSprite->m_psprHeadChild,	// Tree of sprites to render.
 					phood,							// Da hood, homey.
 					prcDstClip,						// Dst clip rect.
-					psprXRayee);					// XRayee, if not nullptr.
+					psprXRayee);					// XRayee, if not NULL.
 				}
 			}
 
@@ -1647,7 +1647,7 @@ void CScene::Render(
 	int16_t sMapX = sSrcX - sDstX;
 	int16_t sMapY = sSrcY - sDstY;
 
-	CSprite*	psprXRayee	= nullptr;	// XRayee when not nullptr.
+	CSprite*	psprXRayee	= NULL;	// XRayee when not NULL.
 
 	// Go through all the layers, back to front
 	for (int16_t sLayer = 0; sLayer < m_sNumLayers; sLayer++)
@@ -1672,7 +1672,7 @@ void CScene::Render(
 					pSprite,			// Tree of sprites to render.
 					phood,			// Da hood, homey.
 					&rDstClip,		// Dst clip rect.
-					psprXRayee);	// XRayee, if not nullptr.
+					psprXRayee);	// XRayee, if not NULL.
 
 				// Move to next item before deleting this one.
 				iSprite++;
@@ -1708,8 +1708,8 @@ void CScene::Render(
 // the pipe yourself or add a similar function to this one.
 ////////////////////////////////////////////////////////////////////////////////
 void CScene::SetupPipeline(						// Returns nothing.
-	RTransform* ptrans /*= nullptr*/,				// Transform to apply before doing defaults.
-	RTransform* ptransScene2Realm /*= nullptr*/,	// Transform to convert from scene to realm.
+	RTransform* ptrans /*= NULL*/,				// Transform to apply before doing defaults.
+	RTransform* ptransScene2Realm /*= NULL*/,	// Transform to convert from scene to realm.
 	double		dScale3d /*= 0.0*/)				// In:  New scaling to apply to pipeline (see
 															// m_dScale3d declaration).
 	{
@@ -1731,7 +1731,7 @@ void CScene::SetupPipeline(						// Returns nothing.
 	m_dScale3d = dScale3d;
 
 	// Use the built in adjustment features of the pipeline:
-	if (m_pipeline.Create(1000, SCREEN_DIAMETER_FOR_3D) != SUCCESS)
+	if (m_pipeline.Create(1000, SCREEN_DIAMETER_FOR_3D) != 0)
 		TRACE("SetupPipeline(): FONGOOL!  m_pipeline.Create() failed!  No 3D for you!\n");
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -1745,14 +1745,14 @@ void CScene::SetupPipeline(						// Returns nothing.
 	m_transNoZScreen.Make1();		// Identity.
 
 	// If there is a user transform . . .
-	if (ptrans != nullptr)
+	if (ptrans != NULL)
 		{
 		// Apply now. Ok. Close.
 		m_pipeline.m_tView.PreMulBy(ptrans->T);
 		}
 
 	// If there is a conversion transform . . .
-	if (ptransScene2Realm != nullptr)
+	if (ptransScene2Realm != NULL)
 		{
 		m_transScene2Realm	= *ptransScene2Realm;
 		}
@@ -1769,7 +1769,7 @@ void CScene::SetupPipeline(						// Returns nothing.
 
 	// OK, this is a bit more professional way to do it:
 	int16_t sScreenSize		= SCREEN_DIAMETER_FOR_3D; // diameter in pixels;
-//	int16_t	sScreenRadius	= sScreenSize>>1;
+//	short	sScreenRadius	= sScreenSize>>1;
 
 	double dModelSize		= MODEL_DIAMETER; // diameter in Randy's coordinates
 	double dModelRadius	= 0.5 * dModelSize;
@@ -1835,7 +1835,7 @@ void CScene::TransformPts(	// Returns nothing.
 		RTransform	transApplied;	// Auto-identitied.
 
 		// If there is a user transformation . . .
-		if (ptrans != nullptr)
+		if (ptrans != NULL)
 			{
 			// Create scene-user transform:
 			// Apply user to view.
@@ -1875,7 +1875,7 @@ void CScene::TransformPtsToRealm(	// Returns nothing.
 #if 0	// This doesn't work.
 	RTransform	trans;
 	// If there is a user transform . . .
-	if (ptrans != nullptr)
+	if (ptrans != NULL)
 		{
 		// Combine the caller's with the conversion.
 		trans.Mul(m_transScene2Realm.T, ptrans->T);
@@ -1916,18 +1916,18 @@ void CScene::DeadRender3D(					// Returns nothing.
 	CHood*		phood,						// Da hood, homey.
 	int16_t			sDstX /*= 0*/,				// Destination 2D x coord.
 	int16_t			sDstY /*= 0*/,				// Destination 2D y coord.
-	RRect*		prcDstClip /*= nullptr*/)	// Dst clip rect.
+	RRect*		prcDstClip /*= NULL*/)	// Dst clip rect.
 	{
 	// Make sure sprite isn't hidden (if it is, skip it)
 	if (!(ps3->m_sInFlags & CSprite::InHidden))
 		{
-		ASSERT(pimDst	!= nullptr);
-		ASSERT(ps3		!= nullptr);
-		ASSERT(phood	!= nullptr);
+		ASSERT(pimDst	!= NULL);
+		ASSERT(ps3		!= NULL);
+		ASSERT(phood	!= NULL);
 
 		RRect	rcClip;
 		// If no clipping rect specified . . .
-		if (prcDstClip == nullptr)
+		if (prcDstClip == NULL)
 			{
 			prcDstClip	= &rcClip;
 
@@ -1975,7 +1975,7 @@ void CScene::DeadRender3D(					// Returns nothing.
 			ps3,				// Tree of sprites to render.
 			phood,			// Da hood, homey.
 			prcDstClip,		// Dst clip rect.
-			nullptr);			// XRayee, if not nullptr.
+			NULL);			// XRayee, if not NULL.
 #endif
 		}
 	}

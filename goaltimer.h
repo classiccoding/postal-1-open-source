@@ -29,7 +29,7 @@
 #ifndef GOALTIMER_H
 #define GOALTIMER_H
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 #include "realm.h"
 
 // CGoalTimer keeps track of the time and goal for a challenge level
@@ -97,11 +97,11 @@ class CGoalTimer : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 		{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CGoalTimer(pRealm);
-         if (*ppNew == nullptr)
+			if (*ppNew == 0)
 			{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CGoalTimer::Construct(): Couldn't construct CGoalTimer (that's a bad thing)\n");
 			}
 			return sResult;
@@ -141,7 +141,6 @@ class CGoalTimer : public CThing
 		// Render object
 		void Render(void);
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -172,7 +171,6 @@ class CGoalTimer : public CThing
 										// EditRect() pos.
 			int16_t*	psY);			// Out: Y coord of 2D hotspot relative to
 										// EditRect() pos.
-#endif // !defined(EDITOR_REMOVED)
 
 	//---------------------------------------------------------------------------
 	// Internal functions

@@ -15,7 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-// Ladder.h
+// Ladder.H
 // Project: Nostril (aka Postal)
 // 
 // History:
@@ -28,9 +28,6 @@
 // to.
 //
 //////////////////////////////////////////////////////////////////////////////
-#ifndef TIME_TRAVEL_IS_REAL
-#error I AM ARCHAIC - DO NOT USE
-#endif
 
 #ifndef LADDER_H
 #define LADDER_H
@@ -97,7 +94,7 @@ class CLadder : public CThing
 			m_sHeight					= 0;
 			m_sRotY						= 0;
 
-      m_pcharLadderBoy			= nullptr;
+			m_pcharLadderBoy			= NULL;
 			}
 
 	public:
@@ -124,11 +121,11 @@ class CLadder : public CThing
 			CRealm* pRealm,										// In:  Pointer to realm this object belongs to
 			CThing** ppNew)										// Out: Pointer to new object
 			{
-			int16_t sResult = SUCCESS;
+			int16_t sResult = 0;
 			*ppNew = new CLadder(pRealm);
 			if (*ppNew == 0)
 				{
-				sResult = FAILURE;
+				sResult = -1;
 				TRACE("CLadder::Construct(): Couldn't construct CLadder (that's a bad thing)\n");
 				}
 			return sResult;
@@ -168,7 +165,6 @@ class CLadder : public CThing
 		// Render object
 		void Render(void);
 
-#if !defined(EDITOR_REMOVED)
 		// Called by editor to init new object at specified position
 		int16_t EditNew(												// Returns 0 if successfull, non-zero otherwise
 			int16_t sX,												// In:  New x coord
@@ -202,7 +198,6 @@ class CLadder : public CThing
 
 		// Called by editor to render object
 		void EditRender(void);
-#endif // !defined(EDITOR_REMOVED)
 
 	//---------------------------------------------------------------------------
 	// Handy external functions

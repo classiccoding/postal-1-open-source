@@ -84,7 +84,7 @@
 // RSPiX Headers.
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <RSPiX.h>
+#include "RSPiX.h"
 
 //////////////////////////////////////////////////////////////////////////////
 // Postal Headers.
@@ -228,9 +228,9 @@ void SetText(					// Returns nothing.
 	int32_t			lVal)			// In:  Value to set text to.
 	{
 	RGuiItem*	pgui	= pguiRoot->GetItemFromId(lId);
-	if (pgui != nullptr)
+	if (pgui != NULL)
 		{
-		pgui->SetText("%i", lVal);
+		pgui->SetText("%ld", lVal);
 		pgui->Compose(); 
 		}
 	}
@@ -244,8 +244,10 @@ void CheckMultiBtn(			// Returns nothing.
 	int32_t			lId,			// In:  ID of GUI to set text.
 	int16_t			sChecked)	// In:  1 to check, 0 to uncheck.
 	{
+	int16_t	sRes	= 0;	// Assume nothing;
+
 	RMultiBtn*	pmb	= (RMultiBtn*)pguiRoot->GetItemFromId(lId);
-	if (pmb != nullptr)
+	if (pmb != NULL)
 		{
 		ASSERT(pmb->m_type == RGuiItem::MultiBtn);
 
@@ -263,27 +265,27 @@ int16_t IsMultiBtnChecked(	// Returns multibtn's state.
 	RGuiItem*	pguiRoot,	// In:  Root GUI.
 	int32_t			lId)			// In:  ID of GUI to set text.
 	{
-   int16_t sResult = SUCCESS;	// Assume nothing;
+	int16_t	sRes	= 0;	// Assume nothing;
 
 	RMultiBtn*	pmb	= (RMultiBtn*)pguiRoot->GetItemFromId(lId);
-	if (pmb != nullptr)
+	if (pmb != NULL)
 		{
 		ASSERT(pmb->m_type == RGuiItem::MultiBtn);
 
-      sResult	= (pmb->m_sState == 1) ? 0 : 1;
+		sRes	= (pmb->m_sState == 1) ? 0 : 1;
 		}
 
-   return sResult;
+	return sRes;
 	}
 
 //////////////////////////////////////////////////////////////////////////////
 // Allow user to edit members.
 //////////////////////////////////////////////////////////////////////////////
 int16_t CStockPile::UserEdit(				// Returns 0 on success.
-	RGuiItem*	pguiChild /*= nullptr*/)	// In: Optional child GUI to be placed at 
+	RGuiItem*	pguiChild /*= NULL*/)	// In: Optional child GUI to be placed at 
 													// botom of Stockpile GUI.
 	{
-	int16_t sResult = SUCCESS;
+	int16_t	sResult	= 0;
 
 	RGuiItem* pgui = RGuiItem::LoadInstantiate(FullPathVD(GUI_FILE_NAME));
 	if (pgui)
@@ -320,7 +322,7 @@ int16_t CStockPile::UserEdit(				// Returns 0 on success.
 				pgui->m_sY,
 				sNewWidth,
 				sNewHeight,
-            pgui->m_im.m_sDepth) == SUCCESS)
+				pgui->m_im.m_sDepth) == 0)
 				{
 				// Parent and move the child GUI.
 				pguiChild->Move(
@@ -402,14 +404,14 @@ int16_t CStockPile::UserEdit(				// Returns 0 on success.
 			m_sBackpack				= IsMultiBtnChecked(pgui, BACKPACK_GUI_ID				);
 
 			// Success.
-			sResult = SUCCESS;
+			sResult	= 0;
 			}
 
 		// If there is a user specified GUI . . .
 		if (pguiChild)
 			{
 			// Get it outta there before we delete the tree.
-			pguiChild->SetParent(nullptr);
+			pguiChild->SetParent(NULL);
 			}
 
 		delete pgui;

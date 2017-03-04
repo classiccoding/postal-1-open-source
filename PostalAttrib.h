@@ -15,7 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 //
-// Attribute.h
+// ATTRIBUTE.H
 //
 // Created on 10/03/96 JMI
 // Implemented	03/14/97 JRD
@@ -32,11 +32,18 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-#include <BLUE/System.h>
-#include <ORANGE/File/file.h>
+#include "System.h"
 
-#define ATTRIBUTE_MAP_COOKIE 0x4D525441 //Looks like "ATRM" in the file
-#define ATTRIBUTE_CURRENT_VERSION 6
+#ifdef PATHS_IN_INCLUDES
+	#include "BLUE/Blue.h"
+	#include "ORANGE/File/file.h"
+#else
+	#include "Blue.h"
+	#include "file.h"
+#endif // PATHS_IN_INCLUDES
+
+ #define ATTRIBUTE_MAP_COOKIE 0x4d525441 //Looks like "ATRM" in the file
+ #define ATTRIBUTE_CURRENT_VERSION 6
 
 //////////////////////////////////////////////////////////////////////
 //  Here are the Postal attribute masks, grouped by word.  
