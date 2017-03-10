@@ -161,7 +161,6 @@
 #define DEFAULT_TITLE			"Loading..."
 #define DEFAULT_BG				"res/cutscene/abstract.bmp"
 #define DEFAULT_TEXT				""
-#define DEFAULT_MULTIALPHA		"res/cutscene/abstract.mlp"
 #define DEFAULT_MUSIC			"psychedelic1.wav"
 
 #define BG_X						(ms_pCut->m_pimDst->m_sWidth / 2  - ms_pCut->m_pimBGLayer->m_sWidth / 2)
@@ -827,22 +826,16 @@ extern void CutSceneStart(
 	rspGetPaletteEntries(0, 256, au8Red, au8Green, au8Blue, sizeof(U8));
 
 	//------------------------------------------------------------------------------
-	// Get multialpha
+	// Generate multialpha
 	//------------------------------------------------------------------------------
 
 	ms_pCut->m_pmaAlpha = new RMultiAlpha;
 
-	prefsRealm.GetVal(*pstrSection, "Alpha", DEFAULT_MULTIALPHA, szText);
-	if ((ms_pCut->m_pmaAlpha->Load(FullPathHD(szText)) == 0) ||
-		 (ms_pCut->m_pmaAlpha->Load(FullPathVD(szText)) == 0))
-		{
-		}
-	else
-		{
-		TRACE("CutScene(): Error loading multialpha: '%s'\n", FullPathVD(szText));
-		delete ms_pCut->m_pmaAlpha;
-		ms_pCut->m_pmaAlpha = NULL;
-		}
+	ms_pCut->m_pmaAlpha->Alloc(1);
+	ms_pCut->m_pmaAlpha->CreateLayer(0, 0.5, 10, 236);
+	ms_pCut->m_pmaAlpha->m_pAlphaList[0]->ms_SetPalette(ms_pCut->m_pimBGLayer);
+	ms_pCut->m_pmaAlpha->m_pAlphaList[0]->CreateAlphaRGB(0.5, 10, 236);
+	ms_pCut->m_pmaAlpha->Finish(TRUE);
 
 	//------------------------------------------------------------------------------
 	// Get font
