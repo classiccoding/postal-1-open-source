@@ -433,6 +433,6 @@ clean:
 	#rm -f $(SRCDIR)/parser/lex.yy.c
 	rm -rf $(EBINDIR)
 	rm -f saktool
-	rm -f RSPiX_wrap.c RSPiX_wrap.cxx RSPiX_wrap.o _RSPiX.so
+	rm -f RSPiX_wrap.c RSPiX_wrap.cxx RSPiX_wrap.o _RSPiX.so RSPiX.py
 
 # end of Makefile ...
