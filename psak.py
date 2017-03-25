@@ -187,7 +187,7 @@ import gtk, sys
 fnfilter = gtk.FileFilter()
 fnfilter.set_name("{2}")
 fnfilter.add_pattern("{3}")
-chooser = gtk.FileChooserDialog(title="{0}", action={1}, buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK))
+chooser = gtk.FileChooserDialog(title="{0}", action=gtk.FILE_CHOOSER_ACTION_{1}, buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_{1}, gtk.RESPONSE_OK))
 chooser.set_default_response(gtk.RESPONSE_OK)
 chooser.add_filter(fnfilter)
 response = chooser.run()
@@ -220,7 +220,7 @@ if __name__ == "__main__":
 	while not Global.quit:
 		message = webRecv()
 		if message == "spry":
-			fname = selectFile("Select a Spry file", "gtk.FILE_CHOOSER_ACTION_OPEN", "Spry files", "*.say")
+			fname = selectFile("Select a Spry file", "OPEN", "Spry files", "*.say")
 			if fname != None:
 				currobj = RSPiX.RSpry()
 				if currobj.Load(fname) == 0:
@@ -232,7 +232,7 @@ if __name__ == "__main__":
 			del currobj
 			syncGtkMessage(navigate)(uri)
 		elif message == "convpng":
-			outname = selectFile("Save PNG file", "gtk.FILE_CHOOSER_ACTION_SAVE", "PNG files", "*.png")
+			outname = selectFile("Save PNG file", "SAVE", "PNG files", "*.png")
 			if outname != None:
 				sprylist = spryToList(currobj)
 				image = spritesToPImage(sprylist)
