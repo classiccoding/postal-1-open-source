@@ -150,6 +150,13 @@ SRCS := \
 	play.cpp \
 	SampleMaster.cpp \
 	title.cpp \
+	WishPiX/Menu/menu.cpp \
+	WishPiX/Prefs/prefline.cpp \
+	WishPiX/Prefs/prefs.cpp \
+	WishPiX/ResourceManager/resmgr.cpp \
+	WishPiX/Spry/spry.cpp
+
+RSSRCS := \
 	RSPiX/Src/BLUE/unix/Bdebug.cpp \
 	RSPiX/Src/BLUE/unix/Bjoy.cpp \
 	RSPiX/Src/BLUE/unix/Bkey.cpp \
@@ -223,7 +230,9 @@ SRCS := \
 	RSPiX/Src/ORANGE/GUI/txt.cpp \
 	RSPiX/Src/CYAN/Unix/uDialog.cpp \
 	RSPiX/Src/CYAN/Unix/uColors.cpp \
-	RSPiX/Src/CYAN/Unix/uPath.cpp \
+	RSPiX/Src/CYAN/Unix/uPath.cpp
+
+WSRCS :=  \
 	WishPiX/Menu/menu.cpp \
 	WishPiX/Prefs/prefline.cpp \
 	WishPiX/Prefs/prefs.cpp \
@@ -232,6 +241,12 @@ SRCS := \
 
     # wtf is THIS?!
 	#RSPiX/Src/ORANGE/MTask/mtask.cpp \
+
+SRCS += $(RSSRCS)
+SRCS += $(WSRCS)
+
+RSOBJS := $(RSSRCS:.cpp=.o)
+RSOBJS := $(foreach f,$(RSOBJS),$(BINDIR)/$(f))
 
 OBJS0 := $(SRCS:.s=.o)
 OBJS1 := $(OBJS0:.c=.o)
@@ -388,6 +403,21 @@ $(EBINDIR)/%.o: $(SRCDIR)/%.c
 saktool: $(EBINDIR) $(EOBJS) $(ELIBS)
 	$(LINKER) -o saktool $(EOBJS) $(ELDFLAGS) $(ELIBS)
 
+picon:
+	$(eval CFLAGS += -fPIC -shared)
+
+RSPiX_wrap.cxx: RSPiX.i
+	swig -c++ -python -IRSPiX/Src RSPiX.i 
+	# Idk if there's a way to fix this "properly"
+	sed -i "s/ Node \\*/ RFList< RSprite \\* >::Pointer /g" RSPiX_wrap.cxx
+	sed -i "s/(Node \\*/(RFList< RSprite \\* >::Pointer/g" RSPiX_wrap.cxx
+
+RSPiX_wrap.o: RSPiX.i RSPiX_wrap.cxx
+	$(CC) -c RSPiX_wrap.cxx $(CFLAGS) $(shell python2-config --cflags)
+
+_RSPiX.so: $(BINDIR) picon $(RSOBJS) RSPiX.i RSPiX_wrap.cxx RSPiX_wrap.o $(BINDIR)/WishPiX/Spry/spry.o
+	$(CC) RSPiX_wrap.o $(RSOBJS) $(BINDIR)/WishPiX/Spry/spry.o -o _RSPiX.so $(LDFLAGS) $(LIBS) $(shell python2-config --libs) $(CFLAGS)
+
 $(EBINDIR) :
 	$(MAKE) ebindir
 
@@ -403,5 +433,6 @@ clean:
 	#rm -f $(SRCDIR)/parser/lex.yy.c
 	rm -rf $(EBINDIR)
 	rm -f saktool
+	rm -f RSPiX_wrap.c RSPiX_wrap.cxx RSPiX_wrap.o _RSPiX.so
 
 # end of Makefile ...
