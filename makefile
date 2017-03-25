@@ -418,6 +418,9 @@ RSPiX_wrap.o: RSPiX.i RSPiX_wrap.cxx
 _RSPiX.so: $(BINDIR) picon $(RSOBJS) RSPiX.i RSPiX_wrap.cxx RSPiX_wrap.o $(BINDIR)/WishPiX/Spry/spry.o
 	$(CC) RSPiX_wrap.o $(RSOBJS) $(BINDIR)/WishPiX/Spry/spry.o -o _RSPiX.so $(LDFLAGS) $(LIBS) $(shell python2-config --libs) $(CFLAGS)
 
+swig:
+	BINDIR=binpic $(MAKE) -e _RSPiX.so
+
 $(EBINDIR) :
 	$(MAKE) ebindir
 
