@@ -225,6 +225,8 @@ if __name__ == "__main__":
 				currobj = RSPiX.RSpry()
 				if currobj.Load(fname) == 0:
 					syncGtkMessage(navigate)("spry.html")
+					while message != "ready":
+						message = webRecv()
 					webSend("setsay('{0}', '{1}');".format(fname, str(currobj.m_listSprites.GetCount())))
 				else:
 					alert("Failed to load Spry from " + fname)
