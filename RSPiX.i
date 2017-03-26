@@ -72,13 +72,6 @@ typedef RFList<RSprite*> ListOfSprites;
 #include "WishPiX/Spry/spry.h"
 %}
 
-%inline %{
-RSprite* ppRSprDereference(RSprite** myPtr)
-{
-	return *myPtr;
-}
-%}
-
 %include <stdint.i>
 %include <cpointer.i>
 %include "BLUE/Blue.h"
@@ -148,3 +141,22 @@ RSprite* ppRSprDereference(RSprite** myPtr)
 %include "ORANGE/ImageTools/lasso.h"
 %template(ListOfSprites) RFList<RSprite*>;
 %include "WishPiX/Spry/spry.h"
+
+%inline %{
+
+RSprite* ppRSprDereference(RSprite** myPtr)
+{
+	return *myPtr;
+}
+
+uint8_t* allocateFile(uint32_t bytes)
+{
+	return (uint8_t *) malloc(bytes);
+}
+
+uint8_t getByte(uint8_t* buf, uintptr_t pos)
+{
+	return *(buf + pos);
+}
+
+%}

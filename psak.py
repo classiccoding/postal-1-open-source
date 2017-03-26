@@ -17,9 +17,9 @@
 
 # GUI for working with the proprietary file formats used in RSPiX.
 
-import RSPiX, PIL.Image
-import gtk, gobject, thread, threading, webkit, Queue, os, subprocess
-import sys
+import RSPiX, PIL.Image, numpy, tempfile
+import gtk, gobject, thread, threading, webkit, Queue, os
+import subprocess, sys
 
 dirPath = os.path.dirname(os.path.realpath(__file__))
 
@@ -41,10 +41,45 @@ def listToSpry(mySprites):
 		mySpry.m_listSprites.InsertTail(sprite)
 	return mySpry
 
-# Convert RSPiX Image to Python list of RGBA tuples.
-def rImageToList(myImage):
-	# do magic
-	pass
+# Convert RSPiX Image to PIL Image.
+def rImageToPImage(myImage):
+	# Convert to BMP first.
+	myImage.Convert(myImage.BMP8)
+	
+	# Reserve 54 bytes for the BMP header
+	size = 54
+	
+	# Get the size of the image data.
+	size += myImage.m_ulSize
+	
+	# Reserve space for the palette if it exists
+	if myImage.m_pPalette:
+		size += myImage.m_pPalette.m_ulSize
+	
+	# Save the Image as a DIB to an RFile in memory
+	mem = RSPiX.allocateFile(size)
+	myFile = RSPiX.RFile()
+	myFile.Open(mem, size, myFile.LittleEndian)
+	myImage.SaveDib(myFile)
+	
+	# Extract data from RFile into list
+	data = []
+	for x in range(0, size):
+		data.append(RSPiX.getByte(mem, x))
+	myFile.Close()
+	
+	# Copy list into Python memory file object
+	myOutFile = tempfile.TemporaryFile()
+	myOutFile.write(bytearray(data))
+	
+	# Load file into PIL Image
+	return PIL.Image.open(myOutFile)
+
+def testImage():
+	mySpry = RSPiX.RSpry()
+	mySpry.Load("homer00a.say")
+	myList = spryToList(mySpry)
+	return myList[0].m_pImage
 
 # Convert Python list of Sprites to one PIL Image.
 def spritesToPImage(mySprites):
@@ -53,7 +88,7 @@ def spritesToPImage(mySprites):
 	imHeight = 0
 
 	for sprite in mySprites:
-		myImages.append([(sprite.m_sX, sprite.m_sY), (sprite.m_lWidth, sprite.m_lHeight), rImageToList(sprite.m_pImage)])
+		myImages.append([(sprite.m_sX, sprite.m_sY), rImageToPImage(sprite.m_pImage)])
 		right = sprite.m_sX + sprite.m_lWidth
 		bottom = sprite.m_sY + sprite.m_lHeight
 		if right > imWidth:
@@ -64,9 +99,7 @@ def spritesToPImage(mySprites):
 	finalImage = PIL.Image.new("RGBA", (imWidth, imHeight))
 
 	for data in myImages:
-		sprIm = PIL.Image.new("RGBA", data[1])
-		sprIm.putdata(data[2])
-		finalImage.paste(sprIm, data[0])
+		finalImage.paste(data[1], data[0])
 	
 	return finalImage
 
