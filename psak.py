@@ -75,12 +75,6 @@ def rImageToPImage(myImage):
 	# Load file into PIL Image
 	return PIL.Image.open(myOutFile)
 
-def testImage():
-	mySpry = RSPiX.RSpry()
-	mySpry.Load("homer00a.say")
-	myList = spryToList(mySpry)
-	return myList[0].m_pImage
-
 # Convert Python list of Sprites to one PIL Image.
 def spritesToPImage(mySprites):
 	myImages = []

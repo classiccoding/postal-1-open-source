@@ -159,4 +159,12 @@ uint8_t getByte(uint8_t* buf, uintptr_t pos)
 	return *(buf + pos);
 }
 
+int hasPalette(RImage* myImage)
+{
+	if (myImage->m_pPalette == NULL)
+		return 0;
+	else
+		return 1;
+}
+
 %}
