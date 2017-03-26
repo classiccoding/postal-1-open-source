@@ -17,7 +17,7 @@
 
 # GUI for working with the proprietary file formats used in RSPiX.
 
-import RSPiX, PIL.Image, numpy, tempfile
+import RSPiX, PIL.Image, tempfile
 import gtk, gobject, thread, threading, webkit, Queue, os
 import subprocess, sys
 
