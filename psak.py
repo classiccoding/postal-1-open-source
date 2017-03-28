@@ -17,11 +17,11 @@
 
 # GUI for working with the proprietary file formats used in RSPiX.
 
-import RSPiX, PIL.Image, tempfile
-import gtk, gobject, thread, threading, webkit, Queue, os
-import subprocess, sys
+import RSPiX, PIL.Image, tempfile, wkinter, os
 
 dirPath = os.path.dirname(os.path.realpath(__file__))
+
+productName = "POSTAL Swiss Army Knife"
 
 # Backend functions.
 
@@ -97,176 +97,41 @@ def spritesToPImage(mySprites):
 	
 	return finalImage
 
-# Interface classes and functions.
-# The interface here is based on an excellent tutorial by David Baird.
-
-def asyncGtkMessage(fun):
-	def worker((function, args, kwargs)):
-		apply(function, args, kwargs)
-	
-	def fun2(*args, **kwargs):
-		gobject.idle_add(worker, (fun, args, kwargs))
-	
-	return fun2
-
-def syncGtkMessage(fun):
-	def worker((R, condition, function, args, kwargs)):
-		R.result = apply(function, args, kwargs)
-		condition.acquire()
-		condition.notify()
-		condition.release()
-	
-	def fun2(*args, **kwargs):
-		condition = threading.Condition()
-		condition.acquire()
-		class R:
-			pass
-		gobject.idle_add(worker, (R, condition, fun, args, kwargs))
-		condition.wait()
-		condition.release()
-		return R.result
-	
-	return fun2
-
-def launchBrowser(uri, echo = True):
-	window = gtk.Window()
-	box = gtk.VBox(homogeneous = False, spacing = 0)
-	myscroll = gtk.ScrolledWindow()
-	browser = webkit.WebView()
-	
-	window.set_default_size(800, 600)
-	window.set_title("POSTAL Swiss Army Knife")
-	window.connect("destroy", Global.set_quit)
-	
-	window.add(box)
-	box.pack_start(myscroll, expand = True, fill = True, padding = 0)
-	myscroll.add(browser)
-	
-	window.show_all()
-	
-	messageQueue = Queue.Queue()
-	
-	def titleChanged(widget, frame, title):
-		if title != "null":
-			messageQueue.put(title)
-	
-	browser.connect("title-changed", titleChanged)
-	
-	settings = browser.get_settings()
-	settings.set_property("enable-default-context-menu", False)
-	
-	def webRecv():
-		if messageQueue.empty():
-			return None
-		else:
-			msg = messageQueue.get()
-			if echo:
-				print(">>>", msg)
-			return msg
-	
-	def webSend(msg):
-		if echo:
-			print("<<<", msg)
-		asyncGtkMessage(browser.execute_script)(msg)
-	
-	def navigate(page):
-		browser.open("file://" + dirPath + "/psak_pages/" + page)
-	
-	navigate(uri)
-	
-	return browser, webRecv, webSend, navigate
-
-def startGtkThread():
-	gtk.gdk.threads_init()
-	thread.start_new_thread(gtk.main, ())
-
-def killGtkThread():
-	asyncGtkMessage(gtk.main_quit)()
-
-class Global(object):
-	quit = False
-	@classmethod
-	def set_quit(cls, *args, **kwargs):
-		cls.quit = True
-
-# Now it's time for my own interface functions. Nothing below here is by
-# David Baird. This is all my fault.
-
-def runSubscript(script):
-	process = subprocess.Popen([sys.executable, "-c", script], stdout=subprocess.PIPE)
-	(output, err) = process.communicate()
-	exitCode = process.wait()
-	return output
-
-alertFun = """
-import gtk
-dialog = gtk.MessageDialog(type = gtk.MESSAGE_ERROR, buttons = gtk.BUTTONS_OK)
-dialog.set_markup("{0}")
-dialog.run()
-dialog.hide()
-	"""
-
-def alert(message):
-	runSubscript(alertFun.format(message.replace("\\", "\\\\")))
-
-fselectFun = """
-import gtk, sys
-fnfilter = gtk.FileFilter()
-fnfilter.set_name("{2}")
-fnfilter.add_pattern("{3}")
-chooser = gtk.FileChooserDialog(title="{0}", action=gtk.FILE_CHOOSER_ACTION_{1}, buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_{1}, gtk.RESPONSE_OK))
-chooser.set_default_response(gtk.RESPONSE_OK)
-chooser.add_filter(fnfilter)
-response = chooser.run()
-chooser.hide()
-if response == gtk.RESPONSE_OK:
-	result = chooser.get_filename()
-else:
-	result = "NONE"
-chooser.destroy()
-sys.stdout.write(result)
-"""
-
-def selectFile(title, action, name, pattern):
-	fname = runSubscript(fselectFun.format(title, action, name, pattern))
-	if fname == "NONE":
-		return None
-	else:
-		return fname
-
 # Start the program.
 if __name__ == "__main__":
-	startGtkThread()
+	wkinter.startGtkThread()
 
 	uri = "home.html"
 	
 	currobj = None
 	
-	browser, webRecv, webSend, navigate = syncGtkMessage(launchBrowser)(uri, echo = False)
+	browser, webRecv, webSend, navigate = wkinter.syncGtkMessage(wkinter.launchBrowser)(productName, uri, echo = False, htmlLocation = dirPath + "/psak_pages")
 
-	while not Global.quit:
+	while not wkinter.Global.quit:
 		message = webRecv()
 		if message == "spry":
-			fname = selectFile("Select a Spry file", "OPEN", "Spry files", "*.say")
+			fname = wkinter.selectFile("Select a Spry file", wkinter.OPEN, [["Spry files", ["*.say"]], ["All files", ["*"]]])
 			if fname != None:
 				currobj = RSPiX.RSpry()
 				if currobj.Load(fname) == 0:
-					syncGtkMessage(navigate)("spry.html")
+					wkinter.syncGtkMessage(navigate)("spry.html")
 					while message != "ready":
 						message = webRecv()
 					webSend("setsay('{0}', '{1}');".format(fname, str(currobj.m_listSprites.GetCount())))
 				else:
-					alert("Failed to load Spry from " + fname)
+					wkinter.alert("Failed to load Spry from " + fname, title = productName)
 		elif message == "home":
 			del currobj
-			syncGtkMessage(navigate)(uri)
+			wkinter.syncGtkMessage(navigate)(uri)
 		elif message == "convpng":
-			outname = selectFile("Save PNG file", "SAVE", "PNG files", "*.png")
+			outname = wkinter.selectFile("Save PNG file", wkinter.SAVE, [["PNG files", ["*.png"]], ["All files", ["*"]]])
 			if outname != None:
+				if not outname.endswith(".png"):
+					outname += ".png"
 				sprylist = spryToList(currobj)
 				image = spritesToPImage(sprylist)
 				image.save(outname)
 				del image
 				currobj = listToSpry(sprylist)
 		elif message != None:
-			alert("This feature has not yet been implemented.")
+			wkinter.alert("This feature has not yet been implemented.", title = productName)
