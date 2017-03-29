@@ -154,9 +154,16 @@ uint8_t* allocateFile(uint32_t bytes)
 	return (uint8_t *) malloc(bytes);
 }
 
-uint8_t getByte(uint8_t* buf, uintptr_t pos)
-{
-	return *(buf + pos);
-}
+#define getter(name, type) type name ( type * buf, uintptr_t pos ) { return * ( buf + pos ); }
+
+getter(getByte, uint8_t);
+getter(getU16, uint16_t);
+getter(getU32, uint32_t);
+
+#define colourGetter(name, retvar) uint8_t name ( RPal * palette , int16_t num ) { uint8_t dstRed; uint8_t dstGreen; uint8_t dstBlue; palette->GetEntries( num, 1, &dstRed, &dstGreen, &dstBlue, 1 ); return retvar ; }
+
+colourGetter(getRed, dstRed);
+colourGetter(getGreen, dstGreen);
+colourGetter(getBlue, dstBlue);
 
 %}
