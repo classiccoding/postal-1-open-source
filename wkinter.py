@@ -162,9 +162,9 @@ def alert(message, icon = ERROR, title = ""):
 # the user cancelled.
 fselectFun = """
 import gtk, sys
-chooser = gtk.FileChooserDialog(title="{0}", action=gtk.FILE_CHOOSER_ACTION_{1}, buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_{1}, gtk.RESPONSE_OK))
+chooser = gtk.FileChooserDialog(title="{0}", action={1}, buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, "{2}", gtk.RESPONSE_OK))
 chooser.set_default_response(gtk.RESPONSE_OK)
-for myfilter in {2}:
+for myfilter in {3}:
 	fnfilter = gtk.FileFilter()
 	fnfilter.set_name(myfilter[0])
 	for pattern in myfilter[1]:
@@ -178,11 +178,11 @@ if result:
 	sys.stdout.write(result)
 """
 
-# Possible file chooser types. You could just pass a string by itself,
-# but I think they look nicer as symbols.
-OPEN = "OPEN"
-SAVE = "SAVE"
+# Possible file chooser types.
+OPEN = (int(gtk.FILE_CHOOSER_ACTION_OPEN), gtk.STOCK_OPEN)
+SAVE = (int(gtk.FILE_CHOOSER_ACTION_SAVE), gtk.STOCK_SAVE)
+DIR = (int(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER), gtk.STOCK_OPEN)
 
-def selectFile(title, action, filters):
-	fname = runSubscript(fselectFun.format(dblEscape(title), action, filters))
+def selectFile(title, (action, icon), filters):
+	fname = runSubscript(fselectFun.format(dblEscape(title), action, icon, filters))
 	return None if fname == "" else fname # Python ternary is stupid
