@@ -109,14 +109,29 @@ def spritesToPImage(mySprites, myPalette, imWidth = 0, imHeight = 0):
 	
 	return finalImage
 
+# Converts a list of Sprites to PNG and saves it.
+def spryToPng(mySprites, palette, outname, imWidth, imHeight):
+	if not outname.endswith(".png"):
+		outname += ".png"
+	image = spritesToPImage(mySprites, palette, imWidth, imHeight)
+	image.save(outname, transparency = 0, optimize = 1)
+	del image
+
+# Saves a BMP file's contents to a PNG file with a passed palette.
+def bmpToPng(fname, outname, palette):
+	inim = PIL.Image.open(fname)
+	outim = PIL.Image.new("P", inim.size)
+	outim.putpalette(paletteToList(palette))
+	outim.paste(inim, (0, 0))
+	outim.save(outname, transparency = 0, optimize = 1)
+
 # Start the program.
 if __name__ == "__main__":
 	wkinter.startGtkThread()
 
 	uri = "home.html"
 	
-	currobj = None
-	suppobj = None
+	(currobj, suppobj) = (None, None)
 	
 	browser, webRecv, webSend, navigate = wkinter.syncGtkMessage(wkinter.launchBrowser)(productName, uri, echo = False, htmlLocation = dirPath + "/psak_pages")
 
@@ -144,17 +159,41 @@ if __name__ == "__main__":
 					else:
 						wkinter.alert("Failed to load RImage from " + basename, title = productName)
 		elif message == "home":
-			del currobj, suppobj
+			(currobj, suppobj) = (None, None)
 			wkinter.syncGtkMessage(navigate)(uri)
 		elif message == "convpng":
 			outname = wkinter.selectFile("Save PNG file", wkinter.SAVE, [["PNG files", ["*.png"]], ["All files", ["*"]]])
 			if outname != None:
-				if not outname.endswith(".png"):
-					outname += ".png"
 				sprylist = spryToList(currobj)
-				image = spritesToPImage(sprylist, suppobj.m_pPalette)
-				image.save(outname, transparency = 0, optimize = 1)
-				del image
+				spryToPng(sprylist, suppobj.m_pPalette, outname)
 				currobj = listToSpry(sprylist)
+		elif message == "batchpng":
+			fname = wkinter.selectFile("Select a directory", wkinter.DIR, [["Directory", ["*"]]])
+			if fname != None:
+				for subdir, dirs, files in os.walk(fname):
+					for name in files:
+						filepath = subdir + os.sep + name
+						if filepath.endswith(".say"):
+							basename = filepath[:-7] + ".bmp"
+							outname = filepath[:-4] + ".png"
+							tmpim = RSPiX.RImage()
+							if tmpim.Load(basename) == 0:
+								tmpspry = RSPiX.RSpry()
+								tmpspry.Load(filepath)
+								sprylist = spryToList(tmpspry)
+								spryToPng(sprylist, tmpim.m_pPalette, outname, tmpim.m_sWidth, tmpim.m_sHeight)
+							else:
+								wkinter.alert("Failed to load base image for " + name + " - Skipping.", title = productName, icon = wkinter.WARNING)
+		elif message == "correct":
+			fname = wkinter.selectFile("Select a BMP", wkinter.OPEN, [["BMP files", ["*.bmp"]], ["All files", ["*"]]])
+			if fname != None:
+				outname = wkinter.selectFile("Save PNG file", wkinter.SAVE, [["PNG files", ["*.png"]], ["All files", ["*"]]])
+				if outname != None:
+					rspim = RSPiX.RImage()
+					if rspim.Load(fname) == 0:
+						bmpToPng(fname, outname, rspim.m_pPalette)
+						del rspim
+					else:
+						wkinter.alert("Failed to load BMP from " + fname, title = productName)
 		elif message != None:
 			wkinter.alert("This feature has not yet been implemented.", title = productName)
