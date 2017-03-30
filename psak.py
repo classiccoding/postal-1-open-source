@@ -62,7 +62,7 @@ def rImageToPImage(myImage, myPalette = None):
 	# Reserve 54 bytes for the BMP header
 	size = 54
 	
-	# Get the size of the image data.
+	# Get the size of the image data
 	size += myImage.m_ulSize
 
 	# Reserve space for the palette
@@ -109,7 +109,7 @@ def spritesToPImage(mySprites, myPalette, imWidth = 0, imHeight = 0):
 	
 	return finalImage
 
-# Converts a list of Sprites to PNG and saves it.
+# Convert a list of Sprites to PNG and saves it.
 def spryToPng(mySprites, palette, outname, imWidth, imHeight):
 	if not outname.endswith(".png"):
 		outname += ".png"
@@ -117,7 +117,7 @@ def spryToPng(mySprites, palette, outname, imWidth, imHeight):
 	image.save(outname, transparency = 0, optimize = 1)
 	del image
 
-# Saves a BMP file's contents to a PNG file with a passed palette.
+# Save a BMP file's contents to a PNG file with a passed palette.
 def bmpToPng(fname, outname, palette):
 	inim = PIL.Image.open(fname)
 	outim = PIL.Image.new("P", inim.size)
