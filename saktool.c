@@ -350,8 +350,10 @@ void add_sak(const char* sakfile, sak_file *sak, const char* mask, const char* f
         {
             if(dir->d_type==DT_DIR) {
                 if((strcmp(dir->d_name,".")!=0 && strcmp(dir->d_name, "..")!=0)) {
-                    strcpy(next, current);
-                    strcat(next, "/");
+                    if(current) {
+                        strcpy(next, current);
+                        strcat(next, "/");
+                    }
                     strcat(next, dir->d_name);
                     add_sak(sakfile, sak, mask, folder, next);
                 }

@@ -383,7 +383,7 @@ bindir :
 	mkdir -p $(BINDIR)/libs
 
 $(EBINDIR)/%.o: $(SRCDIR)/%.c
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -c -g -o $@ $< $(CFLAGS)
 
 saktool: $(EBINDIR) $(EOBJS) $(ELIBS)
 	$(LINKER) -o saktool $(EOBJS) $(ELDFLAGS) $(ELIBS)
