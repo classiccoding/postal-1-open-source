@@ -154,6 +154,11 @@ uint8_t* allocateFile(uint32_t bytes)
 	return (uint8_t *) malloc(bytes);
 }
 
+FILE* myFdOpen(int fd, const char* mode)
+{
+	return fdopen(fd, mode);
+}
+
 #define getter(name, type) type name ( type * buf, uintptr_t pos ) { return * ( buf + pos ); }
 
 getter(getByte, uint8_t);

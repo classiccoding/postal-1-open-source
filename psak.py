@@ -23,6 +23,14 @@ dirPath = os.path.dirname(os.path.realpath(__file__))
 
 productName = "POSTAL Swiss Army Knife"
 
+# Exception classes.
+
+class RSPiXError(Exception):
+	"""An RSPiX function failed."""
+
+class NotPalettedException(Exception):
+	"""splitPImage() got a non-paletted image."""
+
 # Backend functions.
 
 # Convert Spry to Python list of Sprites.
@@ -88,12 +96,86 @@ def rImageToPImage(myImage, myPalette = None):
 	# Load file into PIL Image
 	return PIL.Image.open(myOutFile)
 
+# Convert PIL Image to RSPiX Image.
+def pImageToRImage(myImage):
+	outIm = RSPiX.RImage()
+	outIm.Init()
+	
+	# Create a Python memory (?) file object with an FS node
+	# It would be nicer to avoid the file system and just use a TemporaryFile.
+	# Possibly write to it, copy its contents into a list, save that into an RFile,
+	# and load that RFile. FIXME
+	outBmp = tempfile.NamedTemporaryFile(suffix = ".bmp")
+	
+	# Save the image to it
+	myImage.save(outBmp)
+	
+	# Load BMP into RImage
+	if outIm.Load(outBmp.name) != 0:
+		raise RSPiXError
+	outBmp.close()
+	
+	# Convert BMP to FSPR8 and remove palette information
+	outIm.Convert(outIm.FSPR8)
+	outIm.DestroyPalette()
+	
+	return outIm
+
+# Split a list into evenly sized chunks. Taken from StackOverflow.
+def splitlist(l, n):
+	for i in range(0, len(l), n):
+		yield l[i:i + n]
+
+# Split PIL Image into a list of chunks of up to 64x64, with size and coordinates.
+def splitPImage(myImage):
+	if myImage.mode != "P":
+		raise NotPalettedException
+	rawdata = list(myImage.getdata())
+	data = list(splitlist(rawdata, myImage.width)) # List of rows of image
+	chunks = []
+	(x, y) = (0, 0)
+	while True:
+		yjump = 1
+		while True:
+			xjump = 1
+			if data[y][x] != 0:
+				xjump = min(64, myImage.width - x)
+				yjump = min(64, myImage.height - y)
+				chdata = []
+				for row in data[y:y + yjump]:
+					for pixel in row[x:x + xjump]:
+						chdata.append(pixel)
+				chunks.append( {"location": (x, y), "size": (xjump, yjump), "data": chdata} )
+				print("Adding chunk of size {0} at location {1}".format((xjump, yjump), (x, y)))
+			x += xjump
+			if x == myImage.width:
+				x = 0
+				break
+		y += yjump
+		if y == myImage.height:
+			break
+	for chunk in chunks:
+		newim = PIL.Image.new(myImage.mode, chunk["size"])
+		newim.palette = myImage.palette
+		newim.putdata(chunk["data"])
+		del chunk["data"]
+		chunk["pimage"] = newim
+	return chunks
+
+# Convert one PIL Image to Python list of Sprites.
+def pImageToSprites(myImage):
+	chunks = splitPImage(myImage)
+	for chunk in chunks:
+		chunk["rimage"] = pImageToRImage(chunk["pimage"])
+		del chunk["pimage"]
+	return (chunks, [RSPiX.RSprite(chunk["location"][0], chunk["location"][1], idx, 0, chunk["size"][0], chunk["size"][1], 0, chunk["rimage"]) for idx, chunk in enumerate(chunks)])
+
 # Convert Python list of Sprites to one PIL Image.
 def spritesToPImage(mySprites, myPalette, imWidth = 0, imHeight = 0):
 	myImages = []
 
 	for sprite in mySprites:
-		myImages.append([(sprite.m_sX, sprite.m_sY), rImageToPImage(sprite.m_pImage, myPalette)])
+		myImages.append([(sprite.m_sX, sprite.m_sY),  rImageToPImage(sprite.m_pImage, myPalette)])
 		right = sprite.m_sX + sprite.m_lWidth
 		bottom = sprite.m_sY + sprite.m_lHeight
 		if right > imWidth:
@@ -109,8 +191,8 @@ def spritesToPImage(mySprites, myPalette, imWidth = 0, imHeight = 0):
 	
 	return finalImage
 
-# Convert a list of Sprites to PNG and saves it.
-def spryToPng(mySprites, palette, outname, imWidth, imHeight):
+# Convert a list of Sprites to PNG and save it.
+def spritesToPng(mySprites, palette, outname, imWidth, imHeight):
 	if not outname.endswith(".png"):
 		outname += ".png"
 	image = spritesToPImage(mySprites, palette, imWidth, imHeight)
@@ -124,6 +206,14 @@ def bmpToPng(fname, outname, palette):
 	outim.putpalette(paletteToList(palette))
 	outim.paste(inim, (0, 0))
 	outim.save(outname, transparency = 0, optimize = 1)
+
+# Convert a PNG file (or any image file, theoretically) to Spry and save it.
+def pngToSpry(fname, outname):
+	inim = PIL.Image.open(fname)
+	(chunks, spriteList) = pImageToSprites(inim)
+	outSpry = listToSpry(spriteList)
+	outSpry.Save(outname)
+	spriteList = spryToList(outSpry) # Empty the Spry so it doesn't destroy the sprites
 
 # Start the program.
 if __name__ == "__main__":
@@ -165,7 +255,7 @@ if __name__ == "__main__":
 			outname = wkinter.selectFile("Save PNG file", wkinter.SAVE, [["PNG files", ["*.png"]], ["All files", ["*"]]])
 			if outname != None:
 				sprylist = spryToList(currobj)
-				spryToPng(sprylist, suppobj.m_pPalette, outname)
+				spritesToPng(sprylist, suppobj.m_pPalette, outname, suppobj.m_sWidth, suppobj.m_sHeight)
 				currobj = listToSpry(sprylist)
 		elif message == "batchpng":
 			fname = wkinter.selectFile("Select a directory", wkinter.DIR, [["Directory", ["*"]]])
@@ -181,7 +271,7 @@ if __name__ == "__main__":
 								tmpspry = RSPiX.RSpry()
 								tmpspry.Load(filepath)
 								sprylist = spryToList(tmpspry)
-								spryToPng(sprylist, tmpim.m_pPalette, outname, tmpim.m_sWidth, tmpim.m_sHeight)
+								spritesToPng(sprylist, tmpim.m_pPalette, outname, tmpim.m_sWidth, tmpim.m_sHeight)
 							else:
 								wkinter.alert("Failed to load base image for " + name + " - Skipping.", title = productName, icon = wkinter.WARNING)
 		elif message == "correct":
