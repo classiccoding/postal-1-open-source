@@ -413,10 +413,10 @@ RSPiX_wrap.cxx: RSPiX.i
 	sed -i "s/(Node \\*/(RFList< RSprite \\* >::Pointer/g" RSPiX_wrap.cxx
 
 RSPiX_wrap.o: RSPiX.i RSPiX_wrap.cxx
-	$(CC) -c RSPiX_wrap.cxx $(CFLAGS) $(shell python2-config --cflags)
+	$(CXX) -c RSPiX_wrap.cxx $(CFLAGS) $(shell python2-config --cflags)
 
 _RSPiX.so: $(BINDIR) picon $(RSOBJS) RSPiX.i RSPiX_wrap.cxx RSPiX_wrap.o $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/ameliorate.o
-	$(CC) RSPiX_wrap.o $(RSOBJS) $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/ameliorate.o -o _RSPiX.so $(LDFLAGS) $(LIBS) $(shell python2-config --libs) $(CFLAGS)
+	$(CXX) RSPiX_wrap.o $(RSOBJS) $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/ameliorate.o -o _RSPiX.so $(LDFLAGS) $(LIBS) $(shell python2-config --libs) $(CFLAGS)
 
 swig:
 	BINDIR=binpic $(MAKE) -e _RSPiX.so
