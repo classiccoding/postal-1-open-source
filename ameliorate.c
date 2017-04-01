@@ -53,7 +53,7 @@ box* am_chop(char* indata, long width, long height)
 				/* Shrink the box against existing boxes. */
 				for (long myy = box2->y + box2->h; myy > box2->y; myy--)
 				{
-					if (memcmp(map + myy, cmp + myy, box2->w))
+					if (memcmp(map + width * myy + box2->x, cmp + width * myy + box2->x, box2->w))
 						box2->h--;
 					else break;
 				}
