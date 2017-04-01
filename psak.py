@@ -101,19 +101,23 @@ def pImageToRImage(myImage):
 	outIm = RSPiX.RImage()
 	outIm.Init()
 	
-	# Create a Python memory (?) file object with an FS node
-	# It would be nicer to avoid the file system and just use a TemporaryFile.
-	# Possibly write to it, copy its contents into a list, save that into an RFile,
-	# and load that RFile. FIXME
-	outBmp = tempfile.NamedTemporaryFile(suffix = ".bmp")
+	# Create a Python memory file object
+	outBmp = tempfile.TemporaryFile()
 	
 	# Save the image to it
-	myImage.save(outBmp)
+	myImage.save(outBmp, "bmp")
 	
 	# Load BMP into RImage
-	if outIm.Load(outBmp.name) != 0:
-		raise RSPiXError
+	outBmp.seek(0)
+	myData = outBmp.read()
 	outBmp.close()
+	mem = RSPiX.allocateFile(len(myData))
+	myFile = RSPiX.RFile()
+	myFile.Open(mem, len(myData), myFile.LittleEndian)
+	myFile.Write(myData, len(myData))
+	myFile.Seek(0, os.SEEK_SET)
+	if outIm.Load(myFile) != 0:
+		raise RSPiXError
 	
 	# Convert BMP to FSPR8 and remove palette information
 	outIm.Convert(outIm.FSPR8)
