@@ -91,10 +91,7 @@ box* am_chop(char* indata, long width, long height)
 							break;
 						}
 					}
-					if (edge)
-					{
-						box2->h--;
-					}
+					if (edge) box2->h--; else break;
 				}
 				
 				for (long myx = x + box2->w - 1; myx >= x; myx--)
@@ -108,10 +105,7 @@ box* am_chop(char* indata, long width, long height)
 							break;
 						}
 					}
-					if (edge)
-					{
-						box2->w--;
-					}
+					if (edge) box2->w--; else break;
 				}
 				
 				/* Copy the data into the box and edit the map. */
