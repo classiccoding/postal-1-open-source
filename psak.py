@@ -139,11 +139,15 @@ def splitPImage(myImage):
 	while box:
 		newim = PIL.Image.new(myImage.mode, (box.w, box.h))
 		newim.palette = myImage.palette
-		print(len(box.data))
-		print(box.w * box.h)
-		newim.putdata([ord(c) for c in box.data])
+		print("This chunk is {0} pixels in size (width: {1}, height: {2})".format(box.w * box.h, box.w, box.h))
+		print("am_chop returned {0} pixels for this chunk".format(len(box.data)))
+		#newim.putdata([ord(c) for c in box.data])
 		chunks.append( {"location": (box.x, box.y), "size": (box.w, box.h), "pimage": newim} )
 		box = box.next
+		print("-----")
+	
+	print("am_chop returned {0} chunks in total.".format(len(chunks)))
+	raise Exception
 	
 	return chunks
 
