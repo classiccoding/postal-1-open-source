@@ -31,9 +31,7 @@ box* am_chop(char* indata, long width, long height)
 	box* box1 = NULL;					/* Storage for finished box */
 	box* box2 = NULL;					/* Storage for current box */
 	char* map = malloc(width * height);	/* Mask of already split data */
-	char* cmp = malloc(width * height); /* For memcmp; always empty */
 	memset(map, 0, width * height);
-	memset(cmp, 0, width * height);
 	
 	for (long y = 0; y < height; y++)
 	{
@@ -53,14 +51,18 @@ box* am_chop(char* indata, long width, long height)
 				if (box2->h > height - y) box2->h = height - y;
 				
 				/* Shrink the box against existing boxes. */
-				for (long myy = y + box2->h - 1; myy >= box2->y; myy--)
+				for (long myy = y + box2->h - 1; myy >= y; myy--)
 				{
-					if (memcmp(map + GET_PIXEL(x, myy), cmp + GET_PIXEL(x, myy), box2->w))
-						box2->h--;
-					else break;
+					for (long myx = x; myx < x + box2->w; myx++)
+					{
+						if (map[GET_PIXEL(myx, myy)])
+						{
+							box2->h--;
+							break;
+						}
+					}
 				}
 				
-				/* Writing this loop gave me a headache. */
 				for (long myx = x + box2->w - 1; myx >= x; myx--)
 				{
 					for (long myy = y; myy < y + box2->h; myy++)
@@ -93,6 +95,5 @@ box* am_chop(char* indata, long width, long height)
 	}
 	
 	free(map);
-	free(cmp);
 	return start;
 }
