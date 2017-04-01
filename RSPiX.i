@@ -146,6 +146,8 @@ typedef RFList<RSprite*> ListOfSprites;
 
 %inline %{
 
+FILE* fopen (const char* filename, const char* mode);
+
 RSprite* ppRSprDereference(RSprite** myPtr)
 {
 	return *myPtr;
@@ -154,11 +156,6 @@ RSprite* ppRSprDereference(RSprite** myPtr)
 uint8_t* allocateFile(uint32_t bytes)
 {
 	return (uint8_t *) malloc(bytes);
-}
-
-FILE* myFdOpen(int fd, const char* mode)
-{
-	return fdopen(fd, mode);
 }
 
 char getBoxDataByte(box* myBox, long pos)
