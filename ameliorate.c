@@ -21,9 +21,11 @@
 */
 
 #include <stdlib.h>
+#include <stdbool.h>
 #include "ameliorate.h"
 
 #define GET_PIXEL(x, y) ((y) * width + x)
+#define MAX_CHUNK_SIZE 64
 
 box* am_chop(char* indata, long width, long height)
 {
@@ -42,7 +44,7 @@ box* am_chop(char* indata, long width, long height)
 				/* Initialise a box. */
 				box2 = malloc(sizeof(box));
 				box2->next = NULL;
-				box2->w = box2->h = 64;
+				box2->w = box2->h = MAX_CHUNK_SIZE;
 				box2->x = x;
 				box2->y = y;
 				
@@ -72,6 +74,43 @@ box* am_chop(char* indata, long width, long height)
 							box2->w--;
 							break;
 						}
+					}
+				}
+				
+				/* Shrink the box against transparency. */
+				bool edge;
+				
+				for (long myy = y + box2->h - 1; myy >= y; myy--)
+				{
+					edge = true;
+					for (long myx = x; myx < x + box2->w; myx++)
+					{
+						if (indata[GET_PIXEL(myx, myy)])
+						{
+							edge = false;
+							break;
+						}
+					}
+					if (edge)
+					{
+						box2->h--;
+					}
+				}
+				
+				for (long myx = x + box2->w - 1; myx >= x; myx--)
+				{
+					edge = true;
+					for (long myy = y; myy < y + box2->h; myy++)
+					{
+						if (indata[GET_PIXEL(myx, myy)])
+						{
+							edge = false;
+							break;
+						}
+					}
+					if (edge)
+					{
+						box2->w--;
 					}
 				}
 				

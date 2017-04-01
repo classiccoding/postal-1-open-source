@@ -174,7 +174,7 @@ response = chooser.run()
 chooser.hide()
 result = chooser.get_filename()
 chooser.destroy()
-if result:
+if result and response == gtk.RESPONSE_OK:
 	sys.stdout.write(result)
 """
 
