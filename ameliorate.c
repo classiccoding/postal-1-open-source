@@ -37,7 +37,7 @@ box* am_chop(char* indata, long width, long height)
 	{
 		for (long x = 0; x < width; x++)
 		{
-			if (indata[x * y] && !map[x * y])
+			if (indata[(y - 1) * width + x] && !map[(y - 1) * width + x])
 			{
 				/* Initialise a box. */
 				box2 = malloc(sizeof(box));
@@ -51,7 +51,7 @@ box* am_chop(char* indata, long width, long height)
 				if (box2->h > height - y) box2->h = height - y;
 				
 				/* Shrink the box against existing boxes. */
-				for (long myy = box2->y + box2->h; myy > box2->y; myy--)
+				for (long myy = box2->y + box2->h - 1; myy >= box2->y; myy--)
 				{
 					if (memcmp(map + width * myy + box2->x, cmp + width * myy + box2->x, box2->w))
 						box2->h--;
@@ -59,9 +59,9 @@ box* am_chop(char* indata, long width, long height)
 				}
 				
 				/* Writing this loop gave me a headache. */
-				for (long myx = box2->x + box2->w; myx > box2->x; myx--)
+				for (long myx = box2->x + box2->w - 1; myx >= box2->x; myx--)
 				{
-					for (long myy = y; myy < y + box2->h; myy++)
+					for (long myy = y - 1; myy < y + box2->h; myy++)
 					{
 						if (map[myy * width + myx])
 						{
@@ -75,8 +75,8 @@ box* am_chop(char* indata, long width, long height)
 				box2->data = malloc(box2->w * box2->h);
 				for (long myy = 0; myy < box2->h; myy++)
 				{
-					memcpy(box2->data + myy * box2->w, indata + myy * width + box2->x, box2->w);
-					memset(map + myy * width + box2->x, 1, box2->w);
+					memcpy(box2->data + myy * box2->w, indata + y * width + myy * width + box2->x, box2->w);
+					memset(map + y * width + myy * width + box2->x, 1, box2->w);
 				}
 				
 				/* Move the boxes along. */
