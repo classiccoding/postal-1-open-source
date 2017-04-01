@@ -23,6 +23,8 @@
 #include <stdlib.h>
 #include "ameliorate.h"
 
+#define GET_PIXEL(x, y) ((y) * width + x)
+
 box* am_chop(char* indata, long width, long height)
 {
 	box* start = NULL;					/* Return value */
@@ -33,37 +35,37 @@ box* am_chop(char* indata, long width, long height)
 	memset(map, 0, width * height);
 	memset(cmp, 0, width * height);
 	
-	for (long y = 1; y <= height; y++)
+	for (long y = 0; y < height; y++)
 	{
 		for (long x = 0; x < width; x++)
 		{
-			if (indata[(y - 1) * width + x] && !map[(y - 1) * width + x])
+			if (indata[GET_PIXEL(x, y)] && !map[GET_PIXEL(x, y)])
 			{
 				/* Initialise a box. */
 				box2 = malloc(sizeof(box));
 				box2->next = NULL;
 				box2->w = box2->h = 64;
 				box2->x = x;
-				box2->y = y - 1;
+				box2->y = y;
 				
 				/* Shrink the box against the edges of the image. */
 				if (box2->w > width - x) box2->w = width - x;
 				if (box2->h > height - y) box2->h = height - y;
 				
 				/* Shrink the box against existing boxes. */
-				for (long myy = box2->y + box2->h - 1; myy >= box2->y; myy--)
+				for (long myy = y + box2->h - 1; myy >= box2->y; myy--)
 				{
-					if (memcmp(map + width * myy + box2->x, cmp + width * myy + box2->x, box2->w))
+					if (memcmp(map + GET_PIXEL(x, myy), cmp + GET_PIXEL(x, myy), box2->w))
 						box2->h--;
 					else break;
 				}
 				
 				/* Writing this loop gave me a headache. */
-				for (long myx = box2->x + box2->w - 1; myx >= box2->x; myx--)
+				for (long myx = x + box2->w - 1; myx >= x; myx--)
 				{
-					for (long myy = y - 1; myy < y + box2->h; myy++)
+					for (long myy = y; myy < y + box2->h; myy++)
 					{
-						if (map[myy * width + myx])
+						if (map[GET_PIXEL(myx, myy)])
 						{
 							box2->w--;
 							break;
@@ -75,8 +77,8 @@ box* am_chop(char* indata, long width, long height)
 				box2->data = malloc(box2->w * box2->h);
 				for (long myy = 0; myy < box2->h; myy++)
 				{
-					memcpy(box2->data + myy * box2->w, indata + y * width + myy * width + box2->x, box2->w);
-					memset(map + y * width + myy * width + box2->x, 1, box2->w);
+					memcpy(box2->data + myy * box2->w, indata + GET_PIXEL(box2->x, y + myy), box2->w);
+					memset(map + GET_PIXEL(box2->x, y + myy), 1, box2->w);
 				}
 				
 				/* Move the boxes along. */
