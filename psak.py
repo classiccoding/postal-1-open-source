@@ -148,7 +148,12 @@ def splitPImage(myImage):
 def pImageToSprites(myImage):
 	chunks = splitPImage(myImage)
 	for chunk in chunks:
-		chunk["rimage"] = pImageToRImage(chunk["pimage"])
+		try:
+			chunk["rimage"] = pImageToRImage(chunk["pimage"])
+		except SystemError:
+			# FIXME: Wtf is actually happening here?
+			# Workaround for now is just pass an empty one
+			chunk["rimage"] = RSPiX.RImage()
 		del chunk["pimage"]
 	return (chunks, [RSPiX.RSprite(chunk["location"][0], chunk["location"][1], idx, 0, chunk["size"][0], chunk["size"][1], 0, chunk["rimage"]) for idx, chunk in enumerate(chunks)])
 
@@ -246,6 +251,12 @@ if __name__ == "__main__":
 				sprylist = spryToList(currobj)
 				spritesToPng(sprylist, suppobj.m_pPalette, outname, suppobj.m_sWidth, suppobj.m_sHeight)
 				currobj = listToSpry(sprylist)
+		elif message == "convsay":
+			fname = wkinter.selectFile("Select a PNG file", wkinter.OPEN, [["PNG files", ["*.png"]], ["All files", ["*"]]])
+			if fname != None:
+				outname = wkinter.selectFile("Save Spry file", wkinter.SAVE, [["Spry files", ["*.say"]], ["All files", ["*"]]])
+				if outname != None:
+					pngToSpry(fname, outname)
 		elif message == "batchpng":
 			fname = wkinter.selectFile("Select a directory", wkinter.DIR, [["Directory", ["*"]]])
 			if fname != None:
@@ -263,6 +274,25 @@ if __name__ == "__main__":
 								spritesToPng(sprylist, tmpim.m_pPalette, outname, tmpim.m_sWidth, tmpim.m_sHeight)
 							else:
 								wkinter.alert("Failed to load base image for " + name + " - Skipping.", title = productName, icon = wkinter.WARNING)
+		elif message == "batchsay":
+			dirname = wkinter.selectFile("Select a directory", wkinter.DIR, [["Directory", ["*"]]])
+			if dirname != None:
+				interest = []
+				for subdir, dirs, files in os.walk(dirname):
+					for fname in files:
+						filepath = subdir + os.sep + fname
+						if filepath.endswith(".png"):
+							outname = filepath[:-4] + ".say"
+							interest.append((filepath, outname))
+				if len(interest) > 0:
+					wkinter.syncGtkMessage(navigate)("progress.html")
+					while message != "ready":
+						message = webRecv()
+					for idx, (fname, outname) in enumerate(interest):
+						webSend("document.getElementById('fname').innerHTML = 'Converting {0}';".format(fname))
+						webSend("setprog({0}, {1});".format(idx, len(interest)))
+						pngToSpry(fname, outname)
+					wkinter.syncGtkMessage(navigate)(uri)
 		elif message == "correct":
 			fname = wkinter.selectFile("Select a BMP", wkinter.OPEN, [["BMP files", ["*.bmp"]], ["All files", ["*"]]])
 			if fname != None:
