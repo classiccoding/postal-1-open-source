@@ -8,7 +8,8 @@ SRCDIR := .
 ifeq ($(PANDORA),1)
   macosx := false
   CPUARCH := arm
-  CC := g++
+  CC := gcc
+  CXX := g++
   LINKER := g++
   steamworks := false
   CFLAGS += -mcpu=cortex-a8 -mfpu=neon -mfloat-abi=softfp -ftree-vectorize -ffast-math -DPANDORA
@@ -16,7 +17,8 @@ ifeq ($(PANDORA),1)
 else ifeq ($(ODROID),1)
   macosx := false
   CPUARCH := arm
-  CC := g++
+  CC := gcc
+  CXX := g++
   LINKER := g++
   steamworks := false
   CFLAGS += -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=hard -ftree-vectorize -ffast-math -DODROID
@@ -39,19 +41,22 @@ endif
 ifeq ($(strip $(target)),linux_x86)
   macosx := false
   CPUARCH := x86
-  CC := g++
+  CC := gcc
+  CXX := g++
   LINKER := g++ -m32
 endif
 ifeq ($(strip $(target)),linux_x86_64)
   macosx := false
   CPUARCH := x86_64
-  CC := g++
+  CC := gcc
+  CXX := g++
   LINKER := g++
 endif
 ifeq ($(strip $(target)),macosx_x86)
   macosx := true
   CPUARCH := x86
-  CC := g++
+  CC := gcc
+  CXX := g++
   LINKER := g++
 endif
 
@@ -338,7 +343,7 @@ $(BINDIR)/%.o: $(SRCDIR)/%.s
 	$(CC) $(CFLAGS) -DELF -x assembler-with-cpp -o $@ -c $<
 
 $(BINDIR)/%.o: $(SRCDIR)/%.cpp
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CXX) -c -o $@ $< $(CFLAGS)
 
 $(BINDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -410,8 +415,8 @@ RSPiX_wrap.cxx: RSPiX.i
 RSPiX_wrap.o: RSPiX.i RSPiX_wrap.cxx
 	$(CC) -c RSPiX_wrap.cxx $(CFLAGS) $(shell python2-config --cflags)
 
-_RSPiX.so: $(BINDIR) picon $(RSOBJS) RSPiX.i RSPiX_wrap.cxx RSPiX_wrap.o $(BINDIR)/WishPiX/Spry/spry.o
-	$(CC) RSPiX_wrap.o $(RSOBJS) $(BINDIR)/WishPiX/Spry/spry.o -o _RSPiX.so $(LDFLAGS) $(LIBS) $(shell python2-config --libs) $(CFLAGS)
+_RSPiX.so: $(BINDIR) picon $(RSOBJS) RSPiX.i RSPiX_wrap.cxx RSPiX_wrap.o $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/ameliorate.o
+	$(CC) RSPiX_wrap.o $(RSOBJS) $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/ameliorate.o -o _RSPiX.so $(LDFLAGS) $(LIBS) $(shell python2-config --libs) $(CFLAGS)
 
 swig:
 	BINDIR=binpic $(MAKE) -e _RSPiX.so

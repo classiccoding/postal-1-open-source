@@ -70,6 +70,7 @@ char** _argv;
 #include "ORANGE/ImageTools/lasso.h"
 typedef RFList<RSprite*> ListOfSprites;
 #include "WishPiX/Spry/spry.h"
+#include "ameliorate.h"
 %}
 
 %include <stdint.i>
@@ -141,6 +142,7 @@ typedef RFList<RSprite*> ListOfSprites;
 %include "ORANGE/ImageTools/lasso.h"
 %template(ListOfSprites) RFList<RSprite*>;
 %include "WishPiX/Spry/spry.h"
+%include "ameliorate.h"
 
 %inline %{
 
