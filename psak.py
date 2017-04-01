@@ -194,7 +194,14 @@ def pngToSpry(fname, outname):
 	inim = PIL.Image.open(fname)
 	(chunks, spriteList) = pImageToSprites(inim)
 	outSpry = listToSpry(spriteList)
-	outSpry.Save(outname)
+	
+	# An irritating characteristic of RSPiX is file out, because it
+	# automatically prepends the user's PrefPath to any paths it gets -
+	# even absolute ones. The solution is to use fopen()... dumb.
+	outFile = RSPiX.RFile()
+	outFile.Open(RSPiX.fopen(outname, "wb"), outFile.LittleEndian, outFile.Binary)
+	outSpry.Save(outFile)
+	outFile.Close()
 	spriteList = spryToList(outSpry) # Empty the Spry so it doesn't destroy the sprites
 
 # Start the program.
