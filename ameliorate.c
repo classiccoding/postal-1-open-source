@@ -63,7 +63,7 @@ box* am_chop(char* indata, long width, long height)
 				{
 					for (long myy = y; myy < y + box2->h; myy++)
 					{
-						if (map[myx * myy])
+						if (map[myy * width + myx])
 						{
 							box2->w--;
 							break;
