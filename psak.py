@@ -17,7 +17,7 @@
 
 # GUI for working with the proprietary file formats used in RSPiX.
 
-import RSPiX, PIL.Image, tempfile, wkinter, os
+import RSPiX, PIL.Image, tempfile, wkinter, os, array
 
 dirPath = os.path.dirname(os.path.realpath(__file__))
 
@@ -127,39 +127,24 @@ def splitlist(l, n):
 		yield l[i:i + n]
 
 # Split PIL Image into a list of chunks of up to 64x64, with size and coordinates.
+# Effectively a wrapper for ameliorate's "am_chop".
 def splitPImage(myImage):
 	if myImage.mode != "P":
 		raise NotPalettedException
-	rawdata = list(myImage.getdata())
-	data = list(splitlist(rawdata, myImage.width)) # List of rows of image
+	data = array.array("B", myImage.getdata()).tostring()
+	box = RSPiX.am_chop(data, myImage.width, myImage.height)
+	del data
 	chunks = []
-	(x, y) = (0, 0)
-	while True:
-		yjump = 1
-		while True:
-			xjump = 1
-			if data[y][x] != 0:
-				xjump = min(64, myImage.width - x)
-				yjump = min(64, myImage.height - y)
-				chdata = []
-				for row in data[y:y + yjump]:
-					for pixel in row[x:x + xjump]:
-						chdata.append(pixel)
-				chunks.append( {"location": (x, y), "size": (xjump, yjump), "data": chdata} )
-				print("Adding chunk of size {0} at location {1}".format((xjump, yjump), (x, y)))
-			x += xjump
-			if x == myImage.width:
-				x = 0
-				break
-		y += yjump
-		if y == myImage.height:
-			break
-	for chunk in chunks:
-		newim = PIL.Image.new(myImage.mode, chunk["size"])
+	
+	while box:
+		newim = PIL.Image.new(myImage.mode, (box.w, box.h))
 		newim.palette = myImage.palette
-		newim.putdata(chunk["data"])
-		del chunk["data"]
-		chunk["pimage"] = newim
+		print(len(box.data))
+		print(box.w * box.h)
+		newim.putdata([ord(c) for c in box.data])
+		chunks.append( {"location": (box.x, box.y), "size": (box.w, box.h), "pimage": newim} )
+		box = box.next
+	
 	return chunks
 
 # Convert one PIL Image to Python list of Sprites.
