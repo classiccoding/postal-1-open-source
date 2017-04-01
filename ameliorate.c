@@ -75,8 +75,8 @@ box* am_chop(char* indata, long width, long height)
 				box2->data = malloc(box2->w * box2->h);
 				for (long myy = 0; myy < box2->h; myy++)
 				{
-					memcpy(box2->data + myy * box2->w, indata + myy * width, box2->w);
-					memset(map + myy * width, 1, box2->w);
+					memcpy(box2->data + myy * box2->w, indata + myy * width + box2->x, box2->w);
+					memset(map + myy * width + box2->x, 1, box2->w);
 				}
 				
 				/* Move the boxes along. */
