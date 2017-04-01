@@ -149,12 +149,7 @@ SRCS := \
 	menus.cpp \
 	play.cpp \
 	SampleMaster.cpp \
-	title.cpp \
-	WishPiX/Menu/menu.cpp \
-	WishPiX/Prefs/prefline.cpp \
-	WishPiX/Prefs/prefs.cpp \
-	WishPiX/ResourceManager/resmgr.cpp \
-	WishPiX/Spry/spry.cpp
+	title.cpp
 
 RSSRCS := \
 	RSPiX/Src/BLUE/unix/Bdebug.cpp \
