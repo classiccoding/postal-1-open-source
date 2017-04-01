@@ -161,6 +161,11 @@ FILE* myFdOpen(int fd, const char* mode)
 	return fdopen(fd, mode);
 }
 
+char getBoxDataByte(box* myBox, long pos)
+{
+	return *( myBox->data + pos );
+}
+
 #define getter(name, type) type name ( type * buf, uintptr_t pos ) { return * ( buf + pos ); }
 
 getter(getByte, uint8_t);
