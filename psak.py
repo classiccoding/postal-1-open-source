@@ -121,11 +121,6 @@ def pImageToRImage(myImage):
 	
 	return outIm
 
-# Split a list into evenly sized chunks. Taken from StackOverflow.
-def splitlist(l, n):
-	for i in range(0, len(l), n):
-		yield l[i:i + n]
-
 # Split PIL Image into a list of chunks of up to 64x64, with size and coordinates.
 # Effectively a wrapper for ameliorate's "am_chop".
 def splitPImage(myImage):
