@@ -18,7 +18,7 @@
 # An extended version of David Baird's threaded GTK/Webkit interface
 # code. Features some horrifying extensions by me for subwindows.
 
-import gtk, gobject, sys, subprocess, thread, threading, webkit, Queue
+import gtk, gobject, thread, threading, webkit, Queue, py2py
 
 # DAVID BAIRD'S ORIGINAL FUNCTIONS (Although, modified a bit by me)
 
@@ -125,20 +125,6 @@ class Global(object):
 
 # MY NEW FUNCTIONS
 
-# Put escape characters into a string so it can be placed into a
-# subscript. I hope these are the only characters where this is
-# important.
-def dblEscape(string):
-	return string.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n")
-
-# Invoke a brand new instance of Python to run a script passed as a
-# string. Returns anything put on stdout. I told you it was horrifying.
-def runSubscript(script):
-	process = subprocess.Popen([sys.executable, "-c", script], stdout=subprocess.PIPE)
-	(output, err) = process.communicate()
-	exitCode = process.wait()
-	return output
-
 # Pop up a GTK alert.
 alertFun = """
 import gtk
@@ -157,7 +143,7 @@ ERROR = int(gtk.MESSAGE_ERROR)
 OTHER = int(gtk.MESSAGE_OTHER)
 
 def alert(message, icon = ERROR, title = ""):
-	runSubscript(alertFun.format(dblEscape(message), icon, dblEscape(title)))
+	py2py.runSubscript(alertFun.format(py2py.dblEscape(message), icon, py2py.dblEscape(title)))
 
 # Pop up a GTK file selector dialog. Returns the file chosen, or None if
 # the user cancelled.
@@ -185,5 +171,5 @@ SAVE = (int(gtk.FILE_CHOOSER_ACTION_SAVE), gtk.STOCK_SAVE)
 DIR = (int(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER), gtk.STOCK_OPEN)
 
 def selectFile(title, (action, icon), filters):
-	fname = runSubscript(fselectFun.format(dblEscape(title), action, icon, filters))
+	fname = py2py.runSubscript(fselectFun.format(py2py.dblEscape(title), action, icon, filters))
 	return None if fname == "" else fname # Python ternary is stupid
