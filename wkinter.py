@@ -73,6 +73,7 @@ def launchBrowser(title, uri, echo = True, htmlLocation = "."):
 	
 	messageQueue = Queue.Queue()
 	
+	# Push new titles onto the Python Queue.
 	def titleChanged(widget, frame, title):
 		if title != "null":
 			messageQueue.put(title)
@@ -82,7 +83,7 @@ def launchBrowser(title, uri, echo = True, htmlLocation = "."):
 	settings = browser.get_settings()
 	settings.set_property("enable-default-context-menu", False)
 	
-	# Push new titles onto the Python Queue.
+	# Get new titles off the Python Queue.
 	def webRecv():
 		if messageQueue.empty():
 			return None
