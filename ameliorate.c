@@ -25,7 +25,7 @@
 #include "ameliorate.h"
 
 #define GET_PIXEL(x, y) ((y) * width + x)
-#define MAX_CHUNK_SIZE 64
+#define DEF_CHUNK_SIZE 64
 
 box* am_chop(char* indata, long width, long height)
 {
@@ -44,7 +44,7 @@ box* am_chop(char* indata, long width, long height)
 				/* Initialise a box. */
 				box2 = malloc(sizeof(box));
 				box2->next = NULL;
-				box2->w = box2->h = MAX_CHUNK_SIZE;
+				box2->w = box2->h = DEF_CHUNK_SIZE;
 				box2->x = x;
 				box2->y = y;
 				
@@ -108,12 +108,45 @@ box* am_chop(char* indata, long width, long height)
 					if (edge) box2->w--; else break;
 				}
 				
+				/* Expand the box, searching backwards. */
+				for (long myy = y; myy >= 0; myy--)
+				{
+					edge = true;
+					for (long myx = x; myx < x + box2->w; myx++)
+					{
+						if (indata[GET_PIXEL(myx, myy)])
+						{
+							edge = false;
+							break;
+						}
+					}
+					if (edge) break;
+					box2->h++;
+					box2->y--;
+				}
+				
+				for (long myx = x; myx >= 0; myx--)
+				{
+					edge = true;
+					for (long myy = box2->y; myy < box2->y + box2->h; myy++)
+					{
+						if (indata[GET_PIXEL(myx, myy)])
+						{
+							edge = false;
+							break;
+						}
+					}
+					if (edge) break;
+					box2->w++;
+					box2->x--;
+				}
+				
 				/* Copy the data into the box and edit the map. */
 				box2->data = malloc(box2->w * box2->h);
 				for (long myy = 0; myy < box2->h; myy++)
 				{
-					memcpy(box2->data + myy * box2->w, indata + GET_PIXEL(box2->x, y + myy), box2->w);
-					memset(map + GET_PIXEL(box2->x, y + myy), 1, box2->w);
+					memcpy(box2->data + myy * box2->w, indata + GET_PIXEL(box2->x, box2->y + myy), box2->w);
+					memset(map + GET_PIXEL(box2->x, box2->y + myy), 1, box2->w);
 				}
 				
 				/* Move the boxes along. */
