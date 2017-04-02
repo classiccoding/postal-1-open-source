@@ -125,7 +125,7 @@ def pImageToRImage(myImage):
 	
 	return outIm
 
-# Split PIL Image into a list of chunks of up to 64x64, with size and coordinates.
+# Split PIL Image into a list of chunks with size and coordinates.
 # Effectively a wrapper for ameliorate's "am_chop".
 def splitPImage(myImage):
 	if myImage.mode != "P":
