@@ -8,7 +8,8 @@ SRCDIR := .
 ifeq ($(PANDORA),1)
   macosx := false
   CPUARCH := arm
-  CC := g++
+  CC := gcc
+  CXX := g++
   LINKER := g++
   steamworks := false
   CFLAGS += -mcpu=cortex-a8 -mfpu=neon -mfloat-abi=softfp -ftree-vectorize -ffast-math -DPANDORA
@@ -16,7 +17,8 @@ ifeq ($(PANDORA),1)
 else ifeq ($(ODROID),1)
   macosx := false
   CPUARCH := arm
-  CC := g++
+  CC := gcc
+  CXX := g++
   LINKER := g++
   steamworks := false
   CFLAGS += -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=hard -ftree-vectorize -ffast-math -DODROID
@@ -39,19 +41,22 @@ endif
 ifeq ($(strip $(target)),linux_x86)
   macosx := false
   CPUARCH := x86
-  CC := g++
+  CC := gcc
+  CXX := g++
   LINKER := g++ -m32
 endif
 ifeq ($(strip $(target)),linux_x86_64)
   macosx := false
   CPUARCH := x86_64
-  CC := g++
+  CC := gcc
+  CXX := g++
   LINKER := g++
 endif
 ifeq ($(strip $(target)),macosx_x86)
   macosx := true
   CPUARCH := x86
-  CC := g++
+  CC := gcc
+  CXX := g++
   LINKER := g++
 endif
 
@@ -149,7 +154,9 @@ SRCS := \
 	menus.cpp \
 	play.cpp \
 	SampleMaster.cpp \
-	title.cpp \
+	title.cpp
+
+RSSRCS := \
 	RSPiX/Src/BLUE/unix/Bdebug.cpp \
 	RSPiX/Src/BLUE/unix/Bjoy.cpp \
 	RSPiX/Src/BLUE/unix/Bkey.cpp \
@@ -223,7 +230,9 @@ SRCS := \
 	RSPiX/Src/ORANGE/GUI/txt.cpp \
 	RSPiX/Src/CYAN/Unix/uDialog.cpp \
 	RSPiX/Src/CYAN/Unix/uColors.cpp \
-	RSPiX/Src/CYAN/Unix/uPath.cpp \
+	RSPiX/Src/CYAN/Unix/uPath.cpp
+
+WSRCS :=  \
 	WishPiX/Menu/menu.cpp \
 	WishPiX/Prefs/prefline.cpp \
 	WishPiX/Prefs/prefs.cpp \
@@ -232,6 +241,12 @@ SRCS := \
 
     # wtf is THIS?!
 	#RSPiX/Src/ORANGE/MTask/mtask.cpp \
+
+SRCS += $(RSSRCS)
+SRCS += $(WSRCS)
+
+RSOBJS := $(RSSRCS:.cpp=.o)
+RSOBJS := $(foreach f,$(RSOBJS),$(BINDIR)/$(f))
 
 OBJS0 := $(SRCS:.s=.o)
 OBJS1 := $(OBJS0:.c=.o)
@@ -328,7 +343,7 @@ $(BINDIR)/%.o: $(SRCDIR)/%.s
 	$(CC) $(CFLAGS) -DELF -x assembler-with-cpp -o $@ -c $<
 
 $(BINDIR)/%.o: $(SRCDIR)/%.cpp
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CXX) -c -o $@ $< $(CFLAGS)
 
 $(BINDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -388,6 +403,24 @@ $(EBINDIR)/%.o: $(SRCDIR)/%.c
 saktool: $(EBINDIR) $(EOBJS) $(ELIBS)
 	$(LINKER) -o saktool $(EOBJS) $(ELDFLAGS) $(ELIBS)
 
+picon:
+	$(eval CFLAGS += -fPIC -shared)
+
+RSPiX_wrap.cxx: RSPiX.i
+	swig -c++ -python -IRSPiX/Src RSPiX.i 
+	# Idk if there's a way to fix this "properly"
+	sed -i "s/ Node \\*/ RFList< RSprite \\* >::Pointer /g" RSPiX_wrap.cxx
+	sed -i "s/(Node \\*/(RFList< RSprite \\* >::Pointer/g" RSPiX_wrap.cxx
+
+RSPiX_wrap.o: RSPiX.i RSPiX_wrap.cxx
+	$(CXX) -c RSPiX_wrap.cxx $(CFLAGS) $(shell python2-config --cflags)
+
+_RSPiX.so: $(BINDIR) picon $(RSOBJS) RSPiX.i RSPiX_wrap.cxx RSPiX_wrap.o $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/ameliorate.o
+	$(CXX) RSPiX_wrap.o $(RSOBJS) $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/ameliorate.o -o _RSPiX.so $(LDFLAGS) $(LIBS) $(shell python2-config --libs) $(CFLAGS)
+
+swig:
+	BINDIR=binpic $(MAKE) -e _RSPiX.so
+
 $(EBINDIR) :
 	$(MAKE) ebindir
 
@@ -403,5 +436,6 @@ clean:
 	#rm -f $(SRCDIR)/parser/lex.yy.c
 	rm -rf $(EBINDIR)
 	rm -f saktool
+	rm -f RSPiX_wrap.c RSPiX_wrap.cxx RSPiX_wrap.o _RSPiX.so RSPiX.py
 
 # end of Makefile ...
