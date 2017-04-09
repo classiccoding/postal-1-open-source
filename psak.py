@@ -108,7 +108,7 @@ def pImageToMImage(myImage):
 	outBmp.seek(0)
 	myData = outBmp.read()
 	outBmp.close()
-	blob = PythonMagick.Blob(myData, len(myData))
+	blob = PythonMagick.Blob(myData)
 	
 	# Load Blob into MImage
 	return PythonMagick.Image(blob)
