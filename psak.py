@@ -17,7 +17,7 @@
 
 # GUI for working with the proprietary file formats used in RSPiX.
 
-import RSPiX, PIL.Image, tempfile, wkinter, os, array
+import RSPiX, PIL.Image, tempfile, wkinter, os, array, PythonMagick
 
 dirPath = os.path.dirname(os.path.realpath(__file__))
 
@@ -96,21 +96,34 @@ def rImageToPImage(myImage, myPalette = None):
 	# Load file into PIL Image
 	return PIL.Image.open(myOutFile)
 
-# Convert PIL Image to RSPiX Image.
-def pImageToRImage(myImage):
-	outIm = RSPiX.RImage()
-	outIm.Init()
-	
+# Convert PIL Image to PythonMagick Image.
+def pImageToMImage(myImage):
 	# Create a Python memory file object
 	outBmp = tempfile.TemporaryFile()
 	
 	# Save the image to it
 	myImage.save(outBmp, "bmp")
 	
-	# Load BMP into RImage
+	# Load BMP into Blob
 	outBmp.seek(0)
 	myData = outBmp.read()
 	outBmp.close()
+	blob = PythonMagick.Blob(myData, len(myData))
+	
+	# Load Blob into MImage
+	return PythonMagick.Image(blob)
+	
+# Convert PythonMagick Image to RSPiX Image.
+def mImageToRImage(myImage):
+	outIm = RSPiX.RImage()
+	outIm.Init()
+	
+	# Save BMP into Blob
+	blob = PythonMagick.Blob()
+	myImage.write(blob)
+	
+	# Load Blob's data into RImage
+	myData = blob.data
 	mem = RSPiX.allocateFile(len(myData))
 	myFile = RSPiX.RFile()
 	myFile.Open(mem, len(myData), myFile.LittleEndian)
@@ -145,11 +158,14 @@ def splitPImage(myImage):
 	return chunks
 
 # Convert one PIL Image to Python list of Sprites.
-def pImageToSprites(myImage):
+def pImageToSprites(myImage, palname):
 	chunks = splitPImage(myImage)
 	for chunk in chunks:
 		try:
-			chunk["rimage"] = pImageToRImage(chunk["pimage"])
+			mimage = pImageToMImage(chunk["pimage"])
+			palimage = PythonMagick.Image(palname)
+			mimage.map(palimage)
+			chunk["rimage"] = mImageToRImage(mimage)
 		except SystemError:
 			# FIXME: Wtf is actually happening here?
 			# Workaround for now is just pass an empty one
@@ -195,9 +211,9 @@ def bmpToPng(fname, outname, palette):
 	outim.save(outname, transparency = 0, optimize = 1)
 
 # Convert a PNG file (or any image file, theoretically) to Spry and save it.
-def pngToSpry(fname, outname):
+def pngToSpry(fname, palname, outname):
 	inim = PIL.Image.open(fname)
-	(chunks, spriteList) = pImageToSprites(inim)
+	(chunks, spriteList) = pImageToSprites(inim, palname)
 	outSpry = listToSpry(spriteList)
 	
 	# An irritating characteristic of RSPiX is file out, because it
@@ -215,7 +231,7 @@ if __name__ == "__main__":
 
 	uri = "home.html"
 	
-	(currobj, suppobj) = (None, None)
+	currobj = suppobj = None
 	
 	browser, webRecv, webSend, navigate = wkinter.syncGtkMessage(wkinter.launchBrowser)(productName, uri, echo = False, htmlLocation = dirPath + "/psak_pages")
 
@@ -238,12 +254,12 @@ if __name__ == "__main__":
 								message = webRecv()
 							webSend("setsay('{0}', '{1}');".format(fname, str(currobj.m_listSprites.GetCount())))
 						else:
-							del suppobj
+							currobj = suppobj = None
 							wkinter.alert("Failed to load Spry from " + fname, title = productName)
 					else:
 						wkinter.alert("Failed to load RImage from " + basename, title = productName)
 		elif message == "home":
-			(currobj, suppobj) = (None, None)
+			currobj = suppobj = None
 			wkinter.syncGtkMessage(navigate)(uri)
 		elif message == "convpng":
 			outname = wkinter.selectFile("Save PNG file", wkinter.SAVE, [["PNG files", ["*.png"]], ["All files", ["*"]]])
@@ -256,7 +272,12 @@ if __name__ == "__main__":
 			if fname != None:
 				outname = wkinter.selectFile("Save Spry file", wkinter.SAVE, [["Spry files", ["*.say"]], ["All files", ["*"]]])
 				if outname != None:
-					pngToSpry(fname, outname)
+					basename = fname[:-7] + ".bmp"
+					if not os.path.isfile(basename):
+						wkinter.alert("PSAK also requires access to the hood's base image for palette information. The file could not be found. Please locate it manually.", icon = wkinter.INFO, title = productName)
+						basename = wkinter.selectFile("Select the hood base BMP", wkinter.OPEN, [["BMP files", ["*.bmp"]], ["All files", ["*"]]])
+					if basename != None:
+						pngToSpry(fname, basename, outname)
 		elif message == "batchpng":
 			fname = wkinter.selectFile("Select a directory", wkinter.DIR, [["Directory", ["*"]]])
 			if fname != None:
@@ -282,16 +303,20 @@ if __name__ == "__main__":
 					for fname in files:
 						filepath = subdir + os.sep + fname
 						if filepath.endswith(".png"):
-							outname = filepath[:-4] + ".say"
-							interest.append((filepath, outname))
+							basename = filepath[:-7] + ".bmp"
+							if os.path.isfile(basename):
+								outname = filepath[:-4] + ".say"
+								interest.append((filepath, basename, outname))
+							else:
+								wkinter.alert("Failed to load base image for " + fname + " - Skipping.", title = productName, icon = wkinter.WARNING)
 				if len(interest) > 0:
 					wkinter.syncGtkMessage(navigate)("progress.html")
 					while message != "ready":
 						message = webRecv()
-					for idx, (fname, outname) in enumerate(interest):
+					for idx, (fname, basename, outname) in enumerate(interest):
 						webSend("document.getElementById('fname').innerHTML = 'Converting {0}';".format(fname))
 						webSend("setprog({0}, {1});".format(idx, len(interest)))
-						pngToSpry(fname, outname)
+						pngToSpry(fname, basename, outname)
 					wkinter.syncGtkMessage(navigate)(uri)
 		elif message == "correct":
 			fname = wkinter.selectFile("Select a BMP", wkinter.OPEN, [["BMP files", ["*.bmp"]], ["All files", ["*"]]])
