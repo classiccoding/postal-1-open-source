@@ -102,7 +102,7 @@ def pImageToMImage(myImage):
 	outBmp = tempfile.TemporaryFile()
 	
 	# Save the image to it
-	myImage.save(outBmp, "bmp")
+	myImage.save(outBmp, "png")
 	
 	# Load BMP into Blob
 	outBmp.seek(0)
@@ -165,6 +165,7 @@ def pImageToSprites(myImage, palname):
 			mimage = pImageToMImage(chunk["pimage"])
 			palimage = PythonMagick.Image(palname)
 			mimage.map(palimage)
+			mimage.magick("bmp")
 			chunk["rimage"] = mImageToRImage(mimage)
 		except SystemError:
 			# FIXME: Wtf is actually happening here?
