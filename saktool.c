@@ -3,9 +3,18 @@
 #include <stdint.h>
 #include <string.h>
 
-// linux only for now
+
+
+#ifdef WIN32
+#include <direct.h>
+#define mkdir(x, y) _mkdir(x)
+#define mkstemp(x) _mktemp_s(x, 4096)
+
+#include <sys/types.h>
+#endif
+
 #include <sys/stat.h>
-#include <dirent.h>
+#include "dirent.h"
 
 #define VER_MAJ     0
 #define VER_MIN     1
