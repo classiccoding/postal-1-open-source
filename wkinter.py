@@ -18,7 +18,7 @@
 # An extended version of David Baird's threaded GTK/Webkit interface
 # code. Features some horrifying extensions by me for subwindows.
 
-import gtk, gobject, thread, threading, webkit, Queue, py2py
+import gtk, gobject, thread, threading, webkit, Queue, doublepy
 
 # DAVID BAIRD'S ORIGINAL FUNCTIONS (Although, modified a bit by me)
 
@@ -143,7 +143,7 @@ ERROR = int(gtk.MESSAGE_ERROR)
 OTHER = int(gtk.MESSAGE_OTHER)
 
 def alert(message, icon = ERROR, title = ""):
-	py2py.runSubscript(alertFun.format(py2py.dblEscape(message), icon, py2py.dblEscape(title)))
+	doublepy.runSubscript(alertFun.format(doublepy.dblEscape(message), icon, doublepy.dblEscape(title)))
 
 # Pop up a GTK file selector dialog. Returns the file chosen, or None if
 # the user cancelled.
@@ -171,5 +171,5 @@ SAVE = (int(gtk.FILE_CHOOSER_ACTION_SAVE), gtk.STOCK_SAVE)
 DIR = (int(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER), gtk.STOCK_OPEN)
 
 def selectFile(title, (action, icon), filters):
-	fname = py2py.runSubscript(fselectFun.format(py2py.dblEscape(title), action, icon, filters))
+	fname = doublepy.runSubscript(fselectFun.format(doublepy.dblEscape(title), action, icon, filters))
 	return None if fname == "" else fname # Python ternary is stupid
