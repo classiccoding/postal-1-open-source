@@ -15,9 +15,15 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
-# GUI for working with the proprietary file formats used in RSPiX.
+# Functions & GUI for working with the proprietary file formats used in RSPiX.
 
-import RSPiX, PIL.Image, tempfile, wkinter, os, array, PythonMagick
+import RSPiX, PIL.Image, tempfile, os, array, PythonMagick
+
+try:
+	import wkinter
+	gui = True
+except:
+	gui = False
 
 dirPath = os.path.dirname(os.path.realpath(__file__))
 
@@ -227,7 +233,7 @@ def pngToSpry(fname, palname, outname):
 	spriteList = spryToList(outSpry) # Empty the Spry so it doesn't destroy the sprites
 
 # Start the program.
-if __name__ == "__main__":
+if __name__ == "__main__" and gui:
 	wkinter.startGtkThread()
 
 	uri = "home.html"
