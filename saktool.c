@@ -14,7 +14,7 @@
 #endif
 
 #include <sys/stat.h>
-#include "dirent.h"
+#include "w_dirent.h"
 
 #define VER_MAJ     0
 #define VER_MIN     1
