@@ -17,7 +17,7 @@
 
 # Functions & GUI for working with the proprietary file formats used in RSPiX.
 
-import RSPiX, PIL.Image, tempfile, os, array, PythonMagick
+import RSPiX, PIL.Image, tempfile, os, array
 
 try:
 	import wkinter
@@ -55,14 +55,9 @@ def listToSpry(mySprites):
 		mySpry.m_listSprites.InsertTail(sprite)
 	return mySpry
 
-# Convert RSPiX Palette to Python list of R, G, B values.
-# Not tuples! It alternates. This seems to be the format PIL wants.
+# Convert RSPiX Palette to a Python list of tuples of R, G, B values.
 def paletteToList(myPalette):
-	myColours = []
-	for colour in range(myPalette.m_sStartIndex, myPalette.m_sNumEntries):
-		for func in [RSPiX.getRed, RSPiX.getGreen, RSPiX.getBlue]:
-			myColours.append(func(myPalette, colour))
-	return myColours
+	return [(func(myPalette, colour) for func in [RSPiX.getRed, RSPiX.getGreen, RSPiX.getBlue]) for colour in range(myPalette.m_sStartIndex, myPalette.m_sNumEntries)]
 
 # Convert RSPiX Image to PIL Image.
 def rImageToPImage(myImage, myPalette = None):
@@ -102,34 +97,21 @@ def rImageToPImage(myImage, myPalette = None):
 	# Load file into PIL Image
 	return PIL.Image.open(myOutFile)
 
-# Convert PIL Image to PythonMagick Image.
-def pImageToMImage(myImage):
+# Convert PIL Image to RSPiX Image.
+def pImageToRImage(myImage):
+	outIm = RSPiX.RImage()
+	outIm.Init()
+	
 	# Create a Python memory file object
 	outBmp = tempfile.TemporaryFile()
 	
 	# Save the image to it
-	myImage.save(outBmp, "png")
+	myImage.save(outBmp, "bmp")
 	
-	# Load BMP into Blob
+	# Load BMP into RImage
 	outBmp.seek(0)
 	myData = outBmp.read()
 	outBmp.close()
-	blob = PythonMagick.Blob(myData)
-	
-	# Load Blob into MImage
-	return PythonMagick.Image(blob)
-	
-# Convert PythonMagick Image to RSPiX Image.
-def mImageToRImage(myImage):
-	outIm = RSPiX.RImage()
-	outIm.Init()
-	
-	# Save BMP into Blob
-	blob = PythonMagick.Blob()
-	myImage.write(blob)
-	
-	# Load Blob's data into RImage
-	myData = blob.data
 	mem = RSPiX.allocateFile(len(myData))
 	myFile = RSPiX.RFile()
 	myFile.Open(mem, len(myData), myFile.LittleEndian)
@@ -164,15 +146,11 @@ def splitPImage(myImage):
 	return chunks
 
 # Convert one PIL Image to Python list of Sprites.
-def pImageToSprites(myImage, palname):
+def pImageToSprites(myImage):
 	chunks = splitPImage(myImage)
 	for chunk in chunks:
 		try:
-			mimage = pImageToMImage(chunk["pimage"])
-			palimage = PythonMagick.Image(palname)
-			mimage.map(palimage)
-			mimage.magick("bmp")
-			chunk["rimage"] = mImageToRImage(mimage)
+			chunk["rimage"] = pImageToRImage(chunk["pimage"])
 		except SystemError:
 			# FIXME: Wtf is actually happening here?
 			# Workaround for now is just pass an empty one
