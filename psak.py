@@ -39,6 +39,10 @@ class NotPalettedException(Exception):
 
 # Backend functions.
 
+# Split a list into segments of equal size.
+def splitList(l, n):
+	return [l[i:i + n] for i in range(0, len(l), n)]
+
 # Convert Spry to Python list of Sprites.
 # This empties the Spry.
 def spryToList(mySpry):
@@ -57,12 +61,31 @@ def listToSpry(mySprites):
 
 # Convert RSPiX Palette to Python list of R, G, B values.
 # Not tuples! It alternates. This seems to be the format PIL wants.
-def paletteToList(myPalette):
+def rPaletteToList(myPalette):
 	myColours = []
 	for colour in range(myPalette.m_sStartIndex, myPalette.m_sNumEntries):
 		for func in [RSPiX.getRed, RSPiX.getGreen, RSPiX.getBlue]:
 			myColours.append(func(myPalette, colour))
 	return myColours
+
+# Look up each item in a list on a map and replace it with the located
+# value.
+def mapData(data, datamap):
+	return [datamap[x] for x in data]
+
+# Use mapData() to map an image to a given palette.
+def mapImage(data, curr, target):
+	curr = splitList(curr, 3)
+	target = splitList(target, 3)
+	
+	# Fix* Index 0 transparency magic
+	# *results may vary
+	curr[0] = target[0]
+	
+	palmap = [target.index(x) for x in curr]
+	
+	return mapData(data, palmap)
+	
 
 # Convert RSPiX Image to PIL Image.
 def rImageToPImage(myImage, myPalette = None):
@@ -151,10 +174,13 @@ def splitPImage(myImage):
 	return chunks
 
 # Convert one PIL Image to Python list of Sprites.
-def pImageToSprites(myImage):
+def pImageToSprites(myImage, palname):
 	chunks = splitPImage(myImage)
+	srcPalette = myImage.getpalette()
+	destPalette = PIL.Image.open(palname).getpalette()
 	for chunk in chunks:
 		try:
+			chunk["pimage"].putdata(mapImage(list(chunk["pimage"].getdata()), srcPalette, destPalette))
 			chunk["rimage"] = pImageToRImage(chunk["pimage"])
 		except SystemError:
 			# FIXME: Wtf is actually happening here?
@@ -164,11 +190,18 @@ def pImageToSprites(myImage):
 	return (chunks, [RSPiX.RSprite(chunk["location"][0], chunk["location"][1], idx, 0, chunk["size"][0], chunk["size"][1], 0, chunk["rimage"]) for idx, chunk in enumerate(chunks)])
 
 # Convert Python list of Sprites to one PIL Image.
-def spritesToPImage(mySprites, myPalette, imWidth = 0, imHeight = 0):
+def spritesToPImage(mySprites, hoodName):
+	rHood = RSPiX.RImage()
+	rHood.Load(hoodName)
+	imWidth = rHood.m_sWidth
+	imHeight = rHood.m_sHeight
+	
+	pHood = PIL.Image.open(hoodName)
+	
 	myImages = []
 
 	for sprite in mySprites:
-		myImages.append([(sprite.m_sX, sprite.m_sY),  rImageToPImage(sprite.m_pImage, myPalette)])
+		myImages.append([(sprite.m_sX, sprite.m_sY),  rImageToPImage(sprite.m_pImage, rHood.m_pPalette)])
 		right = sprite.m_sX + sprite.m_lWidth
 		bottom = sprite.m_sY + sprite.m_lHeight
 		if right > imWidth:
@@ -177,7 +210,7 @@ def spritesToPImage(mySprites, myPalette, imWidth = 0, imHeight = 0):
 			imHeight = bottom
 
 	finalImage = PIL.Image.new("P", (imWidth, imHeight))
-	finalImage.putpalette(paletteToList(myPalette))
+	finalImage.palette = pHood.palette
 
 	for data in myImages:
 		finalImage.paste(data[1], data[0])
@@ -185,10 +218,10 @@ def spritesToPImage(mySprites, myPalette, imWidth = 0, imHeight = 0):
 	return finalImage
 
 # Convert a list of Sprites to PNG and save it.
-def spritesToPng(mySprites, palette, outname, imWidth, imHeight):
+def spritesToPng(mySprites, hoodName, outname):
 	if not outname.endswith(".png"):
 		outname += ".png"
-	image = spritesToPImage(mySprites, palette, imWidth, imHeight)
+	image = spritesToPImage(mySprites, hoodName)
 	image.save(outname, transparency = 0, optimize = 1)
 	del image
 
@@ -196,7 +229,7 @@ def spritesToPng(mySprites, palette, outname, imWidth, imHeight):
 def bmpToPng(fname, outname, palette):
 	inim = PIL.Image.open(fname)
 	outim = PIL.Image.new("P", inim.size)
-	outim.putpalette(paletteToList(palette))
+	outim.putpalette(rPaletteToList(palette))
 	outim.paste(inim, (0, 0))
 	outim.save(outname, transparency = 0, optimize = 1)
 
@@ -221,7 +254,7 @@ if __name__ == "__main__" and gui:
 
 	uri = "home.html"
 	
-	currobj = suppobj = None
+	currobj = None
 	
 	browser, webRecv, webSend, navigate = wkinter.syncGtkMessage(wkinter.launchBrowser)(productName, uri, echo = False, htmlLocation = dirPath + "/psak_pages")
 
@@ -235,27 +268,23 @@ if __name__ == "__main__" and gui:
 					wkinter.alert("PSAK also requires access to the hood's base image for palette information. The file could not be found. Please locate it manually.", icon = wkinter.INFO, title = productName)
 					basename = wkinter.selectFile("Select the hood base BMP", wkinter.OPEN, [["BMP files", ["*.bmp"]], ["All files", ["*"]]])
 				if basename != None:
-					suppobj = RSPiX.RImage()
-					if suppobj.Load(basename) == 0:
-						currobj = RSPiX.RSpry()
-						if currobj.Load(fname) == 0:
-							wkinter.syncGtkMessage(navigate)("spry.html")
-							while message != "ready":
-								message = webRecv()
-							webSend("setsay('{0}', '{1}');".format(fname, str(currobj.m_listSprites.GetCount())))
-						else:
-							currobj = suppobj = None
-							wkinter.alert("Failed to load Spry from " + fname, title = productName)
+					currobj = RSPiX.RSpry()
+					if currobj.Load(fname) == 0:
+						wkinter.syncGtkMessage(navigate)("spry.html")
+						while message != "ready":
+							message = webRecv()
+						webSend("setsay('{0}', '{1}');".format(fname, str(currobj.m_listSprites.GetCount())))
 					else:
-						wkinter.alert("Failed to load RImage from " + basename, title = productName)
+						currobj = None
+						wkinter.alert("Failed to load Spry from " + fname, title = productName)
 		elif message == "home":
-			currobj = suppobj = None
+			currobj = None
 			wkinter.syncGtkMessage(navigate)(uri)
 		elif message == "convpng":
 			outname = wkinter.selectFile("Save PNG file", wkinter.SAVE, [["PNG files", ["*.png"]], ["All files", ["*"]]])
 			if outname != None:
 				sprylist = spryToList(currobj)
-				spritesToPng(sprylist, suppobj.m_pPalette, outname, suppobj.m_sWidth, suppobj.m_sHeight)
+				spritesToPng(sprylist, basename, outname)
 				currobj = listToSpry(sprylist)
 		elif message == "convsay":
 			fname = wkinter.selectFile("Select a PNG file", wkinter.OPEN, [["PNG files", ["*.png"]], ["All files", ["*"]]])
@@ -277,14 +306,10 @@ if __name__ == "__main__" and gui:
 						if filepath.endswith(".say"):
 							basename = filepath[:-7] + ".bmp"
 							outname = filepath[:-4] + ".png"
-							tmpim = RSPiX.RImage()
-							if tmpim.Load(basename) == 0:
-								tmpspry = RSPiX.RSpry()
-								tmpspry.Load(filepath)
-								sprylist = spryToList(tmpspry)
-								spritesToPng(sprylist, tmpim.m_pPalette, outname, tmpim.m_sWidth, tmpim.m_sHeight)
-							else:
-								wkinter.alert("Failed to load base image for " + name + " - Skipping.", title = productName, icon = wkinter.WARNING)
+							tmpspry = RSPiX.RSpry()
+							tmpspry.Load(filepath)
+							sprylist = spryToList(tmpspry)
+							spritesToPng(sprylist, basename, outname)
 		elif message == "batchsay":
 			dirname = wkinter.selectFile("Select a directory", wkinter.DIR, [["Directory", ["*"]]])
 			if dirname != None:
