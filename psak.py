@@ -55,9 +55,14 @@ def listToSpry(mySprites):
 		mySpry.m_listSprites.InsertTail(sprite)
 	return mySpry
 
-# Convert RSPiX Palette to a Python list of tuples of R, G, B values.
+# Convert RSPiX Palette to Python list of R, G, B values.
+# Not tuples! It alternates. This seems to be the format PIL wants.
 def paletteToList(myPalette):
-	return [(func(myPalette, colour) for func in [RSPiX.getRed, RSPiX.getGreen, RSPiX.getBlue]) for colour in range(myPalette.m_sStartIndex, myPalette.m_sNumEntries)]
+	myColours = []
+	for colour in range(myPalette.m_sStartIndex, myPalette.m_sNumEntries):
+		for func in [RSPiX.getRed, RSPiX.getGreen, RSPiX.getBlue]:
+			myColours.append(func(myPalette, colour))
+	return myColours
 
 # Convert RSPiX Image to PIL Image.
 def rImageToPImage(myImage, myPalette = None):
