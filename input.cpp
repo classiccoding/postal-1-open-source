@@ -738,58 +738,28 @@ extern UINPUT GetLocalInput(				// Returns local input.
 		int16_t	sButtons	= 0;
 		int16_t	sDeltaX	= 360;
 
-		// If utilizing mouse input . . .
+		// If utilizing mouse input . . . //Can't use joy and mouse at the same time for now 
 		if (g_InputSettings.m_sUseMouse != FALSE && rspIsBackground() == FALSE)
-			{
-			int16_t	sPosX, sPosY;
-			int16_t	sThreshY;
-			rspGetMouse(&sPosX, &sPosY, &sButtons);
-			rspSetMouse(MOUSE_RESET_X, MOUSE_RESET_Y);
+		{
+			//int16_t	sPosX, sPosY;
+			//int16_t	sThreshY;
+			rspGetMouse(NULL, NULL, &sButtons);
+
+
 
 			// Tweak input values.  We reduce the sensitivity by a factor of 3 to make
 			// up for increased frame rates.
-			double	dDeltaRot	= (MOUSE_RESET_X - sPosX) * (g_InputSettings.m_dMouseSensitivityX / 3.0);
+			//double	dDeltaRot	= (MOUSE_RESET_X - sPosX) * (g_InputSettings.m_dMouseSensitivityX / 3.0);
 #if 1
-			// If positive round up . . .
-			if (dDeltaRot >= 0.0)
-				{
-				dDeltaRot	+= 0.5;
-				}
-			else	// Negative round down.
-				{
-				dDeltaRot	-= 0.5;
-				}
+			//Something had to be here...
+
 #endif
-			//TRACE("sDif = %d, dDeltaRot = %g\n", (MOUSE_RESET_X - sPosX), dDeltaRot);
+			//So. Do I need to set masks or not?
 
-			// Must cast to short before subtracting b/c this statement is really:
-			// sDeltaX = sDeltaX + dDeltaRot which became promoted to float before
-			// it was added and then truncated causing a bias in degree toward
-			// negative or rightward rotations.
-			sDeltaX	+= (int16_t)dDeltaRot;
 
-			sThreshY	= MOUSE_Y_THRESH;
-			if (g_InputSettings.m_dMouseSensitivityY > 0.0)
-				{
-				sThreshY	= int16_t( float(sThreshY) / g_InputSettings.m_dMouseSensitivityY);
-				}
-			else
-				{
-				// Infiniti.
-				sThreshY	*= 100;
-				}
+			
 
-			// If less than last time . . .
-			if (sDeltaX < 360)
-				input	|= INPUT_RIGHT;
-			else if (sDeltaX > 360)
-				input |= INPUT_LEFT;
-
-			if (sPosY < MOUSE_RESET_Y - sThreshY)
-				input	|= INPUT_FORWARD;
-			else if (sPosY > MOUSE_RESET_Y + sThreshY)
-				input |= INPUT_BACKWARD;
-			}
+		}
 
 #if defined(ALLOW_JOYSTICK)
 		U32	u32Buttons	= 0;
@@ -813,7 +783,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 				}
 			if (u32Axes & RSP_JOY_Y_POS)
 				{
-				input	|= INPUT_BACKWARD;
+				input	|= INPUT_MOVE_DOWN;
 				}
 			if (u32Axes & RSP_JOY_X_NEG)
 				{
@@ -836,10 +806,10 @@ extern UINPUT GetLocalInput(				// Returns local input.
 #endif	// defined(ALLOW_JOYSTICK)
 
 		if (IS_INPUT(CInputSettings::Forward))
-			input |= INPUT_FORWARD;
+			input |= INPUT_MOVE_UP /* INPUT_FORWARD */;
 
 		if (IS_INPUT(CInputSettings::Backward))
-			input |= INPUT_BACKWARD;
+			input |= INPUT_MOVE_DOWN /* INPUT_BACKWARD */ ;
 
 		// The run key function is toggled by the caps lock key.
 		// If the caps lock is on, run is walk.
@@ -868,35 +838,37 @@ extern UINPUT GetLocalInput(				// Returns local input.
 
 		if (IS_INPUT(CInputSettings::Left))
 			{
-			input	|= INPUT_LEFT;
+			//input	|= INPUT_LEFT;
+			input |= INPUT_MOVE_LEFT;
 			}
 
 		if (IS_INPUT(CInputSettings::Right))
 			{
-			input	|= INPUT_RIGHT;
+			//input	|= INPUT_RIGHT;
+			input |= INPUT_MOVE_RIGHT;
 			}
-
-		if (input & INPUT_LEFT)
+		            
+		if (input & INPUT_MOVE_LEFT /*INPUT_LEFT */)
 			{
-			input |= INPUT_LEFT;
+			input |= INPUT_MOVE_LEFT;   /*INPUT_LEFT */
 			// If last input had left rotation or this one has forward or reverse . . .
-			if (	(ms_inputLastLocal & INPUT_LEFT) 
-				||	(input & INPUT_FORWARD)
-				||	(input & INPUT_BACKWARD) )
+			if (	(ms_inputLastLocal & INPUT_MOVE_LEFT /*INPUT_LEFT */)
+				||	(input & INPUT_MOVE_UP)
+				||	(input & INPUT_MOVE_DOWN) )
 				{
 				// Adjust rotation.
 				double	dRate	= 0.0;	// Initialized for safety only.
 				// If fast specified . . .
-				switch (input & (INPUT_RUN | INPUT_FORWARD | INPUT_BACKWARD) )
+				switch (input & (INPUT_RUN | INPUT_MOVE_UP | INPUT_MOVE_DOWN) )
 					{
-					case (INPUT_RUN | INPUT_FORWARD):						// Forward fast.
-					case (INPUT_RUN | INPUT_BACKWARD):						// Backward fast.
-					case (INPUT_RUN | INPUT_FORWARD | INPUT_BACKWARD):	// Some fucked up fast case.
+					case (INPUT_RUN | INPUT_MOVE_UP):						// Forward fast.
+					case (INPUT_RUN | INPUT_MOVE_DOWN):						// Backward fast.
+					case (INPUT_RUN | INPUT_MOVE_UP | INPUT_MOVE_DOWN):	// Some fucked up fast case.
 						dRate	= g_InputSettings.m_dMovingFastDegreesPerSec;
 						break;
-					case INPUT_FORWARD:						// Forward normal.
-					case INPUT_BACKWARD:						// Backward normal.
-					case (INPUT_FORWARD | INPUT_BACKWARD):	// Some fucked up normal case.
+					case INPUT_MOVE_UP:						// Forward normal.
+					case INPUT_MOVE_DOWN:						// Backward normal.
+					case (INPUT_FORWARD | INPUT_MOVE_DOWN):	// Some fucked up normal case.
 						dRate	= g_InputSettings.m_dMovingSlowDegreesPerSec;
 						break;
 					case INPUT_RUN:							// Fast turn only.
@@ -922,27 +894,27 @@ extern UINPUT GetLocalInput(				// Returns local input.
 			// Range check occurs later.
 			}
 
-		if (input & INPUT_RIGHT)
+		if (input & INPUT_MOVE_RIGHT /*INPUT_RIGHT */)
 			{
-			input |= INPUT_RIGHT;
+			input |= INPUT_MOVE_RIGHT /*INPUT_RIGHT */;
 			// If last input had right rotation or this one has forward or reverse . . .
-			if (	(ms_inputLastLocal & INPUT_RIGHT) 
-				||	(input & INPUT_FORWARD)
-				||	(input & INPUT_BACKWARD) )
+			if (	(ms_inputLastLocal & INPUT_MOVE_RIGHT /*INPUT_RIGHT */)
+				||	(input & INPUT_MOVE_UP)
+				||	(input & INPUT_MOVE_DOWN) )
 				{
 				// Adjust rotation.
 				double	dRate	= 0.0;	// Initialized for safety only.
 				// If fast specified . . .
-				switch (input & (INPUT_RUN | INPUT_FORWARD | INPUT_BACKWARD) )
+				switch (input & (INPUT_RUN | INPUT_MOVE_UP | INPUT_MOVE_DOWN) )
 					{
-					case (INPUT_RUN | INPUT_FORWARD):						// Forward fast.
-					case (INPUT_RUN | INPUT_BACKWARD):						// Backward fast.
-					case (INPUT_RUN | INPUT_FORWARD | INPUT_BACKWARD):	// Some fucked up fast case.
+					case (INPUT_RUN | INPUT_MOVE_UP):						// Forward fast.
+					case (INPUT_RUN | INPUT_MOVE_DOWN):						// Backward fast.
+					case (INPUT_RUN | INPUT_MOVE_UP | INPUT_MOVE_DOWN):	// Some fucked up fast case.
 						dRate	= g_InputSettings.m_dMovingFastDegreesPerSec;
 						break;
-					case INPUT_FORWARD:						// Forward normal.
-					case INPUT_BACKWARD:						// Backward normal.
-					case (INPUT_FORWARD | INPUT_BACKWARD):	// Some fucked up normal case.
+					case INPUT_MOVE_UP:						// Forward normal.
+					case INPUT_MOVE_DOWN:						// Backward normal.
+					case (INPUT_MOVE_UP | INPUT_MOVE_DOWN):	// Some fucked up normal case.
 						dRate	= g_InputSettings.m_dMovingSlowDegreesPerSec;
 						break;
 					case INPUT_RUN:							// Fast turn only.

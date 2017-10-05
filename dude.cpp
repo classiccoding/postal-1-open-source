@@ -3022,7 +3022,8 @@ if (!demoCompat)
 				m_dAcc = ms_dAccUser;
 				m_dDrag = 0;
 
-				// Say which direction we want to go
+				//Depending on masks angle is adjusted to move in the apropirate direction (180 to -180)
+				// Say which direction we want to !!GO!!
 				if (input & INPUT_MOVE_UP)
 					m_dRotTS = 90 + (input & INPUT_MOVE_LEFT ? 45 : 0) + (input & INPUT_MOVE_RIGHT ? -45 : 0);
 				else if (input & INPUT_MOVE_DOWN)
@@ -3049,8 +3050,11 @@ if (!demoCompat)
 			{
 				// Say we're firing our weapon
 				input |= INPUT_FIRE;
-
-				// Then point in the correct direction
+				//I need to fire in arbitrary direction if talking about mouse... So...
+				//I just need to set this flag arbitray to update mouse angle relative to the dude
+				//Depending on masks angle is adjusted to move in the apropirate direction (180 to -180)
+				// Then POINT in the correct direction. What does this have to do with firing? 
+				//This is good for keyboard firing but not the mouse
 				if (input & INPUT_FIRE_UP)
 					m_dRot = 90 + (input & INPUT_FIRE_LEFT ? 45 : 0) + (input & INPUT_FIRE_RIGHT ? -45 : 0);
 				else if (input & INPUT_FIRE_DOWN)
@@ -3068,17 +3072,69 @@ if (!demoCompat)
 	//else
 		//m_bUseRotTS = false;
 }
+//Way to make it confusing pals.
 #ifdef ALLOW_TWINSTICK
 if (!demoCompat)
 {
-	GetDudeVelocity(&m_dJoyMoveVel, &m_dJoyMoveAngle);
+
+	m_dJoyFireAngle = 0.f;
+	
+	
+	if(g_InputSettings.m_sUseMouse && rspIsBackground() == FALSE)
+	{	
+		//Convert dude's coords to screen coords
+		m_dJoyMoveVel = 0.0f;
+		m_bJoyFire = false;
+
+		int16_t mousePosX = 0;
+		int16_t mousePosY = 0;
+
+		rspGetMouse(&mousePosX, &mousePosY, NULL);
+		
+		//Map3Dto2D(m_dX, m_dY, m_dZ, &sPosX, &sPosY);
+		//Keep mouse in a given circle
+		//CalcMousePos(sPosX, sPosY);
+		//Calculate 3d angle
+
+
+
+		//GetMouseAngle(m_pRealm, m_dX, m_dZ, &m_dJoyFireAngle);
+
+		//CalcMousePos(dPosX, dPosY);
+		//Since dPosX and dPosY are 3d mouse coords need to be converted to 3d
+		//To get the needed 3d angle
+		double mousePosX_3d = mousePosX;
+		double mousePosZ_3d = 0.0f;
+
+		//X seem to stay the same so I just need to map 2dY to 3dZ
+		m_pRealm->MapY2DtoZ3D((double)mousePosY, &mousePosZ_3d);
+
+		double dx = mousePosX_3d - m_dX;
+		double dy = m_dZ - mousePosZ_3d;
+
+
+		m_dJoyFireAngle = atan2(dy, dx) * (180 / M_PI);
+
+		if (m_dJoyFireAngle < 0)  m_dJoyFireAngle += 360;
+
+
+		m_dRot = m_dJoyFireAngle;
+
+	}//Twinstick
+	else {
+
+		GetDudeVelocity(&m_dJoyMoveVel, &m_dJoyMoveAngle);
+		m_bJoyFire = (bCanFire && GetDudeFireAngle(&m_dJoyFireAngle));
+
+	}
+
+	
 	if (!bCanMove)
 		m_dJoyMoveVel = 0;
 
-	m_dJoyFireAngle = 0.f;
-	m_bJoyFire = (bCanFire && GetDudeFireAngle(&m_dJoyFireAngle));
+
 	if (m_dJoyMoveVel > 0 || m_bJoyFire)
-	{
+	{	//Already took care of it above
 		// Setup movement
 		if (m_dJoyMoveVel > 0)
 		{
@@ -3091,9 +3147,9 @@ if (!demoCompat)
 			// Set up acceleration
 			m_dAcc = ms_dAccUser;
 			m_dDrag = 0;
-
 			// Say which direction we want to go
 			m_dRotTS = m_dJoyMoveAngle;
+						
 		}
 		else
 		{
@@ -3115,7 +3171,7 @@ if (!demoCompat)
 			m_dRot = m_dJoyFireAngle;
 		}
 		else
-			// otherwise, point in the direction we're going
+		
 			m_dRot = m_dJoyMoveAngle;
 	}
 }
@@ -3421,7 +3477,8 @@ else
 
 #else
 	// Update Velocities ////////////////////////////////////////////////////////
-
+	// Bloody hell? As if reading this code wasn't hard enough
+	// So velocity stuff for twinstick can be ignored just setting it to zero 
 #if defined(ALLOW_TWINSTICK)
 	if (!demoCompat && m_dJoyMoveVel != 0)
 		UpdateVelocities(dSeconds, dMaxForeVel * m_dJoyMoveVel, dMaxBackVel * m_dJoyMoveVel);
