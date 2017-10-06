@@ -2075,7 +2075,7 @@ class CPlayNet : public CPlay
 					if (pclient->IsLocalInputNeeded())
 						{
 						if (!pinfo->m_bInMenu && !pinfo->m_bChatting)
-							pclient->SetLocalInput(GetLocalInput(pinfo->Realm()) );
+							pclient->SetLocalInput(GetLocalInput(pinfo->Realm(), pinfo->Camera()) );
 						else
 							pclient->SetLocalInput(INPUT_IDLE);
 						}
@@ -3125,7 +3125,7 @@ class CPlayInput : public CPlay
 					if (!pinfo->IsMP())
 						{
 						// Set controls for the one-and-only dude now (allow cheats).
-						SetInput(0, GetLocalInput(prealm, pie));
+						SetInput(0, GetLocalInput(prealm, pinfo->Camera(), pie));
 						}
 
 					//==============================================================================
