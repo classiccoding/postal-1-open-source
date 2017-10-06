@@ -1297,6 +1297,7 @@ static int16_t SaveRealmAs(
 
 static void PlayRealm(				// Returns nothing.
 	CRealm*	prealm,					// In:  Realm to play.
+	CCamera* pcamera,  
 	CThing*	pthingSel);				// In:  Currently selected CThing which can
 											// be used to give PlayRealm() a hint on which
 											// of several things the user wants to use.
@@ -2768,7 +2769,7 @@ static bool DoInput(		// Returns true when done.
 						CancelDrag(prealm);
 
 						// Simulate playing the realm
-						PlayRealm(prealm, ms_pthingSel);
+						PlayRealm(prealm, pcamera,ms_pthingSel);
 
 						// Restore global camera.
 						ms_pcameraCur	= pcamera;
@@ -4072,6 +4073,7 @@ static int16_t SaveRealm(			// Returns 0 on success.
 ////////////////////////////////////////////////////////////////////////////////
 static void PlayRealm(
 	CRealm*	pEditRealm,				// In:  Realm to play.
+	CCamera* pcamera,
 	CThing*	pthingSel)				// In:  Currently selected CThing which can
 											// be used to give PlayRealm() a hint on which
 											// of several things the user wants to use.
@@ -4564,7 +4566,7 @@ static void PlayRealm(
 							// Get local player input and
 							// Set controls for the one-and-only CDude
 							// Allow cheats.
-							SetInput(0, GetLocalInput(prealm, &ie));
+							SetInput(0, GetLocalInput(prealm, pcamera, &ie));
 
 							// If exit requested . . .
 							if (bExitRequest == true)

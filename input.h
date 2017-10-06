@@ -119,6 +119,7 @@
 
 #include "RSPiX.h"
 #include "realm.h"
+#include "camera.h"
 #include "InputSettings.h"
 
 
@@ -328,6 +329,7 @@ extern bool InputIsDemoOver(void);		// Returns true when demo is over
 ////////////////////////////////////////////////////////////////////////////////
 extern UINPUT GetLocalInput(				// Returns local input structure.
 	CRealm* prealm,							// In:  Realm (used to access realm timer)
+	CCamera* camera,                     
 	RInputEvent* pie	= NULL);				// In:  Latest input event.  NULL to 
 													//	disable cheats in a way that will be
 													// harder to hack.
@@ -358,6 +360,7 @@ inline void SetInput(int16_t sDudeNumber, UINPUT input)
 	m_aInputs[sDudeNumber] = input;
 	}
 
+CCamera* Camera();
 
 #endif //INPUT_H
 ////////////////////////////////////////////////////////////////////////////////
