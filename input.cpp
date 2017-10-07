@@ -703,7 +703,7 @@ bool CanCycleThroughWeapons()
 	return bResult;
 }
 
-CCamera* g_pcamera;
+static CCamera* g_pcamera = NULL;
 
 CCamera* Camera() { return g_pcamera; }
 
@@ -745,7 +745,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 
 		//Overrides twinstick keyboard controls
 		// If utilizing mouse input . . .
-		if (FALSE != FALSE && rspIsBackground() == FALSE)
+		if (g_InputSettings.m_sUseNewMouse == FALSE && rspIsBackground() == FALSE)
 		{
 			int16_t	sPosX, sPosY;
 			int16_t	sThreshY;
@@ -798,7 +798,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 		}
 
 		//New mouse input
-		if (TRUE != FALSE && rspIsBackground() == FALSE) {
+		if (g_InputSettings.m_sUseNewMouse == TRUE && rspIsBackground() == FALSE) {
 			rspGetMouse(NULL, NULL, &sButtons);
 			g_pcamera = pcamera;
 		}

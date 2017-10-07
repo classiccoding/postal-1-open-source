@@ -716,7 +716,6 @@
 #include "game.h"
 #include "update.h"
 #include "realm.h"
-#include "camera.h"
 #include "localize.h"
 #include "hood.h"
 #include "bouy.h"
@@ -1526,29 +1525,6 @@ static int16_t PasteItem(	// Returns 0 on success.
 	int16_t		sX,			// In:  Location for new thing.
 	int16_t		sY,			// In:  Location for new thing.
 	int16_t		sZ);			// In:  Location for new thing.
-
-// Map a screen coordinate to a realm coordinate.
-// Note that this function's *psRealmY output is always
-// the height specified by the realm's attribute map
-// at the resulting *psRealmX, *psRealmZ.
-static void MapScreen2Realm(	// Returns nothing.
-	CRealm*	prealm,				// In:  Realm.
-	CCamera*	pcamera,				// In:  View of prealm.
-	int16_t sScreenX,				// In:  Screen x coord.
-	int16_t sScreenY,				// In:  Screen y coord.
-	int16_t* psRealmX,				// Out: Realm x coord.
-	int16_t* psRealmY,				// Out: Realm y coord (always via realm's height map).
-	int16_t* psRealmZ);				// Out: Realm z coord.
-
-// Map a realm coordinate to a screen coordinate.
-static void Maprealm2Screen(	// Returns nothing.
-	CRealm*	prealm,				// In:  Realm.
-	CCamera*	pcamera,				// In:  View of prealm.
-	int16_t		sRealmX,				// In:  Realm x coord.
-	int16_t		sRealmY,				// In:  Realm y coord.
-	int16_t		sRealmZ,				// In:  Realm z coord.
-	int16_t*	psScreenX,			// Out: Screen x coord.
-	int16_t*	psScreenY);			// Out: Screen y coord.
 
 // Blit attribute areas lit by the specified mask into the specified image.
 static void AttribBlit(			// Returns nothing.
@@ -7118,7 +7094,7 @@ static int16_t PasteItem(	// Returns 0 on success.
 // the height specified by the realm's attribute map
 // at the resulting *psRealmX, *psRealmZ.
 ////////////////////////////////////////////////////////////////////////////////
-static void MapScreen2Realm(	// Returns nothing.
+extern void MapScreen2Realm(	// Returns nothing.
 	CRealm*	prealm,				// In:  Realm.
 	CCamera*	pcamera,				// In:  View of prealm.
 	int16_t sScreenX,				// In:  Screen x coord.
@@ -7167,7 +7143,7 @@ static void MapScreen2Realm(	// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 // Map a realm coordinate to a screen coordinate.
 ////////////////////////////////////////////////////////////////////////////////
-static void Maprealm2Screen(	// Returns nothing.
+extern void Maprealm2Screen(	// Returns nothing.
 	CRealm*	prealm,				// In:  Realm.
 	CCamera*	pcamera,				// In:  View of prealm.
 	int16_t		sRealmX,				// In:  Realm x coord.

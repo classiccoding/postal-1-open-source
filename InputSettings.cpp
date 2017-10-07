@@ -234,7 +234,8 @@ CInputSettings::CInputSettings(void)
 	// them at anytime.
 	DefaultRotations();
 
-	m_sUseMouse							= FALSE;
+	m_sUseMouse						    = FALSE;
+	m_sUseNewMouse						= FALSE;
 	m_sUseJoy							= FALSE;
 
 	m_dMouseSensitivityX				= 1.00;	// 100%
@@ -275,6 +276,7 @@ int16_t CInputSettings::LoadPrefs(
 	pPrefs->GetVal("Input", "MouseSensitivityY", m_dMouseSensitivityY, &m_dMouseSensitivityY);
 
 	pPrefs->GetVal("Input", "UseMouse", m_sUseMouse, &m_sUseMouse);
+	pPrefs->GetVal("Input", "UseNewMouse", m_sUseNewMouse, &m_sUseNewMouse);
 
 
 	pPrefs->GetVal("Input", "UseJoystick", m_sUseJoy, &m_sUseJoy);
@@ -367,6 +369,7 @@ int16_t CInputSettings::SavePrefs(
 	pPrefs->SetVal("Input", "MouseSensitivityY", m_dMouseSensitivityY);
 
 	pPrefs->SetVal("Input", "UseMouse", m_sUseMouse);
+	pPrefs->SetVal("Input", "UseNewMouse", m_sUseNewMouse);
 
 	pPrefs->SetVal("Input", "UseJoystick", m_sUseJoy);
 
