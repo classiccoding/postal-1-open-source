@@ -1790,6 +1790,7 @@ extern Menu	menuControls =
 			{ g_pszControlsMenu_UseJoystick,					TRUE,			NULL,						NULL,				},
 #endif // defined(ALLOW_JOYSTICK)
 			{ g_pszControlsMenu_UseMouse,						TRUE,			NULL,						NULL,				},
+			{ "New Mouse Contr." ,                               TRUE,               NULL,               NULL                        },
 			{ g_pszControlsMenu_HorizMouseSensitivity,	TRUE,			NULL,						NULL,				},
 			{ g_pszControlsMenu_VertMouseSensitivity,		TRUE,			NULL,						NULL,				},
 			{ "",														FALSE,		NULL,						NULL,				},
@@ -4468,10 +4469,12 @@ static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
 		{
 		RGuiItem::ms_print.SetFont(DEFAULT_GUI_FONT_HEIGHT, &g_fontPostal);
 
+		RMultiBtn**	ppmb = NULL;
+
 #if defined(ALLOW_JOYSTICK)
 		int16_t	sMenuItem	= 4;
 
-		RMultiBtn**	ppmb	= (RMultiBtn**)&(pmenuCur->ami[sMenuItem++].pgui);
+		ppmb = (RMultiBtn**)&(pmenuCur->ami[sMenuItem++].pgui);
 		// Get check box for 'Use Joystick'.
 		if (rspGetResourceInstance(&g_resmgrShell, GUI_CHECKBOX_FILE, ppmb) == 0)
 			{
@@ -4503,6 +4506,21 @@ static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
 			TRACE("ControlsInit(): rspGetResource() failed.\n");
 			sRes	= 1;
 			}
+
+		ppmb = (RMultiBtn**)&(pmenuCur->ami[sMenuItem++].pgui);
+
+		//Menu Item 6. Use new mouse checkbox
+		if (rspGetResourceInstance(&g_resmgrShell, GUI_CHECKBOX_FILE, ppmb) == 0) {
+
+			(*ppmb)->m_sState = (g_InputSettings.m_sUseNewMouse != FALSE) ? 1 : 2;
+			(*ppmb)->Compose();
+		}
+		else
+		{
+			TRACE("ControlsInit(): rspGetResource() failed.\n");
+			sRes = 1;
+		}
+
 
 		// Get scrollbar for 'Mouse Sensitivity'.
 		if (rspGetResourceInstance(&g_resmgrShell, GUI_MOUSE_SENSITIVITY_FILE, &ms_psbMouseSensitivityX) == 0)
@@ -4554,10 +4572,11 @@ static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
 		}
 	else
 		{
+		RMultiBtn**	ppmb;
 #if defined(ALLOW_JOYSTICK)
 		int16_t	sMenuItem	= 4;
 
-		RMultiBtn**	ppmb	= (RMultiBtn**)&(pmenuCur->ami[sMenuItem++].pgui);
+		ppmb = (RMultiBtn**)&(pmenuCur->ami[sMenuItem++].pgui);
 		if (*ppmb)
 			{
 			// Store new mouse usage setting.
@@ -4581,6 +4600,18 @@ static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
 
 		// Clear menu's pointer.
 		pmenuCur->ami[sMenuItem++].pgui	= NULL;
+
+		//'Use New Mouse' code here
+		ppmb = (RMultiBtn**)&(pmenuCur->ami[sMenuItem].pgui);
+		if (*ppmb)
+		{
+			g_InputSettings.m_sUseNewMouse = ((*ppmb)->m_sState == 1) ? TRUE : FALSE;
+
+			// Release resource.
+			rspReleaseResourceInstance(&g_resmgrShell, ppmb);
+		}
+
+		pmenuCur->ami[sMenuItem++].pgui = NULL;
 
 		if (ms_psbMouseSensitivityX != NULL)
 			{
@@ -4636,6 +4667,13 @@ static bool ControlsChoice(	// Returns true to accept, false to deny choice.
 			// Toggle 'Use Mouse'.
 			ms_pmbCheckBox->NextState();
 			ms_pmbCheckBox->Compose();
+			break;
+		case 6:
+			// Toggle 'Use New Mouse'
+			RMultiBtn*	pmb = (RMultiBtn*)pmenuCurrent->ami[sMenuItem].pgui;
+			ASSERT(pmb->m_type == RGuiItem::MultiBtn);
+			pmb->NextState();
+			pmb->Compose();
 			break;
 		}
 

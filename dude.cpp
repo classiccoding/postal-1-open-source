@@ -2590,6 +2590,8 @@ void CDude::Update(void)
 		}
 	}
 
+static int16_t g_scaleX = 1;
+static int16_t g_scaleY = 1;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Attempts user motivated state transitions.
@@ -3078,7 +3080,8 @@ if (!demoCompat)
 	m_dJoyFireAngle = 0.f;
 	m_bJoyFire = (bCanFire && GetDudeFireAngle(&m_dJoyFireAngle));
 
-	if (TRUE != FALSE && rspIsBackground() == FALSE) {
+	//New mouse implementation. 
+	if (g_InputSettings.m_sUseNewMouse && rspIsBackground() == FALSE) {
 
 		m_bJoyFire = FALSE;
 		m_dJoyMoveVel = 0.f;
@@ -3088,46 +3091,36 @@ if (!demoCompat)
 		
 		int16_t dudePosX = 0;
 		int16_t dudePosY = 0;
-
+		
 		rspGetMouse(&mousePosX, &mousePosY, NULL);
 
 		/*     Trying to do calculation in 'global'  3d     */
-		//int16_t mousePosX_3d = mousePosX;
-		//int16_t mousePosZ_3d = 0;
+		
+		//int16_t mouseX_3d = 0;
+		//int16_t mouseY_3d = 0;
+		//int16_t mouseZ_3d = 0;
 
-		////X seem to stay the same so I just need to map 2dY to 3dZ
-		//m_pRealm->MapY2DtoZ3D(mousePosY, &mousePosZ_3d); 
+		//MapScreen2Realm(m_pRealm, Camera(), mousePosX, mousePosY, &mouseX_3d, &mouseY_3d, &mouseZ_3d);
 
-		//double deltaX = mousePosX_3d - m_dX;
-		//double deltaY = m_dZ - mousePosZ_3d;
-
-		/*       Trying to do calculation in 'local' 2d         */
+		////Map to global 2D
+		//m_pRealm->Map3Dto2D(mouseX_3d, mouseY_3d, mouseZ_3d, &mousePosX, &mousePosY);
 		//m_pRealm->Map3Dto2D(m_dX, m_dY, m_dZ, &dudePosX, &dudePosY);
 
-		//Maprealm2Screen()
-		// Map coordinate onto 2D viewing plane.
-		int16_t	sViewX2;
-		int16_t	sViewY2;
-		m_pRealm->Map3Dto2D(
-			m_dX,
-			m_dY,
-			m_dZ,
-			&sViewX2,
-			&sViewY2);
+		/*     Trying to do calculation in 'screen' 2d      */
 
-		// Offset to screen.
-		dudePosX = sViewX2 - Camera()->m_sScene2FilmX;
-		dudePosY = sViewY2 - Camera()->m_sScene2FilmY;
+		// Map coordinate onto 2D screen coords
+	
+		
+		Maprealm2Screen(m_pRealm, Camera(), m_dX, m_dY, m_dZ, &dudePosX, &dudePosY);
+		 
 
-		int16_t deltaXScreen = mousePosX - dudePosX;
-		int16_t deltaYScreen = dudePosY -  mousePosY;
+		int16_t deltaX = mousePosX - dudePosX;  //In either screen coords or in global 2d coords
+		int16_t deltaY = dudePosY -  mousePosY;
 
-		//Convert to psudo-2d-coords
-		//int16_t deltaX = deltaXScreen - (640 / 2);
-		//int16_t deltaY = (480 / 2) - deltaYScreen;
+		g_scaleX = abs(deltaX);
+		g_scaleY = abs(deltaY);
 
-
-		m_dJoyFireAngle = atan2(deltaYScreen, deltaXScreen) * (180 / M_PI);
+		m_dJoyFireAngle = atan2(deltaY, deltaX) * (180 / M_PI);
 		if (m_dJoyFireAngle < 0) m_dJoyFireAngle += 360;
 
 		m_dRot = m_dJoyFireAngle;
@@ -5483,25 +5476,37 @@ void CDude::Revive(				// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 void CDude::ShowTarget()
 {
+	//Old crossha
 	if (m_bTargetingHelpEnabled && m_bDead == false)
 	{
+		
 		// sAngle must be between 0 and 359.
-		int16_t sRotY = rspMod360((int16_t) m_dRot);
+		int16_t sRotY = rspMod360((int16_t)m_dRot);
 		int16_t sRangeXZ = 100;
-		int16_t sRadius = 20;
+		//This is unused
+		//int16_t sRadius = 20;
 
 		float	fRateX = COSQ[sRotY] * sRangeXZ;
 		float	fRateZ = -SINQ[sRotY] * sRangeXZ;
-		float	fRateY = 0.0;	// If we ever want vertical movement . . .
+
+		if (g_InputSettings.m_sUseNewMouse && rspIsBackground() == FALSE) {
+			fRateX = COSQ[sRotY] * g_scaleX;
+			fRateZ = -SINQ[sRotY] * g_scaleY;
+		}
+
+		
+		//float	fRateY = 0.0;	// If we ever want vertical movement . . .
 
 		// Set initial position to first point to check (NEVER checks original position).
-		float	fPosX = m_dX + fRateX;
-		float	fPosY = m_dY + fRateY;
-		float	fPosZ = m_dZ + fRateZ;
+		// !Unused
+		//float	fPosX = m_dX + fRateX;
+		//float	fPosY = m_dY + fRateY;
+		//float	fPosZ = m_dZ + fRateZ;
 
 		if (m_TargetSprite.m_psprParent)
 			m_TargetSprite.m_psprParent->RemoveChild(&m_TargetSprite);
 		((CThing3d*)this)->m_sprite.AddChild(&m_TargetSprite);
+
 		// Map from 3d to 2d coords
 		Map3Dto2D(
 			fRateX - m_sprite.m_sRadius / 2,
@@ -5509,6 +5514,8 @@ void CDude::ShowTarget()
 			fRateZ,
 			&m_TargetSprite.m_sX2,
 			&m_TargetSprite.m_sY2);
+		
+
 		m_TargetSprite.m_sInFlags &= ~CSprite::InHidden;
 		m_TargetSprite.m_sLayer = CRealm::LayerSprite16;
 	}

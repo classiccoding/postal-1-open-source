@@ -364,6 +364,7 @@
 #include "input.h"
 #include "PowerUp.h"
 #include "flag.h"
+#include "gameedit.h"  //Needed for mapping functions
 
 // First shot at a dude, which is a player-controlled character
 class CDude : public CCharacter
