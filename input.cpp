@@ -801,6 +801,10 @@ extern UINPUT GetLocalInput(				// Returns local input.
 		if (g_InputSettings.m_sUseNewMouse == TRUE && rspIsBackground() == FALSE) {
 			rspGetMouse(NULL, NULL, &sButtons);
 			g_pcamera = pcamera;
+
+			//Gonna move some mouse stuff here					
+			/*CListNode<CThing>* pln = prealm->m_aclassHeads[CThing::CDudeID].m_pnNext;
+			CDude* pdude = (CDude*)pln->m_powner;*/
 		}
 
 

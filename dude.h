@@ -498,7 +498,8 @@ class CDude : public CCharacter
 		double			m_dJoyMoveAngle;
 		bool			m_bJoyFire;
 		double			m_dJoyFireAngle;
-
+		//For mouse stuff
+		double          m_dRotateToAngle;
 
 
 	protected:

@@ -121,7 +121,7 @@
 #include "realm.h"
 #include "camera.h"
 #include "InputSettings.h"
-
+#include "dude.h"
 
 // Maximum number of dudes supported by this module.  Just about any value
 // will work, it merely uses up a few extra bytes per dude, and no extra

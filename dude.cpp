@@ -2590,8 +2590,13 @@ void CDude::Update(void)
 		}
 	}
 
+
+//Utility vars for mouse impl
 static int16_t g_scaleX = 1;
 static int16_t g_scaleY = 1;
+//static int screen_width = 640;
+//static int screen_height = 480;
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Attempts user motivated state transitions.
@@ -3005,7 +3010,109 @@ if (!demoCompat)
 
 	// "Twinstick" style inputs.
 if (!demoCompat)
-{
+{	
+	//New mouse implementation. 
+	if (g_InputSettings.m_sUseNewMouse && rspIsBackground() == FALSE) {
+
+		// Say we're using twinstick mode
+		m_bUseRotTS = true;
+
+		// Turn off the normal movement inputs if present
+		input &= ~(INPUT_FORWARD | INPUT_BACKWARD | INPUT_LEFT | INPUT_RIGHT);
+
+		if (bCanFire && Camera() != NULL) {
+
+			/*SDL_DisplayMode dm_Mode;
+			int i_Result = SDL_GetDesktopDisplayMode(0, &dm_Mode);
+			if (!i_Result) {
+				screen_width = dm_Mode.w;
+				screen_height = dm_Mode.h;
+			}*/
+
+
+			int16_t mousePosX = 0;
+			int16_t mousePosY = 0;
+
+			int16_t dudePosX = 0;
+			int16_t dudePosY = 0;
+
+			rspGetMouse(&mousePosX, &mousePosY, NULL);
+
+			/*     Trying to do calculation in 'global'  3d     */
+
+			int16_t mouseX_3d = 0;
+			int16_t mouseY_3d = 0;
+			int16_t mouseZ_3d = 0;
+
+			MapScreen2Realm(m_pRealm, Camera(), mousePosX, mousePosY, &mouseX_3d, &mouseY_3d, &mouseZ_3d);
+
+			mousePosX = mouseX_3d;
+			mousePosY = mouseZ_3d;
+
+			dudePosX = m_dX;
+			dudePosY = m_dZ;
+
+			/*     Trying to do calculation in 'screen' 2d      */
+
+			// Map coordinate onto 2D screen coords
+
+			/*
+			SDL_DisplayMode dm_Mode;
+			int i_Result = SDL_GetDesktopDisplayMode(0, &dm_Mode);
+			if (!i_Result)
+				addMode(dm_Mode.w, dm_Mode.h, 8);
+			*/
+
+			//Maprealm2Screen(m_pRealm, Camera(), m_dX, m_dY, m_dZ, &dudePosX, &dudePosY);
+
+
+			int16_t deltaX = mousePosX - dudePosX;  //In either screen coords or in global 2d coords
+			int16_t deltaY = dudePosY - mousePosY;
+
+			g_scaleX = abs(deltaX);
+			g_scaleY = abs(deltaY);
+
+			m_dRotateToAngle = atan2(deltaY, deltaX) * (180 / M_PI);
+			if (m_dRotateToAngle < 0) m_dRotateToAngle += 360;			
+
+			//Trying to make dude gradually rotate torwards the mouse pointer
+			double rotStep = (g_InputSettings.m_dMouseSensitivityX) * 10;
+			double deltaDiff = m_dRotateToAngle - m_dRot;
+
+			if (abs(deltaDiff) > 180) {
+				//Clockwise rotation should be negative
+				if (deltaDiff < 0) {
+					deltaDiff = (360 - m_dRot) + m_dRotateToAngle;
+				}
+				else if (deltaDiff > 0) {
+					deltaDiff = (m_dRotateToAngle - 360) - m_dRot;
+				}
+
+			}
+
+			if (abs(deltaDiff) < rotStep) {
+				m_dRot = m_dRotateToAngle;
+			}
+			else if (deltaDiff > 0) {
+				m_dRot += rotStep;
+			}
+			else if (deltaDiff < 0) {
+				m_dRot -= rotStep;
+			}
+
+			//Keep rotation from going negative 
+			if (m_dRot < 0) {
+				m_dRot += 360;
+			}
+			//Keep rotation from going over 360
+			if (m_dRot >= 360) {
+				m_dRot -= 360;
+			}
+
+		}
+
+	}
+
 	if ((input & INPUT_MOVE_UP) || (input & INPUT_MOVE_DOWN) || (input & INPUT_MOVE_LEFT) || (input & INPUT_MOVE_RIGHT)
 			|| (input & INPUT_FIRE_UP) || (input & INPUT_FIRE_DOWN) || (input & INPUT_FIRE_LEFT) || (input & INPUT_FIRE_RIGHT))
 	{
@@ -3047,6 +3154,7 @@ if (!demoCompat)
 		// Determine fire direction
 		if (bCanFire)
 		{
+			//Code for twinsticking on keyboard
 			if ((input & INPUT_FIRE_UP) || (input & INPUT_FIRE_DOWN) || (input & INPUT_FIRE_LEFT) || (input & INPUT_FIRE_RIGHT))
 			{
 				// Say we're firing our weapon
@@ -3061,10 +3169,11 @@ if (!demoCompat)
 					m_dRot = 180;
 				else if (input & INPUT_FIRE_RIGHT)
 					m_dRot = 0;
-			}
-			else
-				// otherwise, point in the direction we're going
+			}//Keyboard twinstick wouldn't quite work with mouse in use
+			else if (g_InputSettings.m_sUseNewMouse == FALSE) {
+				//otherwise, point in the direction we're going
 				m_dRot = m_dRotTS;
+			}
 		}
 	}
 	//else
@@ -3079,52 +3188,6 @@ if (!demoCompat)
 
 	m_dJoyFireAngle = 0.f;
 	m_bJoyFire = (bCanFire && GetDudeFireAngle(&m_dJoyFireAngle));
-
-	//New mouse implementation. 
-	if (g_InputSettings.m_sUseNewMouse && rspIsBackground() == FALSE) {
-
-		m_bJoyFire = FALSE;
-		m_dJoyMoveVel = 0.f;
-
-		int16_t mousePosX = 0;
-		int16_t mousePosY = 0;
-		
-		int16_t dudePosX = 0;
-		int16_t dudePosY = 0;
-		
-		rspGetMouse(&mousePosX, &mousePosY, NULL);
-
-		/*     Trying to do calculation in 'global'  3d     */
-		
-		//int16_t mouseX_3d = 0;
-		//int16_t mouseY_3d = 0;
-		//int16_t mouseZ_3d = 0;
-
-		//MapScreen2Realm(m_pRealm, Camera(), mousePosX, mousePosY, &mouseX_3d, &mouseY_3d, &mouseZ_3d);
-
-		////Map to global 2D
-		//m_pRealm->Map3Dto2D(mouseX_3d, mouseY_3d, mouseZ_3d, &mousePosX, &mousePosY);
-		//m_pRealm->Map3Dto2D(m_dX, m_dY, m_dZ, &dudePosX, &dudePosY);
-
-		/*     Trying to do calculation in 'screen' 2d      */
-
-		// Map coordinate onto 2D screen coords
-	
-		
-		Maprealm2Screen(m_pRealm, Camera(), m_dX, m_dY, m_dZ, &dudePosX, &dudePosY);
-		 
-
-		int16_t deltaX = mousePosX - dudePosX;  //In either screen coords or in global 2d coords
-		int16_t deltaY = dudePosY -  mousePosY;
-
-		g_scaleX = abs(deltaX);
-		g_scaleY = abs(deltaY);
-
-		m_dJoyFireAngle = atan2(deltaY, deltaX) * (180 / M_PI);
-		if (m_dJoyFireAngle < 0) m_dJoyFireAngle += 360;
-
-		m_dRot = m_dJoyFireAngle;
-	}
 
 	if (m_dJoyMoveVel > 0 || m_bJoyFire)
 	{

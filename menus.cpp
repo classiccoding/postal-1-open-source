@@ -4509,11 +4509,13 @@ static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
 
 		ppmb = (RMultiBtn**)&(pmenuCur->ami[sMenuItem++].pgui);
 
-		//Menu Item 6. Use new mouse checkbox
+		//Menu Item 6. 'Use new mouse' checkbox
 		if (rspGetResourceInstance(&g_resmgrShell, GUI_CHECKBOX_FILE, ppmb) == 0) {
 
 			(*ppmb)->m_sState = (g_InputSettings.m_sUseNewMouse != FALSE) ? 1 : 2;
 			(*ppmb)->Compose();
+
+			//printf("On Create: m_sUseMouse: %i  m_sUseNewMouse %i\n", g_InputSettings.m_sUseMouse, g_InputSettings.m_sUseNewMouse);
 		}
 		else
 		{
@@ -4605,8 +4607,9 @@ static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
 		ppmb = (RMultiBtn**)&(pmenuCur->ami[sMenuItem].pgui);
 		if (*ppmb)
 		{
-			g_InputSettings.m_sUseNewMouse = ((*ppmb)->m_sState == 1) ? TRUE : FALSE;
+			g_InputSettings.m_sUseNewMouse = (g_InputSettings.m_sUseMouse != FALSE && (*ppmb)->m_sState == 1) ? TRUE : FALSE;
 
+			//printf("On exit: m_sUseMouse: %i  m_sUseNewMouse %i\n", g_InputSettings.m_sUseMouse, g_InputSettings.m_sUseNewMouse);
 			// Release resource.
 			rspReleaseResourceInstance(&g_resmgrShell, ppmb);
 		}
