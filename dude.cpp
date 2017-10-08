@@ -2591,11 +2591,9 @@ void CDude::Update(void)
 	}
 
 
-//Utility vars for mouse impl
-static int16_t g_scaleX = 1;
-static int16_t g_scaleY = 1;
-//static int screen_width = 640;
-//static int screen_height = 480;
+//Crosshair scale factor
+static int16_t g_scaleX = 100;
+static int16_t g_scaleY = 100;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3019,97 +3017,6 @@ if (!demoCompat)
 
 		// Turn off the normal movement inputs if present
 		input &= ~(INPUT_FORWARD | INPUT_BACKWARD | INPUT_LEFT | INPUT_RIGHT);
-
-		if (bCanFire && Camera() != NULL) {
-
-			/*SDL_DisplayMode dm_Mode;
-			int i_Result = SDL_GetDesktopDisplayMode(0, &dm_Mode);
-			if (!i_Result) {
-				screen_width = dm_Mode.w;
-				screen_height = dm_Mode.h;
-			}*/
-
-
-			int16_t mousePosX = 0;
-			int16_t mousePosY = 0;
-
-			int16_t dudePosX = 0;
-			int16_t dudePosY = 0;
-
-			rspGetMouse(&mousePosX, &mousePosY, NULL);
-
-			/*     Trying to do calculation in 'global'  3d     */
-
-			int16_t mouseX_3d = 0;
-			int16_t mouseY_3d = 0;
-			int16_t mouseZ_3d = 0;
-
-			MapScreen2Realm(m_pRealm, Camera(), mousePosX, mousePosY, &mouseX_3d, &mouseY_3d, &mouseZ_3d);
-
-			mousePosX = mouseX_3d;
-			mousePosY = mouseZ_3d;
-
-			dudePosX = m_dX;
-			dudePosY = m_dZ;
-
-			/*     Trying to do calculation in 'screen' 2d      */
-
-			// Map coordinate onto 2D screen coords
-
-			/*
-			SDL_DisplayMode dm_Mode;
-			int i_Result = SDL_GetDesktopDisplayMode(0, &dm_Mode);
-			if (!i_Result)
-				addMode(dm_Mode.w, dm_Mode.h, 8);
-			*/
-
-			//Maprealm2Screen(m_pRealm, Camera(), m_dX, m_dY, m_dZ, &dudePosX, &dudePosY);
-
-
-			int16_t deltaX = mousePosX - dudePosX;  //In either screen coords or in global 2d coords
-			int16_t deltaY = dudePosY - mousePosY;
-
-			g_scaleX = abs(deltaX);
-			g_scaleY = abs(deltaY);
-
-			m_dRotateToAngle = atan2(deltaY, deltaX) * (180 / M_PI);
-			if (m_dRotateToAngle < 0) m_dRotateToAngle += 360;			
-
-			//Trying to make dude gradually rotate torwards the mouse pointer
-			double rotStep = (g_InputSettings.m_dMouseSensitivityX) * 10;
-			double deltaDiff = m_dRotateToAngle - m_dRot;
-
-			if (abs(deltaDiff) > 180) {
-				//Clockwise rotation should be negative
-				if (deltaDiff < 0) {
-					deltaDiff = (360 - m_dRot) + m_dRotateToAngle;
-				}
-				else if (deltaDiff > 0) {
-					deltaDiff = (m_dRotateToAngle - 360) - m_dRot;
-				}
-
-			}
-
-			if (abs(deltaDiff) < rotStep) {
-				m_dRot = m_dRotateToAngle;
-			}
-			else if (deltaDiff > 0) {
-				m_dRot += rotStep;
-			}
-			else if (deltaDiff < 0) {
-				m_dRot -= rotStep;
-			}
-
-			//Keep rotation from going negative 
-			if (m_dRot < 0) {
-				m_dRot += 360;
-			}
-			//Keep rotation from going over 360
-			if (m_dRot >= 360) {
-				m_dRot -= 360;
-			}
-
-		}
 
 	}
 

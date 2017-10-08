@@ -360,8 +360,6 @@ inline void SetInput(int16_t sDudeNumber, UINPUT input)
 	m_aInputs[sDudeNumber] = input;
 	}
 
-CCamera* Camera();
-
 #endif //INPUT_H
 ////////////////////////////////////////////////////////////////////////////////
 // EOF
