@@ -703,10 +703,6 @@ bool CanCycleThroughWeapons()
 	return bResult;
 }
 
-static CCamera* g_pcamera = NULL;
-
-CCamera* Camera() { return g_pcamera; }
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Get local input
@@ -745,7 +741,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 
 		//Overrides twinstick keyboard controls
 		// If utilizing mouse input . . .
-		if (g_InputSettings.m_sUseNewMouse == FALSE && rspIsBackground() == FALSE)
+		if (g_InputSettings.m_sUseNewMouse == FALSE && g_InputSettings.m_sUseMouse != FALSE && rspIsBackground() == FALSE)
 		{
 			int16_t	sPosX, sPosY;
 			int16_t	sThreshY;
@@ -799,12 +795,123 @@ extern UINPUT GetLocalInput(				// Returns local input.
 
 		//New mouse input
 		if (g_InputSettings.m_sUseNewMouse == TRUE && rspIsBackground() == FALSE) {
-			rspGetMouse(NULL, NULL, &sButtons);
-			g_pcamera = pcamera;
+			
+			int screen_width = 640;
+			int screen_height = 480;
 
-			//Gonna move some mouse stuff here					
-			/*CListNode<CThing>* pln = prealm->m_aclassHeads[CThing::CDudeID].m_pnNext;
-			CDude* pdude = (CDude*)pln->m_powner;*/
+			SDL_DisplayMode dm_Mode;
+			//Returns 0 on success...
+			int i_Result = SDL_GetDesktopDisplayMode(0, &dm_Mode);
+
+			if (i_Result == 0) {
+				screen_width = dm_Mode.w;
+				screen_height = dm_Mode.h;
+				//printf("Got it!\n");
+			}
+			//printf("Width: %i, Height: %i\n", screen_width, screen_height);
+
+			//Get the dude of the realm ~Not really sure about this code...
+			CListNode<CThing>* pln = prealm->m_aclassHeads[CThing::CDudeID].m_pnNext;
+			CDude* pdude = (CDude*)pln->m_powner;
+
+			double dudePosX = 0;
+			double dudePosY = 0;
+
+			int16_t mousePosX = 0;
+			int16_t mousePosY = 0;
+
+			rspGetMouse(&mousePosX, &mousePosY, &sButtons);
+
+			//printf("Mouse Pos: %i %i\n", mousePosX, mousePosY);
+
+			//Cram mouse pos in 640x480 resolution which game expects
+			double adjMousePosX = mousePosX * (640.0 / screen_width); //Bloody integer division!
+			double adjMousePosY = mousePosY * (480.0 / screen_height);
+
+			//printf("Crammed Mouse Pos: %f %f\n", adjMousePosX, adjMousePosY);
+
+			/*     Trying to do calculation in 'global'  3d     */
+
+			double mouseX_3d = 0;
+			double mouseY_3d = 0;
+			double mouseZ_3d = 0;
+
+			MapScreen2Realm(prealm, pcamera, adjMousePosX, adjMousePosY, &mouseX_3d, &mouseY_3d, &mouseZ_3d);
+
+			mousePosX = mouseX_3d;
+			mousePosY = mouseZ_3d;
+
+			dudePosX = pdude->m_dX;
+			dudePosY = pdude->m_dZ;
+
+			/*     Trying to do calculation in 'screen' 2d      */
+
+			// Map coordinate onto 2D screen coords
+
+			//Maprealm2Screen(m_pRealm, Camera(), m_dX, m_dY, m_dZ, &dudePosX, &dudePosY);
+
+
+			int16_t deltaX = mousePosX - dudePosX;  //In either screen coords or in global 2d coords
+			int16_t deltaY = dudePosY - mousePosY;
+
+			//g_scaleX = abs(deltaX);
+			//g_scaleY = abs(deltaY);
+			double rotateToAngle = 0.0;
+			double rot = pdude->m_dRot;
+
+			rotateToAngle = atan2(deltaY, deltaX) * (180 / M_PI);
+			if (rotateToAngle < 0) rotateToAngle += 360;
+
+			//Trying to make dude gradually rotate torwards the mouse pointer
+			double rotStep = (g_InputSettings.m_dMouseSensitivityX) * 10;
+			double deltaDiff = rotateToAngle - rot;
+
+			if (abs(deltaDiff) > 180) {
+				//Clockwise rotation should be negative
+				if (deltaDiff < 0) {
+					deltaDiff = (360 - rot) + rotateToAngle;
+				}
+				else if (deltaDiff > 0) {
+					deltaDiff = (rotateToAngle - 360) - rot;
+				}
+
+			}
+
+			//Direct rot assignment impl
+
+			//if (abs(deltaDiff) < rotStep) {
+			//	rot = rotateToAngle;
+			//}
+			//else if (deltaDiff > 0) {
+			//	rot += rotStep;
+			//}
+			//else if (deltaDiff < 0) {
+			//	rot -= rotStep;
+			//}
+
+			////Keep rotation from going negative 
+			//if (rot < 0) 
+			//	rot += 360;
+
+			////Keep rotation from going over 360
+			//if (rot >= 360)
+			//	rot -= 360;
+
+			//pdude->m_dRotateToAngle = rotateToAngle;
+			//pdude->m_dRot = rot;
+
+			//Using sDeltaX for rotation
+
+			if (abs(deltaDiff) < rotStep) {
+				sDeltaX += deltaDiff;
+			}
+			else if (deltaDiff > 0) {
+				sDeltaX += rotStep;
+			}
+			else if (deltaDiff < 0) {
+				sDeltaX -= rotStep;
+			}
+
 		}
 
 
@@ -935,7 +1042,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 					}
 
 				sDeltaX	+= ((lCurTime - lPrevTime) * dRate) / 1000UL;
-                sDeltaX++;  // !!! FIXME: Not sure why this is needed. --ryan.
+                //sDeltaX++;  // !!! FIXME: Not sure why this is needed. --ryan.
 				}
 			else
 				{
