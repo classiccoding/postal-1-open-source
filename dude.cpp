@@ -2591,11 +2591,6 @@ void CDude::Update(void)
 	}
 
 
-//Crosshair scale factor
-static int16_t g_scaleX = 100;
-static int16_t g_scaleY = 100;
-
-
 ////////////////////////////////////////////////////////////////////////////////
 // Attempts user motivated state transitions.
 ////////////////////////////////////////////////////////////////////////////////
@@ -5456,12 +5451,19 @@ void CDude::ShowTarget()
 		//This is unused
 		//int16_t sRadius = 20;
 
-		float	fRateX = COSQ[sRotY] * sRangeXZ;
-		float	fRateZ = -SINQ[sRotY] * sRangeXZ;
+		float	fRateX = 0.0f; 
+		float	fRateZ = 0.0f; 
 
 		if (g_InputSettings.m_sUseNewMouse && rspIsBackground() == FALSE) {
-			fRateX = COSQ[sRotY] * g_scaleX;
-			fRateZ = -SINQ[sRotY] * g_scaleY;
+
+			fRateX = cos(m_dRot * M_PI/180) *  m_dCrossScaleX;
+			fRateZ = -sin(m_dRot * M_PI/180) * m_dCrossScaleY;
+
+		}
+		else {
+
+			fRateX = COSQ[sRotY] * sRangeXZ;
+			fRateZ = -SINQ[sRotY] * sRangeXZ;
 		}
 
 		

@@ -870,9 +870,6 @@ extern UINPUT GetLocalInput(				// Returns local input.
 
 			MapScreen2Realm(prealm, pcamera, adjMousePosX, adjMousePosY, &mouseX_3d, &mouseY_3d, &mouseZ_3d);
 
-			mousePosX = mouseX_3d;
-			mousePosY = mouseZ_3d;
-
 			dudePosX = pdude->m_dX;
 			dudePosY = pdude->m_dZ;
 
@@ -883,19 +880,23 @@ extern UINPUT GetLocalInput(				// Returns local input.
 			//Maprealm2Screen(m_pRealm, Camera(), m_dX, m_dY, m_dZ, &dudePosX, &dudePosY);
 
 
-			int16_t deltaX = mousePosX - dudePosX;  //In either screen coords or in global 2d coords
-			int16_t deltaY = dudePosY - mousePosY;
+			double deltaX = mouseX_3d - dudePosX;  //In either screen coords or in global 3d coords
+			double deltaY = dudePosY - mouseZ_3d;
 
-			//g_scaleX = abs(deltaX);
-			//g_scaleY = abs(deltaY);
+			//For crosshair to scale in mouse pointer direction
+			pdude->m_dCrossScaleX = abs(deltaX);
+			pdude->m_dCrossScaleY = abs(deltaY);
+
+			printf("Scale X: %.2f, Scale Y: %.2f\n", pdude->m_dCrossScaleX, pdude->m_dCrossScaleY);
+
 			double rotateToAngle = 0.0;
 			double rot = pdude->m_dRot;
 
 			rotateToAngle = atan2(deltaY, deltaX) * (180 / M_PI);
 			if (rotateToAngle < 0) rotateToAngle += 360;
 
-			//Trying to make dude gradually rotate torwards the mouse pointer
-			double rotStep = (g_InputSettings.m_dMouseSensitivityX) * 10;
+			/* Trying to make dude gradually rotate torwards the mouse pointer */
+			double rotStep = (g_InputSettings.m_dMouseSensitivityX) * 10; //The constant is arbitrary and can be experimented on 
 			double deltaDiff = rotateToAngle - rot;
 
 			if (abs(deltaDiff) > 180) {
