@@ -5444,36 +5444,35 @@ void CDude::ShowTarget()
 	//Old crossha
 	if (m_bTargetingHelpEnabled && m_bDead == false)
 	{
-		
-		// sAngle must be between 0 and 359.
-		int16_t sRotY = rspMod360((int16_t)m_dRot);
-		int16_t sRangeXZ = 100;
-		//This is unused
-		//int16_t sRadius = 20;
-
-		float	fRateX = 0.0f; 
-		float	fRateZ = 0.0f; 
+		float fRateX = 0.0f;
+		float fRateZ = 0.0f;
 
 		if (g_InputSettings.m_sUseNewMouse && rspIsBackground() == FALSE) {
-
-			fRateX = cos(m_dRot * M_PI/180) *  m_dCrossScaleX;
-			fRateZ = -sin(m_dRot * M_PI/180) * m_dCrossScaleY;
+		
+			fRateX = m_dMousePosX - m_dX;
+			fRateZ = m_dMousePosY - m_dZ;
 
 		}
 		else {
 
+			// sAngle must be between 0 and 359.
+			int16_t sRotY = rspMod360((int16_t)m_dRot);
+			int16_t sRangeXZ = 100;
+			//This is unused
+			//int16_t sRadius = 20;
+
 			fRateX = COSQ[sRotY] * sRangeXZ;
 			fRateZ = -SINQ[sRotY] * sRangeXZ;
+
+			//float	fRateY = 0.0;	// If we ever want vertical movement . . .
+
+			// Set initial position to first point to check (NEVER checks original position).
+			// !Unused
+			//float	fPosX = m_dX + fRateX;
+			//float	fPosY = m_dY + fRateY;
+			//float	fPosZ = m_dZ + fRateZ;
+
 		}
-
-		
-		//float	fRateY = 0.0;	// If we ever want vertical movement . . .
-
-		// Set initial position to first point to check (NEVER checks original position).
-		// !Unused
-		//float	fPosX = m_dX + fRateX;
-		//float	fPosY = m_dY + fRateY;
-		//float	fPosZ = m_dZ + fRateZ;
 
 		if (m_TargetSprite.m_psprParent)
 			m_TargetSprite.m_psprParent->RemoveChild(&m_TargetSprite);
@@ -5486,7 +5485,6 @@ void CDude::ShowTarget()
 			fRateZ,
 			&m_TargetSprite.m_sX2,
 			&m_TargetSprite.m_sY2);
-		
 
 		m_TargetSprite.m_sInFlags &= ~CSprite::InHidden;
 		m_TargetSprite.m_sLayer = CRealm::LayerSprite16;

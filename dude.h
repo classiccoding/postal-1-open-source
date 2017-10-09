@@ -500,9 +500,9 @@ class CDude : public CCharacter
 		double			m_dJoyFireAngle;
 		//For mouse stuff
 		double          m_dRotateToAngle;
-		//Crosshair scale factor
-		double          m_dCrossScaleX;
-		double          m_dCrossScaleY;
+		//Mouse pos for crosshair
+		double          m_dMousePosX;
+		double          m_dMousePosY;
 
 	protected:
 
