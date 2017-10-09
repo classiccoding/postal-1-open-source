@@ -884,10 +884,10 @@ extern UINPUT GetLocalInput(				// Returns local input.
 			double deltaY = dudePosY - mouseZ_3d;
 
 			//For crosshair to scale in mouse pointer direction
-			pdude->m_dCrossScaleX = abs(deltaX);
-			pdude->m_dCrossScaleY = abs(deltaY);
+			pdude->m_dMousePosX = mouseX_3d;
+			pdude->m_dMousePosY = mouseZ_3d;
 
-			printf("Scale X: %.2f, Scale Y: %.2f\n", pdude->m_dCrossScaleX, pdude->m_dCrossScaleY);
+			//printf("Scale X: %.2f, Scale Y: %.2f\n", pdude->m_dCrossScaleX, pdude->m_dCrossScaleY);
 
 			double rotateToAngle = 0.0;
 			double rot = pdude->m_dRot;
