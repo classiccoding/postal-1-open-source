@@ -1790,7 +1790,7 @@ extern Menu	menuControls =
 			{ g_pszControlsMenu_UseJoystick,					TRUE,			NULL,						NULL,				},
 #endif // defined(ALLOW_JOYSTICK)
 			{ g_pszControlsMenu_UseMouse,						TRUE,			NULL,						NULL,				},
-			{ "New Mouse Contr." ,                               TRUE,               NULL,               NULL                        },
+			{ g_pszControlsMenu_ClassicMouse,                               TRUE,               NULL,               NULL                        },
 			{ g_pszControlsMenu_HorizMouseSensitivity,	TRUE,			NULL,						NULL,				},
 			{ g_pszControlsMenu_VertMouseSensitivity,		TRUE,			NULL,						NULL,				},
 			{ "",														FALSE,		NULL,						NULL,				},
@@ -4509,10 +4509,11 @@ static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
 
 		ppmb = (RMultiBtn**)&(pmenuCur->ami[sMenuItem++].pgui);
 
-		//Menu Item 6. 'Use new mouse' checkbox
+		//Menu Item 6. 'Use classic mouse' checkbox
 		if (rspGetResourceInstance(&g_resmgrShell, GUI_CHECKBOX_FILE, ppmb) == 0) {
 
-			(*ppmb)->m_sState = (g_InputSettings.m_sUseNewMouse != FALSE) ? 1 : 2;
+			//We cant use classic mouse when we dont use mouse at all
+			(*ppmb)->m_sState = (g_InputSettings.m_sUseNewMouse == FALSE && g_InputSettings.m_sUseMouse != FALSE) ? 1 : 2;			
 			(*ppmb)->Compose();
 
 			//printf("On Create: m_sUseMouse: %i  m_sUseNewMouse %i\n", g_InputSettings.m_sUseMouse, g_InputSettings.m_sUseNewMouse);
@@ -4607,7 +4608,7 @@ static int16_t ControlsInit(		// Returns 0 on success, non-zero to cancel menu.
 		ppmb = (RMultiBtn**)&(pmenuCur->ami[sMenuItem].pgui);
 		if (*ppmb)
 		{
-			g_InputSettings.m_sUseNewMouse = (g_InputSettings.m_sUseMouse != FALSE && (*ppmb)->m_sState == 1) ? TRUE : FALSE;
+			g_InputSettings.m_sUseNewMouse = (g_InputSettings.m_sUseMouse != FALSE && (*ppmb)->m_sState == 2) ? TRUE : FALSE;
 
 			//printf("On exit: m_sUseMouse: %i  m_sUseNewMouse %i\n", g_InputSettings.m_sUseMouse, g_InputSettings.m_sUseNewMouse);
 			// Release resource.
@@ -4670,13 +4671,33 @@ static bool ControlsChoice(	// Returns true to accept, false to deny choice.
 			// Toggle 'Use Mouse'.
 			ms_pmbCheckBox->NextState();
 			ms_pmbCheckBox->Compose();
+
+			//If we disable Mouse also disable ClassicMouse
+			if (ms_pmbCheckBox->m_sState == 2)
+			{
+				g_InputSettings.m_sUseNewMouse = TRUE;
+				RMultiBtn*	pmb = (RMultiBtn*)pmenuCurrent->ami[6].pgui;
+				pmb->m_sState = 2;
+				pmb->Compose();
+			}
+
 			break;
 		case 6:
-			// Toggle 'Use New Mouse'
+			// Toggle 'Use Classic Mouse'
 			RMultiBtn*	pmb = (RMultiBtn*)pmenuCurrent->ami[sMenuItem].pgui;
 			ASSERT(pmb->m_type == RGuiItem::MultiBtn);
 			pmb->NextState();
 			pmb->Compose();
+
+			//If we enable ClassicMouse also enable Mouse
+			if (pmb->m_sState == 1)
+			{
+				g_InputSettings.m_sUseMouse = TRUE;
+				RMultiBtn*	pmb = (RMultiBtn*)pmenuCurrent->ami[5].pgui;
+				pmb->m_sState = 1;
+				pmb->Compose();
+			}
+
 			break;
 		}
 
