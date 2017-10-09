@@ -275,6 +275,8 @@
 // Detweak a char from a string previously tweaked by STR_TWEAK().
 #define DETWEAK_CHAR(str, i)	(str[i] - (i + 1) )
 
+#define SET(ptr, val)		( ((ptr) != NULL) ? *(ptr) = (val) : 0)
+
 typedef struct
 	{
 	char	szCheat[21];
@@ -703,6 +705,46 @@ bool CanCycleThroughWeapons()
 	return bResult;
 }
 
+double m_ResModifierX = NULL;
+double m_ResModifierY = NULL;
+
+//Get the Modifier to Cram mouse pos in the resolution the game expects
+void GetResModifer(
+	double* modiferX,
+	double* modiferY)
+	{ 
+		//Do this only for initialisation
+		if (m_ResModifierX == NULL)
+		{
+			int screen_width = 640;
+			int screen_height = 480;
+			int16_t render_width = 640;
+			int16_t render_height = 480;
+			SDL_DisplayMode dm_Mode;
+
+			//Returns 0 on success...
+			int i_Result = SDL_GetCurrentDisplayMode(0, &dm_Mode);
+
+			if (i_Result == 0) {
+				screen_width = dm_Mode.w;
+				screen_height = dm_Mode.h;
+			}
+
+			//Get rendered resolution (not alway 640x480)
+			rspGetVideoMode(NULL, NULL, NULL, NULL, &render_width, &render_height, NULL, NULL);
+
+			m_ResModifierX = (double)render_width / (double)screen_width;
+			m_ResModifierY = (double)render_height / (double)screen_height;
+
+			printf("ScreenRes: %i %i\n", screen_width, screen_height);
+			printf("RenderRes: %i %i\n", render_width, render_height);
+			printf("Modifier: %f %f\n", m_ResModifierX, m_ResModifierY);		
+		}
+		SET(modiferX, m_ResModifierX);
+		SET(modiferY, m_ResModifierY);
+		
+	}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Get local input
@@ -795,20 +837,6 @@ extern UINPUT GetLocalInput(				// Returns local input.
 
 		//New mouse input
 		if (g_InputSettings.m_sUseNewMouse == TRUE && rspIsBackground() == FALSE) {
-			
-			int screen_width = 640;
-			int screen_height = 480;
-
-			SDL_DisplayMode dm_Mode;
-			//Returns 0 on success...
-			int i_Result = SDL_GetDesktopDisplayMode(0, &dm_Mode);
-
-			if (i_Result == 0) {
-				screen_width = dm_Mode.w;
-				screen_height = dm_Mode.h;
-				//printf("Got it!\n");
-			}
-			//printf("Width: %i, Height: %i\n", screen_width, screen_height);
 
 			//Get the dude of the realm ~Not really sure about this code...
 			CListNode<CThing>* pln = prealm->m_aclassHeads[CThing::CDudeID].m_pnNext;
@@ -823,10 +851,14 @@ extern UINPUT GetLocalInput(				// Returns local input.
 			rspGetMouse(&mousePosX, &mousePosY, &sButtons);
 
 			//printf("Mouse Pos: %i %i\n", mousePosX, mousePosY);
+			double modifierX = 0;
+			double modifierY = 0;
+
+			GetResModifer(&modifierX, &modifierY);
 
 			//Cram mouse pos in 640x480 resolution which game expects
-			double adjMousePosX = mousePosX * (640.0 / screen_width); //Bloody integer division!
-			double adjMousePosY = mousePosY * (480.0 / screen_height);
+			double adjMousePosX = mousePosX * modifierX;
+			double adjMousePosY = mousePosY * modifierY;
 
 			//printf("Crammed Mouse Pos: %f %f\n", adjMousePosX, adjMousePosY);
 
