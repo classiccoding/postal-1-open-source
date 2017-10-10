@@ -237,7 +237,7 @@ int16_t RSnd::Stream(	char* pszSampleName, int32_t lPlayBufSize, int32_t lReadBu
 				// Store the buffer size to stream with.
 				m_lBufSize	= lPlayBufSize;
 				// Attempt to start the mixing . . .
-				if (m_mix.Start(StreamCallStatic, (U64)this) == 0)
+				if (m_mix.Start(StreamCallStatic, (uintptr_t)this) == 0)
 					{
 					// Success.  Set state to starting.
 					m_sState	= Starting;
@@ -340,7 +340,7 @@ int16_t RSnd::Play(						// Returns 0 on success.
 			// Store the buffer size to stream with.
 			m_lBufSize = lPlayBufSize;
 			// Attempt to play buffer . . .
-			if (m_mix.Start(PlayCallStatic, (U64)this,ucMainVolume,ucVolume2) == 0)
+			if (m_mix.Start(PlayCallStatic, (uintptr_t)this,ucMainVolume,ucVolume2) == 0)
 				{
 				// Success.  Set state to starting.
 				m_sState				= Starting;
@@ -521,7 +521,7 @@ int32_t RSnd::GetTime(void)
 void* RSnd::StreamCall(RMix::Msg	msg, 
 								void*		pData, 
 								uint32_t*	pulBufSize,
-								uint32_t		ulUser,
+								uintptr_t		ulUser,
 								uint8_t*		pucVolume,
 								uint8_t*		pucVol2)
 	{
@@ -791,7 +791,7 @@ void* RSnd::PlayCall(RMix::Msg	msg,
 void* RSnd::StreamCallStatic(	RMix::Msg	msg, 
 										void*			pData, 
 										uint32_t*		pulBufSize, 
-										uint32_t			ulUser,
+										uintptr_t			ulUser,
 										uint8_t*		pucVolume,
 										uint8_t*		pucVol2)
 	{
@@ -809,7 +809,7 @@ void* RSnd::StreamCallStatic(	RMix::Msg	msg,
 void* RSnd::PlayCallStatic(RMix::Msg	msg, 
 									void*			pData, 
 									uint32_t*		pulBufSize, 
-									uint32_t			ulUser,
+									uintptr_t			ulUser,
 									uint8_t*		pucVolume,
 									uint8_t*		pucVol2)
 	{
