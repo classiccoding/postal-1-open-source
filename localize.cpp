@@ -577,6 +577,7 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszControlsMenu_JoystickSetup[]			= "X CONTROLLER SETUP";
 	extern char g_pszControlsMenu_TurningSpeeds[]			= "TURNING SPEEDS";
 	extern char g_pszControlsMenu_UseMouse[]					= "USE MOUSE";
+	extern char g_pszControlsMenu_ClassicMouse[]			= "CLASSIC MOUSE";	
 	extern char g_pszControlsMenu_HorizMouseSensitivity[]	= "HORIZ MOUSE SENS.";
 	extern char g_pszControlsMenu_VertMouseSensitivity[]	= "VERT MOUSE SENS.";
 
@@ -740,6 +741,7 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszControlsMenu_JoystickSetup[]			= "JOYSTICK-SETUP";
 	extern char g_pszControlsMenu_TurningSpeeds[]			= "DREHGESCHWINDIGKEITEN";
 	extern char g_pszControlsMenu_UseMouse[]					= "MAUS VERWENDEN";
+	extern char g_pszControlsMenu_ClassicMouse[] = "KLASSISCHE MAUSSTEUERUNG";
 	extern char g_pszControlsMenu_HorizMouseSensitivity[]	= "HORIZONTALE MAUSBEWEGUNG";
 	extern char g_pszControlsMenu_VertMouseSensitivity[]	= "VERTIKALE MAUSBEWEGUNG";
 
@@ -881,6 +883,7 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszControlsMenu_JoystickSetup[]			= "CONFIGURATION DE LA MANETTE DE JEU";
 	extern char g_pszControlsMenu_TurningSpeeds[]			= "VITESSES DE ROTATION";
 	extern char g_pszControlsMenu_UseMouse[]					= "UTILISER LA SOURIS";
+	extern char g_pszControlsMenu_UseClassicMouse[] = "Souris classique"; //Google Translated	
 	extern char g_pszControlsMenu_HorizMouseSensitivity[]	= "SOURIS HORIZONTALE";
 	extern char g_pszControlsMenu_VertMouseSensitivity[]	= "SOURIS VERTICALE";
 

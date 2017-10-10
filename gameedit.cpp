@@ -716,7 +716,6 @@
 #include "game.h"
 #include "update.h"
 #include "realm.h"
-#include "camera.h"
 #include "localize.h"
 #include "hood.h"
 #include "bouy.h"
@@ -1297,6 +1296,7 @@ static int16_t SaveRealmAs(
 
 static void PlayRealm(				// Returns nothing.
 	CRealm*	prealm,					// In:  Realm to play.
+	CCamera* pcamera,  
 	CThing*	pthingSel);				// In:  Currently selected CThing which can
 											// be used to give PlayRealm() a hint on which
 											// of several things the user wants to use.
@@ -1525,29 +1525,6 @@ static int16_t PasteItem(	// Returns 0 on success.
 	int16_t		sX,			// In:  Location for new thing.
 	int16_t		sY,			// In:  Location for new thing.
 	int16_t		sZ);			// In:  Location for new thing.
-
-// Map a screen coordinate to a realm coordinate.
-// Note that this function's *psRealmY output is always
-// the height specified by the realm's attribute map
-// at the resulting *psRealmX, *psRealmZ.
-static void MapScreen2Realm(	// Returns nothing.
-	CRealm*	prealm,				// In:  Realm.
-	CCamera*	pcamera,				// In:  View of prealm.
-	int16_t sScreenX,				// In:  Screen x coord.
-	int16_t sScreenY,				// In:  Screen y coord.
-	int16_t* psRealmX,				// Out: Realm x coord.
-	int16_t* psRealmY,				// Out: Realm y coord (always via realm's height map).
-	int16_t* psRealmZ);				// Out: Realm z coord.
-
-// Map a realm coordinate to a screen coordinate.
-static void Maprealm2Screen(	// Returns nothing.
-	CRealm*	prealm,				// In:  Realm.
-	CCamera*	pcamera,				// In:  View of prealm.
-	int16_t		sRealmX,				// In:  Realm x coord.
-	int16_t		sRealmY,				// In:  Realm y coord.
-	int16_t		sRealmZ,				// In:  Realm z coord.
-	int16_t*	psScreenX,			// Out: Screen x coord.
-	int16_t*	psScreenY);			// Out: Screen y coord.
 
 // Blit attribute areas lit by the specified mask into the specified image.
 static void AttribBlit(			// Returns nothing.
@@ -2768,7 +2745,7 @@ static bool DoInput(		// Returns true when done.
 						CancelDrag(prealm);
 
 						// Simulate playing the realm
-						PlayRealm(prealm, ms_pthingSel);
+						PlayRealm(prealm, pcamera,ms_pthingSel);
 
 						// Restore global camera.
 						ms_pcameraCur	= pcamera;
@@ -4072,6 +4049,7 @@ static int16_t SaveRealm(			// Returns 0 on success.
 ////////////////////////////////////////////////////////////////////////////////
 static void PlayRealm(
 	CRealm*	pEditRealm,				// In:  Realm to play.
+	CCamera* pcamera,
 	CThing*	pthingSel)				// In:  Currently selected CThing which can
 											// be used to give PlayRealm() a hint on which
 											// of several things the user wants to use.
@@ -4564,7 +4542,7 @@ static void PlayRealm(
 							// Get local player input and
 							// Set controls for the one-and-only CDude
 							// Allow cheats.
-							SetInput(0, GetLocalInput(prealm, &ie));
+							SetInput(0, GetLocalInput(prealm, pcamera, &ie));
 
 							// If exit requested . . .
 							if (bExitRequest == true)
@@ -7116,7 +7094,7 @@ static int16_t PasteItem(	// Returns 0 on success.
 // the height specified by the realm's attribute map
 // at the resulting *psRealmX, *psRealmZ.
 ////////////////////////////////////////////////////////////////////////////////
-static void MapScreen2Realm(	// Returns nothing.
+extern void MapScreen2Realm(	// Returns nothing.
 	CRealm*	prealm,				// In:  Realm.
 	CCamera*	pcamera,				// In:  View of prealm.
 	int16_t sScreenX,				// In:  Screen x coord.
@@ -7162,10 +7140,63 @@ static void MapScreen2Realm(	// Returns nothing.
 		}
 	}
 
+
+////////////////////////////////////////////////////////////////////////////////
+// Map a screen coordinate to a realm coordinate.
+// Note that this function's *psRealmY output is always
+// the height specified by the realm's attribute map
+// at the resulting *psRealmX, *psRealmZ.
+////////////////////////////////////////////////////////////////////////////////
+extern void MapScreen2Realm(	// Returns nothing.
+	CRealm*	prealm,				// In:  Realm.
+	CCamera*	pcamera,				// In:  View of prealm.
+	double sScreenX,				// In:  Screen x coord.
+	double sScreenY,				// In:  Screen y coord.
+	double* psRealmX,				// Out: Realm x coord.
+	double* psRealmY,				// Out: Realm y coord (always via realm's height map).
+	double* psRealmZ)				// Out: Realm z coord.
+{
+	// Get coordinate on 2D viewing plane.
+	double	sRealmX2 = sScreenX + (double)pcamera->m_sScene2FilmX;
+	double	sRealmY2 = sScreenY + (double)pcamera->m_sScene2FilmY;
+
+	// If there's a hood . . .
+	if (prealm->m_phood != NULL)
+	{
+		// Map to realm's X/Z plane:
+		// Z is stretched.
+		prealm->MapY2DtoZ3D(sRealmY2, psRealmZ);
+		// X is trivial.
+		*psRealmX = sRealmX2;
+
+		// If there is an attribute map . . .
+		if (prealm->m_pTerrainMap != NULL)
+		{
+			// The realm y is the height indicated by the attribute map
+			// in the given location on the X/Z plane.
+			*psRealmY = prealm->GetHeight(
+				*psRealmX,
+				*psRealmZ);
+		}
+		else
+		{
+			// Safety.
+			*psRealmY = 0;
+		}
+	}
+	else
+	{
+		// Safety.
+		*psRealmX = sRealmX2;
+		*psRealmY = 0;
+		*psRealmZ = sRealmY2;
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Map a realm coordinate to a screen coordinate.
 ////////////////////////////////////////////////////////////////////////////////
-static void Maprealm2Screen(	// Returns nothing.
+extern void Maprealm2Screen(	// Returns nothing.
 	CRealm*	prealm,				// In:  Realm.
 	CCamera*	pcamera,				// In:  View of prealm.
 	int16_t		sRealmX,				// In:  Realm x coord.
@@ -7188,6 +7219,34 @@ static void Maprealm2Screen(	// Returns nothing.
 	*psScreenX	= sViewX2 - pcamera->m_sScene2FilmX;
 	*psScreenY	= sViewY2 - pcamera->m_sScene2FilmY;
 	}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Map a realm coordinate to a screen coordinate.
+////////////////////////////////////////////////////////////////////////////////
+extern void Maprealm2Screen(	// Returns nothing.
+	CRealm*	prealm,				// In:  Realm.
+	CCamera*	pcamera,				// In:  View of prealm.
+	double		sRealmX,				// In:  Realm x coord.
+	double		sRealmY,				// In:  Realm y coord.
+	double		sRealmZ,				// In:  Realm z coord.
+	double*	psScreenX,			// Out: Screen x coord.
+	double*	psScreenY)			// Out: Screen y coord.
+{
+	// Map coordinate onto 2D viewing plane.
+	double	sViewX2;
+	double	sViewY2;
+	prealm->Map3Dto2D(
+		sRealmX,
+		sRealmY,
+		sRealmZ,
+		&sViewX2,
+		&sViewY2);
+
+	// Offset to screen.
+	*psScreenX = sViewX2 - (double)pcamera->m_sScene2FilmX;
+	*psScreenY = sViewY2 - (double)pcamera->m_sScene2FilmY;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Blit attribute areas lit by the specified mask into the specified image.

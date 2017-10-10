@@ -275,6 +275,8 @@
 // Detweak a char from a string previously tweaked by STR_TWEAK().
 #define DETWEAK_CHAR(str, i)	(str[i] - (i + 1) )
 
+#define SET(ptr, val)		( ((ptr) != NULL) ? *(ptr) = (val) : 0)
+
 typedef struct
 	{
 	char	szCheat[21];
@@ -703,13 +705,54 @@ bool CanCycleThroughWeapons()
 	return bResult;
 }
 
+double m_ResModifierX = NULL;
+double m_ResModifierY = NULL;
+
+//Get the Modifier to Cram mouse pos in the resolution the game expects
+void GetResModifer(
+	double* modiferX,
+	double* modiferY)
+	{ 
+		//Do this only for initialisation
+		if (m_ResModifierX == NULL)
+		{
+			int screen_width = 640;
+			int screen_height = 480;
+			int16_t render_width = 640;
+			int16_t render_height = 480;
+			SDL_DisplayMode dm_Mode;
+
+			//Returns 0 on success...
+			int i_Result = SDL_GetCurrentDisplayMode(0, &dm_Mode);
+
+			if (i_Result == 0) {
+				screen_width = dm_Mode.w;
+				screen_height = dm_Mode.h;
+			}
+
+			//Get rendered resolution (not alway 640x480)
+			rspGetVideoMode(NULL, NULL, NULL, NULL, &render_width, &render_height, NULL, NULL);
+
+			m_ResModifierX = (double)render_width / (double)screen_width;
+			m_ResModifierY = (double)render_height / (double)screen_height;
+
+			printf("ScreenRes: %i %i\n", screen_width, screen_height);
+			printf("RenderRes: %i %i\n", render_width, render_height);
+			printf("Modifier: %f %f\n", m_ResModifierX, m_ResModifierY);		
+		}
+		SET(modiferX, m_ResModifierX);
+		SET(modiferY, m_ResModifierY);
+		
+	}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Get local input
 //
 ////////////////////////////////////////////////////////////////////////////////
 extern UINPUT GetLocalInput(				// Returns local input.
-	CRealm* prealm,							// In:  Realm (used to access realm timer)
+	CRealm* prealm,
+	CCamera* pcamera,// In:  Realm (used to access realm timer)
 	RInputEvent* pie	/*= NULL*/)			// In:  Latest input event.  NULL to 
 													//	disable cheats in a way that will be
 													// harder to hack.
@@ -738,9 +781,10 @@ extern UINPUT GetLocalInput(				// Returns local input.
 		int16_t	sButtons	= 0;
 		int16_t	sDeltaX	= 360;
 
+		//Overrides twinstick keyboard controls
 		// If utilizing mouse input . . .
-		if (g_InputSettings.m_sUseMouse != FALSE && rspIsBackground() == FALSE)
-			{
+		if (g_InputSettings.m_sUseNewMouse == FALSE && g_InputSettings.m_sUseMouse != FALSE && rspIsBackground() == FALSE)
+		{
 			int16_t	sPosX, sPosY;
 			int16_t	sThreshY;
 			rspGetMouse(&sPosX, &sPosY, &sButtons);
@@ -748,17 +792,17 @@ extern UINPUT GetLocalInput(				// Returns local input.
 
 			// Tweak input values.  We reduce the sensitivity by a factor of 3 to make
 			// up for increased frame rates.
-			double	dDeltaRot	= (MOUSE_RESET_X - sPosX) * (g_InputSettings.m_dMouseSensitivityX / 3.0);
+			double	dDeltaRot = (MOUSE_RESET_X - sPosX) * (g_InputSettings.m_dMouseSensitivityX / 3.0);
 #if 1
 			// If positive round up . . .
 			if (dDeltaRot >= 0.0)
-				{
-				dDeltaRot	+= 0.5;
-				}
+			{
+				dDeltaRot += 0.5;
+			}
 			else	// Negative round down.
-				{
-				dDeltaRot	-= 0.5;
-				}
+			{
+				dDeltaRot -= 0.5;
+			}
 #endif
 			//TRACE("sDif = %d, dDeltaRot = %g\n", (MOUSE_RESET_X - sPosX), dDeltaRot);
 
@@ -766,30 +810,143 @@ extern UINPUT GetLocalInput(				// Returns local input.
 			// sDeltaX = sDeltaX + dDeltaRot which became promoted to float before
 			// it was added and then truncated causing a bias in degree toward
 			// negative or rightward rotations.
-			sDeltaX	+= (int16_t)dDeltaRot;
+			sDeltaX += (int16_t)dDeltaRot;
 
-			sThreshY	= MOUSE_Y_THRESH;
+			sThreshY = MOUSE_Y_THRESH;
 			if (g_InputSettings.m_dMouseSensitivityY > 0.0)
-				{
-				sThreshY	= int16_t( float(sThreshY) / g_InputSettings.m_dMouseSensitivityY);
-				}
+			{
+				sThreshY = int16_t(float(sThreshY) / g_InputSettings.m_dMouseSensitivityY);
+			}
 			else
-				{
+			{
 				// Infiniti.
-				sThreshY	*= 100;
-				}
+				sThreshY *= 100;
+			}
 
 			// If less than last time . . .
 			if (sDeltaX < 360)
-				input	|= INPUT_RIGHT;
+				input |= INPUT_RIGHT;
 			else if (sDeltaX > 360)
 				input |= INPUT_LEFT;
 
 			if (sPosY < MOUSE_RESET_Y - sThreshY)
-				input	|= INPUT_FORWARD;
+				input |= INPUT_FORWARD;
 			else if (sPosY > MOUSE_RESET_Y + sThreshY)
 				input |= INPUT_BACKWARD;
+		}
+
+		//New mouse input
+		if (g_InputSettings.m_sUseNewMouse == TRUE && rspIsBackground() == FALSE) {
+
+			//Get the dude of the realm ~Not really sure about this code...
+			CListNode<CThing>* pln = prealm->m_aclassHeads[CThing::CDudeID].m_pnNext;
+			CDude* pdude = (CDude*)pln->m_powner;
+
+			double dudePosX = 0;
+			double dudePosY = 0;
+
+			int16_t mousePosX = 0;
+			int16_t mousePosY = 0;
+
+			rspGetMouse(&mousePosX, &mousePosY, &sButtons);
+
+			//printf("Mouse Pos: %i %i\n", mousePosX, mousePosY);
+			double modifierX = 0;
+			double modifierY = 0;
+
+			GetResModifer(&modifierX, &modifierY);
+
+			//Cram mouse pos in 640x480 resolution which game expects
+			double adjMousePosX = mousePosX * modifierX;
+			double adjMousePosY = mousePosY * modifierY;
+
+			//printf("Crammed Mouse Pos: %f %f\n", adjMousePosX, adjMousePosY);
+
+			/*     Trying to do calculation in 'global'  3d     */
+
+			double mouseX_3d = 0;
+			double mouseY_3d = 0;
+			double mouseZ_3d = 0;
+
+			MapScreen2Realm(prealm, pcamera, adjMousePosX, adjMousePosY, &mouseX_3d, &mouseY_3d, &mouseZ_3d);
+
+			dudePosX = pdude->m_dX;
+			dudePosY = pdude->m_dZ;
+
+			/*     Trying to do calculation in 'screen' 2d      */
+
+			// Map coordinate onto 2D screen coords
+
+			//Maprealm2Screen(m_pRealm, Camera(), m_dX, m_dY, m_dZ, &dudePosX, &dudePosY);
+
+
+			double deltaX = mouseX_3d - dudePosX;  //In either screen coords or in global 3d coords
+			double deltaY = dudePosY - mouseZ_3d;
+
+			//For crosshair to scale in mouse pointer direction
+			pdude->m_dMousePosX = mouseX_3d;
+			pdude->m_dMousePosY = mouseZ_3d;
+
+			//printf("Scale X: %.2f, Scale Y: %.2f\n", pdude->m_dCrossScaleX, pdude->m_dCrossScaleY);
+
+			double rotateToAngle = 0.0;
+			double rot = pdude->m_dRot;
+
+			rotateToAngle = atan2(deltaY, deltaX) * (180 / M_PI);
+			if (rotateToAngle < 0) rotateToAngle += 360;
+
+			/* Trying to make dude gradually rotate torwards the mouse pointer */
+			double rotStep = (g_InputSettings.m_dMouseSensitivityX) * 10; //The constant is arbitrary and can be experimented on 
+			double deltaDiff = rotateToAngle - rot;
+
+			if (abs(deltaDiff) > 180) {
+				//Clockwise rotation should be negative
+				if (deltaDiff < 0) {
+					deltaDiff = (360 - rot) + rotateToAngle;
+				}
+				else if (deltaDiff > 0) {
+					deltaDiff = (rotateToAngle - 360) - rot;
+				}
+
 			}
+
+			//Direct rot assignment impl
+
+			//if (abs(deltaDiff) < rotStep) {
+			//	rot = rotateToAngle;
+			//}
+			//else if (deltaDiff > 0) {
+			//	rot += rotStep;
+			//}
+			//else if (deltaDiff < 0) {
+			//	rot -= rotStep;
+			//}
+
+			////Keep rotation from going negative 
+			//if (rot < 0) 
+			//	rot += 360;
+
+			////Keep rotation from going over 360
+			//if (rot >= 360)
+			//	rot -= 360;
+
+			//pdude->m_dRotateToAngle = rotateToAngle;
+			//pdude->m_dRot = rot;
+
+			//Using sDeltaX for rotation
+
+			if (abs(deltaDiff) < rotStep) {
+				sDeltaX += deltaDiff;
+			}
+			else if (deltaDiff > 0) {
+				sDeltaX += rotStep;
+			}
+			else if (deltaDiff < 0) {
+				sDeltaX -= rotStep;
+			}
+
+		}
+
 
 #if defined(ALLOW_JOYSTICK)
 		U32	u32Buttons	= 0;
@@ -806,6 +963,11 @@ extern UINPUT GetLocalInput(				// Returns local input.
 #if defined(ALLOW_TWINSTICK)
 			//if ((u32Axes & RSP_JOY_Y_NEG) || (u32Axes & RSP_JOY_Y_POS) || (u32Axes & RSP_JOY_X_NEG) || (u32Axes & RSP_JOY_X_POS))
 				//input |= INPUT_FORWARD;
+
+				//All the new mouse stuff here
+			/*if (g_InputSettings.m_sUseNewMouse != FALSE && rspIsBackground() == FALSE) {
+
+			}*/
 #else
 			if (u32Axes & RSP_JOY_Y_NEG)
 				{
@@ -813,7 +975,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 				}
 			if (u32Axes & RSP_JOY_Y_POS)
 				{
-				input	|= INPUT_BACKWARD;
+				input	|= INPUT_MOVE_DOWN;
 				}
 			if (u32Axes & RSP_JOY_X_NEG)
 				{
@@ -836,10 +998,10 @@ extern UINPUT GetLocalInput(				// Returns local input.
 #endif	// defined(ALLOW_JOYSTICK)
 
 		if (IS_INPUT(CInputSettings::Forward))
-			input |= INPUT_FORWARD;
+			input |= INPUT_MOVE_UP;
 
 		if (IS_INPUT(CInputSettings::Backward))
-			input |= INPUT_BACKWARD;
+			input |= INPUT_MOVE_DOWN;
 
 		// The run key function is toggled by the caps lock key.
 		// If the caps lock is on, run is walk.
@@ -869,18 +1031,20 @@ extern UINPUT GetLocalInput(				// Returns local input.
 		if (IS_INPUT(CInputSettings::Left))
 			{
 			input	|= INPUT_LEFT;
+			//input |= INPUT_MOVE_LEFT;
 			}
 
 		if (IS_INPUT(CInputSettings::Right))
 			{
 			input	|= INPUT_RIGHT;
+			//input |= INPUT_MOVE_RIGHT;
 			}
-
-		if (input & INPUT_LEFT)
+		            
+		if (input & /*INPUT_MOVE_LEFT*/ INPUT_LEFT)
 			{
-			input |= INPUT_LEFT;
+			input |= /*INPUT_MOVE_LEFT*/   INPUT_LEFT;
 			// If last input had left rotation or this one has forward or reverse . . .
-			if (	(ms_inputLastLocal & INPUT_LEFT) 
+			if (	(ms_inputLastLocal & /*INPUT_MOVE_LEFT*/ INPUT_LEFT)
 				||	(input & INPUT_FORWARD)
 				||	(input & INPUT_BACKWARD) )
 				{
@@ -911,7 +1075,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 					}
 
 				sDeltaX	+= ((lCurTime - lPrevTime) * dRate) / 1000UL;
-                sDeltaX++;  // !!! FIXME: Not sure why this is needed. --ryan.
+                //sDeltaX++;  // !!! FIXME: Not sure why this is needed. --ryan.
 				}
 			else
 				{
@@ -922,11 +1086,11 @@ extern UINPUT GetLocalInput(				// Returns local input.
 			// Range check occurs later.
 			}
 
-		if (input & INPUT_RIGHT)
+		if (input & /*INPUT_MOVE_RIGHT*/ INPUT_RIGHT)
 			{
-			input |= INPUT_RIGHT;
+			input |= /*INPUT_MOVE_RIGHT*/ INPUT_RIGHT;
 			// If last input had right rotation or this one has forward or reverse . . .
-			if (	(ms_inputLastLocal & INPUT_RIGHT) 
+			if (	(ms_inputLastLocal & /*INPUT_MOVE_RIGHT*/ INPUT_RIGHT)
 				||	(input & INPUT_FORWARD)
 				||	(input & INPUT_BACKWARD) )
 				{

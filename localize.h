@@ -259,6 +259,7 @@ extern char g_pszControlsMenu_MouseSetup[];
 extern char g_pszControlsMenu_JoystickSetup[];
 extern char g_pszControlsMenu_TurningSpeeds[];
 extern char g_pszControlsMenu_UseMouse[];
+extern char g_pszControlsMenu_ClassicMouse[];
 extern char g_pszControlsMenu_HorizMouseSensitivity[];
 extern char g_pszControlsMenu_VertMouseSensitivity[];
 
