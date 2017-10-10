@@ -119,8 +119,9 @@
 
 #include "RSPiX.h"
 #include "realm.h"
+#include "camera.h"
 #include "InputSettings.h"
-
+#include "dude.h"
 
 // Maximum number of dudes supported by this module.  Just about any value
 // will work, it merely uses up a few extra bytes per dude, and no extra
@@ -328,6 +329,7 @@ extern bool InputIsDemoOver(void);		// Returns true when demo is over
 ////////////////////////////////////////////////////////////////////////////////
 extern UINPUT GetLocalInput(				// Returns local input structure.
 	CRealm* prealm,							// In:  Realm (used to access realm timer)
+	CCamera* camera,                     
 	RInputEvent* pie	= NULL);				// In:  Latest input event.  NULL to 
 													//	disable cheats in a way that will be
 													// harder to hack.
@@ -357,7 +359,6 @@ inline void SetInput(int16_t sDudeNumber, UINPUT input)
 	extern UINPUT m_aInputs[INPUT_MAX_DUDES];
 	m_aInputs[sDudeNumber] = input;
 	}
-
 
 #endif //INPUT_H
 ////////////////////////////////////////////////////////////////////////////////

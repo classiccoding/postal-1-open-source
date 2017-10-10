@@ -3003,7 +3003,18 @@ if (!demoCompat)
 
 	// "Twinstick" style inputs.
 if (!demoCompat)
-{
+{	
+	//New mouse implementation. 
+	if (g_InputSettings.m_sUseNewMouse && rspIsBackground() == FALSE) {
+
+		// Say we're using twinstick mode
+		m_bUseRotTS = true;
+
+		// Turn off the normal movement inputs if present
+		input &= ~(INPUT_FORWARD | INPUT_BACKWARD | INPUT_LEFT | INPUT_RIGHT);
+
+	}
+
 	if ((input & INPUT_MOVE_UP) || (input & INPUT_MOVE_DOWN) || (input & INPUT_MOVE_LEFT) || (input & INPUT_MOVE_RIGHT)
 			|| (input & INPUT_FIRE_UP) || (input & INPUT_FIRE_DOWN) || (input & INPUT_FIRE_LEFT) || (input & INPUT_FIRE_RIGHT))
 	{
@@ -3045,6 +3056,7 @@ if (!demoCompat)
 		// Determine fire direction
 		if (bCanFire)
 		{
+			//Code for twinsticking on keyboard
 			if ((input & INPUT_FIRE_UP) || (input & INPUT_FIRE_DOWN) || (input & INPUT_FIRE_LEFT) || (input & INPUT_FIRE_RIGHT))
 			{
 				// Say we're firing our weapon
@@ -3059,10 +3071,11 @@ if (!demoCompat)
 					m_dRot = 180;
 				else if (input & INPUT_FIRE_RIGHT)
 					m_dRot = 0;
-			}
-			else
-				// otherwise, point in the direction we're going
+			}//Keyboard twinstick wouldn't quite work with mouse in use
+			else if (g_InputSettings.m_sUseNewMouse == FALSE) {
+				//otherwise, point in the direction we're going
 				m_dRot = m_dRotTS;
+			}
 		}
 	}
 	//else
@@ -3077,6 +3090,7 @@ if (!demoCompat)
 
 	m_dJoyFireAngle = 0.f;
 	m_bJoyFire = (bCanFire && GetDudeFireAngle(&m_dJoyFireAngle));
+
 	if (m_dJoyMoveVel > 0 || m_bJoyFire)
 	{
 		// Setup movement
@@ -5427,25 +5441,43 @@ void CDude::Revive(				// Returns nothing.
 ////////////////////////////////////////////////////////////////////////////////
 void CDude::ShowTarget()
 {
+	//Old crossha
 	if (m_bTargetingHelpEnabled && m_bDead == false)
 	{
-		// sAngle must be between 0 and 359.
-		int16_t sRotY = rspMod360((int16_t) m_dRot);
-		int16_t sRangeXZ = 100;
-		int16_t sRadius = 20;
+		float fRateX = 0.0f;
+		float fRateZ = 0.0f;
 
-		float	fRateX = COSQ[sRotY] * sRangeXZ;
-		float	fRateZ = -SINQ[sRotY] * sRangeXZ;
-		float	fRateY = 0.0;	// If we ever want vertical movement . . .
+		if (g_InputSettings.m_sUseNewMouse && rspIsBackground() == FALSE) {
+		
+			fRateX = m_dMousePosX - m_dX;
+			fRateZ = m_dMousePosY - m_dZ;
 
-		// Set initial position to first point to check (NEVER checks original position).
-		float	fPosX = m_dX + fRateX;
-		float	fPosY = m_dY + fRateY;
-		float	fPosZ = m_dZ + fRateZ;
+		}
+		else {
+
+			// sAngle must be between 0 and 359.
+			int16_t sRotY = rspMod360((int16_t)m_dRot);
+			int16_t sRangeXZ = 100;
+			//This is unused
+			//int16_t sRadius = 20;
+
+			fRateX = COSQ[sRotY] * sRangeXZ;
+			fRateZ = -SINQ[sRotY] * sRangeXZ;
+
+			//float	fRateY = 0.0;	// If we ever want vertical movement . . .
+
+			// Set initial position to first point to check (NEVER checks original position).
+			// !Unused
+			//float	fPosX = m_dX + fRateX;
+			//float	fPosY = m_dY + fRateY;
+			//float	fPosZ = m_dZ + fRateZ;
+
+		}
 
 		if (m_TargetSprite.m_psprParent)
 			m_TargetSprite.m_psprParent->RemoveChild(&m_TargetSprite);
 		((CThing3d*)this)->m_sprite.AddChild(&m_TargetSprite);
+
 		// Map from 3d to 2d coords
 		Map3Dto2D(
 			fRateX - m_sprite.m_sRadius / 2,
@@ -5453,6 +5485,7 @@ void CDude::ShowTarget()
 			fRateZ,
 			&m_TargetSprite.m_sX2,
 			&m_TargetSprite.m_sY2);
+
 		m_TargetSprite.m_sInFlags &= ~CSprite::InHidden;
 		m_TargetSprite.m_sLayer = CRealm::LayerSprite16;
 	}

@@ -364,6 +364,7 @@
 #include "input.h"
 #include "PowerUp.h"
 #include "flag.h"
+#include "gameedit.h"  //Needed for mapping functions
 
 // First shot at a dude, which is a player-controlled character
 class CDude : public CCharacter
@@ -497,8 +498,11 @@ class CDude : public CCharacter
 		double			m_dJoyMoveAngle;
 		bool			m_bJoyFire;
 		double			m_dJoyFireAngle;
-
-
+		//For mouse stuff
+		double          m_dRotateToAngle;
+		//Mouse pos for crosshair
+		double          m_dMousePosX;
+		double          m_dMousePosY;
 
 	protected:
 

@@ -39,6 +39,7 @@
 // Includes.
 ////////////////////////////////////////////////////////////////////////////////
 #include "thing.h"
+#include "camera.h"
 #include "IdBank.h"
 
 extern void NavNetListPressedCall(RGuiItem* pgui);
@@ -193,6 +194,60 @@ extern void Edit_Menu_Continue(void);
 // Called by the menu callback when it wants to tell the editor to quit the
 // editor.
 extern void Edit_Menu_ExitEditor(void);
+
+//Utilities needed elsewhere
+
+
+// Map a screen coordinate to a realm coordinate.
+// Note that this function's *psRealmY output is always
+// the height specified by the realm's attribute map
+// at the resulting *psRealmX, *psRealmZ.
+extern void MapScreen2Realm(	// Returns nothing.
+	CRealm*	prealm,				// In:  Realm.
+	CCamera*	pcamera,				// In:  View of prealm.
+	int16_t sScreenX,				// In:  Screen x coord.
+	int16_t sScreenY,				// In:  Screen y coord.
+	int16_t* psRealmX,				// Out: Realm x coord.
+	int16_t* psRealmY,				// Out: Realm y coord (always via realm's height map).
+	int16_t* psRealmZ);				// Out: Realm z coord.
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Map a screen coordinate to a realm coordinate.
+// Note that this function's *psRealmY output is always
+// the height specified by the realm's attribute map
+// at the resulting *psRealmX, *psRealmZ.
+////////////////////////////////////////////////////////////////////////////////
+extern void MapScreen2Realm(	// Returns nothing.
+	CRealm*	prealm,				// In:  Realm.
+	CCamera*	pcamera,				// In:  View of prealm.
+	double sScreenX,				// In:  Screen x coord.
+	double sScreenY,				// In:  Screen y coord.
+	double* psRealmX,				// Out: Realm x coord.
+	double* psRealmY,				// Out: Realm y coord (always via realm's height map).
+	double* psRealmZ);				// Out: Realm z coord.
+
+// Map a realm coordinate to a screen coordinate.
+extern void Maprealm2Screen(	// Returns nothing.
+	CRealm*	prealm,				// In:  Realm.
+	CCamera*	pcamera,				// In:  View of prealm.
+	int16_t		sRealmX,				// In:  Realm x coord.
+	int16_t		sRealmY,				// In:  Realm y coord.
+	int16_t		sRealmZ,				// In:  Realm z coord.
+	int16_t*	psScreenX,			// Out: Screen x coord.
+	int16_t*	psScreenY);			// Out: Screen y coord.
+
+////////////////////////////////////////////////////////////////////////////////
+// Map a realm coordinate to a screen coordinate.
+////////////////////////////////////////////////////////////////////////////////
+extern void Maprealm2Screen(	// Returns nothing.
+	CRealm*	prealm,				// In:  Realm.
+	CCamera*	pcamera,				// In:  View of prealm.
+	double		sRealmX,				// In:  Realm x coord.
+	double		sRealmY,				// In:  Realm y coord.
+	double		sRealmZ,				// In:  Realm z coord.
+	double*	psScreenX,			// Out: Screen x coord.
+	double*	psScreenY);			// Out: Screen y coord.
 
 #endif //GAMEEDIT_H
 ////////////////////////////////////////////////////////////////////////////////

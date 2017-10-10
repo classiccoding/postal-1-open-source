@@ -199,6 +199,7 @@ class CInputSettings : CSettings
 															// input logic.
 
 		int16_t		m_sUseMouse;						// Allow mouse input (for main dude).
+		int16_t     m_sUseNewMouse;
 
 		int16_t		m_sUseJoy;							// Allow joystick input.
 

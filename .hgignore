@@ -5,6 +5,7 @@ Build
 *.ncb
 *.suo
 *.opt
+Testing/
 syntax: glob
 Backup/*
 testing/*
