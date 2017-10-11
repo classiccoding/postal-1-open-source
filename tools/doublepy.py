@@ -58,22 +58,24 @@ def waitfor(pipe, string):
 	fcntl.fcntl(pipe, fcntl.F_SETFL, fcntl.fcntl(pipe, fcntl.F_GETFL) | os.O_NONBLOCK)
 	while True:
 		try:
-			out = pipe.readline().decode()
+			out = pipe.readline()
+			if sys.version_info[0] == 3:
+				out = out.decode()
 		except IOError:
 			out = ""
 		if string in out:
 			break
 
+# Find an open port. Taken from StackOverflow. FIXME
+# This is bad. There should be a way to do this from within the
+# server application and then use the opened socket immediately.
+def getOpenPort():
+	s = socket.socket()
+	s.bind(("", 0))
+	return s.getsockname()[1]
+
 if have_rpyc:
 	processes = {}
-	
-	# Find an open port. Taken from StackOverflow. FIXME
-	# This is bad. There should be a way to do this from within the
-	# server application and then use the opened socket immediately.
-	def getOpenPort():
-		s = socket.socket()
-		s.bind(("", 0))
-		return s.getsockname()[1]
 	
 	# Run RPyC using a passed command. Returns a connection to the
 	# server.

@@ -418,6 +418,15 @@ RSPiX_wrap.o: RSPiX.i RSPiX_wrap.cxx
 _RSPiX.so: $(BINDIR) picon $(RSOBJS) RSPiX.i RSPiX_wrap.cxx RSPiX_wrap.o $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/ameliorate.o
 	$(CXX) RSPiX_wrap.o $(RSOBJS) $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/ameliorate.o -o _RSPiX.so $(LDFLAGS) $(LIBS) $(shell python2-config --libs) $(CFLAGS)
 
+malphagen: $(BINDIR) $(RSOBJS) $(BINDIR)/malphagen.o
+	$(CXX) $(BINDIR)/malphagen.o $(RSOBJS) -o malphagen $(LDFLAGS) $(LIBS) $(CFLAGS)
+
+alphagen: alphagen.cpp
+	$(CXX) alphagen.cpp -o alphagen
+
+tools: saktool malphagen alphagen swig
+	cp saktool malphagen alphagen RSPiX.py _RSPiX.so tools
+
 swig:
 	BINDIR=binpic $(MAKE) -e _RSPiX.so
 
