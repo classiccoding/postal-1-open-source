@@ -1,5 +1,5 @@
 #!/usr/bin/env python2
-# POSTAL Swiss Army Knife
+# png2spry
 # Copyright 2017 Declan Hoare
 #
 # This program is free software; you can redistribute it and/or modify
@@ -15,19 +15,11 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
-# Functions & GUI for working with the proprietary file formats used in RSPiX.
+# Converts PNG to SPRY. Don't know what you expected.
 
-import RSPiX, PIL.Image, tempfile, os, array
-
-try:
-	import wkinter
-	gui = True
-except:
-	gui = False
+import RSPiX, PIL.Image, tempfile, os, array, sys
 
 dirPath = os.path.dirname(os.path.realpath(__file__))
-
-productName = "POSTAL Swiss Army Knife"
 
 # Exception classes.
 
@@ -248,101 +240,8 @@ def pngToSpry(fname, palname, outname):
 	outFile.Close()
 	spriteList = spryToList(outSpry) # Empty the Spry so it doesn't destroy the sprites
 
-# Start the program.
-if __name__ == "__main__" and gui:
-	wkinter.startGtkThread()
-
-	uri = "home.html"
-	
-	currobj = None
-	
-	browser, webRecv, webSend, navigate = wkinter.syncGtkMessage(wkinter.launchBrowser)(productName, uri, echo = False, htmlLocation = dirPath + "/psak_pages")
-
-	while not wkinter.Global.quit:
-		message = webRecv()
-		if message == "spry":
-			fname = wkinter.selectFile("Select a Spry file", wkinter.OPEN, [["Spry files", ["*.say"]], ["All files", ["*"]]])
-			if fname != None:
-				basename = fname[:-7] + ".bmp"
-				if not os.path.isfile(basename):
-					wkinter.alert("PSAK also requires access to the hood's base image for palette information. The file could not be found. Please locate it manually.", icon = wkinter.INFO, title = productName)
-					basename = wkinter.selectFile("Select the hood base BMP", wkinter.OPEN, [["BMP files", ["*.bmp"]], ["All files", ["*"]]])
-				if basename != None:
-					currobj = RSPiX.RSpry()
-					if currobj.Load(fname) == 0:
-						wkinter.syncGtkMessage(navigate)("spry.html")
-						while message != "ready":
-							message = webRecv()
-						webSend("setsay('{0}', '{1}');".format(fname, str(currobj.m_listSprites.GetCount())))
-					else:
-						currobj = None
-						wkinter.alert("Failed to load Spry from " + fname, title = productName)
-		elif message == "home":
-			currobj = None
-			wkinter.syncGtkMessage(navigate)(uri)
-		elif message == "convpng":
-			outname = wkinter.selectFile("Save PNG file", wkinter.SAVE, [["PNG files", ["*.png"]], ["All files", ["*"]]])
-			if outname != None:
-				sprylist = spryToList(currobj)
-				spritesToPng(sprylist, basename, outname)
-				currobj = listToSpry(sprylist)
-		elif message == "convsay":
-			fname = wkinter.selectFile("Select a PNG file", wkinter.OPEN, [["PNG files", ["*.png"]], ["All files", ["*"]]])
-			if fname != None:
-				outname = wkinter.selectFile("Save Spry file", wkinter.SAVE, [["Spry files", ["*.say"]], ["All files", ["*"]]])
-				if outname != None:
-					basename = fname[:-7] + ".bmp"
-					if not os.path.isfile(basename):
-						wkinter.alert("PSAK also requires access to the hood's base image for palette information. The file could not be found. Please locate it manually.", icon = wkinter.INFO, title = productName)
-						basename = wkinter.selectFile("Select the hood base BMP", wkinter.OPEN, [["BMP files", ["*.bmp"]], ["All files", ["*"]]])
-					if basename != None:
-						pngToSpry(fname, basename, outname)
-		elif message == "batchpng":
-			fname = wkinter.selectFile("Select a directory", wkinter.DIR, [["Directory", ["*"]]])
-			if fname != None:
-				for subdir, dirs, files in os.walk(fname):
-					for name in files:
-						filepath = subdir + os.sep + name
-						if filepath.endswith(".say"):
-							basename = filepath[:-7] + ".bmp"
-							outname = filepath[:-4] + ".png"
-							tmpspry = RSPiX.RSpry()
-							tmpspry.Load(filepath)
-							sprylist = spryToList(tmpspry)
-							spritesToPng(sprylist, basename, outname)
-		elif message == "batchsay":
-			dirname = wkinter.selectFile("Select a directory", wkinter.DIR, [["Directory", ["*"]]])
-			if dirname != None:
-				interest = []
-				for subdir, dirs, files in os.walk(dirname):
-					for fname in files:
-						filepath = subdir + os.sep + fname
-						if filepath.endswith(".png"):
-							basename = filepath[:-7] + ".bmp"
-							if os.path.isfile(basename):
-								outname = filepath[:-4] + ".say"
-								interest.append((filepath, basename, outname))
-							else:
-								wkinter.alert("Failed to load base image for " + fname + " - Skipping.", title = productName, icon = wkinter.WARNING)
-				if len(interest) > 0:
-					wkinter.syncGtkMessage(navigate)("progress.html")
-					while message != "ready":
-						message = webRecv()
-					for idx, (fname, basename, outname) in enumerate(interest):
-						webSend("document.getElementById('fname').innerHTML = 'Converting {0}';".format(fname))
-						webSend("setprog({0}, {1});".format(idx, len(interest)))
-						pngToSpry(fname, basename, outname)
-					wkinter.syncGtkMessage(navigate)(uri)
-		elif message == "correct":
-			fname = wkinter.selectFile("Select a BMP", wkinter.OPEN, [["BMP files", ["*.bmp"]], ["All files", ["*"]]])
-			if fname != None:
-				outname = wkinter.selectFile("Save PNG file", wkinter.SAVE, [["PNG files", ["*.png"]], ["All files", ["*"]]])
-				if outname != None:
-					rspim = RSPiX.RImage()
-					if rspim.Load(fname) == 0:
-						bmpToPng(fname, outname, rspim.m_pPalette)
-						del rspim
-					else:
-						wkinter.alert("Failed to load BMP from " + fname, title = productName)
-		elif message != None:
-			wkinter.alert("This feature has not yet been implemented.", title = productName)
+if __name__ == "__main__":
+	if len(sys.argv) != 4:
+		sys.stderr.write("usage: " + sys.argv[0] + " PNG HOOD OUTSPRY\n")
+		sys.exit(1)
+	pngToSpry(*sys.argv[1:])
