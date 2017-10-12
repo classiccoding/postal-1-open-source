@@ -541,6 +541,10 @@ static bool ChallengeChoice(	// Returns true to accept, false to deny choice.
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem);				// Item chosen.
 
+static bool ChallengeTimedChoice(	// Returns true to accept, false to deny choice.
+	Menu*	pmenuCurrent,			// Current menu.
+	int16_t	sMenuItem);				// Item chosen.
+
 static int16_t StartSingleInit(	// Returns 0 on success, non-zero to cancel menu.
 	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
@@ -2746,7 +2750,7 @@ extern Menu	menuStartSingle =
 #ifndef LOADLEVEL_REMOVED
 			{ g_pszStartSinglePlayerMenu_LoadLevel,	TRUE,			&menuLoadLevel,					NULL,	},
 #endif
-			{ g_pszStartSinglePlayerMenu_Challenge,	TRUE,			/*&menuChallenge,*/NULL,	NULL,	},
+			{ "CHALLENGES",	TRUE,			&menuChallenge,					NULL,	},
 			{ "",													FALSE,		NULL,					NULL, },
 			NULL							// Terminates list.
 		},
@@ -2916,7 +2920,7 @@ extern Menu	menuChallenge =
 	// Menu items.
 		{	// pszText,					sEnabled,		pmenu,		pgui
 			{ g_pszStartChallengeMenu_Gauntlet,		TRUE,			NULL,			NULL,	},
-			{ g_pszStartChallengeMenu_Timed,			TRUE,			NULL,			NULL,	},
+			{ g_pszStartChallengeMenu_Timed,			TRUE,			&menuChallengeTimed,			NULL,	},
 			{ g_pszStartChallengeMenu_Goal,			TRUE,			NULL,			NULL,	},
 			{ g_pszStartChallengeMenu_Flag,			TRUE,			NULL,			NULL,	},
 			{ g_pszStartChallengeMenu_CheckPoint,	TRUE,			NULL,			NULL,	},
@@ -2924,6 +2928,91 @@ extern Menu	menuChallenge =
 			NULL							// Terminates list.
 		},
 	};
+
+extern Menu menuChallengeTimed = 
+{
+	CHALLENGE_TIMED_MENU_ID,
+
+	// Position info.
+	{	// x, y, w, h, sPosX, sPosY, sItemSpacingY, sIndicatorSpacingX,
+		MENU_RECT_MD,					// menu x, y, w, h
+		-120,								// menu header x offset
+		MENU_HEAD_Y_MD,				// menu header y offset
+		MENU_ITEM_X_MD,				// menu items x offset
+		MENU_ITEM_Y_MD,				// menu items y offset
+		MENU_ITEM_SPACE_Y_MD,		// vertical space between menu items
+		MENU_ITEM_IND_SPACE_X_MD,	// horizontal space between indicator and menu items
+	},
+
+	// Background info.
+	{	// pszFile, u32BackColor
+		MENU_BG_MD,
+		MENU_BG_COLOR,		// Background color.
+		PAL_SET_START,		// Starting palette index to set.
+		PAL_SET_NUM,		// Number of entries to set.
+		PAL_MAP_START,		// Starting index of palette entries that can be mapped to.
+		PAL_MAP_NUM,		// Number of palette entries that can be mapped to.
+	},
+
+	// GUI settings.
+	{	// sTransparent.
+		TRUE,		// TRUE if GUI is to be BLiT with transparency.
+	},
+
+	// Flags.
+	(MenuFlags)(MenuPosCenter | MenuBackTiled | MenuItemTextShadow | MenuHeaderTextShadow | MenuHeaderTextCenter),
+
+	// Header and its font info.
+	{	// pszHeaderText, pszFontFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor.
+		"TIMED CHALLENGES",
+		SMASH_FONT,
+		HEAD_FONT_HEIGHT,	// Height of font.
+		HEAD_COLOR,			// Text RGBA.
+		HEAD_SHADOW_COLOR	// Text Shadow RGBA.
+	},
+
+	// Font info.
+	{	// pszFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor
+		SMASH_FONT,
+		ITEM_FONT_HEIGHT,	// Height of font.
+		ITEM_COLOR,			// Text RGBA.
+		ITEM_SHADOW_COLOR	// Text Shadow RGBA.
+	},
+
+	// Menu indicator.
+	{	// pszFile, type
+		MENU_INDICATOR,
+		RImage::FSPR8,
+	},
+
+	// Menu callbacks.
+	{	// fnInit, fnChoice,
+		ChallengeInit,		// Called before menu is initialized.
+		ChallengeTimedChoice,	// Called when item is chosen.
+	},
+
+	// Menu auto items.
+	{	// sDefaultItem, sCancelItem,
+		0,		// Menu item (index in ami[]) selected initially.
+				// Negative indicates distance from number of items
+				// (e.g., -1 is the last item).
+				-1,	// Menu item (index in ami[]) chosen on cancel.
+					// Negative indicates distance from number of items
+					// (e.g., -1 is the last item).
+	},
+
+	// Menu items.
+	{	// pszText,					sEnabled,		pmenu,		pgui
+		{ "afbtime.rlm",		TRUE,			NULL,			NULL, },
+		{ "cityslay.rlm",			TRUE,			NULL,			NULL, },
+		{ "eznfast.rlm",			TRUE,			NULL,			NULL, },
+		{ "farmtime.rlm",			TRUE,			NULL,			NULL, },
+		{ "parkattk.rlm",	TRUE,			NULL,			NULL, },
+		{ "salvtime.rlm",	TRUE,			NULL,			NULL, },
+		{ "",												FALSE,		NULL,			NULL, },
+		NULL							// Terminates list.
+	},
+};
 
 // Multiplayer start menu.
 extern Menu	menuStartMulti =
@@ -3550,9 +3639,52 @@ static bool ChallengeChoice(	// Returns true to accept, false to deny choice.
 		PlaySample(g_smidMenuItemSelect, SampleMaster::UserFeedBack);
 
 	// Let game module handle it
-	Game_StartChallengeGame(sMenuItem);
+	if (sMenuItem == 0)
+		Game_StartChallengeGame("gauntlet");
 
 	return bAcceptChoice;
+	}
+
+static bool ChallengeTimedChoice(
+	Menu* pmenuCurrent,
+	int16_t sMenuItem)
+	{
+	//Assume Accepting
+	bool bAcceptChoice = true;
+
+	//Audible Feedback
+	if (sMenuItem == -1)
+		PlaySample(g_smidMenuItemChange, SampleMaster::UserFeedBack);
+	else
+		PlaySample(g_smidMenuItemSelect, SampleMaster::UserFeedBack);
+
+	//HANDLE SELECTION
+	switch (sMenuItem)
+	{
+	case 0:
+		Game_StartChallengeGame("res/levels/gauntlet/timed/afbtime.rlm");
+		break;
+	case 1:
+		Game_StartChallengeGame("res/levels/gauntlet/timed/cityslay.rlm");
+		break;
+	case 2:
+		Game_StartChallengeGame("res/levels/gauntlet/timed/eznfast.rlm");
+		break;
+	case 3:
+		Game_StartChallengeGame("res/levels/gauntlet/timed/farmtime.rlm");
+		break;
+	case 4:
+		Game_StartChallengeGame("res/levels/gauntlet/timed/parkattk.rlm");
+		break;
+	case 5:
+		Game_StartChallengeGame("res/levels/gauntlet/timed/salvtime.rlm");
+		break;
+	default:
+		break;
+	}
+
+	return bAcceptChoice;
+
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3600,7 +3732,7 @@ static bool StartSingleMenu(	// Returns true to accept, false to deny choice.
 		#else
 		case 2:
 		#endif // LOADLEVEL_REMOVED
-			Game_StartSinglePlayerGame(7);
+			//Game_StartSinglePlayerGame(7);
 			break;
 	}
 
