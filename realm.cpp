@@ -391,12 +391,6 @@
 // File counter
 int16_t CRealm::ms_sFileCount;
 
-// Maps the layer portion of an attribute to the appropriate
-// layer.
-// Now that this table is 32K, we generate it table at run time to avoid adding
-// an extra 32K of uncompressable space to the exe.
-int16_t CRealm::ms_asAttribToLayer[CRealm::LayerAttribMask + 1];
-
 // Names of layers.  Use Layer enum values to index.
 char* CRealm::ms_apszLayerNames[TotalLayers]	=
 	{
@@ -2328,46 +2322,7 @@ const char* CRealm::Make2dResPath(	// Returns a ptr to an internal static buffer
 ////////////////////////////////////////////////////////////////////////////////
 void CRealm::CreateLayerMap(void)
 	{
-	// If table needs to be built . . .
-	if (ms_asAttribToLayer[0] != LayerSprite16)
-		{
-		int32_t	l;
-		for (l = 0; l < NUM_ELEMENTS(ms_asAttribToLayer); l++)
-			{
-			if (l & 0x0001)
-				ms_asAttribToLayer[l]	= LayerSprite1;
-			else if (l & 0x0002)
-				ms_asAttribToLayer[l]	= LayerSprite2;
-			else if (l & 0x0004)
-				ms_asAttribToLayer[l]	= LayerSprite3;
-			else if (l & 0x0008)
-				ms_asAttribToLayer[l]	= LayerSprite4;
-			else if (l & 0x0010)
-				ms_asAttribToLayer[l]	= LayerSprite5;
-			else if (l & 0x0020)
-				ms_asAttribToLayer[l]	= LayerSprite6;
-			else if (l & 0x0040)
-				ms_asAttribToLayer[l]	= LayerSprite7;
-			else if (l & 0x0080)
-				ms_asAttribToLayer[l]	= LayerSprite8;
-			else if (l & 0x0100)
-				ms_asAttribToLayer[l]	= LayerSprite9;
-			else if (l & 0x0200)
-				ms_asAttribToLayer[l]	= LayerSprite10;
-			else if (l & 0x0400)
-				ms_asAttribToLayer[l]	= LayerSprite11;
-			else if (l & 0x0800)
-				ms_asAttribToLayer[l]	= LayerSprite12;
-			else if (l & 0x1000)
-				ms_asAttribToLayer[l]	= LayerSprite13;
-			else if (l & 0x2000)
-				ms_asAttribToLayer[l]	= LayerSprite14;
-			else if (l & 0x4000)
-				ms_asAttribToLayer[l]	= LayerSprite15;
-			else
-				ms_asAttribToLayer[l]	= LayerSprite16;
-			}
-		}
+	// No-op. This is the dumbest use of caching I've ever seen
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
