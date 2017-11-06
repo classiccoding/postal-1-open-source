@@ -415,11 +415,8 @@ RSPiX_wrap.cxx: RSPiX.i
 RSPiX_wrap.o: RSPiX.i RSPiX_wrap.cxx
 	$(CXX) -c RSPiX_wrap.cxx $(CFLAGS) $(shell python2-config --cflags)
 
-_RSPiX.so: $(BINDIR) picon $(RSOBJS) RSPiX.i RSPiX_wrap.cxx RSPiX_wrap.o $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/ameliorate.o
-	$(CXX) RSPiX_wrap.o $(RSOBJS) $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/ameliorate.o -o _RSPiX.so $(LDFLAGS) $(LIBS) $(shell python2-config --libs) $(CFLAGS)
-
-malphagen: $(BINDIR) $(RSOBJS) $(BINDIR)/malphagen.o
-	$(CXX) $(BINDIR)/malphagen.o $(RSOBJS) -o malphagen $(LDFLAGS) $(LIBS) $(CFLAGS)
+_RSPiX.so: $(BINDIR) picon $(RSOBJS) RSPiX.i RSPiX_wrap.cxx RSPiX_wrap.o $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/ameliorate.o $(BINDIR)/malphagen.o
+	$(CXX) RSPiX_wrap.o $(RSOBJS) $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/ameliorate.o $(BINDIR)/malphagen.o -o _RSPiX.so $(LDFLAGS) $(LIBS) $(shell python2-config --libs) $(CFLAGS)
 
 alphagen: alphagen.cpp
 	$(CXX) alphagen.cpp -o alphagen

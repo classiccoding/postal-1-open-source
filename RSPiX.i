@@ -175,4 +175,6 @@ colourGetter(getRed, dstRed);
 colourGetter(getGreen, dstGreen);
 colourGetter(getBlue, dstBlue);
 
+void malphagen(const char* in, const char* out);
+
 %}
