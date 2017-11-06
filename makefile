@@ -48,9 +48,9 @@ endif
 ifeq ($(strip $(target)),linux_x86_64)
   macosx := false
   CPUARCH := x86_64
-  CC := gcc
-  CXX := g++
-  LINKER := g++
+  CC ?= gcc
+  CXX ?= g++
+  LINKER ?= g++
 endif
 ifeq ($(strip $(target)),macosx_x86)
   macosx := true
@@ -418,6 +418,9 @@ RSPiX_wrap.o: RSPiX.i RSPiX_wrap.cxx
 _RSPiX.so: $(BINDIR) picon $(RSOBJS) RSPiX.i RSPiX_wrap.cxx RSPiX_wrap.o $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/ameliorate.o $(BINDIR)/malphagen.o
 	$(CXX) RSPiX_wrap.o $(RSOBJS) $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/ameliorate.o $(BINDIR)/malphagen.o -o _RSPiX.so $(LDFLAGS) $(LIBS) $(shell python2-config --libs) $(CFLAGS)
 
+_RSPiX.dll: $(BINDIR) picon $(RSOBJS) RSPiX.i RSPiX_wrap.cxx RSPiX_wrap.o $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/ameliorate.o $(BINDIR)/malphagen.o
+	$(CXX) RSPiX_wrap.o $(RSOBJS) $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/ameliorate.o $(BINDIR)/malphagen.o -o _RSPiX.dll $(LDFLAGS) $(LIBS) $(shell python2-config --libs) $(CFLAGS)
+
 alphagen: alphagen.cpp
 	$(CXX) alphagen.cpp -o alphagen
 
@@ -426,6 +429,9 @@ tools: saktool malphagen alphagen swig
 
 swig:
 	BINDIR=binpic $(MAKE) -e _RSPiX.so
+
+swigdows:
+	CC=i686-w64-mingw32-gcc CXX=i686-w64-mingw32-g++ LINKER=i686-w64-mingw32-g++ BINDIR=binwpic $(MAKE) -e _RSPiX.dll
 
 $(EBINDIR) :
 	$(MAKE) ebindir

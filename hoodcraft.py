@@ -94,7 +94,7 @@ class sak_reader:
 					length = read_u32(self.fobj) - offset
 					self.fobj.seek(offset)
 					return self.fobj.read(length)
-		raise FileNotFoundError(fname + " does not exist in this SAK.")
+		raise IOError(fname + " does not exist in this SAK.")
 
 def write_sak(fobj, files):
 	write_u32(fobj, sak_magic)
@@ -120,7 +120,7 @@ def flatten(l):
 
 try:
 	homer = sak_reader(open("res/hoods/homer.sak", "rb"))
-except FileNotFoundError:
+except IOError:
 	Tkinter.Tk().withdraw()
 	tkMessageBox.showerror("Hoodcraft", "Could not find homer.sak. Are you sure Hoodcraft is in the POSTAL directory?")
 	sys.exit(1)
