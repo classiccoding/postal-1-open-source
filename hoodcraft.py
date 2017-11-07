@@ -409,9 +409,12 @@ pdb.gimp_quit(True)
 			for y in xrange(self.background.height):
 				for x in xrange(self.background.width):
 					value = 0
-					for i, layer in enumerate(interlaced(self.opaque, self.alpha)):
-						if layer:
-							value |= layer_num_to_bit(i) if layer.getpixel((x, y)) else 0
+					for k, v in my_images.iteritems():
+						if k.startswith("0"):
+							l = int(k[1]) * 2 # opaque/alpha namespace interlaced
+							if k[2] == "a": # if alpha, odd
+								l += 1
+							value |= layer_num_to_bit(l) if v.getpixel((x, y)) else 0
 					rmg.SetValueUncompressed(value, x, y)
 			rmg.Compress(64, 64)
 			rfl = RSPiX.RFile()
