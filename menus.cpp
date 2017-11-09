@@ -545,6 +545,18 @@ static bool ChallengeTimedChoice(	// Returns true to accept, false to deny choic
 	Menu*	pmenuCurrent,			// Current menu.
 	int16_t	sMenuItem);				// Item chosen.
 
+static bool ChallengeGoalChoice(	// Returns true to accept, false to deny choice.
+	Menu*	pmenuCurrent,			// Current menu.
+	int16_t	sMenuItem);				// Item chosen.
+
+static bool ChallengeFlagChoice(	// Returns true to accept, false to deny choice.
+	Menu*	pmenuCurrent,			// Current menu.
+	int16_t	sMenuItem);				// Item chosen.
+
+static bool ChallengeCheckpointChoice(	// Returns true to accept, false to deny choice.
+	Menu*	pmenuCurrent,			// Current menu.
+	int16_t	sMenuItem);				// Item chosen.
+
 static int16_t StartSingleInit(	// Returns 0 on success, non-zero to cancel menu.
 	Menu*	pmenuCur,				// Current menu.
 	int16_t	sInit);					// TRUE, if initializing; FALSE, if killing.
@@ -2921,9 +2933,9 @@ extern Menu	menuChallenge =
 		{	// pszText,					sEnabled,		pmenu,		pgui
 			{ g_pszStartChallengeMenu_Gauntlet,		TRUE,			NULL,			NULL,	},
 			{ g_pszStartChallengeMenu_Timed,			TRUE,			&menuChallengeTimed,			NULL,	},
-			{ g_pszStartChallengeMenu_Goal,			TRUE,			NULL,			NULL,	},
-			{ g_pszStartChallengeMenu_Flag,			TRUE,			NULL,			NULL,	},
-			{ g_pszStartChallengeMenu_CheckPoint,	TRUE,			NULL,			NULL,	},
+			{ g_pszStartChallengeMenu_Goal,			TRUE,			&menuChallengeGoal,			NULL,	},
+			{ g_pszStartChallengeMenu_Flag,			TRUE,			&menuChallengeFlag,			NULL,	},
+			{ g_pszStartChallengeMenu_CheckPoint,	TRUE,			&menuChallengeCheckpoint,			NULL,	},
 			{ "",												FALSE,		NULL,			NULL, },
 			NULL							// Terminates list.
 		},
@@ -2964,7 +2976,7 @@ extern Menu menuChallengeTimed =
 
 	// Header and its font info.
 	{	// pszHeaderText, pszFontFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor.
-		"TIMED CHALLENGES",
+		g_pszStartChallengeMenu_Timed,
 		SMASH_FONT,
 		HEAD_FONT_HEIGHT,	// Height of font.
 		HEAD_COLOR,			// Text RGBA.
@@ -3009,6 +3021,260 @@ extern Menu menuChallengeTimed =
 		{ "farmtime.rlm",			TRUE,			NULL,			NULL, },
 		{ "parkattk.rlm",	TRUE,			NULL,			NULL, },
 		{ "salvtime.rlm",	TRUE,			NULL,			NULL, },
+		{ "",												FALSE,		NULL,			NULL, },
+		NULL							// Terminates list.
+	},
+};
+
+extern Menu menuChallengeGoal =
+{
+	CHALLENGE_GOAL_MENU_ID,
+
+	// Position info.
+	{	// x, y, w, h, sPosX, sPosY, sItemSpacingY, sIndicatorSpacingX,
+		MENU_RECT_MD,					// menu x, y, w, h
+		-120,								// menu header x offset
+		MENU_HEAD_Y_MD,				// menu header y offset
+		MENU_ITEM_X_MD,				// menu items x offset
+		MENU_ITEM_Y_MD,				// menu items y offset
+		MENU_ITEM_SPACE_Y_MD,		// vertical space between menu items
+		MENU_ITEM_IND_SPACE_X_MD,	// horizontal space between indicator and menu items
+	},
+
+	// Background info.
+	{	// pszFile, u32BackColor
+		MENU_BG_MD,
+		MENU_BG_COLOR,		// Background color.
+		PAL_SET_START,		// Starting palette index to set.
+		PAL_SET_NUM,		// Number of entries to set.
+		PAL_MAP_START,		// Starting index of palette entries that can be mapped to.
+		PAL_MAP_NUM,		// Number of palette entries that can be mapped to.
+	},
+
+	// GUI settings.
+	{	// sTransparent.
+		TRUE,		// TRUE if GUI is to be BLiT with transparency.
+	},
+
+	// Flags.
+	(MenuFlags)(MenuPosCenter | MenuBackTiled | MenuItemTextShadow | MenuHeaderTextShadow | MenuHeaderTextCenter),
+
+	// Header and its font info.
+	{	// pszHeaderText, pszFontFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor.
+		g_pszStartChallengeMenu_Goal,
+		SMASH_FONT,
+		HEAD_FONT_HEIGHT,	// Height of font.
+		HEAD_COLOR,			// Text RGBA.
+		HEAD_SHADOW_COLOR	// Text Shadow RGBA.
+	},
+
+	// Font info.
+	{	// pszFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor
+		SMASH_FONT,
+		ITEM_FONT_HEIGHT,	// Height of font.
+		ITEM_COLOR,			// Text RGBA.
+		ITEM_SHADOW_COLOR	// Text Shadow RGBA.
+	},
+
+	// Menu indicator.
+	{	// pszFile, type
+		MENU_INDICATOR,
+		RImage::FSPR8,
+	},
+
+	// Menu callbacks.
+	{	// fnInit, fnChoice,
+		ChallengeInit,		// Called before menu is initialized.
+		ChallengeGoalChoice,	// Called when item is chosen.
+	},
+
+	// Menu auto items.
+	{	// sDefaultItem, sCancelItem,
+		0,		// Menu item (index in ami[]) selected initially.
+				// Negative indicates distance from number of items
+				// (e.g., -1 is the last item).
+				-1,	// Menu item (index in ami[]) chosen on cancel.
+					// Negative indicates distance from number of items
+					// (e.g., -1 is the last item).
+	},
+
+	// Menu items.
+	{	// pszText,					sEnabled,		pmenu,		pgui
+		{ "bridge25.rlm",		TRUE,			NULL,			NULL, },
+		{ "flamer40.rlm",			TRUE,			NULL,			NULL, },
+		{ "kill30.rlm",			TRUE,			NULL,			NULL, },
+		{ "mine30.rlm",			TRUE,			NULL,			NULL, },
+		{ "minefire.rlm",	TRUE,			NULL,			NULL, },
+		{ "pow30.rlm",	TRUE,			NULL,			NULL, },
+		{ "",												FALSE,		NULL,			NULL, },
+		NULL							// Terminates list.
+	},
+};
+
+extern Menu menuChallengeFlag =
+{
+	CHALLENGE_FLAG_MENU_ID,
+
+	// Position info.
+	{	// x, y, w, h, sPosX, sPosY, sItemSpacingY, sIndicatorSpacingX,
+		MENU_RECT_MD,					// menu x, y, w, h
+		-120,								// menu header x offset
+		MENU_HEAD_Y_MD,				// menu header y offset
+		MENU_ITEM_X_MD,				// menu items x offset
+		MENU_ITEM_Y_MD,				// menu items y offset
+		MENU_ITEM_SPACE_Y_MD,		// vertical space between menu items
+		MENU_ITEM_IND_SPACE_X_MD,	// horizontal space between indicator and menu items
+	},
+
+	// Background info.
+	{	// pszFile, u32BackColor
+		MENU_BG_MD,
+		MENU_BG_COLOR,		// Background color.
+		PAL_SET_START,		// Starting palette index to set.
+		PAL_SET_NUM,		// Number of entries to set.
+		PAL_MAP_START,		// Starting index of palette entries that can be mapped to.
+		PAL_MAP_NUM,		// Number of palette entries that can be mapped to.
+	},
+
+	// GUI settings.
+	{	// sTransparent.
+		TRUE,		// TRUE if GUI is to be BLiT with transparency.
+	},
+
+	// Flags.
+	(MenuFlags)(MenuPosCenter | MenuBackTiled | MenuItemTextShadow | MenuHeaderTextShadow | MenuHeaderTextCenter),
+
+	// Header and its font info.
+	{	// pszHeaderText, pszFontFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor.
+		g_pszStartChallengeMenu_Flag,
+		SMASH_FONT,
+		HEAD_FONT_HEIGHT,	// Height of font.
+		HEAD_COLOR,			// Text RGBA.
+		HEAD_SHADOW_COLOR	// Text Shadow RGBA.
+	},
+
+	// Font info.
+	{	// pszFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor
+		SMASH_FONT,
+		ITEM_FONT_HEIGHT,	// Height of font.
+		ITEM_COLOR,			// Text RGBA.
+		ITEM_SHADOW_COLOR	// Text Shadow RGBA.
+	},
+
+	// Menu indicator.
+	{	// pszFile, type
+		MENU_INDICATOR,
+		RImage::FSPR8,
+	},
+
+	// Menu callbacks.
+	{	// fnInit, fnChoice,
+		ChallengeInit,		// Called before menu is initialized.
+		ChallengeFlagChoice,	// Called when item is chosen.
+	},
+
+	// Menu auto items.
+	{	// sDefaultItem, sCancelItem,
+		0,		// Menu item (index in ami[]) selected initially.
+				// Negative indicates distance from number of items
+				// (e.g., -1 is the last item).
+				-1,	// Menu item (index in ami[]) chosen on cancel.
+					// Negative indicates distance from number of items
+					// (e.g., -1 is the last item).
+	},
+
+	// Menu items.
+	{	// pszText,					sEnabled,		pmenu,		pgui
+		{ "chbridge.rlm",		TRUE,			NULL,			NULL, },
+		{ "ghetflag.rlm",			TRUE,			NULL,			NULL, },
+		{ "homeflag.rlm",			TRUE,			NULL,			NULL, },
+		{ "salvflag.rlm",			TRUE,			NULL,			NULL, },
+		{ "skirtflg.rlm",	TRUE,			NULL,			NULL, },
+		{ "tlrflag.rlm",	TRUE,			NULL,			NULL, },
+		{ "",												FALSE,		NULL,			NULL, },
+		NULL							// Terminates list.
+	},
+};
+
+extern Menu menuChallengeCheckpoint =
+{
+	CHALLENGE_CHECKPOINT_MENU_ID,
+
+	// Position info.
+	{	// x, y, w, h, sPosX, sPosY, sItemSpacingY, sIndicatorSpacingX,
+		MENU_RECT_MD,					// menu x, y, w, h
+		-120,								// menu header x offset
+		MENU_HEAD_Y_MD,				// menu header y offset
+		MENU_ITEM_X_MD,				// menu items x offset
+		MENU_ITEM_Y_MD,				// menu items y offset
+		MENU_ITEM_SPACE_Y_MD,		// vertical space between menu items
+		MENU_ITEM_IND_SPACE_X_MD,	// horizontal space between indicator and menu items
+	},
+
+	// Background info.
+	{	// pszFile, u32BackColor
+		MENU_BG_MD,
+		MENU_BG_COLOR,		// Background color.
+		PAL_SET_START,		// Starting palette index to set.
+		PAL_SET_NUM,		// Number of entries to set.
+		PAL_MAP_START,		// Starting index of palette entries that can be mapped to.
+		PAL_MAP_NUM,		// Number of palette entries that can be mapped to.
+	},
+
+	// GUI settings.
+	{	// sTransparent.
+		TRUE,		// TRUE if GUI is to be BLiT with transparency.
+	},
+
+	// Flags.
+	(MenuFlags)(MenuPosCenter | MenuBackTiled | MenuItemTextShadow | MenuHeaderTextShadow | MenuHeaderTextCenter),
+
+	// Header and its font info.
+	{	// pszHeaderText, pszFontFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor.
+		g_pszStartChallengeMenu_CheckPoint,
+		SMASH_FONT,
+		HEAD_FONT_HEIGHT,	// Height of font.
+		HEAD_COLOR,			// Text RGBA.
+		HEAD_SHADOW_COLOR	// Text Shadow RGBA.
+	},
+
+	// Font info.
+	{	// pszFile, sHeight, u32ForeColor, u32BackColor, u32ShadowColor
+		SMASH_FONT,
+		ITEM_FONT_HEIGHT,	// Height of font.
+		ITEM_COLOR,			// Text RGBA.
+		ITEM_SHADOW_COLOR	// Text Shadow RGBA.
+	},
+
+	// Menu indicator.
+	{	// pszFile, type
+		MENU_INDICATOR,
+		RImage::FSPR8,
+	},
+
+	// Menu callbacks.
+	{	// fnInit, fnChoice,
+		ChallengeInit,		// Called before menu is initialized.
+		ChallengeCheckpointChoice,	// Called when item is chosen.
+	},
+
+	// Menu auto items.
+	{	// sDefaultItem, sCancelItem,
+		0,		// Menu item (index in ami[]) selected initially.
+				// Negative indicates distance from number of items
+				// (e.g., -1 is the last item).
+				-1,	// Menu item (index in ami[]) chosen on cancel.
+					// Negative indicates distance from number of items
+					// (e.g., -1 is the last item).
+	},
+
+	// Menu items.
+	{	// pszText,					sEnabled,		pmenu,		pgui
+		{ "conflag.rlm",		TRUE,			NULL,			NULL, },
+		{ "getall.rlm",			TRUE,			NULL,			NULL, },
+		{ "minerun.rlm",			TRUE,			NULL,			NULL, },
+		{ "sentpara.rlm",			TRUE,			NULL,			NULL, },
+		{ "trkflag.rlm",	TRUE,			NULL,			NULL, },
 		{ "",												FALSE,		NULL,			NULL, },
 		NULL							// Terminates list.
 	},
@@ -3687,6 +3953,128 @@ static bool ChallengeTimedChoice(
 
 	}
 
+static bool ChallengeGoalChoice(
+	Menu* pmenuCurrent,
+	int16_t sMenuItem)
+{
+	//Assume Accepting
+	bool bAcceptChoice = true;
+
+	//Audible Feedback
+	if (sMenuItem == -1)
+		PlaySample(g_smidMenuItemChange, SampleMaster::UserFeedBack);
+	else
+		PlaySample(g_smidMenuItemSelect, SampleMaster::UserFeedBack);
+
+	//HANDLE SELECTION
+	switch (sMenuItem)
+	{
+	case 0:
+		Game_StartChallengeGame("res/levels/gauntlet/goal/bridge25.rlm");
+		break;
+	case 1:
+		Game_StartChallengeGame("res/levels/gauntlet/goal/flamer40.rlm");
+		break;
+	case 2:
+		Game_StartChallengeGame("res/levels/gauntlet/goal/kill30.rlm");
+		break;
+	case 3:
+		Game_StartChallengeGame("res/levels/gauntlet/goal/mine30.rlm");
+		break;
+	case 4:
+		Game_StartChallengeGame("res/levels/gauntlet/goal/minefire.rlm");
+		break;
+	case 5:
+		Game_StartChallengeGame("res/levels/gauntlet/goal/pow30.rlm");
+		break;
+	default:
+		break;
+	}
+
+	return bAcceptChoice;
+
+}
+
+static bool ChallengeFlagChoice(
+	Menu* pmenuCurrent,
+	int16_t sMenuItem)
+{
+	//Assume Accepting
+	bool bAcceptChoice = true;
+
+	//Audible Feedback
+	if (sMenuItem == -1)
+		PlaySample(g_smidMenuItemChange, SampleMaster::UserFeedBack);
+	else
+		PlaySample(g_smidMenuItemSelect, SampleMaster::UserFeedBack);
+
+	//HANDLE SELECTION
+	switch (sMenuItem)
+	{
+	case 0:
+		Game_StartChallengeGame("res/levels/gauntlet/capflag/chbridge.rlm");
+		break;
+	case 1:
+		Game_StartChallengeGame("res/levels/gauntlet/capflag/ghetflag.rlm");
+		break;
+	case 2:
+		Game_StartChallengeGame("res/levels/gauntlet/capflag/homeflag.rlm");
+		break;
+	case 3:
+		Game_StartChallengeGame("res/levels/gauntlet/capflag/salvflag.rlm");
+		break;
+	case 4:
+		Game_StartChallengeGame("res/levels/gauntlet/capflag/skirtflg.rlm");
+		break;
+	case 5:
+		Game_StartChallengeGame("res/levels/gauntlet/capflag/tlrflag.rlm");
+		break;
+	default:
+		break;
+	}
+
+	return bAcceptChoice;
+
+}
+
+static bool ChallengeCheckpointChoice(
+	Menu* pmenuCurrent,
+	int16_t sMenuItem)
+{
+	//Assume Accepting
+	bool bAcceptChoice = true;
+
+	//Audible Feedback
+	if (sMenuItem == -1)
+		PlaySample(g_smidMenuItemChange, SampleMaster::UserFeedBack);
+	else
+		PlaySample(g_smidMenuItemSelect, SampleMaster::UserFeedBack);
+
+	//HANDLE SELECTION
+	switch (sMenuItem)
+	{
+	case 0:
+		Game_StartChallengeGame("res/levels/gauntlet/checkpt/conflag.rlm");
+		break;
+	case 1:
+		Game_StartChallengeGame("res/levels/gauntlet/checkpt/getall.rlm");
+		break;
+	case 2:
+		Game_StartChallengeGame("res/levels/gauntlet/checkpt/minerun.rlm");
+		break;
+	case 3:
+		Game_StartChallengeGame("res/levels/gauntlet/checkpt/sentpara.rlm");
+		break;
+	case 4:
+		Game_StartChallengeGame("res/levels/gauntlet/checkpt/trkflag.rlm");
+		break;
+	default:
+		break;
+	}
+
+	return bAcceptChoice;
+
+}
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Called to init or kill the Start Single Player Game menu.
