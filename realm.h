@@ -558,6 +558,10 @@ class CRealm
 	// Public static variables
 	//---------------------------------------------------------------------------
 	public:
+		// Maps the layer portion of an attribute to the appropriate
+		// layer.
+		static int16_t ms_asAttribToLayer[LayerAttribMask + 1];
+		
 		// Names of layers.  Use Layer enum values to index.
 		static char* ms_apszLayerNames[TotalLayers];
 
@@ -1102,38 +1106,7 @@ class CRealm
 													// the specified attribute.             
 			U16 u16Attrib)
 			{
-			if (u16Attrib & 0x0001)
-				return LayerSprite1;
-			else if (u16Attrib & 0x0002)
-				return LayerSprite2;
-			else if (u16Attrib & 0x0004)
-				return LayerSprite3;
-			else if (u16Attrib & 0x0008)
-				return LayerSprite4;
-			else if (u16Attrib & 0x0010)
-				return LayerSprite5;
-			else if (u16Attrib & 0x0020)
-				return LayerSprite6;
-			else if (u16Attrib & 0x0040)
-				return LayerSprite7;
-			else if (u16Attrib & 0x0080)
-				return LayerSprite8;
-			else if (u16Attrib & 0x0100)
-				return LayerSprite9;
-			else if (u16Attrib & 0x0200)
-				return LayerSprite10;
-			else if (u16Attrib & 0x0400)
-				return LayerSprite11;
-			else if (u16Attrib & 0x0800)
-				return LayerSprite12;
-			else if (u16Attrib & 0x1000)
-				return LayerSprite13;
-			else if (u16Attrib & 0x2000)
-				return LayerSprite14;
-			else if (u16Attrib & 0x4000)
-				return LayerSprite15;
-			else
-				return LayerSprite16;
+			return ms_asAttribToLayer[u16Attrib & REALM_ATTR_LAYER_MASK];
 			}
 
 		// Creates the layer map, if it has not already been done.
