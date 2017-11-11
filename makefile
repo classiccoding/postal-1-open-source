@@ -48,9 +48,9 @@ endif
 ifeq ($(strip $(target)),linux_x86_64)
   macosx := false
   CPUARCH := x86_64
-  CC := gcc
-  CXX := g++
-  LINKER := g++
+  CC ?= gcc
+  CXX ?= g++
+  LINKER ?= g++
 endif
 ifeq ($(strip $(target)),macosx_x86)
   macosx := true
@@ -298,8 +298,8 @@ ifeq ($(strip $(expiring_beta)),true)
 endif
 
 ifeq ($(strip $(macosx)),true)
-  CFLAGS += -arch i386 -mmacosx-version-min=10.5
-  LDFLAGS += -arch i386 -mmacosx-version-min=10.5
+  CFLAGS += -arch i386 -mmacosx-version-min=10.6
+  LDFLAGS += -arch i386 -mmacosx-version-min=10.6
   LDFLAGS += -framework CoreFoundation -framework Cocoa
   LIBS += SDL2/libs/macosx/libSDL2-2.0.0.dylib
   STEAMLDFLAGS += steamworks/sdk/redistributable_bin/osx32/libsteam_api.dylib
@@ -415,8 +415,8 @@ RSPiX_wrap.cxx: RSPiX.i
 RSPiX_wrap.o: RSPiX.i RSPiX_wrap.cxx
 	$(CXX) -c RSPiX_wrap.cxx $(CFLAGS) $(shell python2-config --cflags)
 
-_RSPiX.so: $(BINDIR) picon $(RSOBJS) RSPiX.i RSPiX_wrap.cxx RSPiX_wrap.o $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/ameliorate.o
-	$(CXX) RSPiX_wrap.o $(RSOBJS) $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/ameliorate.o -o _RSPiX.so $(LDFLAGS) $(LIBS) $(shell python2-config --libs) $(CFLAGS)
+_RSPiX.so: $(BINDIR) picon $(RSOBJS) RSPiX.i RSPiX_wrap.cxx RSPiX_wrap.o $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/malphagen.o
+	$(CXX) RSPiX_wrap.o $(RSOBJS) $(BINDIR)/WishPiX/Spry/spry.o $(BINDIR)/malphagen.o -o _RSPiX.so $(LDFLAGS) $(LIBS) $(shell python2-config --libs) $(CFLAGS)
 
 swig:
 	BINDIR=binpic $(MAKE) -e _RSPiX.so

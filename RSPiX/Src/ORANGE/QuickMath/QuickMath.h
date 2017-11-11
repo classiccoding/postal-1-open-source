@@ -134,16 +134,18 @@ inline	int16_t rspDegDelta(int16_t sDegSrc,int16_t sDegDst)
 //
 inline int16_t rspMod360(int16_t sDeg)
 	{
-	while (sDeg < 0) sDeg += 360;
-	while (sDeg > 359) sDeg -= 360;
-	return sDeg;
+	if (sDeg == 0) return 0;
+	if (sDeg > 0) return sDeg % 360;
+	int16_t ret = 360 - (-sDeg % 360);
+	return ret == 360 ? 0 : ret;
 	}
 
 inline int16_t rspMod(int16_t sVal,int16_t &sRange)
 	{
-	while (sVal < 0) sVal += sRange;
-	while (sVal >= sRange) sVal -= sRange;
-	return sVal;
+	if (sVal == 0) return 0;
+	if (sVal > 0) return sVal % sRange;
+	int16_t ret = sRange - (-sVal % sRange);
+	return ret == sRange ? 0 : ret;
 	}
 
 inline void rspMod360(int16_t *sDeg)

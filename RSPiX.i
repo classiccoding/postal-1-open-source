@@ -44,18 +44,6 @@ char** _argv;
 #include "ORANGE/IFF/iff.h"
 #include "ORANGE/MsgBox/MsgBox.h"
 #include "ORANGE/File/file.h"
-#include "ORANGE/GUI/MultiBtn.h"
-#include "ORANGE/GUI/btn.h"
-#include "ORANGE/GUI/guiItem.h"
-#include "ORANGE/GUI/ListBox.h"
-#include "ORANGE/GUI/txt.h"
-#include "ORANGE/GUI/PushBtn.h"
-#include "ORANGE/GUI/ListContents.h"
-#include "ORANGE/GUI/edit.h"
-#include "ORANGE/GUI/scrollbar.h"
-#include "ORANGE/GUI/ProcessGui.h"
-#include "ORANGE/GUI/dlg.h"
-#include "ORANGE/GUI/Frame.h"
 #include "ORANGE/Props/Props.h"
 #include "ORANGE/Debug/profile.h"
 #include "ORANGE/CDT/List.h"
@@ -70,7 +58,6 @@ char** _argv;
 #include "ORANGE/ImageTools/lasso.h"
 typedef RFList<RSprite*> ListOfSprites;
 #include "WishPiX/Spry/spry.h"
-#include "ameliorate.h"
 %}
 
 %include <stdint.i>
@@ -116,18 +103,6 @@ typedef RFList<RSprite*> ListOfSprites;
 %include "ORANGE/IFF/iff.h"
 %include "ORANGE/MsgBox/MsgBox.h"
 %include "ORANGE/File/file.h"
-%include "ORANGE/GUI/MultiBtn.h"
-%include "ORANGE/GUI/btn.h"
-%include "ORANGE/GUI/guiItem.h"
-%include "ORANGE/GUI/ListBox.h"
-%include "ORANGE/GUI/txt.h"
-%include "ORANGE/GUI/PushBtn.h"
-%include "ORANGE/GUI/ListContents.h"
-%include "ORANGE/GUI/edit.h"
-%include "ORANGE/GUI/scrollbar.h"
-%include "ORANGE/GUI/ProcessGui.h"
-%include "ORANGE/GUI/dlg.h"
-%include "ORANGE/GUI/Frame.h"
 %include "ORANGE/Props/Props.h"
 %include "ORANGE/Debug/profile.h"
 %include "ORANGE/CDT/List.h"
@@ -142,7 +117,6 @@ typedef RFList<RSprite*> ListOfSprites;
 %include "ORANGE/ImageTools/lasso.h"
 %template(ListOfSprites) RFList<RSprite*>;
 %include "WishPiX/Spry/spry.h"
-%include "ameliorate.h"
 
 %inline %{
 
@@ -158,11 +132,6 @@ uint8_t* allocateFile(uint32_t bytes)
 	return (uint8_t *) malloc(bytes);
 }
 
-char getBoxDataByte(box* myBox, long pos)
-{
-	return *( myBox->data + pos );
-}
-
 #define getter(name, type) type name ( type * buf, uintptr_t pos ) { return * ( buf + pos ); }
 
 getter(getByte, uint8_t);
@@ -174,5 +143,7 @@ getter(getU32, uint32_t);
 colourGetter(getRed, dstRed);
 colourGetter(getGreen, dstGreen);
 colourGetter(getBlue, dstBlue);
+
+void malphagen(const char* in, const char* out);
 
 %}
