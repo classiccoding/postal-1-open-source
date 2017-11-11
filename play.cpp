@@ -4998,7 +4998,8 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 						SynchronousSampleAbortion();
 
 						// enable this level in the level select
-						g_GameSettings.m_ulUnlockedLevels |= 1 << info.m_sRealmNum;
+						if (info.m_sRealmNum >= 0)
+							g_GameSettings.m_ulUnlockedLevels |= 1 << info.m_sRealmNum;
 
 						// Start the cutscene
 						playgroup.StartCutscene(&info);
@@ -5742,6 +5743,7 @@ extern int16_t Play_InitLevelSelectMenu(	// Returns 0 on success.
 
 	for (sInputIndex = 0; sInputIndex < JADDON_NUM && sRes == 0; sInputIndex++)
 		{
+		
 		// Set text describing level of this menu item.
 		Play_GetRealmInfo(false, false, false, 3, sInputIndex, 1, tempFile, 256, tempText, 256);
 		memset(levelNames[sInputIndex], '\0', sizeof(levelNames[sInputIndex]));

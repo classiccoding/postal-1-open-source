@@ -2197,13 +2197,13 @@ extern Menu	menuLoadLevel =
 								// Negative indicates offset from center.
 		72,					// Offset from left edge for menu items.
 								// Negative indicates offset from center.
-		40,					// Offset from top edge for menu items.
+		56,					// Offset from top edge for menu items.
 								// Negative indicates offset from center.
 		-5,						// Space between menu items.
 		5,						// Space between indicator and menu items horizontally.
 		-10,					// X position menu items should not pass w/i Menu.
 								// Less than 1, indicates offset from right edge. 
-		-20,					// Y position menu items should not pass w/i Menu.
+		-90,					// Y position menu items should not pass w/i Menu.
 								// Less than 1, indicates offset from right edge. 
 		},
 
@@ -2273,6 +2273,8 @@ extern Menu	menuLoadLevel =
 	// back and add more input functions.
 
 		{	// pszText,				sEnabled,	pmenu,					pgui
+			
+			// original game
 			{ levelNames[0], TRUE, NULL, NULL, },
 			{ levelNames[1], TRUE, NULL, NULL, },
 			{ levelNames[2], TRUE, NULL, NULL, },
@@ -2289,12 +2291,15 @@ extern Menu	menuLoadLevel =
 			{ levelNames[13], TRUE, NULL, NULL, },
 			{ levelNames[14], TRUE, NULL, NULL, },
 			{ levelNames[15], TRUE, NULL, NULL, },
+			
+			// SD and Plus
 			{ levelNames[16], TRUE, NULL, NULL, },
 			{ levelNames[17], TRUE, NULL, NULL, },
 			{ levelNames[18], TRUE, NULL, NULL, },
 			{ levelNames[19], TRUE, NULL, NULL, },
 			{ levelNames[20], TRUE, NULL, NULL, },
 			{ levelNames[21], TRUE, NULL, NULL, },
+			
 			{ "", FALSE, NULL, NULL, }, // This needs to be at the end of the list or ESC will load the last level
 			NULL							// Terminates list.
 		},
