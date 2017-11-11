@@ -4300,7 +4300,7 @@ static int16_t AudioOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			if (pmenuCur->ami[3].pgui)
 				{
 				rspReleaseResource(&g_resmgrShell, &(pmenuCur->ami[3].pgui));
-				pmenuCur->ami[3].pgui = nullptr;
+				pmenuCur->ami[3].pgui = NULL;
 				}
 		}
 
