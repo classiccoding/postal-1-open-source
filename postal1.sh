@@ -16,7 +16,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 cd `dirname $0`
 
-if [ `uname -m` == "x86_64" ]
+if [ `uname -m` = "x86_64" ]
 then
 	BIN="./postal1-x86_64"
 else
@@ -25,14 +25,15 @@ fi
 
 for i in "$@"
 do
-	if [ "$i" == "--force-x86_64" ]
+	if [ "$i" = "--force-x86_64" ]
 	then
 		BIN="./postal1-x86_64"
 	fi
-	if [ "$i" == "--force-x86" ]
+	if [ "$i" = "--force-x86" ]
 	then
 		BIN="./postal1-x86"
 	fi
 done
 
 eval "$BIN $@"
+
