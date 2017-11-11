@@ -298,8 +298,8 @@ ifeq ($(strip $(expiring_beta)),true)
 endif
 
 ifeq ($(strip $(macosx)),true)
-  CFLAGS += -arch i386 -mmacosx-version-min=10.5
-  LDFLAGS += -arch i386 -mmacosx-version-min=10.5
+  CFLAGS += -arch i386 -mmacosx-version-min=10.6
+  LDFLAGS += -arch i386 -mmacosx-version-min=10.6
   LDFLAGS += -framework CoreFoundation -framework Cocoa
   LIBS += SDL2/libs/macosx/libSDL2-2.0.0.dylib
   STEAMLDFLAGS += steamworks/sdk/redistributable_bin/osx32/libsteam_api.dylib
