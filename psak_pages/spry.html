@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>null</title>
+	<script type="text/javascript" src="scripts.js"></script>
+	<script type="text/javascript">
+	function setsay(fname, num)
+	{
+		document.getElementById("fname").innerHTML = fname;
+		document.getElementById("num").innerHTML = num;
+	}
+	</script>
+	<link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
+<body onload="send('ready');">
+	<h1 id="fname">undefined</h1>
+	<p>Number of sprites: <span id="num">undefined</span></p>
+	<button onclick="send('convpng');">Convert to PNG</button>
+	<button onclick="send('home');">Back</button>
+</body>
+</html>
