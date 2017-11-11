@@ -156,6 +156,8 @@ class CGameSettings : CSettings
 		int16_t		m_sAprilFools;
 #endif
 
+		uint32_t	m_ulUnlockedLevels; // bitfield describing levels that should be unlocked in the level select
+
 		char		m_szServerName[RSP_MAX_PATH];			// Name of server for network game.
 		uint16_t	m_usServerPort;							// Port on server for network game.
 		uint16_t	m_usProtocol;								// Network protocol enum
@@ -226,7 +228,6 @@ class CGameSettings : CSettings
 		SampleMaster::SoundQuality	m_eCurSoundQuality;	// Current sound quality.
 
 		int16_t		m_asCategoryVolumes[SampleMaster::MAX_NUM_SOUND_CATEGORIES];	// Volumes for each category.
-
 	public:	// Statics.
 		
 		// Player color descriptions.

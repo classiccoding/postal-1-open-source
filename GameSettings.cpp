@@ -234,16 +234,16 @@ CGameSettings::CGameSettings(void)
 	timeinfo = localtime (&lTime);
 	if (timeinfo->tm_mon == 3 && timeinfo->tm_mday == 1)
 	{
-		TRACE("It's April Fools my dude!\n");
 		m_sAprilFools = TRUE;
 		m_sKidMode = TRUE;
 	} else {
-		TRACE("It ain't April Fools my dude!\n");
 		m_sAprilFools = FALSE;
 		m_sKidMode = FALSE;
 	}
 #endif
-										
+
+	m_ulUnlockedLevels = 1114113; // first levels of original, SD and Plus
+
 	m_szServerName[0]				= 0;
 	m_usServerPort					= 61663;
 	m_usProtocol					= RSocket::FirstProtocol;
@@ -456,6 +456,8 @@ int16_t CGameSettings::LoadPrefs(
 	pPrefs->GetVal("Game", "CompletedAllLevelsMode", m_sCompletedAllLevelsMode, &m_sCompletedAllLevelsMode);
 	#endif
 
+	pPrefs->GetVal("Game", "UnlockedLevels", m_ulUnlockedLevels, &m_ulUnlockedLevels);
+
 	pPrefs->GetVal("Multiplayer", "Server", m_szServerName, m_szServerName);
 	pPrefs->GetVal("Multiplayer", "Port", m_usServerPort, &m_usServerPort);
 	pPrefs->GetVal("Multiplayer", "Protocol", m_usProtocol, &m_usProtocol);
@@ -581,6 +583,7 @@ int16_t CGameSettings::SavePrefs(
 	}
 	pPrefs->SetVal("Game", "CompletedAllLevelsMode", m_sCompletedAllLevelsMode);
 	#endif
+	pPrefs->SetVal("Game", "UnlockedLevels", m_ulUnlockedLevels);
 
 	pPrefs->SetVal("Multiplayer", "Server", m_szServerName);
 	pPrefs->SetVal("Multiplayer", "Port", m_usServerPort);

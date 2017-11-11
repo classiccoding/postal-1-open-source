@@ -4843,7 +4843,6 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 		demoCompat = false;
 //#endif
 
-
 	// If this is the last demo level, then load the mult alpha needed for the ending
 	RMultiAlpha* pDemoMultiAlpha = NULL;
 
@@ -4997,6 +4996,9 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 
 						// Sounds playing during the load suck.
 						SynchronousSampleAbortion();
+
+						// enable this level in the level select
+						g_GameSettings.m_ulUnlockedLevels |= 1 << info.m_sRealmNum;
 
 						// Start the cutscene
 						playgroup.StartCutscene(&info);
@@ -5738,18 +5740,14 @@ extern int16_t Play_InitLevelSelectMenu(	// Returns 0 on success.
 	// Assert we have enough room for the levels
 	ASSERT(JADDON_NUM < (NUM_ELEMENTS(pmenu->ami)) );
 
-	//// Set font for GUIs' default print.
-	//// Cell height doesn't matter since it is set by the GUIs themselves.
-	//RGuiItem::ms_print.SetFont(FONT_HEIGHT, &g_fontBig);
-
 	for (sInputIndex = 0; sInputIndex < JADDON_NUM && sRes == 0; sInputIndex++)
 		{
-		// Set text describing input function for this menu item.
+		// Set text describing level of this menu item.
 		Play_GetRealmInfo(false, false, false, 3, sInputIndex, 1, tempFile, 256, tempText, 256);
 		memset(levelNames[sInputIndex], '\0', sizeof(levelNames[sInputIndex]));
 		strcpy(levelNames[sInputIndex], tempText);
-		// Enable item.
-		pmenu->ami[sInputIndex].sEnabled	= TRUE;
+		// Enable item if the level is unlocked.
+		pmenu->ami[sInputIndex].sEnabled	= (g_GameSettings.m_ulUnlockedLevels & (1 << sInputIndex)) ? TRUE : FALSE;
 		}
 
 	return sRes;
