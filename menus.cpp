@@ -2657,9 +2657,9 @@ extern Menu	menuStart =
 	// Menu items.
 		{	// pszText,											sEnabled,	pmenu,				pgui
 			{ g_pszStartGameMenu_SinglePlayer,			TRUE,			&menuStartSingle,	NULL,	},
-            #ifndef MULTIPLAYER_REMOVED
+            //#ifndef MULTIPLAYER_REMOVED
 			{ g_pszStartGameMenu_Multiplayer,			TRUE,			&menuStartMulti,	NULL, },
-            #endif
+            //#endif
 			{ g_pszStartGameMenu_Demo,						TRUE,			&menuStartDemo,	NULL,	},
 			{ "",													FALSE,		NULL,					NULL, },
 			NULL							// Terminates list.

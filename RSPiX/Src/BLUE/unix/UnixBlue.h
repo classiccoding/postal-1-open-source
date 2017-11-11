@@ -466,11 +466,11 @@ extern void rspCacheDirtyRect(
 extern void rspKeyRepeat(int bEnable);
 
 extern void rspPresentFrame(void);
-
+//Doesn't do anything
 extern void rspUpdateDisplayRects(void);
-
+//Doesn't do anything
 extern void rspUpdateDisplay(void);
-
+//Doesn't do anything
 extern void rspUpdateDisplay(
 	int16_t sX,									// In:  X coord of upper-left corner of area to update
 	int16_t sY,									// In:  Y coord of upper-left corner of area to update
