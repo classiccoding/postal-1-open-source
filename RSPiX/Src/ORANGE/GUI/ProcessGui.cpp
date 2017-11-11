@@ -66,6 +66,7 @@
 // instead.
 ///////////////////////////////////////////////////////////////////////////////
 #include "System.h"
+#include "update.h"
 
 #ifdef PATHS_IN_INCLUDES
 	#include "ORANGE/GUI/ProcessGui.h"
@@ -391,7 +392,7 @@ int32_t RProcessGui::DoModeless(		// Returns ID of pressed GUI or value.
 	rspGeneralLock(pimDst);
 
 	// Store area of composite buffer that is to be dirtied.
-	RRect rect(0, 0, pimDst->m_sWidth, pimDst->m_sHeight);
+	RRect rect(0, 0, pimDst->m_sWidth, pimDst->m_sHeight); //It's assigned to and... not much..?
 	rspBlit(
 		pimDst,						// Source.
 		&m_imEraser,				// Destination.
@@ -411,8 +412,11 @@ int32_t RProcessGui::DoModeless(		// Returns ID of pressed GUI or value.
 		rspShieldMouseCursor();
 		}
 
-	// Draw the GUI tree.
+	 //Draw the GUI tree.
 	pgui->Draw(pimDst);
+
+	//Actually render gui with sdl2
+	UpdateSystem();
 
 	// Add rectangle where GUI drew.
 	m_drl.Add(
@@ -441,7 +445,8 @@ int32_t RProcessGui::DoModeless(		// Returns ID of pressed GUI or value.
 		rspGeneralLock(pimDst);
 		}
 
-	// Undirty buffer of GUIs.
+	//This is what 'prevents' guis form rendering properly, no idea why.
+	 //Undirty buffer of GUIs.
 	rspBlit(
 		&m_imEraser,				// Source.
 		pimDst,						// Destination.

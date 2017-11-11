@@ -2451,12 +2451,12 @@ extern int16_t DoNetGameDialog(							// Returns 0 if successfull, non-zero othe
 								NetMsg msg;
 								while (!(bClientDone && bServerDone && (bAbort || bStart || bRetry)) && !bUserAbortNow)
  									{
-									// Always and forever
-									UpdateSystem();
+									// //It overrdies the rendering of the menu (sdl2) :(
+									//UpdateSystem();
 
 									// Call this periodically to let it know we're not locked up
 									NetBlockingWatchdog();
-
+									
 									//------------------------------------------------------------------------------
 									// Do dialog and any other user-input stuff
 									//------------------------------------------------------------------------------
@@ -3020,8 +3020,8 @@ static int16_t BrowseForHost(
 			// Loop until error, user abort, or user choice . . .
 			while ((sResult == 0) && action != DLG_OK && action != DLG_CANCEL)
 				{
-				// Do default processing.
-				UpdateSystem();
+				//It overrdies the rendering of the menu (sdl2) :(
+				//UpdateSystem();
 				// Update watchdog timer for net blocking.
 				NetBlockingWatchdog();
 				// Update server interface, if available.

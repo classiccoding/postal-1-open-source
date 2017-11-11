@@ -126,7 +126,13 @@ extern void Mouse_Event(SDL_Event *event)
 	// memory fragmentation.
 	PRSP_MOUSE_EVENT	pme = ms_ameEvents + INC_N_WRAP(sEventIndex, MAX_EVENTS);
     pme->lTime = SDL_GetTicks();
-    pme->sType = event->type;
+
+	//In short there's some mouse handling stuff for gui
+	//that relies on event type being in rsp notation
+	//which means that passing sdl code is a no-no
+	//See if anything breaks
+
+    //pme->sType = event->type;
 
     static int16_t buttonState = 0;
 
@@ -181,6 +187,35 @@ extern void Mouse_Event(SDL_Event *event)
             ASSERT(0 && "unexpected mouse event!");
             return;
     }
+
+	//Convert mouse event from sdl to rsp format
+	//Needed for gui mouse event stuff in guiitem.cpp
+	//Ignoring mousewheel since there aren't any rsp codes for it
+	//Ignoring doubleclick because there aren't any sdl codes for it
+	switch (event->type) {
+
+		case SDL_MOUSEBUTTONDOWN:
+			switch (event->button.button) {
+				case SDL_BUTTON_LEFT:
+					pme->sType = RSP_MB0_PRESSED;
+					break;
+				case SDL_BUTTON_RIGHT:
+					pme->sType = RSP_MB1_PRESSED;
+					break;
+			}
+			break;
+		case SDL_MOUSEBUTTONUP:
+			switch (event->button.button) {
+				case SDL_BUTTON_LEFT:
+					pme->sType = RSP_MB0_RELEASED;
+					break;
+				case SDL_BUTTON_RIGHT:
+					pme->sType = RSP_MB1_RELEASED;
+					break;
+			}
+			break;
+
+	}
 
 	if (ms_qmeEvents.IsFull() != FALSE)
 		{

@@ -838,10 +838,25 @@ extern UINPUT GetLocalInput(				// Returns local input.
 		//New mouse input
 		if (g_InputSettings.m_sUseNewMouse == TRUE && rspIsBackground() == FALSE) {
 
-			//Get the dude of the realm ~Not really sure about this code...
-			CListNode<CThing>* pln = prealm->m_aclassHeads[CThing::CDudeID].m_pnNext;
-			CDude* pdude = (CDude*)pln->m_powner;
+			//Get local dude from the realm
+			CListNode<CThing>* pnext = prealm->m_aclassHeads[CThing::CDudeID].m_pnNext;
 
+			CDude* pdude = NULL;
+
+			while (pnext->m_powner != NULL) {
+
+				CDude* pnxtdude = (CDude*)pnext->m_powner;
+
+				//Found the one, break
+				if (pnxtdude->m_sDudeNum == 0 /* Local dude id */) {
+					pdude = pnxtdude;
+					break;
+				}
+
+				pnext = pnext->m_pnNext;
+			}
+
+			/*     Mouse impl      */
 			double dudePosX = 0;
 			double dudePosY = 0;
 
@@ -889,17 +904,17 @@ extern UINPUT GetLocalInput(				// Returns local input.
 
 			//printf("Scale X: %.2f, Scale Y: %.2f\n", pdude->m_dCrossScaleX, pdude->m_dCrossScaleY);
 
-			double rotateToAngle = 0.0;
-			double rot = pdude->m_dRot;
+			int16_t rotateToAngle = 0;
+			int16_t rot = (int16_t)pdude->m_dRot; //Never a true double, because assigned from an int16_t in dude class
 
-			rotateToAngle = atan2(deltaY, deltaX) * (180 / M_PI);
+			rotateToAngle = (int16_t)(atan2(deltaY, deltaX) * (180 / M_PI));
 			if (rotateToAngle < 0) rotateToAngle += 360;
 
 			/* Trying to make dude gradually rotate torwards the mouse pointer */
-			double rotStep = (g_InputSettings.m_dMouseSensitivityX) * 10; //The constant is arbitrary and can be experimented on 
-			double deltaDiff = rotateToAngle - rot;
+			int16_t rotStep = (int16_t)(g_InputSettings.m_dMouseSensitivityX * 10.0 * ((lCurTime - lPrevTime)/25.0)); //The constant is arbitrary and can be experimented on 
+			int16_t deltaDiff = rotateToAngle - rot;
 
-			if (fabs(deltaDiff) > 180) {
+			if (abs(deltaDiff) > 180) {
 				//Clockwise rotation should be negative
 				if (deltaDiff < 0) {
 					deltaDiff = (360 - rot) + rotateToAngle;
@@ -935,7 +950,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 
 			//Using sDeltaX for rotation
 
-			if (fabs(deltaDiff) < rotStep) {
+			if (abs(deltaDiff) < rotStep) { //It's going always trunicate if not rounded
 				sDeltaX += deltaDiff;
 			}
 			else if (deltaDiff > 0) {
@@ -944,6 +959,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 			else if (deltaDiff < 0) {
 				sDeltaX -= rotStep;
 			}
+			
 
 		}
 
@@ -1031,20 +1047,18 @@ extern UINPUT GetLocalInput(				// Returns local input.
 		if (IS_INPUT(CInputSettings::Left))
 			{
 			input	|= INPUT_LEFT;
-			//input |= INPUT_MOVE_LEFT;
 			}
 
 		if (IS_INPUT(CInputSettings::Right))
 			{
 			input	|= INPUT_RIGHT;
-			//input |= INPUT_MOVE_RIGHT;
 			}
 		            
-		if (input & /*INPUT_MOVE_LEFT*/ INPUT_LEFT)
+		if (input & INPUT_LEFT)
 			{
-			input |= /*INPUT_MOVE_LEFT*/   INPUT_LEFT;
+			input |= INPUT_LEFT;
 			// If last input had left rotation or this one has forward or reverse . . .
-			if (	(ms_inputLastLocal & /*INPUT_MOVE_LEFT*/ INPUT_LEFT)
+			if (	(ms_inputLastLocal & INPUT_LEFT)
 				||	(input & INPUT_FORWARD)
 				||	(input & INPUT_BACKWARD) )
 				{
@@ -1086,11 +1100,11 @@ extern UINPUT GetLocalInput(				// Returns local input.
 			// Range check occurs later.
 			}
 
-		if (input & /*INPUT_MOVE_RIGHT*/ INPUT_RIGHT)
+		if (input & INPUT_RIGHT)
 			{
-			input |= /*INPUT_MOVE_RIGHT*/ INPUT_RIGHT;
+			input |= INPUT_RIGHT;
 			// If last input had right rotation or this one has forward or reverse . . .
-			if (	(ms_inputLastLocal & /*INPUT_MOVE_RIGHT*/ INPUT_RIGHT)
+			if (	(ms_inputLastLocal & INPUT_RIGHT)
 				||	(input & INPUT_FORWARD)
 				||	(input & INPUT_BACKWARD) )
 				{
