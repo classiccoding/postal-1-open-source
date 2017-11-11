@@ -158,6 +158,8 @@ class CGameSettings : CSettings
 
 		uint32_t	m_ulUnlockedLevels; // bitfield describing levels that should be unlocked in the level select
 
+		int16_t		m_sPainFrequency; // how often characters should scream on hit (1 = rarely, 16 = original game)
+
 		char		m_szServerName[RSP_MAX_PATH];			// Name of server for network game.
 		uint16_t	m_usServerPort;							// Port on server for network game.
 		uint16_t	m_usProtocol;								// Network protocol enum

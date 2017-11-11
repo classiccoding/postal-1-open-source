@@ -565,6 +565,7 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszAudioMenu_Mixer[]							= "MIXER";
 	extern char g_pszAudioMenu_SoundTest[]						= "SOUND TEST";
 	extern char g_pszAudioMenu_Language[]						= "LANGUAGE";
+	extern char g_pszAudioMenu_PainFrequency[]					= "PAIN FREQ.";
 	extern char g_pszAudioMenu_English[]						= "English";
 	extern char g_pszAudioMenu_Japanese[]						= "Japanese";
 
@@ -731,6 +732,7 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszAudioMenu_Language[]						= "SPRACHE"; // Google Translated, but almost certainly right
 	extern char g_pszAudioMenu_English[]						= "Englisch"; // Google Translated
 	extern char g_pszAudioMenu_Japanese[]						= "Japanisch"; // Google Translated
+	extern char g_pszAudioMenu_PainFrequency[]					= "SCHMERZFREQUENZ"; // Google Translated
 
 	extern char g_pszVideoMenu_Title[]							= "VIDEO";
 	extern char g_pszVideoMenu_Gamma[]							= "GAMMA";
@@ -873,6 +875,10 @@ extern char g_pszPlayOneRealmOnlyMessage[]	=
 	extern char g_pszAudioMenu_Title[]							= "AUDIO";
 	extern char g_pszAudioMenu_Mixer[]							= "MIXER";
 	extern char g_pszAudioMenu_SoundTest[]						= "TEST SONORE";
+	extern char g_pszAudioMenu_Language[]						= "LA LANGUE"; // Google Translated
+	extern char g_pszAudioMenu_English[]						= "Anglais"; // Google Translated
+	extern char g_pszAudioMenu_Japanese[]						= "Japonais"; // Google Translated
+	extern char g_pszAudioMenu_PainFrequency[]					= "FREQ. DOULER"; // Google Translated & I removed "de la" even though I don't know French grammar
 
 	extern char g_pszVideoMenu_Title[]							= "VIDEO";
 	extern char g_pszVideoMenu_Gamma[]							= "GAMMA";

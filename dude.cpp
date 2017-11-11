@@ -1178,7 +1178,7 @@ extern bool GetDudeFireAngle(double* d_Angle);
 #define MIN_CANNOT_BE_SHOT_DURATION	3000
 
 // Minimum duration between yells (for blown up and shot).
-#define MIN_BETWEEN_YELLS		750 // Current yell ('groan_male1.wav') is 640 ms.
+#define MIN_BETWEEN_YELLS		(750 + (16 - g_GameSettings.m_sPainFrequency) * 125) // Current yell ('groan_male1.wav') is 640 ms.
 
 // IDs for GUIs.
 #define GUI_ID_STOCKPILE		3

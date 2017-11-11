@@ -5604,27 +5604,19 @@ extern void Play_GetRealmSectionAndEntry(
 			// JAddOn... You get the picture.
 			// Selecting "ALL LEVELS" will play the levels in sequence
 			// Realm, AddOn, JAddOn (Carnival?)
-			TRACE("bAddOnLevels = %d\n", bAddOnLevels);
 			switch(bAddOnLevels){
 			case 3:
-				TRACE("sRealmNum = %d\n", sRealmNum);
-				TRACE("REALM_NUM = %d\n", REALM_NUM);
-				TRACE("ADDON_NUM = %d\n", ADDON_NUM);
-				TRACE("JADDON_NUM = %d\n", JADDON_NUM);
 				if (sRealmNum < REALM_NUM)
 				{
 					*pstrSection = "Realm";
 					*pstrSection += (int16_t)(sRealmNum + 1);
-					TRACE("*pstrSection = Realm%d\n", (int16_t)(sRealmNum + 1));
 				} else if (sRealmNum < ADDON_NUM)
 				{
 					*pstrSection = "AddOn";
 					*pstrSection += (int16_t)(sRealmNum + 1 - REALM_NUM);
-					TRACE("*pstrSection = AddOn%d\n", (int16_t)(sRealmNum + 1 - REALM_NUM));
 				} else {
 					*pstrSection = "JAddOn";
 					*pstrSection += (int16_t)(sRealmNum + 1 - ADDON_NUM);
-					TRACE("*pstrSection = JAddOn%d\n", (int16_t)(sRealmNum + 1 - ADDON_NUM));
 				}
 				break;
 			case 2:
@@ -5634,7 +5626,6 @@ extern void Play_GetRealmSectionAndEntry(
 				*pstrSection = "AddOn";
 				*pstrSection += (int16_t)(sRealmNum + 1); break;
 			default:
-				TRACE("HUH! CG! Coconut Gun!\n");
 				*pstrSection = "Realm";
 				*pstrSection += (int16_t)(sRealmNum + 1);
 			}
