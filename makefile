@@ -5,6 +5,10 @@
 BINDIR := ./bin
 SRCDIR := .
 
+ifeq ($(WITH_STEAMWORKS),1)
+  steamworks := true
+endif
+
 ifeq ($(PANDORA),1)
   macosx := false
   CPUARCH := arm
@@ -29,7 +33,6 @@ else ifeq ($(linux_x86),1)
   CLIENTEXE := $(BINDIR)/postal1-x86
 else ifeq ($(macosx_x86),1)
   target := macosx_x86
-  steamworks := true
   CLIENTEXE := $(BINDIR)/postal1-x86
 else
   target := linux_x86_64
