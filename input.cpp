@@ -899,7 +899,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 			double rotStep = (g_InputSettings.m_dMouseSensitivityX) * 10; //The constant is arbitrary and can be experimented on 
 			double deltaDiff = rotateToAngle - rot;
 
-			if (abs(deltaDiff) > 180) {
+			if (fabs(deltaDiff) > 180) {
 				//Clockwise rotation should be negative
 				if (deltaDiff < 0) {
 					deltaDiff = (360 - rot) + rotateToAngle;
@@ -935,7 +935,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 
 			//Using sDeltaX for rotation
 
-			if (abs(deltaDiff) < rotStep) {
+			if (fabs(deltaDiff) < rotStep) {
 				sDeltaX += deltaDiff;
 			}
 			else if (deltaDiff > 0) {
