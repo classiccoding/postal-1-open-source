@@ -710,6 +710,9 @@ static void RotationScrollUpdateDouble(	// Returns nothing.
 static void RotationScrollUpdateShort(		// Returns nothing.
 	RScrollBar* psb);								// Scrollbar that got updated.
 
+static void PainFrequencyScrollUpdate( // Returns nothing.
+	RScrollBar* psb);					// Scrollbar that got updated.
+
 ////////////////////////////////////////////////////////////////////////////////
 // Variables/data
 ////////////////////////////////////////////////////////////////////////////////
@@ -1618,6 +1621,7 @@ extern Menu	menuAudioOptions =
 			{ g_pszAudioMenu_Mixer,				TRUE,			&menuVolumes,			NULL,				},
 			{ g_pszAudioMenu_SoundTest,		TRUE,			&menuOrgan,				NULL,				},
 			{ g_pszAudioMenu_Language,		TRUE,			NULL,					NULL,				},
+			{ g_pszAudioMenu_PainFrequency, TRUE, NULL, NULL, },
 			{ "",										FALSE,		NULL,						NULL,				},
 			NULL							// Terminates list.
 		},
@@ -4250,17 +4254,54 @@ static int16_t AudioOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			TRACE("AudioOptionsInit(): rspGetResource() failed.\n");
 			sRes	= 2;
 			}
+			
+			if (rspGetResource(&g_resmgrShell, GUI_VOLUME_FILE, (RScrollBar**)&(pmenuCur->ami[3].pgui)) == 0)
+				{
+				RScrollBar* psb = (RScrollBar*)(pmenuCur->ami[3].pgui);
+				int32_t lMin, lMax, lRange;
+				psb->GetRange(&lMin, &lMax);
+				lRange = lMax - lMin;
+				psb->m_lButtonIncDec = lRange / 14; // using 16 here results in 18 stop points?!
+				psb->m_lTrayIncDec = psb->m_lButtonIncDec;
+				int16_t pos = g_GameSettings.m_sPainFrequency;
+				// work around weird range issue halfway through slider
+				if (pos < 10)
+					pos--;
+				psb->SetPos((pos * lRange / 16));
+				psb->m_upcUser = PainFrequencyScrollUpdate;
+				RGuiItem* pguiVal = psb->GetItemFromId(GUI_ID_VOLUME_VAL);
+				if (pguiVal)
+					{
+					pguiVal->SetText("%s", "");
+					pguiVal->Compose();
+					}
+				else
+					{
+					TRACE("AudioOptionsInit(): Could not get at pguiVal\n");
+					}
+				}
+			else
+				{
+				TRACE("AudioOptionsInit(): Failed to initialise pain frequency slider.\n");
+				sRes = 2;
+				}
 		}
 	else
 		{
 			if (ms_ptxtLanguage != NULL)
-			{
-			// Release resource.
-			rspReleaseResource(&g_resmgrShell, &ms_ptxtLanguage);
+				{
+				// Release resource.
+				rspReleaseResource(&g_resmgrShell, &ms_ptxtLanguage);
 
-			// Clear menu's pointer.
-			pmenuCur->ami[2].pgui	= NULL;
-			}
+				// Clear menu's pointer.
+				pmenuCur->ami[2].pgui	= NULL;
+				}
+			
+			if (pmenuCur->ami[3].pgui)
+				{
+				rspReleaseResource(&g_resmgrShell, &(pmenuCur->ami[3].pgui));
+				pmenuCur->ami[3].pgui = nullptr;
+				}
 		}
 
 	return sRes;
@@ -5407,6 +5448,25 @@ static void DifficultyScrollUpdate(	// Returns nothing.
 			pguiText->Compose();
 			}
 		}
+	}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Callback to update pain frequency adjustment.
+//
+////////////////////////////////////////////////////////////////////////////////
+static void PainFrequencyScrollUpdate( // Returns nothing.
+	RScrollBar* psb)					// Scrollbar that got updated.
+	{
+	ASSERT (psb != NULL);
+
+	int32_t lMin, lMax;
+	psb->GetRange(&lMin, &lMax);
+	g_GameSettings.m_sPainFrequency = (int16_t)((((psb->GetPos() - lMin) * 16) / (lMax - lMin)));
+	// work around weird range issue halfway through slider
+	if (g_GameSettings.m_sPainFrequency < 10)
+		g_GameSettings.m_sPainFrequency++;
+	TRACE("g_GameSettings.m_sPainFrequency = %d\n", g_GameSettings.m_sPainFrequency);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////

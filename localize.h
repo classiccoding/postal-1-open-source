@@ -247,6 +247,7 @@ extern char g_pszAudioMenu_Title[];
 extern char g_pszAudioMenu_Mixer[];
 extern char g_pszAudioMenu_SoundTest[];
 extern char g_pszAudioMenu_Language[];
+extern char g_pszAudioMenu_PainFrequency[];
 extern char g_pszAudioMenu_English[];
 extern char g_pszAudioMenu_Japanese[];
 
