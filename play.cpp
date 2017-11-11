@@ -5132,6 +5132,11 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 										// User input
 										ie.type = RInputEvent::None;
 										rspGetNextInputEvent(&ie);
+
+										// Update //We get local input here
+										playgroup.CoreLoopUpdate(&info);
+
+										//This is where we assign local input
 										playgroup.CoreLoopUserInput(&info, &ie);
 
 #ifdef MOBILE //Tap screen to show menu
@@ -5141,15 +5146,14 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 												AndroidSetScreenMode(TOUCH_SCREEN_BLANK_TAP);
 										}
 #endif
-										// Update
-										playgroup.CoreLoopUpdate(&info);
+										
 
 
 										// Render:
 
 										// This requires access to the composite buffer so lock it down.
 										rspLockBuffer();
-
+										//This is where we process 'previous' input
 										playgroup.CoreLoopRender(&info);
 
 										playgroup.CoreLoopRenderOnTop(&info);

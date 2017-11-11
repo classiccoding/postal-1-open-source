@@ -57,8 +57,8 @@ static RSList<VIDEO_MODE, int16_t>	slvmModes;	// List of available video modes.
 typedef union { struct { Uint8 b; Uint8 g; Uint8 r; Uint8 a; }; Uint32 argb; } ArgbColor;
 static ArgbColor	apeApp[256];				// App's palette.  The palette
 														// entries the App actually set.
-
-static ArgbColor	apeMapped[256];			// Tweaked palette.
+//Unused! Why?
+//static ArgbColor	apeMapped[256];			// Tweaked palette.
 														// This is the palette updated to
 														// the hardware.  apeApp is trans-
 														// lated through au8MapRed, Green,
