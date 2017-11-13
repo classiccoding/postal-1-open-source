@@ -498,6 +498,12 @@ extern int16_t GetGammaLevel(void);					// Returns current brighten value
 extern void Game_StartLevelOnce(
 	int16_t sMenuItem);
 
+////////////////////////////////////////////////////////////////////////////////
+// Returns Title of a given Challenge-ID
+////////////////////////////////////////////////////////////////////////////////
+extern char* GetChallengeTitle(
+	int16_t challengeID);
+
 #ifdef WIN32
 #define snprintf _snprintf
 #define mkdir _mkdir
