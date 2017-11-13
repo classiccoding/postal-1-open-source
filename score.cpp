@@ -218,6 +218,7 @@
 #define HIGHSCORE_NAMEDIALOG_FILE	"menu/addname.gui"
 #define HIGHSCORE_DIALOG_FILE			"menu/hiscore.gui"
 #define HIGHSCORE_ITEM_FILE			"menu/HiScoreItem.gui"
+#define HIGH_SCORE_DLG
 
 #if WITH_STEAMWORKS
 extern bool EnableSteamCloud;

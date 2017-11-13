@@ -3074,22 +3074,33 @@ class CPlayInput : public CPlay
 
 									if (bRestart)
 										{
-										// Restart the realm
-										pinfo->SetGameState_RestartRealm();
 
 										// Check the goal (since the user pressed revive, we'll
 										// say the 'end the level' key was pressed.
+										// If we aren't done, restart the realm.
 										if (prealm->IsEndOfLevelGoalMet(true))
 											{
 											// The goal was met, show the dialog(s).
 											ScoreDisplayHighScores(prealm);
 											}
+										else {
+											// Restart the realm
+											pinfo->SetGameState_RestartRealm();
+										}
+
 										}
 									}
 								}
 							}
 						}
 
+					/*if (pinfo->Gauntlet)
+					{
+						if (prealm->IsEndOfLevelGoalMet(true))
+						{
+							ScoreDisplayHighScores(prealm);
+						}
+					}*/
 					//==============================================================================
 					// Check if end of level goal has been met.  Depending on the game type, this
 					// may require that the user pressed the end-of-level key.
