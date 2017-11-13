@@ -783,7 +783,7 @@ static char*			ms_apszDifficultyDescriptions[]	=
 	};
 
 char levelNames[22][256];
-
+char challengeNames[10][256];
 // Main menu
 extern Menu	menuMain =
 	{
@@ -3015,11 +3015,11 @@ extern Menu menuChallengeTimed =
 
 	// Menu items.
 	{	// pszText,					sEnabled,		pmenu,		pgui
-		{ "afbtime.rlm",		TRUE,			NULL,			NULL, },
-		{ "eznfast.rlm",			TRUE,			NULL,			NULL, },
-		{ "farmtime.rlm",			TRUE,			NULL,			NULL, },
-		{ "parkattk.rlm",	TRUE,			NULL,			NULL, },
-		{ "salvtime.rlm",	TRUE,			NULL,			NULL, },
+		{ challengeNames[0],		TRUE,			NULL,			NULL, },
+		{ challengeNames[1],			TRUE,			NULL,			NULL, },
+		{ challengeNames[2],			TRUE,			NULL,			NULL, },
+		{ challengeNames[3],	TRUE,			NULL,			NULL, },
+		{ challengeNames[4],	TRUE,			NULL,			NULL, },
 		{ "",												FALSE,		NULL,			NULL, },
 		NULL							// Terminates list.
 	},
@@ -3099,12 +3099,12 @@ extern Menu menuChallengeGoal =
 
 	// Menu items.
 	{	// pszText,					sEnabled,		pmenu,		pgui
-		{ "bridge25.rlm",		TRUE,			NULL,			NULL, },
-		{ "flamer40.rlm",			TRUE,			NULL,			NULL, },
-		{ "kill30.rlm",			TRUE,			NULL,			NULL, },
-		{ "mine30.rlm",			TRUE,			NULL,			NULL, },
-		{ "minefire.rlm",	TRUE,			NULL,			NULL, },
-		{ "pow30.rlm",	TRUE,			NULL,			NULL, },
+		{ challengeNames[0],		TRUE,			NULL,			NULL, },
+		{ challengeNames[1],			TRUE,			NULL,			NULL, },
+		{ challengeNames[2],			TRUE,			NULL,			NULL, },
+		{ challengeNames[3],			TRUE,			NULL,			NULL, },
+		{ challengeNames[4],	TRUE,			NULL,			NULL, },
+		{ challengeNames[5],	TRUE,			NULL,			NULL, },
 		{ "",												FALSE,		NULL,			NULL, },
 		NULL							// Terminates list.
 	},
@@ -3184,12 +3184,12 @@ extern Menu menuChallengeFlag =
 
 	// Menu items.
 	{	// pszText,					sEnabled,		pmenu,		pgui
-		{ "chbridge.rlm",		TRUE,			NULL,			NULL, },
-		{ "ghetflag.rlm",			TRUE,			NULL,			NULL, },
-		{ "homeflag.rlm",			TRUE,			NULL,			NULL, },
-		{ "salvflag.rlm",			TRUE,			NULL,			NULL, },
-		{ "skirtflg.rlm",	TRUE,			NULL,			NULL, },
-		{ "tlrflag.rlm",	TRUE,			NULL,			NULL, },
+		{ challengeNames[0],		TRUE,			NULL,			NULL, },
+		{ challengeNames[1],			TRUE,			NULL,			NULL, },
+		{ challengeNames[2],			TRUE,			NULL,			NULL, },
+		{ challengeNames[3],			TRUE,			NULL,			NULL, },
+		{ challengeNames[4],	TRUE,			NULL,			NULL, },
+		{ challengeNames[5],	TRUE,			NULL,			NULL, },
 		{ "",												FALSE,		NULL,			NULL, },
 		NULL							// Terminates list.
 	},
@@ -3269,11 +3269,11 @@ extern Menu menuChallengeCheckpoint =
 
 	// Menu items.
 	{	// pszText,					sEnabled,		pmenu,		pgui
-		{ "conflag.rlm",		TRUE,			NULL,			NULL, },
-		{ "getall.rlm",			TRUE,			NULL,			NULL, },
-		{ "minerun.rlm",			TRUE,			NULL,			NULL, },
-		{ "sentpara.rlm",			TRUE,			NULL,			NULL, },
-		{ "trkflag.rlm",	TRUE,			NULL,			NULL, },
+		{ challengeNames[0],		TRUE,			NULL,			NULL, },
+		{ challengeNames[1],			TRUE,			NULL,			NULL, },
+		{ challengeNames[2],			TRUE,			NULL,			NULL, },
+		{ challengeNames[3],			TRUE,			NULL,			NULL, },
+		{ challengeNames[4],	TRUE,			NULL,			NULL, },
 		{ "",												FALSE,		NULL,			NULL, },
 		NULL							// Terminates list.
 	},
@@ -3882,6 +3882,43 @@ static int16_t ChallengeInit(	// Returns 0 on success, non-zero to cancel menu.
 	int16_t	sInit)					// TRUE, if initializing; FALSE, if killing.
 	{
 	int16_t	sRes	= 0;	// Assume success.
+	
+	//Fill Challenge Names into array.
+	switch (pmenuCur->u32Id)
+	{
+		case 29:
+			strcpy(challengeNames[0], GetChallengeTitle(10));
+			strcpy(challengeNames[1], GetChallengeTitle(4));
+			strcpy(challengeNames[2], GetChallengeTitle(20));
+			strcpy(challengeNames[3], GetChallengeTitle(7));
+			strcpy(challengeNames[4], GetChallengeTitle(9));
+			break;
+		case 30:
+			strcpy(challengeNames[0], GetChallengeTitle(16));
+			strcpy(challengeNames[1], GetChallengeTitle(14));
+			strcpy(challengeNames[2], GetChallengeTitle(2));
+			strcpy(challengeNames[3], GetChallengeTitle(19));
+			strcpy(challengeNames[4], GetChallengeTitle(23));
+			strcpy(challengeNames[5], GetChallengeTitle(21));
+			break;
+		case 31:
+			strcpy(challengeNames[0], GetChallengeTitle(5));
+			strcpy(challengeNames[1], GetChallengeTitle(18));
+			strcpy(challengeNames[2], GetChallengeTitle(12));
+			strcpy(challengeNames[3], GetChallengeTitle(13));
+			strcpy(challengeNames[4], GetChallengeTitle(22));
+			strcpy(challengeNames[5], GetChallengeTitle(15));
+			break;
+		case 32:
+			strcpy(challengeNames[0], GetChallengeTitle(6));
+			strcpy(challengeNames[1], GetChallengeTitle(8));
+			strcpy(challengeNames[2], GetChallengeTitle(3));
+			strcpy(challengeNames[3], GetChallengeTitle(17));
+			strcpy(challengeNames[4], GetChallengeTitle(11));
+			break;
+		default:
+			break;
+	}
 
 	return sRes;
 	}
