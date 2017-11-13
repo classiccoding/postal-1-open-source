@@ -3016,7 +3016,6 @@ extern Menu menuChallengeTimed =
 	// Menu items.
 	{	// pszText,					sEnabled,		pmenu,		pgui
 		{ "afbtime.rlm",		TRUE,			NULL,			NULL, },
-		{ "cityslay.rlm",			TRUE,			NULL,			NULL, },
 		{ "eznfast.rlm",			TRUE,			NULL,			NULL, },
 		{ "farmtime.rlm",			TRUE,			NULL,			NULL, },
 		{ "parkattk.rlm",	TRUE,			NULL,			NULL, },
@@ -3897,6 +3896,7 @@ static bool ChallengeChoice(	// Returns true to accept, false to deny choice.
 	int16_t	sMenuItem)				// Item chosen.
 	{
 	bool	bAcceptChoice	= true;	// Assume accepting.
+	
 
 	// Audible Feedback.
 	if (sMenuItem == -1)
@@ -3906,7 +3906,7 @@ static bool ChallengeChoice(	// Returns true to accept, false to deny choice.
 
 	// Let game module handle it
 	if (sMenuItem == 0)
-		Game_StartChallengeGame("gauntlet");
+		Game_StartChallengeGame(0);
 
 	return bAcceptChoice;
 	}
@@ -3928,22 +3928,19 @@ static bool ChallengeTimedChoice(
 	switch (sMenuItem)
 	{
 	case 0:
-		Game_StartChallengeGame("res/levels/gauntlet/timed/afbtime.rlm");
+		Game_StartChallengeGame(10);
 		break;
 	case 1:
-		Game_StartChallengeGame("res/levels/gauntlet/timed/cityslay.rlm");
+		Game_StartChallengeGame(4);
 		break;
 	case 2:
-		Game_StartChallengeGame("res/levels/gauntlet/timed/eznfast.rlm");
+		Game_StartChallengeGame(20);
 		break;
 	case 3:
-		Game_StartChallengeGame("res/levels/gauntlet/timed/farmtime.rlm");
+		Game_StartChallengeGame(7);
 		break;
 	case 4:
-		Game_StartChallengeGame("res/levels/gauntlet/timed/parkattk.rlm");
-		break;
-	case 5:
-		Game_StartChallengeGame("res/levels/gauntlet/timed/salvtime.rlm");
+		Game_StartChallengeGame(9);
 		break;
 	default:
 		break;
@@ -3970,22 +3967,22 @@ static bool ChallengeGoalChoice(
 	switch (sMenuItem)
 	{
 	case 0:
-		Game_StartChallengeGame("res/levels/gauntlet/goal/bridge25.rlm");
+		Game_StartChallengeGame(16);
 		break;
 	case 1:
-		Game_StartChallengeGame("res/levels/gauntlet/goal/flamer40.rlm");
+		Game_StartChallengeGame(14);
 		break;
 	case 2:
-		Game_StartChallengeGame("res/levels/gauntlet/goal/kill30.rlm");
+		Game_StartChallengeGame(2);
 		break;
 	case 3:
-		Game_StartChallengeGame("res/levels/gauntlet/goal/mine30.rlm");
+		Game_StartChallengeGame(19);
 		break;
 	case 4:
-		Game_StartChallengeGame("res/levels/gauntlet/goal/minefire.rlm");
+		Game_StartChallengeGame(23);
 		break;
 	case 5:
-		Game_StartChallengeGame("res/levels/gauntlet/goal/pow30.rlm");
+		Game_StartChallengeGame(21);
 		break;
 	default:
 		break;
@@ -4012,22 +4009,22 @@ static bool ChallengeFlagChoice(
 	switch (sMenuItem)
 	{
 	case 0:
-		Game_StartChallengeGame("res/levels/gauntlet/capflag/chbridge.rlm");
+		Game_StartChallengeGame(5);
 		break;
 	case 1:
-		Game_StartChallengeGame("res/levels/gauntlet/capflag/ghetflag.rlm");
+		Game_StartChallengeGame(18);
 		break;
 	case 2:
-		Game_StartChallengeGame("res/levels/gauntlet/capflag/homeflag.rlm");
+		Game_StartChallengeGame(12);
 		break;
 	case 3:
-		Game_StartChallengeGame("res/levels/gauntlet/capflag/salvflag.rlm");
+		Game_StartChallengeGame(13);
 		break;
 	case 4:
-		Game_StartChallengeGame("res/levels/gauntlet/capflag/skirtflg.rlm");
+		Game_StartChallengeGame(22);
 		break;
 	case 5:
-		Game_StartChallengeGame("res/levels/gauntlet/capflag/tlrflag.rlm");
+		Game_StartChallengeGame(15);
 		break;
 	default:
 		break;
@@ -4054,19 +4051,19 @@ static bool ChallengeCheckpointChoice(
 	switch (sMenuItem)
 	{
 	case 0:
-		Game_StartChallengeGame("res/levels/gauntlet/checkpt/conflag.rlm");
+		Game_StartChallengeGame(6);
 		break;
 	case 1:
-		Game_StartChallengeGame("res/levels/gauntlet/checkpt/getall.rlm");
+		Game_StartChallengeGame(8);
 		break;
 	case 2:
-		Game_StartChallengeGame("res/levels/gauntlet/checkpt/minerun.rlm");
+		Game_StartChallengeGame(3);
 		break;
 	case 3:
-		Game_StartChallengeGame("res/levels/gauntlet/checkpt/sentpara.rlm");
+		Game_StartChallengeGame(17);
 		break;
 	case 4:
-		Game_StartChallengeGame("res/levels/gauntlet/checkpt/trkflag.rlm");
+		Game_StartChallengeGame(11);
 		break;
 	default:
 		break;

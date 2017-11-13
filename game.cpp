@@ -2940,7 +2940,7 @@ extern void Game_StartSinglePlayerGame(
 				m_action	= ACTION_LOAD_GAME;
 				break;
 			case 7:
-				Game_StartChallengeGame("gauntlet"); 
+				Game_StartChallengeGame(0); 
 				break;
 		}
 
@@ -3265,13 +3265,13 @@ extern void Game_AudioOptionsChoice(	// Returns nothing.
 //
 ////////////////////////////////////////////////////////////////////////////////
 extern void Game_StartChallengeGame(	// Returns nothing.
-	char* sChallengePath)							//In: Path to realm to play.
+	int16_t sChallengeNum)							//In: Path to realm to play.
 	{
 	char*	pszRealmFile	= NULL;
 	char	szLevelDir[RSP_MAX_PATH]	= "";
 	char	szTitle[256]					= "";
 
-	if (sChallengePath == "gauntlet")
+	if (sChallengeNum == 0)
 	{
 		// Run the Gauntlet.
 		m_action = ACTION_PLAY_CHALLENGE;
@@ -3286,10 +3286,15 @@ extern void Game_StartChallengeGame(	// Returns nothing.
 		// MASSIVE BUG IN rspPathFromSystem() on the Mac -- it doesn't allow
 		// the src and dst to be the same, even though the doc says it can!!!!
 		// Workaround is to use temporary buffer.
-		rspPathFromSystem(sChallengePath, m_szRealmFile);
+		/*strcpy(m_szRealmFile, sChallengePath);
+		char szTmp[RSP_MAX_PATH];
+		strcpy(szTmp, m_szRealmFile);
+		rspPathFromSystem(szTmp, m_szRealmFile);*/
+
+		//Use RealNum to load the right Realm. So we get all the information (i.e. Background-Image and Text).
 		m_action = ACTION_PLAY_CHALLENGE;
-		m_sRealmNum = -1;
-		m_bJustOneRealm = false;
+		m_sRealmNum = (sChallengeNum - 1); //Values in INI are 1-23, but RealmNum is zero-based
+		m_bJustOneRealm = true;
 	}
 	
 	// The main game loop resets the demo timer whenever it notices any user input.
