@@ -4845,7 +4845,6 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 		demoCompat = false;
 //#endif
 
-
 	// If this is the last demo level, then load the mult alpha needed for the ending
 	RMultiAlpha* pDemoMultiAlpha = NULL;
 
@@ -5000,6 +4999,10 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 						// Sounds playing during the load suck.
 						SynchronousSampleAbortion();
 
+						// enable this level in the level select
+						if (info.m_sRealmNum >= 0)
+							g_GameSettings.m_ulUnlockedLevels |= 1 << info.m_sRealmNum;
+
 						// Start the cutscene
 						playgroup.StartCutscene(&info);
 
@@ -5131,6 +5134,11 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 										// User input
 										ie.type = RInputEvent::None;
 										rspGetNextInputEvent(&ie);
+
+										// Update //We get local input here
+										playgroup.CoreLoopUpdate(&info);
+
+										//This is where we assign local input
 										playgroup.CoreLoopUserInput(&info, &ie);
 
 #ifdef MOBILE //Tap screen to show menu
@@ -5140,15 +5148,14 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 												AndroidSetScreenMode(TOUCH_SCREEN_BLANK_TAP);
 										}
 #endif
-										// Update
-										playgroup.CoreLoopUpdate(&info);
+										
 
 
 										// Render:
 
 										// This requires access to the composite buffer so lock it down.
 										rspLockBuffer();
-
+										//This is where we process 'previous' input
 										playgroup.CoreLoopRender(&info);
 
 										playgroup.CoreLoopRenderOnTop(&info);
@@ -5603,27 +5610,19 @@ extern void Play_GetRealmSectionAndEntry(
 			// JAddOn... You get the picture.
 			// Selecting "ALL LEVELS" will play the levels in sequence
 			// Realm, AddOn, JAddOn (Carnival?)
-			TRACE("bAddOnLevels = %d\n", bAddOnLevels);
 			switch(bAddOnLevels){
 			case 3:
-				TRACE("sRealmNum = %d\n", sRealmNum);
-				TRACE("REALM_NUM = %d\n", REALM_NUM);
-				TRACE("ADDON_NUM = %d\n", ADDON_NUM);
-				TRACE("JADDON_NUM = %d\n", JADDON_NUM);
 				if (sRealmNum < REALM_NUM)
 				{
 					*pstrSection = "Realm";
 					*pstrSection += (int16_t)(sRealmNum + 1);
-					TRACE("*pstrSection = Realm%d\n", (int16_t)(sRealmNum + 1));
 				} else if (sRealmNum < ADDON_NUM)
 				{
 					*pstrSection = "AddOn";
 					*pstrSection += (int16_t)(sRealmNum + 1 - REALM_NUM);
-					TRACE("*pstrSection = AddOn%d\n", (int16_t)(sRealmNum + 1 - REALM_NUM));
 				} else {
 					*pstrSection = "JAddOn";
 					*pstrSection += (int16_t)(sRealmNum + 1 - ADDON_NUM);
-					TRACE("*pstrSection = JAddOn%d\n", (int16_t)(sRealmNum + 1 - ADDON_NUM));
 				}
 				break;
 			case 2:
@@ -5633,7 +5632,6 @@ extern void Play_GetRealmSectionAndEntry(
 				*pstrSection = "AddOn";
 				*pstrSection += (int16_t)(sRealmNum + 1); break;
 			default:
-				TRACE("HUH! CG! Coconut Gun!\n");
 				*pstrSection = "Realm";
 				*pstrSection += (int16_t)(sRealmNum + 1);
 			}
@@ -5740,18 +5738,15 @@ extern int16_t Play_InitLevelSelectMenu(	// Returns 0 on success.
 	// Assert we have enough room for the levels
 	ASSERT(JADDON_NUM < (NUM_ELEMENTS(pmenu->ami)) );
 
-	//// Set font for GUIs' default print.
-	//// Cell height doesn't matter since it is set by the GUIs themselves.
-	//RGuiItem::ms_print.SetFont(FONT_HEIGHT, &g_fontBig);
-
 	for (sInputIndex = 0; sInputIndex < JADDON_NUM && sRes == 0; sInputIndex++)
 		{
-		// Set text describing input function for this menu item.
+		
+		// Set text describing level of this menu item.
 		Play_GetRealmInfo(false, false, false, 3, sInputIndex, 1, tempFile, 256, tempText, 256);
 		memset(levelNames[sInputIndex], '\0', sizeof(levelNames[sInputIndex]));
 		strcpy(levelNames[sInputIndex], tempText);
-		// Enable item.
-		pmenu->ami[sInputIndex].sEnabled	= TRUE;
+		// Enable item if the level is unlocked.
+		pmenu->ami[sInputIndex].sEnabled	= (g_GameSettings.m_ulUnlockedLevels & (1 << sInputIndex)) ? TRUE : FALSE;
 		}
 
 	return sRes;

@@ -1753,8 +1753,9 @@ SampleMaster::SoundInstance CPerson::PlaySoundShot(void)
 	SampleMasterID*	psmid	= &g_smidNil;
 	int32_t lThisTime = m_pRealm->m_time.GetGameTime();
 	int32_t	lSampleDuration	= 0;	// Safety.
+	static int_fast8_t chModGrunts = 0;
 
-	if (lThisTime > m_lSampleTimeIsPlaying)
+	if ((++chModGrunts > (16 - g_GameSettings.m_sPainFrequency)) && (lThisTime > m_lSampleTimeIsPlaying))
 	{
 		if (m_state == State_Writhing)
 		{
@@ -1802,7 +1803,13 @@ SampleMaster::SoundInstance CPerson::PlaySoundShot(void)
 		// get it to run the same from machine to machine is to use the sample
 		// duration whether we succeed or fail to play the sample.
 		m_lSampleTimeIsPlaying = lThisTime + lSampleDuration;
+		
+		// reset counter
+		chModGrunts = 0;
+		TRACE("played grunt\n");
 	}
+	
+	TRACE("chModGrunts = %d\n", chModGrunts);
 
 	PlaySample(										// Returns nothing.
 														// Does not fail.

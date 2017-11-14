@@ -1236,7 +1236,8 @@ int16_t CHood::GetResources(void)						// Returns 0 if successfull, non-zero oth
 			//memcpy(ms_pimCompositeBufferScaled->m_pData + n * ms_pimCompositeBufferScaled->m_lPitch,
 			//		ms_pimCompositeBuffer->m_pData + n * ms_pimCompositeBuffer->m_lPitch,ms_pimCompositeBuffer->m_sWidth);
 		}
-		//TODO free m_pimTopBar
+		
+		rspReleaseResource(&(m_pRealm->m_resmgr), &m_pimTopBar);
 		m_pimTopBar = stretched;
 
 
@@ -1313,7 +1314,7 @@ int16_t CHood::FreeResources(void)						// Returns 0 if successfull, non-zero ot
 	if (m_pimFullBarSelected)
 		rspReleaseResource(&(m_pRealm->m_resmgr), &m_pimFullBarSelected);
 	if (m_pimTopBar)
-		rspReleaseResource(&(m_pRealm->m_resmgr), &m_pimTopBar);
+		delete m_pimTopBar;
 
 	// Resources no longer exist for sure.
 	m_bResourcesExist = false;

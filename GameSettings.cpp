@@ -234,16 +234,17 @@ CGameSettings::CGameSettings(void)
 	timeinfo = localtime (&lTime);
 	if (timeinfo->tm_mon == 3 && timeinfo->tm_mday == 1)
 	{
-		TRACE("It's April Fools my dude!\n");
 		m_sAprilFools = TRUE;
 		m_sKidMode = TRUE;
 	} else {
-		TRACE("It ain't April Fools my dude!\n");
 		m_sAprilFools = FALSE;
 		m_sKidMode = FALSE;
 	}
 #endif
-										
+
+	m_sPainFrequency = 8;
+	m_ulUnlockedLevels = 1114113; // first levels of original, SD and Plus
+
 	m_szServerName[0]				= 0;
 	m_usServerPort					= 61663;
 	m_usProtocol					= RSocket::FirstProtocol;
@@ -424,7 +425,7 @@ int16_t CGameSettings::LoadPrefs(
 		m_sViolence = 11;
 	pPrefs->GetVal("Game", "UseCrossHair", m_sCrossHair, &m_sCrossHair);
 	
-	pPrefs->GetVal("Game", "AudioLanguage", m_sAudioLanguage, &m_sAudioLanguage);
+	pPrefs->GetVal("Audio", "AudioLanguage", m_sAudioLanguage, &m_sAudioLanguage);
 	if (m_sAudioLanguage < 0 || m_sAudioLanguage >= NUM_LANGUAGES)
 	{
 		#if LOCALE == JAPAN
@@ -433,6 +434,17 @@ int16_t CGameSettings::LoadPrefs(
 			m_sAudioLanguage = ENGLISH_AUDIO;
 		#endif
 	}
+
+	pPrefs->GetVal("Audio", "PainFrequency", m_sPainFrequency, &m_sPainFrequency);
+	// clamp pain frequency value to allowed range
+	if (m_sPainFrequency < 1)
+		{
+		m_sPainFrequency = 1;
+		}
+	else if (m_sPainFrequency > 16)
+		{
+		m_sPainFrequency = 16;
+		}
 	#ifdef KID_FRIENDLY_OPTION
 	if (m_sAprilFools == TRUE)
 	{
@@ -455,6 +467,8 @@ int16_t CGameSettings::LoadPrefs(
 	}
 	pPrefs->GetVal("Game", "CompletedAllLevelsMode", m_sCompletedAllLevelsMode, &m_sCompletedAllLevelsMode);
 	#endif
+
+	pPrefs->GetVal("Game", "UnlockedLevels", m_ulUnlockedLevels, &m_ulUnlockedLevels);
 
 	pPrefs->GetVal("Multiplayer", "Server", m_szServerName, m_szServerName);
 	pPrefs->GetVal("Multiplayer", "Port", m_usServerPort, &m_usServerPort);
@@ -571,7 +585,6 @@ int16_t CGameSettings::SavePrefs(
 	pPrefs->SetVal("Game", "RecentDifficulty", m_sDifficulty);
 	pPrefs->SetVal("Game", "RecentViolence", m_sViolence);
 	pPrefs->SetVal("Game", "UseCrossHair", m_sCrossHair);
-	pPrefs->SetVal("Game", "AudioLanguage", m_sAudioLanguage);
 	#ifdef KID_FRIENDLY_OPTION
 	if (m_sAprilFools == TRUE)
 	{
@@ -581,6 +594,7 @@ int16_t CGameSettings::SavePrefs(
 	}
 	pPrefs->SetVal("Game", "CompletedAllLevelsMode", m_sCompletedAllLevelsMode);
 	#endif
+	pPrefs->SetVal("Game", "UnlockedLevels", m_ulUnlockedLevels);
 
 	pPrefs->SetVal("Multiplayer", "Server", m_szServerName);
 	pPrefs->SetVal("Multiplayer", "Port", m_usServerPort);
@@ -595,6 +609,9 @@ int16_t CGameSettings::SavePrefs(
 	pPrefs->SetVal("Multiplayer", "HostRejuvenate", m_sHostRejuvenate);
 	pPrefs->SetVal("Multiplayer", "HostTimeLimit", m_sHostTimeLimit);
 	pPrefs->SetVal("Multiplayer", "HostKillLimit", m_sHostKillLimit);
+
+	pPrefs->SetVal("Audio", "AudioLanguage", m_sAudioLanguage);
+	pPrefs->SetVal("Audio", "PainFrequency", m_sPainFrequency);
 
 	pPrefs->SetVal("Video", "GammaVal", m_sGammaVal);
 	pPrefs->SetVal("Video", "GameFilmScale", m_dGameFilmScale);

@@ -6,6 +6,7 @@ Build
 *.suo
 *.opt
 Testing/
+.vs/
 syntax: glob
 Backup/*
 testing/*

@@ -726,6 +726,9 @@ static void RotationScrollUpdateDouble(	// Returns nothing.
 static void RotationScrollUpdateShort(		// Returns nothing.
 	RScrollBar* psb);								// Scrollbar that got updated.
 
+static void PainFrequencyScrollUpdate( // Returns nothing.
+	RScrollBar* psb);					// Scrollbar that got updated.
+
 ////////////////////////////////////////////////////////////////////////////////
 // Variables/data
 ////////////////////////////////////////////////////////////////////////////////
@@ -1634,6 +1637,7 @@ extern Menu	menuAudioOptions =
 			{ g_pszAudioMenu_Mixer,				TRUE,			&menuVolumes,			NULL,				},
 			{ g_pszAudioMenu_SoundTest,		TRUE,			&menuOrgan,				NULL,				},
 			{ g_pszAudioMenu_Language,		TRUE,			NULL,					NULL,				},
+			{ g_pszAudioMenu_PainFrequency, TRUE, NULL, NULL, },
 			{ "",										FALSE,		NULL,						NULL,				},
 			NULL							// Terminates list.
 		},
@@ -2213,13 +2217,13 @@ extern Menu	menuLoadLevel =
 								// Negative indicates offset from center.
 		72,					// Offset from left edge for menu items.
 								// Negative indicates offset from center.
-		40,					// Offset from top edge for menu items.
+		56,					// Offset from top edge for menu items.
 								// Negative indicates offset from center.
 		-5,						// Space between menu items.
 		5,						// Space between indicator and menu items horizontally.
 		-10,					// X position menu items should not pass w/i Menu.
 								// Less than 1, indicates offset from right edge. 
-		-20,					// Y position menu items should not pass w/i Menu.
+		-90,					// Y position menu items should not pass w/i Menu.
 								// Less than 1, indicates offset from right edge. 
 		},
 
@@ -2289,6 +2293,8 @@ extern Menu	menuLoadLevel =
 	// back and add more input functions.
 
 		{	// pszText,				sEnabled,	pmenu,					pgui
+			
+			// original game
 			{ levelNames[0], TRUE, NULL, NULL, },
 			{ levelNames[1], TRUE, NULL, NULL, },
 			{ levelNames[2], TRUE, NULL, NULL, },
@@ -2305,12 +2311,15 @@ extern Menu	menuLoadLevel =
 			{ levelNames[13], TRUE, NULL, NULL, },
 			{ levelNames[14], TRUE, NULL, NULL, },
 			{ levelNames[15], TRUE, NULL, NULL, },
+			
+			// SD and Plus
 			{ levelNames[16], TRUE, NULL, NULL, },
 			{ levelNames[17], TRUE, NULL, NULL, },
 			{ levelNames[18], TRUE, NULL, NULL, },
 			{ levelNames[19], TRUE, NULL, NULL, },
 			{ levelNames[20], TRUE, NULL, NULL, },
 			{ levelNames[21], TRUE, NULL, NULL, },
+			
 			{ "", FALSE, NULL, NULL, }, // This needs to be at the end of the list or ESC will load the last level
 			NULL							// Terminates list.
 		},
@@ -2673,9 +2682,9 @@ extern Menu	menuStart =
 	// Menu items.
 		{	// pszText,											sEnabled,	pmenu,				pgui
 			{ g_pszStartGameMenu_SinglePlayer,			TRUE,			&menuStartSingle,	NULL,	},
-            #ifndef MULTIPLAYER_REMOVED
+            //#ifndef MULTIPLAYER_REMOVED
 			{ g_pszStartGameMenu_Multiplayer,			TRUE,			&menuStartMulti,	NULL, },
-            #endif
+            //#endif
 			{ g_pszStartGameMenu_Demo,						TRUE,			&menuStartDemo,	NULL,	},
 			{ "",													FALSE,		NULL,					NULL, },
 			NULL							// Terminates list.
@@ -4799,17 +4808,54 @@ static int16_t AudioOptionsInit(	// Returns 0 on success, non-zero to cancel men
 			TRACE("AudioOptionsInit(): rspGetResource() failed.\n");
 			sRes	= 2;
 			}
+			
+			if (rspGetResource(&g_resmgrShell, GUI_VOLUME_FILE, (RScrollBar**)&(pmenuCur->ami[3].pgui)) == 0)
+				{
+				RScrollBar* psb = (RScrollBar*)(pmenuCur->ami[3].pgui);
+				int32_t lMin, lMax, lRange;
+				psb->GetRange(&lMin, &lMax);
+				lRange = lMax - lMin;
+				psb->m_lButtonIncDec = lRange / 14; // using 16 here results in 18 stop points?!
+				psb->m_lTrayIncDec = psb->m_lButtonIncDec;
+				int16_t pos = g_GameSettings.m_sPainFrequency;
+				// work around weird range issue halfway through slider
+				if (pos < 10)
+					pos--;
+				psb->SetPos((pos * lRange / 16));
+				psb->m_upcUser = PainFrequencyScrollUpdate;
+				RGuiItem* pguiVal = psb->GetItemFromId(GUI_ID_VOLUME_VAL);
+				if (pguiVal)
+					{
+					pguiVal->SetText("%s", "");
+					pguiVal->Compose();
+					}
+				else
+					{
+					TRACE("AudioOptionsInit(): Could not get at pguiVal\n");
+					}
+				}
+			else
+				{
+				TRACE("AudioOptionsInit(): Failed to initialise pain frequency slider.\n");
+				sRes = 2;
+				}
 		}
 	else
 		{
 			if (ms_ptxtLanguage != NULL)
-			{
-			// Release resource.
-			rspReleaseResource(&g_resmgrShell, &ms_ptxtLanguage);
+				{
+				// Release resource.
+				rspReleaseResource(&g_resmgrShell, &ms_ptxtLanguage);
 
-			// Clear menu's pointer.
-			pmenuCur->ami[2].pgui	= NULL;
-			}
+				// Clear menu's pointer.
+				pmenuCur->ami[2].pgui	= NULL;
+				}
+			
+			if (pmenuCur->ami[3].pgui)
+				{
+				rspReleaseResource(&g_resmgrShell, &(pmenuCur->ami[3].pgui));
+				pmenuCur->ami[3].pgui = NULL;
+				}
 		}
 
 	return sRes;
@@ -5956,6 +6002,25 @@ static void DifficultyScrollUpdate(	// Returns nothing.
 			pguiText->Compose();
 			}
 		}
+	}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Callback to update pain frequency adjustment.
+//
+////////////////////////////////////////////////////////////////////////////////
+static void PainFrequencyScrollUpdate( // Returns nothing.
+	RScrollBar* psb)					// Scrollbar that got updated.
+	{
+	ASSERT (psb != NULL);
+
+	int32_t lMin, lMax;
+	psb->GetRange(&lMin, &lMax);
+	g_GameSettings.m_sPainFrequency = (int16_t)((((psb->GetPos() - lMin) * 16) / (lMax - lMin)));
+	// work around weird range issue halfway through slider
+	if (g_GameSettings.m_sPainFrequency < 10)
+		g_GameSettings.m_sPainFrequency++;
+	TRACE("g_GameSettings.m_sPainFrequency = %d\n", g_GameSettings.m_sPainFrequency);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////
