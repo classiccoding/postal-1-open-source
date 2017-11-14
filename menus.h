@@ -81,6 +81,10 @@
 #define HOST_MULTI_MENU_ID				26
 #define PICK_FILE_MENU_ID				27
 #define LOAD_LEVEL_MENU_ID				28
+#define CHALLENGE_TIMED_MENU_ID			29
+#define CHALLENGE_GOAL_MENU_ID			30
+#define CHALLENGE_FLAG_MENU_ID			31
+#define CHALLENGE_CHECKPOINT_MENU_ID	32
 
 ////////////////////////////////////////////////////////////////////////////////
 // Externs.
@@ -106,6 +110,10 @@ extern Menu	menuVerifyExit;
 extern Menu menuMultiOptions;
 extern Menu	menuFeatures;
 extern Menu menuChallenge;
+extern Menu menuChallengeTimed;
+extern Menu menuChallengeGoal;
+extern Menu menuChallengeFlag;
+extern Menu menuChallengeCheckpoint;
 extern Menu menuVolumes;
 extern Menu	menuVideoOptions;
 extern Menu	menuAudioOptions;

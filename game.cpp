@@ -3265,97 +3265,38 @@ extern void Game_AudioOptionsChoice(	// Returns nothing.
 //
 ////////////////////////////////////////////////////////////////////////////////
 extern void Game_StartChallengeGame(	// Returns nothing.
-	int16_t sMenuItem)							// In:  Chosen menu item.
+	int16_t sChallengeNum)							//In: Path to realm to play.
 	{
 	char*	pszRealmFile	= NULL;
 	char	szLevelDir[RSP_MAX_PATH]	= "";
 	char	szTitle[256]					= "";
 
-	switch (sMenuItem)
-		{
+	if (sChallengeNum == 0)
+	{
 		// Run the Gauntlet.
-		case 0:
-			m_action = ACTION_PLAY_CHALLENGE;
-			m_sRealmNum = 0;
-			m_szRealmFile[0] = 0;
-			m_bJustOneRealm = false;
-			break;
+		m_action = ACTION_PLAY_CHALLENGE;
+		m_sRealmNum = 0;
+		m_szRealmFile[0] = 0;
+		m_bJustOneRealm = false;
+	}
+	else
+	{
+		// Convert path from system format to rspix format so it matches the
+		// way we normally call Play(), which is with a rspix path.
+		// MASSIVE BUG IN rspPathFromSystem() on the Mac -- it doesn't allow
+		// the src and dst to be the same, even though the doc says it can!!!!
+		// Workaround is to use temporary buffer.
+		/*strcpy(m_szRealmFile, sChallengePath);
+		char szTmp[RSP_MAX_PATH];
+		strcpy(szTmp, m_szRealmFile);
+		rspPathFromSystem(szTmp, m_szRealmFile);*/
 
-		// Timed Challenge.
-		case 1:
-			{
-			// Static so dialog will "remember" the previously-used name
-			static char	szFile[RSP_MAX_PATH]	= "";
-			pszRealmFile	= szFile;
-			strcpy(szLevelDir, TIMED_CHALLENGE_LEVEL_DIR);
-			strcpy(szTitle, TIMED_CHALLENGE_OPEN_TITLE);
-
-			break;
-			}
-
-		// Goal Challenge.
-		case 2:
-			{
-			// Static so dialog will "remember" the previously-used name
-			static char	szFile[RSP_MAX_PATH]	= "";
-			pszRealmFile	= szFile;
-			strcpy(szLevelDir, GOAL_CHALLENGE_LEVEL_DIR);
-			strcpy(szTitle, GOAL_CHALLENGE_OPEN_TITLE);
-
-			break;
-			}
-
-		// Flag Challenge.
-		case 3:
-			{
-			// Static so dialog will "remember" the previously-used name
-			static char	szFile[RSP_MAX_PATH]	= "";
-			pszRealmFile	= szFile;
-			strcpy(szLevelDir, FLAG_CHALLENGE_LEVEL_DIR);
-			strcpy(szTitle, FLAG_CHALLENGE_OPEN_TITLE);
-
-			break;
-			}
-
-		// Checkpoint Challenge.
-		case 4:
-			{
-			// Static so dialog will "remember" the previously-used name
-			static char	szFile[RSP_MAX_PATH]	= "";
-			pszRealmFile	= szFile;
-			strcpy(szLevelDir, CHECKPOINT_CHALLENGE_LEVEL_DIR);
-			strcpy(szTitle, CHECKPOINT_CHALLENGE_OPEN_TITLE);
-
-			break;
-			}
-		}
-
-	if (pszRealmFile)
-		{
-		// If not yet used, start out in appropriate directory
-		if (pszRealmFile[0] == '\0')
-			//strcpy(pszRealmFile, FullPathHD(szLevelDir) );
-			strcpy(pszRealmFile, FullPathCD(szLevelDir) );
-
-		// Display open dialog to let user choose a realm file
-
-		if (rspOpenBox(szTitle, pszRealmFile, m_szRealmFile, sizeof(m_szRealmFile), ".rlm") == 0)
-			{
-
-			// Convert path from system format to rspix format so it matches the
-			// way we normally call Play(), which is with a rspix path.
-			// MASSIVE BUG IN rspPathFromSystem() on the Mac -- it doesn't allow
-			// the src and dst to be the same, even though the doc says it can!!!!
-			// Workaround is to use temporary buffer.
-			char szTmp[RSP_MAX_PATH];
-			strcpy(szTmp, m_szRealmFile);
-			rspPathFromSystem(szTmp, m_szRealmFile);
-			m_action				= ACTION_PLAY_CHALLENGE;
-			m_sRealmNum			= -1;
-			m_bJustOneRealm	= false;
-			}
-		}
-
+		//Use RealNum to load the right Realm. So we get all the information (i.e. Background-Image and Text).
+		m_action = ACTION_PLAY_CHALLENGE;
+		m_sRealmNum = (sChallengeNum - 1); //Values in INI are 1-23, but RealmNum is zero-based
+		m_bJustOneRealm = true;
+	}
+	
 	// The main game loop resets the demo timer whenever it notices any user input.
 	// However, when the user is in a dialog or message box, the OS handles all the
 	// user input, and the main game loop won't know anything about what's going on
@@ -4878,6 +4819,18 @@ static int16_t GetGameDifficulty(void)	// Returns cached game difficulty.
 
 	return sDifficulty;
 	}
+
+////////////////////////////////////////////////////////////////////////////////
+// Returns Title of a given Challenge-ID
+////////////////////////////////////////////////////////////////////////////////
+extern char* GetChallengeTitle(int16_t challengeID)
+{
+	char title[256];
+	char fileName[256];
+	Play_GetRealmInfo(false, false, true, 0, challengeID - 1, 0, fileName, 256, title, 256);
+	return title;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // EOF

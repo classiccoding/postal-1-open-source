@@ -3074,6 +3074,7 @@ class CPlayInput : public CPlay
 
 									if (bRestart)
 										{
+
 										// Restart the realm
 										pinfo->SetGameState_RestartRealm();
 
@@ -3084,6 +3085,7 @@ class CPlayInput : public CPlay
 											// The goal was met, show the dialog(s).
 											ScoreDisplayHighScores(prealm);
 											}
+
 										}
 									}
 								}

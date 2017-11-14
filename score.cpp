@@ -218,6 +218,7 @@
 #define HIGHSCORE_NAMEDIALOG_FILE	"menu/addname.gui"
 #define HIGHSCORE_DIALOG_FILE			"menu/hiscore.gui"
 #define HIGHSCORE_ITEM_FILE			"menu/HiScoreItem.gui"
+//HighScore GUI disabled #define HIGH_SCORE_DLG
 
 #if WITH_STEAMWORKS
 extern bool EnableSteamCloud;
@@ -1203,7 +1204,7 @@ void ScoreDisplayHighScores(	// Returns nothing.
 						{
 						#ifdef HIGH_SCORE_DLG
 						RGuiItem*	pguiItem;
-						if (rspGetResourceInstance(&g_resmgrShell, HIGHSCORE_ITEM_FILE, &pguiItem) == 0)
+						if (rspGetResource(&g_resmgrShell, HIGHSCORE_ITEM_FILE, &pguiItem) == 0)
 							{
 							// Get the two settable items.
 							RGuiItem*	pguiName		= pguiItem->GetItemFromId(100);
