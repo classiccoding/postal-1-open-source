@@ -174,7 +174,7 @@ inline void Get(U8* &pget, U32* pval)
 inline void Get(U8* &pget, U64* pval)
 {
 #ifdef SYS_ENDIAN_LITTLE
-	U8* ptmp = ((U8*)(pval)) + 3;
+	U8* ptmp = ((U8*)(pval)) + 7;
 	*ptmp-- = *pget++;
 	*ptmp-- = *pget++;
 	*ptmp-- = *pget++;
@@ -276,7 +276,7 @@ inline void Put(U8* &pput, U32 val)
 inline void Put(U8* &pput, U64 val)
 {
 #ifdef SYS_ENDIAN_LITTLE
-	U8*ptmp = ((U8*)(&val)) + 3;
+	U8*ptmp = ((U8*)(&val)) + 7;
 	*pput++ = *ptmp--;
 	*pput++ = *ptmp--;
 	*pput++ = *ptmp--;
