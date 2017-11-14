@@ -1669,6 +1669,22 @@ bool CNetClient::IsLocalInputNeeded(void)
 	return bResult;
 	}
 
+///////////////////
+// Check if player has any peers joined
+///////////////////////////
+bool CNetClient::IsAlone(void) {
+
+	for (Net::ID id = 0; id < Net::MaxNumIDs; id++)
+	{
+		if ((m_aPeers[id].m_state == CPeer::Joined) && (id != m_id))
+		{
+			return false;
+		}
+
+	}
+
+	return true;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Set local input.

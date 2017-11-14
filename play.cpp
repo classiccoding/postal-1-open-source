@@ -2068,6 +2068,11 @@ class CPlayNet : public CPlay
 				//------------------------------------------------------------------------------
 				// Client section
 				//------------------------------------------------------------------------------
+				//Mouse work-around code
+				bool bRealMP = true;
+				if (pclient->IsAlone()) {
+					bRealMP = false;
+				}
 
 				// Check if local input is needed, and if so, hand it over
 				if (!pinfo->m_bBadRealmMP)
@@ -2075,7 +2080,7 @@ class CPlayNet : public CPlay
 					if (pclient->IsLocalInputNeeded())
 						{
 						if (!pinfo->m_bInMenu && !pinfo->m_bChatting)
-							pclient->SetLocalInput(GetLocalInput(pinfo->Realm(), pinfo->Camera(), pinfo->m_idLocalDude, NULL, true) );
+							pclient->SetLocalInput(GetLocalInput(pinfo->Realm(), pinfo->Camera(), pinfo->m_idLocalDude, NULL, bRealMP) );
 						else
 							pclient->SetLocalInput(INPUT_IDLE);
 						}
