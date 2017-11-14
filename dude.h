@@ -504,6 +504,9 @@ class CDude : public CCharacter
 		double          m_dMousePosX;
 		double          m_dMousePosY;
 
+		//Workaround for mutiplayer (mouse)
+		int16_t m_sDeltaRot = 0;
+
 	protected:
 
 		CDudeAnim3D		m_animStand;					// Standing animation.

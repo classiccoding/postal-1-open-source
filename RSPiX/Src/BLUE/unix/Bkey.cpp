@@ -455,12 +455,19 @@ extern void rspSetQuitStatusFlags(	// Returns nothing.
 extern int32_t rspGetToggleKeyStates(void)	// Returns toggle key state flags.
 	{
 	int32_t	lKeyStates	= 0;
-#if 0  // !!! FIXME
-    Uint8 *states = SDL_GetKeyState(NULL);
-    if (states[SDLK_CAPSLOCK]) lKeyStates |= RSP_CAPS_LOCK_ON;
-    if (states[SDLK_NUMLOCKCLEAR]) lKeyStates |= RSP_NUM_LOCK_ON;
-    if (states[SDLK_SCROLLLOCK]) lKeyStates |= RSP_SCROLL_LOCK_ON;
-#endif
+
+    const Uint8 *states = SDL_GetKeyboardState(NULL);
+    //if (states[SDL_SCANCODE_CAPSLOCK]) lKeyStates |= RSP_CAPS_LOCK_ON;
+    if (states[SDL_SCANCODE_NUMLOCKCLEAR]) lKeyStates |= RSP_NUM_LOCK_ON;
+    if (states[SDL_SCANCODE_SCROLLLOCK]) lKeyStates |= RSP_SCROLL_LOCK_ON;
+
+	//Check if the key is actually toggled
+	//In this case works only for capslock
+	SDL_Keymod mod_state = SDL_GetModState();
+
+	if (mod_state & KMOD_CAPS)
+		lKeyStates |= RSP_CAPS_LOCK_ON;
+
 	return lKeyStates;
 	}
 
