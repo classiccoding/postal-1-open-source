@@ -328,9 +328,11 @@ extern bool InputIsDemoOver(void);		// Returns true when demo is over
 //
 ////////////////////////////////////////////////////////////////////////////////
 extern UINPUT GetLocalInput(				// Returns local input structure.
-	CRealm* prealm,							// In:  Realm (used to access realm timer)
-	CCamera* camera,                     
-	RInputEvent* pie	= NULL);				// In:  Latest input event.  NULL to 
+	CRealm* prealm,							// In: Realm (used to access realm timer)
+	CCamera* camera,                        // In: Camera (used for mouse input)
+	U16 idLocalDude,						// In: Local dude id (used for mouse input)
+	RInputEvent* pie	= NULL,				// In: Latest input event.  NULL to 
+	bool isMP = false);				        // In: If it's mutiplayer
 													//	disable cheats in a way that will be
 													// harder to hack.
 
