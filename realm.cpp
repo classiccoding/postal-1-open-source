@@ -1807,7 +1807,10 @@ bool CRealm::IsEndOfLevelGoalMet(bool bEndLevelKey)
 
 #if defined(DEBUG_LEVEL_CHEAT)
 	//You can actually win a challenge without using this cheat.
-	bEnd = bEnd ? bEnd : bEndLevelKey; 
+	if (!bEnd)
+	{
+		return bEndLevelKey;
+	}
 #endif
 
 	return bEnd;
