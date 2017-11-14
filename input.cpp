@@ -909,7 +909,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 			if (rotateToAngle < 0) rotateToAngle += 360;
 
 			/* Trying to make dude gradually rotate torwards the mouse pointer */
-			int16_t rotStep = (int16_t)(g_InputSettings.m_dMouseSensitivityX * 10.0 * ((lCurTime - lPrevTime)/25.0)); //The constant is arbitrary and can be experimented on 
+			int16_t rotStep = (int16_t)(g_InputSettings.m_dMouseSensitivityX * 10.0 * ((lCurTime - lPrevTime)/20.0)); //The constant is arbitrary and can be experimented on 
 			int16_t deltaDiff = rotateToAngle - rot;
 
 			if (abs(deltaDiff) > 180) {
