@@ -261,7 +261,8 @@ CGameSettings::CGameSettings(void)
 	m_lNetForceAbortTime			= 5000;
 	m_sNetGetInputInterval		= 100;
 	m_sNetSendInputInterval		= 500;
-	m_sNetMaxFrameLag				= 2;		// For the new networking stuff, 2 seems to be the "right" number
+	m_sNetMaxFrameLag				= 1;		// For the new networking stuff, 2 seems to be the "right" number
+												// Have to use 1 in order for mouse to work properly in MP
 	m_sNetTimePerFrame			= 200;
 /*** 12/5/97 AJC ***/
 	m_szNetSyncLogFile[0]		= 0;
