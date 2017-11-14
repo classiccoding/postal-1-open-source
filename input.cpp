@@ -751,11 +751,13 @@ void GetResModifer(
 //
 ////////////////////////////////////////////////////////////////////////////////
 extern UINPUT GetLocalInput(				// Returns local input.
-	CRealm* prealm,
-	CCamera* pcamera,// In:  Realm (used to access realm timer)
-	RInputEvent* pie	/*= NULL*/)			// In:  Latest input event.  NULL to 
-													//	disable cheats in a way that will be
+	CRealm* prealm,                         // In: Realm (used to access realm timer)
+	CCamera* pcamera,                       // In: Camera (used for mouse input)
+	U16 idLocalDude,						// In: Local dude id (used for mouse input)
+	RInputEvent* pie	/*= NULL*/,			// In:  Latest input event.  NULL to
+	bool isMP /*= false*/)						//	disable cheats in a way that will be
 													// harder to hack.
+													
 	{
 	// Default to nothing
 	UINPUT input = 0;
@@ -838,23 +840,10 @@ extern UINPUT GetLocalInput(				// Returns local input.
 		//New mouse input
 		if (g_InputSettings.m_sUseNewMouse == TRUE && rspIsBackground() == FALSE) {
 
-			//Get local dude from the realm
-			CListNode<CThing>* pnext = prealm->m_aclassHeads[CThing::CDudeID].m_pnNext;
-
 			CDude* pdude = NULL;
 
-			while (pnext->m_powner != NULL) {
-
-				CDude* pnxtdude = (CDude*)pnext->m_powner;
-
-				//Found the one, break
-				if (pnxtdude->m_sDudeNum == 0 /* Local dude id */) {
-					pdude = pnxtdude;
-					break;
-				}
-
-				pnext = pnext->m_pnNext;
-			}
+			//Actually get a local dude
+			prealm->m_idbank.GetThingByID((CThing**)&pdude, idLocalDude);
 
 			/*     Mouse impl      */
 			double dudePosX = 0;
@@ -907,6 +896,15 @@ extern UINPUT GetLocalInput(				// Returns local input.
 			int16_t rotateToAngle = 0;
 			int16_t rot = (int16_t)pdude->m_dRot; //Never a true double, because assigned from an int16_t in dude class
 
+			//Account for game actually going ahead and 
+			//collecting mutiple inputs without processing them
+			if (isMP) {
+
+				rot += pdude->m_sDeltaRot;  //Adjust local variable by previous delta 
+				rspMod360(&rot);			//if we haven't processed input it's not going to change
+				                            //Kinda psudo-process it
+			}
+
 			rotateToAngle = (int16_t)(atan2(deltaY, deltaX) * (180 / M_PI));
 			if (rotateToAngle < 0) rotateToAngle += 360;
 
@@ -925,7 +923,8 @@ extern UINPUT GetLocalInput(				// Returns local input.
 
 			}
 
-			//Direct rot assignment impl
+			//Direct rot assignment impl 
+			//It won't work for mutiplayer until appropriate value is assigned to sDeltaX
 
 			//if (abs(deltaDiff) < rotStep) {
 			//	rot = rotateToAngle;
@@ -950,7 +949,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 
 			//Using sDeltaX for rotation
 
-			if (abs(deltaDiff) < rotStep) { //It's going always trunicate if not rounded
+			if (abs(deltaDiff) < rotStep) {
 				sDeltaX += deltaDiff;
 			}
 			else if (deltaDiff > 0) {
@@ -960,6 +959,7 @@ extern UINPUT GetLocalInput(				// Returns local input.
 				sDeltaX -= rotStep;
 			}
 			
+			pdude->m_sDeltaRot = sDeltaX - 360;
 
 		}
 

@@ -4542,7 +4542,7 @@ static void PlayRealm(
 							// Get local player input and
 							// Set controls for the one-and-only CDude
 							// Allow cheats.
-							SetInput(0, GetLocalInput(prealm, pcamera, &ie));
+							SetInput(0, GetLocalInput(prealm, pcamera, 0, &ie));//Since it is singleplayer local dude id is 0
 
 							// If exit requested . . .
 							if (bExitRequest == true)

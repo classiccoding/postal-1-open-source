@@ -611,7 +611,11 @@ void REdit::Do(		// Returns nothing.
 							break;
 
 						default:
-
+							//If no caps lock write lower-case
+							if (rspGetToggleKeyStates() != RSP_CAPS_LOCK_ON) {
+								if (pie->lKey > 64 && pie->lKey < 91)
+									pie->lKey += 32;
+							}
 							lNewChar	= pie->lKey;
 
 							// Absorb key.
