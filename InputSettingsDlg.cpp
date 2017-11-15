@@ -419,10 +419,20 @@ void InputSettingsDlg_Choice(	// Returns nothing.
 						case KEYBOARD_MENU_ID:
 							// Use keys.
 							pasPlayInputs[sInputIndex]			= sMenuItem == ms_sResetItemOld ? CInputSettings::ms_ainputinfoOld[sInputIndex].u8DefaultKey : CInputSettings::ms_ainputinfo[sInputIndex].u8DefaultKey;
+							
+							//If old tanky controls are loaded -> disable new mouse.
+							//If standard defaults are loaded -> enable new mouse.
+							if (g_InputSettings.m_sUseMouse)
+								g_InputSettings.m_sUseNewMouse		= (sMenuItem == ms_sResetItemOld) ? FALSE : TRUE;
+
 							break;
 						case MOUSE_MENU_ID:
 							// Use mouse buttons.
 							pasPlayInputs[sInputIndex]			= sMenuItem == ms_sResetItemOld ? CInputSettings::ms_ainputinfoOld[sInputIndex].sDefMouseButtons : CInputSettings::ms_ainputinfo[sInputIndex].sDefMouseButtons;
+							//If old defaults are loaded -> activate mouse and select classic mouse.
+							//If standard defaults are loaded -> activate mouse and disable classic mouse.
+							g_InputSettings.m_sUseMouse			= TRUE;
+							g_InputSettings.m_sUseNewMouse		= (sMenuItem == ms_sResetItemOld) ? FALSE : TRUE;
 							break;
 						case JOYSTICK_MENU_ID:
 							// Use joy buttons.
