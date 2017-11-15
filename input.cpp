@@ -1014,10 +1014,10 @@ extern UINPUT GetLocalInput(				// Returns local input.
 #endif	// defined(ALLOW_JOYSTICK)
 
 		if (IS_INPUT(CInputSettings::Forward))
-			input |= INPUT_MOVE_UP;
+			input |= INPUT_FORWARD;
 
 		if (IS_INPUT(CInputSettings::Backward))
-			input |= INPUT_MOVE_DOWN;
+			input |= INPUT_BACKWARD;
 
 		// The run key function is toggled by the caps lock key.
 		// If the caps lock is on, run is walk.
