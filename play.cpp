@@ -5005,8 +5005,19 @@ extern int16_t Play(										// Returns 0 if successfull, non-zero otherwise
 						SynchronousSampleAbortion();
 
 						// enable this level in the level select
-						if (info.m_sRealmNum >= 0)
-							g_GameSettings.m_ulUnlockedLevels |= 1 << info.m_sRealmNum;
+						
+						if (info.m_sRealmNum >= 0 && info.m_bGauntlet == false)
+						{
+							int16_t unlockLevel = info.m_sRealmNum;
+							//Unlock right addon levels
+							if (bAddOn == 1)
+								unlockLevel += 16;		
+							if (bAddOn == 2)
+								unlockLevel += 20;
+						
+							g_GameSettings.m_ulUnlockedLevels |= 1 << unlockLevel;
+						}
+							
 
 						// Start the cutscene
 						playgroup.StartCutscene(&info);
